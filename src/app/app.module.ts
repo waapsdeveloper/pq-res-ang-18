@@ -18,6 +18,8 @@ import { SharedModule } from './theme/shared/shared.module';
 import { ConfigurationComponent } from './theme/layout/admin/configuration/configuration.component';
 import { GuestComponent } from './theme/layout/guest/guest.component';
 
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { provideHttpClient } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,8 +32,14 @@ import { GuestComponent } from './theme/layout/guest/guest.component';
     ConfigurationComponent,
     GuestComponent
   ],
-  imports: [BrowserModule, AppRoutingModule, SharedModule, BrowserAnimationsModule],
-  providers: [NavigationItem],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    SharedModule,
+    BrowserAnimationsModule,
+    SweetAlert2Module.forRoot()
+  ],
+  providers: [NavigationItem, provideHttpClient()],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -15,7 +15,7 @@ export class NetworkService {
 
   // Authentication Related APIs
   loginViaEmail(data) {
-    return this.httpPostResponse('login-via-email', data, null, false, true);
+    return this.httpPostResponse('auth/login-via-email', data, null, false, true);
   }
 
 
@@ -126,9 +126,12 @@ export class NetworkService {
             // return
             this.utility.hideLoader();
           }
-          resolve(res);
+
+          console.log("EW", res)
+          resolve(res.result);
         },
         error: (err: any) => {
+
           this.utility.hideLoader();
 
           if(showError == true){

@@ -13,6 +13,10 @@ const routes: Routes = [
     loadChildren: () => import('./splash/splash.module').then((m) => m.SplashModule)
   },
   {
+    path: 'pre-splash',
+    loadChildren: () => import('./pre-splash/pre-splash.module').then((m) => m.PreSplashModule)
+  },
+  {
     path: 'dashboard',
     loadChildren: () => import('./dashboard/dashboard.module').then((m) => m.DashboardModule)
   },
