@@ -5,8 +5,16 @@ import { AdminComponent } from '../theme/layout/admin/admin.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'splash',
     pathMatch: 'full'
+  },
+  {
+    path: 'splash',
+    loadChildren: () => import('./splash/splash.module').then((m) => m.SplashModule)
+  },
+  {
+    path: 'dashboard',
+    loadChildren: () => import('./dashboard/dashboard.module').then((m) => m.DashboardModule)
   },
   {
     path: 'login',
@@ -16,10 +24,7 @@ const routes: Routes = [
     path: 'register',
     loadChildren: () => import('./register/register.module').then((m) => m.RegisterModule)
   },
-  {
-    path: 'dashboard',
-    loadChildren: () => import('./dashboard/dashboard.module').then((m) => m.DashboardModule)
-  },
+
   // {
   //   path: '',
   //   component: AdminComponent,
