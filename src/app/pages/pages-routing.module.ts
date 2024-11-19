@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AdminComponent } from '../theme/layout/admin/admin.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,33 @@ const routes: Routes = [
     path: 'dashboard',
     loadChildren: () => import('./dashboard/dashboard.module').then((m) => m.DashboardModule)
   },
+  // {
+  //   path: '',
+  //   component: AdminComponent,
+  //   children: [
+  //     {
+  //       path: '',
+  //       redirectTo: '/dashboard',
+  //       pathMatch: 'full'
+  //     },
+  //     {
+  //       path: 'default',
+  //       loadComponent: () => import('./dashboard/dashboard.module').then((m) => m.DashboardModule)
+  //     },
+  //     {
+  //       path: 'typography',
+  //       loadComponent: () => import('../demo/elements/typography/typography.component')
+  //     },
+  //     {
+  //       path: 'color',
+  //       loadComponent: () => import('../demo/elements/element-color/element-color.component')
+  //     },
+  //     {
+  //       path: 'sample-page',
+  //       loadComponent: () => import('../demo/sample-page/sample-page.component')
+  //     }
+  //   ]
+  // },
 ];
 
 @NgModule({

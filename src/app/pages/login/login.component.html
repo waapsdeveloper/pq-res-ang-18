@@ -42,11 +42,11 @@
             </h5>
           </div>
           <div class="d-grid mt-4">
-            <button type="button" class="btn btn-secondary">Sign In</button>
+            <a type="button" class="btn btn-secondary" [routerLink]="['/pages/dashboard']">Sign In</a>
           </div>
           <hr />
           <h5 class="d-flex justify-content-center">
-            <a [routerLink]="['/guest/register']">Don't have an account?</a>
+            <a [routerLink]="['/pages/register']">Don't have an account?</a>
           </h5>
         </div>
       </div>

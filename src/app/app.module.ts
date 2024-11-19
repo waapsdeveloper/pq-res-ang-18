@@ -6,7 +6,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AdminComponent } from './theme/layout/admin/admin.component';
 import { NavigationItem } from './theme/layout/admin/navigation/navigation';
-import { NavBarComponent } from './theme/layout/admin/nav-bar/nav-bar.component';
 import { NavLeftComponent } from './theme/layout/admin/nav-bar/nav-left/nav-left.component';
 import { NavRightComponent } from './theme/layout/admin/nav-bar/nav-right/nav-right.component';
 import { NavigationComponent } from './theme/layout/admin/navigation/navigation.component';
@@ -23,11 +22,7 @@ import { GuestComponent } from './theme/layout/guest/guest.component';
   declarations: [
     AppComponent,
     AdminComponent,
-    NavBarComponent,
-    NavLeftComponent,
-    NavRightComponent,
     NavigationComponent,
-    NavLogoComponent,
     NavContentComponent,
     NavGroupComponent,
     NavItemComponent,

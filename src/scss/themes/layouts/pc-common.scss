@@ -10,7 +10,7 @@ body {
   $temp: $header-height + 61;
   position: relative;
   top: $header-height;
-  margin-left: $sidebar-width;
+  // margin-left: $sidebar-width;
   margin-right: 20px;
   min-height: calc(100vh - #{$temp});
   background: $body-bg;
