@@ -1,7 +1,6 @@
 import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, NavigationExtras, Router } from '@angular/router';
-import { NavController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +13,6 @@ export class NavService {
   constructor(
     public location: Location,
     public router: Router,
-    private navc: NavController,
     //  private nativePageTransitions: NativePageTransitions
     public activatedRoute: ActivatedRoute
   ) {
@@ -61,9 +59,9 @@ export class NavService {
     return new Promise<void>(async (resolve) => {
       // ;
       if(link){
-        this.navc.navigateBack(link);
+        this.location.go(link)
       } else {
-        this.navc.back()
+        this.location.back()
       }
 
       resolve();
