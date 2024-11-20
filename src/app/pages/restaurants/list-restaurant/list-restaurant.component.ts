@@ -64,4 +64,8 @@ export class ListRestaurantComponent {
     this.visibleRows += 5; // Load 5 more rows
   }
 
+  OpenDetails(i){
+
+  }
+
 }
