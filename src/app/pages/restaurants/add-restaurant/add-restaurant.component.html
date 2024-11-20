@@ -1,77 +1,88 @@
 <div class="card">
-
   <div class="card-body">
-
     <div class="text-left mb-4">
       <h2>Add Restaurant</h2>
-      <p class="text-muted">Please fill out the form below to register a new user.</p>
+      <p class="text-muted">Please fill out the form below to add a new restaurant.</p>
     </div>
 
     <!-- Form -->
-    <form [formGroup]="bForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="restaurantForm" (ngSubmit)="onSubmit()">
       <!-- Name -->
       <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="name" formControlName="name" placeholder="Name" />
-        <label for="name">Name</label>
-        <div *ngIf="bForm.get('name')?.touched && bForm.get('name')?.invalid" class="text-danger">
-          <small *ngIf="bForm.get('name')?.errors?.['required']">Name is required.</small>
-          <small *ngIf="bForm.get('name')?.errors?.['minlength']">Name must be at least 3 characters.</small>
+        <input type="text" class="form-control" id="name" formControlName="name" placeholder="Restaurant Name" />
+        <label for="name">Restaurant Name</label>
+        <div *ngIf="restaurantForm.get('name')?.touched && restaurantForm.get('name')?.invalid" class="text-danger">
+          <small *ngIf="restaurantForm.get('name')?.errors?.['required']">Name is required.</small>
+        </div>
+      </div>
+
+      <!-- Address -->
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="address" formControlName="address" placeholder="Address" />
+        <label for="address">Address</label>
+        <div *ngIf="restaurantForm.get('address')?.touched && restaurantForm.get('address')?.invalid" class="text-danger">
+          <small *ngIf="restaurantForm.get('address')?.errors?.['required']">Address is required.</small>
+        </div>
+      </div>
+
+      <!-- Phone -->
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="phone" formControlName="phone" placeholder="Phone" />
+        <label for="phone">Phone</label>
+        <div *ngIf="restaurantForm.get('phone')?.touched && restaurantForm.get('phone')?.invalid" class="text-danger">
+          <small *ngIf="restaurantForm.get('phone')?.errors?.['pattern']">Enter a valid phone number.</small>
         </div>
       </div>
 
       <!-- Email -->
       <div class="form-floating mb-3">
         <input type="email" class="form-control" id="email" formControlName="email" placeholder="Email address" />
-        <label for="email">Email address</label>
-        <div *ngIf="bForm.get('email')?.touched && bForm.get('email')?.invalid" class="text-danger">
-          <small *ngIf="bForm.get('email')?.errors?.['required']">Email is required.</small>
-          <small *ngIf="bForm.get('email')?.errors?.['email']">Enter a valid email.</small>
+        <label for="email">Email</label>
+        <div *ngIf="restaurantForm.get('email')?.touched && restaurantForm.get('email')?.invalid" class="text-danger">
+          <small *ngIf="restaurantForm.get('email')?.errors?.['email']">Enter a valid email.</small>
         </div>
       </div>
 
-      <!-- Password -->
+      <!-- Website -->
       <div class="form-floating mb-3">
-        <input type="password" class="form-control" id="password" formControlName="password" placeholder="Password" />
-        <label for="password">Password</label>
-        <div *ngIf="bForm.get('password')?.touched && bForm.get('password')?.invalid" class="text-danger">
-          <small *ngIf="bForm.get('password')?.errors?.['required']">Password is required.</small>
-          <small *ngIf="bForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters.</small>
+        <input type="url" class="form-control" id="website" formControlName="website" placeholder="Website URL" />
+        <label for="website">Website URL</label>
+        <div *ngIf="restaurantForm.get('website')?.touched && restaurantForm.get('website')?.invalid" class="text-danger">
+          <small *ngIf="restaurantForm.get('website')?.errors?.['pattern']">Enter a valid URL.</small>
         </div>
       </div>
 
-      <!-- Role -->
+      <!-- Opening Hours -->
       <div class="form-floating mb-3">
-        <select class="form-control" id="role" formControlName="role">
-          <option value="" disabled>Select Role</option>
-          <option value="admin">Admin</option>
-          <option value="manager">Manager</option>
-        </select>
-        <label for="role">Role</label>
-        <div *ngIf="bForm.get('role')?.touched && bForm.get('role')?.invalid" class="text-danger">
-          <small *ngIf="bForm.get('role')?.errors?.['required']">Role is required.</small>
+        <textarea class="form-control" id="opening_hours" formControlName="opening_hours" placeholder="Opening Hours"></textarea>
+        <label for="opening_hours">Opening Hours (JSON Format)</label>
+        <div *ngIf="restaurantForm.get('opening_hours')?.touched && restaurantForm.get('opening_hours')?.invalid" class="text-danger">
+          <small *ngIf="restaurantForm.get('opening_hours')?.errors?.['required']">Opening hours are required.</small>
         </div>
       </div>
 
-      <!-- Status -->
+      <!-- Description -->
       <div class="form-floating mb-3">
-        <select class="form-control" id="status" formControlName="status">
-          <option value="" disabled>Select Status</option>
-          <option value="active">Active</option>
-          <option value="inactive">Inactive</option>
-        </select>
-        <label for="status">Status</label>
-        <div *ngIf="bForm.get('status')?.touched && bForm.get('status')?.invalid" class="text-danger">
-          <small *ngIf="bForm.get('status')?.errors?.['required']">Status is required.</small>
+        <textarea class="form-control" id="description" formControlName="description" placeholder="Description"></textarea>
+        <label for="description">Description</label>
+      </div>
+
+      <!-- Rating -->
+      <div class="form-floating mb-3">
+        <input type="number" class="form-control" id="rating" formControlName="rating" placeholder="Rating" min="0" max="5" step="0.1" />
+        <label for="rating">Rating</label>
+        <div *ngIf="restaurantForm.get('rating')?.touched && restaurantForm.get('rating')?.invalid" class="text-danger">
+          <small *ngIf="restaurantForm.get('rating')?.errors?.['min']">Rating must be at least 0.</small>
+          <small *ngIf="restaurantForm.get('rating')?.errors?.['max']">Rating must be at most 5.</small>
         </div>
       </div>
 
       <!-- Submit Button -->
       <div class="mt-4">
-        <button type="submit" class="btn btn-secondary" [disabled]="bForm.invalid">
+        <button type="submit" class="btn btn-secondary" [disabled]="restaurantForm.invalid">
           Submit
         </button>
       </div>
     </form>
-
   </div>
 </div>

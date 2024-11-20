@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavService } from 'src/app/services/basic/nav.service';
+import { NetworkService } from 'src/app/services/network.service';
 
 @Component({
   selector: 'app-list-restaurant',
@@ -7,65 +8,63 @@ import { NavService } from 'src/app/services/basic/nav.service';
   styleUrl: './list-restaurant.component.scss'
 })
 export class ListRestaurantComponent {
+  search = '';
+  page = 1;
+  lastPage = -1;
+  list: any[] = [];
 
-
-  constructor(private nav: NavService){
-
+  constructor(
+    private nav: NavService,
+    private network: NetworkService
+  ) {
+    this.initialize();
   }
 
-  searchTerm: string = '';
-  visibleRows: number = 5; // Number of rows initially visible
+  initialize() {
+    this.getList('', 1);
+  }
 
-  rows = [
-    { first: 'Mark', last: 'Otto', handle: 'mdo' },
-    { first: 'Jacob', last: 'Thornton', handle: 'fat' },
-    { first: 'Larry', last: 'Bird', handle: 'twitter' },
-  ];
+  async getList(search = '', page = 1): Promise<any> {
+    let obj = {
+      search: search,
+      page: page
+    };
 
-  filteredRows() {
-    if (!this.searchTerm) {
-      return this.rows;
+    const res = await this.network.getRestaurants(obj);
+    if(res.data){
+
+      let d = res.data;
+      this.page = d.current_page;
+      this.lastPage = d.last_page;
+
+      if(this.page == 1){
+        this.list = d.data;
+      } else {
+        this.list = [...this.list, ...d.data];
+      }
+
     }
-    const term = this.searchTerm.toLowerCase();
-    return this.rows.filter(row =>
-      Object.values(row).some(val =>
-        val.toLowerCase().includes(term)
-      )
-    );
-  }
 
+    return res;
+  }
 
   addNewRow() {
-    // Add a new blank row
-    // this.rows.push({ first: 'New', last: 'User', handle: 'new_handle' });
-
-    this.nav.push('/pages/restaurants/add')
-
+    this.nav.push('/pages/restaurants/add');
   }
 
   editRow(index: number) {
-    const row = this.rows[index];
-    const newFirst = prompt('Edit First Name:', row.first);
-    const newLast = prompt('Edit Last Name:', row.last);
-    const newHandle = prompt('Edit Handle:', row.handle);
 
-    if (newFirst !== null) this.rows[index].first = newFirst;
-    if (newLast !== null) this.rows[index].last = newLast;
-    if (newHandle !== null) this.rows[index].handle = newHandle;
   }
 
   deleteRow(index: number) {
-    if (confirm('Are you sure you want to delete this row?')) {
-      this.rows.splice(index, 1);
-    }
+
   }
 
   loadMore() {
-    this.visibleRows += 5; // Load 5 more rows
+    // this.visibleRows += 5; // Load 5 more rows
   }
 
-  OpenDetails(i){
-
+  openDetails(id) {
+    this.nav.push('/pages/restaurants/view/' + id);
   }
-
 }

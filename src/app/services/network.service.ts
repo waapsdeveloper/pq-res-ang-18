@@ -18,6 +18,17 @@ export class NetworkService {
     return this.httpPostResponse('auth/login-via-email', data, null, false, true);
   }
 
+  getRestaurants(params) {
+
+    let str = this.serialize(params);
+
+    return this.httpGetResponse('restaurant/list' + '?' + str, null, false, true);
+  }
+
+  addRestaurant(data) {
+    return this.httpPostResponse('restaurant/add', data, null, false, true);
+  }
+
 
 
   serialize = (obj: any) => {

@@ -19,6 +19,10 @@ const routes: Routes = [
       {
         path: 'add',
         loadChildren: () => import('./add-restaurant/add-restaurant.module').then((m) => m.AddRestaurantModule)
+      },
+      {
+        path: 'view/:id',
+        loadChildren: () => import('./view-restaurant/view-restaurant.module').then((m) => m.ViewRestaurantModule)
       }
     ]
   }
