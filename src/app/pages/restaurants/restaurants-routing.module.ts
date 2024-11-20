@@ -1,25 +1,24 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UsersComponent } from './users.component';
+import { RestaurantsComponent } from './restaurants.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: UsersComponent,
+    component: RestaurantsComponent,
     children: [
       {
         path: '',
-
         redirectTo: 'list',
         pathMatch: 'full'
       },
       {
         path: 'list',
-        loadChildren: () => import('./list-user/list-user.module').then((m) => m.ListUserModule)
+        loadChildren: () => import('./list-restaurant/list-restaurant.module').then((m) => m.ListRestaurantModule)
       },
       {
         path: 'add',
-        loadChildren: () => import('./add-user/add-user.module').then((m) => m.AddUserModule)
+        loadChildren: () => import('./add-restaurant/add-restaurant.module').then((m) => m.AddRestaurantModule)
       }
     ]
   }
@@ -29,4 +28,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class UsersRoutingModule {}
+export class RestaurantsRoutingModule { }
