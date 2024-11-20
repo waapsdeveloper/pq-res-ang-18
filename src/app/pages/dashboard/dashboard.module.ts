@@ -9,6 +9,7 @@ import { BajajChartComponent } from 'src/app/demo/default/bajaj-chart/bajaj-char
 import { BarChartComponent } from 'src/app/demo/default/bar-chart/bar-chart.component';
 import { NavBarComponent } from 'src/app/theme/layout/admin/nav-bar/nav-bar.component';
 import { NavBarModule } from 'src/app/theme/layout/admin/nav-bar/nav-bar.module';
+import { BtopHeaderModule } from 'src/app/components/btop-header/btop-header.module';
 
 @NgModule({
   declarations: [DashboardComponent],
@@ -19,7 +20,8 @@ import { NavBarModule } from 'src/app/theme/layout/admin/nav-bar/nav-bar.module'
     BajajChartComponent,
     BarChartComponent,
     ChartDataMonthComponent,
-    NavBarModule
+    NavBarModule,
+    BtopHeaderModule
   ]
 })
 export class DashboardModule {}

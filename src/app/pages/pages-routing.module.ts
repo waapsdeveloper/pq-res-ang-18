@@ -28,6 +28,10 @@ const routes: Routes = [
     path: 'register',
     loadChildren: () => import('./register/register.module').then((m) => m.RegisterModule)
   },
+  {
+    path: 'users',
+    loadChildren: () => import('./users/users.module').then((m) => m.UsersModule)
+  },
 
   // {
   //   path: '',
