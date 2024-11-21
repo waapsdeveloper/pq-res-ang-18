@@ -1,0 +1,14 @@
+
+<input
+	id="typeahead-focus"
+  name="category-name"
+	type="text"
+	class="form-control"
+  [placeholder]="placeholder"
+	[(ngModel)]="model"
+	[ngbTypeahead]="search"
+	(focus)="focus$.next($any($event).target.value)"
+	(click)="click$.next($any($event).target.value)"
+  (ngModelChange)="tvalue.emit(model)"
+	#instance="ngbTypeahead"
+/>

@@ -1,20 +1,26 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, JsonPipe } from '@angular/common';
 
 import { RestaurantMenuRoutingModule } from './restaurant-menu-routing.module';
 import { RestaurantMenuComponent } from './restaurant-menu.component';
-
-import { DragDropModule } from '@angular/cdk/drag-drop';
-
+import { FormsModule } from '@angular/forms';
+import { NgbModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
+import { CategoryTypeheadComponent } from './category-typehead/category-typehead.component';
+import { ProductTypeheadComponent } from './product-typehead/product-typehead.component';
 
 @NgModule({
   declarations: [
-    RestaurantMenuComponent
+    RestaurantMenuComponent,
+    CategoryTypeheadComponent,
+    ProductTypeheadComponent
   ],
   imports: [
     CommonModule,
     RestaurantMenuRoutingModule,
-    DragDropModule
+    FormsModule,
+    NgbModule,
+
+    NgbTypeaheadModule, FormsModule, JsonPipe
   ]
 })
 export class RestaurantMenuModule { }

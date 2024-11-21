@@ -1,1 +1,128 @@
-<p>restaurant-menu works!</p>
+<div class="card mb-5 mb-xl-10" id="kt_profile_details_view">
+  <!--begin::Card header-->
+  <div class="card-header cursor-pointer d-flex justify-content-between align-items-center">
+    <!--begin::Card title-->
+    <div class="card-title m-0">
+      <h3 class="fw-bold m-0">Build Your Menu</h3>
+    </div>
+    <!--end::Card title-->
+
+  </div>
+  <!--begin::Card header-->
+  <!--begin::Card body-->
+  <div class="card-body p-9">
+
+    <div class="d-flex flex-row align-items-center justify-content-between">
+      <div>Menu Page</div>
+      <button class="btn btn-sm" (click)="addCategory($event)">Add</button>
+    </div>
+
+
+
+
+    <div *ngFor="let m of menu; let i = index">
+      <div class="d-flex flex-row align-items-center justify-content-between border border-primary rounded p-3 mb-2">
+
+        <div *ngIf="m.name">{{m.name}}</div>
+        <div *ngIf="m.name">
+          <button class="btn btn-sm" (click)="additem(m)">item</button>
+          <button class="btn btn-sm" (click)="addcategory(m)">category</button>
+        </div>
+
+        <app-category-typehead *ngIf="!m.name" [placeholder]="'select category'"
+          (tvalue)="m.tempname = $event"></app-category-typehead>
+        <button class="btn btn-light" *ngIf="!m.name" (click)="setCategory(m, m.tempname)">save</button>
+      </div>
+
+      <div *ngIf="m.items">
+
+        <div class="d-flex flex-column rounded my-2" *ngFor="let mc of m.items; let j = index">
+
+          <div class="d-flex flex-row justify-content-between align-items-center bg-light">
+
+            <div *ngIf="mc.name">{{mc.name}}</div>
+            <div *ngIf="mc.price">{{mc.price}}</div>
+
+            <div *ngIf="!mc.name" class="d-flex flex-row">
+              <app-product-typehead [placeholder]="'select product'"
+                (tvalue)="mc.tempname = $event"></app-product-typehead>
+              <input name="product-price" type="text" class="form-control" placeholder="price" style="width: 90px;" />
+
+            </div>
+            <button class="btn btn-light" *ngIf="!mc.name" (click)="setItem(mc, mc.tempname, mc.price)">save</button>
+
+
+          </div>
+
+
+
+        </div>
+
+      </div>
+
+      <div *ngIf="m.categories">
+
+        <div class="d-flex flex-column border border-secondary rounded p-3 mb-2"
+          *ngFor="let it of m.categories; let k = index">
+
+          <div
+            class="d-flex flex-row align-items-center justify-content-between border border-primary rounded p-3 mb-2">
+            <div *ngIf="it.name">{{it.name}}</div>
+            <div *ngIf="it.name">
+              <button class="btn btn-sm" (click)="additem(it)">item</button>
+            </div>
+
+            <app-category-typehead *ngIf="!it.name" [placeholder]="'select category'"
+              (tvalue)="it.tempname = $event"></app-category-typehead>
+            <button class="btn btn-light" *ngIf="!it.name" (click)="setCategory(it, it.tempname)">save</button>
+          </div>
+
+          <div *ngIf="it.items">
+
+            <div class="d-flex flex-column rounded my-2" *ngFor="let mc of it.items; let j = index">
+
+              <div class="d-flex flex-row justify-content-between align-items-center bg-light">
+
+                <div *ngIf="mc.name">{{mc.name}}</div>
+                <div *ngIf="mc.price">{{mc.price}}</div>
+
+                <div *ngIf="!mc.name" class="d-flex flex-row">
+                  <app-product-typehead [placeholder]="'select product'"
+                    (tvalue)="mc.tempname = $event"></app-product-typehead>
+                  <input name="product-price" type="text" class="form-control" placeholder="price"
+                    style="width: 90px;" />
+
+                </div>
+                <button class="btn btn-light" *ngIf="!mc.name"
+                  (click)="setItem(mc, mc.tempname, mc.price)">save</button>
+
+
+              </div>
+
+
+
+            </div>
+
+          </div>
+
+
+
+        </div>
+
+
+
+      </div>
+
+
+
+
+
+
+
+
+
+    </div>
+
+
+  </div>
+</div>
