@@ -5,7 +5,22 @@ import { ViewRestaurantComponent } from './view-restaurant.component';
 const routes: Routes = [
   {
     path: '',
-    component: ViewRestaurantComponent
+    component: ViewRestaurantComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: 'overview',
+        pathMatch: 'full'
+      },
+      {
+        path: 'overview',
+        loadChildren: () => import('./restaurant-overview/restaurant-overview.module').then((m) => m.RestaurantOverviewModule)
+      },
+      {
+        path: 'menu',
+        loadChildren: () => import('./restaurant-menu/restaurant-menu.module').then((m) => m.RestaurantMenuModule)
+      }
+    ]
   }
 ];
 
