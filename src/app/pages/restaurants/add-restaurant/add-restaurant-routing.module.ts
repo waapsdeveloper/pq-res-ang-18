@@ -5,7 +5,8 @@ import { AddRestaurantComponent } from './add-restaurant.component';
 const routes: Routes = [
   {
     path: '',
-    component: AddRestaurantComponent
+    component: AddRestaurantComponent,
+    data: { breadcrumb: 'Add' },
   }
 ];
 

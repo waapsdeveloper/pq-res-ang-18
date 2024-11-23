@@ -19,10 +19,12 @@ export class NetworkService {
   }
 
   getRestaurants(params) {
-
     let str = this.serialize(params);
-
     return this.httpGetResponse('restaurant/list' + '?' + str, null, false, true);
+  }
+
+  getRestaurantById(id) {
+    return this.httpGetResponse('restaurant/by-id', id, false, true);
   }
 
   addRestaurant(data) {

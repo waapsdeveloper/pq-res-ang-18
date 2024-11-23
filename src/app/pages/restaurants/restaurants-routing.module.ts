@@ -6,6 +6,7 @@ const routes: Routes = [
   {
     path: '',
     component: RestaurantsComponent,
+    data: { breadcrumb: 'Restaurant' },
     children: [
       {
         path: '',
@@ -14,7 +15,7 @@ const routes: Routes = [
       },
       {
         path: 'list',
-        loadChildren: () => import('./list-restaurant/list-restaurant.module').then((m) => m.ListRestaurantModule)
+        loadChildren: () => import('./list-restaurant/list-restaurant.module').then((m) => m.ListRestaurantModule),
       },
       {
         path: 'add',

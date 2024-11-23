@@ -17,7 +17,7 @@
           <div class="d-flex flex-column">
             <!--begin::Name-->
             <div class="d-flex align-items-center mb-2">
-              <a href="#" class="text-gray-900 text-hover-primary fs-2 fw-bold me-1">Restaurant Name</a>
+              <a href="#" class="text-gray-900 text-hover-primary fs-2 fw-bold me-1">{{restaurant?.name}}</a>
               <a href="#">
                 <!--begin::Svg Icon | path: icons/duotune/general/gen026.svg-->
                 <span class="svg-icon svg-icon-1 svg-icon-primary">
@@ -50,7 +50,7 @@
                   <path d="M12.0624 13.0453C13.7193 13.0453 15.0624 11.7022 15.0624 10.0453C15.0624 8.38849 13.7193 7.04535 12.0624 7.04535C10.4056 7.04535 9.06241 8.38849 9.06241 10.0453C9.06241 11.7022 10.4056 13.0453 12.0624 13.0453Z" fill="currentColor"></path>
                 </svg>
               </span>
-              <!--end::Svg Icon-->SF, Bay Area</a>
+              <!--end::Svg Icon-->{{restaurant?.address}}</a>
               <a href="#" class="d-flex align-items-center text-gray-400 text-hover-primary mb-2">
               <!--begin::Svg Icon | path: icons/duotune/communication/com011.svg-->
               <span class="svg-icon svg-icon-4 me-1">
@@ -59,7 +59,7 @@
                   <path d="M21 5H2.99999C2.69999 5 2.49999 5.10005 2.29999 5.30005L11.2 13.3C11.7 13.7 12.4 13.7 12.8 13.3L21.7 5.30005C21.5 5.10005 21.3 5 21 5Z" fill="currentColor"></path>
                 </svg>
               </span>
-              <!--end::Svg Icon-->max kt.com</a>
+              <!--end::Svg Icon-->{{restaurant?.email}}</a>
             </div>
             <!--end::Info-->
           </div>
@@ -157,7 +157,7 @@
       <!--end::Nav item-->
       <!--begin::Nav item-->
       <li class="nav-item mt-2">
-        <a class="nav-link text-active-primary ms-0 me-10 py-3" href="../../demo1/dist/account/settings.html">Settings</a>
+        <a class="nav-link text-active-primary ms-0 me-10 py-3" href="../../demo1/dist/account/settings.html">Categories</a>
       </li>
       <!--end::Nav item-->
       <!--begin::Nav item-->

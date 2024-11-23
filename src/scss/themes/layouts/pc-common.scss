@@ -9,7 +9,7 @@ body {
 .pc-container {
   $temp: $header-height + 61;
   position: relative;
-  top: $header-height;
+  top: $header-height + 60px;
   margin-left: 20px;
   margin-right: 20px;
   min-height: calc(100vh - #{$temp});

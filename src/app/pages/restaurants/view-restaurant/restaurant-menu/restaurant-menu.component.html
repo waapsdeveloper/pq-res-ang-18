@@ -3,10 +3,12 @@
   <div class="card-header cursor-pointer d-flex justify-content-between align-items-center">
     <!--begin::Card title-->
     <div class="card-title m-0">
-      <h3 class="fw-bold m-0">Build Your Menu</h3>
+      <h3 class="fw-bold m-0">Build Menu</h3>
     </div>
     <!--end::Card title-->
-
+    <!--begin::Action-->
+    <a href="../../demo1/dist/account/settings.html" class="btn btn-primary align-self-center">Save</a>
+    <!--end::Action-->
   </div>
   <!--begin::Card header-->
   <!--begin::Card body-->
@@ -38,15 +40,16 @@
 
         <div class="d-flex flex-column rounded my-2" *ngFor="let mc of m.items; let j = index">
 
-          <div class="d-flex flex-row justify-content-between align-items-center bg-light">
+          <div class="d-flex flex-row justify-content-between align-items-center bg-light p-2 ">
 
             <div *ngIf="mc.name">{{mc.name}}</div>
-            <div *ngIf="mc.price">{{mc.price}}</div>
+            <div *ngIf="mc.price && mc.name">{{mc.price}}</div>
 
             <div *ngIf="!mc.name" class="d-flex flex-row">
               <app-product-typehead [placeholder]="'select product'"
                 (tvalue)="mc.tempname = $event"></app-product-typehead>
-              <input name="product-price" type="text" class="form-control" placeholder="price" style="width: 90px;" />
+              <input name="product-price" type="text" class="form-control" [(ngModel)]="mc.price" placeholder="price"
+                style="width: 90px;" />
 
             </div>
             <button class="btn btn-light" *ngIf="!mc.name" (click)="setItem(mc, mc.tempname, mc.price)">save</button>
@@ -84,13 +87,13 @@
               <div class="d-flex flex-row justify-content-between align-items-center bg-light">
 
                 <div *ngIf="mc.name">{{mc.name}}</div>
-                <div *ngIf="mc.price">{{mc.price}}</div>
+                <div *ngIf="mc.price && mc.name">{{mc.price}}</div>
 
                 <div *ngIf="!mc.name" class="d-flex flex-row">
                   <app-product-typehead [placeholder]="'select product'"
                     (tvalue)="mc.tempname = $event"></app-product-typehead>
-                  <input name="product-price" type="text" class="form-control" placeholder="price"
-                    style="width: 90px;" />
+                  <input name="product-price" type="text" class="form-control" [(ngModel)]="mc.price"
+                    placeholder="price" style="width: 90px;" />
 
                 </div>
                 <button class="btn btn-light" *ngIf="!mc.name"

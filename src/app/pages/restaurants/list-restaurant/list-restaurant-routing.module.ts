@@ -5,7 +5,8 @@ import { ListRestaurantComponent } from './list-restaurant.component';
 const routes: Routes = [
   {
     path: '',
-    component: ListRestaurantComponent
+    component: ListRestaurantComponent,
+    data: { breadcrumb: 'list' }, // Root breadcrumb
   }
 ];
 

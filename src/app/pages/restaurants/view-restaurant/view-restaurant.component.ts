@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavService } from 'src/app/services/basic/nav.service';
+import { GlobalRestaurantService } from 'src/app/services/global-restaurant.service';
+import { NetworkService } from 'src/app/services/network.service';
 
 @Component({
   selector: 'app-view-restaurant',
@@ -10,17 +12,21 @@ import { NavService } from 'src/app/services/basic/nav.service';
 export class ViewRestaurantComponent {
 
   restaurantId;
+  restaurant;
 
-  constructor(private nav: NavService, public router: Router, public activatedRoute: ActivatedRoute){
+  constructor(private nav: NavService, private network: NetworkService, public router: Router, public activatedRoute: ActivatedRoute, public grest: GlobalRestaurantService){
     this.initialize();
   }
 
   async initialize(){
-    const params = await this.nav.getParams();
 
     const rew = await this.activatedRoute.snapshot.params;
-    console.log(params, rew)
     this.restaurantId = rew['id'];
+
+    const res = await this.network.getRestaurantById(this.restaurantId);
+    console.log(res);
+    this.restaurant = res.restaurant;
+    this.grest.restaurant = res.restaurant;
 
 
   }

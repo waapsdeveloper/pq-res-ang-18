@@ -11,7 +11,13 @@ export class ListRestaurantComponent {
   search = '';
   page = 1;
   lastPage = -1;
+  total = 0;
   list: any[] = [];
+
+  columns: any[] = [
+    'id',
+
+  ]
 
   constructor(
     private nav: NavService,
@@ -36,6 +42,7 @@ export class ListRestaurantComponent {
       let d = res.data;
       this.page = d.current_page;
       this.lastPage = d.last_page;
+      this.total = d.total;
 
       if(this.page == 1){
         this.list = d.data;
@@ -46,10 +53,6 @@ export class ListRestaurantComponent {
     }
 
     return res;
-  }
-
-  addNewRow() {
-    this.nav.push('/pages/restaurants/add');
   }
 
   editRow(index: number) {

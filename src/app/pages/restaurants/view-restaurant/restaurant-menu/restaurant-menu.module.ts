@@ -7,12 +7,14 @@ import { FormsModule } from '@angular/forms';
 import { NgbModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { CategoryTypeheadComponent } from './category-typehead/category-typehead.component';
 import { ProductTypeheadComponent } from './product-typehead/product-typehead.component';
+import { ProductItemComponent } from './product-item/product-item.component';
 
 @NgModule({
   declarations: [
     RestaurantMenuComponent,
     CategoryTypeheadComponent,
-    ProductTypeheadComponent
+    ProductTypeheadComponent,
+    ProductItemComponent
   ],
   imports: [
     CommonModule,
