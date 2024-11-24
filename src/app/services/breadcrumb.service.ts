@@ -36,8 +36,6 @@ export class BreadcrumbService {
 
   private createBreadcrumbs(route: ActivatedRouteSnapshot, url: string = '', breadcrumbs: Breadcrumb[] = []): Breadcrumb[] {
 
-    console.log(route)
-
     if (route) {
       const routeUrl = route.url.map((segment) => segment.path).join('/');
       const nextUrl = routeUrl ? `${url}/${routeUrl}` : url;

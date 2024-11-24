@@ -59,7 +59,10 @@ export class AddRestaurantComponent {
       let d = this.restaurantForm.value;
       const res = await this.network.addRestaurant(d);
       console.log(res);
-      this.nav.pop();
+      if(res){
+        this.nav.pop();
+      }
+
 
 
 
