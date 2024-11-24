@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { AddUserRoutingModule } from './add-user-routing.module';
 import { AddUserComponent } from './add-user.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { KtAppToolbarModule } from 'src/app/components/kt-app-toolbar/kt-app-toolbar.module';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     AddUserRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    KtAppToolbarModule
   ]
 })
 export class AddUserModule { }

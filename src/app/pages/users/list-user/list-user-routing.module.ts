@@ -5,7 +5,8 @@ import { ListUserComponent } from './list-user.component';
 const routes: Routes = [
   {
     path: '',
-    component: ListUserComponent
+    component: ListUserComponent,
+    data: { breadcrumb: 'list' },
   }
 ];
 

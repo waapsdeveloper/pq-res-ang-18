@@ -15,8 +15,8 @@ export class ListRestaurantComponent {
   list: any[] = [];
 
   columns: any[] = [
-    'id',
-
+    'Name',
+    'Meta Data'
   ]
 
   constructor(

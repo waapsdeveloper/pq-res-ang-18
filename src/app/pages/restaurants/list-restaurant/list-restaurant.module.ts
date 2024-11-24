@@ -6,8 +6,7 @@ import { ListRestaurantComponent } from './list-restaurant.component';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { KtAppToolbarModule } from 'src/app/components/kt-app-toolbar/kt-app-toolbar.module';
-import { KtAppTableSearchModule } from 'src/app/components/kt-app-table-search/kt-app-table-search.module';
-import { KtAppTableModule } from 'src/app/components/kt-app-table/kt-app-table.module';
+import { KtAppListPageTableModule } from 'src/app/components/kt-app-list-page-table/kt-app-list-page-table.module';
 
 
 @NgModule({
@@ -18,8 +17,7 @@ import { KtAppTableModule } from 'src/app/components/kt-app-table/kt-app-table.m
     CommonModule,
     ListRestaurantRoutingModule,
     KtAppToolbarModule,
-    KtAppTableSearchModule,
-    KtAppTableModule,
+    KtAppListPageTableModule,
     FormsModule,
     NgbModule,
 ]

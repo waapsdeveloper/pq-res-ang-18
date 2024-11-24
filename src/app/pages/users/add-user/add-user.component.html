@@ -1,77 +1,244 @@
-<div class="card">
+<div class="d-flex flex-column flex-column-fluid">
+  <!--begin::Toolbar-->
+  <app-kt-app-toolbar [title]="'Add User'"></app-kt-app-toolbar>
 
-  <div class="card-body">
+  <!--begin::Content-->
+  <div id="kt_app_content" class="app-content flex-column-fluid">
+    <!--begin::Content container-->
+    <div id="kt_app_content_container" class="app-container container-xxl">
+      <form id="kt_ecommerce_add_category_form" class="form d-flex flex-column flex-lg-row" [formGroup]="bForm" (ngSubmit)="onSubmit()">
+        <!--begin::Aside column-->
+        <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px mb-7 me-lg-10">
+          <!--begin::Thumbnail settings-->
+          <div class="card card-flush py-4">
+            <!--begin::Card header-->
+            <div class="card-header">
+              <!--begin::Card title-->
+              <div class="card-title">
+                <h2>Thumbnail</h2>
+              </div>
+              <!--end::Card title-->
+            </div>
+            <!--end::Card header-->
+            <!--begin::Card body-->
+            <div class="card-body text-center pt-0">
+              <!--begin::Image input-->
+              <!--begin::Image input placeholder-->
+              <style>.image-input-placeholder { background-image: url('assets/svg/blank-image.svg'); } [data-theme="dark"] .image-input-placeholder { background-image: url('assets/svg/blank-image-dark.svg'); }</style>
+              <!--end::Image input placeholder-->
+              <!--begin::Image input-->
+              <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true" #imageInputPlaceholder>
+                <!--begin::Preview existing avatar-->
+                <div class="image-input-wrapper w-150px h-150px"></div>
+                <!--end::Preview existing avatar-->
+                <!--begin::Label-->
+                <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change avatar">
+                  <!--begin::Icon-->
+                  <i class="ti ti-upload"></i>
+                  <!--end::Icon-->
+                  <!--begin::Inputs-->
+                  <input type="file" name="avatar" accept=".png, .jpg, .jpeg" (change)="onFileSelected($event)" />
+                  <input type="hidden" name="avatar_remove" />
+                  <!--end::Inputs-->
+                </label>
+                <!--end::Label-->
+                <!--begin::Cancel-->
+                <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="Cancel avatar">
+                  <i class="bi bi-x fs-2"></i>
+                </span>
+                <!--end::Cancel-->
+                <!--begin::Remove-->
+                <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="Remove avatar">
+                  <i class="bi bi-x fs-2"></i>
+                </span>
+                <!--end::Remove-->
+              </div>
+              <!--end::Image input-->
+              <!--begin::Description-->
+              <div class="text-muted fs-7">Set the thumbnail image. Only *.png, *.jpg and *.jpeg image files are accepted</div>
+              <!--end::Description-->
+            </div>
+            <!--end::Card body-->
+          </div>
+          <!--end::Thumbnail settings-->
+          <!--begin::Role-->
+          <div class="card card-flush py-4">
+            <!--begin::Card header-->
+            <div class="card-header">
+              <!--begin::Card title-->
+              <div class="card-title">
+                <h2>Role</h2>
+              </div>
+              <!--end::Card title-->
+              <!--begin::Card toolbar-->
+              <div class="card-toolbar">
 
-    <div class="text-left mb-4">
-      <h2>Add User</h2>
-      <p class="text-muted">Please fill out the form below to register a new user.</p>
+              </div>
+              <!--begin::Card toolbar-->
+            </div>
+            <!--end::Card header-->
+            <!--begin::Card body-->
+            <div class="card-body pt-0">
+              <!--begin::Select2-->
+              <select class="form-select mb-2" placeholder="Select an option" formControlName="role">
+                <option value="" disabled>Select an option</option>
+                <option [value]="2">Admin</option>
+                <option [value]="3">Manager</option>
+                <option [value]="4">Staff</option>
+                <option [value]="5">Chef</option>
+              </select>
+              <!--end::Select2-->
+              <!--begin::Description-->
+              <div class="text-muted fs-7">Set the current role.</div>
+              <!--end::Description-->
+            </div>
+            <!--end::Card body-->
+          </div>
+          <!--end::ROle-->
+          <!--begin::Status-->
+          <div class="card card-flush py-4">
+            <!--begin::Card header-->
+            <div class="card-header">
+              <!--begin::Card title-->
+              <div class="card-title">
+                <h2>Status</h2>
+              </div>
+              <!--end::Card title-->
+              <!--begin::Card toolbar-->
+              <div class="card-toolbar">
+                <div class="rounded-circle bg-success w-15px h-15px" id="kt_ecommerce_add_category_status"></div>
+              </div>
+              <!--begin::Card toolbar-->
+            </div>
+            <!--end::Card header-->
+            <!--begin::Card body-->
+            <div class="card-body pt-0">
+              <!--begin::Select2-->
+              <select class="form-select mb-2" placeholder="Select an option" formControlName="status">
+                <option value="" disabled>Select an option</option>
+                <option [value]="'active'">Published</option>
+                <option [value]="'in-active'">Unpublished</option>
+              </select>
+              <!--end::Select2-->
+              <!--begin::Description-->
+              <div class="text-muted fs-7">Set the current status.</div>
+              <!--end::Description-->
+            </div>
+            <!--end::Card body-->
+          </div>
+          <!--end::Status-->
+
+        </div>
+        <!--end::Aside column-->
+        <!--begin::Main column-->
+        <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
+          <!--begin::General options-->
+          <div class="card card-flush py-4">
+            <!--begin::Card header-->
+            <div class="card-header">
+              <div class="card-title">
+                <h2>General</h2>
+              </div>
+            </div>
+            <!--end::Card header-->
+            <!--begin::Card body-->
+            <div class="card-body pt-0">
+              <!--begin::Input group-->
+              <div class="mb-10 fv-row">
+                <!--begin::Label-->
+                <label class="required form-label">User Name</label>
+                <!--end::Label-->
+                <!--begin::Input-->
+                <input type="text" class="form-control mb-2" placeholder="Restaurant name" formControlName="name"
+                [ngClass]="{ 'is-invalid': bForm.get('name')?.invalid && bForm.get('name')?.touched }"/>
+                <!--end::Input-->
+                <!--begin::Description-->
+                <div class="text-muted fs-7">A user name is required and recommended to be unique.</div>
+                <!--end::Description-->
+              </div>
+              <!--end::Input group-->
+              <!--begin::Input group-->
+              <div class="mb-10">
+                <!--begin::Label-->
+                <label class="form-label">Password</label>
+                <!--end::Label-->
+                <!--begin::Input-->
+                <input type="text" class="form-control mb-2" placeholder="Phone number" formControlName="password"
+                [ngClass]="{ 'is-invalid': bForm.get('password')?.invalid && bForm.get('password')?.touched }" />
+                <!--end::Input-->
+                <!--begin::Description-->
+                <div class="text-muted fs-7">length between 8 or mote characters - leave empty if no change required </div>
+                <!--end::Description-->
+              </div>
+              <!--end::Input group-->
+            </div>
+            <!--end::Card header-->
+          </div>
+          <!--end::General options-->
+          <!--begin::Meta options-->
+          <div class="card card-flush py-4">
+            <!--begin::Card header-->
+            <div class="card-header">
+              <div class="card-title">
+                <h2>Meta Options</h2>
+              </div>
+            </div>
+            <!--end::Card header-->
+            <!--begin::Card body-->
+            <div class="card-body pt-0">
+              <!--begin::Input group-->
+              <div class="mb-10">
+                <!--begin::Label-->
+                <label class="form-label">Phone</label>
+                <!--end::Label-->
+                <!--begin::Input-->
+                <input type="text" class="form-control mb-2" placeholder="Phone number" formControlName="phone"
+                [ngClass]="{ 'is-invalid': bForm.get('phone')?.invalid && bForm.get('phone')?.touched }" />
+                <!--end::Input-->
+                <!--begin::Description-->
+                <div class="text-muted fs-7">only numbers - 0 to 9 - length between 9 to 15 digits </div>
+                <!--end::Description-->
+              </div>
+              <!--end::Input group-->
+              <!--begin::Input group-->
+              <div class="mb-10">
+                <!--begin::Label-->
+                <label class="form-label">Email</label>
+                <!--end::Label-->
+                <!--begin::Editor-->
+                <input type="text" class="form-control mb-2" placeholder="Email" formControlName="email"
+                [ngClass]="{ 'is-invalid': bForm.get('email')?.invalid && bForm.get('email')?.touched }"/>
+                <!--end::Editor-->
+                <!--begin::Description-->
+                <div class="text-muted fs-7">valid email like - {{ 'xxxx@domain.com' }}</div>
+                <!--end::Description-->
+              </div>
+              <!--end::Input group-->
+
+
+            </div>
+            <!--end::Card header-->
+          </div>
+          <!--end::Meta options-->
+          <div class="d-flex justify-content-end">
+            <!--begin::Button-->
+            <a [routerLink]="'../'" id="kt_ecommerce_add_product_cancel" class="btn btn-light me-5">Cancel</a>
+            <!--end::Button-->
+            <!--begin::Button-->
+            <!-- [disabled]="!bForm.valid" -->
+            <button type="submit" class="btn btn-primary" >
+              <span class="indicator-label">Save Changes</span>
+              <span class="indicator-progress">Please wait...
+              <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+            </button>
+            <!--end::Button-->
+          </div>
+        </div>
+        <!--end::Main column-->
+      </form>
     </div>
-
-    <!-- Form -->
-    <form [formGroup]="bForm" (ngSubmit)="onSubmit()">
-      <!-- Name -->
-      <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="name" formControlName="name" placeholder="Name" />
-        <label for="name">Name</label>
-        <div *ngIf="bForm.get('name')?.touched && bForm.get('name')?.invalid" class="text-danger">
-          <small *ngIf="bForm.get('name')?.errors?.['required']">Name is required.</small>
-          <small *ngIf="bForm.get('name')?.errors?.['minlength']">Name must be at least 3 characters.</small>
-        </div>
-      </div>
-
-      <!-- Email -->
-      <div class="form-floating mb-3">
-        <input type="email" class="form-control" id="email" formControlName="email" placeholder="Email address" />
-        <label for="email">Email address</label>
-        <div *ngIf="bForm.get('email')?.touched && bForm.get('email')?.invalid" class="text-danger">
-          <small *ngIf="bForm.get('email')?.errors?.['required']">Email is required.</small>
-          <small *ngIf="bForm.get('email')?.errors?.['email']">Enter a valid email.</small>
-        </div>
-      </div>
-
-      <!-- Password -->
-      <div class="form-floating mb-3">
-        <input type="password" class="form-control" id="password" formControlName="password" placeholder="Password" />
-        <label for="password">Password</label>
-        <div *ngIf="bForm.get('password')?.touched && bForm.get('password')?.invalid" class="text-danger">
-          <small *ngIf="bForm.get('password')?.errors?.['required']">Password is required.</small>
-          <small *ngIf="bForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters.</small>
-        </div>
-      </div>
-
-      <!-- Role -->
-      <div class="form-floating mb-3">
-        <select class="form-control" id="role" formControlName="role">
-          <option value="" disabled>Select Role</option>
-          <option value="admin">Admin</option>
-          <option value="manager">Manager</option>
-        </select>
-        <label for="role">Role</label>
-        <div *ngIf="bForm.get('role')?.touched && bForm.get('role')?.invalid" class="text-danger">
-          <small *ngIf="bForm.get('role')?.errors?.['required']">Role is required.</small>
-        </div>
-      </div>
-
-      <!-- Status -->
-      <div class="form-floating mb-3">
-        <select class="form-control" id="status" formControlName="status">
-          <option value="" disabled>Select Status</option>
-          <option value="active">Active</option>
-          <option value="inactive">Inactive</option>
-        </select>
-        <label for="status">Status</label>
-        <div *ngIf="bForm.get('status')?.touched && bForm.get('status')?.invalid" class="text-danger">
-          <small *ngIf="bForm.get('status')?.errors?.['required']">Status is required.</small>
-        </div>
-      </div>
-
-      <!-- Submit Button -->
-      <div class="mt-4">
-        <button type="submit" class="btn btn-secondary" [disabled]="bForm.invalid">
-          Submit
-        </button>
-      </div>
-    </form>
-
+    <!--end::Content container-->
   </div>
+  <!--end::Content-->
+
 </div>
