@@ -1,12 +1,22 @@
 <div class="d-flex flex-column flex-column-fluid">
   <!--begin::Toolbar-->
-  <app-kt-app-toolbar [title]="'Add User'"></app-kt-app-toolbar>
-
   <!--begin::Content-->
   <div id="kt_app_content" class="app-content flex-column-fluid">
     <!--begin::Content container-->
-    <div id="kt_app_content_container" class="app-container container-xxl">
-      <form id="kt_ecommerce_add_category_form" class="form d-flex flex-column flex-lg-row" [formGroup]="bForm" (ngSubmit)="onSubmit()">
+    <div id="kt_app_content_container" class="app-container container-fluid">
+      <form id="kt_ecommerce_add_form" class="form d-flex flex-column flex-lg-row" [formGroup]="restaurantForm" (ngSubmit)="onSubmit()">
+
+        <div class="form-floating mb-3">
+          <input type="email" class="form-control" id="floatingInput" formControlName="email"
+            placeholder="Email address / Username" />
+          <label for="floatingInput">Email address / Username</label>
+          <div *ngIf="restaurantForm.get('email')?.touched && restaurantForm.get('email')?.invalid" class="text-danger">
+            <small *ngIf="restaurantForm.get('email')?.errors?.['required']">Email is required.</small>
+            <small *ngIf="restaurantForm.get('email')?.errors?.['email']">Enter a valid email.</small>
+          </div>
+        </div>
+
+
         <!--begin::Aside column-->
         <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px mb-7 me-lg-10">
           <!--begin::Thumbnail settings-->
@@ -61,42 +71,6 @@
             <!--end::Card body-->
           </div>
           <!--end::Thumbnail settings-->
-          <app-add-user-restaurant-list></app-add-user-restaurant-list>
-
-          <!--begin::Role-->
-          <div class="card card-flush py-4">
-            <!--begin::Card header-->
-            <div class="card-header">
-              <!--begin::Card title-->
-              <div class="card-title">
-                <h2>Role</h2>
-              </div>
-              <!--end::Card title-->
-              <!--begin::Card toolbar-->
-              <div class="card-toolbar">
-
-              </div>
-              <!--begin::Card toolbar-->
-            </div>
-            <!--end::Card header-->
-            <!--begin::Card body-->
-            <div class="card-body pt-0">
-              <!--begin::Select2-->
-              <select class="form-select mb-2" placeholder="Select an option" formControlName="role">
-                <option value="" disabled>Select an option</option>
-                <option [value]="2">Admin</option>
-                <option [value]="3">Manager</option>
-                <option [value]="4">Staff</option>
-                <option [value]="5">Chef</option>
-              </select>
-              <!--end::Select2-->
-              <!--begin::Description-->
-              <div class="text-muted fs-7">Set the current role.</div>
-              <!--end::Description-->
-            </div>
-            <!--end::Card body-->
-          </div>
-          <!--end::ROle-->
           <!--begin::Status-->
           <div class="card card-flush py-4">
             <!--begin::Card header-->
@@ -129,7 +103,36 @@
             <!--end::Card body-->
           </div>
           <!--end::Status-->
+          <!--begin::Template settings-->
+          <div class="card card-flush py-4">
+            <!--begin::Card header-->
+            <div class="card-header">
+              <!--begin::Card title-->
+              <div class="card-title">
+                <h2>Location</h2>
+              </div>
+              <!--end::Card title-->
+            </div>
+            <!--end::Card header-->
+            <!--begin::Card body-->
+            <div class="card-body pt-0">
+              <!--begin::Select store template-->
 
+              <textarea cols="7" class="form-control mb-2" formControlName="address"
+              [ngClass]="{ 'is-invalid': restaurantForm.get('address')?.invalid && restaurantForm.get('address')?.touched }"
+              >
+
+              </textarea>
+              <label for="kt_ecommerce_add_category_store_template" class="form-label">Select a restaurant location</label>
+              <!--end::Select store template-->
+
+              <!--begin::Description-->
+              <div class="text-muted fs-7">Assign a template from your current theme to define how the category products are displayed.</div>
+              <!--end::Description-->
+            </div>
+            <!--end::Card body-->
+          </div>
+          <!--end::Template settings-->
         </div>
         <!--end::Aside column-->
         <!--begin::Main column-->
@@ -148,28 +151,31 @@
               <!--begin::Input group-->
               <div class="mb-10 fv-row">
                 <!--begin::Label-->
-                <label class="required form-label">User Name</label>
+                <label class="required form-label">Restaurant Name</label>
                 <!--end::Label-->
                 <!--begin::Input-->
                 <input type="text" class="form-control mb-2" placeholder="Restaurant name" formControlName="name"
-                [ngClass]="{ 'is-invalid': bForm.get('name')?.invalid && bForm.get('name')?.touched }"/>
+                [ngClass]="{ 'is-invalid': restaurantForm.get('name')?.invalid && restaurantForm.get('name')?.touched }"/>
                 <!--end::Input-->
                 <!--begin::Description-->
-                <div class="text-muted fs-7">A user name is required and recommended to be unique.</div>
+                <div class="text-muted fs-7">A restaurant name is required and recommended to be unique.</div>
                 <!--end::Description-->
               </div>
               <!--end::Input group-->
               <!--begin::Input group-->
-              <div class="mb-10">
+              <div>
                 <!--begin::Label-->
-                <label class="form-label">Password</label>
+                <label class="form-label">Description</label>
                 <!--end::Label-->
-                <!--begin::Input-->
-                <input type="text" class="form-control mb-2" placeholder="Phone number" formControlName="password"
-                [ngClass]="{ 'is-invalid': bForm.get('password')?.invalid && bForm.get('password')?.touched }" />
-                <!--end::Input-->
+                <!--begin::Editor-->
+                <!-- <div id="kt_ecommerce_add_category_description" name="kt_ecommerce_add_category_description" class="min-h-200px mb-2"></div> -->
+                <textarea class="form-control min-h-200px mb-2" formControlName="description"
+                [ngClass]="{ 'is-invalid': restaurantForm.get('description')?.invalid && restaurantForm.get('description')?.touched }">
+
+                </textarea>
+                <!--end::Editor-->
                 <!--begin::Description-->
-                <div class="text-muted fs-7">length between 8 or mote characters - leave empty if no change required </div>
+                <div class="text-muted fs-7">Set a description to the restaurnat for better visibility.</div>
                 <!--end::Description-->
               </div>
               <!--end::Input group-->
@@ -195,7 +201,7 @@
                 <!--end::Label-->
                 <!--begin::Input-->
                 <input type="text" class="form-control mb-2" placeholder="Phone number" formControlName="phone"
-                [ngClass]="{ 'is-invalid': bForm.get('phone')?.invalid && bForm.get('phone')?.touched }" />
+                [ngClass]="{ 'is-invalid': restaurantForm.get('phone')?.invalid && restaurantForm.get('phone')?.touched }" />
                 <!--end::Input-->
                 <!--begin::Description-->
                 <div class="text-muted fs-7">only numbers - 0 to 9 - length between 9 to 15 digits </div>
@@ -209,15 +215,46 @@
                 <!--end::Label-->
                 <!--begin::Editor-->
                 <input type="text" class="form-control mb-2" placeholder="Email" formControlName="email"
-                [ngClass]="{ 'is-invalid': bForm.get('email')?.invalid && bForm.get('email')?.touched }"/>
+                [ngClass]="{ 'is-invalid': restaurantForm.get('email')?.invalid && restaurantForm.get('email')?.touched }"/>
                 <!--end::Editor-->
                 <!--begin::Description-->
                 <div class="text-muted fs-7">valid email like - {{ 'xxxx@domain.com' }}</div>
                 <!--end::Description-->
               </div>
               <!--end::Input group-->
-
-
+              <!--begin::Input group-->
+              <div class="mb-10">
+                <!--begin::Label-->
+                <label class="form-label">Website</label>
+                <!--end::Label-->
+                <!--begin::Editor-->
+                <input type="text" class="form-control mb-2" placeholder="Website" formControlName="website"
+                [ngClass]="{ 'is-invalid': restaurantForm.get('website')?.invalid && restaurantForm.get('website')?.touched }"/>
+                <!--end::Editor-->
+                <!--begin::Description-->
+                <div class="text-muted fs-7">valid format:
+                  | http://example.com
+                  | https://www.example.co.uk
+                  | example.com
+                  | www.example.com
+                  | http://example.com/about-us</div>
+                <!--end::Description-->
+              </div>
+              <!--end::Input group-->
+              <!--begin::Input group-->
+              <div class="mb-10">
+                <!--begin::Label-->
+                <label class="form-label">Opening Hours</label>
+                <!--end::Label-->
+                <!--begin::Editor-->
+                <input type="text" class="form-control mb-2" placeholder="Opening Hours" formControlName="opening_hours"
+                [ngClass]="{ 'is-invalid': restaurantForm.get('opening_hours')?.invalid && restaurantForm.get('opening_hours')?.touched }" />
+                <!--end::Editor-->
+                <!--begin::Description-->
+                <div class="text-muted fs-7">Write easy text opening hours for customers</div>
+                <!--end::Description-->
+              </div>
+              <!--end::Input group-->
             </div>
             <!--end::Card header-->
           </div>
@@ -227,7 +264,7 @@
             <a [routerLink]="'../'" id="kt_ecommerce_add_product_cancel" class="btn btn-light me-5">Cancel</a>
             <!--end::Button-->
             <!--begin::Button-->
-            <!-- [disabled]="!bForm.valid" -->
+            <!-- [disabled]="!restaurantForm.valid" -->
             <button type="submit" class="btn btn-primary" >
               <span class="indicator-label">Save Changes</span>
               <span class="indicator-progress">Please wait...

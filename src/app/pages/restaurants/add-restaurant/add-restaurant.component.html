@@ -1,273 +1,68 @@
-<div class="d-flex flex-column flex-column-fluid">
-  <!--begin::Toolbar-->
-  <app-kt-app-toolbar [title]="'Add Restaurant'"></app-kt-app-toolbar>
+<!--begin::Content-->
+<div id="kt_app_content" class="app-content flex-column-fluid">
+  <!--begin::Content container-->
+  <div id="kt_app_content_container" class="app-container container-fluid">
+    <!--begin::Category-->
+    <div class="card card-flush">
+      <!--begin::Card header-->
+      <div class="card-header align-items-center py-5 gap-2 gap-md-5">
+        <!--begin::Card title-->
+        <div class="card-title">
+          <div id="kt_app_toolbar" class="app-toolbar py-2 py-lg-2">
+            <!--begin::Toolbar container-->
+            <div id="kt_app_toolbar_container" class="d-flex flex-stack">
+              <!--begin::Page title-->
+              <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                <!--begin::Title-->
+                <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Add Restaurant</h1>
+                <!--end::Title-->
+                <!-- <app-kt-app-toolbar-breadcrumb></app-kt-app-toolbar-breadcrumb> -->
+              </div>
+              <div class="d-flex align-items-center gap-2 gap-lg-3">
 
-  <!--begin::Content-->
-  <div id="kt_app_content" class="app-content flex-column-fluid">
-    <!--begin::Content container-->
-    <div id="kt_app_content_container" class="app-container container-xxl">
-      <form id="kt_ecommerce_add_category_form" class="form d-flex flex-column flex-lg-row" [formGroup]="restaurantForm" (ngSubmit)="onSubmit()">
-        <!--begin::Aside column-->
-        <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px mb-7 me-lg-10">
-          <!--begin::Thumbnail settings-->
-          <div class="card card-flush py-4">
-            <!--begin::Card header-->
-            <div class="card-header">
-              <!--begin::Card title-->
-              <div class="card-title">
-                <h2>Thumbnail</h2>
               </div>
-              <!--end::Card title-->
+              <!--end::Actions-->
             </div>
-            <!--end::Card header-->
-            <!--begin::Card body-->
-            <div class="card-body text-center pt-0">
-              <!--begin::Image input-->
-              <!--begin::Image input placeholder-->
-              <style>.image-input-placeholder { background-image: url('assets/svg/blank-image.svg'); } [data-theme="dark"] .image-input-placeholder { background-image: url('assets/svg/blank-image-dark.svg'); }</style>
-              <!--end::Image input placeholder-->
-              <!--begin::Image input-->
-              <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true" #imageInputPlaceholder>
-                <!--begin::Preview existing avatar-->
-                <div class="image-input-wrapper w-150px h-150px"></div>
-                <!--end::Preview existing avatar-->
-                <!--begin::Label-->
-                <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change avatar">
-                  <!--begin::Icon-->
-                  <i class="ti ti-upload"></i>
-                  <!--end::Icon-->
-                  <!--begin::Inputs-->
-                  <input type="file" name="avatar" accept=".png, .jpg, .jpeg" (change)="onFileSelected($event)" />
-                  <input type="hidden" name="avatar_remove" />
-                  <!--end::Inputs-->
-                </label>
-                <!--end::Label-->
-                <!--begin::Cancel-->
-                <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="Cancel avatar">
-                  <i class="bi bi-x fs-2"></i>
-                </span>
-                <!--end::Cancel-->
-                <!--begin::Remove-->
-                <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="Remove avatar">
-                  <i class="bi bi-x fs-2"></i>
-                </span>
-                <!--end::Remove-->
-              </div>
-              <!--end::Image input-->
-              <!--begin::Description-->
-              <div class="text-muted fs-7">Set the thumbnail image. Only *.png, *.jpg and *.jpeg image files are accepted</div>
-              <!--end::Description-->
-            </div>
-            <!--end::Card body-->
+            <!--end::Toolbar container-->
           </div>
-          <!--end::Thumbnail settings-->
-          <!--begin::Status-->
-          <div class="card card-flush py-4">
-            <!--begin::Card header-->
-            <div class="card-header">
-              <!--begin::Card title-->
-              <div class="card-title">
-                <h2>Status</h2>
-              </div>
-              <!--end::Card title-->
-              <!--begin::Card toolbar-->
-              <div class="card-toolbar">
-                <div class="rounded-circle bg-success w-15px h-15px" id="kt_ecommerce_add_category_status"></div>
-              </div>
-              <!--begin::Card toolbar-->
-            </div>
-            <!--end::Card header-->
-            <!--begin::Card body-->
-            <div class="card-body pt-0">
-              <!--begin::Select2-->
-              <select class="form-select mb-2" placeholder="Select an option" formControlName="status">
-                <option value="" disabled>Select an option</option>
-                <option [value]="'active'">Published</option>
-                <option [value]="'in-active'">Unpublished</option>
-              </select>
-              <!--end::Select2-->
-              <!--begin::Description-->
-              <div class="text-muted fs-7">Set the current status.</div>
-              <!--end::Description-->
-            </div>
-            <!--end::Card body-->
+          <!--begin::Search-->
+          <div class="d-flex align-items-center position-relative my-1">
+            <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
+
           </div>
-          <!--end::Status-->
-          <!--begin::Template settings-->
-          <div class="card card-flush py-4">
-            <!--begin::Card header-->
-            <div class="card-header">
-              <!--begin::Card title-->
-              <div class="card-title">
-                <h2>Location</h2>
-              </div>
-              <!--end::Card title-->
-            </div>
-            <!--end::Card header-->
-            <!--begin::Card body-->
-            <div class="card-body pt-0">
-              <!--begin::Select store template-->
-
-              <textarea cols="7" class="form-control mb-2" formControlName="address"
-              [ngClass]="{ 'is-invalid': restaurantForm.get('address')?.invalid && restaurantForm.get('address')?.touched }"
-              >
-
-              </textarea>
-              <label for="kt_ecommerce_add_category_store_template" class="form-label">Select a restaurant location</label>
-              <!--end::Select store template-->
-
-              <!--begin::Description-->
-              <div class="text-muted fs-7">Assign a template from your current theme to define how the category products are displayed.</div>
-              <!--end::Description-->
-            </div>
-            <!--end::Card body-->
-          </div>
-          <!--end::Template settings-->
+          <!--end::Search-->
         </div>
-        <!--end::Aside column-->
-        <!--begin::Main column-->
-        <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
-          <!--begin::General options-->
-          <div class="card card-flush py-4">
-            <!--begin::Card header-->
-            <div class="card-header">
-              <div class="card-title">
-                <h2>General</h2>
-              </div>
-            </div>
-            <!--end::Card header-->
-            <!--begin::Card body-->
-            <div class="card-body pt-0">
-              <!--begin::Input group-->
-              <div class="mb-10 fv-row">
-                <!--begin::Label-->
-                <label class="required form-label">Restaurant Name</label>
-                <!--end::Label-->
-                <!--begin::Input-->
-                <input type="text" class="form-control mb-2" placeholder="Restaurant name" formControlName="name"
-                [ngClass]="{ 'is-invalid': restaurantForm.get('name')?.invalid && restaurantForm.get('name')?.touched }"/>
-                <!--end::Input-->
-                <!--begin::Description-->
-                <div class="text-muted fs-7">A restaurant name is required and recommended to be unique.</div>
-                <!--end::Description-->
-              </div>
-              <!--end::Input group-->
-              <!--begin::Input group-->
-              <div>
-                <!--begin::Label-->
-                <label class="form-label">Description</label>
-                <!--end::Label-->
-                <!--begin::Editor-->
-                <!-- <div id="kt_ecommerce_add_category_description" name="kt_ecommerce_add_category_description" class="min-h-200px mb-2"></div> -->
-                <textarea class="form-control min-h-200px mb-2" formControlName="description"
-                [ngClass]="{ 'is-invalid': restaurantForm.get('description')?.invalid && restaurantForm.get('description')?.touched }">
+        <!--end::Card title-->
+        <!--begin::Card toolbar-->
+        <div class="card-toolbar">
+          <!--begin::Add customer-->
+          <a class="btn btn-sm fw-bold btn-primary d-flex align-items-center gap-2"><i
+            class="ti ti-plus"></i> Save </a>
+          <!--end::Add customer-->
+        </div>
+        <!--end::Card toolbar-->
+      </div>
+      <!--end::Card header-->
+      <!--begin::Card body-->
+      <div class="card-body pt-0">
 
-                </textarea>
-                <!--end::Editor-->
-                <!--begin::Description-->
-                <div class="text-muted fs-7">Set a description to the restaurnat for better visibility.</div>
-                <!--end::Description-->
-              </div>
-              <!--end::Input group-->
-            </div>
-            <!--end::Card header-->
-          </div>
-          <!--end::General options-->
-          <!--begin::Meta options-->
-          <div class="card card-flush py-4">
-            <!--begin::Card header-->
-            <div class="card-header">
-              <div class="card-title">
-                <h2>Meta Options</h2>
+        <div class="row">
+          <div class="col-12 col-md-4 col-lg-3">
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="name" formControlName="name" placeholder="Restaurant Name" />
+              <label for="name">Restaurant Name</label>
+              <div *ngIf="restaurantForm.get('name')?.touched && restaurantForm.get('name')?.invalid" class="text-danger">
+                <small *ngIf="restaurantForm.get('name')?.errors?.['required']">Name is required.</small>
               </div>
             </div>
-            <!--end::Card header-->
-            <!--begin::Card body-->
-            <div class="card-body pt-0">
-              <!--begin::Input group-->
-              <div class="mb-10">
-                <!--begin::Label-->
-                <label class="form-label">Phone</label>
-                <!--end::Label-->
-                <!--begin::Input-->
-                <input type="text" class="form-control mb-2" placeholder="Phone number" formControlName="phone"
-                [ngClass]="{ 'is-invalid': restaurantForm.get('phone')?.invalid && restaurantForm.get('phone')?.touched }" />
-                <!--end::Input-->
-                <!--begin::Description-->
-                <div class="text-muted fs-7">only numbers - 0 to 9 - length between 9 to 15 digits </div>
-                <!--end::Description-->
-              </div>
-              <!--end::Input group-->
-              <!--begin::Input group-->
-              <div class="mb-10">
-                <!--begin::Label-->
-                <label class="form-label">Email</label>
-                <!--end::Label-->
-                <!--begin::Editor-->
-                <input type="text" class="form-control mb-2" placeholder="Email" formControlName="email"
-                [ngClass]="{ 'is-invalid': restaurantForm.get('email')?.invalid && restaurantForm.get('email')?.touched }"/>
-                <!--end::Editor-->
-                <!--begin::Description-->
-                <div class="text-muted fs-7">valid email like - {{ 'xxxx@domain.com' }}</div>
-                <!--end::Description-->
-              </div>
-              <!--end::Input group-->
-              <!--begin::Input group-->
-              <div class="mb-10">
-                <!--begin::Label-->
-                <label class="form-label">Website</label>
-                <!--end::Label-->
-                <!--begin::Editor-->
-                <input type="text" class="form-control mb-2" placeholder="Website" formControlName="website"
-                [ngClass]="{ 'is-invalid': restaurantForm.get('website')?.invalid && restaurantForm.get('website')?.touched }"/>
-                <!--end::Editor-->
-                <!--begin::Description-->
-                <div class="text-muted fs-7">valid format:
-                  | http://example.com
-                  | https://www.example.co.uk
-                  | example.com
-                  | www.example.com
-                  | http://example.com/about-us</div>
-                <!--end::Description-->
-              </div>
-              <!--end::Input group-->
-              <!--begin::Input group-->
-              <div class="mb-10">
-                <!--begin::Label-->
-                <label class="form-label">Opening Hours</label>
-                <!--end::Label-->
-                <!--begin::Editor-->
-                <input type="text" class="form-control mb-2" placeholder="Opening Hours" formControlName="opening_hours"
-                [ngClass]="{ 'is-invalid': restaurantForm.get('opening_hours')?.invalid && restaurantForm.get('opening_hours')?.touched }" />
-                <!--end::Editor-->
-                <!--begin::Description-->
-                <div class="text-muted fs-7">Write easy text opening hours for customers</div>
-                <!--end::Description-->
-              </div>
-              <!--end::Input group-->
-            </div>
-            <!--end::Card header-->
-          </div>
-          <!--end::Meta options-->
-          <div class="d-flex justify-content-end">
-            <!--begin::Button-->
-            <a [routerLink]="'../'" id="kt_ecommerce_add_product_cancel" class="btn btn-light me-5">Cancel</a>
-            <!--end::Button-->
-            <!--begin::Button-->
-            <!-- [disabled]="!restaurantForm.valid" -->
-            <button type="submit" class="btn btn-primary" >
-              <span class="indicator-label">Save Changes</span>
-              <span class="indicator-progress">Please wait...
-              <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-            </button>
-            <!--end::Button-->
           </div>
         </div>
-        <!--end::Main column-->
-      </form>
+
+      </div>
+      <!--end::Card body-->
     </div>
-    <!--end::Content container-->
+    <!--end::Category-->
   </div>
-  <!--end::Content-->
-
+  <!--end::Content container-->
 </div>
+<!--end::Content-->

@@ -16,7 +16,7 @@ import { KtAppToolbarModule } from 'src/app/components/kt-app-toolbar/kt-app-too
     AddRestaurantRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    KtAppToolbarModule,
+    KtAppToolbarModule
   ]
 })
 export class AddRestaurantModule { }
