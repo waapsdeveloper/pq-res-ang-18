@@ -20,6 +20,9 @@ import { GuestComponent } from './theme/layout/guest/guest.component';
 
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { provideHttpClient } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FormlyModule } from '@ngx-formly/core';
+import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,7 +40,10 @@ import { provideHttpClient } from '@angular/common/http';
     AppRoutingModule,
     SharedModule,
     BrowserAnimationsModule,
-    SweetAlert2Module.forRoot()
+    SweetAlert2Module.forRoot(),
+    ReactiveFormsModule,
+    FormlyModule.forRoot(),
+    FormlyBootstrapModule
   ],
   providers: [NavigationItem, provideHttpClient()],
   bootstrap: [AppComponent]

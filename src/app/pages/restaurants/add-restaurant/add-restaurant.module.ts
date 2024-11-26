@@ -1,10 +1,12 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { AddRestaurantRoutingModule } from './add-restaurant-routing.module';
 import { AddRestaurantComponent } from './add-restaurant.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { KtAppToolbarModule } from 'src/app/components/kt-app-toolbar/kt-app-toolbar.module';
+import { FormlyModule } from '@ngx-formly/core';
+import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 
 
 @NgModule({
@@ -16,7 +18,12 @@ import { KtAppToolbarModule } from 'src/app/components/kt-app-toolbar/kt-app-too
     AddRestaurantRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    KtAppToolbarModule
+    KtAppToolbarModule,
+    FormlyModule,
+    FormlyBootstrapModule
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
   ]
 })
 export class AddRestaurantModule { }

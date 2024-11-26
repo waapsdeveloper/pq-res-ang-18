@@ -25243,7 +25243,7 @@ fieldset:disabled .btn {
   --kt-btn-link-disabled-color: #7e8299;
   --kt-form-label-color: #3f4254;
   --kt-form-text-color: #a1a5b7;
-  --kt-input-bg: #ffffff;
+  --kt-input-bg: rgba(128,0,128,0.07);
   --kt-input-disabled-bg: #eff2f5;
   --kt-input-disabled-border-color: #e4e6ef;
   --kt-input-color: #5e6278;
@@ -25286,7 +25286,7 @@ fieldset:disabled .btn {
   --kt-input-group-addon-bg: #f5f8fa;
   --kt-input-group-addon-border-color: #e4e6ef;
   --kt-form-select-color: #5e6278;
-  --kt-form-select-bg: #ffffff;
+  --kt-form-select-bg: rgba(128,0,128,0.07);
   --kt-form-select-disabled-bg: #eff2f5;
   --kt-form-select-disabled-border-color: #e4e6ef;
   --kt-form-select-indicator-color: #7e8299;

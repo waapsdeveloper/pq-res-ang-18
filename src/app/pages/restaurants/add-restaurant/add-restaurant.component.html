@@ -8,23 +8,8 @@
       <div class="card-header align-items-center py-5 gap-2 gap-md-5">
         <!--begin::Card title-->
         <div class="card-title">
-          <div id="kt_app_toolbar" class="app-toolbar py-2 py-lg-2">
-            <!--begin::Toolbar container-->
-            <div id="kt_app_toolbar_container" class="d-flex flex-stack">
-              <!--begin::Page title-->
-              <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-                <!--begin::Title-->
-                <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Add Restaurant</h1>
-                <!--end::Title-->
-                <!-- <app-kt-app-toolbar-breadcrumb></app-kt-app-toolbar-breadcrumb> -->
-              </div>
-              <div class="d-flex align-items-center gap-2 gap-lg-3">
+          <app-kt-app-toolbar [title]="'Add Restaurants'"></app-kt-app-toolbar>
 
-              </div>
-              <!--end::Actions-->
-            </div>
-            <!--end::Toolbar container-->
-          </div>
           <!--begin::Search-->
           <div class="d-flex align-items-center position-relative my-1">
             <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
@@ -36,8 +21,8 @@
         <!--begin::Card toolbar-->
         <div class="card-toolbar">
           <!--begin::Add customer-->
-          <a class="btn btn-sm fw-bold btn-primary d-flex align-items-center gap-2"><i
-            class="ti ti-plus"></i> Save </a>
+          <!-- <a class="btn btn-sm fw-bold btn-primary d-flex align-items-center gap-2"><i
+            class="ti ti-plus"></i> Save </a> -->
           <!--end::Add customer-->
         </div>
         <!--end::Card toolbar-->
@@ -46,17 +31,11 @@
       <!--begin::Card body-->
       <div class="card-body pt-0">
 
-        <div class="row">
-          <div class="col-12 col-md-4 col-lg-3">
-            <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="name" formControlName="name" placeholder="Restaurant Name" />
-              <label for="name">Restaurant Name</label>
-              <div *ngIf="restaurantForm.get('name')?.touched && restaurantForm.get('name')?.invalid" class="text-danger">
-                <small *ngIf="restaurantForm.get('name')?.errors?.['required']">Name is required.</small>
-              </div>
-            </div>
-          </div>
-        </div>
+        <form [formGroup]="form" (ngSubmit)="onSubmit(model)">
+          <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
+          <button type="submit" class="btn btn-secondary mt-4">Submit</button>
+        </form>
+
 
       </div>
       <!--end::Card body-->
