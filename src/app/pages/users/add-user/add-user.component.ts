@@ -2,6 +2,8 @@ import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NetworkService } from 'src/app/services/network.service';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { NavService } from 'src/app/services/basic/nav.service';
+import { UtilityService } from 'src/app/services/utility.service';
 @Component({
   selector: 'app-add-user',
   templateUrl: './add-user.component.html',
@@ -13,12 +15,10 @@ export class AddUserComponent implements OnInit {
   form = new FormGroup({});
   model = {
     name: '',
-    image: '',
     email: '',
-    phone: '',
     password: '',
+    phone: '',
     role: '',
-    restaurant: '',
     status: '',
   };
 
@@ -30,7 +30,7 @@ export class AddUserComponent implements OnInit {
           key: 'name',
           type: 'input',
           props: {
-            label: 'Restaurant Name',
+            label: 'Name',
             placeholder: 'Enter restaurant name',
             required: true,
             minLength: 3,
@@ -73,7 +73,7 @@ export class AddUserComponent implements OnInit {
             label: 'Phone Number',
             placeholder: 'Enter phone number',
             type: 'tel',
-            pattern: '^\\+?[1-9]\\d{1,14}$', // Example pattern for international numbers
+            // pattern: '^\\+?[1-9]\\d{1,14}$', // Example pattern for international numbers
           },
           className: 'col-md-4 col-12',
         },
@@ -84,10 +84,13 @@ export class AddUserComponent implements OnInit {
             label: 'Role',
             placeholder: 'Select a role',
             required: true,
-            options: [],
+            options: [
+              { value: 'admin', label: 'Admin' },
+              { value: 'user', label: 'User' },
+              // Add more roles here as needed
+            ],
           },
           className: 'col-md-4 col-12',
-
         },
         {
           key: 'status',
@@ -105,12 +108,12 @@ export class AddUserComponent implements OnInit {
         },
       ],
     },
-
   ];
 
 
 
-  constructor(private fb: FormBuilder, private network: NetworkService) {
+
+  constructor(private nav: NavService, private network: NetworkService, private utility: UtilityService) {
 
   }
 
@@ -159,13 +162,21 @@ export class AddUserComponent implements OnInit {
     return [];
   }
 
-  onSubmit(model) {
-    console.log(model)
+  async onSubmit(model) {
+    console.log(model);
+    console.log('Form Submitted', this.form.valid);
     if (this.form.valid) {
-      console.log('Form Submitted', this.form.value);
-      alert('Form Submitted Successfully!');
+      // alert('Restaurant added successfully!');
+
+      let d = this.form.value;
+      const res = await this.network.addUser(d);
+      console.log(res);
+      if (res) {
+        this.nav.pop();
+      }
     } else {
-      alert('Please fill out all required fields correctly.');
+      this.utility.presentFailureToast('Please fill out all required fields correctly.');
+      //alert('Please fill out all required fields correctly.');
     }
   }
 

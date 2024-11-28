@@ -18,6 +18,9 @@ export class NetworkService {
     return this.httpPostResponse('auth/login-via-email', data, null, false, true);
   }
 
+
+  // Restaurants
+
   getRestaurants(params) {
     const query = this.serialize(params);
     return this.httpGetResponse('restaurant' + (query ? `?${query}` : ''), null, false, true);
@@ -30,6 +33,18 @@ export class NetworkService {
   addRestaurant(data) {
     return this.httpPostResponse('restaurant', data, null, false, true);
   }
+
+  // Users
+
+  getUsers(params) {
+    const query = this.serialize(params);
+    return this.httpGetResponse('user' + (query ? `?${query}` : ''), null, false, true);
+  }
+
+  addUser(data) {
+    return this.httpPostResponse('user', data, null, false, true);
+  }
+
 
   getRoles(params) {
     const query = this.serialize(params);
