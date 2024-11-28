@@ -18,9 +18,8 @@ import { KtAppFormPageModule } from 'src/app/components/layouts/kt-app-form-page
     CommonModule,
     AddRestaurantRoutingModule,
     FormsModule,
-    ReactiveFormsModule,
-    KtAppToolbarModule,
     FormlyModule,
+    ReactiveFormsModule,
     FormlyBootstrapModule,
     KtAppFormPageModule
   ],

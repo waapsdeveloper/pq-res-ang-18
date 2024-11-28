@@ -19,17 +19,24 @@ export class NetworkService {
   }
 
   getRestaurants(params) {
-    let str = this.serialize(params);
-    return this.httpGetResponse('restaurant/list' + '?' + str, null, false, true);
+    const query = this.serialize(params);
+    return this.httpGetResponse('restaurant' + (query ? `?${query}` : ''), null, false, true);
   }
 
   getRestaurantById(id) {
-    return this.httpGetResponse('restaurant/by-id', id, false, true);
+    return this.httpGetResponse(`restaurant/${id}`, null, false, true);
   }
 
   addRestaurant(data) {
-    return this.httpPostResponse('restaurant/add', data, null, false, true);
+    return this.httpPostResponse('restaurant', data, null, false, true);
   }
+
+  getRoles(params) {
+    const query = this.serialize(params);
+    return this.httpGetResponse('role' + (query ? `?${query}` : ''), null, false, true);
+  }
+
+
 
 
 

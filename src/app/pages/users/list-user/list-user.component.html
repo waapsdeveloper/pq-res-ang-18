@@ -1,1 +1,57 @@
 
+<app-kt-list-page [title]="'Users'" [addurl]="'/pages/users/add'">
+
+
+  <app-kt-app-list-page-table [columns]="columns">
+
+    <tr *ngFor="let item of list">
+
+      <td>
+        <div class="d-flex">
+          <div class="ms-5">
+            <a class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1">{{item.name}}</a>
+          </div>
+        </div>
+      </td>
+      <td>
+        <div class="d-flex">
+          <div class="text-muted fs-7 fw-bold">{{item.address}}</div>
+        </div>
+      </td>
+      <td>
+        <div class="d-flex">
+            <div class="badge badge-light-primary fw-bold me-auto px-4 py-3">{{item.status}}</div>
+        </div>
+      </td>
+
+
+
+      <!-- <ng-content></ng-content> -->
+      <!--begin::Action=-->
+      <td class="text-end d-flex flex-row justify-content-end align-items-center gap-3">
+
+        <i class="ti ti-eye" style="font-size: 24px;"></i>
+        <i class="ti ti-edit" style="font-size: 24px;"></i>
+        <i class="ti ti-trash" style="font-size: 24px;"></i>
+
+      </td>
+      <!--end::Action=-->
+      <!--begin::Checkbox-->
+      <td>
+        <div class="form-check form-check-sm form-check-custom form-check-solid">
+          <input class="form-check-input" type="checkbox" value="1" />
+        </div>
+      </td>
+      <!--end::Checkbox-->
+      <!--end::Table row-->
+    </tr>
+
+
+
+
+
+
+  </app-kt-app-list-page-table>
+
+
+</app-kt-list-page>

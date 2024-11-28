@@ -1,0 +1,47 @@
+<!--begin::Content-->
+<div id="kt_app_content" class="app-content flex-column-fluid">
+  <!--begin::Content container-->
+  <div id="kt_app_content_container" class="app-container container-fluid">
+    <!--begin::Category-->
+    <div class="card card-flush">
+      <!--begin::Card header-->
+      <div class="card-header align-items-center py-5 gap-2 gap-md-5">
+        <!--begin::Card title-->
+        <div class="card-title">
+          <app-kt-app-toolbar [title]="'Add User'"></app-kt-app-toolbar>
+
+          <!--begin::Search-->
+          <div class="d-flex align-items-center position-relative my-1">
+            <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
+
+          </div>
+          <!--end::Search-->
+        </div>
+        <!--end::Card title-->
+        <!--begin::Card toolbar-->
+        <div class="card-toolbar">
+          <!--begin::Add customer-->
+          <!-- <a class="btn btn-sm fw-bold btn-primary d-flex align-items-center gap-2"><i
+            class="ti ti-plus"></i> Save </a> -->
+          <!--end::Add customer-->
+        </div>
+        <!--end::Card toolbar-->
+      </div>
+      <!--end::Card header-->
+      <!--begin::Card body-->
+      <div class="card-body pt-0">
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit(model)">
+          <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
+          <button type="submit" class="btn btn-secondary mt-4">Submit</button>
+        </form>
+
+
+      </div>
+      <!--end::Card body-->
+    </div>
+    <!--end::Category-->
+  </div>
+  <!--end::Content container-->
+</div>
+<!--end::Content-->

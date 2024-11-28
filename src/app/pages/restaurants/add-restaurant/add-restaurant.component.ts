@@ -100,16 +100,16 @@ export class AddRestaurantComponent {
           },
           className: 'col-md-4 col-12'
         },
-        {
-          key: 'image',
-          type: 'input',
-          props: {
-            label: 'Image',
-            placeholder: 'Enter image URL',
-            type: 'file'
-          },
-          className: 'col-md-4 col-12'
-        },
+        // {
+        //   key: 'image',
+        //   type: 'input',
+        //   props: {
+        //     label: 'Image',
+        //     placeholder: 'Enter image URL',
+        //     type: 'file'
+        //   },
+        //   className: 'col-md-4 col-12'
+        // },
         // {
         //   key: 'rating',
         //   type: 'input',

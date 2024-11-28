@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NetworkService } from 'src/app/services/network.service';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -7,7 +7,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
   templateUrl: './add-user.component.html',
   styleUrl: './add-user.component.scss'
 })
-export class AddUserComponent {
+export class AddUserComponent implements OnInit {
 
 
   form = new FormGroup({});
@@ -33,20 +33,11 @@ export class AddUserComponent {
             label: 'Restaurant Name',
             placeholder: 'Enter restaurant name',
             required: true,
-            minLength: 3
+            minLength: 3,
           },
-          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
+          className: 'col-md-4 col-12', // 3 columns on md+, full width on small screens
         },
-        {
-          key: 'image',
-          type: 'input',
-          props: {
-            label: 'Image',
-            type: 'file'
-          },
-          className: 'col-md-4 col-12',
 
-        },
         {
           key: 'email',
           type: 'input',
@@ -56,21 +47,117 @@ export class AddUserComponent {
             required: true,
             type: 'email',
           },
-
           className: 'col-md-4 col-12',
         },
+        {
+          key: 'password',
+          type: 'input',
+          props: {
+            label: 'Password',
+            type: 'password',
+            placeholder: 'Enter password',
+            required: true,
+            minLength: 6,
+          },
+          className: 'col-md-4 col-12',
+        },
+      ],
+    },
+    {
+      fieldGroupClassName: 'row',
+      fieldGroup: [
+        {
+          key: 'phone',
+          type: 'input',
+          props: {
+            label: 'Phone Number',
+            placeholder: 'Enter phone number',
+            type: 'tel',
+            pattern: '^\\+?[1-9]\\d{1,14}$', // Example pattern for international numbers
+          },
+          className: 'col-md-4 col-12',
+        },
+        {
+          key: 'role',
+          type: 'select',
+          props: {
+            label: 'Role',
+            placeholder: 'Select a role',
+            required: true,
+            options: [],
+          },
+          className: 'col-md-4 col-12',
 
-      ]
-    }
+        },
+        {
+          key: 'status',
+          type: 'select',
+          props: {
+            label: 'Status',
+            placeholder: 'Select status',
+            required: true,
+            options: [
+              { value: 'active', label: 'Active' },
+              { value: 'inactive', label: 'Inactive' },
+            ],
+          },
+          className: 'col-md-4 col-12',
+        },
+      ],
+    },
 
   ];
+
 
 
   constructor(private fb: FormBuilder, private network: NetworkService) {
 
   }
 
+  ngOnInit(): void {
+    this.setRoleInForm();
+  }
 
+  async setRoleInForm() {
+    const res = await this.getRoles();
+    console.log(res);
+
+    for(var i = 0; i < this.fields.length; i++){
+      for(var j = 0; j < this.fields[i].fieldGroup.length; j++) {
+
+        let fl = this.fields[i].fieldGroup[j];
+        if(fl.key == 'role'){
+          fl.props.options = res;
+        }
+      }
+    }
+
+
+
+  }
+
+  // get roles array
+  async getRoles(): Promise<any[]> {
+    let obj = {
+      search: ''
+    }
+    const res = await this.network.getRoles(obj);
+
+    if (res && res['data']) {
+
+      let d = res['data'];
+      let dm = d['data'];
+      return dm.map( r => {
+        return {
+          value: r.id,
+          label: r.name
+        }
+      }) as any[];
+
+    }
+
+    return [];
+  }
 
   onSubmit(model) {
     console.log(model)
