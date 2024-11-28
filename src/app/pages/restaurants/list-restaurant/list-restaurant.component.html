@@ -1,14 +1,40 @@
-<div class="d-flex flex-column flex-column-fluid">
-  <!--begin::Toolbar-->
-  <!-- <app-kt-app-toolbar [title]="'Restaurant'">
-    <a [routerLink]="'/pages/restaurants/add'" class="btn btn-sm fw-bold btn-primary d-flex align-items-center gap-2"><i
-        class="ti ti-plus"></i> Create</a>
-  </app-kt-app-toolbar> -->
-  <!--end::Toolbar-->
-  <!--begin::Content-->
+<app-kt-list-page [title]="'Restaurants'" [addurl]="'/pages/restaurants/add'">
+
+
   <app-kt-app-list-page-table [columns]="columns">
-    <!--begin::Table row-->
+
     <tr *ngFor="let item of list">
+
+      <td>
+        <div class="d-flex">
+          <div class="ms-5">
+            <a class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1">{{item.name}}</a>
+          </div>
+        </div>
+      </td>
+      <td>
+        <div class="d-flex">
+          <div class="text-muted fs-7 fw-bold">{{item.address}}</div>
+        </div>
+      </td>
+      <td>
+        <div class="d-flex">
+            <div class="badge badge-light-primary fw-bold me-auto px-4 py-3">{{item.status}}</div>
+        </div>
+      </td>
+
+
+
+      <!-- <ng-content></ng-content> -->
+      <!--begin::Action=-->
+      <td class="text-end d-flex flex-row justify-content-end align-items-center gap-3">
+
+        <i class="ti ti-eye" style="font-size: 24px;"></i>
+        <i class="ti ti-edit" style="font-size: 24px;"></i>
+        <i class="ti ti-trash" style="font-size: 24px;"></i>
+
+      </td>
+      <!--end::Action=-->
       <!--begin::Checkbox-->
       <td>
         <div class="form-check form-check-sm form-check-custom form-check-solid">
@@ -16,36 +42,15 @@
         </div>
       </td>
       <!--end::Checkbox-->
-      <td>
-        <div class="d-flex">
-          <!--begin::Thumbnail-->
-          <a class="symbol symbol-50px">
-            <span class="symbol-label" [ngStyle]="{'background-image': 'url( {{item.image_url}} )'}"></span>
-          </a>
-          <!--end::Thumbnail-->
-          <div class="ms-5">
-            <a class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1">{{item.name}}</a>
-            <div class="text-muted fs-7 fw-bold">{{item.address}}</div>
-          </div>
-        </div>
-      </td>
-      <td>
-        <div class="text-muted fs-7 ">
-          {{item.website}} <br />
-          {{item.phone}}
-        </div>
-      </td>
-      <!--begin::Action=-->
-      <td class="text-end d-flex flex-row justify-content-end gap-3">
-
-        <button class="btn btn-sm text-center d-flex flex-row justify-content-center align-items-center px-0">Edit</button>
-        <button class="btn btn-sm text-center d-flex flex-row justify-content-center align-items-center px-0">Delete</button>
-
-      </td>
-      <!--end::Action=-->
+      <!--end::Table row-->
     </tr>
-    <!--end::Table row-->
+
+
+
+
+
+
   </app-kt-app-list-page-table>
 
-  <!--end::Content-->
-</div>
+
+</app-kt-list-page>

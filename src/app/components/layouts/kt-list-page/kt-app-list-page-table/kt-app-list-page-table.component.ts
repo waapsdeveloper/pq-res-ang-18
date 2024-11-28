@@ -7,5 +7,5 @@ import { Component, Input } from '@angular/core';
 })
 export class KtAppListPageTableComponent {
 
-  @Input('columns') columns: any[] = []
+  @Input('columns') columns: any[] = [];
 }

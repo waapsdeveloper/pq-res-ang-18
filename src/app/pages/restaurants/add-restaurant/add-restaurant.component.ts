@@ -41,17 +41,7 @@ export class AddRestaurantComponent {
           },
           className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
         },
-        {
-          key: 'image',
-          type: 'input',
-          props: {
-            label: 'Image',
-            placeholder: 'Enter image URL',
-            required: true,
-            type: 'file'
-          },
-          className: 'col-md-4 col-12'
-        },
+
         {
           key: 'address',
           type: 'input',
@@ -68,8 +58,7 @@ export class AddRestaurantComponent {
           props: {
             label: 'Phone Number',
             placeholder: 'Enter phone number',
-            required: true,
-            pattern: /^[0-9]{10,15}$/
+            // pattern: /^[0-9]{10,15}$/
           },
           className: 'col-md-4 col-12'
         },
@@ -79,7 +68,6 @@ export class AddRestaurantComponent {
           props: {
             label: 'Email Address',
             placeholder: 'Enter email',
-            required: true,
             type: 'email'
           },
           className: 'col-md-4 col-12'
@@ -100,7 +88,6 @@ export class AddRestaurantComponent {
           props: {
             label: 'Opening Hours',
             placeholder: 'Enter opening hours',
-            required: true
           },
           className: 'col-md-4 col-12'
         },
@@ -114,24 +101,33 @@ export class AddRestaurantComponent {
           className: 'col-md-4 col-12'
         },
         {
-          key: 'rating',
+          key: 'image',
           type: 'input',
           props: {
-            label: 'Rating',
-            placeholder: 'Enter rating (0-5)',
-            type: 'number',
-            min: 0,
-            max: 5,
-            pattern: /^\d+(\.\d{1,2})?$/
+            label: 'Image',
+            placeholder: 'Enter image URL',
+            type: 'file'
           },
           className: 'col-md-4 col-12'
         },
+        // {
+        //   key: 'rating',
+        //   type: 'input',
+        //   props: {
+        //     label: 'Rating',
+        //     placeholder: 'Enter rating (0-5)',
+        //     type: 'number',
+        //     min: 0,
+        //     max: 5,
+        //     pattern: /^\d+(\.\d{1,2})?$/
+        //   },
+        //   className: 'col-md-4 col-12'
+        // },
         {
           key: 'status',
           type: 'select',
           props: {
             label: 'Status',
-            required: true,
             options: [
               { value: 'active', label: 'Active' },
               { value: 'inactive', label: 'Inactive' }

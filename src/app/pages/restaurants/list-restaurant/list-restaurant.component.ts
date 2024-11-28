@@ -8,15 +8,21 @@ import { NetworkService } from 'src/app/services/network.service';
   styleUrl: './list-restaurant.component.scss'
 })
 export class ListRestaurantComponent {
+
+  title = 'Restaurants';
+  addurl = '/pages/restaurants/add'
   search = '';
   page = 1;
   lastPage = -1;
   total = 0;
+  perpage = 10;
   list: any[] = [];
+  rows: any[] = [];
 
   columns: any[] = [
     'Name',
-    'Meta Data'
+    'Address',
+    'Status'
   ]
 
   constructor(
@@ -33,7 +39,8 @@ export class ListRestaurantComponent {
   async getList(search = '', page = 1): Promise<any> {
     let obj = {
       search: search,
-      page: page
+      page: page,
+      perpage: this.perpage
     };
 
     const res = await this.network.getRestaurants(obj);
@@ -50,6 +57,7 @@ export class ListRestaurantComponent {
         this.list = [...this.list, ...d.data];
       }
 
+
     }
 
     return res;
@@ -65,9 +73,18 @@ export class ListRestaurantComponent {
 
   loadMore() {
     // this.visibleRows += 5; // Load 5 more rows
+    if(this.page < this.lastPage){
+      this.getList(this.search, this.page + 1);
+    }
+
+
   }
 
   openDetails(id) {
     this.nav.push('/pages/restaurants/view/' + id);
+  }
+
+  onChangePerPage($event){
+    this.getList('', 1);
   }
 }

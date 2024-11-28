@@ -43,7 +43,7 @@ import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
     SweetAlert2Module.forRoot(),
     ReactiveFormsModule,
     FormlyModule.forRoot(),
-    FormlyBootstrapModule
+    FormlyBootstrapModule,
   ],
   providers: [NavigationItem, provideHttpClient()],
   bootstrap: [AppComponent]

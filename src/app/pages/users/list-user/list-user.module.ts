@@ -5,7 +5,7 @@ import { ListUserRoutingModule } from './list-user-routing.module';
 import { ListUserComponent } from './list-user.component';
 import { FormsModule } from '@angular/forms';
 import { KtAppToolbarModule } from 'src/app/components/kt-app-toolbar/kt-app-toolbar.module';
-import { KtAppListPageTableModule } from 'src/app/components/kt-app-list-page-table/kt-app-list-page-table.module';
+import { KtAppListPageTableModule } from 'src/app/components/layouts/kt-list-page/kt-app-list-page-table/kt-app-list-page-table.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 

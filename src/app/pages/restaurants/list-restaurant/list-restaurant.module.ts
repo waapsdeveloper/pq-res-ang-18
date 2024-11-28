@@ -5,8 +5,8 @@ import { ListRestaurantRoutingModule } from './list-restaurant-routing.module';
 import { ListRestaurantComponent } from './list-restaurant.component';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { KtAppToolbarModule } from 'src/app/components/kt-app-toolbar/kt-app-toolbar.module';
-import { KtAppListPageTableModule } from 'src/app/components/kt-app-list-page-table/kt-app-list-page-table.module';
+import { KtAppListPageTableModule } from 'src/app/components/layouts/kt-list-page/kt-app-list-page-table/kt-app-list-page-table.module';
+import { KtListPageModule } from 'src/app/components/layouts/kt-list-page/kt-list-page.module';
 
 
 @NgModule({
@@ -16,10 +16,11 @@ import { KtAppListPageTableModule } from 'src/app/components/kt-app-list-page-ta
   imports: [
     CommonModule,
     ListRestaurantRoutingModule,
-    KtAppToolbarModule,
-    KtAppListPageTableModule,
     FormsModule,
     NgbModule,
+    KtListPageModule,
+    KtAppListPageTableModule,
+
 ]
 })
 export class ListRestaurantModule { }

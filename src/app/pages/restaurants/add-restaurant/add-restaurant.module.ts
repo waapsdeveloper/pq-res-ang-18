@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { KtAppToolbarModule } from 'src/app/components/kt-app-toolbar/kt-app-toolbar.module';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
+import { KtAppFormPageModule } from 'src/app/components/layouts/kt-app-form-page/kt-app-form-page.module';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
     ReactiveFormsModule,
     KtAppToolbarModule,
     FormlyModule,
-    FormlyBootstrapModule
+    FormlyBootstrapModule,
+    KtAppFormPageModule
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
