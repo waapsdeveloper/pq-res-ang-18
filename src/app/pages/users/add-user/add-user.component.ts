@@ -31,7 +31,7 @@ export class AddUserComponent implements OnInit {
           type: 'input',
           props: {
             label: 'Name',
-            placeholder: 'Enter restaurant name',
+            placeholder: 'Enter user name',
             required: true,
             minLength: 3,
           },

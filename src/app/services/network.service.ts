@@ -52,6 +52,17 @@ export class NetworkService {
   }
 
 
+  // Categories
+
+  getCategories(params) {
+    const query = this.serialize(params);
+    return this.httpGetResponse('category' + (query ? `?${query}` : ''), null, false, true);
+  }
+
+  addCategory(data) {
+    return this.httpPostResponse('category', data, null, false, true);
+  }
+
 
 
 
