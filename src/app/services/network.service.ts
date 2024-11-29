@@ -14,10 +14,10 @@ export class NetworkService {
   ) { }
 
   // Authentication Related APIs
+
   loginViaEmail(data) {
     return this.httpPostResponse('auth/login-via-email', data, null, false, true);
   }
-
 
   // Restaurants
 
@@ -104,6 +104,8 @@ export class NetworkService {
   removeTable(id) {
     return this.httpDeleteResponse('rtable', id, false, true);
   }
+
+  //
 
 
   serialize = (obj: any) => {

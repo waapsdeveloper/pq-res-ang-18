@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NavService } from 'src/app/services/basic/nav.service';
 
 @Component({
   selector: 'app-btop-header',
@@ -6,6 +7,10 @@ import { Component } from '@angular/core';
   styleUrl: './btop-header.component.scss'
 })
 export class BtopHeaderComponent {
+
+  constructor(private nav: NavService){
+
+  }
 
   menuItems = [
     { label: 'Dashboard', link: '/pages/dashboard', icon: 'ti ti-layout-dashboard' },
@@ -19,5 +24,10 @@ export class BtopHeaderComponent {
     { label: 'Reports', link: '/pages/users', icon: 'ti ti-clipboard-text' },
     { label: 'Customers', link: '/pages/users', icon: 'ti ti-user-plus' },
   ];
+
+  logout(){
+    localStorage.removeItem('token');
+    this.nav.push('/')
+  }
 
 }
