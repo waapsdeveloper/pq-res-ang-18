@@ -35,7 +35,7 @@ export class AddRtablesComponent {
             required: true,
             minLength: 3,
           },
-          className: 'col-md-4 col-12', // 3 columns on md+, full width on small screens
+          className: 'col-md-6 col-12', // 3 columns on md+, full width on small screens
         },
         {
           key: 'location',
@@ -45,23 +45,23 @@ export class AddRtablesComponent {
             placeholder: 'Near west wall',
             required: true,
           },
-          className: 'col-md-4 col-12',
+          className: 'col-md-6 col-12',
         },
-        {
-          key: 'restaurant',
-          type: 'select',
-          props: {
-            label: 'Restaurant',
-            placeholder: 'Select a restaurant',
-            required: true,
-            options: [
-              // Example options
-              { value: 'restaurant1', label: 'Restaurant 1' },
-              { value: 'restaurant2', label: 'Restaurant 2' },
-            ],
-          },
-          className: 'col-md-4 col-12',
-        },
+        // {
+        //   key: 'restaurant',
+        //   type: 'select',
+        //   props: {
+        //     label: 'Restaurant',
+        //     placeholder: 'Select a restaurant',
+        //     required: true,
+        //     options: [
+        //       // Example options
+        //       { value: 'restaurant1', label: 'Restaurant 1' },
+        //       { value: 'restaurant2', label: 'Restaurant 2' },
+        //     ],
+        //   },
+        //   className: 'col-md-4 col-12',
+        // },
       ],
     },
     {
@@ -156,7 +156,7 @@ export class AddRtablesComponent {
       // alert('Restaurant added successfully!');
 
       let d = this.form.value;
-      const res = await this.network.addUser(d);
+      const res = await this.network.addTable(d);
       console.log(res);
       if (res) {
         this.nav.pop();

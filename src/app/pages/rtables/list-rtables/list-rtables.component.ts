@@ -41,7 +41,7 @@ export class ListRtablesComponent {
       perpage: this.perpage
     };
 
-    const res = await this.network.getUsers(obj);
+    const res = await this.network.getTables(obj);
     if(res.data){
 
       let d = res.data;
@@ -69,7 +69,7 @@ export class ListRtablesComponent {
   async deleteRow(index: number) {
     let item = this.list[index];
     if(item){
-      await this.network.removeUser(item.id);
+      await this.network.removeTable(item.id);
     }
     this.list.splice(index, 1);
   }

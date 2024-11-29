@@ -90,7 +90,20 @@ export class NetworkService {
     return this.httpDeleteResponse('product', id, false, true);
   }
 
+  // Tables
 
+  getTables(params) {
+    const query = this.serialize(params);
+    return this.httpGetResponse('rtable' + (query ? `?${query}` : ''), null, false, true);
+  }
+
+  addTable(data) {
+    return this.httpPostResponse('rtable', data, null, false, true);
+  }
+
+  removeTable(id) {
+    return this.httpDeleteResponse('rtable', id, false, true);
+  }
 
 
   serialize = (obj: any) => {
