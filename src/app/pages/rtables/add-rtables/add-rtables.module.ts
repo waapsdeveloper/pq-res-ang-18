@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { AddProductRoutingModule } from './add-product-routing.module';
-import { AddProductComponent } from './add-product.component';
+import { AddRtablesRoutingModule } from './add-rtables-routing.module';
+import { AddRtablesComponent } from './add-rtables.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyModule } from '@ngx-formly/core';
@@ -11,11 +11,11 @@ import { KtAppFormPageModule } from 'src/app/components/layouts/kt-app-form-page
 
 @NgModule({
   declarations: [
-    AddProductComponent
+    AddRtablesComponent
   ],
   imports: [
     CommonModule,
-    AddProductRoutingModule,
+    AddRtablesRoutingModule,
     FormsModule,
     FormlyModule,
     ReactiveFormsModule,
@@ -23,4 +23,4 @@ import { KtAppFormPageModule } from 'src/app/components/layouts/kt-app-form-page
     KtAppFormPageModule
   ]
 })
-export class AddProductModule { }
+export class AddRtablesModule { }

@@ -3,7 +3,7 @@
 
   <app-kt-app-list-page-table [columns]="columns">
 
-    <tr *ngFor="let item of list">
+    <tr *ngFor="let item of list; let i = index">
 
       <td>
         <div class="d-flex">
@@ -14,7 +14,7 @@
       </td>
       <td>
         <div class="d-flex">
-          <div class="text-muted fs-7 fw-bold">{{item.category}}</div>
+          <div class="text-muted fs-7 fw-bold">{{item.category ? item.category.name : ''}}</div>
         </div>
       </td>
       <td>
@@ -31,7 +31,7 @@
 
         <i class="ti ti-eye" style="font-size: 24px;"></i>
         <i class="ti ti-edit" style="font-size: 24px;"></i>
-        <i class="ti ti-trash" style="font-size: 24px;"></i>
+        <i class="ti ti-trash" style="font-size: 24px;" (click)="deleteRow(i)"></i>
 
       </td>
       <!--end::Action=-->

@@ -13,7 +13,7 @@ export class BtopHeaderComponent {
     { label: 'Users', link: '/pages/users', icon: 'ti ti-users' },
     { label: 'Categories', link: '/pages/categories', icon: 'ti ti-drag-drop-2' },
     { label: 'All Menu', link: '/pages/products', icon: 'ti ti-artboard' },
-    { label: 'Tables', link: '/pages/users', icon: 'ti ti-table' },
+    { label: 'Tables', link: '/pages/tables', icon: 'ti ti-table' },
     { label: 'Orders', link: '/pages/users', icon: 'ti ti-truck-delivery' },
     { label: 'Invoices', link: '/pages/users', icon: 'ti ti-file-dollar' },
     { label: 'Reports', link: '/pages/users', icon: 'ti ti-clipboard-text' },

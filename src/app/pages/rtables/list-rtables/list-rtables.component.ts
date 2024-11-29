@@ -3,14 +3,13 @@ import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
 
 @Component({
-  selector: 'app-list-user',
-  templateUrl: './list-user.component.html',
-  styleUrl: './list-user.component.scss'
+  selector: 'app-list-rtables',
+  templateUrl: './list-rtables.component.html',
+  styleUrl: './list-rtables.component.scss'
 })
-export class ListUserComponent {
-
-  title = 'Users';
-  addurl = '/pages/users/add'
+export class ListRtablesComponent {
+  title = 'Tables';
+  addurl = '/pages/tables/add'
   search = '';
   page = 1;
   lastPage = -1;
@@ -19,8 +18,8 @@ export class ListUserComponent {
   list: any[] = [];
 
   columns: any[] = [
-    'Name',
-    'Email',
+    'Identifier',
+    'Location',
     'Status'
   ]
 
@@ -91,6 +90,5 @@ export class ListUserComponent {
   onChangePerPage($event){
     this.getList('', 1);
   }
-
 
 }

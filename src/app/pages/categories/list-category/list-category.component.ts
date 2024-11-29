@@ -66,16 +66,18 @@ export class ListCategoryComponent {
 
   }
 
-  deleteRow(index: number) {
-
+  async deleteRow(index: number) {
+    let item = this.list[index];
+    if(item){
+      await this.network.removeCategory(item.id);
+    }
+    this.list.splice(index, 1);
   }
 
   loadMore() {
     if(this.page < this.lastPage){
       this.getList(this.search, this.page + 1);
     }
-
-
   }
 
   openDetails(id) {

@@ -44,6 +44,10 @@ const routes: Routes = [
     path: 'products',
     loadChildren: () => import('./products/products.module').then((m) => m.ProductsModule)
   },
+  {
+    path: 'tables',
+    loadChildren: () => import('./rtables/rtables.module').then((m) => m.RtablesModule)
+  },
 
 
   // {
