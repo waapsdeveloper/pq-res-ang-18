@@ -40,6 +40,10 @@ export class NetworkService {
 
   // Users
 
+  getUserByToken() {
+    return this.httpGetResponse('auth-user', null, false);
+  }
+
   getUsers(params) {
     const query = this.serialize(params);
     return this.httpGetResponse('user' + (query ? `?${query}` : ''), null, false, true);
