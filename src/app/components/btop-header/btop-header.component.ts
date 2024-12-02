@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavService } from 'src/app/services/basic/nav.service';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-btop-header',
@@ -7,10 +8,6 @@ import { NavService } from 'src/app/services/basic/nav.service';
   styleUrl: './btop-header.component.scss'
 })
 export class BtopHeaderComponent {
-
-  constructor(private nav: NavService){
-
-  }
 
   menuItems = [
     { label: 'Dashboard', link: '/pages/dashboard', icon: 'ti ti-layout-dashboard' },
@@ -24,6 +21,23 @@ export class BtopHeaderComponent {
     { label: 'Reports', link: '/pages/users', icon: 'ti ti-clipboard-text' },
     { label: 'Customers', link: '/pages/users', icon: 'ti ti-user-plus' },
   ];
+
+  constructor(private nav: NavService, private users: UsersService){
+    this.initialize();
+  }
+
+
+  initialize(){
+    // filter menu
+    const u = this.users.getUser()
+
+    console.log("u", u)
+
+    if(u.role_id != 1){
+      this.menuItems = this.menuItems.filter( x => x.label != 'Restaurants');
+    }
+  }
+
 
   logout(){
     localStorage.removeItem('token');
