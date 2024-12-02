@@ -36,6 +36,10 @@ export class BtopHeaderComponent {
     if(u.role_id != 1){
       this.menuItems = this.menuItems.filter( x => x.label != 'Restaurants');
     }
+    
+    if(u.role_id != 2){
+      this.menuItems = this.menuItems.filter( x => x.label != 'Users');
+    }
   }
 
 
