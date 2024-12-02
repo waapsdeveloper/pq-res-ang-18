@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-list-category',
@@ -17,6 +18,7 @@ export class ListCategoryComponent {
   total = 0;
   perpage = 10;
   list: any[] = [];
+  showEdit: boolean = false;
 
   columns: any[] = [
     'Name',
@@ -26,13 +28,19 @@ export class ListCategoryComponent {
 
   constructor(
     private nav: NavService,
-    private network: NetworkService
+    private network: NetworkService,
+    private users: UsersService
   ) {
     this.initialize();
   }
 
   initialize() {
     this.getList('', 1);
+    const u = this.users.getUser()
+    if(u.role_id == 1 || u.role_id == 2 ){
+      this.showEdit = true;
+      
+    }
   }
 
   async getList(search = '', page = 1): Promise<any> {

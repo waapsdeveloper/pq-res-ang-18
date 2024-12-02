@@ -30,6 +30,7 @@ export class BtopHeaderComponent {
   initialize(){
     // filter menu
     const u = this.users.getUser()
+   
 
     console.log("u", u)
 
