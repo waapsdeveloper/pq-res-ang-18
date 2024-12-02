@@ -1,5 +1,6 @@
 import { Component, ViewChild, ElementRef  } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NetworkService } from 'src/app/services/network.service';
 
 @Component({
   selector: 'app-add-user',
@@ -11,7 +12,9 @@ export class AddUserComponent {
   @ViewChild('imageInputPlaceholder') imageInputPlaceholder!: ElementRef;
   bForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  restaurants: any[] = [];
+
+  constructor(private fb: FormBuilder, private network: NetworkService) {
     this.bForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       image: ['', [Validators.required]],
@@ -19,9 +22,18 @@ export class AddUserComponent {
       phone: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       role: ['', Validators.required],
+      restaurant: ['', Validators.required],
       status: ['', Validators.required],
-
     });
+
+    this.initialize();
+  }
+
+  async initialize(){
+
+    // get restaurant list
+    const res = await this
+
   }
 
   onSubmit() {
