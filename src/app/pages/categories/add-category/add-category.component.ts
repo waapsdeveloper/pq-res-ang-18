@@ -1,60 +1,132 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormlyFieldConfig } from '@ngx-formly/core';
+import { NavService } from 'src/app/services/basic/nav.service';
+import { NetworkService } from 'src/app/services/network.service';
+import { UtilityService } from 'src/app/services/utility.service';
 
 @Component({
   selector: 'app-add-category',
   templateUrl: './add-category.component.html',
   styleUrl: './add-category.component.scss'
 })
-export class AddCategoryComponent {
+export class AddCategoryComponent implements OnInit {
 
-  @ViewChild('imageInputPlaceholder') imageInputPlaceholder!: ElementRef;
-  bForm: FormGroup;
+  form = new FormGroup({});
+  model = {
+    name: '',
+    category: '',
+    status: 'active',
+  };
 
-  constructor(private fb: FormBuilder) {
-    this.bForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
-      image: ['', [Validators.required]],
-      description: ['', [Validators.required]],
-      status: ['', Validators.required],
+  fields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: 'row', // Bootstrap row
+      fieldGroup: [
+        {
+          key: 'name',
+          type: 'input',
+          props: {
+            label: 'Category Name',
+            placeholder: 'Enter category name',
+            required: true,
+            minLength: 3
+          },
+          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
+        },
+        {
+          key: 'category',
+          type: 'select',
+          props: {
+            label: 'category',
+            placeholder: 'Select a parent category',
+            options: [
+            ],
+          },
+          className: 'col-md-4 col-12',
+        },
+        {
+          key: 'status',
+          type: 'select',
+          props: {
+            label: 'Status',
+            options: [
+              { value: 'active', label: 'Active' },
+              { value: 'inactive', label: 'Inactive' }
+            ]
+          },
+          className: 'col-md-4 col-12'
+        },
+      ],
+    },
+  ];
 
-    });
+  constructor(
+    private fb: FormBuilder,
+    private network: NetworkService,
+    private nav: NavService,
+    private utility: UtilityService
+  ) {
   }
 
-  onSubmit() {
-    if (this.bForm.valid) {
-      console.log('Form Submitted', this.bForm.value);
-      alert('Form Submitted Successfully!');
-    } else {
-      alert('Please fill out all required fields correctly.');
+  ngOnInit(): void {
+    this.setCategoriesInForm();
+  }
+
+  async setCategoriesInForm(){
+    const res = await this.getCategories();
+    console.log(res);
+
+    for(var i = 0; i < this.fields.length; i++){
+      for(var j = 0; j < this.fields[i].fieldGroup.length; j++) {
+
+        let fl = this.fields[i].fieldGroup[j];
+        if(fl.key == 'category'){
+          fl.props.options = res;
+        }
+      }
     }
   }
 
-  // Method to handle file input change
-  onFileSelected(event: Event): void {
-    const fileInput = event.target as HTMLInputElement;
+  async getCategories(): Promise<any[]> {
+    let obj = {
+      search: '',
+      perpage: 500
+    }
+    const res = await this.network.getCategories(obj);
 
-    if (fileInput.files && fileInput.files[0]) {
-      const file = fileInput.files[0];
-      const reader = new FileReader();
+    if (res && res['data']) {
 
-      // Read file as Base64 string
-      reader.onload = () => {
-        const base64String = reader.result as string;
-
-        // Update the form control with the Base64 string
-        this.bForm.patchValue({ image: base64String });
-
-        if (this.imageInputPlaceholder) {
-          this.imageInputPlaceholder.nativeElement.style.backgroundImage = `url(${base64String})`;
+      let d = res['data'];
+      let dm = d['data'];
+      return dm.map( r => {
+        return {
+          value: r.id,
+          label: r.name
         }
-      };
+      }) as any[];
 
-      reader.onerror = (error) => {
-        console.error('Error reading file:', error);
-      };
+    }
 
-      reader.readAsDataURL(file); // Convert file to Base64
+    return [];
+  }
+
+
+  async onSubmit(model) {
+    console.log(model);
+    console.log('Form Submitted', this.form.valid);
+    if (this.form.valid) {
+      // alert('Restaurant added successfully!');
+
+      let d = this.form.value;
+      const res = await this.network.addCategory(d);
+      console.log(res);
+      if (res) {
+        this.nav.pop();
+      }
+    } else {
+      this.utility.presentFailureToast('Please fill out all required fields correctly.');
+      //alert('Please fill out all required fields correctly.');
     }
   }
 

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NavService } from 'src/app/services/basic/nav.service';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-splash',
@@ -10,7 +12,10 @@ export class SplashComponent implements OnInit {
 
   loading = false;
 
-  constructor(private nav: NavService){
+  constructor(
+    private usersService: UsersService,
+    private router: Router,
+  ){
 
   }
 
@@ -18,13 +23,22 @@ export class SplashComponent implements OnInit {
     this.initialize();
   }
 
-  initialize(){
+  async initialize(){
     this.loading = true;
 
-    setTimeout( () => {
-      this.loading = false;
-      this.nav.push('/pages/login')
-    }, 3000)
+    // setTimeout( () => {
+    //   this.loading = false;
+    //   this.nav.push('/pages/login')
+    // }, 3000)
+
+    let res = await this.usersService.getLoginUserFromApi();
+    if (res) {
+      this.router.navigate(['/pages/pre-splash']);
+    } else {
+      this.router.navigate(['/pages/login']); // Redirect to role-base if no user is logged in
+    }
+
+    this.loading = false;
 
   }
 

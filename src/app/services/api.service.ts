@@ -8,8 +8,8 @@ export class ApiService {
   url: string;
 
   constructor(public http: HttpClient) {
-    this.url = 'http://127.0.0.1:8000/api/admin';
-    // this.url = 'http://resq.waapsdeveloper.co/api';
+    // this.url = 'http://127.0.0.1:8000/api/admin';
+    this.url = 'http://resq.waapsdeveloper.co/api/admin';
 
   }
 

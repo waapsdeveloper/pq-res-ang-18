@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { NetworkService } from './network.service';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +8,7 @@ export class UsersService {
 
   private _user;
 
-  constructor() { }
+  constructor(private network: NetworkService, ) { }
 
   getUser() {
     if (!this._user) {
@@ -25,6 +26,24 @@ export class UsersService {
     this._user = user;
 
     return user;
+  }
+
+  async getLoginUserFromApi() {
+
+    return new Promise(async (resolve) => {
+      let token = localStorage.getItem('token');
+      if (!token) {
+        resolve(false);
+        return;
+      }
+      try {
+        let res = await this.network.getUserByToken();
+        this.setUser(res.user);
+        resolve(res.user);
+      } catch (err) {
+        resolve(false);
+      }
+    });
   }
 
 }

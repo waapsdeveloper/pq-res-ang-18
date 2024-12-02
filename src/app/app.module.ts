@@ -19,7 +19,12 @@ import { ConfigurationComponent } from './theme/layout/admin/configuration/confi
 import { GuestComponent } from './theme/layout/guest/guest.component';
 
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-import { provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi   } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FormlyModule } from '@ngx-formly/core';
+import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
+import { RouteReuseStrategy } from '@angular/router';
+import { InterceptorService } from './services/interceptor.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,9 +42,15 @@ import { provideHttpClient } from '@angular/common/http';
     AppRoutingModule,
     SharedModule,
     BrowserAnimationsModule,
-    SweetAlert2Module.forRoot()
+    SweetAlert2Module.forRoot(),
+    ReactiveFormsModule,
+    FormlyModule.forRoot(),
+    FormlyBootstrapModule,
   ],
-  providers: [NavigationItem, provideHttpClient()],
+  providers: [NavigationItem, provideHttpClient(withInterceptorsFromDi()),
+
+    { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

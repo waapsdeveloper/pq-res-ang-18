@@ -1,5 +1,6 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { UtilityService } from 'src/app/services/utility.service';
@@ -10,8 +11,133 @@ import { UtilityService } from 'src/app/services/utility.service';
   styleUrl: './add-restaurant.component.scss'
 })
 export class AddRestaurantComponent {
-  @ViewChild('imageInputPlaceholder') imageInputPlaceholder!: ElementRef;
-  restaurantForm: FormGroup;
+
+  form = new FormGroup({});
+  model = {
+    name: 'Restaurant one',
+    image: '',
+    address: '',
+    phone: '8957985674',
+    email: 'restaurant1@mail.com',
+    website: '',
+    opening_hours: '',
+    description: '',
+    rating: Math.floor(Math.random() * 6),
+    status: 'active',
+  };
+
+  fields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: 'row', // Bootstrap row
+      fieldGroup: [
+        {
+          key: 'name',
+          type: 'input',
+          props: {
+            label: 'Restaurant Name',
+            placeholder: 'Enter restaurant name',
+            required: true,
+            minLength: 3
+          },
+          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
+        },
+
+        {
+          key: 'address',
+          type: 'input',
+          props: {
+            label: 'Address',
+            placeholder: 'Enter address',
+            required: true
+          },
+          className: 'col-md-4 col-12'
+        },
+        {
+          key: 'phone',
+          type: 'input',
+          props: {
+            label: 'Phone Number',
+            placeholder: 'Enter phone number',
+            // pattern: /^[0-9]{10,15}$/
+          },
+          className: 'col-md-4 col-12'
+        },
+        {
+          key: 'email',
+          type: 'input',
+          props: {
+            label: 'Email Address',
+            placeholder: 'Enter email',
+            type: 'email'
+          },
+          className: 'col-md-4 col-12'
+        },
+        {
+          key: 'website',
+          type: 'input',
+          props: {
+            label: 'Website',
+            placeholder: 'Enter website URL',
+            pattern: /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/
+          },
+          className: 'col-md-4 col-12'
+        },
+        {
+          key: 'opening_hours',
+          type: 'input',
+          props: {
+            label: 'Opening Hours',
+            placeholder: 'Enter opening hours',
+          },
+          className: 'col-md-4 col-12'
+        },
+        {
+          key: 'description',
+          type: 'textarea',
+          props: {
+            label: 'Description',
+            placeholder: 'Enter description'
+          },
+          className: 'col-md-4 col-12'
+        },
+        // {
+        //   key: 'image',
+        //   type: 'input',
+        //   props: {
+        //     label: 'Image',
+        //     placeholder: 'Enter image URL',
+        //     type: 'file'
+        //   },
+        //   className: 'col-md-4 col-12'
+        // },
+        // {
+        //   key: 'rating',
+        //   type: 'input',
+        //   props: {
+        //     label: 'Rating',
+        //     placeholder: 'Enter rating (0-5)',
+        //     type: 'number',
+        //     min: 0,
+        //     max: 5,
+        //     pattern: /^\d+(\.\d{1,2})?$/
+        //   },
+        //   className: 'col-md-4 col-12'
+        // },
+        {
+          key: 'status',
+          type: 'select',
+          props: {
+            label: 'Status',
+            options: [
+              { value: 'active', label: 'Active' },
+              { value: 'inactive', label: 'Inactive' }
+            ]
+          },
+          className: 'col-md-4 col-12'
+        },
+      ],
+    },
+  ];
 
   constructor(
     private fb: FormBuilder,
@@ -19,43 +145,17 @@ export class AddRestaurantComponent {
     private nav: NavService,
     private utility: UtilityService
   ) {
-    this.restaurantForm = this.fb.group({
-      name: ['Restaurant one', [Validators.required, Validators.minLength(3)]],
-      image: ['', [Validators.required]],
-      address: ['', [Validators.required]],
-      phone: [
-        '8957985674',
-        [
-          Validators.pattern(/^[0-9]{10,15}$/) // Adjust pattern for valid phone number formats
-        ]
-      ],
-      email: ['restaurant1@mail.com', [Validators.email]],
-      website: [
-        '',
-        [
-          Validators.pattern(/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/) // Basic URL validation
-        ]
-      ],
-      opening_hours: ['', Validators.required],
-      description: [''],
-      rating: [
-        Math.floor(Math.random() * 6),
-        [
-          Validators.min(0),
-          Validators.max(5),
-          Validators.pattern(/^\d+(\.\d{1,2})?$/) // Validates a number with up to 2 decimal places
-        ]
-      ],
-      status: ['active', Validators.required]
-    });
   }
 
-  async onSubmit() {
-    console.log('Form Submitted', this.restaurantForm.value);
-    if (this.restaurantForm.valid) {
+
+
+  async onSubmit(model) {
+    console.log(model);
+    console.log('Form Submitted', this.form.valid);
+    if (this.form.valid) {
       // alert('Restaurant added successfully!');
 
-      let d = this.restaurantForm.value;
+      let d = this.form.value;
       const res = await this.network.addRestaurant(d);
       console.log(res);
       if (res) {
@@ -67,31 +167,4 @@ export class AddRestaurantComponent {
     }
   }
 
-  // Method to handle file input change
-  onFileSelected(event: Event): void {
-    const fileInput = event.target as HTMLInputElement;
-
-    if (fileInput.files && fileInput.files[0]) {
-      const file = fileInput.files[0];
-      const reader = new FileReader();
-
-      // Read file as Base64 string
-      reader.onload = () => {
-        const base64String = reader.result as string;
-
-        // Update the form control with the Base64 string
-        this.restaurantForm.patchValue({ image: base64String });
-
-        if (this.imageInputPlaceholder) {
-          this.imageInputPlaceholder.nativeElement.style.backgroundImage = `url(${base64String})`;
-        }
-      };
-
-      reader.onerror = (error) => {
-        console.error('Error reading file:', error);
-      };
-
-      reader.readAsDataURL(file); // Convert file to Base64
-    }
-  }
 }

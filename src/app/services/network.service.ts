@@ -14,23 +14,102 @@ export class NetworkService {
   ) { }
 
   // Authentication Related APIs
+
   loginViaEmail(data) {
     return this.httpPostResponse('auth/login-via-email', data, null, false, true);
   }
 
+  // Restaurants
+
   getRestaurants(params) {
-    let str = this.serialize(params);
-    return this.httpGetResponse('restaurant/list' + '?' + str, null, false, true);
+    const query = this.serialize(params);
+    return this.httpGetResponse('restaurant' + (query ? `?${query}` : ''), null, false, true);
   }
 
   getRestaurantById(id) {
-    return this.httpGetResponse('restaurant/by-id', id, false, true);
+    return this.httpGetResponse(`restaurant/${id}`, null, false, true);
   }
 
   addRestaurant(data) {
-    return this.httpPostResponse('restaurant/add', data, null, false, true);
+    return this.httpPostResponse('restaurant', data, null, false, true);
   }
 
+  removeRestaurant(id) {
+    return this.httpDeleteResponse('restaurant', id, false, true);
+  }
+
+  // Users
+
+  getUserByToken() {
+    return this.httpGetResponse('auth-user', null, false);
+  }
+
+  getUsers(params) {
+    const query = this.serialize(params);
+    return this.httpGetResponse('user' + (query ? `?${query}` : ''), null, false, true);
+  }
+
+  addUser(data) {
+    return this.httpPostResponse('user', data, null, false, true);
+  }
+
+  removeUser(id) {
+    return this.httpDeleteResponse('user', id, false, true);
+  }
+
+  getRoles(params) {
+    const query = this.serialize(params);
+    return this.httpGetResponse('role' + (query ? `?${query}` : ''), null, false, true);
+  }
+
+
+  // Categories
+
+  getCategories(params) {
+    const query = this.serialize(params);
+    return this.httpGetResponse('category' + (query ? `?${query}` : ''), null, false, true);
+  }
+
+  addCategory(data) {
+    return this.httpPostResponse('category', data, null, false, true);
+  }
+
+  removeCategory(id) {
+    return this.httpDeleteResponse('category', id, false, true);
+  }
+
+
+  // Products
+
+  getProducts(params) {
+    const query = this.serialize(params);
+    return this.httpGetResponse('product' + (query ? `?${query}` : ''), null, false, true);
+  }
+
+  addProduct(data) {
+    return this.httpPostResponse('product', data, null, false, true);
+  }
+
+  removeProduct(id) {
+    return this.httpDeleteResponse('product', id, false, true);
+  }
+
+  // Tables
+
+  getTables(params) {
+    const query = this.serialize(params);
+    return this.httpGetResponse('rtable' + (query ? `?${query}` : ''), null, false, true);
+  }
+
+  addTable(data) {
+    return this.httpPostResponse('rtable', data, null, false, true);
+  }
+
+  removeTable(id) {
+    return this.httpDeleteResponse('rtable', id, false, true);
+  }
+
+  //
 
 
   serialize = (obj: any) => {
@@ -103,17 +182,22 @@ export class NetworkService {
   }
 
   // Function for DELETE method
-  httpDeleteResponse(key: any, showloader = true) {
-    return new Promise<any>((resolve, reject) => {
-      if (showloader === true) {
-        this.utility.showLoader();
-      }
-      this.api.delete(key).subscribe((res: any) => {
-
-        this.utility.hideLoader();
-        resolve(res);
-      });
-    });
+  httpDeleteResponse(
+    key: any,
+    id = null,
+    showloader = true,
+    showError = true,
+    contenttype = 'application/json'
+  ) {
+    return this.httpResponse(
+      'delete',
+      key,
+      {},
+      id,
+      showloader,
+      showError,
+      contenttype
+    );
   }
 
   httpResponse(
@@ -131,7 +215,9 @@ export class NetworkService {
       }
       const url = key + (id ? '/' + id : '');
       const seq =
-        type === 'get' ? this.api.get(url, {}) : this.api.post(url, data);
+        type === 'get' ? this.api.get(url, {}) :
+        type === 'delete' ? this.api.delete(url, {}) :
+        this.api.post(url, data);
 
       seq.subscribe({
         next: (res: any) => {
