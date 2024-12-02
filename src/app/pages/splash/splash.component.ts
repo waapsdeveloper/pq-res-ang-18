@@ -32,7 +32,6 @@ export class SplashComponent implements OnInit {
     // }, 3000)
 
     let res = await this.usersService.getLoginUserFromApi();
-    console.log(res)
     if (res) {
       this.router.navigate(['/pages/pre-splash']);
     } else {
