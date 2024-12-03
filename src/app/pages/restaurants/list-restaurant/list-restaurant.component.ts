@@ -49,6 +49,7 @@ export class ListRestaurantComponent {
       this.page = d.current_page;
       this.lastPage = d.last_page;
       this.total = d.total;
+      console.log(res);
 
       if(this.page == 1){
         this.list = d.data;

@@ -7,7 +7,7 @@
   </app-kt-app-toolbar> -->
   <!--end::Toolbar-->
   <!--begin::Content-->
-  <app-kt-app-list-page-table [columns]="columns" [title]="'Users'" [addurl]="'/pages/users/add'">
+  <app-kt-app-list-page-table [columns]="columns" [title]="'Users'" [addurl]="'/pages/users/add'"  [currentPage]="page" [totalPages]="total">
     <!--begin::Table row-->
     <tr *ngFor="let item of list">
       <!--begin::Checkbox-->
