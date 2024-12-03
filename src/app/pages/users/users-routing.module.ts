@@ -24,7 +24,7 @@ const routes: Routes = [
       },
       {
         path: 'view/:id',
-        loadChildren: () => import('./view-users/view-users.module').then((m) => m.ViewUsersModule)
+        loadChildren: () => import('./view-user/view-user.module').then((m) => m.ViewUserModule)
       }
     ]
   }

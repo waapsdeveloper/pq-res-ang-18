@@ -21,6 +21,10 @@ const routes: Routes = [
       {
         path: 'add',
         loadChildren: () => import('./add-category/add-category.module').then((m) => m.AddCategoryModule)
+      },
+      {
+        path: 'view/:id',
+        loadChildren: () => import('./view-categories/view-categories.module').then((m) => m.ViewCategoriesModule)
       }
     ]
   }

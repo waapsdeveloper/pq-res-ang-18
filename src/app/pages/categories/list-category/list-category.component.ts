@@ -90,7 +90,7 @@ export class ListCategoryComponent {
 
   openDetails(i) {
     let item = this.list[i];
-    this.nav.push('/pages/category/view/' + item.id);
+    this.nav.push('/pages/categories/view/' + item.id);
   }
 
   onChangePerPage($event){

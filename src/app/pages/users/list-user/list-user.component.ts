@@ -86,7 +86,7 @@ export class ListUserComponent {
 
   openDetails(i) {
     let item = this.list[i];
-    this.nav.push('/pages/user/view/' + item.id);
+    this.nav.push('/pages/users/view/' + item.id);
   }
 
   onChangePerPage($event){
