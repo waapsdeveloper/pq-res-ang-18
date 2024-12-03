@@ -94,9 +94,11 @@ export class ListRtablesComponent {
 
   }
 
-  openDetails(id) {
-    this.nav.push('/pages/restaurants/view/' + id);
+  openDetails(i) {
+    let item = this.list[i];
+    this.nav.push('/pages/tables/view/' + item.id);
   }
+
 
   onChangePerPage($event){
     this.getList('', 1);

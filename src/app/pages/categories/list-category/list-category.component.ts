@@ -88,8 +88,9 @@ export class ListCategoryComponent {
     }
   }
 
-  openDetails(id) {
-    this.nav.push('/pages/restaurants/view/' + id);
+  openDetails(i) {
+    let item = this.list[i];
+    this.nav.push('/pages/categories/view/' + item.id);
   }
 
   onChangePerPage($event){

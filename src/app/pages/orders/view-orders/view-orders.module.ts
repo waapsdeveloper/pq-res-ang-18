@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ViewUserRoutingModule } from './view-user-routing.module';
-import { ViewUserComponent } from './view-user.component';
+import { ViewOrdersRoutingModule } from './view-orders-routing.module';
+import { ViewOrdersComponent } from './view-orders.component';
 import { KtListDetailPageModule } from 'src/app/components/layouts/kt-list-detail-page/kt-list-detail-page.module';
 
 
 @NgModule({
   declarations: [
-    ViewUserComponent
+    ViewOrdersComponent
   ],
   imports: [
     CommonModule,
-    ViewUserRoutingModule,
+    ViewOrdersRoutingModule,
     KtListDetailPageModule
 
   ]
 })
-export class ViewUserModule { }
+export class ViewOrdersModule { }

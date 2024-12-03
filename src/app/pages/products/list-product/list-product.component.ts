@@ -92,8 +92,10 @@ export class ListProductComponent {
     }
   }
 
-  openDetails(id) {
-    this.nav.push('/pages/products/view/' + id);
+ 
+  openDetails(i) {
+    let item = this.list[i];
+    this.nav.push('/pages/products/view/' + item.id);
   }
 
   onChangePerPage($event){

@@ -20,6 +20,10 @@ const routes: Routes = [
       {
         path: 'add',
         loadChildren: () => import('./add-rtables/add-rtables.module').then((m) => m.AddRtablesModule)
+      },
+      {
+        path: 'view/:id',
+        loadChildren: () => import('./view-tables/view-tables.module').then((m) => m.ViewTablesModule)
       }
     ]
   }

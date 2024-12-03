@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ViewUserComponent } from './view-user.component';
+import { ViewCategoriesComponent } from './view-categories.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: ViewUserComponent,
+    component: ViewCategoriesComponent,
     data: { breadcrumb: 'View' },
 
   }
@@ -15,4 +15,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ViewUserRoutingModule { }
+export class ViewCategoriesRoutingModule { }
