@@ -17,10 +17,10 @@ const routes: Routes = [
         path: 'list',
         loadChildren: () => import('./list-orders/list-orders.module').then((m) => m.ListOrdersModule),
       },
-      // {
-      //   path: 'add',
-      //   loadChildren: () => import('./add-rtables/add-rtables.module').then((m) => m.AddRtablesModule)
-      // }
+      {
+        path: 'add',
+        loadChildren: () => import('./add-orders/add-orders.module').then((m) => m.AddOrdersModule)
+      }
     ]
   }
 ];

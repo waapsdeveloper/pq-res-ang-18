@@ -9,8 +9,8 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrl: './list-orders.component.scss'
 })
 export class ListOrdersComponent {
-  title = 'Tables';
-  addurl = '/pages/tables/add';
+  title = 'Orders';
+  addurl = '/pages/orders/add';
   search = '';
   page = 1;
   lastPage = -1;
