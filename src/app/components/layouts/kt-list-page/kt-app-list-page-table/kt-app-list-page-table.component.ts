@@ -10,4 +10,6 @@ export class KtAppListPageTableComponent {
   role_id: number = 1;
 
   @Input('columns') columns: any[] = [];
+  @Input('totalPages') totalPages: number = 0;
+  @Input('currentPage') currentPage: number = 0;
 }
