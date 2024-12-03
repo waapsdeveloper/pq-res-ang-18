@@ -11,43 +11,25 @@ import { NetworkService } from 'src/app/services/network.service';
 })
 export class ViewRestaurantComponent {
 
-  restaurantId;
-  restaurant;
+  itemId;
+  item;
 
-  constructor(private nav: NavService, private network: NetworkService, public router: Router, public activatedRoute: ActivatedRoute, public grest: GlobalRestaurantService){
+  constructor(private nav: NavService, private network: NetworkService, public router: Router, public activatedRoute: ActivatedRoute){
     this.initialize();
   }
 
   async initialize(){
 
     const rew = await this.activatedRoute.snapshot.params;
-    this.restaurantId = rew['id'];
+    this.itemId = rew['id'];
 
-    const res = await this.network.getRestaurantById(this.restaurantId);
+    const res = await this.network.getRestaurantById(this.itemId);
     console.log(res);
-    this.restaurant = res.restaurant;
-    this.grest.restaurant = res.restaurant;
+    this.item = res.restaurant;
+
 
 
   }
-
-  switchTo(link){
-
-    switch(link){
-
-      case 'overview':
-        this.nav.push('pages/restaurants/view/' + this.restaurantId + '/overview')
-        break;
-      case 'menu':
-        this.nav.push('pages/restaurants/view/' + this.restaurantId + '/menu')
-        break;
-
-
-
-    }
-
-  }
-
 
 
 

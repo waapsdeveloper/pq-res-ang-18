@@ -1,0 +1,50 @@
+<div class="d-flex flex-column flex-column-fluid">
+
+  <!--begin::Content-->
+  <div id="kt_app_content" class="app-content flex-column-fluid">
+    <!--begin::Content container-->
+    <div id="kt_app_content_container" class="app-container container-fluid">
+      <!--begin::Category-->
+      <div class="card card-flush">
+        <!--begin::Card header-->
+        <div class="card-header align-items-center py-5 gap-2 gap-md-5">
+          <!--begin::Card title-->
+          <div class="d-flex flex-row gap-2">
+            <div class="card-title">
+              <app-kt-app-toolbar [title]="title"></app-kt-app-toolbar>
+            </div>
+            <div class="d-flex flex-row flex-wrap justify-content-start card-toolbar filters-outer">
+              <!--begin::Search-->
+
+
+
+
+              <!--end::Search-->
+
+            </div>
+          </div>
+
+          <!--end::Card title-->
+          <!--begin::Card toolbar-->
+          <div class="card-toolbar">
+            <!--begin::Add customer-->
+            <!--end::Add customer-->
+          </div>
+          <!--end::Card toolbar-->
+        </div>
+
+        <!--end::Card header-->
+        <!--begin::Card body-->
+        <div class="card-body pt-0">
+
+          <ng-content></ng-content>
+
+        </div>
+        <!--end::Card body-->
+      </div>
+      <!--end::Category-->
+    </div>
+    <!--end::Content container-->
+  </div>
+  <!--end::Content-->
+</div>

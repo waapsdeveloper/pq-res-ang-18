@@ -82,8 +82,9 @@ export class ListRestaurantComponent {
 
   }
 
-  openDetails(id) {
-    this.nav.push('/pages/restaurants/view/' + id);
+  openDetails(i) {
+    let item = this.list[i];
+    this.nav.push('/pages/restaurants/view/' + item.id);
   }
 
   onChangePerPage($event){
