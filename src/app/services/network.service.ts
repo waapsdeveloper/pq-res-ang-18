@@ -48,6 +48,9 @@ export class NetworkService {
     const query = this.serialize(params);
     return this.httpGetResponse('user' + (query ? `?${query}` : ''), null, false, true);
   }
+  getUsersById(id) {
+    return this.httpGetResponse(`user/${id}`, null, false, true);
+  }
 
   addUser(data) {
     return this.httpPostResponse('user', data, null, false, true);
@@ -70,6 +73,10 @@ export class NetworkService {
     return this.httpGetResponse('category' + (query ? `?${query}` : ''), null, false, true);
   }
 
+  getCategoriesById(id) {
+    return this.httpGetResponse(`category/${id}`, null, false, true);
+  }
+
   addCategory(data) {
     return this.httpPostResponse('category', data, null, false, true);
   }
@@ -86,6 +93,10 @@ export class NetworkService {
     return this.httpGetResponse('product' + (query ? `?${query}` : ''), null, false, true);
   }
 
+  getProductsById(id) {
+    return this.httpGetResponse(`product/${id}`, null, false, true);
+  }
+
   addProduct(data) {
     return this.httpPostResponse('product', data, null, false, true);
   }
@@ -99,6 +110,9 @@ export class NetworkService {
   getTables(params) {
     const query = this.serialize(params);
     return this.httpGetResponse('rtable' + (query ? `?${query}` : ''), null, false, true);
+  }
+  getTablesById(id) {
+    return this.httpGetResponse(`rtable/${id}`, null, false, true);
   }
 
   addTable(data) {

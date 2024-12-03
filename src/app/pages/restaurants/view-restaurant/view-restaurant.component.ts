@@ -14,13 +14,15 @@ export class ViewRestaurantComponent {
   itemId;
   item;
 
-  constructor(private nav: NavService, private network: NetworkService, public router: Router, public activatedRoute: ActivatedRoute){
+  constructor(private nav: NavService, private network: NetworkService, public router: Router, public activatedRoute: ActivatedRoute) {
     this.initialize();
   }
 
-  async initialize(){
+  async initialize() {
 
     const rew = await this.activatedRoute.snapshot.params;
+
+
     this.itemId = rew['id'];
 
     const res = await this.network.getRestaurantById(this.itemId);
