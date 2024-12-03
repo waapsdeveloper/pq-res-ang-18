@@ -12,4 +12,9 @@ export class KtAppListPageTableComponent {
   @Input('columns') columns: any[] = [];
   @Input('totalPages') totalPages: number = 0;
   @Input('currentPage') currentPage: number = 0;
+
+  getPages(): number[] {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
+
 }

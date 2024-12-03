@@ -26,8 +26,7 @@
 <!--end::Table-->
 <div class="row">
   <div class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start">
-    <div class="dataTables_length" id="kt_table_length"><label><select
-          name="kt_table_length"
+    <div class="dataTables_length" id="kt_table_length"><label><select name="kt_table_length"
           class="form-select form-select-sm form-select-solid">
           <option value="10">10</option>
           <option value="25">25</option>
@@ -36,14 +35,11 @@
         </select></label></div>
   </div>
   <div class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
-    <div class="dataTables_paginate paging_simple_numbers d-flex flex-row gap-3 align-items-center" id="kt_table_paginate">
-      <label>Total Pages: {{totalPages}} | Current Page</label><select [(ngModel)]="currentPage"
-        name="kt_table_length"
-        class="form-select form-select-sm form-select-solid">
-        <option value="10">10</option>
-        <option value="25">25</option>
-        <option value="50">50</option>
-        <option value="100">100</option>
+    <div class="dataTables_paginate paging_simple_numbers d-flex flex-row gap-3 align-items-center"
+      id="kt_table_paginate">
+      <label>Total Pages: {{totalPages}} | Current Page</label>
+      <select [(ngModel)]="currentPage" name="kt_table_length" class="form-select form-select-sm form-select-solid">
+        <option *ngFor="let p of getPages()" [value]="p">{{p}}</option>
       </select>
     </div>
   </div>
