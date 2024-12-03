@@ -7,6 +7,9 @@ import { UtilityService } from './utility.service';
   providedIn: 'root',
 })
 export class NetworkService {
+  getUserById(itemId: any) {
+    throw new Error('Method not implemented.');
+  }
   constructor(
     public api: ApiService,
     public router: Router,
@@ -216,8 +219,8 @@ export class NetworkService {
       const url = key + (id ? '/' + id : '');
       const seq =
         type === 'get' ? this.api.get(url, {}) :
-        type === 'delete' ? this.api.delete(url, {}) :
-        this.api.post(url, data);
+          type === 'delete' ? this.api.delete(url, {}) :
+            this.api.post(url, data);
 
       seq.subscribe({
         next: (res: any) => {
@@ -233,7 +236,7 @@ export class NetworkService {
 
           this.utility.hideLoader();
 
-          if(showError == true){
+          if (showError == true) {
             this.utility.presentFailureToast(err.error.message);
           }
           if (err.status == 401) {
