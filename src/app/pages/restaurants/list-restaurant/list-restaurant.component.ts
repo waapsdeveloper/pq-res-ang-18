@@ -51,11 +51,11 @@ export class ListRestaurantComponent {
       this.total = d.total;
       console.log(res);
 
-      if(this.page == 1){
+      // if(this.page == 1){
         this.list = d.data;
-      } else {
-        this.list = [...this.list, ...d.data];
-      }
+      // } else {
+      //   this.list = [...this.list, ...d.data];
+      // }
 
 
     }
@@ -88,5 +88,9 @@ export class ListRestaurantComponent {
 
   onChangePerPage($event){
     this.getList('', 1);
+  }
+
+  pageChange($event){
+    this.getList(this.search, $event);
   }
 }

@@ -38,7 +38,7 @@
     <div class="dataTables_paginate paging_simple_numbers d-flex flex-row gap-3 align-items-center"
       id="kt_table_paginate">
       <label>Total Pages: {{totalPages}} | Current Page</label>
-      <select [(ngModel)]="currentPage" name="kt_table_length" class="form-select form-select-sm form-select-solid">
+      <select [(ngModel)]="currentPage" (change)="pageChange.emit(currentPage)" name="kt_table_length" class="form-select form-select-sm form-select-solid">
         <option *ngFor="let p of getPages()" [value]="p">{{p}}</option>
       </select>
     </div>

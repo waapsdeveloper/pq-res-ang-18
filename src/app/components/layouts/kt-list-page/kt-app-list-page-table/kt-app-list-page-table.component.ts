@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-kt-app-list-page-table',
@@ -13,8 +13,12 @@ export class KtAppListPageTableComponent {
   @Input('totalPages') totalPages: number = 0;
   @Input('currentPage') currentPage: number = 0;
 
+  @Output('pageChange') pageChange: EventEmitter<number> = new EventEmitter<number>();
+
   getPages(): number[] {
     return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
+
+
 
 }
