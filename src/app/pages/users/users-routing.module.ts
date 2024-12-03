@@ -21,6 +21,10 @@ const routes: Routes = [
       {
         path: 'add',
         loadChildren: () => import('./add-user/add-user.module').then((m) => m.AddUserModule)
+      },
+      {
+        path: 'view/:id',
+        loadChildren: () => import('./view-user/view-user.module').then((m) => m.ViewUserModule)
       }
     ]
   }
