@@ -2,7 +2,7 @@
 <app-kt-list-page [title]="'Tables'" [addurl]="'/pages/tables/add'">
 
 
-  <app-kt-app-list-page-table [columns]="columns">
+  <app-kt-app-list-page-table [columns]="columns"  [currentPage]="page" [totalPages]="total">
 
     <tr *ngFor="let item of list; let i = index">
 
