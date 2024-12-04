@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NetworkService } from 'src/app/services/network.service';
+import { AddOrderService } from '../add-order.service';
 
 @Component({
   selector: 'app-add-order-products',
@@ -8,24 +9,24 @@ import { NetworkService } from 'src/app/services/network.service';
 })
 export class AddOrderProductsComponent {
 
-  products: any[] = [];
 
-  constructor(private network: NetworkService){
-    this.initialize()
+
+  constructor(public orderService: AddOrderService) {
+
   }
 
-  async initialize(){
-    let obj = {
-      category: 1,
-      perpage: 500
-    }
-    const res = await this.network.getProducts(obj);
+  async initialize() {
 
-    if(res.data){
-      let d = res.data.data;
-      console.log(d)
-      this.products = d;
-    }
 
+  }
+
+  setSelectedToggle(product) {
+    product.selected = !product.selected;
+    this.orderService.updateProductInSelectedProducts(product);
+  }
+
+  isProductSelected(productId: any): boolean {
+    // Check if a product with the given ID exists in the selected_products array
+    return this.orderService.selected_products.some(product => product.id === productId);
   }
 }

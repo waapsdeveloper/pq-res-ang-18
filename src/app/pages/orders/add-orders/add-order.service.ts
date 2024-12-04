@@ -1,0 +1,73 @@
+import { Injectable } from '@angular/core';
+import { NetworkService } from 'src/app/services/network.service';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AddOrderService {
+
+  categories: any[] = [];
+  products: any[] = [];
+
+  selectedCategory = null;
+  selected_products: any[] = [];
+
+
+
+
+  constructor(private network: NetworkService,) {
+    this.initialize()
+  }
+
+  async initialize() {
+    let obj = {
+      perpage: 500,
+      page: 1
+    }
+    const res = await this.network.getCategories(obj)
+    // console.log(res)
+
+    if (res.data) {
+      let d = res.data.data;
+      console.log(d)
+      this.categories = d;
+    }
+
+  }
+
+  async updateProductsBySelectedCategory(category) {
+
+    let obj = {
+      category_id: category.id,
+      perpage: 500
+    }
+    const res = await this.network.getProducts(obj);
+
+    if (res.data) {
+      let d = res.data.data;
+      console.log(d)
+      this.products = d;
+    }
+
+  }
+
+  async updateProductInSelectedProducts(product: any) {
+    if (product.selected) {
+      // Check if the product already exists in selected_products
+      const exists = this.selected_products.some(p => p.id === product.id);
+      if (!exists) {
+        // Add the product if it doesn't exist
+        this.selected_products.push(product);
+      }
+    } else {
+      // If product.selected is false, remove the product from selected_products
+      this.selected_products = this.selected_products.filter(p => p.id !== product.id);
+    }
+  }
+
+
+
+
+
+
+}

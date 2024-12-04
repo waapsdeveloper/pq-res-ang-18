@@ -1,6 +1,6 @@
 <div class="category-items-outer">
 
-  <div class="nav-item" *ngFor="let item of categories" (click)="setActiveCategory(item)">
+  <div class="nav-item" *ngFor="let item of orderService.categories" (click)="setActiveCategory(item)">
     <!--begin::Link-->
     <a class="nav-link btn btn-flex flex-column overflow-hidden p-5 single-category-item">
 

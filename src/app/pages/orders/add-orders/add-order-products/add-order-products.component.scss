@@ -1,11 +1,20 @@
 .product-card-outer {
   position: relative;
+  cursor: pointer;
 }
 
-.price-location {
+.check-icon-outer {
   position: absolute;
-  bottom: 0;
-  right: 0;
+  bottom: 10px;
+  right: 10px;
+  i {
+    font-size: 24px;
+    color: purple;
+  }
+}
+
+.product-card-outer.selected {
+  background: rgba(122, 12, 144, 0.1);
 }
 
 

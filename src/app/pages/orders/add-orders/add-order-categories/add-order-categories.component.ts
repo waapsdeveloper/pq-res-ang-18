@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NetworkService } from 'src/app/services/network.service';
+import { AddOrderService } from '../add-order.service';
 
 @Component({
   selector: 'app-add-order-categories',
@@ -8,31 +8,18 @@ import { NetworkService } from 'src/app/services/network.service';
 })
 export class AddOrderCategoriesComponent {
 
-  categories: any[] = [];
-
-  constructor(private network: NetworkService){
-    this.initialize()
-  }
-
-  async initialize(){
-    let obj = {
-      perpage: 500,
-      page: 1
-    }
-    const res = await this.network.getCategories(obj)
-    // console.log(res)
-
-    if(res.data){
-      let d = res.data.data;
-      console.log(d)
-      this.categories = d;
-    }
+  constructor(public orderService: AddOrderService){
+    
   }
 
   setActiveCategory(item){
 
-    for(var i = 0; i < this.categories.length; i++){
-      this.categories[i]["active"] = this.categories[i]["name"] == item["name"];
+    for(var i = 0; i < this.orderService.categories.length; i++){
+      this.orderService.categories[i]["active"] = this.orderService.categories[i]["name"] == item["name"];
+
+      if(this.orderService.categories[i]["name"] == item["name"]){
+        this.orderService.updateProductsBySelectedCategory(item)
+      }
     }
   }
 
