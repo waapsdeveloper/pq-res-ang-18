@@ -1,0 +1,17 @@
+.category-items-outer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.single-category-item {
+  background-color: transparent;
+  border: 1px solid var(--kt-primary) !important;
+  transition-duration: 1ms;
+  position: relative;
+}
+
+.single-category-item.active {
+  border: 1px solid var(--kt-border-dashed-color);
+}

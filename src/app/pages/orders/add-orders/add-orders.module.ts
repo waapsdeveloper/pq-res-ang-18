@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { KtAppFormPageModule } from 'src/app/components/layouts/kt-app-form-page/kt-app-form-page.module';
+import { AddOrderCategoriesModule } from './add-order-categories/add-order-categories.module';
 
 
 @NgModule({
@@ -20,7 +21,9 @@ import { KtAppFormPageModule } from 'src/app/components/layouts/kt-app-form-page
     FormlyModule,
     ReactiveFormsModule,
     FormlyBootstrapModule,
-    KtAppFormPageModule
+    KtAppFormPageModule,
+    // order items modules
+    AddOrderCategoriesModule
   ]
 })
 export class AddOrdersModule { }
