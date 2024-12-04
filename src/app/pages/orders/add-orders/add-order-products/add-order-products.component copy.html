@@ -1,0 +1,146 @@
+
+<!--begin::Table container-->
+<div class="table-responsive">
+  <!--begin::Table-->
+  <table class="table table-row-dashed align-middle gs-0 gy-3 my-0">
+    <!--begin::Table head-->
+    <thead>
+      <tr class="fs-7 fw-bold text-gray-400 border-bottom-0">
+        <th class="p-0 pb-3 min-w-150px text-start">PRODUCT</th>
+        <th class="p-0 pb-3 min-w-100px text-end pe-13">PRICE</th>
+        <th class="p-0 pb-3 w-50px text-end">ACTION</th>
+      </tr>
+    </thead>
+    <!--end::Table head-->
+    <!--begin::Table body-->
+    <tbody>
+      <tr *ngFor="let product of products; let i = index">
+        <td>
+          <div class="d-flex align-items-center">
+            <!-- <div class="symbol symbol-50px me-3">
+              <img src="assets/media/avatars/300-3.jpg" class="" alt="" />
+            </div> -->
+            <div class="d-flex justify-content-start flex-column">
+              <a class="text-gray-800 fw-bold text-hover-primary mb-1 fs-4">{{product.name}}</a>
+              <!-- <span class="text-gray-400 fw-semibold d-block fs-7">Haiti</span> -->
+            </div>
+          </div>
+        </td>
+        <td class="text-end pe-13">
+          <span class="text-gray-600 fw-bold fs-6">78.34%</span>
+        </td>
+        <td class="text-end pe-0">
+          <div id="kt_table_widget_16_chart_1_1" class="h-50px mt-n8 pe-7" data-kt-chart-color="success"></div>
+        </td>
+        <td class="text-end">
+          <a href="#" class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary w-30px h-30px">
+            <!--begin::Svg Icon | path: icons/duotune/arrows/arr001.svg-->
+            <span class="svg-icon svg-icon-5 svg-icon-gray-700">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14.4 11H3C2.4 11 2 11.4 2 12C2 12.6 2.4 13 3 13H14.4V11Z" fill="currentColor" />
+                <path opacity="0.3" d="M14.4 20V4L21.7 11.3C22.1 11.7 22.1 12.3 21.7 12.7L14.4 20Z" fill="currentColor" />
+              </svg>
+            </span>
+            <!--end::Svg Icon-->
+          </a>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="d-flex align-items-center">
+            <div class="symbol symbol-50px me-3">
+              <img src="assets/media/avatars/300-2.jpg" class="" alt="" />
+            </div>
+            <div class="d-flex justify-content-start flex-column">
+              <a href="../../demo1/dist/pages/user-profile/overview.html" class="text-gray-800 fw-bold text-hover-primary mb-1 fs-6">Jane Cooper</a>
+              <span class="text-gray-400 fw-semibold d-block fs-7">Monaco</span>
+            </div>
+          </div>
+        </td>
+        <td class="text-end pe-13">
+          <span class="text-gray-600 fw-bold fs-6">63.83%</span>
+        </td>
+        <td class="text-end pe-0">
+          <div id="kt_table_widget_16_chart_1_2" class="h-50px mt-n8 pe-7" data-kt-chart-color="danger"></div>
+        </td>
+        <td class="text-end">
+          <a href="#" class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary w-30px h-30px">
+            <!--begin::Svg Icon | path: icons/duotune/arrows/arr001.svg-->
+            <span class="svg-icon svg-icon-5 svg-icon-gray-700">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14.4 11H3C2.4 11 2 11.4 2 12C2 12.6 2.4 13 3 13H14.4V11Z" fill="currentColor" />
+                <path opacity="0.3" d="M14.4 20V4L21.7 11.3C22.1 11.7 22.1 12.3 21.7 12.7L14.4 20Z" fill="currentColor" />
+              </svg>
+            </span>
+            <!--end::Svg Icon-->
+          </a>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="d-flex align-items-center">
+            <div class="symbol symbol-50px me-3">
+              <img src="assets/media/avatars/300-9.jpg" class="" alt="" />
+            </div>
+            <div class="d-flex justify-content-start flex-column">
+              <a href="../../demo1/dist/pages/user-profile/overview.html" class="text-gray-800 fw-bold text-hover-primary mb-1 fs-6">Jacob Jones</a>
+              <span class="text-gray-400 fw-semibold d-block fs-7">Poland</span>
+            </div>
+          </div>
+        </td>
+        <td class="text-end pe-13">
+          <span class="text-gray-600 fw-bold fs-6">92.56%</span>
+        </td>
+        <td class="text-end pe-0">
+          <div id="kt_table_widget_16_chart_1_3" class="h-50px mt-n8 pe-7" data-kt-chart-color="success"></div>
+        </td>
+        <td class="text-end">
+          <a href="#" class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary w-30px h-30px">
+            <!--begin::Svg Icon | path: icons/duotune/arrows/arr001.svg-->
+            <span class="svg-icon svg-icon-5 svg-icon-gray-700">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14.4 11H3C2.4 11 2 11.4 2 12C2 12.6 2.4 13 3 13H14.4V11Z" fill="currentColor" />
+                <path opacity="0.3" d="M14.4 20V4L21.7 11.3C22.1 11.7 22.1 12.3 21.7 12.7L14.4 20Z" fill="currentColor" />
+              </svg>
+            </span>
+            <!--end::Svg Icon-->
+          </a>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="d-flex align-items-center">
+            <div class="symbol symbol-50px me-3">
+              <img src="assets/media/avatars/300-7.jpg" class="" alt="" />
+            </div>
+            <div class="d-flex justify-content-start flex-column">
+              <a href="../../demo1/dist/pages/user-profile/overview.html" class="text-gray-800 fw-bold text-hover-primary mb-1 fs-6">Cody Fishers</a>
+              <span class="text-gray-400 fw-semibold d-block fs-7">Mexico</span>
+            </div>
+          </div>
+        </td>
+        <td class="text-end pe-13">
+          <span class="text-gray-600 fw-bold fs-6">63.08%</span>
+        </td>
+        <td class="text-end pe-0">
+          <div id="kt_table_widget_16_chart_1_4" class="h-50px mt-n8 pe-7" data-kt-chart-color="success"></div>
+        </td>
+        <td class="text-end">
+          <a href="#" class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary w-30px h-30px">
+            <!--begin::Svg Icon | path: icons/duotune/arrows/arr001.svg-->
+            <span class="svg-icon svg-icon-5 svg-icon-gray-700">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14.4 11H3C2.4 11 2 11.4 2 12C2 12.6 2.4 13 3 13H14.4V11Z" fill="currentColor" />
+                <path opacity="0.3" d="M14.4 20V4L21.7 11.3C22.1 11.7 22.1 12.3 21.7 12.7L14.4 20Z" fill="currentColor" />
+              </svg>
+            </span>
+            <!--end::Svg Icon-->
+          </a>
+        </td>
+      </tr>
+    </tbody>
+    <!--end::Table body-->
+  </table>
+  <!--end::Table-->
+</div>
+<!--end::Table container-->
