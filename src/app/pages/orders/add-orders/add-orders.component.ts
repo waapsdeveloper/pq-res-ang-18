@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AddOrderService } from './add-order.service';
+import { NavService } from 'src/app/services/basic/nav.service';
 
 @Component({
   selector: 'app-add-orders',
@@ -10,7 +11,7 @@ export class AddOrdersComponent {
 
 
 
-  constructor(public orderService: AddOrderService ) {
+  constructor(public nav: NavService, public orderService: AddOrderService ) {
 
   }
 
@@ -18,17 +19,13 @@ export class AddOrdersComponent {
 
   }
 
-  async getTotalOfProductCost(){
 
-    let cost = 0;
-    // const c = await this.orderService.totalOfProductCost()
-    // console.log(c);
-    return cost;
-  }
-
-
-  async onSubmit(model) {
-
+  async onSubmit($event) {
+    const res = await this.orderService.submitOrder();
+    if(res){
+      this.nav.pop();
+    }
+    
   }
 
 }

@@ -126,7 +126,11 @@ export class NetworkService {
     return this.httpDeleteResponse('rtable', id, false, true);
   }
 
-  //
+  // Orders
+  addOrder(data) {
+    return this.httpPostResponse('order', data, null, false, true);
+  }
+
 
 
   serialize = (obj: any) => {

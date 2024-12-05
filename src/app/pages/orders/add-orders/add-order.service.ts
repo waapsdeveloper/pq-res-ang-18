@@ -72,17 +72,49 @@ export class AddOrderService {
     this.totalOfProductCost();
   }
 
-  async removeProductInSelectedProducts(index){
+  async removeProductInSelectedProducts(index) {
     this.selected_products.splice(index, 1);
     this.totalOfProductCost();
   }
 
-  async totalOfProductCost(){
-    let cost = this.selected_products.reduce( (prev,next) => {
+  async totalOfProductCost() {
+    let cost = this.selected_products.reduce((prev, next) => {
       return prev + (next.quantity * next.price)
     }, 0);
 
     this.totalCost = cost;
+
+  }
+
+  async submitOrder() {
+
+
+    let prodObj = this.selected_products.map( item => {
+      return {
+        "product_id": item.id,
+        "quantity": item.quantity
+      }
+    });
+
+    if(prodObj.length == 0){
+      return false;
+    }
+
+    console.log("order submitted");
+    let obj = {
+      "customer_name": "Walk-In Customer",
+      "customer_phone": "XXXXXXXX",
+      "products": prodObj
+    }
+
+    const res = await this.network.addOrder(obj);
+    console.log(res);
+
+    this.selected_products = [];
+
+    return true;
+
+
 
   }
 
