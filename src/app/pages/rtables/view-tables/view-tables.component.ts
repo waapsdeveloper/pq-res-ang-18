@@ -29,7 +29,7 @@ export class ViewTablesComponent {
     console.log(res);
     
 
-    this.item = res.table;
+    this.item = res.Rtable;
     
 
 
