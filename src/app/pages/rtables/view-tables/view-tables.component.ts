@@ -26,6 +26,9 @@ export class ViewTablesComponent {
 
 
     const res = await this.network.getTablesById(this.itemId);
+    console.log(res);
+    
+
     this.item = res.table;
     
 
