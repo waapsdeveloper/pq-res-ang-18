@@ -1,4 +1,4 @@
-<app-kt-list-page [title]="'Restaurants'" [addurl]="'/pages/restaurants/add'">
+<app-kt-list-page [title]="'Restaurants'" [addurl]="'/pages/restaurants/add'" (onSearch)="onSearch($event)">
 
 
   <app-kt-app-list-page-table [columns]="columns" [currentPage]="page" [totalPages]="lastPage" (pageChange)="pageChange($event)">

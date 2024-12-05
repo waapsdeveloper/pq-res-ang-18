@@ -99,9 +99,18 @@ export class ListRtablesComponent {
     this.nav.push('/pages/tables/view/' + item.id);
   }
 
-
   onChangePerPage($event){
     this.getList('', 1);
+  }
+
+  pageChange($event){
+    this.getList(this.search, $event);
+  }
+
+  onSearch($event){
+    console.log($event);
+    this.search = $event;
+    this.getList(this.search, 1);
   }
 
 }
