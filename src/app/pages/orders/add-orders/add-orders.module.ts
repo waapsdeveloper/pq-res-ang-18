@@ -9,6 +9,7 @@ import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { KtAppFormPageModule } from 'src/app/components/layouts/kt-app-form-page/kt-app-form-page.module';
 import { AddOrderCategoriesModule } from './add-order-categories/add-order-categories.module';
 import { AddOrderProductsModule } from './add-order-products/add-order-products.module';
+import { AddOrderPriceListModule } from './add-order-price-list/add-order-price-list.module';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { AddOrderProductsModule } from './add-order-products/add-order-products.
     KtAppFormPageModule,
     // order items modules
     AddOrderCategoriesModule,
-    AddOrderProductsModule
+    AddOrderProductsModule,
+    AddOrderPriceListModule
   ]
 })
 export class AddOrdersModule { }
