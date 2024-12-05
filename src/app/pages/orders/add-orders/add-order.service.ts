@@ -12,6 +12,8 @@ export class AddOrderService {
   selectedCategory = null;
   selected_products: any[] = [];
 
+  totalCost = 0;
+
 
 
 
@@ -57,15 +59,32 @@ export class AddOrderService {
       const exists = this.selected_products.some(p => p.id === product.id);
       if (!exists) {
         // Add the product if it doesn't exist
-        this.selected_products.push(product);
+        let p = Object.assign({}, product);
+        p['quantity'] = 1;
+        p['cost'] = p['quantity'] * 1;
+        this.selected_products.push(p);
       }
     } else {
       // If product.selected is false, remove the product from selected_products
       this.selected_products = this.selected_products.filter(p => p.id !== product.id);
     }
+
+    this.totalOfProductCost();
   }
 
+  async removeProductInSelectedProducts(index){
+    this.selected_products.splice(index, 1);
+    this.totalOfProductCost();
+  }
 
+  async totalOfProductCost(){
+    let cost = this.selected_products.reduce( (prev,next) => {
+      return prev + (next.quantity * next.price)
+    }, 0);
+
+    this.totalCost = cost;
+
+  }
 
 
 
