@@ -43,24 +43,41 @@
         </div>
         <!--end::Col-->
       </div>
+      <div class="row mb-7">
+        <!--begin::Label-->
+        <label class="col-lg-4 fw-semibold text-muted">Status
+          <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
+            aria-label="Phone number must be active" data-kt-initialized="1"></i></label>
+        <!--end::Label-->
+        <!--begin::Col-->
+        <div class="col-lg-8 d-flex align-items-center">
+          <span class="fw-bold fs-6 text-gray-800 me-2">{{item?.status}}</span>
+          <!-- <span class="badge badge-success">Verified</span> -->
+        </div>
+        <!--end::Col-->
+      </div>
+     
       <!--end::Input group-->
       <!--begin::Input group-->
       <div class="row mb-7">
-        
+
         <div class="col-lg-5">
           <table class="table table-bordered mb-4">
             <thead>
               <tr>
                 <th class="fw-semibold text-muted">Product Name</th>
                 <th class="fw-semibold text-muted">Product Quantity</th>
-                <th class="fw-semibold text-muted">Product Price</th>
+                <th class="fw-semibold text-muted">Price</th>
+                <th class="fw-semibold text-muted">Total Price</th>
+                
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let product of item?.products">
                 <td class="fw-bold fs-6 text-gray-800">{{ product?.product_name }}</td>
                 <td class="fw-bold fs-6 text-gray-800">{{ product?.quantity }}</td>
-                <td class="fw-bold fs-6 text-gray-800">{{ product?.price }}</td>
+                <td class="fw-bold fs-6 text-gray-800">${{ product?.price}}</td>
+                <td class="fw-bold fs-6 text-gray-800">${{ item?.total_price}}</td>
               </tr>
             </tbody>
           </table>
