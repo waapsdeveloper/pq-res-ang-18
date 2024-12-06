@@ -50,11 +50,11 @@ export class ListUserComponent {
       this.lastPage = d.last_page;
       this.total = d.total;
 
-      if(this.page == 1){
-        this.list = d.data;
-      } else {
-        this.list = [...this.list, ...d.data];
-      }
+      // if(this.page == 1){
+         this.list = d.data;
+      // } else {
+      //   this.list = [...this.list, ...d.data];
+      // }
 
 
     }

@@ -52,11 +52,11 @@ export class ListOrdersComponent {
       this.lastPage = d.last_page;
       this.total = d.total;
 
-      if (this.page == 1) {
+//      if (this.page == 1) {
         this.list = d.data;
-      } else {
-        this.list = [...this.list, ...d.data];
-      }
+      // } else {
+      //   this.list = [...this.list, ...d.data];
+      // }
     }
 
     return res;
