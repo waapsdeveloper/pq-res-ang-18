@@ -18,15 +18,9 @@ export class ViewOrdersComponent {
   }
 
   async initialize() {
-    console.log("yayay");
-
     const rew = await this.activatedRoute.snapshot.params;
-
-
     this.itemId = rew['id'];
-
-
-    const res = await this.network.getTablesById(this.itemId);
+    const res = await this.network.getOrdersById(this.itemId);
     console.log(res);
     
 

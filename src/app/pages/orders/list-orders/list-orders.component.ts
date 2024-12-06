@@ -45,7 +45,7 @@ export class ListOrdersComponent {
       perpage: this.perpage
     };
 
-    const res = await this.network.getTables(obj);
+    const res = await this.network.getOrders(obj);
     if (res.data) {
       let d = res.data;
       this.page = d.current_page;

@@ -127,6 +127,16 @@ export class NetworkService {
   }
 
   // Orders
+
+  getOrders(params) {
+    const query = this.serialize(params);
+    return this.httpGetResponse('order' + (query ? `?${query}` : ''), null, false, true);
+  }
+
+  getOrdersById(id) {
+    return this.httpGetResponse(`order/${id}`, null, false, true);
+  }
+
   addOrder(data) {
     return this.httpPostResponse('order', data, null, false, true);
   }
