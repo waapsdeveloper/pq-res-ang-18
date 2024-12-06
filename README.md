@@ -1,127 +1,97 @@
-# Berry Free Angular Bootstrap Admin Template [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Get%20Berry%20Angular%20-%20The%20Most%20Beautiful%20Bootstrap%20Designed%20Admin%20Dashboard%20Template%20&url=https://berrydashboard.io/angular/default&via=codedthemes&hashtags=angular,webdev,developers,typescript)
+### Updated README.md for Angular Restaurant Portal
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Price](https://img.shields.io/badge/price-FREE-0098f7.svg)](https://github.com/codedthemes/berry-free-angular-admin-template/blob/main/LICENSE)
-[![GitHub package version](https://img.shields.io/github/package-json/v/codedthemes/berry-free-angular-admin-template)](https://github.com/codedthemes/berry-free-angular-admin-template/)
+```markdown
+# Restaurant Portal
 
-Berry is a free angular admin dashboard template built with Angular and latest Bootstrap 5. It is meant to provide the best possible User Experience with highly customizable feature-rich pages. It is a complete Dashboard Template that has easy and intuitive responsive design whether it is viewed on retina screens or laptops.
+This project is a restaurant management portal built using Angular. Follow the steps below to set up and run the project locally.
 
-:star: :star: :star: Do not forget to star (Top right of this page) it if you like the theme :star: :star: :star:
+---
 
-![IMG_8566.jpg](https://org-public-assets.s3.us-west-2.amazonaws.com/Free-Version-Banners/GITHUB-FREE-ANGULAR-REPO-Berry.jpg)
+## Prerequisites
 
-[Pro version](https://berrydashboard.io/angular/default) of Berry Angular Dashboard template contains features like TypeScript, Apps, Authentication Methods (i.e. JWT), Advance Components, Form Plugins, Layouts, Widgets, and many more.
+Make sure you have the following installed on your system before proceeding:
 
-| [Berry Free](https://berrydashboard.io/angular/free/) | [Berry](https://codedthemes.com/item/berry-angular-admin-dashboard-template/?utm_source=free_demo&utm_medium=codedthemes&utm_campaign=button_download_premium) |
-| ----------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **9** Demo pages                                      | **45+** demo pages                                                                                                                                             |
-| -                                                     | ✓ Multi-language                                                                                                                                               |
-| -                                                     | ✓ Dark/Light Mode 🌓                                                                                                                                           |
-| -                                                     | ✓ TypeScript version                                                                                                                                           |
-| -                                                     | ✓ Design files (Figma)                                                                                                                                         |
-| -                                                     | ✓ 6+ color Options                                                                                                                                             |
-| -                                                     | ✓ RTL                                                                                                                                                          |
-| -                                                     | ✓ JWT authentications                                                                                                                                          |
-| -                                                     | ✓ [More components](https://berrydashboard.io/angular/default/basic/alert)                                                                                     |
+1. **Node.js** (v18 or higher)
+   - Download and install it from [https://nodejs.org/](https://nodejs.org/).
 
-## Why Berry?
+2. **Angular CLI** (v18 or higher)
+   - Install it globally using the command:
+     ```bash
+     npm install -g @angular/cli
+     ```
 
-Berry offers everything you need to create dashboards. We have included the following high-end features in our initial release:
-
-- Modern aesthetics UI design
-- Bootstrap components
-- Fully Responsive, all modern browser supported
-- Easy to use code structure
-- Flexible & High-Performance code
-- Easy Documentation Guide
-
-## Free Berry Angular version
-
-- [Preview](https://berrydashboard.io/angular/free/)
-- [Download from Github](https://github.com/codedthemes/berry-free-angular-admin-template)
-
-## Berry Pro version
-
-- [Preview](https://berrydashboard.io/angular/default)
-- [Purchase from CodedThemes](https://codedthemes.com/item/berry-angular-admin-dashboard-template/?utm_source=free_demo&utm_medium=codedthemes&utm_campaign=button_download_premium)
-
-## Table of contents
-
-- [Getting Started](#getting-started)
-- [Documentation](#documentation)
-- [Technology Stack](#technology-stack)
-- [Author](#author)
-- [Issues?](#issues)
-- [License](#license)
-- [More Free Angular Templates](#more-free-angular-dashboard-templates)
-- [More Pro Angular Templates](#more-premium-angular-dashboard-templates)
-- [Follow us](#follow-us)
+---
 
 ## Getting Started
 
-1. Clone from Github
-
-```
-git clone https://github.com/codedthemes/berry-free-angular-admin-template.git
-```
-
-2. Install packages
-
-```
-yarn
+### Clone the Repository
+Clone the project repository using the following command:
+```bash
+git clone https://github.com/ramizmurtaza/resturant_portal.git
 ```
 
-3. Run project
-
+### Navigate to the Project Directory
+Move into the cloned repository folder:
+```bash
+cd resturant_portal
 ```
-yarn start
+
+### Install Dependencies
+Install the required dependencies by running:
+```bash
+npm install -f
 ```
 
-## Documentation
+### Run the Development Server
+Start the development server using Angular CLI:
+```bash
+ng serve
+```
 
-[Berry Angular Documentation](https://codedthemes.gitbook.io/berry-angular/) helps you with installation, deployment, and troubleshooting.
+### Access the Application
+Once the server is running, open your browser and navigate to:
+```
+http://localhost:4200
+```
 
-## Technology Stack
+---
 
-- Bootstrap 5
-- Angular 18
+## Development Notes
 
-## Author
+- To stop the development server, press `Ctrl + C` in the terminal.
+- If you encounter any issues, ensure all dependencies are installed and that the correct versions of Node.js and Angular CLI are being used.
 
-Berry is developed by Team [CodedThemes](https://codedthemes.com).
+---
 
-## Issues
+## Additional Commands
 
-To report a bug, please submit an [issue](https://github.com/codedthemes/berry-free-angular-admin-template/issues) on Github. We will respond as soon as possible to resolve the issue.
+### Build for Production
+To build the project for production:
+```bash
+ng build --prod
+```
+
+### Running Tests
+Run unit tests using:
+```bash
+ng test
+```
+
+Run end-to-end tests using:
+```bash
+ng e2e
+```
+
+---
+
+## Contributing
+If you wish to contribute, feel free to fork the repository and create a pull request with your changes.
+
+---
 
 ## License
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-- Licensed cover under [MIT](https://github.com/codedthemes/berry-free-angular-admin-template/blob/master/LICENSE)
+```
 
-## Berry - React version
-
-- [Free](https://berrydashboard.io/free/)
-- [Premium](https://material-ui.com/store/items/berry-react-material-admin/)
-
-## More Free Angular Dashboard Templates
-
-- [Datta Able Angular](https://codedthemes.com/item/datta-able-angular-lite/)
-- [Gradient Able Angular](https://codedthemes.com/item/gradient-able-angular-free-admin-template/)
-- [Mantis Angular](https://codedthemes.com/item/mantis-angular-free-admin-template/)
-- [Next Angular](https://codedthemes.com/item/next-free-admin-template/)
-
-## More Premium Angular Dashboard Templates
-
-- [Datta Able Angular Pro](https://codedthemes.com/item/datta-able-angular/?utm_source=free_demo&utm_medium=codedthemes&utm_campaign=button_download_premium)
-- [Gradient Able Angular Pro](https://codedthemes.com/item/gradient-able-angular-admin-template/?utm_source=free_demo&utm_medium=codedthemes&utm_campaign=button_download_premium)
-- [Mantis Angular Pro](https://codedthemes.com/item/mantis-angular-admin-template/?utm_source=free_demo&utm_medium=codedthemes&utm_campaign=button_download_premium)
-- [Next Angular Pro](https://codedthemes.com/item/next-angular-admin-template/)
-
-## Follow us
-
-- [Website](https://berrydashboard.io/angular/default/)
-- [Blog](https://blog.berrydashboard.io)
-- [CodedThemes](https://codedthemes.com)
-- [Dribbble](https://dribbble.com/codedthemes)
-- [Facebook](https://www.facebook.com/codedthemes)
-- [Twitter](https://twitter.com/codedthemes)
+This updated README file now reflects the requirement for **Node.js 18+** and **Angular CLI 18+**.
