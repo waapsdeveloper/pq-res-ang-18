@@ -1,4 +1,4 @@
-### Updated README.md for Angular Restaurant Portal
+### README.md for Angular Restaurant Portal
 
 ```markdown
 # Restaurant Portal
