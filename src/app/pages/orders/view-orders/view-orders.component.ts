@@ -24,7 +24,7 @@ export class ViewOrdersComponent {
     console.log(res);
     
 
-    this.item = res.Rtable;
+    this.item = res.order;
     
 
 }}

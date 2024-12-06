@@ -54,7 +54,8 @@ export class ListOrdersComponent {
 
 //      if (this.page == 1) {
         this.list = d.data;
-      // } else {
+console.log(this.list);
+        // } else {
       //   this.list = [...this.list, ...d.data];
       // }
     }
