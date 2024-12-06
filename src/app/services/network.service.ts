@@ -107,7 +107,16 @@ export class NetworkService {
   removeProduct(id) {
     return this.httpDeleteResponse('product', id, false, true);
   }
-
+  //invoices
+  addInvoice(id) {
+    return this.httpDeleteResponse('invoice', id, false, true);
+  }
+  getInvoices(id) {
+    return this.httpDeleteResponse('invoice', id, false, true);
+  }
+  removeInvoice(id){
+    return this.httpDeleteResponse('invoice', id, false, true);
+  }
   // Tables
 
   getTables(params) {
