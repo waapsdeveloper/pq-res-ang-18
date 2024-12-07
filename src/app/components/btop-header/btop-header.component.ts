@@ -17,9 +17,9 @@ export class BtopHeaderComponent {
     { label: 'All Menu', link: '/pages/products', icon: 'ti ti-artboard' },
     { label: 'Tables', link: '/pages/tables', icon: 'ti ti-table' },
     { label: 'Orders', link: '/pages/orders', icon: 'ti ti-truck-delivery' },
-    { label: 'Invoices', link: '/pages/users', icon: 'ti ti-file-dollar' },
-    { label: 'Reports', link: '/pages/users', icon: 'ti ti-clipboard-text' },
-    { label: 'Customers', link: '/pages/users', icon: 'ti ti-user-plus' },
+    { label: 'Invoices', link: '/pages/invoices', icon: 'ti ti-file-dollar' },
+    { label: 'Reports', link: '/pages/reports', icon: 'ti ti-clipboard-text' },
+    { label: 'Customers', link: '/pages/customers', icon: 'ti ti-user-plus' },
   ];
 
   constructor(private nav: NavService, private users: UsersService){
