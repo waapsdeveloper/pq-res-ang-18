@@ -8,9 +8,8 @@ import { UsersService } from 'src/app/services/users.service';
   templateUrl: './list-invoices.component.html',
   styleUrls: ['./list-invoices.component.scss'],
 })
-export class ListInvoicesComponent {
-  title = 'Invoices';
-  addurl = '/pages/invoices/add'; // Path to add an invoice
+export class ListInvoicesComponent {  title = 'Invoices';
+  addurl = '/pages/invoices/add';
   search = '';
   page = 1;
   lastPage = -1;
@@ -19,13 +18,7 @@ export class ListInvoicesComponent {
   list: any[] = [];
   showEdit: boolean = false;
 
-  columns: any[] = [
-    'Invoice Number',
-    'Customer Name',
-    'Total Amount',
-    'Status',
-    'Date',
-  ];
+  columns: any[] = ['Products','Quantity','Price', 'Total Price', 'Status'];
 
   constructor(
     private nav: NavService,
@@ -48,31 +41,33 @@ export class ListInvoicesComponent {
     let obj = {
       search: search,
       page: page,
-      perpage: this.perpage,
+      perpage: this.perpage
     };
 
-    const res = await this.network.getInvoices(obj); // Adjusted to fetch invoices
+    const res = await this.network.getOrders(obj);
     if (res.data) {
       let d = res.data;
       this.page = d.current_page;
       this.lastPage = d.last_page;
       this.total = d.total;
 
-      this.list = d.data;
+//      if (this.page == 1) {
+        this.list = d.data;
+console.log(this.list);
+        // } else {
+      //   this.list = [...this.list, ...d.data];
+      // }
     }
 
     return res;
   }
 
-  editRow(index: number) {
-    const invoice = this.list[index];
-    this.nav.push(`/pages/invoices/edit/${invoice.id}`);
-  }
+  editRow(index: number) {}
 
   async deleteRow(index: number) {
     let item = this.list[index];
     if (item) {
-      await this.network.removeInvoice(item.id); // Adjusted to remove an invoice
+      await this.network.removeTable(item.id);
     }
     this.list.splice(index, 1);
   }
@@ -85,19 +80,10 @@ export class ListInvoicesComponent {
 
   openDetails(i) {
     let item = this.list[i];
-    this.nav.push(`/pages/invoices/view/${item.id}`);
+    this.nav.push('/pages/invoices/view/' + item.id);
   }
 
   onChangePerPage($event) {
     this.getList('', 1);
-  }
-
-  pageChange($event) {
-    this.getList(this.search, $event);
-  }
-
-  onSearch($event) {
-    this.search = $event;
-    this.getList(this.search, 1);
   }
 }
