@@ -6,6 +6,7 @@
     <thead>
       <tr class="fs-7 fw-bold text-gray-400 border-bottom-0">
         <th class="p-0 pb-3 min-w-150px text-start">Products</th>
+        <th class="p-0 pb-3 min-w-100px text-end pe-13">Notes</th>
         <th class="p-0 pb-3 min-w-100px text-end pe-13">Qty</th>
         <th class="p-0 pb-3 w-150px text-end pe-7">Cost</th>
         <th class="p-0 pb-3 w-50px text-end">Action</th>
@@ -21,19 +22,39 @@
               <a class="text-white fw-bold text-hover-primary mb-1 fs-6">{{item.name}}</a>
               <span class="text-gray-400 fw-semibold d-block fs-7">${{item.price}}</span>
             </div>
+
           </div>
+        </td><!-- Notes Section -->
+        <td class="text-end">
+          <ng-template #noteContent>
+            <div class="row">
+              <div class="col-12">
+                <textarea class="form-control form-control-solid mb-2" [(ngModel)]="item.note" rows="3"
+                  placeholder="Add a note..."></textarea>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template #noteTitle>
+            
+          </ng-template>
+          <button class="btn btn-sm " [ngbPopover]="noteContent" [popoverTitle]="noteTitle" triggers="manual"
+            [autoClose]="'outside'" placement="top" #popover="ngbPopover" (click)="popover.open()">
+            <i class="ti ti-notes"  style="color: #ffffff; font-size: 22px;"></i>
+          </button>
         </td>
+
         <td class="text-end">
           <ng-template #popContent>
             <div class="row">
 
               <div class="col-6">
                 <label for="customRange3" class="form-label">From 1 to 50</label>
-                <input type="range" class="form-range" [(ngModel)]="item.quantity" min="1" max="50" step="1" (ngModelChange)="changeQty($event)"
-                  id="customRange3">
+                <input type="range" class="form-range" [(ngModel)]="item.quantity" min="1" max="50" step="1"
+                  (ngModelChange)="changeQty($event)" id="customRange3">
               </div>
               <div class="col-6">
-                <input type="number" class="form-control form-control-solid" [(ngModel)]="item.quantity" (ngModelChange)="changeQty($event)" />
+                <input type="number" class="form-control form-control-solid" [(ngModel)]="item.quantity"
+                  (ngModelChange)="changeQty($event)" />
               </div>
 
             </div>

@@ -16,6 +16,7 @@ export class AddOrderCategoriesComponent {
 
     for(var i = 0; i < this.orderService.categories.length; i++){
       this.orderService.categories[i]["active"] = this.orderService.categories[i]["name"] == item["name"];
+console.log(item);
 
       if(this.orderService.categories[i]["name"] == item["name"]){
         this.orderService.updateProductsBySelectedCategory(item)

@@ -7,9 +7,17 @@ import { AddOrderService } from '../add-order.service';
   styleUrl: './add-order-price-list.component.scss'
 })
 export class AddOrderPriceListComponent {
-
+  
   constructor(public orderService: AddOrderService){
 
+  }
+  
+  editNote(item: any): void {
+    item.isEditingNote = true;
+  }
+  saveNote(item: any): void {
+    item.isEditingNote = false;
+    // Additional logic to save the note to a backend or local storage can be added here
   }
 
   removeItem(i){

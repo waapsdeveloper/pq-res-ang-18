@@ -8,27 +8,27 @@
 
       <td>
         <div *ngFor="let products of item.products" class="d-flex">
-          <div  class="ms-5">
+          <div  class="ms-4">
             <a class="text-muted fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{products?.product_name }}  </a>
           </div>
         </div>
       </td>
       <td>
         <div *ngFor="let products of item.products" class="d-flex">
-          <div  class="ms-5">
+          <div  class="ms-4">
             <a class="text-muted fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{products?.quantity }}   </a>
           </div>
         </div>
       </td>
-      <td>
+      <!-- <td>
         <div *ngFor="let products of item.products" class="d-flex">
           <div  class="ms-5">
             <a class="text-muted fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">${{products?.price }}   </a>
           </div>
         </div>
-      </td>
+      </td> -->
       <td>
-        <div  class="d-flex">
+        <div  class="d-flex" class="ms-4">
           <div class="text-muted fs-7 fw-bold">${{item?.total_price}}</div>
         </div>
       </td>

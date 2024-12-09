@@ -19,7 +19,7 @@ export class ListOrdersComponent {
   list: any[] = [];
   showEdit: boolean = false;
 
-  columns: any[] = ['Products','Quantity','Price', 'Total Price', 'Status'];
+  columns: any[] = ['Products','Quantity', 'Total Price', 'Status'];
 
   constructor(
     private nav: NavService,
