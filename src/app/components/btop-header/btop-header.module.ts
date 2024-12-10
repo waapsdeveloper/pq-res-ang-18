@@ -17,6 +17,7 @@ import { RouterModule } from '@angular/router';
     RouterModule,
     NgScrollbarModule,
     NgbDropdownModule,
+    RouterModule
 
   ],
   exports: [

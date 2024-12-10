@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { UsersService } from 'src/app/services/users.service';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+
 
 @Component({
   selector: 'app-btop-header',
@@ -8,6 +9,9 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrl: './btop-header.component.scss'
 })
 export class BtopHeaderComponent {
+  @Input('title') title = ''
+  @Input('addurl') addurl = '/pages/orders/add'
+  @Output('onSearch') onSearch = new EventEmitter<any>();
 
   menuItems = [
     { label: 'Dashboard', link: '/pages/dashboard', icon: 'ti ti-layout-dashboard' },

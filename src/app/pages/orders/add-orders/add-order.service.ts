@@ -8,7 +8,7 @@ export class AddOrderService {
 
   categories: any[] = [];
   products: any[] = [];
-
+  order_notes: string = '';
   selectedCategory = null;
   selected_products: any[] = [];
 
@@ -89,14 +89,14 @@ export class AddOrderService {
   async submitOrder() {
 
 
-    let prodObj = this.selected_products.map( item => {
+    let prodObj = this.selected_products.map(item => {
       return {
         "product_id": item.id,
         "quantity": item.quantity
       }
     });
 
-    if(prodObj.length == 0){
+    if (prodObj.length == 0) {
       return false;
     }
 
@@ -104,7 +104,8 @@ export class AddOrderService {
     let obj = {
       "customer_name": "Walk-In Customer",
       "customer_phone": "XXXXXXXX",
-      "products": prodObj
+      "products": prodObj,
+      "notes":this.order_notes
     }
 
     const res = await this.network.addOrder(obj);

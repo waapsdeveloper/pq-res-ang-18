@@ -9,7 +9,6 @@ import { NavService } from 'src/app/services/basic/nav.service';
 })
 export class AddOrdersComponent {
 
-  noteContent: string = '';
 
   constructor(public nav: NavService, public orderService: AddOrderService ) {
 
@@ -25,6 +24,7 @@ export class AddOrdersComponent {
     if(res){
       this.nav.pop();
     }
+    
     
   }
 

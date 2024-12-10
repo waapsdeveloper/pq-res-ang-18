@@ -15,7 +15,17 @@
     <div class="header-wrapper">
 
       <div class="ms-auto">
+
         <ul class="list-unstyled">
+          <li> <!--begin::Card toolbar-->
+            <div class="card-toolbar">
+              <!--begin::Add customer-->
+              <a [routerLink]="addurl" class="btn btn-sm fw-bold btn-primary d-flex align-items-center gap-2"><i
+                  class="ti ti-plus"></i> Create Order </a>
+              <!--end::Add customer-->
+            </div>
+            <!--end::Card toolbar-->
+          </li>
           <li>
             <div class="dropdown pc-h-item header-user-profile" ngbDropdown>
               <a class="pc-head-link head-link-primary dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown"

@@ -21,15 +21,21 @@ export class AddOrderProductsComponent {
 
   }
   
+  
   setSelectedToggle(product) {
     product.selected = !product.selected;
     this.orderService.updateProductInSelectedProducts(product);
+    
+   
+    
   }
 
 
   isProductSelected(productId: any): boolean {
     // Check if a product with the given ID exists in the selected_products array
     return this.orderService.selected_products.some(product => product.id === productId);
+  console.log(productId);
+  
   }
   editNote(product: any, event: Event): void {
     event.stopPropagation(); // Prevent card click event

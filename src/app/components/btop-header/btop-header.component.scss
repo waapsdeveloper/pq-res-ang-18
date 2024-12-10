@@ -3,3 +3,17 @@
   color: var(--bs-blue) !important;
   border-bottom: 1px solid var(--bs-blue);
 }
+.toolbar-container {
+  display: flex;
+  align-items: center; /* Align items in the same line */
+  gap: 16px; /* Add space between items */
+  margin: 16px 0; /* Top and bottom margin for the list */
+}
+
+.card-toolbar {
+  margin-top: 24px; /* Add some gap from the top */
+}
+
+.pc-h-item {
+  margin-top: 8px; /* Ensure consistent gap for other components */
+}
