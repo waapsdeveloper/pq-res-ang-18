@@ -92,7 +92,9 @@ export class AddOrderService {
     let prodObj = this.selected_products.map(item => {
       return {
         "product_id": item.id,
-        "quantity": item.quantity
+        "quantity": item.quantity,
+        "price": item.price,
+        "notes": item.notes 
       }
     });
 

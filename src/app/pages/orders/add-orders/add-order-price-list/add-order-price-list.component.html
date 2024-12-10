@@ -21,6 +21,7 @@
             <div class="d-flex justify-content-start flex-column">
               <a class="text-white fw-bold text-hover-primary mb-1 fs-6">{{item.name}}</a>
               <span class="text-gray-400 fw-semibold d-block fs-7">${{item.price}}</span>
+              <input type="hidden"  [(ngModel)]="item.price" >
             </div>
 
           </div>
@@ -29,7 +30,7 @@
           <ng-template #noteContent>
             <div class="row">
               <div class="col-12">
-                <textarea class="form-control form-control-solid mb-2" [(ngModel)]="orderService.order_notes" rows="3"
+                <textarea class="form-control form-control-solid mb-2" [(ngModel)]="item.notes" rows="3"
                   placeholder="Add a note..."></textarea>
               </div>
             </div>
