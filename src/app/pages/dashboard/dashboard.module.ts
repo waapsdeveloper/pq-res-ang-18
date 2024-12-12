@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { ChartDataMonthComponent } from 'src/app/demo/default/chart-data-month/chart-data-month.component';
+import { ChartOrderComponent } from 'src/app/demo/default/chart-order/chart-order.component';
 import { SharedModule } from 'src/app/theme/shared/shared.module';
 import { BajajChartComponent } from 'src/app/demo/default/bajaj-chart/bajaj-chart.component';
 import { BarChartComponent } from 'src/app/demo/default/bar-chart/bar-chart.component';
@@ -21,7 +22,8 @@ import { BtopHeaderModule } from 'src/app/components/btop-header/btop-header.mod
     BarChartComponent,
     ChartDataMonthComponent,
     NavBarModule,
-    BtopHeaderModule
+    BtopHeaderModule,
+    ChartOrderComponent
   ]
 })
 export class DashboardModule {}
