@@ -87,4 +87,25 @@ console.log(this.list);
   onChangePerPage($event) {
     this.getList('', 1);
   }
+  getOrderStatusClass(status: string): string {
+    switch (status.toLowerCase()) {
+      case 'ready':
+        return 'ready';
+      case 'in progress':
+        return 'in-progress';
+      case 'completed':
+        return 'completed';
+      default:
+        return '';
+    }
+  }
+  
+  viewDetails(order: any): void {
+    console.log('Viewing details for:', order);
+  }
+  
+  payBill(order: any): void {
+    console.log('Paying bill for:', order);
+  }
+  
 }
