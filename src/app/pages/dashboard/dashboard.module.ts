@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { ProjectStatComponent } from './component/project-stat/project-stat.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { ChartDataMonthComponent } from 'src/app/demo/default/chart-data-month/chart-data-month.component';
@@ -25,7 +25,9 @@ import { RecentOrderComponent } from './component/recent-order/recent-order.comp
     NavBarModule,
     BtopHeaderModule,
     ChartOrderComponent,
-    SalesChartComponent
+    SalesChartComponent,
+    ProjectStatComponent
+
 
   ]
 })
