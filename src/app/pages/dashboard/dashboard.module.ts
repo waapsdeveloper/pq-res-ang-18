@@ -13,8 +13,10 @@ import { NavBarModule } from 'src/app/theme/layout/admin/nav-bar/nav-bar.module'
 import { BtopHeaderModule } from 'src/app/components/btop-header/btop-header.module';
 import { SalesChartComponent } from './component/sales-chart/sales-chart.component';
 import { RecentOrderComponent } from './component/recent-order/recent-order.component';
+import { FavouriteTableComponent } from './component/favourite-table/favourite-table.component';
+import { OrderStatusComponent } from './component/order-status/order-status.component';
 @NgModule({
-  declarations: [DashboardComponent, RecentOrderComponent],
+  declarations: [DashboardComponent, RecentOrderComponent, OrderStatusComponent],
   imports: [
     CommonModule,
     DashboardRoutingModule,
@@ -26,7 +28,8 @@ import { RecentOrderComponent } from './component/recent-order/recent-order.comp
     BtopHeaderModule,
     ChartOrderComponent,
     SalesChartComponent,
-    ProjectStatComponent
+    ProjectStatComponent,
+    FavouriteTableComponent
 
 
   ]
