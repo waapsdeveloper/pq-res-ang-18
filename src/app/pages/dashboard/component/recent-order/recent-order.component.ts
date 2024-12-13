@@ -3,12 +3,13 @@ import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { UsersService } from 'src/app/services/users.service';
 
+
 @Component({
-  selector: 'app-list-orders',
-  templateUrl: './list-orders.component.html',
-  styleUrl: './list-orders.component.scss'
+  selector: 'app-recent-order',
+  templateUrl: './recent-order.component.html',
+  styleUrl: './recent-order.component.scss'
 })
-export class ListOrdersComponent {
+export class RecentOrderComponent {
   title = 'Orders';
   addurl = '/pages/orders/add';
   search = '';
@@ -19,7 +20,7 @@ export class ListOrdersComponent {
   list: any[] = [];
   showEdit: boolean = false;
 
-  columns: any[] = ['Order Id','Customer Name','Phone No',  'Total Price', 'Table No', "Type", 'Status' ];
+  columns: any[] = ['Order Id', 'Customer Name', 'Phone No', 'Total Price', 'Table No', "Type", 'Status'];
 
   constructor(
     private nav: NavService,
@@ -52,10 +53,10 @@ export class ListOrdersComponent {
       this.lastPage = d.last_page;
       this.total = d.total;
 
-//      if (this.page == 1) {
-        this.list = d.data;
-console.log(this.list);
-        // } else {
+      //      if (this.page == 1) {
+      this.list = d.data;
+      console.log(this.list);
+      // } else {
       //   this.list = [...this.list, ...d.data];
       // }
     }
@@ -63,7 +64,7 @@ console.log(this.list);
     return res;
   }
 
-  editRow(index: number) {}
+  editRow(index: number) { }
 
   async deleteRow(index: number) {
     let item = this.list[index];
@@ -99,13 +100,13 @@ console.log(this.list);
         return '';
     }
   }
-  
+
   viewDetails(order: any): void {
     console.log('Viewing details for:', order);
   }
-  
+
   payBill(order: any): void {
     console.log('Paying bill for:', order);
   }
-  
+
 }
