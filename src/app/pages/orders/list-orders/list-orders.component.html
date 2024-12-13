@@ -1,56 +1,77 @@
+
 <app-kt-list-page [title]="'Orders'" [addurl]="'/pages/orders/add'">
-  <div class="order-dashboard">
-    <div *ngFor="let order of list; let i = index" class="order-card">
-      <!-- Card Header -->
-      <div class="card-header">
-        <div class="customer-name">
-          <strong>{{ order.customer_name }}</strong>
-        </div>
-        <div class="order-status" [ngClass]="getOrderStatusClass(order.status)">
-          <span class="badge badge-primary">{{order.status}}</span>
-        </div>
-      </div>
 
-      <!-- Card Body -->
-      <div class="card-body">
-        <!-- Order Details -->
-        <div class="order-info">
-          <div><strong>Order ID:</strong> {{ order.order_number }}</div>
-          <div><strong>Phone No:</strong> {{ order.customer_phone }}</div>
-          <div><strong>Address:</strong> {{ order.address }}</div>
-        </div>
 
-        <!-- Products List -->
-        <div class="order-items">
-          <strong>Menu:</strong>
-          <div *ngFor="let product of order.products" class="order-item">
-            <div>{{ product.product_name }}</div>
-            <div>{{ product.quantity }} × ${{ product.price }}</div>
-          </div>
-          <div class="order-additional-info">
-            <div>Table No:{{ order.tableNo }}</div>
-            <div>Type:{{ order.type }}</div>
+  <app-kt-app-list-page-table [columns]="columns"  [currentPage]="page" [totalPages]="total">
+
+    <tr *ngFor="let item of list; let i = index" >
+      <td>
+        <div *ngFor="let products of item.products" class="d-flex">
+          <div  class="ms-4">
+            <a class="text-muted fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{products?.order_number}}  </a>
           </div>
         </div>
+      </td>
+      <td>
+        <div *ngFor="let products of item.products" class="d-flex">
+          <div  class="ms-4">
+            <a class="text-muted fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{products?.product_name }}  </a>
+          </div>
+        </div>
+      </td>
+      <td>
+        <div *ngFor="let products of item.products" class="d-flex">
+          <div  class="ms-4">
+            <a class="text-muted fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{products?.quantity }}   </a>
+          </div>
+        </div>
+      </td>
+      <!-- <td>
+        <div *ngFor="let products of item.products" class="d-flex">
+          <div  class="ms-5">
+            <a class="text-muted fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">${{products?.price }}   </a>
+          </div>
+        </div>
+      </td> -->
+      <td>
+        <div  class="d-flex" class="ms-4">
+          <div class="text-muted fs-7 fw-bold">${{item?.total_price}}</div>
+        </div>
+      </td>
+      <td>
+        <div class="d-flex">
+            <div class="badge badge-light-primary fw-bold me-auto px-4 py-3">{{item.status}}</div>
+        </div>
+      </td>
 
 
-      </div>
-      
-      <!-- Total Price -->
-      <div class="order-total">
-        Paid Amount:${{ order?.paidAmount }}<br>
-        Discount:${{ order?.discount }}<br>
-        Total:${{ order?.total_price }}
-        <!-- Additional Details -->
 
-      </div>
+      <!-- <ng-content></ng-content> -->
+      <!--begin::Action=-->
+      <td class="text-end d-flex flex-row justify-content-end align-items-center gap-3">
+
+        <i class="ti ti-eye" style="font-size: 24px;" (click)="openDetails(i)" ></i>
+        <i *ngIf="showEdit" class="ti ti-edit" style="font-size: 24px;"></i>
+        <i *ngIf="showEdit" class="ti ti-trash" style="font-size: 24px;" (click)="deleteRow(i)"></i>
+
+      </td>
+      <!--end::Action=-->
+      <!--begin::Checkbox-->
+      <td>
+        <div class="form-check form-check-sm form-check-custom form-check-solid">
+          <input class="form-check-input" type="checkbox" value="1" />
+        </div>
+      </td>
+      <!--end::Checkbox-->
+      <!--end::Table row-->
+    </tr>
 
 
-      <!-- Card Footer -->
-      <div class="card-footer">
-        <button class="btn btn-details" (click)="openDetails(i)">See Details</button>
-        <button class="btn btn-pay" (click)="payBill(i)">Pay Bills</button>
-      </div>
-    </div>
-  </div>
+
+
+
+
+  </app-kt-app-list-page-table>
+
+
 </app-kt-list-page>
