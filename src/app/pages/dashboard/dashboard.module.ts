@@ -11,7 +11,7 @@ import { BarChartComponent } from 'src/app/demo/default/bar-chart/bar-chart.comp
 import { NavBarComponent } from 'src/app/theme/layout/admin/nav-bar/nav-bar.component';
 import { NavBarModule } from 'src/app/theme/layout/admin/nav-bar/nav-bar.module';
 import { BtopHeaderModule } from 'src/app/components/btop-header/btop-header.module';
-
+import { SalesChartComponent } from 'src/app/demo/default/sales-chart/sales-chart.component';
 @NgModule({
   declarations: [DashboardComponent],
   imports: [
@@ -23,7 +23,9 @@ import { BtopHeaderModule } from 'src/app/components/btop-header/btop-header.mod
     ChartDataMonthComponent,
     NavBarModule,
     BtopHeaderModule,
-    ChartOrderComponent
+    ChartOrderComponent,
+    SalesChartComponent
+
   ]
 })
 export class DashboardModule {}

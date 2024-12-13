@@ -1,6 +1,6 @@
 <app-kt-list-page [title]="'Orders'" [addurl]="'/pages/orders/add'">
-  <div class="order-dashboard" *ngFor="let item of list; let i = index">
-    <div *ngFor="let order of list" class="order-card">
+  <div class="order-dashboard">
+    <div *ngFor="let order of list; let i = index" class="order-card">
       <!-- Card Header -->
       <div class="card-header">
         <div class="customer-name">
@@ -15,29 +15,40 @@
       <div class="card-body">
         <!-- Order Details -->
         <div class="order-info">
-          <div><strong>Order ID:</strong> {{ order.orderId }}</div>
-          <div><strong>Date:</strong> {{ order.date }}</div>
-          <div><strong>Time:</strong> {{ order.time }}</div>
+          <div><strong>Order ID:</strong> {{ order.order_number }}</div>
+          <div><strong>Phone No:</strong> {{ order.customer_phone }}</div>
+          <div><strong>Address:</strong> {{ order.address }}</div>
         </div>
 
         <!-- Products List -->
         <div class="order-items">
+          <strong>Menu:</strong>
           <div *ngFor="let product of order.products" class="order-item">
             <div>{{ product.product_name }}</div>
             <div>{{ product.quantity }} × ${{ product.price }}</div>
           </div>
         </div>
 
-        <!-- Total Price -->
-        <div class="order-total">
-          <strong>Total:</strong> ${{ order.total_price }}
-        </div>
+
       </div>
+      <div class="order-additional-info">
+        <div>Table No:{{ order.tableNo }}</div>
+        <div>Type:{{ order.type }}</div>
+      </div>
+      <!-- Total Price -->
+      <div class="order-total">
+        Paid Amount:${{ order?.paidAmount }}<br>
+        Discount:${{ order?.discount }}<br>
+        Total:${{ order?.total_price }}
+        <!-- Additional Details -->
+
+      </div>
+
 
       <!-- Card Footer -->
       <div class="card-footer">
         <button class="btn btn-details" (click)="openDetails(i)">See Details</button>
-        <button class="btn btn-pay" (click)="payBill(order)">Pay Bills</button>
+        <button class="btn btn-pay" (click)="payBill(i)">Pay Bills</button>
       </div>
     </div>
   </div>
