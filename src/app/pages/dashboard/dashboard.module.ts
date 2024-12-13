@@ -15,8 +15,9 @@ import { SalesChartComponent } from './component/sales-chart/sales-chart.compone
 import { RecentOrderComponent } from './component/recent-order/recent-order.component';
 import { FavouriteTableComponent } from './component/favourite-table/favourite-table.component';
 import { OrderStatusComponent } from './component/order-status/order-status.component';
+
 @NgModule({
-  declarations: [DashboardComponent, RecentOrderComponent, OrderStatusComponent],
+  declarations: [DashboardComponent, RecentOrderComponent, ],
   imports: [
     CommonModule,
     DashboardRoutingModule,
@@ -29,7 +30,8 @@ import { OrderStatusComponent } from './component/order-status/order-status.comp
     ChartOrderComponent,
     SalesChartComponent,
     ProjectStatComponent,
-    FavouriteTableComponent
+    FavouriteTableComponent,
+    OrderStatusComponent
 
 
   ]
