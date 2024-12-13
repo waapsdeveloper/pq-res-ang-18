@@ -48,7 +48,7 @@ export class ChartOrderComponent implements OnInit{
   
     // life cycle event
     ngOnInit() {
-      this.btnActive = 'year';
+      this.btnActive = 'all';
       this.chartOptions = {
         chart: {
           type: 'line',
