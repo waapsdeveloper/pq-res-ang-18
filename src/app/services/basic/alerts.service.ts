@@ -71,7 +71,7 @@ export class AlertsService {
     // toast.present();
   }
 
-  presentConfirm(
+  async presentConfirm(
     okText = 'OK',
     cancelText = 'Cancel',
     title = 'Are You Sure?',
@@ -80,28 +80,24 @@ export class AlertsService {
     cancelClass = ''
   ): Promise<boolean> {
     return new Promise(async (resolve) => {
-      // const alert = await this.alertController.create({
-      //   header: title,
-      //   message,
-      //   buttons: [
-      //     {
-      //       text: cancelText,
-      //       cssClass: cancelClass,
-      //       role: 'cancel',
-      //       handler: () => {
-      //         resolve(false);
-      //       },
-      //     },
-      //     {
-      //       text: okText,
-      //       cssClass: okClass,
-      //       handler: () => {
-      //         resolve(true);
-      //       },
-      //     },
-      //   ],
-      // });
-      // alert.present();
+      const result = await Swal.fire({
+        title: title,
+        html: message,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: okText,
+        cancelButtonText: cancelText,
+        customClass: {
+          confirmButton: okClass,
+          cancelButton: cancelClass,
+        },
+      });
+
+      if (result.isConfirmed) {
+        resolve(true); // User clicked OK
+      } else {
+        resolve(false); // User clicked Cancel or closed the modal
+      }
     });
   }
 

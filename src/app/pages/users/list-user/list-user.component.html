@@ -1,18 +1,16 @@
-<app-kt-list-page [title]="'Users'" [addurl]="'/pages/users/add'" (onSearch)="onSearch($event)"
-  (onFilter)="filters = !filters">
-  <form [formGroup]="form" *ngIf="filters">
+<app-kt-list-page [title]="'Users'" [addurl]="'/pages/users/add'" (onFilter)="toggleFilters()">
+
+  <form [formGroup]="form" *ngIf="crudService.filters" (ngSubmit)="submitFilters(model)">
     <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
     <button type="submit" class="btn btn-secondary mt-4">search</button>
   </form>
 
-  <hr *ngIf="filters">
+  <hr *ngIf="crudService.filters">
 
+  <app-kt-app-list-page-table [columns]="columns" [currentPage]="crudService.page" [totalPages]="crudService.lastPage"
+    (pageChange)="changePage($event)">
 
-
-  <app-kt-app-list-page-table [columns]="columns" [currentPage]="page" [totalPages]="lastPage"
-    (pageChange)="pageChange($event)">
-
-    <tr *ngFor="let item of list; let i = index">
+    <tr *ngFor="let item of crudService.list; let i = index">
 
       <td>
         <div class="d-flex align-items-center">
@@ -26,13 +24,15 @@
             <a href="../../demo1/dist/apps/ecommerce/catalog/edit-product.html"
               class="text-gray-800 text-hover-primary fs-5 fw-bold"
               data-kt-ecommerce-product-filter="product_name">{{item.name}}</a>
+            <div class="text-muted fs-7 fw-bold">Total Orders: 778</div>
+
             <!--end::Title-->
           </div>
         </div>
       </td>
       <td>
         <div class="d-flex">
-          <div class="text-muted fs-7 fw-bold">+1 123 587 4567</div>
+          <div class="text-muted fs-7 fw-bold">{{item.phone}}</div>
         </div>
       </td>
       <td>
@@ -40,11 +40,11 @@
           <div class="text-muted fs-7 fw-bold">7th street ride lance park new york</div>
         </div>
       </td>
-      <td>
+      <!-- <td>
         <div class="d-flex">
           <div class="fs-7 fw-bold">{{getRandomNumberBetween50And100()}}</div>
         </div>
-      </td>
+      </td> -->
       <td>
         <div class="d-flex">
           <div class="badge badge-light-primary fw-bold me-auto px-4 py-3">{{item.status}}</div>

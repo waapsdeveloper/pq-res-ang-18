@@ -1,34 +1,30 @@
-import { Component } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component, Injector } from '@angular/core';
+
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { ListBlade } from 'src/app/abstract/list-blade';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
+import { UtilityService } from 'src/app/services/utility.service';
+import { RestaurantService } from '../restaurant.service';
 
 @Component({
   selector: 'app-list-restaurant',
   templateUrl: './list-restaurant.component.html',
   styleUrl: './list-restaurant.component.scss'
 })
-export class ListRestaurantComponent {
+export class ListRestaurantComponent extends ListBlade {
 
   title = 'Restaurants';
   addurl = '/pages/restaurants/add'
-  search = '';
-  page = 1;
-  lastPage = -1;
-  total = 0;
-  perpage = 10;
-  list: any[] = [];
-  filters = false;
+
 
   columns: any[] = [
     'Name',
     'Address',
     'Status'
-  ]
+  ];
 
-  form = new FormGroup({});
-  model = {
+  override model = {
     name: '',
     address: '',
     status: 'active',
@@ -42,8 +38,8 @@ export class ListRestaurantComponent {
           key: 'name',
           type: 'input',
           props: {
-            label: 'Restaurant Name',
-            placeholder: 'Search name',
+            label: 'Name',
+            placeholder: '',
           },
           className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
         },
@@ -53,7 +49,7 @@ export class ListRestaurantComponent {
           type: 'input',
           props: {
             label: 'Address',
-            placeholder: 'Search address',
+            placeholder: '',
           },
           className: 'col-md-4 col-12'
         },
@@ -76,98 +72,63 @@ export class ListRestaurantComponent {
   ];
 
   constructor(
+    injector: Injector,
+    public crudService: RestaurantService,
     private nav: NavService,
-    private network: NetworkService
+    private utility: UtilityService,
   ) {
+    super(injector)
     this.initialize();
   }
 
   initialize() {
-    this.getList('', 1);
+    this.crudService.getList('', 1);
   }
 
-  async getList(search = '', page = 1): Promise<any> {
-    let obj = {
-      search: search,
-      page: page,
-      perpage: this.perpage,
-      filters: this.filters ? JSON.stringify(this.model) : null
-    };
-
-    const res = await this.network.getRestaurants(obj);
-    if (res.data) {
-
-      let d = res.data;
-      this.page = d.current_page;
-      this.lastPage = d.last_page;
-      this.total = d.total;
-      console.log(res);
-
-      // if(this.page == 1){
-      this.list = d.data;
-      // } else {
-      //   this.list = [...this.list, ...d.data];
-      // }
-
-
-    }
-
-    return res;
-  }
 
   editRow(index: number) {
 
   }
 
   async deleteRow(index: number) {
-    let item = this.list[index];
-    if (item) {
-      await this.network.removeRestaurant(item.id);
+    try {
+      await this.crudService.deleteRow(index, this.utility);
+      console.log('Row deleted successfully');
+    } catch (error) {
+      console.error('Error deleting row:', error);
     }
-    this.list.splice(index, 1);
   }
 
-  loadMore() {
-    if (this.page < this.lastPage) {
-      this.getList(this.search, this.page + 1);
-    }
 
-  }
 
   openDetails(i) {
     let item = this.list[i];
     this.nav.push('/pages/restaurants/view/' + item.id);
   }
 
-  onChangePerPage($event) {
-    this.getList('', 1);
+  changePerPage(event: any) {
+    this.crudService.onChangePerPage(event.target.value);
   }
 
-  pageChange($event) {
-    this.getList(this.search, $event);
+  changePage(event: any) {
+    this.crudService.pageChange(event);
   }
 
-  onSearch($event) {
-    console.log($event);
-    this.search = $event;
-    this.getList(this.search, 1);
+  toggleFilters() {
+    this.crudService.onFilter(!this.crudService.filters);
   }
 
-  onFilter($event){
-    this.filters = !this.filters;
-
-    if(!this.filters){
-      this.search = '';
-      this.getList('', 1);
-    }
-
+  submitFilters(model: any) {
+    this.crudService.onSubmit(model);
   }
 
-  onSubmit(model){
-
-    this.search = '';
-    this.getList('', 1);
+  loadMoreData() {
+    this.crudService.loadMore();
   }
+
+
+
+
 
 
 }

@@ -22,12 +22,25 @@ export class NetworkService {
     return this.httpPostResponse('auth/login-via-email', data, null, false, true);
   }
 
+  // Standard CRUD calls
+
+  index(slug, params){
+    const query = this.serialize(params);
+    return this.httpGetResponse(slug + (query ? `?${query}` : ''), null, false, true);
+  }
+
+  destroy(slug, id) {
+    return this.httpDeleteResponse(slug, id, false, true);
+  }
+
+
+
   // Restaurants
 
-  getRestaurants(params) {
-    const query = this.serialize(params);
-    return this.httpGetResponse('restaurant' + (query ? `?${query}` : ''), null, false, true);
-  }
+  // getRestaurants(params) {
+  //   const query = this.serialize(params);
+  //   return this.httpGetResponse('restaurant' + (query ? `?${query}` : ''), null, false, true);
+  // }
 
   getRestaurantById(id) {
     return this.httpGetResponse(`restaurant/${id}`, null, false, true);
@@ -37,9 +50,9 @@ export class NetworkService {
     return this.httpPostResponse('restaurant', data, null, false, true);
   }
 
-  removeRestaurant(id) {
-    return this.httpDeleteResponse('restaurant', id, false, true);
-  }
+  // removeRestaurant(id) {
+  //   return this.httpDeleteResponse('restaurant', id, false, true);
+  // }
 
   // Users
 
@@ -47,10 +60,11 @@ export class NetworkService {
     return this.httpGetResponse('auth-user', null, false);
   }
 
-  getUsers(params) {
-    const query = this.serialize(params);
-    return this.httpGetResponse('user' + (query ? `?${query}` : ''), null, false, true);
-  }
+  // getUsers(params) {
+  //   const query = this.serialize(params);
+  //   return this.httpGetResponse('user' + (query ? `?${query}` : ''), null, false, true);
+  // }
+
   getUsersById(id) {
     return this.httpGetResponse(`user/${id}`, null, false, true);
   }
@@ -59,9 +73,9 @@ export class NetworkService {
     return this.httpPostResponse('user', data, null, false, true);
   }
 
-  removeUser(id) {
-    return this.httpDeleteResponse('user', id, false, true);
-  }
+  // removeUser(id) {
+  //   return this.httpDeleteResponse('user', id, false, true);
+  // }
 
   getRoles(params) {
     const query = this.serialize(params);
