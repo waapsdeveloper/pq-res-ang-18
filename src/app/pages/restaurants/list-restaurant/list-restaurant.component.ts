@@ -29,15 +29,8 @@ export class ListRestaurantComponent {
 
   form = new FormGroup({});
   model = {
-    name: 'Restaurant one',
-    image: '',
+    name: '',
     address: '',
-    phone: '8957985674',
-    email: 'restaurant1@mail.com',
-    website: '',
-    opening_hours: '',
-    description: '',
-    rating: Math.floor(Math.random() * 6),
     status: 'active',
   };
 
@@ -50,9 +43,7 @@ export class ListRestaurantComponent {
           type: 'input',
           props: {
             label: 'Restaurant Name',
-            placeholder: 'Enter restaurant name',
-            required: true,
-            minLength: 3
+            placeholder: 'Search name',
           },
           className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
         },
@@ -62,8 +53,20 @@ export class ListRestaurantComponent {
           type: 'input',
           props: {
             label: 'Address',
-            placeholder: 'Enter address',
-            required: true
+            placeholder: 'Search address',
+          },
+          className: 'col-md-4 col-12'
+        },
+
+        {
+          key: 'status',
+          type: 'select',
+          props: {
+            label: 'Status',
+            options: [
+              { value: 'active', label: 'Active' },
+              { value: 'inactive', label: 'Inactive' }
+            ]
           },
           className: 'col-md-4 col-12'
         },
@@ -87,7 +90,8 @@ export class ListRestaurantComponent {
     let obj = {
       search: search,
       page: page,
-      perpage: this.perpage
+      perpage: this.perpage,
+      filters: this.filters ? JSON.stringify(this.model) : null
     };
 
     const res = await this.network.getRestaurants(obj);
@@ -147,6 +151,22 @@ export class ListRestaurantComponent {
     console.log($event);
     this.search = $event;
     this.getList(this.search, 1);
+  }
+
+  onFilter($event){
+    this.filters = !this.filters;
+
+    if(!this.filters){
+      this.search = '';
+      this.getList('', 1);
+    }
+
+  }
+
+  onSubmit(model){
+
+    this.search = '';
+    this.getList('', 1);
   }
 
 
