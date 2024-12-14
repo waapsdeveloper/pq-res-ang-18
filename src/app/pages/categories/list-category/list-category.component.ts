@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { UsersService } from 'src/app/services/users.service';
+import { FormGroup } from '@angular/forms';
+import { FormlyFieldConfig } from '@ngx-formly/core';
+
 
 @Component({
   selector: 'app-list-category',
@@ -19,12 +22,57 @@ export class ListCategoryComponent {
   perpage = 10;
   list: any[] = [];
   showEdit: boolean = false;
+  filters = false;
 
   columns: any[] = [
     'Name',
     'parent category',
     'Status'
   ]
+  form = new FormGroup({});
+  model = {
+    name: 'Restaurant one',
+    image: '',
+    address: '',
+    phone: '8957985674',
+    email: 'restaurant1@mail.com',
+    website: '',
+    opening_hours: '',
+    description: '',
+    rating: Math.floor(Math.random() * 6),
+    status: 'active',
+  };
+
+  fields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: 'row', // Bootstrap row
+      fieldGroup: [
+        {
+          key: 'name',
+          type: 'input',
+          props: {
+            label: 'Restaurant Name',
+            placeholder: 'Enter restaurant name',
+            required: true,
+            minLength: 3
+          },
+          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
+        },
+
+        {
+          key: 'address',
+          type: 'input',
+          props: {
+            label: 'Address',
+            placeholder: 'Enter address',
+            required: true
+          },
+          className: 'col-md-4 col-12'
+        },
+
+      ],
+    },
+  ];
 
   constructor(
     private nav: NavService,

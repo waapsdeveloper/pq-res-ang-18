@@ -1,48 +1,13 @@
-<app-kt-list-page [title]="'Users'" [addurl]="'/pages/users/add'" (onSearch)="onSearch($event)" (onFilter)="filters = !filters">
-
-  <div class="d-flex flex-wrap gap-5" *ngIf="filters">
-    <!--begin::Input group-->
-    <div class="fv-row w-100 flex-md-root fv-plugins-icon-container">
-      <!--begin::Label-->
-      <label class="required form-label">Filter by name</label>
-      <!--end::Label-->
-      <!--begin::Select2-->
-      <input type="text" class="form-control mb-2" value="" placeholder="Name">
-      <!--end::Select2-->
-      <!--begin::Description-->
-
-      <!--end::Description-->
-      <div class="fv-plugins-message-container invalid-feedback"></div>
-    </div>
-    <div class="fv-row w-100 flex-md-root fv-plugins-icon-container">
-      <!--begin::Label-->
-      <label class="required form-label">Filter by Phone</label>
-      <!--end::Label-->
-      <!--begin::Select2-->
-      <input type="text" class="form-control mb-2" value="" placeholder="Phone">
-      <!--end::Select2-->
-      <!--begin::Description-->
-
-      <!--end::Description-->
-      <div class="fv-plugins-message-container invalid-feedback"></div>
-    </div>
-    <!--end::Input group-->
-    <!--begin::Input group-->
-    <div class="fv-row w-100 flex-md-root">
-      <!--begin::Label-->
-      <label class="form-label">Orders greater then or equals to </label>
-      <!--end::Label-->
-      <!--begin::Input-->
-      <input type="text" class="form-control mb-2" value="">
-      <!--end::Input-->
-      <!--begin::Description-->
-
-      <!--end::Description-->
-    </div>
-    <!--end::Input group-->
-  </div>
+<app-kt-list-page [title]="'Users'" [addurl]="'/pages/users/add'" (onSearch)="onSearch($event)"
+  (onFilter)="filters = !filters">
+  <form [formGroup]="form" *ngIf="filters">
+    <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
+    <button type="submit" class="btn btn-secondary mt-4">search</button>
+  </form>
 
   <hr *ngIf="filters">
+
+
 
   <app-kt-app-list-page-table [columns]="columns" [currentPage]="page" [totalPages]="lastPage"
     (pageChange)="pageChange($event)">
