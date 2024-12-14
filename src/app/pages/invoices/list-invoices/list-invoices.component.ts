@@ -10,7 +10,8 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
   templateUrl: './list-invoices.component.html',
   styleUrls: ['./list-invoices.component.scss'],
 })
-export class ListInvoicesComponent {  title = 'Invoices';
+export class ListInvoicesComponent {
+    title = 'Invoices';
   addurl = '/pages/invoices/add';
   search = '';
   page = 1;
@@ -20,7 +21,7 @@ export class ListInvoicesComponent {  title = 'Invoices';
   list: any[] = [];
   showEdit: boolean = false;
   filters = false;
-  columns: any[] = ['Products','Quantity','Price', 'Total Price', 'Status'];
+  columns: any[] = ['Products', 'Quantity', 'Price', 'Total Price', 'Status'];
 
   constructor(
     private nav: NavService,
@@ -31,15 +32,10 @@ export class ListInvoicesComponent {  title = 'Invoices';
   }
   form = new FormGroup({});
   model = {
-    name: 'Restaurant one',
-    image: '',
-    address: '',
-    phone: '8957985674',
-    email: 'restaurant1@mail.com',
-    website: '',
-    opening_hours: '',
-    description: '',
-    rating: Math.floor(Math.random() * 6),
+    products: '',
+    quanity: '',
+    price: '',
+    total_price: '',
     status: 'active',
   };
 
@@ -97,10 +93,10 @@ export class ListInvoicesComponent {  title = 'Invoices';
       this.lastPage = d.last_page;
       this.total = d.total;
 
-//      if (this.page == 1) {
-        this.list = d.data;
-console.log(this.list);
-        // } else {
+      //      if (this.page == 1) {
+      this.list = d.data;
+      console.log(this.list);
+      // } else {
       //   this.list = [...this.list, ...d.data];
       // }
     }
@@ -108,7 +104,7 @@ console.log(this.list);
     return res;
   }
 
-  editRow(index: number) {}
+  editRow(index: number) { }
 
   async deleteRow(index: number) {
     let item = this.list[index];

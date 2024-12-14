@@ -26,20 +26,17 @@ export class ListUserComponent {
     'phone',
     'address',
     'orders',
-    'Status'
+    'Status',
+    'Photo'
   ]
   form = new FormGroup({});
   model = {
-    name: 'Restaurant one',
-    image: '',
+    name: '',
+    phone: '',
     address: '',
-    phone: '8957985674',
-    email: 'restaurant1@mail.com',
-    website: '',
-    opening_hours: '',
-    description: '',
-    rating: Math.floor(Math.random() * 6),
+    order: '',
     status: 'active',
+    photo: '',
   };
 
   fields: FormlyFieldConfig[] = [
@@ -91,7 +88,7 @@ export class ListUserComponent {
     };
 
     const res = await this.network.getUsers(obj);
-    if(res.data){
+    if (res.data) {
 
       let d = res.data;
       this.page = d.current_page;
@@ -99,7 +96,7 @@ export class ListUserComponent {
       this.total = d.total;
 
       // if(this.page == 1){
-         this.list = d.data;
+      this.list = d.data;
       // } else {
       //   this.list = [...this.list, ...d.data];
       // }
@@ -117,7 +114,7 @@ export class ListUserComponent {
 
   async deleteRow(index: number) {
     let item = this.list[index];
-    if(item){
+    if (item) {
       await this.network.removeUser(item.id);
     }
     this.list.splice(index, 1);
@@ -125,7 +122,7 @@ export class ListUserComponent {
 
 
   loadMore() {
-    if(this.page < this.lastPage){
+    if (this.page < this.lastPage) {
       this.getList(this.search, this.page + 1);
     }
 
@@ -137,15 +134,15 @@ export class ListUserComponent {
     this.nav.push('/pages/users/view/' + item.id);
   }
 
-  onChangePerPage($event){
+  onChangePerPage($event) {
     this.getList('', 1);
   }
 
-  pageChange($event){
+  pageChange($event) {
     this.getList(this.search, $event);
   }
 
-  onSearch($event){
+  onSearch($event) {
     console.log($event);
     this.search = $event;
     this.getList(this.search, 1);
