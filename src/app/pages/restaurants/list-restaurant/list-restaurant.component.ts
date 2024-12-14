@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
 
@@ -17,12 +19,58 @@ export class ListRestaurantComponent {
   total = 0;
   perpage = 10;
   list: any[] = [];
+  filters = false;
 
   columns: any[] = [
     'Name',
     'Address',
     'Status'
   ]
+
+  form = new FormGroup({});
+  model = {
+    name: 'Restaurant one',
+    image: '',
+    address: '',
+    phone: '8957985674',
+    email: 'restaurant1@mail.com',
+    website: '',
+    opening_hours: '',
+    description: '',
+    rating: Math.floor(Math.random() * 6),
+    status: 'active',
+  };
+
+  fields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: 'row', // Bootstrap row
+      fieldGroup: [
+        {
+          key: 'name',
+          type: 'input',
+          props: {
+            label: 'Restaurant Name',
+            placeholder: 'Enter restaurant name',
+            required: true,
+            minLength: 3
+          },
+          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
+        },
+
+        {
+          key: 'address',
+          type: 'input',
+          props: {
+            label: 'Address',
+            placeholder: 'Enter address',
+            required: true
+          },
+          className: 'col-md-4 col-12'
+        },
+
+      ],
+    },
+  ];
 
   constructor(
     private nav: NavService,
@@ -43,7 +91,7 @@ export class ListRestaurantComponent {
     };
 
     const res = await this.network.getRestaurants(obj);
-    if(res.data){
+    if (res.data) {
 
       let d = res.data;
       this.page = d.current_page;
@@ -52,7 +100,7 @@ export class ListRestaurantComponent {
       console.log(res);
 
       // if(this.page == 1){
-        this.list = d.data;
+      this.list = d.data;
       // } else {
       //   this.list = [...this.list, ...d.data];
       // }
@@ -69,14 +117,14 @@ export class ListRestaurantComponent {
 
   async deleteRow(index: number) {
     let item = this.list[index];
-    if(item){
+    if (item) {
       await this.network.removeRestaurant(item.id);
     }
     this.list.splice(index, 1);
   }
 
   loadMore() {
-    if(this.page < this.lastPage){
+    if (this.page < this.lastPage) {
       this.getList(this.search, this.page + 1);
     }
 
@@ -87,15 +135,15 @@ export class ListRestaurantComponent {
     this.nav.push('/pages/restaurants/view/' + item.id);
   }
 
-  onChangePerPage($event){
+  onChangePerPage($event) {
     this.getList('', 1);
   }
 
-  pageChange($event){
+  pageChange($event) {
     this.getList(this.search, $event);
   }
 
-  onSearch($event){
+  onSearch($event) {
     console.log($event);
     this.search = $event;
     this.getList(this.search, 1);
