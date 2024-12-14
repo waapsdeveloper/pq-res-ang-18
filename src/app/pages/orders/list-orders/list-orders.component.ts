@@ -21,17 +21,17 @@ export class ListOrdersComponent {
   list: any[] = [];
   showEdit: boolean = false;
   filters = false;
-  columns: any[] = ['Order Id','Customer Name','Phone No',  'Total Price', 'Table No', "Type", 'Status' ];
+  columns: any[] = ['Order Id', 'Customer Name', 'Phone No', 'Total Price', 'Table No', "Type", 'Status'];
 
   form = new FormGroup({});
   model = {
-    order_id:'',
-  Customer_name:'',
-   phone:'',
-   total_price:'',
-   table:'',
-   type:'',
-   status:'',
+    order_id: '',
+    Customer_name: '',
+    phone: '',
+    total_price: '',
+    table: '',
+    type: '',
+    status: '',
 
   };
 
@@ -40,27 +40,94 @@ export class ListOrdersComponent {
       fieldGroupClassName: 'row', // Bootstrap row
       fieldGroup: [
         {
-          key: 'name',
+          key: 'order_id',
           type: 'input',
           props: {
-            label: 'Restaurant Name',
-            placeholder: 'Enter Order Id',
+            label: 'Order ID',
+            placeholder: 'Enter order ID',
+            required: true,
+            pattern: '^[a-zA-Z0-9-_]+$', // Alphanumeric with optional hyphen/underscore
+            title: 'Order ID can only contain letters, numbers, hyphens, and underscores'
+          },
+          className: 'col-md-4 col-12'
+        },
+        {
+          key: 'Customer_name',
+          type: 'input',
+          props: {
+            label: 'Customer Name',
+            placeholder: 'Enter customer name',
             required: true,
             minLength: 3
           },
-          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
+          className: 'col-md-4 col-12'
         },
-
         {
-          key: 'address',
+          key: 'phone',
           type: 'input',
           props: {
-            label: 'Address',
-            placeholder: 'Enter address',
+            label: 'Phone',
+            placeholder: 'Enter phone number',
+            required: true,
+            type: 'tel',
+            pattern: '\\d{11}',
+            title: 'Enter a valid 10-digit phone number'
+          },
+          className: 'col-md-4 col-12'
+        },
+        {
+          key: 'total_price',
+          type: 'input',
+          props: {
+            label: 'Total Price',
+            placeholder: 'Enter total price',
+            required: true,
+            type: 'number',
+            min: 0,
+            step: 0.01 // For decimal prices
+          },
+          className: 'col-md-4 col-12'
+        },
+        {
+          key: 'table',
+          type: 'input',
+          props: {
+            label: 'Table Number',
+            placeholder: 'Enter table number',
+            required: false,
+            type: 'number',
+            min: 0
+          },
+          className: 'col-md-4 col-12'
+        },
+        {
+          key: 'type',
+          type: 'select',
+          props: {
+            label: 'Order Type',
+            options: [
+              { label: 'Dine-In', value: 'dine-in' },
+              { label: 'Takeaway', value: 'takeaway' },
+              { label: 'Delivery', value: 'delivery' }
+            ],
             required: true
           },
           className: 'col-md-4 col-12'
         },
+        {
+          key: 'status',
+          type: 'select',
+          props: {
+            label: 'Order Status',
+            options: [
+              { label: 'Pending', value: 'pending' },
+              { label: 'Completed', value: 'completed' },
+              { label: 'Cancelled', value: 'cancelled' }
+            ],
+            required: true
+          },
+          className: 'col-md-4 col-12'
+        }
 
       ],
     },
@@ -96,10 +163,10 @@ export class ListOrdersComponent {
       this.lastPage = d.last_page;
       this.total = d.total;
 
-//      if (this.page == 1) {
-        this.list = d.data;
-console.log(this.list);
-        // } else {
+      //      if (this.page == 1) {
+      this.list = d.data;
+      console.log(this.list);
+      // } else {
       //   this.list = [...this.list, ...d.data];
       // }
     }
@@ -107,7 +174,7 @@ console.log(this.list);
     return res;
   }
 
-  editRow(index: number) {}
+  editRow(index: number) { }
 
   async deleteRow(index: number) {
     let item = this.list[index];
@@ -143,13 +210,13 @@ console.log(this.list);
         return '';
     }
   }
-  
+
   viewDetails(order: any): void {
     console.log('Viewing details for:', order);
   }
-  
+
   payBill(order: any): void {
     console.log('Paying bill for:', order);
   }
-  
+
 }

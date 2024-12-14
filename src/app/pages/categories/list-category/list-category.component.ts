@@ -51,24 +51,50 @@ export class ListCategoryComponent {
           key: 'name',
           type: 'input',
           props: {
-            label: 'Restaurant Name',
+            label: 'Name',
             placeholder: 'Enter restaurant name',
             required: true,
             minLength: 3
           },
-          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
+          className: 'col-md-4 col-12'
         },
-
         {
-          key: 'address',
+          key: 'parent_category',
           type: 'input',
           props: {
-            label: 'Address',
-            placeholder: 'Enter address',
-            required: true
+            label: 'Parent Category',
+            placeholder: 'Enter parent category',
+            required: false
           },
           className: 'col-md-4 col-12'
         },
+        {
+          key: 'description',
+          type: 'textarea',
+          props: {
+            label: 'Description',
+            placeholder: 'Enter description',
+            required: true,
+            rows: 3,
+            maxLength: 500 // Optional: Limits the character count
+          },
+          className: 'col-md-4 col-12'
+        },
+
+
+        {
+          key: 'status',
+          type: 'select',
+          props: {
+            label: 'Status',
+            options: [
+              { label: 'Active', value: 'active' },
+              { label: 'Inactive', value: 'inactive' }
+            ],
+            required: true
+          },
+          className: 'col-md-4 col-12'
+        }
 
       ],
     },

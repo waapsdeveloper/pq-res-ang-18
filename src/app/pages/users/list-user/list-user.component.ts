@@ -47,20 +47,56 @@ export class ListUserComponent {
           key: 'name',
           type: 'input',
           props: {
-            label: 'Restaurant Name',
-            placeholder: 'Enter restaurant name',
+            label: 'Name',
+            placeholder: 'Enter  User name',
             required: true,
             minLength: 3
           },
-          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
+          className: 'col-md-4 col-12'
         },
-
+        {
+          key: 'phone',
+          type: 'input',
+          props: {
+            label: 'Phone',
+            placeholder: 'Enter phone number',
+            required: true,
+            type: 'tel',
+            pattern: '\\d{10}', // Adjust the regex based on your phone format (e.g., 10-digit numbers)
+            title: 'Enter a valid 10-digit phone number'
+          },
+          className: 'col-md-4 col-12'
+        },
         {
           key: 'address',
-          type: 'input',
+          type: 'textarea',
           props: {
             label: 'Address',
             placeholder: 'Enter address',
+            required: true,
+            rows: 3
+          },
+          className: 'col-md-4 col-12'
+        },
+        {
+          key: 'order',
+          type: 'input',
+          props: {
+            label: 'Order',
+            placeholder: 'Enter order details',
+            required: true
+          },
+          className: 'col-md-4 col-12'
+        },
+        {
+          key: 'status',
+          type: 'select',
+          props: {
+            label: 'Status',
+            options: [
+              { label: 'Active', value: 'active' },
+              { label: 'Inactive', value: 'inactive' }
+            ],
             required: true
           },
           className: 'col-md-4 col-12'
