@@ -31,7 +31,7 @@ export class ListRtablesComponent {
   form = new FormGroup({});
   model = {
     tableNo: '',
-    status: 'active', 
+    status: 'active',
     noOfOrders: ''
   };
 
@@ -40,23 +40,36 @@ export class ListRtablesComponent {
       fieldGroupClassName: 'row', // Bootstrap row
       fieldGroup: [
         {
-          key: 'name',
+          key: 'Table No',
           type: 'input',
           props: {
-            label: 'Restaurant Name',
-            placeholder: 'Enter restaurant name',
+            label: 'Table no',
+            placeholder: 'Enter Table no',
             required: true,
             minLength: 3
           },
           className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
         },
+        {
+          key: 'status',
+          type: 'select',
+          props: {
+            label: 'Status',
+            options: [
+              { label: 'Active', value: 'active' },
+              { label: 'Inactive', value: 'inactive' }
+            ],
+            required: true
+          },
+          className: 'col-md-4 col-12'
+        },
 
         {
-          key: 'address',
+          key: 'Orders',
           type: 'input',
           props: {
-            label: 'Address',
-            placeholder: 'Enter address',
+            label: 'Orders',
+            placeholder: 'Enter Orders',
             required: true
           },
           className: 'col-md-4 col-12'
@@ -78,9 +91,9 @@ export class ListRtablesComponent {
     this.getList('', 1);
 
     const u = this.users.getUser()
-    if(u.role_id == 1 || u.role_id == 2 ){
+    if (u.role_id == 1 || u.role_id == 2) {
       this.showEdit = true;
-      
+
     }
   }
 
@@ -92,7 +105,7 @@ export class ListRtablesComponent {
     };
 
     const res = await this.network.getTables(obj);
-    if(res.data){
+    if (res.data) {
 
       let d = res.data;
       this.page = d.current_page;
@@ -100,7 +113,7 @@ export class ListRtablesComponent {
       this.total = d.total;
 
       // if(this.page == 1){
-        this.list = d.data;
+      this.list = d.data;
       // } else {
       //   this.list = [...this.list, ...d.data];
       // }
@@ -118,7 +131,7 @@ export class ListRtablesComponent {
 
   async deleteRow(index: number) {
     let item = this.list[index];
-    if(item){
+    if (item) {
       await this.network.removeTable(item.id);
     }
     this.list.splice(index, 1);
@@ -126,7 +139,7 @@ export class ListRtablesComponent {
 
 
   loadMore() {
-    if(this.page < this.lastPage){
+    if (this.page < this.lastPage) {
       this.getList(this.search, this.page + 1);
     }
 
@@ -138,15 +151,15 @@ export class ListRtablesComponent {
     this.nav.push('/pages/tables/view/' + item.id);
   }
 
-  onChangePerPage($event){
+  onChangePerPage($event) {
     this.getList('', 1);
   }
 
-  pageChange($event){
+  pageChange($event) {
     this.getList(this.search, $event);
   }
 
-  onSearch($event){
+  onSearch($event) {
     console.log($event);
     this.search = $event;
     this.getList(this.search, 1);

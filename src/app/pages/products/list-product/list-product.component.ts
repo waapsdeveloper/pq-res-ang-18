@@ -42,21 +42,77 @@ export class ListProductComponent {
           key: 'name',
           type: 'input',
           props: {
-            label: 'Restaurant Name',
-            placeholder: 'Enter restaurant name',
+            label: 'Name',
+            placeholder: 'Enter name',
             required: true,
             minLength: 3
           },
-          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
+          className: 'col-md-4 col-12'
         },
-
         {
-          key: 'address',
+          key: 'category',
           type: 'input',
           props: {
-            label: 'Address',
-            placeholder: 'Enter address',
+            label: 'Category',
+            placeholder: 'Enter category',
             required: true
+          },
+          className: 'col-md-4 col-12'
+        },
+        {
+          key: 'price',
+          type: 'input',
+          props: {
+            label: 'Price',
+            placeholder: 'Enter price',
+            required: true,
+            type: 'number',
+            min: 0
+          },
+          className: 'col-md-4 col-12'
+        },
+        {
+          key: 'discount',
+          type: 'input',
+          props: {
+            label: 'Discount',
+            placeholder: 'Enter discount',
+            type: 'number',
+            min: 0
+          },
+          className: 'col-md-4 col-12'
+        },
+        {
+          key: 'status',
+          type: 'select',
+          props: {
+            label: 'Status',
+            options: [
+              { label: 'Active', value: 'active' },
+              { label: 'Inactive', value: 'inactive' }
+            ],
+            required: true
+          },
+          className: 'col-md-4 col-12'
+        },
+        {
+          key: 'type',
+          type: 'input',
+          props: {
+            label: 'Type',
+            placeholder: 'Enter type',
+            required: true
+          },
+          className: 'col-md-4 col-12'
+        },
+        {
+          key: 'noOfOrders',
+          type: 'input',
+          props: {
+            label: 'Number of Orders',
+            placeholder: 'Enter number of orders',
+            type: 'number',
+            min: 0
           },
           className: 'col-md-4 col-12'
         },
@@ -89,9 +145,9 @@ export class ListProductComponent {
     this.getList('', 1);
 
     const u = this.users.getUser()
-    if(u.role_id == 1 || u.role_id == 2 ){
+    if (u.role_id == 1 || u.role_id == 2) {
       this.showEdit = true;
-      
+
     }
   }
 
@@ -103,15 +159,15 @@ export class ListProductComponent {
     };
 
     const res = await this.network.getProducts(obj);
-    if(res.data){
+    if (res.data) {
 
       let d = res.data;
       this.page = d.current_page;
       this.lastPage = d.last_page;
       this.total = d.total;
 
-//      if(this.page == 1){
-        this.list = d.data;
+      //      if(this.page == 1){
+      this.list = d.data;
       // } else {
       //   this.list = [...this.list, ...d.data];
       // }
@@ -128,36 +184,36 @@ export class ListProductComponent {
 
   async deleteRow(index: number) {
     let item = this.list[index];
-    if(item){
+    if (item) {
       await this.network.removeProduct(item.id);
     }
     this.list.splice(index, 1);
   }
 
   loadMore() {
-    if(this.page < this.lastPage){
+    if (this.page < this.lastPage) {
       this.getList(this.search, this.page + 1);
     }
   }
 
- 
+
   openDetails(i) {
     let item = this.list[i];
     this.nav.push('/pages/products/view/' + item.id);
   }
 
-  onChangePerPage($event){
+  onChangePerPage($event) {
     this.getList('', 1);
   }
 
-  pageChange($event){
+  pageChange($event) {
     this.getList(this.search, $event);
   }
 
-  onSearch($event){
+  onSearch($event) {
     console.log($event);
     this.search = $event;
     this.getList(this.search, 1);
   }
-  
+
 }

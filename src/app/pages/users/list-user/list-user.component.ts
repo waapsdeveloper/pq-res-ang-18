@@ -51,9 +51,21 @@ export class ListUserComponent extends ListBlade {
             label: 'Phone',
             placeholder: '',
           },
-          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
+          className: 'col-md-4 col-12'
         },
-
+        {
+          key: 'phone',
+          type: 'input',
+          props: {
+            label: 'Phone',
+            placeholder: 'Enter phone number',
+            required: true,
+            type: 'tel',
+            pattern: '\\d{10}', // Adjust the regex based on your phone format (e.g., 10-digit numbers)
+            title: 'Enter a valid 10-digit phone number'
+          },
+          className: 'col-md-4 col-12'
+        },
         {
           key: 'status',
           type: 'select',
