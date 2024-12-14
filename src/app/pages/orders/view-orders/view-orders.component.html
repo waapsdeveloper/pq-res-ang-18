@@ -8,11 +8,11 @@
       <!--begin::Row-->
       <div class="row mb-7">
         <!--begin::Label-->
-        <label class="col-lg-4 fw-semibold text-muted">Customer Name</label>
+        <label class="col-lg-4 fw-normal text-muted">Customer Name</label>
         <!--end::Label-->
         <!--begin::Col-->
         <div class="col-lg-8">
-          <span class="fw-bold fs-6 text-gray-800">{{item?.customer_name}}</span>
+          <span class="fw-medium fs-6 text-gray-800">{{item?.customer_name}}</span>
         </div>
         <!--end::Col-->
       </div>
@@ -20,11 +20,11 @@
       <!--begin::Input group-->
       <div class="row mb-7">
         <!--begin::Label-->
-        <label class="col-lg-4 fw-semibold text-muted">Order Number</label>
+        <label class="col-lg-4 fw-normal text-muted">Order Number</label>
         <!--end::Label-->
         <!--begin::Col-->
         <div class="col-lg-8 fv-row">
-          <span class="fw-semibold text-gray-800 fs-6">{{item?.order_number}}</span>
+          <span class="fw-medium text-gray-800 fs-6">{{item?.order_number}}</span>
         </div>
         <!--end::Col-->
       </div>
@@ -32,65 +32,95 @@
       <!--begin::Input group-->
       <div class="row mb-7">
         <!--begin::Label-->
-        <label class="col-lg-4 fw-semibold text-muted">Contact Phone
+        <label class="col-lg-4 fw-normal text-muted">Contact Phone
           <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
             aria-label="Phone number must be active" data-kt-initialized="1"></i></label>
         <!--end::Label-->
         <!--begin::Col-->
         <div class="col-lg-8 d-flex align-items-center">
-          <span class="fw-bold fs-6 text-gray-800 me-2">{{item?.customer_phone}}</span>
-          <!-- <span class="badge badge-success">Verified</span> -->
+          <span class="fw-medium fs-6 text-gray-800 me-2">{{item?.customer_phone}}</span>
+        </div>
+        <!--end::Col-->
+      </div>
+      <!--end::Input group-->
+      <div class="row mb-7">
+        <!--begin::Label-->
+        <label class="col-lg-4 fw-normal text-muted">Address</label>
+        <!--end::Label-->
+        <!--begin::Col-->
+        <div class="col-lg-8">
+          <span class="fw-medium fs-6 text-gray-800">{{item?.address}}</span>
         </div>
         <!--end::Col-->
       </div>
       <div class="row mb-7">
         <!--begin::Label-->
-        <label class="col-lg-4 fw-semibold text-muted">Status
-          <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
-            aria-label="Phone number must be active" data-kt-initialized="1"></i></label>
+        <label class="col-lg-4 fw-normal text-muted">Status</label>
         <!--end::Label-->
         <!--begin::Col-->
-        <div class="col-lg-8 d-flex align-items-center">
-          <span class="fw-bold fs-6 text-gray-800 me-2">{{item?.status}}</span>
-          <!-- <span class="badge badge-success">Verified</span> -->
+        <div class="col-lg-8">
+          <span class="fw-medium fs-6 text-gray-800">{{item?.status}}</span>
         </div>
         <!--end::Col-->
       </div>
-     
-      <!--end::Input group-->
+          <!--end::Input group-->
+          <div class="row mb-7">
+            <label class="col-lg-4 fw-normal text-muted">Total Price</label>
+            <div class="col-lg-8">
+              <span class="fw-medium fs-6 text-gray-800">${{ item?.total_price }}</span>
+            </div>
+          </div>
+          <div class="row mb-7">
+            <label class="col-lg-4 fw-normal text-muted">Discount (if any)</label>
+            <div class="col-lg-8">
+              <span class="fw-medium fs-6 text-gray-800">${{ item?.discount }}</span>
+            </div>
+          </div>
+          <div class="row mb-7">
+            <label class="col-lg-4 fw-normal text-muted">Tax</label>
+            <div class="col-lg-8">
+              <span class="fw-medium fs-6 text-gray-800">${{ item?.tax }}</span>
+            </div>
+          </div>
+          <div class="row mb-7">
+            <label class="col-lg-4 fw-normal text-muted">Important Notes</label>
+            <div class="col-lg-8">
+              <span class="fw-medium fs-6 text-gray-800">{{ item?.important_notes }}</span>
+            </div>
+          </div>
+          <div class="row mb-7">
+            <label class="col-lg-4 fw-normal text-muted">Table No</label>
+            <div class="col-lg-8">
+              <span class="fw-medium fs-6 text-gray-800">{{ item?.table_no }}</span>
+            </div>
+          </div>
+    
       <!--begin::Input group-->
       <div class="row mb-7">
-
-        <div class="col-lg-5">
+        <div class="col-lg-12">
           <table class="table table-bordered mb-4">
             <thead>
               <tr>
-                <th class="fw-semibold text-muted">Product Name</th>
-                <th class="fw-semibold text-muted">Product Quantity</th>
-                <th class="fw-semibold text-muted">Price</th>
-                <th class="fw-semibold text-muted">Total Price</th>
-                
+                <th class="fw-normal text-muted">Product Name</th>
+                <th class="fw-normal text-muted">Product Quantity</th>
+                <th class="fw-normal text-muted">Price</th>
+                <th class="fw-normal text-muted">Total Price</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let product of item?.products">
-                <td class="fw-bold fs-6 text-gray-800">{{ product?.product_name }}</td>
-                <td class="fw-bold fs-6 text-gray-800">{{ product?.quantity }}</td>
-                <td class="fw-bold fs-6 text-gray-800">${{ product?.price}}</td>
-                <td class="fw-bold fs-6 text-gray-800">${{ item?.total_price}}</td>
+                <td class="fw-medium fs-6 text-gray-800">{{ product?.product_name }}</td>
+                <td class="fw-medium fs-6 text-gray-800">{{ product?.quantity }}</td>
+                <td class="fw-medium fs-6 text-gray-800">${{ product?.price}}</td>
+                <td class="fw-medium fs-6 text-gray-800">${{ product?.quantity * product?.price }}</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
-      <!--end::Input group-->
-
-
+  
     </div>
     <!--end::Card body-->
   </div>
-
-
-
 
 </app-kt-list-detail-page>

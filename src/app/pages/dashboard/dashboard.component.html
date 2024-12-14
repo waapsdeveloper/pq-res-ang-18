@@ -4,7 +4,7 @@
   }" (NavCollapsedMob)="navMobClick()"></app-navigation> -->
 <!-- <app-nav-bar (NavCollapse)="this.navCollapsed = !this.navCollapsed" (NavCollapsedMob)="navMobClick()"></app-nav-bar> -->
 <app-btop-header></app-btop-header>
-<div class="pc-container" style="background-color: transparent;">
+<div class="pc-container p-7 pt-9">
   <div class="coded-wrapper">
     <div class="coded-content">
       <div class="coded-inner-content">
@@ -12,7 +12,7 @@
         <div class="main-body">
           <div class="page-wrapper">
             <div class="row">
-              <div class="col-xl-4 col-md-6">
+              <!-- <div class="col-xl-4 col-md-6">
                 <div class="card earning-card bg-secondary-dark text-white overflow-hidden">
                   <span class="round secondary-round small"></span>
                   <span class="round secondary-round big"></span>
@@ -43,6 +43,9 @@
                     <p class="mb-0 opacity-50">Total Earning</p>
                   </div>
                 </div>
+              </div> -->
+              <div class="col-xl-4 col-md-6 ">
+                <app-chart-order />
               </div>
               <div class="col-xl-4 col-md-6">
                 <div class="card earning-card bg-primary-dark text-white overflow-hidden">
@@ -74,8 +77,8 @@
                         <i class="text-warning ti ti-layout-board-split f-24"></i>
                       </div>
                       <div class="ms-2">
-                        <h4 class="f-w-600 mb-1">$203k</h4>
-                        <p class="mb-0 opacity-50 text-sm">Total Income</p>
+                        <h4 class="f-w-600 mb-1">500k</h4>
+                        <p class="mb-0 opacity-50 text-sm">Total sales</p>
                       </div>
                     </div>
                   </div>
@@ -83,10 +86,18 @@
               </div>
 
               <div class="col-xl-8 col-md-12">
-                <app-bar-chart />
+                <!-- <app-bar-chart /> -->
+                <!--begin::Tables widget 2-->
+                <app-recent-order />
+                <!-- <app-order-status/> -->
+                <app-project-stat/>
+                <!--end::Tables widget 2-->
               </div>
+
               <div class="col-xl-4 col-md-12">
-                <div class="card">
+                <app-sales-chart/>
+                <app-favourite-table/>
+                <!-- <div class="card">
                   <div class="card-body">
                     <div class="row mb-3 align-items-center">
                       <div class="col">
@@ -135,7 +146,8 @@
                       </a>
                     </div>
                   </div>
-                </div>
+                </div> -->
+
               </div>
             </div>
           </div>

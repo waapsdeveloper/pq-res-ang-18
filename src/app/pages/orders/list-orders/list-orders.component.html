@@ -1,25 +1,32 @@
-
 <app-kt-list-page [title]="'Orders'" [addurl]="'/pages/orders/add'">
 
 
-  <app-kt-app-list-page-table [columns]="columns"  [currentPage]="page" [totalPages]="total">
+  <app-kt-app-list-page-table [columns]="columns" [currentPage]="page" [totalPages]="total">
 
     <tr *ngFor="let item of list; let i = index">
-
       <td>
-        <div *ngFor="let products of item.products" class="d-flex">
-          <div  class="ms-4">
-            <a class="text-muted fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{products?.product_name }}  </a>
+        <div class="d-flex">
+          <div class="ms-4">
+            <a class=" fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{item?.order_number}} </a>
           </div>
         </div>
       </td>
       <td>
-        <div *ngFor="let products of item.products" class="d-flex">
-          <div  class="ms-4">
-            <a class="text-muted fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{products?.quantity }}   </a>
+        <div class="d-flex">
+          <div class="ms-4">
+            <a class=" fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{item?.customer_name}} </a>
           </div>
         </div>
       </td>
+      <td>
+        <div class="d-flex">
+          <div class="ms-4">
+            <a class=" fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{item?.customer_phone}} </a>
+          </div>
+        </div>
+      </td>
+    
+     
       <!-- <td>
         <div *ngFor="let products of item.products" class="d-flex">
           <div  class="ms-5">
@@ -28,13 +35,24 @@
         </div>
       </td> -->
       <td>
-        <div  class="d-flex" class="ms-4">
-          <div class="text-muted fs-7 fw-bold">${{item?.total_price}}</div>
+        <div class="d-flex" class="ms-4">
+          <div class=" fs-7 fw-bold">${{item?.total_price}}</div>
+        </div>
+      </td>
+      
+      <td>
+        <div class="d-flex">
+          <div class=" fw-bold me-auto px-4 py-3">{{item?.customer_phone}}</div>
         </div>
       </td>
       <td>
         <div class="d-flex">
-            <div class="badge badge-light-primary fw-bold me-auto px-4 py-3">{{item.status}}</div>
+          <div class=" fw-bold me-auto px-4 py-3">{{item.status}}</div>
+        </div>
+      </td>
+      <td>
+        <div class="d-flex">
+          <div class="badge badge-light-primary fw-bold me-auto px-4 py-3">{{item.status}}</div>
         </div>
       </td>
 
@@ -44,7 +62,7 @@
       <!--begin::Action=-->
       <td class="text-end d-flex flex-row justify-content-end align-items-center gap-3">
 
-        <i class="ti ti-eye" style="font-size: 24px;" (click)="openDetails(i)" ></i>
+        <i class="ti ti-eye" style="font-size: 24px;" (click)="openDetails(i)"></i>
         <i *ngIf="showEdit" class="ti ti-edit" style="font-size: 24px;"></i>
         <i *ngIf="showEdit" class="ti ti-trash" style="font-size: 24px;" (click)="deleteRow(i)"></i>
 

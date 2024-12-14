@@ -17,10 +17,13 @@ export class ListUserComponent {
   total = 0;
   perpage = 10;
   list: any[] = [];
+  filters = false;
 
   columns: any[] = [
     'Name',
-    'Email',
+    'phone',
+    'address',
+    'orders',
     'Status'
   ]
 
@@ -103,5 +106,10 @@ export class ListUserComponent {
     this.getList(this.search, 1);
   }
 
+  getRandomNumberBetween50And100(): number {
+    const min = 50;
+    const max = 100;
+    return Math.round(Math.random() * (max - min) + min); // Generates a random number between 50 and 100
+  }
 
 }

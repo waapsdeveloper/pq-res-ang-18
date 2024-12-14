@@ -39,7 +39,7 @@ export class ListCategoryComponent {
     const u = this.users.getUser()
     if(u.role_id == 1 || u.role_id == 2 ){
       this.showEdit = true;
-      
+
     }
   }
 
@@ -76,6 +76,12 @@ export class ListCategoryComponent {
 
   async deleteRow(index: number) {
     let item = this.list[index];
+
+    // add confirmation
+
+
+
+
     if(item){
       await this.network.removeCategory(item.id);
     }
@@ -93,7 +99,7 @@ export class ListCategoryComponent {
     this.nav.push('/pages/categories/view/' + item.id);
   }
 
-  
+
   onChangePerPage($event){
     this.getList('', 1);
   }

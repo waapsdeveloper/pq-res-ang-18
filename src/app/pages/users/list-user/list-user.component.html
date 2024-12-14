@@ -1,26 +1,88 @@
+<app-kt-list-page [title]="'Users'" [addurl]="'/pages/users/add'" (onSearch)="onSearch($event)" (onFilter)="filters = !filters">
 
-<app-kt-list-page [title]="'Users'" [addurl]="'/pages/users/add'" (onSearch)="onSearch($event)">
+  <div class="d-flex flex-wrap gap-5" *ngIf="filters">
+    <!--begin::Input group-->
+    <div class="fv-row w-100 flex-md-root fv-plugins-icon-container">
+      <!--begin::Label-->
+      <label class="required form-label">Filter by name</label>
+      <!--end::Label-->
+      <!--begin::Select2-->
+      <input type="text" class="form-control mb-2" value="" placeholder="Name">
+      <!--end::Select2-->
+      <!--begin::Description-->
 
+      <!--end::Description-->
+      <div class="fv-plugins-message-container invalid-feedback"></div>
+    </div>
+    <div class="fv-row w-100 flex-md-root fv-plugins-icon-container">
+      <!--begin::Label-->
+      <label class="required form-label">Filter by Phone</label>
+      <!--end::Label-->
+      <!--begin::Select2-->
+      <input type="text" class="form-control mb-2" value="" placeholder="Phone">
+      <!--end::Select2-->
+      <!--begin::Description-->
 
-  <app-kt-app-list-page-table [columns]="columns" [currentPage]="page" [totalPages]="lastPage" (pageChange)="pageChange($event)">
+      <!--end::Description-->
+      <div class="fv-plugins-message-container invalid-feedback"></div>
+    </div>
+    <!--end::Input group-->
+    <!--begin::Input group-->
+    <div class="fv-row w-100 flex-md-root">
+      <!--begin::Label-->
+      <label class="form-label">Orders greater then or equals to </label>
+      <!--end::Label-->
+      <!--begin::Input-->
+      <input type="text" class="form-control mb-2" value="">
+      <!--end::Input-->
+      <!--begin::Description-->
+
+      <!--end::Description-->
+    </div>
+    <!--end::Input group-->
+  </div>
+
+  <hr *ngIf="filters">
+
+  <app-kt-app-list-page-table [columns]="columns" [currentPage]="page" [totalPages]="lastPage"
+    (pageChange)="pageChange($event)">
 
     <tr *ngFor="let item of list; let i = index">
 
       <td>
-        <div class="d-flex">
+        <div class="d-flex align-items-center">
+          <!--begin::Thumbnail-->
+          <a href="#" class="symbol symbol-50px">
+            <span class="symbol-label" style="background-image:url(assets/images/user/avatar-1.jpg);"></span>
+          </a>
+          <!--end::Thumbnail-->
           <div class="ms-5">
-            <a class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1">{{item.name}}</a>
+            <!--begin::Title-->
+            <a href="../../demo1/dist/apps/ecommerce/catalog/edit-product.html"
+              class="text-gray-800 text-hover-primary fs-5 fw-bold"
+              data-kt-ecommerce-product-filter="product_name">{{item.name}}</a>
+            <!--end::Title-->
           </div>
         </div>
       </td>
       <td>
         <div class="d-flex">
-          <div class="text-muted fs-7 fw-bold">{{item.email}}</div>
+          <div class="text-muted fs-7 fw-bold">+1 123 587 4567</div>
         </div>
       </td>
       <td>
         <div class="d-flex">
-            <div class="badge badge-light-primary fw-bold me-auto px-4 py-3">{{item.status}}</div>
+          <div class="text-muted fs-7 fw-bold">7th street ride lance park new york</div>
+        </div>
+      </td>
+      <td>
+        <div class="d-flex">
+          <div class="fs-7 fw-bold">{{getRandomNumberBetween50And100()}}</div>
+        </div>
+      </td>
+      <td>
+        <div class="d-flex">
+          <div class="badge badge-light-primary fw-bold me-auto px-4 py-3">{{item.status}}</div>
         </div>
       </td>
 

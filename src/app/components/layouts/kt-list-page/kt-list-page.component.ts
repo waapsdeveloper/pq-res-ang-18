@@ -10,10 +10,14 @@ export class KtListPageComponent {
   @Input('title') title = ''
   @Input('addurl') addurl = ''
   @Output('onSearch') onSearch = new EventEmitter<any>();
+  @Output('onFilter') onFilter = new EventEmitter<any>();
 
   search($event){
     let v = $event.target.value;
     this.onSearch.emit(v);
+  }
 
+  filter($event){
+    this.onFilter.emit();
   }
 }
