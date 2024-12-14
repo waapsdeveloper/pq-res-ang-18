@@ -1,6 +1,6 @@
-<app-kt-list-page [title]="'Restaurants'" [addurl]="'/pages/restaurants/add'" (onSearch)="onSearch($event)" (onFilter)="filters = !filters">
+<app-kt-list-page [title]="'Restaurants'" [addurl]="'/pages/restaurants/add'" (onSearch)="onSearch($event)" (onFilter)="onFilter($event)">
 
-  <form [formGroup]="form" *ngIf="filters">
+  <form [formGroup]="form" *ngIf="filters" (ngSubmit)="onSubmit(model)">
     <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
     <button type="submit" class="btn btn-secondary mt-4">search</button>
   </form>
