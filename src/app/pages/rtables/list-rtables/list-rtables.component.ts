@@ -24,22 +24,15 @@ export class ListRtablesComponent {
 
 
   columns: any[] = [
-    'Identifier',
-    'Location',
-    'Status'
-  ]
+    'Table No',
+    'Status',
+    'No of Orders'
+  ];
   form = new FormGroup({});
   model = {
-    name: 'Restaurant one',
-    image: '',
-    address: '',
-    phone: '8957985674',
-    email: 'restaurant1@mail.com',
-    website: '',
-    opening_hours: '',
-    description: '',
-    rating: Math.floor(Math.random() * 6),
-    status: 'active',
+    tableNo: '',
+    status: 'active', 
+    noOfOrders: ''
   };
 
   fields: FormlyFieldConfig[] = [

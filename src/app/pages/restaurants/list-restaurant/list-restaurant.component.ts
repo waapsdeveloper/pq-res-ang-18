@@ -29,15 +29,8 @@ export class ListRestaurantComponent {
 
   form = new FormGroup({});
   model = {
-    name: 'Restaurant one',
-    image: '',
+    name: '',
     address: '',
-    phone: '8957985674',
-    email: 'restaurant1@mail.com',
-    website: '',
-    opening_hours: '',
-    description: '',
-    rating: Math.floor(Math.random() * 6),
     status: 'active',
   };
 

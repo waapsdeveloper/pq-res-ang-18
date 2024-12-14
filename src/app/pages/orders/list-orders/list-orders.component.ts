@@ -25,16 +25,14 @@ export class ListOrdersComponent {
 
   form = new FormGroup({});
   model = {
-    name: 'Restaurant one',
-    image: '',
-    address: '',
-    phone: '8957985674',
-    email: 'restaurant1@mail.com',
-    website: '',
-    opening_hours: '',
-    description: '',
-    rating: Math.floor(Math.random() * 6),
-    status: 'active',
+    order_id:'',
+  Customer_name:'',
+   phone:'',
+   total_price:'',
+   table:'',
+   type:'',
+   status:'',
+
   };
 
   fields: FormlyFieldConfig[] = [
@@ -46,7 +44,7 @@ export class ListOrdersComponent {
           type: 'input',
           props: {
             label: 'Restaurant Name',
-            placeholder: 'Enter restaurant name',
+            placeholder: 'Enter Order Id',
             required: true,
             minLength: 3
           },

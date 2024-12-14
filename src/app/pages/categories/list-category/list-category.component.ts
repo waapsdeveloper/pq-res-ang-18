@@ -27,19 +27,19 @@ export class ListCategoryComponent {
   columns: any[] = [
     'Name',
     'parent category',
+    'Description',
+    'photo',
+    'menu',
     'Status'
+
   ]
   form = new FormGroup({});
   model = {
     name: 'Restaurant one',
-    image: '',
-    address: '',
-    phone: '8957985674',
-    email: 'restaurant1@mail.com',
-    website: '',
-    opening_hours: '',
+    parent_category: "",
     description: '',
-    rating: Math.floor(Math.random() * 6),
+    photo: '',
+    menu: '',
     status: 'active',
   };
 
@@ -85,7 +85,7 @@ export class ListCategoryComponent {
   initialize() {
     this.getList('', 1);
     const u = this.users.getUser()
-    if(u.role_id == 1 || u.role_id == 2 ){
+    if (u.role_id == 1 || u.role_id == 2) {
       this.showEdit = true;
 
     }
@@ -99,7 +99,7 @@ export class ListCategoryComponent {
     };
 
     const res = await this.network.getCategories(obj);
-    if(res.data){
+    if (res.data) {
 
       let d = res.data;
       this.page = d.current_page;
@@ -107,7 +107,7 @@ export class ListCategoryComponent {
       this.total = d.total;
 
       // if(this.page == 1){
-        this.list = d.data;
+      this.list = d.data;
       // } else {
       //   this.list = [...this.list, ...d.data];
       // }
@@ -130,14 +130,14 @@ export class ListCategoryComponent {
 
 
 
-    if(item){
+    if (item) {
       await this.network.removeCategory(item.id);
     }
     this.list.splice(index, 1);
   }
 
   loadMore() {
-    if(this.page < this.lastPage){
+    if (this.page < this.lastPage) {
       this.getList(this.search, this.page + 1);
     }
   }
@@ -148,15 +148,15 @@ export class ListCategoryComponent {
   }
 
 
-  onChangePerPage($event){
+  onChangePerPage($event) {
     this.getList('', 1);
   }
 
-  pageChange($event){
+  pageChange($event) {
     this.getList(this.search, $event);
   }
 
-  onSearch($event){
+  onSearch($event) {
     console.log($event);
     this.search = $event;
     this.getList(this.search, 1);

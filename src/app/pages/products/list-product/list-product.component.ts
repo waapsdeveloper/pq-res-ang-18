@@ -24,16 +24,14 @@ export class ListProductComponent {
   showEdit: boolean = false;
   form = new FormGroup({});
   model = {
-    name: 'Restaurant one',
-    image: '',
-    address: '',
-    phone: '8957985674',
-    email: 'restaurant1@mail.com',
-    website: '',
-    opening_hours: '',
-    description: '',
-    rating: Math.floor(Math.random() * 6),
+    name: '',
+    category: '',
+    price: '',
+    discount: '',
     status: 'active',
+    type: '',
+    noOfOrders: '',
+    photo: ''
   };
 
   fields: FormlyFieldConfig[] = [
@@ -71,8 +69,12 @@ export class ListProductComponent {
     'Name',
     'Category',
     'Price',
-    'Status'
-  ]
+    'Discount',
+    'Status',
+    'Type',
+    'No of Orders',
+    'Photo'
+  ];
 
   constructor(
     private nav: NavService,
