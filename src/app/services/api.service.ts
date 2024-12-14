@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Config } from '../config/config';
 
 @Injectable({
   providedIn: 'root',
@@ -8,10 +9,7 @@ export class ApiService {
   url: string;
 
   constructor(public http: HttpClient) {
-    this.url = 'http://127.0.0.1:8000/api/admin';
-    // this.url = 'https://pqresapi.spacess.online/api/admin';
-    // this.url = 'https://thelocalcraftfood.duckdns.org/api/admin';
-
+    this.url = Config.apiBaseUrl;
   }
 
   /* Main functions for making API calls
