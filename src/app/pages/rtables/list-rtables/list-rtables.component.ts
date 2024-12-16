@@ -1,35 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, Injector } from '@angular/core';
+import { RtableService } from '../rtable.service';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { UsersService } from 'src/app/services/users.service';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { ListBlade } from 'src/app/abstract/list-blade';
+import { UtilityService } from 'src/app/services/utility.service';
 
 @Component({
   selector: 'app-list-rtables',
   templateUrl: './list-rtables.component.html',
   styleUrl: './list-rtables.component.scss'
 })
-export class ListRtablesComponent {
-  title = 'Tables';
-  addurl = '/pages/tables/add'
-  search = '';
-  filters = false;
-  page = 1;
-  lastPage = -1;
-  total = 0;
-  perpage = 10;
-  list: any[] = [];
-  showEdit: boolean = false;
-
-
+export class ListRtablesComponent extends ListBlade {
   columns: any[] = [
     'Table No',
     'No of Orders',
     'Status',
   ];
-  form = new FormGroup({});
-  model = {
+  title = 'Tables';
+  showEdit = false;
+  addurl = '/pages/tables/add'
+  override model = {
     tableNo: '',
     status: 'active',
     noOfOrders: ''
@@ -78,50 +71,25 @@ export class ListRtablesComponent {
       ],
     },
   ];
-  constructor(
-    private nav: NavService,
-    private network: NetworkService,
-    private users: UsersService
 
+
+  constructor(
+    injector: Injector,
+    public crudService: RtableService,
+    private nav: NavService,
+    private utility: UtilityService,
+    private users: UsersService
   ) {
+    super(injector)
     this.initialize();
   }
 
   initialize() {
-    this.getList('', 1);
-
+    this.crudService.getList('', 1);
     const u = this.users.getUser()
     if (u.role_id == 1 || u.role_id == 2) {
       this.showEdit = true;
-
     }
-  }
-
-  async getList(search = '', page = 1): Promise<any> {
-    let obj = {
-      search: search,
-      page: page,
-      perpage: this.perpage
-    };
-
-    const res = await this.network.getTables(obj);
-    if (res.data) {
-
-      let d = res.data;
-      this.page = d.current_page;
-      this.lastPage = d.last_page;
-      this.total = d.total;
-
-      // if(this.page == 1){
-      this.list = d.data;
-      // } else {
-      //   this.list = [...this.list, ...d.data];
-      // }
-
-
-    }
-
-    return res;
   }
 
 
@@ -130,39 +98,39 @@ export class ListRtablesComponent {
   }
 
   async deleteRow(index: number) {
-    let item = this.list[index];
-    if (item) {
-      await this.network.removeTable(item.id);
+    try {
+      await this.crudService.deleteRow(index, this.utility);
+      console.log('Row deleted successfully');
+    } catch (error) {
+      console.error('Error deleting row:', error);
     }
-    this.list.splice(index, 1);
   }
 
-
-  loadMore() {
-    if (this.page < this.lastPage) {
-      this.getList(this.search, this.page + 1);
-    }
-
-
-  }
 
   openDetails(i) {
     let item = this.list[i];
-    this.nav.push('/pages/tables/view/' + item.id);
+    this.nav.push('/pages/rtables/view/' + item.id);
   }
 
-  onChangePerPage($event) {
-    this.getList('', 1);
+  changePerPage(event: any) {
+    this.crudService.onChangePerPage(event.target.value);
   }
 
-  pageChange($event) {
-    this.getList(this.search, $event);
+  changePage(event: any) {
+    this.crudService.pageChange(event);
   }
 
-  onSearch($event) {
-    console.log($event);
-    this.search = $event;
-    this.getList(this.search, 1);
+  toggleFilters() {
+    this.crudService.onFilter(!this.crudService.filters);
   }
+
+  submitFilters(model: any) {
+    this.crudService.onSubmit(model);
+  }
+
+  loadMoreData() {
+    this.crudService.loadMore();
+  }
+
 
 }
