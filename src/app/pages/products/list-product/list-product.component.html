@@ -1,18 +1,16 @@
-<app-kt-list-page [title]="'Products'" [addurl]="'/pages/products/add'" (onSearch)="onSearch($event)"
-  (onFilter)="filters = !filters">
-  <form [formGroup]="form" *ngIf="filters">
+<app-kt-list-page [title]="'Products'" [addurl]="'/pages/products/add'" (onFilter)="toggleFilters()"
+  >
+  <form [formGroup]="form" *ngIf="crudService.filters" (ngSubmit)="submitFilters(model)">
     <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
     <button type="submit" class="btn btn-secondary mt-4">search</button>
   </form>
 
-  <hr *ngIf="filters">
+  <hr *ngIf="crudService.filters">
 
+  <app-kt-app-list-page-table [columns]="columns" [currentPage]="crudService.page" [totalPages]="crudService.lastPage"
+    (pageChange)="changePage($event)">
 
-
-  <app-kt-app-list-page-table [columns]="columns" [currentPage]="page" [totalPages]="lastPage"
-    (pageChange)="pageChange($event)">
-
-    <tr *ngFor="let item of list; let i = index">
+    <tr *ngFor="let item of crudService.list; let i = index">
 
       <td>
         <div class="d-flex align-items-center">

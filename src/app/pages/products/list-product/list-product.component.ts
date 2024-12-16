@@ -1,29 +1,25 @@
-import { Component } from '@angular/core';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { UsersService } from 'src/app/services/users.service';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { Component, Injector } from '@angular/core';
+import { ListBlade } from 'src/app/abstract/list-blade';
+import { ProductService } from '../product.service';
+import { UtilityService } from 'src/app/services/utility.service';
+
 
 @Component({
   selector: 'app-list-product',
   templateUrl: './list-product.component.html',
   styleUrl: './list-product.component.scss'
 })
-export class ListProductComponent {
+export class ListProductComponent  extends ListBlade{
 
   title = 'Products';
+  showEdit = false;
   addurl = '/pages/products/add'
-  search = '';
-  filters = false;
-  page = 1;
-  lastPage = -1;
-  total = 0;
-  perpage = 10;
-  list: any[] = [];
-  showEdit: boolean = false;
-  form = new FormGroup({});
-  model = {
+  override model = {
     name: '',
     category: '',
     price: '',
@@ -132,67 +128,36 @@ export class ListProductComponent {
 
   ];
 
-  constructor(
-    private nav: NavService,
-    private network: NetworkService,
-    private users: UsersService
-
-  ) {
-    this.initialize();
-  }
+ constructor(
+     injector: Injector,
+     public crudService: ProductService,
+     private nav: NavService,
+     private utility: UtilityService,
+     private users: UsersService
+   ) {
+     super(injector)
+     this.initialize();
+   }
 
   initialize() {
-    this.getList('', 1);
-
+    this.crudService.getList('', 1);
     const u = this.users.getUser()
     if (u.role_id == 1 || u.role_id == 2) {
       this.showEdit = true;
-
     }
   }
 
-  async getList(search = '', page = 1): Promise<any> {
-    let obj = {
-      search: search,
-      page: page,
-      perpage: this.perpage
-    };
-
-    const res = await this.network.getProducts(obj);
-    if (res.data) {
-
-      let d = res.data;
-      this.page = d.current_page;
-      this.lastPage = d.last_page;
-      this.total = d.total;
-
-      //      if(this.page == 1){
-      this.list = d.data;
-      // } else {
-      //   this.list = [...this.list, ...d.data];
-      // }
-
-
-    }
-
-    return res;
-  }
-
+  
   editRow(index: number) {
 
   }
 
   async deleteRow(index: number) {
-    let item = this.list[index];
-    if (item) {
-      await this.network.removeProduct(item.id);
-    }
-    this.list.splice(index, 1);
-  }
-
-  loadMore() {
-    if (this.page < this.lastPage) {
-      this.getList(this.search, this.page + 1);
+    try {
+      await this.crudService.deleteRow(index, this.utility);
+      console.log('Row deleted successfully');
+    } catch (error) {
+      console.error('Error deleting row:', error);
     }
   }
 
@@ -202,18 +167,26 @@ export class ListProductComponent {
     this.nav.push('/pages/products/view/' + item.id);
   }
 
-  onChangePerPage($event) {
-    this.getList('', 1);
+  changePerPage(event: any) {
+    this.crudService.onChangePerPage(event.target.value);
   }
 
-  pageChange($event) {
-    this.getList(this.search, $event);
+  changePage(event: any) {
+    this.crudService.pageChange(event);
   }
 
-  onSearch($event) {
-    console.log($event);
-    this.search = $event;
-    this.getList(this.search, 1);
+  toggleFilters() {
+    this.crudService.onFilter(!this.crudService.filters);
   }
+
+  submitFilters(model: any) {
+    this.crudService.onSubmit(model);
+  }
+
+  loadMoreData() {
+    this.crudService.loadMore();
+  }
+
 
 }
+
