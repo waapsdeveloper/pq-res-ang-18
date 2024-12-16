@@ -125,11 +125,11 @@ export class ListProductComponent {
     'Name',
     'Category',
     'Price',
-    'Discount',
-    'Status',
     'Type',
     'No of Orders',
-    'Photo'
+    'Discount',
+    'Status',
+
   ];
 
   constructor(

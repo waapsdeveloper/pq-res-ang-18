@@ -25,8 +25,8 @@ export class ListRtablesComponent {
 
   columns: any[] = [
     'Table No',
+    'No of Orders',
     'Status',
-    'No of Orders'
   ];
   form = new FormGroup({});
   model = {

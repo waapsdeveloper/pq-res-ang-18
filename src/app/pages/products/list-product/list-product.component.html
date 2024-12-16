@@ -15,9 +15,21 @@
     <tr *ngFor="let item of list; let i = index">
 
       <td>
-        <div class="d-flex">
+        <div class="d-flex align-items-center">
+          <!--begin::Thumbnail-->
+          <a href="#" class="symbol symbol-50px">
+            <!-- Use ngStyle to bind background-image dynamically -->
+            <span class="symbol-label" [ngStyle]="{'background-image': 'url(' + item.image + ')'}"></span>
+          </a>
+          <!--end::Thumbnail-->
           <div class="ms-5">
-            <a class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1">{{item.name}}</a>
+            <!--begin::Title-->
+            <a href="../../demo1/dist/apps/ecommerce/catalog/edit-product.html"
+              class="text-gray-800 text-hover-primary fs-5 fw-bold"
+              data-kt-ecommerce-product-filter="product_name">{{item.name}}</a>
+            <div class="text-muted fs-7 fw-bold">{{item.description}}</div>
+
+            <!--end::Title-->
           </div>
         </div>
       </td>
@@ -31,6 +43,23 @@
           <div class="badge badge-secondary fw-bold me-auto px-4 py-3"> ${{item.price}}</div>
         </div>
       </td>
+      <td>
+        <div class="d-flex">
+          
+          <span class="badge badge-pill badge-light fw-bold me-auto px-4 py-3">Take-away</span>
+        </div>
+      </td>
+      <td>
+        <div class="d-flex">
+          
+          <a href="#" class="badge badge-info fw-bold me-auto px-4 py-3">349</a>
+        </div>
+      </td>
+      <td>
+        <div class="d-flex">
+          <a class=" badge badge-success fw-bold me-auto px-4 py-3">${{item.price}}</a>
+        </div>
+      </td> 
       <td>
         <div class="d-flex">
           <div class="badge badge-light-primary fw-bold me-auto px-4 py-3">{{item.status}}</div>
