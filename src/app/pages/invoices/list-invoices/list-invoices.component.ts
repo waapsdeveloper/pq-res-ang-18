@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Injector } from '@angular/core';
+import { ListBlade } from 'src/app/abstract/list-blade';
+import { UtilityService } from 'src/app/services/utility.service';
+import { InvoiceService } from '../invoice.service';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { UsersService } from 'src/app/services/users.service';
@@ -10,28 +13,14 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
   templateUrl: './list-invoices.component.html',
   styleUrls: ['./list-invoices.component.scss'],
 })
-export class ListInvoicesComponent {
-    title = 'Invoices';
-  addurl = '/pages/invoices/add';
-  search = '';
-  page = 1;
-  lastPage = -1;
-  total = 0;
-  perpage = 10;
-  list: any[] = [];
-  showEdit: boolean = false;
-  filters = false;
+export class ListInvoicesComponent  extends ListBlade{
   columns: any[] = ['Products', 'Quantity', 'Price', 'Total Price', 'Status'];
+  showEdit = false;
+  title = 'Invoices';
+  addurl = '/pages/invoices/add';
 
-  constructor(
-    private nav: NavService,
-    private network: NetworkService,
-    private users: UsersService
-  ) {
-    this.initialize();
-  }
-  form = new FormGroup({});
-  model = {
+
+ override model = {
     products: '',
     quanity: '',
     price: '',
@@ -69,63 +58,65 @@ export class ListInvoicesComponent {
       ],
     },
   ];
+ constructor(
+     injector: Injector,
+     public crudService: InvoiceService,
+     private nav: NavService,
+     private utility: UtilityService,
+     private users: UsersService
+   ) {
+     super(injector)
+     this.initialize();
+   }
 
   initialize() {
-    this.getList('', 1);
-
-    const u = this.users.getUser();
+    this.crudService.getList('', 1);
+    const u = this.users.getUser()
     if (u.role_id == 1 || u.role_id == 2) {
       this.showEdit = true;
     }
   }
 
-  async getList(search = '', page = 1): Promise<any> {
-    let obj = {
-      search: search,
-      page: page,
-      perpage: this.perpage
-    };
+  
+  editRow(index: number) {
 
-    const res = await this.network.getOrders(obj);
-    if (res.data) {
-      let d = res.data;
-      this.page = d.current_page;
-      this.lastPage = d.last_page;
-      this.total = d.total;
-
-      //      if (this.page == 1) {
-      this.list = d.data;
-      console.log(this.list);
-      // } else {
-      //   this.list = [...this.list, ...d.data];
-      // }
-    }
-
-    return res;
   }
-
-  editRow(index: number) { }
 
   async deleteRow(index: number) {
-    let item = this.list[index];
-    if (item) {
-      await this.network.removeTable(item.id);
+    try {
+      await this.crudService.deleteRow(index, this.utility);
+      console.log('Row deleted successfully');
+    } catch (error) {
+      console.error('Error deleting row:', error);
     }
-    this.list.splice(index, 1);
   }
 
-  loadMore() {
-    if (this.page < this.lastPage) {
-      this.getList(this.search, this.page + 1);
-    }
-  }
 
   openDetails(i) {
     let item = this.list[i];
     this.nav.push('/pages/invoices/view/' + item.id);
   }
 
-  onChangePerPage($event) {
-    this.getList('', 1);
+  changePerPage(event: any) {
+    this.crudService.onChangePerPage(event.target.value);
   }
+
+  changePage(event: any) {
+    this.crudService.pageChange(event);
+  }
+
+  toggleFilters() {
+    this.crudService.onFilter(!this.crudService.filters);
+  }
+
+  submitFilters(model: any) {
+    this.crudService.onSubmit(model);
+  }
+
+  loadMoreData() {
+    this.crudService.loadMore();
+  }
+
+
+
 }
