@@ -16,7 +16,8 @@
         <div class="d-flex align-items-center">
           <!--begin::Thumbnail-->
           <a href="#" class="symbol symbol-50px">
-            <span class="symbol-label" style="background-image:url(assets/images/user/avatar-1.jpg);"></span>
+            <!-- Use ngStyle to bind background-image dynamically -->
+            <span class="symbol-label" [ngStyle]="{'background-image': 'url(' + item.image + ')'}"></span>
           </a>
           <!--end::Thumbnail-->
           <div class="ms-5">
@@ -24,7 +25,7 @@
             <a href="../../demo1/dist/apps/ecommerce/catalog/edit-product.html"
               class="text-gray-800 text-hover-primary fs-5 fw-bold"
               data-kt-ecommerce-product-filter="product_name">{{item.name}}</a>
-            <div class="text-muted fs-7 fw-bold">Lorem description</div>
+            <div class="text-muted fs-7 fw-bold">{{item.description}}</div>
 
             <!--end::Title-->
           </div>
