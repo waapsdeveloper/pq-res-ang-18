@@ -57,7 +57,10 @@ const routes: Routes = [
     path: 'invoices',
     loadChildren: () => import('./invoices/invoices.module').then((m) => m.InvoicesModule)
   },
-
+  {
+    path: 'table-booking',
+    loadChildren: () => import('./table-booking/table-booking.module').then((m) => m.TableBookingModule)
+  },
 
   // {
   //   path: '',
