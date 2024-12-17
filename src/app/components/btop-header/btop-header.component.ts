@@ -20,6 +20,7 @@ export class BtopHeaderComponent {
     { label: 'Categories', link: '/pages/categories', icon: 'ti ti-drag-drop-2' },
     { label: 'All Menu', link: '/pages/products', icon: 'ti ti-artboard' },
     { label: 'Tables', link: '/pages/tables', icon: 'ti ti-table' },
+    { label: 'Table Booking', link: '/pages/table-booking', icon: 'ti ti-table' },
     { label: 'Orders', link: '/pages/orders', icon: 'ti ti-truck-delivery' },
     { label: 'Invoices', link: '/pages/invoices', icon: 'ti ti-file-dollar' },
  //   { label: 'Reports', link: '/pages/reports', icon: 'ti ti-clipboard-text' },

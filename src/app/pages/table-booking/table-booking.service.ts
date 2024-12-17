@@ -12,11 +12,11 @@ export class TableBookingService extends BaseCrudService<any> {
 
   protected async fetchData(params: any): Promise<any> {
     // Call the specific network function
-    return this.network.index('tablebooking', params);
+    return this.network.index('table-booking', params);
   }
 
   protected async deleteItemById(id: any): Promise<any> {
-    return this.network.destroy('tablebooking', id);
+    return this.network.destroy('table-booking', id);
   }
 
 }
