@@ -1,0 +1,41 @@
+
+
+
+<!--begin::Mixed Widget 10-->
+<div class="card card-xxl-stretch-50 mb-5 mb-xl-8">
+  <!--begin::Body-->
+  <div class="card-body p-0 d-flex justify-content-between flex-column overflow-hidden">
+    <!--begin::Hidden-->
+
+    <div class="row align-items-center">
+      <div class="col-md-8">
+        <div class="d-flex justify-content-between flex-wrap px-4 pt-4 pb-2">
+          <div>
+            <span class="fw-bold text-dark fs-4">Customer Statistics Overview </span>
+            <span class="text-muted d-block fs-6">Oct 8 - Oct 26, 2021</span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!--end::Hidden-->
+    <!--begin::Chart-->
+    <div class="mixed-widget-10-chart" data-kt-color="primary" style="height: 380px">
+
+      <div style="text-align:center">
+        <apx-chart
+          [series]="chartOptions.series"
+          [chart]="chartOptions.chart"
+          [title]="chartOptions.title"
+          [xaxis]="chartOptions.xaxis"
+          [yaxis]="chartOptions.yaxis"
+          [tooltip]="chartOptions.tooltip"
+          [legend]="chartOptions.legend">
+        </apx-chart>
+      </div>
+    </div>
+    <!--end::Chart-->
+  </div>
+</div>
+
