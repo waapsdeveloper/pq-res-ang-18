@@ -6,7 +6,7 @@ const routes: Routes = [
   {
     path: '',
     component: TableBookingComponent,
-    data: { breadcrumb: 'User' },
+    data: { breadcrumb: 'Bookings' },
     children: [
       {
         path: '',

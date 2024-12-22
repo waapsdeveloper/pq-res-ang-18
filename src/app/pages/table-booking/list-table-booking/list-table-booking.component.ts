@@ -18,15 +18,15 @@ export class ListTableBookingComponent extends ListBlade {
 
   columns: any[] = [
     'Name',
-    'phone',
-    'address',
+    'Booking Date',
+    'Seats',
     'Status',
   ]
 
   override model = {
     name: '',
-    phone: '',
-    address: '',
+    booking_start: '',
+    no_of_seats: '',
     status: 'active',
   };
 
@@ -44,24 +44,11 @@ export class ListTableBookingComponent extends ListBlade {
           className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
         },
         {
-          key: 'phone',
+          key: 'booking_start',
           type: 'input',
           props: {
-            label: 'Phone',
+            label: 'Booking Time',
             placeholder: '',
-          },
-          className: 'col-md-4 col-12'
-        },
-        {
-          key: 'phone',
-          type: 'input',
-          props: {
-            label: 'Phone',
-            placeholder: 'Enter phone number',
-            required: true,
-            type: 'tel',
-            pattern: '\\d{10}', // Adjust the regex based on your phone format (e.g., 10-digit numbers)
-            title: 'Enter a valid 10-digit phone number'
           },
           className: 'col-md-4 col-12'
         },
