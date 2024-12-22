@@ -18,6 +18,7 @@ export class AddUserComponent implements OnInit {
     email: '',
     password: '',
     phone: '',
+    address: '',
     role: '',
     status: '',
   };
@@ -67,11 +68,22 @@ export class AddUserComponent implements OnInit {
       fieldGroupClassName: 'row',
       fieldGroup: [
         {
+          key: 'address',
+          type: 'input',
+          props: {
+            label: 'Address',
+            placeholder: '',
+            type: 'tel',
+            // pattern: '^\\+?[1-9]\\d{1,14}$', // Example pattern for international numbers
+          },
+          className: 'col-md-4 col-12',
+        },
+        {
           key: 'phone',
           type: 'input',
           props: {
             label: 'Phone Number',
-            placeholder: 'Enter phone number',
+            placeholder: 'XXX- XXX- XXXX',
             type: 'tel',
             // pattern: '^\\+?[1-9]\\d{1,14}$', // Example pattern for international numbers
           },
