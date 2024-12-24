@@ -25,7 +25,7 @@ export class ListProductComponent  extends ListBlade{
     price: '',
     discount: '',
     status: 'active',
-    type: '',
+    is_today_deal: '',
     noOfOrders: '',
     photo: ''
   };
@@ -121,7 +121,7 @@ export class ListProductComponent  extends ListBlade{
     'Name',
     'Category',
     'Price',
-    'Type',
+    'Todays Deal',
     'No of Orders',
     'Discount',
     'Status',
@@ -147,7 +147,7 @@ export class ListProductComponent  extends ListBlade{
     }
   }
 
-  
+
   editRow(index: number) {
 
   }

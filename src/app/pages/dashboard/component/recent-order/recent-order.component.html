@@ -5,7 +5,7 @@
       <h3 class="fw-bold text-gray-900 m-0">Recent Orders</h3>
       <!--end::Title-->
       <!--begin::Menu-->
-           
+
       <!--end::Menu-->
     </div>
     <!--end::Header-->
@@ -22,63 +22,58 @@
               <!--begin::Table head-->
               <thead>
                 <tr class="fs-7 fw-bold text-gray-500 border-bottom-0">
-                  <th class="ps-0 ">Order ID</th>
-                  <th class="text-end ">Customer Name</th>
-                  <th class="pe-0 text-end ">Table No</th>
-                  <th class="pe-0 text-end ">TOTAL Price</th>
+                  <th class="ps-0">Order ID</th>
+                  <th class="text-end">Customer Name</th>
+                  <th class="pe-0 text-end">Phone Number</th>
+                  <th class="pe-0 text-end">Total Price</th>
+                  <th class="pe-0 text-end">Table Number</th>
+                  <th class="pe-0 text-end">Customer Type</th>
+                  <th class="pe-0 text-end">Order Status</th>
                 </tr>
               </thead>
               <!--end::Table head-->
               <!--begin::Table body-->
               <tbody>
-                <tr>
-                  
+                <tr *ngFor="let customer of customers; let i = index">
                   <td class="ps-0">
-                    <a href="../../demo1/dist/apps/ecommerce/catalog/edit-product.html" class="text-gray-800 fw-bold text-hover-primary mb-1 fs-6 text-start pe-0">ORD-675705BF30DCA</a>
-                    
+                    <a href="../../demo1/dist/apps/ecommerce/catalog/edit-product.html"
+                       class="text-gray-800 fw-bold text-hover-primary mb-1 fs-6 text-start pe-0">
+                      {{ 'ORD-2024-000' + i  }}
+                    </a>
                   </td>
                   <td>
-                    <span class="text-gray-800 fw-bold d-block fs-6 ps-0 text-end">Walking-in-Customer</span>
+                    <span class="text-gray-800 fw-bold d-block fs-6 ps-0 text-end">
+                      {{ customer.name }}
+                    </span>
                   </td>
                   <td class="text-end pe-0">
-                    <span class="text-gray-800 fw-bold d-block fs-6">7664</span>
+                    <span class="text-gray-800 fw-bold d-block fs-6">
+                      {{ customer.phone }}
+                    </span>
                   </td>
                   <td class="text-end pe-0">
-                    <span class="text-gray-800 fw-bold d-block fs-6">$126.00</span>
+                    <span class="text-gray-800 fw-bold d-block fs-6">
+                      ${{ customer.amount | number:'1.2-2' }}
+                    </span>
+                  </td>
+                  <td class="text-end pe-0">
+                    <span class="text-gray-800 fw-bold d-block fs-6">
+                      {{ 'TBL-0003322' + i }}
+                    </span>
+                  </td>
+                  <td class="text-end pe-0">
+                    <span class="text-gray-800 fw-bold d-block fs-6">
+                      {{ customer.type }}
+                    </span>
+                  </td>
+                  <td class="text-end pe-0">
+                    <span class="text-gray-800 fw-bold d-block fs-6">
+                      {{ customer.status }}
+                    </span>
                   </td>
                 </tr>
-                <tr>
-                  
-                  <td class="ps-0">
-                    <a href="../../demo1/dist/apps/ecommerce/catalog/edit-product.html" class="text-gray-800 fw-bold text-hover-primary mb-1 fs-6 text-start pe-0">ORD-6756F16D0CFB4</a>
-                    
-                  </td>
-                  <td>
-                    <span class="text-gray-800 fw-bold d-block fs-6 ps-0 text-end">Ahsan test</span>
-                  </td>
-                  <td class="text-end pe-0">
-                    <span class="text-gray-800 fw-bold d-block fs-6">6743</span>
-                  </td>
-                  <td class="text-end pe-0">
-                    <span class="text-gray-800 fw-bold d-block fs-6">$76.00</span>
-                  </td>
-                </tr>
-                <tr>
-                  
-                  <td class="ps-0">
-                    <a href="../../demo1/dist/apps/ecommerce/catalog/edit-product.html" class="text-gray-800 fw-bold text-hover-primary mb-1 fs-6 text-start pe-0">ORD-6756F16D0CFB4</a>
-                    
-                  </td>
-                  <td>
-                    <span class="text-gray-800 fw-bold d-block fs-6 ps-0 text-end">Walking-in-Customer</span>
-                  </td>
-                  <td class="text-end pe-0">
-                    <span class="text-gray-800 fw-bold d-block fs-6">9098</span>
-                  </td>
-                  <td class="text-end pe-0">
-                    <span class="text-gray-800 fw-bold d-block fs-6">$168.00</span>
-                  </td>
-                </tr>
+
+
               </tbody>
               <!--end::Table body-->
             </table>
@@ -408,7 +403,7 @@
             </table>
             <!--end::Table-->
           </div>
-          
+
           <!--end::Table container-->
         </div>
         <!--end::Tap pane-->
@@ -416,6 +411,5 @@
       <!--end::Tab Content-->
     </div>
     <!--end: Card Body-->
-    
+
   </div>
-  

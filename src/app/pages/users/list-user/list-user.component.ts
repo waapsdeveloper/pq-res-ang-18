@@ -18,16 +18,50 @@ export class ListUserComponent extends ListBlade {
   addurl = '/pages/users/add'
 
   columns: any[] = [
-    'Name',
-    'phone',
-    'address',
+    'Full Name',
+    'Email',
+    'Phone',
+    'Address',
+    'Role',
     'Status',
+  ]
+
+  actions: any[] = [
+    {
+      name: 'Edit',
+      icon: 'edit',
+      action: 'editRow',
+    },
+    {
+      name: 'Delete',
+      icon: 'delete',
+      action: 'deleteRow',
+    },
+    {
+      name: 'View',
+      icon: 'visibility',
+      action: 'openDetails',
+    },
+    //block
+    {
+      name: 'Block',
+      icon: 'block',
+      action: 'blockUser',
+    },
+    //statistics
+    {
+      name: 'Statistics',
+      icon: 'bar_chart',
+      action: 'viewStatistics',
+    },
   ]
 
   override model = {
     name: '',
+    email: '',
     phone: '',
     address: '',
+    role: '',
     status: 'active',
   };
 
@@ -45,6 +79,15 @@ export class ListUserComponent extends ListBlade {
           className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
         },
         {
+          key: 'email',
+          type: 'input',
+          props: {
+            label: 'Email',
+            placeholder: '',
+          },
+          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
+        },
+        {
           key: 'phone',
           type: 'input',
           props: {
@@ -54,15 +97,14 @@ export class ListUserComponent extends ListBlade {
           className: 'col-md-4 col-12'
         },
         {
-          key: 'phone',
-          type: 'input',
+          key: 'role',
+          type: 'select',
           props: {
-            label: 'Phone',
-            placeholder: 'Enter phone number',
-            required: true,
-            type: 'tel',
-            pattern: '\\d{10}', // Adjust the regex based on your phone format (e.g., 10-digit numbers)
-            title: 'Enter a valid 10-digit phone number'
+            label: 'Role',
+            options: [
+              { value: 'active', label: 'Active' },
+              { value: 'inactive', label: 'Inactive' }
+            ]
           },
           className: 'col-md-4 col-12'
         },
@@ -82,6 +124,9 @@ export class ListUserComponent extends ListBlade {
       ],
     },
   ];
+
+  roles: any[] = [];
+
   constructor(
     injector: Injector,
     public crudService: UserService,
@@ -92,8 +137,15 @@ export class ListUserComponent extends ListBlade {
     this.initialize();
   }
 
-  initialize() {
+  async initialize() {
     this.crudService.getList('', 1);
+    const res = await this.crudService.getRoles();
+    console.log('Roles:', res);
+    this.roles = res.data.data;
+
+    this.fields[0].fieldGroup[3].props.options = this.roles.map(role => {
+      return { value: role.id, label: role.name };
+    });
   }
 
 

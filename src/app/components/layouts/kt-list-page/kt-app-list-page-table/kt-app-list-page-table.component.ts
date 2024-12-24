@@ -13,6 +13,7 @@ export class KtAppListPageTableComponent {
   @Input('totalPages') totalPages: number = 0;
   @Input('currentPage') currentPage: number = 0;
   @Input('bulkSelect') bulkSelect: number = 0;
+  @Input('actions') actions: any[] = [];
 
 
   @Output('pageChange') pageChange: EventEmitter<number> = new EventEmitter<number>();

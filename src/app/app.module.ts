@@ -25,6 +25,7 @@ import { FormlyModule } from '@ngx-formly/core';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { RouteReuseStrategy } from '@angular/router';
 import { InterceptorService } from './services/interceptor.service';
+import { NgApexchartsModule } from 'ng-apexcharts';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,6 +47,7 @@ import { InterceptorService } from './services/interceptor.service';
     ReactiveFormsModule,
     FormlyModule.forRoot(),
     FormlyBootstrapModule,
+    NgApexchartsModule,
   ],
   providers: [NavigationItem, provideHttpClient(withInterceptorsFromDi()),
 

@@ -19,4 +19,9 @@ export class UserService extends BaseCrudService<any> {
     return this.network.destroy('user', id);
   }
 
+  // get roles
+  async getRoles() {
+    return this.network.index('role', {});
+  }
+
 }

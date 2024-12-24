@@ -8,7 +8,7 @@
   <hr *ngIf="crudService.filters">
 
   <app-kt-app-list-page-table [columns]="columns" [currentPage]="crudService.page" [totalPages]="crudService.lastPage"
-    (pageChange)="changePage($event)">
+    (pageChange)="changePage($event)" >
 
     <tr *ngFor="let item of crudService.list; let i = index">
 
@@ -32,6 +32,11 @@
       </td>
       <td>
         <div class="d-flex">
+          <div class="text-muted fs-7 fw-bold">{{item.email}}</div>
+        </div>
+      </td>
+      <td>
+        <div class="d-flex">
           <div class="text-muted fs-7 fw-bold">{{item.phone}}</div>
         </div>
       </td>
@@ -40,11 +45,11 @@
           <div class="text-muted fs-7 fw-bold">7th street ride lance park new york</div>
         </div>
       </td>
-      <!-- <td>
+      <td>
         <div class="d-flex">
-          <div class="fs-7 fw-bold">{{getRandomNumberBetween50And100()}}</div>
+          <div class="fs-7 fw-bold">{{item.role}}</div>
         </div>
-      </td> -->
+      </td>
       <td>
         <div class="d-flex">
           <div class="badge badge-light-primary fw-bold me-auto px-4 py-3">{{item.status}}</div>
@@ -57,8 +62,15 @@
       <!--begin::Action=-->
       <td class="text-end d-flex flex-row justify-content-end align-items-center gap-3">
 
+        <!-- actions -->
+        <!-- <a href="/pages/users/edit/{{item.id}}" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
+          <i class="bi bi-pencil"></i>
+        </a> -->
+
+        <i class="ti ti-align-box-bottom-center" style="font-size: 24px;"></i>
         <i class="ti ti-eye" style="font-size: 24px;" (click)="openDetails(i)"></i>
         <i class="ti ti-edit" style="font-size: 24px;"></i>
+        <i class="ti ti-clock-off" style="font-size: 24px;"></i>
         <i class="ti ti-trash" style="font-size: 24px;" (click)="deleteRow(i)"></i>
 
       </td>

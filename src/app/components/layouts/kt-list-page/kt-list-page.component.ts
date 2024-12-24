@@ -7,6 +7,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class KtListPageComponent {
 
+  @Input('showCreate') showCreate = true;
   @Input('title') title = ''
   @Input('addurl') addurl = ''
   @Output('onSearch') onSearch = new EventEmitter<any>();
