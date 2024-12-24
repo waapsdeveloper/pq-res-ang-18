@@ -21,6 +21,7 @@ export class ListCategoryComponent extends ListBlade {
   showEdit = false;
   columns: any[] = [
     'Name',
+    'Restaurant',
     'category',
     'Menu',
     'Status'
@@ -28,7 +29,7 @@ export class ListCategoryComponent extends ListBlade {
 
   override model = {
     name: '',
-    status: 'active',
+    status: '',
   };
 
   fields: FormlyFieldConfig[] = [
@@ -39,8 +40,19 @@ export class ListCategoryComponent extends ListBlade {
           key: 'name',
           type: 'input',
           props: {
-            label: 'Name',
+            label: ' Category Name',
             placeholder: '',
+          },
+          className: 'col-md-4 col-12'
+        },
+        {
+          key: 'restaurant',
+          type: 'input',
+          props: {
+            label: 'Restaurant Name',
+            placeholder: 'Enter Restaurant  name',
+            required: true,
+            minLength: 3
           },
           className: 'col-md-4 col-12'
         },
