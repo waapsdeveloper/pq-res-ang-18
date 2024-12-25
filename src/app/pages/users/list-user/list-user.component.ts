@@ -57,11 +57,12 @@ export class ListUserComponent extends ListBlade {
         },
         {
           key: 'role',
-          type: 'input',
+          type: 'select',
           props: {
             label: 'Role',
             placeholder: 'Enter  a role',
-            required: true
+            required: true,
+            options: []
           },
           className: 'col-md-4 col-12'
         },
@@ -127,15 +128,53 @@ export class ListUserComponent extends ListBlade {
     injector: Injector,
     public crudService: UserService,
     private nav: NavService,
-    private utility: UtilityService
+    private utility: UtilityService,
+    private network: NetworkService
   ) {
     super(injector);
     this.initialize();
   }
-
+  ngOnInit(): void {
+  this.setRoleInForm();
+}
   initialize() {
     this.crudService.getList('', 1);
   }
+  async setRoleInForm() {
+    const res = await this.getRoles();
+    console.log(res);
+
+    for (var i = 0; i < this.fields.length; i++) {
+      for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
+        let fl = this.fields[i].fieldGroup[j];
+        if (fl.key == 'role') {
+          fl.props.options = res;
+        }
+      }
+    }
+  }
+
+  // get roles array
+  async getRoles(): Promise<any[]> {
+    let obj = {
+      search: ''
+    };
+    const res = await this.network.getRoles(obj);
+
+    if (res && res['data']) {
+      let d = res['data'];
+      let dm = d['data'];
+      return dm.map((r) => {
+        return {
+          value: r.id,
+          label: r.name
+        };
+      }) as any[];
+    }
+
+    return [];
+  }
+
 
   editRow(index: number) {}
 

@@ -1,4 +1,4 @@
-import { Component, Injector } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { UsersService } from 'src/app/services/users.service';
@@ -14,7 +14,13 @@ import { CategoryService } from '../category.service';
   templateUrl: './list-category.component.html',
   styleUrl: './list-category.component.scss'
 })
-export class ListCategoryComponent extends ListBlade {
+export class ListCategoryComponent extends ListBlade{
+
+
+  ngOnInit(): void {
+    this.setRestaurantsInForm();
+  }
+
 
   title = 'Categories';
   addurl = '/pages/categories/add'
@@ -47,12 +53,13 @@ export class ListCategoryComponent extends ListBlade {
         },
         {
           key: 'restaurant',
-          type: 'input',
+          type: 'select',
           props: {
             label: 'Restaurant Name',
             placeholder: 'Enter Restaurant  name',
             required: true,
-            minLength: 3
+            minLength: 3,
+            options: []
           },
           className: 'col-md-4 col-12'
         },
@@ -105,7 +112,8 @@ export class ListCategoryComponent extends ListBlade {
     public crudService: CategoryService,
     private nav: NavService,
     private utility: UtilityService,
-    private users: UsersService
+    private users: UsersService,
+    private network : NetworkService
   ) {
     super(injector)
     this.initialize();
@@ -124,6 +132,40 @@ export class ListCategoryComponent extends ListBlade {
   editRow(index: number) {
 
   }
+  async getRestaurants(): Promise<any[]> {
+    let obj = {
+      search: '',
+      perpage: 500
+    };
+    const res = await this.network.getRestaurants(obj);
+
+    if (res && res['data']) {
+      let d = res['data'];
+      let dm = d['data'];
+      return dm.map((r) => {
+        return {
+          value: r.id,
+          label: r.name
+        };
+      }) as any[];
+    }
+
+    return [];
+  }
+  async setRestaurantsInForm() {
+    const res = await this.getRestaurants();
+    console.log(res);
+
+    for (var i = 0; i < this.fields.length; i++) {
+      for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
+        let fl = this.fields[i].fieldGroup[j];
+        if (fl.key == 'restaurant') {
+          fl.props.options = res;
+        }
+      }
+    }
+  }
+
 
   async deleteRow(index: number) {
     try {

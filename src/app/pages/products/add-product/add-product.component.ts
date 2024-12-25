@@ -21,8 +21,7 @@ export class AddProductComponent {
     price: null,
     image: null,
     discount: null,
-    notes: '',
-
+    notes: ''
   };
 
   fields: FormlyFieldConfig[] = [
@@ -58,13 +57,10 @@ export class AddProductComponent {
             placeholder: 'Select a restaurant',
             required: false, // nullable
             options: [
-              // Populate dynamically with restaurant IDs and names
-              { value: 1, label: 'Restaurant 1' },
-              { value: 2, label: 'Restaurant 2' },
-            ],
+             ]
           },
-          className: 'col-md-4 col-12',
-        },
+          className: 'col-md-4 col-12'
+        }
       ]
     },
     {
@@ -153,8 +149,41 @@ export class AddProductComponent {
 
   ngOnInit(): void {
     this.setCategoriesInForm();
+    this.setRestaurantsInForm();
   }
+  async getRestaurants(): Promise<any[]> {
+    let obj = {
+      search: '',
+      perpage: 500
+    };
+    const res = await this.network.getRestaurants(obj);
 
+    if (res && res['data']) {
+      let d = res['data'];
+      let dm = d['data'];
+      return dm.map((r) => {
+        return {
+          value: r.id,
+          label: r.name
+        };
+      }) as any[];
+    }
+
+    return [];
+  }
+  async setRestaurantsInForm() {
+    const res = await this.getRestaurants();
+    console.log(res);
+
+    for (var i = 0; i < this.fields.length; i++) {
+      for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
+        let fl = this.fields[i].fieldGroup[j];
+        if (fl.key == 'restaurant_id') {
+          fl.props.options = res;
+        }
+      }
+    }
+  }
   async setCategoriesInForm() {
     const res = await this.getCategories();
     console.log(res);

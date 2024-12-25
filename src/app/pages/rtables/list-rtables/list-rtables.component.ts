@@ -117,7 +117,9 @@ export class ListRtablesComponent extends ListBlade {
       ]
     }
   ];
-
+  ngOnInit(): void {
+    this.setRestaurantsInForm();
+  }
   constructor(
     injector: Injector,
     public crudService: RtableService,
