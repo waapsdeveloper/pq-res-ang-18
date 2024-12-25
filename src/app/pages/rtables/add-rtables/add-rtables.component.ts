@@ -15,9 +15,11 @@ export class AddRtablesComponent {
 
   form = new FormGroup({});
   model = {
+    restaurant_id: '',
     identifier: '',
+    no_of_seats: '',
+    floor: '',
     location: '',
-    restaurant: '',
     description: '',
     status: '',
   };
@@ -32,7 +34,7 @@ export class AddRtablesComponent {
           props: {
             label: 'Restaurant',
             placeholder: 'Select a restaurant',
-            required: false, 
+            required: false,
             options: [],
           },
           className: 'col-md-4 col-12',

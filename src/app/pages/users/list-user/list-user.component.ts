@@ -28,7 +28,6 @@ export class ListUserComponent extends ListBlade {
     city: '',
     state: '',
     country: '',
-    image: null,
     status: ''
   };
 
@@ -62,10 +61,39 @@ export class ListUserComponent extends ListBlade {
           props: {
             label: 'Role',
             placeholder: 'Enter  a role',
-            required: true,
-
+            required: true
           },
-          className: 'col-md-4 col-12',
+          className: 'col-md-4 col-12'
+        },
+        {
+          key: 'city',
+          type: 'input',
+          props: {
+            label: 'City',
+            placeholder: 'Enter city',
+            required: false // nullable
+          },
+          className: 'col-md-4 col-12'
+        },
+        {
+          key: 'state',
+          type: 'input',
+          props: {
+            label: 'State',
+            placeholder: 'Enter state',
+            required: false // nullable
+          },
+          className: 'col-md-4 col-12'
+        },
+        {
+          key: 'country',
+          type: 'input',
+          props: {
+            label: 'Country',
+            placeholder: 'Enter country',
+            required: false // nullable
+          },
+          className: 'col-md-4 xcol-12'
         },
         {
           key: 'phone',

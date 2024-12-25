@@ -22,7 +22,7 @@ export class ListRtablesComponent extends ListBlade {
     tableNo: '',
     status: '',
     noOfOrders: '',
-    no_of_seats: '',
+    no_of_seats: '',     
     floor: '',
     location: '',
     restaurant_id: ''
