@@ -61,7 +61,6 @@ export class ListUserComponent extends ListBlade {
     phone: '',
     role: '',
     address: '',
-    role: '',
     status: 'active',
   };
 
