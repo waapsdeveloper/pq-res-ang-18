@@ -21,6 +21,15 @@ export class AddRestaurantComponent {
     email: 'restaurant1@mail.com',
     website: '',
     opening_hours: '',
+    // schedule: [
+    //   { day: 'Monday', status: false, start_time: '', end_time: '' },
+    //   { day: 'Tuesday', status: false, start_time: '', end_time: '' },
+    //   { day: 'Wednesday', status: false, start_time: '', end_time: '' },
+    //   { day: 'Thursday', status: false, start_time: '', end_time: '' },
+    //   { day: 'Friday', status: false, start_time: '', end_time: '' },
+    //   { day: 'Saturday', status: false, start_time: '', end_time: '' },
+    //   { day: 'Sunday', status: false, start_time: '', end_time: '' },
+    // ],
     description: '',
     rating: Math.floor(Math.random() * 6),
     status: 'active',
@@ -100,6 +109,8 @@ export class AddRestaurantComponent {
           },
           className: 'col-md-4 col-12'
         },
+
+
         // {
         //   key: 'image',
         //   type: 'input',
@@ -137,7 +148,67 @@ export class AddRestaurantComponent {
         },
       ],
     },
-  ];
+//     {
+//       key: 'schedule_table',
+//       fieldGroupClassName: 'col-12 table-responsive', // Full-width table
+//       fieldGroup: [
+//         {
+//           key: 'schedule',
+//           fieldGroupClassName: 'row',
+//           fieldGroup: [
+//             // Define each day of the week as a separate field group
+//             ...['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day) => ({
+//               fieldGroupClassName: 'row border p-2', // Individual row for each day
+//               fieldGroup: [
+//                 {
+//                   key: `${day.toLowerCase()}_day`, // Unique key for each day
+//                   type: 'input',
+//                   props: {
+//                     label: 'Day',
+//                     value: day,
+//                     disabled: true, // Static day name
+//                   },
+//                   className: 'col-md-3 col-12',
+//                 },
+//                 {
+//                   key: `${day.toLowerCase()}_status`,
+//                   type: 'checkbox',
+//                   props: {
+//                     label: 'Active',
+//                   },
+//                   className: 'col-md-3 col-12',
+//                 },
+//                 {
+//                   key: `${day.toLowerCase()}_start_time`,
+//                   type: 'input',
+//                   props: {
+//                     label: 'Start Time',
+//                     type: 'time',
+//                   },
+//                   className: 'col-md-3 col-12',
+//                 },
+//                 {
+//                   key: `${day.toLowerCase()}_end_time`,
+//                   type: 'input',
+//                   props: {
+//                     label: 'End Time',
+//                     type: 'time',
+//                   },
+//                   className: 'col-md-3 col-12',
+//                 },
+//               ],
+//             })),
+//           ],
+
+//       props: {
+//         label: 'Weekly Schedule',
+//         description: 'Set the schedule for each day of the week.',
+//       },
+//     },
+//   ],
+// },
+   ];
+
 
   constructor(
     private fb: FormBuilder,

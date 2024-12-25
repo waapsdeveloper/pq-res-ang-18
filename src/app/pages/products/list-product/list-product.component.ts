@@ -54,6 +54,20 @@ export class ListProductComponent  extends ListBlade{
             required: true
           },
           className: 'col-md-4 col-12'
+        },{
+          key: 'restaurant_id',
+          type: 'select',
+          props: {
+            label: 'Restaurant',
+            placeholder: 'Select a restaurant',
+            required: false, // nullable
+            options: [
+              // Populate dynamically with restaurant IDs and names
+              { value: 1, label: 'Restaurant 1' },
+              { value: 2, label: 'Restaurant 2' },
+            ],
+          },
+          className: 'col-md-4 col-12',
         },
         {
           key: 'price',
@@ -147,7 +161,7 @@ export class ListProductComponent  extends ListBlade{
     }
   }
 
-  
+
   editRow(index: number) {
 
   }
