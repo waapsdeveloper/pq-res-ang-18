@@ -66,7 +66,7 @@ export class AddUserComponent implements OnInit {
           },
           className: 'col-md-4 col-12',
         },
-        ,{
+        {
           key: 'address_line',
           type: 'input',
           props: {
@@ -119,15 +119,16 @@ export class AddUserComponent implements OnInit {
 
 
         {
-          key: 'restaurant_id',
+          key: 'restaurant',
           type: 'select',
           props: {
-            label: 'Restaurant',
-            placeholder: 'Select a restaurant',
-            required: false, // nullable
+            label: 'Restaurant Name',
+            placeholder: 'Enter Restaurant  name',
             options: [],
+            required: true,
+            minLength: 3
           },
-          className: 'col-md-3 col-12',
+          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
         },
       ],
 
@@ -148,12 +149,12 @@ export class AddUserComponent implements OnInit {
         },
         {
           key: 'role',
-          type: 'input',
+          type: 'select',
           props: {
             label: 'Role',
             placeholder: 'Select a role',
             required: true,
-           
+            options: []
           },
           className: 'col-md-4 col-12',
         },
@@ -184,7 +185,42 @@ export class AddUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.setRoleInForm();
+    this.setRestaurantsInForm();
   }
+  async getRestaurants(): Promise<any[]> {
+    let obj = {
+      search: '',
+      perpage: 500
+    };
+    const res = await this.network.getRestaurants(obj);
+
+    if (res && res['data']) {
+      let d = res['data'];
+      let dm = d['data'];
+      return dm.map((r) => {
+        return {
+          value: r.id,
+          label: r.name
+        };
+      }) as any[];
+    }
+
+    return [];
+  }
+  async setRestaurantsInForm() {
+    const res = await this.getRestaurants();
+    console.log(res);
+
+    for (var i = 0; i < this.fields.length; i++) {
+      for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
+        let fl = this.fields[i].fieldGroup[j];
+        if (fl.key == 'restaurant') {
+          fl.props.options = res;
+        }
+      }
+    }
+  }
+
 
   async setRoleInForm() {
     const res = await this.getRoles();
