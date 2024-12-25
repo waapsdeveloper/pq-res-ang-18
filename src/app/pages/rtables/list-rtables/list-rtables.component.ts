@@ -187,10 +187,13 @@ export class ListRtablesComponent extends ListBlade {
   }
 
   openDetails(i) {
-    let item = this.list[i];
-    this.nav.push('/pages/rtables/view/' + item.id);
+    let item = this.crudService.list[i];
+    this.nav.push('/pages/tables/view/' + item.id);
   }
-
+  openEditDetails(i){
+    let item = this.crudService.list[i];
+    this.nav.push('/pages/tables/edit/' + item.id);
+  }
   changePerPage(event: any) {
     this.crudService.onChangePerPage(event.target.value);
   }
