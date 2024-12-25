@@ -19,6 +19,11 @@ export class AddUserComponent implements OnInit {
     password: '',
     phone: '',
     role: '',
+    address:'',
+    city:'',
+    state:'',
+    country:'',
+    image:null,
     status: '',
   };
 
@@ -61,7 +66,71 @@ export class AddUserComponent implements OnInit {
           },
           className: 'col-md-4 col-12',
         },
+        ,{
+          key: 'address_line',
+          type: 'input',
+          props: {
+            label: 'Address Line',
+            placeholder: 'Enter address',
+            required: true,
+          },
+          className: 'col-md-4 col-12',
+        },
+        {
+          key: 'city',
+          type: 'input',
+          props: {
+            label: 'City',
+            placeholder: 'Enter city',
+            required: false, // nullable
+          },
+          className: 'col-md-4 col-12',
+        },
+        {
+          key: 'state',
+          type: 'input',
+          props: {
+            label: 'State',
+            placeholder: 'Enter state',
+            required: false, // nullable
+          },
+          className: 'col-md-4 col-12',
+        },
+        {
+          key: 'country',
+          type: 'input',
+          props: {
+            label: 'Country',
+            placeholder: 'Enter country',
+            required: false, // nullable
+          },
+          className: 'col-md-4 xcol-12',
+        },
+        {
+          key: 'image',
+          type: 'input',
+          props: {
+            label: 'Image',
+            placeholder: 'Enter image ',
+            type: 'file'
+          },
+          className: 'col-md-4 col-12'
+        },
+
+
+        {
+          key: 'restaurant_id',
+          type: 'select',
+          props: {
+            label: 'Restaurant',
+            placeholder: 'Select a restaurant',
+            required: false, // nullable
+            options: [],
+          },
+          className: 'col-md-3 col-12',
+        },
       ],
+
     },
     {
       fieldGroupClassName: 'row',
@@ -75,20 +144,16 @@ export class AddUserComponent implements OnInit {
             type: 'tel',
             // pattern: '^\\+?[1-9]\\d{1,14}$', // Example pattern for international numbers
           },
-          className: 'col-md-4 col-12',
+          className: 'col-md-3 col-12',
         },
         {
           key: 'role',
-          type: 'select',
+          type: 'input',
           props: {
             label: 'Role',
             placeholder: 'Select a role',
             required: true,
-            options: [
-              { value: 'admin', label: 'Admin' },
-              { value: 'user', label: 'User' },
-              // Add more roles here as needed
-            ],
+           
           },
           className: 'col-md-4 col-12',
         },

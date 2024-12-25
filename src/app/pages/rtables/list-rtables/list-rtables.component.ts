@@ -14,7 +14,7 @@ import { UtilityService } from 'src/app/services/utility.service';
   styleUrl: './list-rtables.component.scss'
 })
 export class ListRtablesComponent extends ListBlade {
-  columns: any[] = ['Table No','Restaurant ID','No of seats', 'No of Orders', 'Status'];
+  columns: any[] = ['Table No','Restaurant ID','No of seats','Floor', 'No of Orders', 'Status'];
   title = 'Tables';
   showEdit = false;
   addurl = '/pages/tables/add';

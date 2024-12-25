@@ -13,22 +13,23 @@ import { UtilityService } from 'src/app/services/utility.service';
   styleUrl: './list-user.component.scss'
 })
 export class ListUserComponent extends ListBlade {
-
   title = 'Users';
-  addurl = '/pages/users/add'
+  addurl = '/pages/users/add';
 
-  columns: any[] = [
-    'Name',
-    'phone',
-    'address',
-    'Status',
-  ]
+  columns: any[] = ['Name', 'Email', 'Role', 'address', 'Status'];
 
   override model = {
     name: '',
+    email: '',
+    password: '',
     phone: '',
+    role: '',
     address: '',
-    status: 'active',
+    city: '',
+    state: '',
+    country: '',
+    image: null,
+    status: ''
   };
 
   fields: FormlyFieldConfig[] = [
@@ -40,18 +41,31 @@ export class ListUserComponent extends ListBlade {
           type: 'input',
           props: {
             label: 'Name',
-            placeholder: '',
+            placeholder: 'Enter Name'
           },
           className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
         },
         {
-          key: 'phone',
+          key: 'email',
           type: 'input',
           props: {
-            label: 'Phone',
-            placeholder: '',
+            label: 'Email Address',
+            placeholder: 'Enter email',
+            required: true,
+            type: 'email'
           },
           className: 'col-md-4 col-12'
+        },
+        {
+          key: 'role',
+          type: 'input',
+          props: {
+            label: 'Role',
+            placeholder: 'Enter  a role',
+            required: true,
+
+          },
+          className: 'col-md-4 col-12',
         },
         {
           key: 'phone',
@@ -77,18 +91,17 @@ export class ListUserComponent extends ListBlade {
             ]
           },
           className: 'col-md-4 col-12'
-        },
-
-      ],
-    },
+        }
+      ]
+    }
   ];
   constructor(
     injector: Injector,
     public crudService: UserService,
     private nav: NavService,
-    private utility: UtilityService,
+    private utility: UtilityService
   ) {
-    super(injector)
+    super(injector);
     this.initialize();
   }
 
@@ -96,11 +109,7 @@ export class ListUserComponent extends ListBlade {
     this.crudService.getList('', 1);
   }
 
-
-
-  editRow(index: number) {
-
-  }
+  editRow(index: number) {}
 
   async deleteRow(index: number) {
     try {
@@ -141,5 +150,4 @@ export class ListUserComponent extends ListBlade {
     const max = 100;
     return Math.round(Math.random() * (max - min) + min); // Generates a random number between 50 and 100
   }
-
 }

@@ -1,29 +1,34 @@
 <app-kt-list-page [title]="'Users'" [addurl]="'/pages/users/add'" (onFilter)="toggleFilters()">
-
   <form [formGroup]="form" *ngIf="crudService.filters" (ngSubmit)="submitFilters(model)">
     <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
     <button type="submit" class="btn btn-secondary mt-4">search</button>
   </form>
 
-  <hr *ngIf="crudService.filters">
+  <hr *ngIf="crudService.filters" />
 
-  <app-kt-app-list-page-table [columns]="columns" [currentPage]="crudService.page" [totalPages]="crudService.lastPage"
-    (pageChange)="changePage($event)">
-
+  <app-kt-app-list-page-table
+    [columns]="columns"
+    [currentPage]="crudService.page"
+    [totalPages]="crudService.lastPage"
+    (pageChange)="changePage($event)"
+  >
     <tr *ngFor="let item of crudService.list; let i = index">
-
       <td>
         <div class="d-flex align-items-center">
           <!--begin::Thumbnail-->
           <a href="#" class="symbol symbol-50px">
-            <span class="symbol-label" style="background-image:url(assets/images/user/avatar-1.jpg);"></span>
+            <span class="symbol-label" style="background-image: url(assets/images/user/avatar-1.jpg)"></span>
           </a>
           <!--end::Thumbnail-->
           <div class="ms-5">
             <!--begin::Title-->
-            <a href="../../demo1/dist/apps/ecommerce/catalog/edit-product.html"
+            <a
+              href="../../demo1/dist/apps/ecommerce/catalog/edit-product.html"
               class="text-gray-800 text-hover-primary fs-5 fw-bold"
-              data-kt-ecommerce-product-filter="product_name">{{item.name}}</a>
+              data-kt-ecommerce-product-filter="product_name"
+            >
+              {{ item.name }}
+            </a>
             <div class="text-muted fs-7 fw-bold">Total Orders: 778</div>
 
             <!--end::Title-->
@@ -32,7 +37,12 @@
       </td>
       <td>
         <div class="d-flex">
-          <div class="text-muted fs-7 fw-bold">{{item.phone}}</div>
+          <div class="text-muted fs-7 fw-bold">{{ item.email }}</div>
+        </div>
+      </td>
+      <td>
+        <div class="d-flex">
+          <div class="text-muted fs-7 fw-bold">{{ item.role}}</div>
         </div>
       </td>
       <td>
@@ -47,20 +57,16 @@
       </td> -->
       <td>
         <div class="d-flex">
-          <div class="badge badge-light-primary fw-bold me-auto px-4 py-3">{{item.status}}</div>
+          <div class="badge badge-light-primary fw-bold me-auto px-4 py-3">{{ item.status }}</div>
         </div>
       </td>
-
-
 
       <!-- <ng-content></ng-content> -->
       <!--begin::Action=-->
       <td class="text-end d-flex flex-row justify-content-end align-items-center gap-3">
-
-        <i class="ti ti-eye" style="font-size: 24px;" (click)="openDetails(i)"></i>
-        <i class="ti ti-edit" style="font-size: 24px;"></i>
-        <i class="ti ti-trash" style="font-size: 24px;" (click)="deleteRow(i)"></i>
-
+        <i class="ti ti-eye" style="font-size: 24px" (click)="openDetails(i)"></i>
+        <i class="ti ti-edit" style="font-size: 24px"></i>
+        <i class="ti ti-trash" style="font-size: 24px" (click)="deleteRow(i)"></i>
       </td>
       <!--end::Action=-->
       <!--begin::Checkbox-->
@@ -72,13 +78,5 @@
       <!--end::Checkbox-->
       <!--end::Table row-->
     </tr>
-
-
-
-
-
-
   </app-kt-app-list-page-table>
-
-
 </app-kt-list-page>
