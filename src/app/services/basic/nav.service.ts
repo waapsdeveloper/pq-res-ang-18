@@ -77,7 +77,7 @@ export class NavService {
   }
 
   getParams() {
-    return this.activatedRoute.snapshot.params;
+    return this.activatedRoute.paramMap;
   }
 
   getQueryParams() {

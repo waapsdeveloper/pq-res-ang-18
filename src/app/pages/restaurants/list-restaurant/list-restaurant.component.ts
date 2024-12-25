@@ -102,8 +102,13 @@ export class ListRestaurantComponent extends ListBlade {
 
 
   openDetails(i) {
-    let item = this.list[i];
+    let item = this.crudService.list[i];
     this.nav.push('/pages/restaurants/view/' + item.id);
+  }
+
+  editDetails(i) {
+    let item = this.crudService.list[i];
+    this.nav.push('/pages/restaurants/edit/' + item.id);
   }
 
   changePerPage(event: any) {
