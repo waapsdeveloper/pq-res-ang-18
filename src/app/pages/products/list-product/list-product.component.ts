@@ -211,8 +211,14 @@ export class ListProductComponent extends ListBlade {
   }
 
   openDetails(i) {
-    let item = this.list[i];
+    let item = this.crudService.list[i];
     this.nav.push('/pages/products/view/' + item.id);
+  }
+  EditOpenDetails(i){
+    let item = this.crudService.list[i];
+    this.nav.push('/pages/products/edit/' + item.id);
+
+
   }
 
   changePerPage(event: any) {
