@@ -106,7 +106,7 @@ export class ListRestaurantComponent extends ListBlade {
     this.nav.push('/pages/restaurants/view/' + item.id);
   }
 
-  editDetails(i) {
+  editOpenDetails(i) {
     let item = this.crudService.list[i];
     this.nav.push('/pages/restaurants/edit/' + item.id);
   }
