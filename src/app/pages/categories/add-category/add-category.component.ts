@@ -38,10 +38,11 @@ export class AddCategoryComponent implements OnInit {
         },
         {
           key: 'restaurant',
-          type: 'input',
+          type: 'select',
           props: {
             label: 'Restaurant Name',
             placeholder: 'Enter Restaurant  name',
+            options: [],
             required: true,
             minLength: 3
           },
@@ -101,6 +102,7 @@ export class AddCategoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.setCategoriesInForm();
+    this.setRestaurantsInForm()
   }
 
   async setCategoriesInForm() {
@@ -116,7 +118,6 @@ export class AddCategoryComponent implements OnInit {
       }
     }
   }
-
   async getCategories(): Promise<any[]> {
     let obj = {
       search: '',
@@ -137,6 +138,42 @@ export class AddCategoryComponent implements OnInit {
 
     return [];
   }
+
+  async getRestaurants(): Promise<any[]> {
+    let obj = {
+      search: '',
+      perpage: 500
+    };
+    const res = await this.network.getRestaurants(obj);
+
+    if (res && res['data']) {
+      let d = res['data'];
+      let dm = d['data'];
+      return dm.map((r) => {
+        return {
+          value: r.id,
+          label: r.name
+        };
+      }) as any[];
+    }
+
+    return [];
+  }
+  async setRestaurantsInForm() {
+    const res = await this.getRestaurants();
+    console.log(res);
+
+    for (var i = 0; i < this.fields.length; i++) {
+      for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
+        let fl = this.fields[i].fieldGroup[j];
+        if (fl.key == 'restaurant') {
+          fl.props.options = res;
+        }
+      }
+    }
+  }
+
+
 
   async onSubmit(model) {
     console.log(model);

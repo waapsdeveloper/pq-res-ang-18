@@ -22,7 +22,7 @@ export class ListRtablesComponent extends ListBlade {
     tableNo: '',
     status: '',
     noOfOrders: '',
-    no_of_seats: '',     
+    no_of_seats: '',
     floor: '',
     location: '',
     restaurant_id: ''
@@ -123,7 +123,9 @@ export class ListRtablesComponent extends ListBlade {
     public crudService: RtableService,
     private nav: NavService,
     private utility: UtilityService,
-    private users: UsersService
+    private users: UsersService,
+    private network: NetworkService,
+
   ) {
     super(injector);
     this.initialize();
@@ -136,6 +138,40 @@ export class ListRtablesComponent extends ListBlade {
       this.showEdit = true;
     }
   }
+  async getRestaurants(): Promise<any[]> {
+    let obj = {
+      search: '',
+      perpage: 500
+    };
+    const res = await this.network.getRestaurants(obj);
+
+    if (res && res['data']) {
+      let d = res['data'];
+      let dm = d['data'];
+      return dm.map((r) => {
+        return {
+          value: r.id,
+          label: r.name
+        };
+      }) as any[];
+    }
+
+    return [];
+  }
+  async setRestaurantsInForm() {
+    const res = await this.getRestaurants();
+    console.log(res);
+
+    for (var i = 0; i < this.fields.length; i++) {
+      for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
+        let fl = this.fields[i].fieldGroup[j];
+        if (fl.key == 'restaurant_id') {
+          fl.props.options = res;
+        }
+      }
+    }
+  }
+
 
   editRow(index: number) {}
 
