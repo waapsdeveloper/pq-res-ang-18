@@ -11,12 +11,14 @@ import { UtilityService } from 'src/app/services/utility.service';
   styleUrl: './add-category.component.scss'
 })
 export class AddCategoryComponent implements OnInit {
-
   form = new FormGroup({});
   model = {
     name: '',
+    restaurant: '',
     category: '',
-    status: 'active',
+    status: '',
+    description: '',
+    image: null
   };
 
   fields: FormlyFieldConfig[] = [
@@ -35,15 +37,45 @@ export class AddCategoryComponent implements OnInit {
           className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
         },
         {
+          key: 'restaurant',
+          type: 'select',
+          props: {
+            label: 'Restaurant Name',
+            placeholder: 'Enter Restaurant  name',
+            options: [],
+            required: true,
+            minLength: 3
+          },
+          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
+        },
+        {
+          key: 'description',
+          type: 'textarea',
+          props: {
+            label: 'Description',
+            placeholder: 'Enter description'
+          },
+          className: 'col-md-4 col-12'
+        },
+        {
           key: 'category',
           type: 'select',
           props: {
-            label: 'category',
+            label: 'Category',
             placeholder: 'Select a parent category',
-            options: [
-            ],
+            options: []
           },
-          className: 'col-md-4 col-12',
+          className: 'col-md-4 col-12'
+        },
+        {
+          key: 'image',
+          type: 'input',
+          props: {
+            label: 'Image',
+            placeholder: 'Enter image ',
+            type: 'file'
+          },
+          className: 'col-md-4 col-12'
         },
         {
           key: 'status',
@@ -56,9 +88,9 @@ export class AddCategoryComponent implements OnInit {
             ]
           },
           className: 'col-md-4 col-12'
-        },
-      ],
-    },
+        }
+      ]
+    }
   ];
 
   constructor(
@@ -66,50 +98,81 @@ export class AddCategoryComponent implements OnInit {
     private network: NetworkService,
     private nav: NavService,
     private utility: UtilityService
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.setCategoriesInForm();
+    this.setRestaurantsInForm()
   }
 
-  async setCategoriesInForm(){
+  async setCategoriesInForm() {
     const res = await this.getCategories();
     console.log(res);
 
-    for(var i = 0; i < this.fields.length; i++){
-      for(var j = 0; j < this.fields[i].fieldGroup.length; j++) {
-
+    for (var i = 0; i < this.fields.length; i++) {
+      for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
         let fl = this.fields[i].fieldGroup[j];
-        if(fl.key == 'category'){
+        if (fl.key == 'category') {
+          fl.props.options = res;
+        }
+      }
+    }
+  }
+  async getCategories(): Promise<any[]> {
+    let obj = {
+      search: '',
+      perpage: 500
+    };
+    const res = await this.network.getCategories(obj);
+
+    if (res && res['data']) {
+      let d = res['data'];
+      let dm = d['data'];
+      return dm.map((r) => {
+        return {
+          value: r.id,
+          label: r.name
+        };
+      }) as any[];
+    }
+
+    return [];
+  }
+
+  async getRestaurants(): Promise<any[]> {
+    let obj = {
+      search: '',
+      perpage: 500
+    };
+    const res = await this.network.getRestaurants(obj);
+
+    if (res && res['data']) {
+      let d = res['data'];
+      let dm = d['data'];
+      return dm.map((r) => {
+        return {
+          value: r.id,
+          label: r.name
+        };
+      }) as any[];
+    }
+
+    return [];
+  }
+  async setRestaurantsInForm() {
+    const res = await this.getRestaurants();
+    console.log(res);
+
+    for (var i = 0; i < this.fields.length; i++) {
+      for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
+        let fl = this.fields[i].fieldGroup[j];
+        if (fl.key == 'restaurant') {
           fl.props.options = res;
         }
       }
     }
   }
 
-  async getCategories(): Promise<any[]> {
-    let obj = {
-      search: '',
-      perpage: 500
-    }
-    const res = await this.network.getCategories(obj);
-
-    if (res && res['data']) {
-
-      let d = res['data'];
-      let dm = d['data'];
-      return dm.map( r => {
-        return {
-          value: r.id,
-          label: r.name
-        }
-      }) as any[];
-
-    }
-
-    return [];
-  }
 
 
   async onSubmit(model) {
@@ -129,5 +192,4 @@ export class AddCategoryComponent implements OnInit {
       //alert('Please fill out all required fields correctly.');
     }
   }
-
 }

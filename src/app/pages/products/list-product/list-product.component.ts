@@ -8,26 +8,25 @@ import { Component, Injector } from '@angular/core';
 import { ListBlade } from 'src/app/abstract/list-blade';
 import { UtilityService } from 'src/app/services/utility.service';
 
-
 @Component({
   selector: 'app-list-product',
   templateUrl: './list-product.component.html',
   styleUrl: './list-product.component.scss'
 })
-export class ListProductComponent  extends ListBlade{
-
+export class ListProductComponent extends ListBlade {
   title = 'Products';
   showEdit = false;
-  addurl = '/pages/products/add'
+  addurl = '/pages/products/add';
   override model = {
     name: '',
     category: '',
-    price: '',
-    discount: '',
-    status: 'active',
-    is_today_deal: '',
-    noOfOrders: '',
-    photo: ''
+    restaurant_id: null,
+    description: '',
+    status: '',
+    price: null,
+    image: null,
+    discount: null,
+    notes: ''
   };
 
   fields: FormlyFieldConfig[] = [
@@ -52,6 +51,21 @@ export class ListProductComponent  extends ListBlade{
             label: 'Category',
             placeholder: 'Enter category',
             required: true
+          },
+          className: 'col-md-4 col-12'
+        },
+        {
+          key: 'restaurant_id',
+          type: 'select',
+          props: {
+            label: 'Restaurant',
+            placeholder: 'Select a restaurant',
+            required: false, // nullable
+            options: [
+              // Populate dynamically with restaurant IDs and names
+              { value: 1, label: 'Restaurant 1' },
+              { value: 2, label: 'Restaurant 2' }
+            ]
           },
           className: 'col-md-4 col-12'
         },
@@ -112,45 +126,80 @@ export class ListProductComponent  extends ListBlade{
           },
           className: 'col-md-4 col-12'
         },
-
-      ],
-    },
+        {
+          key: 'notes',
+          type: 'textarea',
+          props: {
+            label: 'Notes',
+            placeholder: 'Enter any additional notes about the product',
+            required: false
+          },
+          className: 'col-md-4 col-12'
+        }
+      ]
+    }
   ];
 
-  columns: any[] = [
-    'Name',
-    'Category',
-    'Price',
-    'Todays Deal',
-    'No of Orders',
-    'Discount',
-    'Status',
+  columns: any[] = ['Name', 'Category', 'Price', 'Type', 'No of Orders', 'Discount', 'Status'];
 
-  ];
-
- constructor(
-     injector: Injector,
-     public crudService: ProductService,
-     private nav: NavService,
-     private utility: UtilityService,
-     private users: UsersService
-   ) {
-     super(injector)
-     this.initialize();
-   }
+  constructor(
+    injector: Injector,
+    public crudService: ProductService,
+    private nav: NavService,
+    private utility: UtilityService,
+    private users: UsersService,
+    private network: NetworkService
+  ) {
+    super(injector);
+    this.initialize();
+  }
 
   initialize() {
     this.crudService.getList('', 1);
-    const u = this.users.getUser()
+    const u = this.users.getUser();
     if (u.role_id == 1 || u.role_id == 2) {
       this.showEdit = true;
     }
   }
-
-
-  editRow(index: number) {
-
+  ngOnInit(): void {
+    this.setRestaurantsInForm();
   }
+
+  async getRestaurants(): Promise<any[]> {
+    let obj = {
+      search: '',
+      perpage: 500
+    };
+    const res = await this.network.getRestaurants(obj);
+
+    if (res && res['data']) {
+      let d = res['data'];
+      let dm = d['data'];
+      return dm.map((r) => {
+        return {
+          value: r.id,
+          label: r.name
+        };
+      }) as any[];
+    }
+
+    return [];
+  }
+  async setRestaurantsInForm() {
+    const res = await this.getRestaurants();
+    console.log(res);
+
+    for (var i = 0; i < this.fields.length; i++) {
+      for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
+        let fl = this.fields[i].fieldGroup[j];
+        if (fl.key == 'restaurant_id') {
+          fl.props.options = res;
+        }
+      }
+    }
+  }
+
+  editRow(index: number) {}
 
   async deleteRow(index: number) {
     try {
@@ -160,7 +209,6 @@ export class ListProductComponent  extends ListBlade{
       console.error('Error deleting row:', error);
     }
   }
-
 
   openDetails(i) {
     let item = this.list[i];
@@ -186,7 +234,4 @@ export class ListProductComponent  extends ListBlade{
   loadMoreData() {
     this.crudService.loadMore();
   }
-
-
 }
-

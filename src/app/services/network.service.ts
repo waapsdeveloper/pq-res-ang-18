@@ -37,10 +37,10 @@ export class NetworkService {
 
   // Restaurants
 
-  // getRestaurants(params) {
-  //   const query = this.serialize(params);
-  //   return this.httpGetResponse('restaurant' + (query ? `?${query}` : ''), null, false, true);
-  // }
+  getRestaurants(params) {
+    const query = this.serialize(params);
+    return this.httpGetResponse('restaurant' + (query ? `?${query}` : ''), null, false, true);
+  }
 
   getRestaurantById(id) {
     return this.httpGetResponse(`restaurant/${id}`, null, false, true);

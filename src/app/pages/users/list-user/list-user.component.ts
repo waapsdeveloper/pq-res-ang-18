@@ -13,9 +13,8 @@ import { UtilityService } from 'src/app/services/utility.service';
   styleUrl: './list-user.component.scss'
 })
 export class ListUserComponent extends ListBlade {
-
   title = 'Users';
-  addurl = '/pages/users/add'
+  addurl = '/pages/users/add';
 
   columns: any[] = [
     'Full Name',
@@ -60,6 +59,7 @@ export class ListUserComponent extends ListBlade {
     name: '',
     email: '',
     phone: '',
+    role: '',
     address: '',
     role: '',
     status: 'active',
@@ -74,7 +74,7 @@ export class ListUserComponent extends ListBlade {
           type: 'input',
           props: {
             label: 'Name',
-            placeholder: '',
+            placeholder: 'Enter Name'
           },
           className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
         },
@@ -91,8 +91,10 @@ export class ListUserComponent extends ListBlade {
           key: 'phone',
           type: 'input',
           props: {
-            label: 'Phone',
-            placeholder: '',
+            label: 'Email Address',
+            placeholder: 'Enter email',
+            required: true,
+            type: 'email'
           },
           className: 'col-md-4 col-12'
         },
@@ -119,10 +121,9 @@ export class ListUserComponent extends ListBlade {
             ]
           },
           className: 'col-md-4 col-12'
-        },
-
-      ],
-    },
+        }
+      ]
+    }
   ];
 
   roles: any[] = [];
@@ -132,8 +133,9 @@ export class ListUserComponent extends ListBlade {
     public crudService: UserService,
     private nav: NavService,
     private utility: UtilityService,
+    private network: NetworkService
   ) {
-    super(injector)
+    super(injector);
     this.initialize();
   }
 
@@ -147,12 +149,43 @@ export class ListUserComponent extends ListBlade {
       return { value: role.id, label: role.name };
     });
   }
+  async setRoleInForm() {
+    const res = await this.getRoles();
+    console.log(res);
 
-
-
-  editRow(index: number) {
-
+    for (var i = 0; i < this.fields.length; i++) {
+      for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
+        let fl = this.fields[i].fieldGroup[j];
+        if (fl.key == 'role') {
+          fl.props.options = res;
+        }
+      }
+    }
   }
+
+  // get roles array
+  async getRoles(): Promise<any[]> {
+    let obj = {
+      search: ''
+    };
+    const res = await this.network.getRoles(obj);
+
+    if (res && res['data']) {
+      let d = res['data'];
+      let dm = d['data'];
+      return dm.map((r) => {
+        return {
+          value: r.id,
+          label: r.name
+        };
+      }) as any[];
+    }
+
+    return [];
+  }
+
+
+  editRow(index: number) {}
 
   async deleteRow(index: number) {
     try {
@@ -193,5 +226,4 @@ export class ListUserComponent extends ListBlade {
     const max = 100;
     return Math.round(Math.random() * (max - min) + min); // Generates a random number between 50 and 100
   }
-
 }

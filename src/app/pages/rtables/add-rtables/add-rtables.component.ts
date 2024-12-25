@@ -15,9 +15,11 @@ export class AddRtablesComponent {
 
   form = new FormGroup({});
   model = {
+    restaurant_id: '',
     identifier: '',
+    no_of_seats: '',
+    floor: '',
     location: '',
-    restaurant: '',
     description: '',
     status: '',
   };
@@ -27,6 +29,16 @@ export class AddRtablesComponent {
       fieldGroupClassName: 'row', // Bootstrap row
       fieldGroup: [
         {
+          key: 'restaurant_id',
+          type: 'select',
+          props: {
+            label: 'Restaurant',
+            placeholder: 'Select a restaurant',
+            required: false,
+            options: [],
+          },
+          className: 'col-md-4 col-12',
+        },,{
           key: 'identifier',
           type: 'input',
           props: {
@@ -35,8 +47,32 @@ export class AddRtablesComponent {
             required: true,
             minLength: 3,
           },
-          className: 'col-md-6 col-12', // 3 columns on md+, full width on small screens
+          className: 'col-md-3 col-12', // 6 columns on md+, full width on small screens
         },
+        {
+          key: 'no_of_seats',
+          type: 'input',
+          props: {
+            label: 'Number of Seats',
+            placeholder: 'Enter number of seats',
+            required: true,
+            type: 'number', // Ensures numeric input
+            max: 255, // Constraint for maximum value
+          },
+          className: 'col-md-3 col-12',
+        },
+        {
+          key: 'floor',
+          type: 'input',
+          props: {
+            label: 'Floor',
+            placeholder: 'Enter floor description',
+            required: true,
+            maxLength: 500, // Constraint for maximum length
+          },
+          className: 'col-md-4 col-12',
+        },
+
         {
           key: 'location',
           type: 'input',
@@ -47,26 +83,8 @@ export class AddRtablesComponent {
           },
           className: 'col-md-6 col-12',
         },
-        // {
-        //   key: 'restaurant',
-        //   type: 'select',
-        //   props: {
-        //     label: 'Restaurant',
-        //     placeholder: 'Select a restaurant',
-        //     required: true,
-        //     options: [
-        //       // Example options
-        //       { value: 'restaurant1', label: 'Restaurant 1' },
-        //       { value: 'restaurant2', label: 'Restaurant 2' },
-        //     ],
-        //   },
-        //   className: 'col-md-4 col-12',
-        // },
-      ],
-    },
-    {
-      fieldGroupClassName: 'row',
-      fieldGroup: [
+
+
         {
           key: 'description',
           type: 'textarea',
@@ -89,13 +107,11 @@ export class AddRtablesComponent {
               { value: 'inactive', label: 'Inactive' },
             ],
           },
-          className: 'col-md-6 col-12',
+          className: 'col-md-4 col-12',
         },
       ],
     },
-
   ];
-
 
 
 
@@ -106,8 +122,41 @@ export class AddRtablesComponent {
 
   ngOnInit(): void {
     this.setRoleInForm();
+    this.setRestaurantsInForm();
   }
+  async getRestaurants(): Promise<any[]> {
+    let obj = {
+      search: '',
+      perpage: 500
+    };
+    const res = await this.network.getRestaurants(obj);
 
+    if (res && res['data']) {
+      let d = res['data'];
+      let dm = d['data'];
+      return dm.map((r) => {
+        return {
+          value: r.id,
+          label: r.name
+        };
+      }) as any[];
+    }
+
+    return [];
+  }
+  async setRestaurantsInForm() {
+    const res = await this.getRestaurants();
+    console.log(res);
+
+    for (var i = 0; i < this.fields.length; i++) {
+      for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
+        let fl = this.fields[i].fieldGroup[j];
+        if (fl.key == 'restaurant_id') {
+          fl.props.options = res;
+        }
+      }
+    }
+  }
   async setRoleInForm() {
     const res = await this.getRoles();
     console.log(res);

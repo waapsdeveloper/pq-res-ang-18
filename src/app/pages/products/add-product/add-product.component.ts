@@ -11,12 +11,17 @@ import { UtilityService } from 'src/app/services/utility.service';
   styleUrl: './add-product.component.scss'
 })
 export class AddProductComponent {
-
   form = new FormGroup({});
   model = {
     name: '',
     category: '',
-    status: 'active',
+    restaurant_id: null,
+    description: '',
+    status: '',
+    price: null,
+    image: null,
+    discount: null,
+    notes: ''
   };
 
   fields: FormlyFieldConfig[] = [
@@ -40,24 +45,23 @@ export class AddProductComponent {
           props: {
             label: 'category',
             placeholder: 'Select a category',
-            options: [
-            ],
-          },
-          className: 'col-md-4 col-12',
-        },
-        {
-          key: 'status',
-          type: 'select',
-          props: {
-            label: 'Status',
-            options: [
-              { value: 'active', label: 'Active' },
-              { value: 'inactive', label: 'Inactive' }
-            ]
+            options: []
           },
           className: 'col-md-4 col-12'
         },
-      ],
+        {
+          key: 'restaurant_id',
+          type: 'select',
+          props: {
+            label: 'Restaurant',
+            placeholder: 'Select a restaurant',
+            required: false, // nullable
+            options: [
+             ]
+          },
+          className: 'col-md-4 col-12'
+        }
+      ]
     },
     {
       fieldGroupClassName: 'row', // Bootstrap row
@@ -74,15 +78,42 @@ export class AddProductComponent {
           className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
         },
         {
+          key: 'status',
+          type: 'select',
+          props: {
+            label: 'Status',
+            options: [
+              { value: 'active', label: 'Active' },
+              { value: 'inactive', label: 'Inactive' }
+            ]
+          },
+          className: 'col-md-4 col-12'
+        }
+      ]
+    },
+    {
+      fieldGroupClassName: 'row', // Bootstrap row
+      fieldGroup: [
+        {
           key: 'price',
           type: 'input',
           props: {
             label: 'Price',
             placeholder: 'Set a regular price',
             type: 'number'
-
           },
-          className: 'col-md-4 col-12',
+          className: 'col-md-4 col-12'
+        },
+        {
+          key: 'image',
+          type: 'input',
+          props: {
+            label: 'Product Image',
+            placeholder: 'Upload product image',
+            type: 'file',
+            accept: 'image/'
+          },
+          className: 'col-md-4 col-12'
         },
         {
           key: 'discount',
@@ -94,8 +125,6 @@ export class AddProductComponent {
           },
           className: 'col-md-4 col-12',
         },
-
-
 
       ],
     },
@@ -153,22 +182,53 @@ export class AddProductComponent {
     private network: NetworkService,
     private nav: NavService,
     private utility: UtilityService
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.setCategoriesInForm();
+    this.setRestaurantsInForm();
   }
+  async getRestaurants(): Promise<any[]> {
+    let obj = {
+      search: '',
+      perpage: 500
+    };
+    const res = await this.network.getRestaurants(obj);
 
-  async setCategoriesInForm(){
+    if (res && res['data']) {
+      let d = res['data'];
+      let dm = d['data'];
+      return dm.map((r) => {
+        return {
+          value: r.id,
+          label: r.name
+        };
+      }) as any[];
+    }
+
+    return [];
+  }
+  async setRestaurantsInForm() {
+    const res = await this.getRestaurants();
+    console.log(res);
+
+    for (var i = 0; i < this.fields.length; i++) {
+      for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
+        let fl = this.fields[i].fieldGroup[j];
+        if (fl.key == 'restaurant_id') {
+          fl.props.options = res;
+        }
+      }
+    }
+  }
+  async setCategoriesInForm() {
     const res = await this.getCategories();
     console.log(res);
 
-    for(var i = 0; i < this.fields.length; i++){
-      for(var j = 0; j < this.fields[i].fieldGroup.length; j++) {
-
+    for (var i = 0; i < this.fields.length; i++) {
+      for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
         let fl = this.fields[i].fieldGroup[j];
-        if(fl.key == 'category'){
+        if (fl.key == 'category') {
           fl.props.options = res;
         }
       }
@@ -179,25 +239,22 @@ export class AddProductComponent {
     let obj = {
       search: '',
       perpage: 500
-    }
+    };
     const res = await this.network.getCategories(obj);
 
     if (res && res['data']) {
-
       let d = res['data'];
       let dm = d['data'];
-      return dm.map( r => {
+      return dm.map((r) => {
         return {
           value: r.id,
           label: r.name
-        }
+        };
       }) as any[];
-
     }
 
     return [];
   }
-
 
   async onSubmit(model) {
     console.log(model);
@@ -216,5 +273,4 @@ export class AddProductComponent {
       //alert('Please fill out all required fields correctly.');
     }
   }
-
 }
