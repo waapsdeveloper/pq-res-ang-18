@@ -15,7 +15,14 @@ export class AddProductComponent {
   model = {
     name: '',
     category: '',
-    status: 'active'
+    restaurant_id: null,
+    description: '',
+    status: '',
+    price: null,
+    image: null,
+    discount: null,
+    notes: '',
+
   };
 
   fields: FormlyFieldConfig[] = [
