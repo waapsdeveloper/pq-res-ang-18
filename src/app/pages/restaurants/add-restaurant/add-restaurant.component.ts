@@ -91,15 +91,7 @@ export class AddRestaurantComponent {
           },
           className: 'col-md-4 col-12'
         },
-        {
-          key: 'opening_hours',
-          type: 'input',
-          props: {
-            label: 'Opening Hours',
-            placeholder: 'Enter opening hours',
-          },
-          className: 'col-md-4 col-12'
-        },
+        
         {
           key: 'description',
           type: 'textarea',
