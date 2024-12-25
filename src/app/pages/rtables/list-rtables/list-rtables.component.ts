@@ -14,18 +14,18 @@ import { UtilityService } from 'src/app/services/utility.service';
   styleUrl: './list-rtables.component.scss'
 })
 export class ListRtablesComponent extends ListBlade {
-  columns: any[] = [
-    'Table No',
-    'No of Orders',
-    'Status',
-  ];
+  columns: any[] = ['Table No','Restaurant ID','No of seats', 'No of Orders', 'Status'];
   title = 'Tables';
   showEdit = false;
-  addurl = '/pages/tables/add'
+  addurl = '/pages/tables/add';
   override model = {
     tableNo: '',
-    status: 'active',
-    noOfOrders: ''
+    status: '',
+    noOfOrders: '',
+    no_of_seats: '',
+    floor: '',
+    location: '',
+    restaurant_id: ''
   };
 
   fields: FormlyFieldConfig[] = [
@@ -33,7 +33,54 @@ export class ListRtablesComponent extends ListBlade {
       fieldGroupClassName: 'row', // Bootstrap row
       fieldGroup: [
         {
-          key: 'Table No',
+          key: 'restaurant_id',
+          type: 'select',
+          props: {
+            label: 'Restaurant',
+            placeholder: 'Select a restaurant',
+            required: false,
+            options: []
+          },
+          className: 'col-md-4 col-12'
+        },
+        {
+          key: 'no_of_seats',
+          type: 'input',
+          props: {
+            label: 'Number of Seats',
+            placeholder: 'Enter number of seats',
+            required: true,
+            type: 'number', // Ensures numeric input
+            max: 255 // Constraint for maximum value
+          },
+          className: 'col-md-3 col-12'
+        },
+        {
+          key: 'floor',
+          type: 'input',
+          props: {
+            label: 'Floor',
+            placeholder: 'Enter floor description',
+            required: true,
+            maxLength: 500 // Constraint for maximum length
+          },
+          className: 'col-md-4 col-12'
+        },
+
+        {
+          key: 'location',
+          type: 'input',
+          props: {
+            label: 'Location',
+            placeholder: 'Near west wall',
+            required: true
+          },
+          className: 'col-md-4 col-12'
+        },
+
+        {
+          key: 'tableNo',
+
           type: 'input',
           props: {
             label: 'Table no',
@@ -54,11 +101,11 @@ export class ListRtablesComponent extends ListBlade {
             ],
             required: true
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-3 col-12'
         },
 
         {
-          key: 'Orders',
+          key: 'noOfOrders',
           type: 'input',
           props: {
             label: 'Orders',
@@ -66,12 +113,10 @@ export class ListRtablesComponent extends ListBlade {
             required: true
           },
           className: 'col-md-4 col-12'
-        },
-
-      ],
-    },
+        }
+      ]
+    }
   ];
-
 
   constructor(
     injector: Injector,
@@ -80,22 +125,19 @@ export class ListRtablesComponent extends ListBlade {
     private utility: UtilityService,
     private users: UsersService
   ) {
-    super(injector)
+    super(injector);
     this.initialize();
   }
 
   initialize() {
     this.crudService.getList('', 1);
-    const u = this.users.getUser()
+    const u = this.users.getUser();
     if (u.role_id == 1 || u.role_id == 2) {
       this.showEdit = true;
     }
   }
 
-
-  editRow(index: number) {
-
-  }
+  editRow(index: number) {}
 
   async deleteRow(index: number) {
     try {
@@ -105,7 +147,6 @@ export class ListRtablesComponent extends ListBlade {
       console.error('Error deleting row:', error);
     }
   }
-
 
   openDetails(i) {
     let item = this.list[i];
@@ -131,6 +172,4 @@ export class ListRtablesComponent extends ListBlade {
   loadMoreData() {
     this.crudService.loadMore();
   }
-
-
 }

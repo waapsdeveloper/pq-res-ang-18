@@ -14,6 +14,7 @@ export class AddCategoryComponent implements OnInit {
   form = new FormGroup({});
   model = {
     name: '',
+    restaurant: '',
     category: '',
     status: '',
     description: '',
