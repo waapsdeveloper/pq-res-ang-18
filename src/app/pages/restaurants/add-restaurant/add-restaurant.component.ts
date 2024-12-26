@@ -11,28 +11,59 @@ import { UtilityService } from 'src/app/services/utility.service';
   styleUrl: './add-restaurant.component.scss'
 })
 export class AddRestaurantComponent {
-
   form = new FormGroup({});
   model = {
     name: 'Restaurant one',
     image: '',
+    imageBase64: '',
+    favicon: '',
+    faviconBase64: '',
+    logo: '',
+    logoBase64: '',
     address: '',
     phone: '8957985674',
     email: 'restaurant1@mail.com',
     website: '',
     opening_hours: '',
-    // schedule: [
-    //   { day: 'Monday', status: false, start_time: '', end_time: '' },
-    //   { day: 'Tuesday', status: false, start_time: '', end_time: '' },
-    //   { day: 'Wednesday', status: false, start_time: '', end_time: '' },
-    //   { day: 'Thursday', status: false, start_time: '', end_time: '' },
-    //   { day: 'Friday', status: false, start_time: '', end_time: '' },
-    //   { day: 'Saturday', status: false, start_time: '', end_time: '' },
-    //   { day: 'Sunday', status: false, start_time: '', end_time: '' },
-    // ],
+    schedule: {
+      monday_day: 'Monday',
+      monday_start_time: '09:00',
+      monday_end_time: '17:00',
+      monday_status: 'active',
+
+      tuesday_day: 'Tuesday',
+      tuesday_start_time: '09:00',
+      tuesday_end_time: '17:00',
+      tuesday_status: 'active',
+
+      wednesday_day: 'Wednesday',
+      wednesday_start_time: '09:00',
+      wednesday_end_time: '17:00',
+      wednesday_status: 'active',
+
+      thursday_day: 'Thursday',
+      thursday_start_time: '09:00',
+      thursday_end_time: '17:00',
+      thursday_status: 'active',
+
+      friday_day: 'Friday',
+      friday_start_time: '10:00',
+      friday_end_time: '20:00',
+      friday_status: 'active',
+
+      saturday_day: 'Saturday',
+      saturday_start_time: '10:00',
+      saturday_end_time: '18:00',
+      saturday_status: 'inactive',
+
+      sunday_day: 'Sunday',
+      sunday_start_time: '10:00',
+      sunday_end_time: '16:00',
+      sunday_status: 'inactive'
+    },
     description: '',
     rating: Math.floor(Math.random() * 6),
-    status: 'active',
+    status: 'active'
   };
 
   fields: FormlyFieldConfig[] = [
@@ -50,7 +81,6 @@ export class AddRestaurantComponent {
           },
           className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
         },
-
         {
           key: 'address',
           type: 'input',
@@ -66,7 +96,7 @@ export class AddRestaurantComponent {
           type: 'input',
           props: {
             label: 'Phone Number',
-            placeholder: 'Enter phone number',
+            placeholder: 'Enter phone number'
             // pattern: /^[0-9]{10,15}$/
           },
           className: 'col-md-4 col-12'
@@ -91,7 +121,6 @@ export class AddRestaurantComponent {
           },
           className: 'col-md-4 col-12'
         },
-        
         {
           key: 'description',
           type: 'textarea',
@@ -101,18 +130,42 @@ export class AddRestaurantComponent {
           },
           className: 'col-md-4 col-12'
         },
-
-
-        // {
-        //   key: 'image',
-        //   type: 'input',
-        //   props: {
-        //     label: 'Image',
-        //     placeholder: 'Enter image URL',
-        //     type: 'file'
-        //   },
-        //   className: 'col-md-4 col-12'
-        // },
+        {
+          key: 'image',
+          type: 'input',
+          props: {
+            label: 'Image',
+            placeholder: 'Enter image URL',
+            type: 'file',
+            accept: 'image/*',
+            change: (field, event) => this.onFileChange(field, event, 'imageBase64')
+          },
+          className: 'col-md-4 col-12'
+        },
+        {
+          key: 'favicon',
+          type: 'input',
+          props: {
+            label: 'Image',
+            placeholder: 'Enter image URL',
+            type: 'file',
+            accept: 'image/*',
+            change: (field, event) => this.onFileChange(field, event, 'faviconBase64')
+          },
+          className: 'col-md-4 col-12'
+        },
+        {
+          key: 'logo',
+          type: 'input',
+          props: {
+            label: 'Image',
+            placeholder: 'Enter image URL',
+            type: 'file',
+            accept: 'image/*',
+            change: (field, event) => this.onFileChange(field, event, 'logoBase64')
+          },
+          className: 'col-md-4 col-12'
+        },
         // {
         //   key: 'rating',
         //   type: 'input',
@@ -137,88 +190,179 @@ export class AddRestaurantComponent {
             ]
           },
           className: 'col-md-4 col-12'
-        },
-      ],
+        }
+      ]
     },
-//     {
-//       key: 'schedule_table',
-//       fieldGroupClassName: 'col-12 table-responsive', // Full-width table
-//       fieldGroup: [
-//         {
-//           key: 'schedule',
-//           fieldGroupClassName: 'row',
-//           fieldGroup: [
-//             // Define each day of the week as a separate field group
-//             ...['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day) => ({
-//               fieldGroupClassName: 'row border p-2', // Individual row for each day
-//               fieldGroup: [
-//                 {
-//                   key: `${day.toLowerCase()}_day`, // Unique key for each day
-//                   type: 'input',
-//                   props: {
-//                     label: 'Day',
-//                     value: day,
-//                     disabled: true, // Static day name
-//                   },
-//                   className: 'col-md-3 col-12',
-//                 },
-//                 {
-//                   key: `${day.toLowerCase()}_status`,
-//                   type: 'checkbox',
-//                   props: {
-//                     label: 'Active',
-//                   },
-//                   className: 'col-md-3 col-12',
-//                 },
-//                 {
-//                   key: `${day.toLowerCase()}_start_time`,
-//                   type: 'input',
-//                   props: {
-//                     label: 'Start Time',
-//                     type: 'time',
-//                   },
-//                   className: 'col-md-3 col-12',
-//                 },
-//                 {
-//                   key: `${day.toLowerCase()}_end_time`,
-//                   type: 'input',
-//                   props: {
-//                     label: 'End Time',
-//                     type: 'time',
-//                   },
-//                   className: 'col-md-3 col-12',
-//                 },
-//               ],
-//             })),
-//           ],
+    {
+      key: 'schedule',
+      fieldGroupClassName: 'row border p-2', // Bootstrap row
+      fieldGroup: [
+        ...['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day) => ({
+          fieldGroupClassName: 'row',
+          fieldGroup: [
+            {
+              key: `${day.toLowerCase()}_day`, // Unique key for each day
+              type: 'input',
+              props: {
+                label: 'Day',
+                value: `${day}`,
+                readonly: true // Static day name
+              },
+              className: 'col-md-3 col-12'
+            },
 
-//       props: {
-//         label: 'Weekly Schedule',
-//         description: 'Set the schedule for each day of the week.',
-//       },
-//     },
-//   ],
-// },
-   ];
+            {
+              key: `${day.toLowerCase()}_start_time`,
+              type: 'input',
+              props: {
+                label: 'Start Time',
+                type: 'time'
+              },
+              className: 'col-md-3 col-12'
+            },
+            {
+              key: `${day.toLowerCase()}_end_time`,
+              type: 'input',
+              props: {
+                label: 'End Time',
+                type: 'time'
+              },
+              className: 'col-md-3 col-12'
+            },
+            {
+              key: `${day.toLowerCase()}_status`,
+              type: 'select',
+              props: {
+                label: 'Status',
+                options: [
+                  { value: 'active', label: 'Active' },
+                  { value: 'inactive', label: 'Inactive' }
+                ]
+              },
+              className: 'col-md-3 col-12'
+            }
+          ]
+        }))
+        //         {
+        //           key: 'schedule',
+        //           fieldGroupClassName: 'row',
+        //           fieldGroup: [
+        //             // Define each day of the week as a separate field group
+        //             ...['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day) => ({
+        //               fieldGroupClassName: 'row border p-2', // Individual row for each day
 
+        //             })),
+        //           ],
+
+        //       props: {
+        //         label: 'Weekly Schedule',
+        //         description: 'Set the schedule for each day of the week.',
+        //       },
+        //     },
+      ]
+    }
+    //     {
+    //       key: 'schedule_table',
+    //       fieldGroupClassName: 'col-12 table-responsive', // Full-width table
+    //       fieldGroup: [
+    //         {
+    //           key: 'schedule',
+    //           fieldGroupClassName: 'row',
+    //           fieldGroup: [
+    //             // Define each day of the week as a separate field group
+    //             ...['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day) => ({
+    //               fieldGroupClassName: 'row border p-2', // Individual row for each day
+    //               fieldGroup: [
+    //                 {
+    //                   key: `${day.toLowerCase()}_day`, // Unique key for each day
+    //                   type: 'input',
+    //                   props: {
+    //                     label: 'Day',
+    //                     value: day,
+    //                     disabled: true, // Static day name
+    //                   },
+    //                   className: 'col-md-3 col-12',
+    //                 },
+    //                 {
+    //                   key: `${day.toLowerCase()}_status`,
+    //                   type: 'checkbox',
+    //                   props: {
+    //                     label: 'Active',
+    //                   },
+    //                   className: 'col-md-3 col-12',
+    //                 },
+    //                 {
+    //                   key: `${day.toLowerCase()}_start_time`,
+    //                   type: 'input',
+    //                   props: {
+    //                     label: 'Start Time',
+    //                     type: 'time',
+    //                   },
+    //                   className: 'col-md-3 col-12',
+    //                 },
+    //                 {
+    //                   key: `${day.toLowerCase()}_end_time`,
+    //                   type: 'input',
+    //                   props: {
+    //                     label: 'End Time',
+    //                     type: 'time',
+    //                   },
+    //                   className: 'col-md-3 col-12',
+    //                 },
+    //               ],
+    //             })),
+    //           ],
+
+    //       props: {
+    //         label: 'Weekly Schedule',
+    //         description: 'Set the schedule for each day of the week.',
+    //       },
+    //     },
+    //   ],
+    // },
+  ];
 
   constructor(
     private fb: FormBuilder,
     private network: NetworkService,
     private nav: NavService,
     private utility: UtilityService
-  ) {
+  ) {}
+
+  onFileChange(field, event: Event, type: string = 'image') {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64String = reader.result as string;
+        console.log(base64String);
+
+
+
+        this.model[type] = base64String; // Update the model
+        // this.fields[0].fieldGroup[6].props['value'] = base64String; // Update the field value
+        // this.fields[0].fieldGroup[6].formControl.setValue(base64String); // Update the form control value
+
+        // field.formControl.setValue(base64String); // Update the form control value
+      };
+      reader.readAsDataURL(file); // Convert file to base64
+    }
   }
-
-
 
   async onSubmit(model) {
     console.log(model);
-    console.log('Form Submitted', this.form.valid);
+    console.log('Form Submitted', this.form.value);
     if (this.form.valid) {
       // alert('Restaurant added successfully!');
 
-      let d = this.form.value;
+      let d = Object.assign({}, this.form.value);
+
+      d['image'] = this.model.imageBase64;
+      d['favicon'] = this.model.faviconBase64;
+      d['logo'] = this.model.logoBase64;
+
+
       const res = await this.network.addRestaurant(d);
       console.log(res);
       if (res) {
@@ -229,5 +373,4 @@ export class AddRestaurantComponent {
       //alert('Please fill out all required fields correctly.');
     }
   }
-
 }
