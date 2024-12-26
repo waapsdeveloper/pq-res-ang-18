@@ -1,64 +1,92 @@
-<app-kt-list-detail-page [title]="'Restaurant'">
-
-  <div class="card mb-5 mb-xl-10" id="kt_profile_details_view">
+<app-kt-list-detail-page [title]="'Restaurant Table'">
+  <!--begin::Card-->
+  <div class="card card-flush pt-3 mb-5 mb-xl-10">
     <!--begin::Card header-->
-    <!--begin::Card header-->
+    <div class="card-header">
+      <!--begin::Card title-->
+      <div class="card-title">
+        <h2 class="fw-bold">Table Details</h2>
+      </div>
+      <!--begin::Card title-->
+      <!--begin::Card toolbar-->
+      ]
+      <!--end::Card toolbar-->
+    </div>
+    <!--end::Card header-->
     <!--begin::Card body-->
-    <div class="card-body">
-      <!--begin::Row-->
-      <div class="row mb-7">
-        <!--begin::Label-->
-        <label class="col-lg-4 fw-semibold text-muted">Restaurant Name</label>
-        <!--end::Label-->
-        <!--begin::Col-->
-        <div class="col-lg-8">
-          <span class="fw-bold fs-6 text-gray-800">{{item?.identifier}}</span>
+    <div class="card-body pt-3">
+      <!--begin::Section-->
+      <div class="mb-10">
+        <!--begin::Details-->
+        <div class="d-flex flex-wrap py-5">
+          <!--begin::Row-->
+          <div class="flex-equal me-5">
+            <!--begin::Details-->
+            <table class="table fs-6 fw-semibold gs-0 gy-2 gx-2 m-0">
+              <!--begin::Row-->
+              <tr>
+                <td class="text-gray-400 min-w-175px w-175px">Restaurant Name</td>
+                <td class="text-gray-800 min-w-200px">
+                  <a href="../../demo1/dist/pages/apps/customers/view.html" class="text-gray-800 text-hover-primary">{{item?.identifier}}</a>
+                </td>
+              </tr>
+              <!--end::Row-->
+              <!--begin::Row-->
+              <tr>
+                <td class="text-gray-400">Description</td>
+                <td class="text-gray-800">{{item?.description}}</td>
+              </tr>
+              <!--end::Row-->
+              <!--begin::Row-->
+              <tr>
+                <td class="text-gray-400">Address</td>
+                <td class="text-gray-800">{{item?.location}}</td>
+              </tr>
+              <!--end::Row-->
+              <!--begin::Row-->
+              <tr>
+                <td class="text-gray-400">Status</td>
+                <td class="text-gray-800">{{item?.status}}</td>
+              </tr>
+              <!--end::Row-->
+            </table>
+            <!--end::Details-->
+          </div>
+          <!--end::Row-->
+          <!--begin::Row-->
+          <div class="flex-equal">
+            <!--begin::Details-->
+            <table class="table fs-6 fw-semibold gs-0 gy-2 gx-2 m-0">
+              <!--begin::Row-->
+              <tr>
+                <td class="text-gray-400 min-w-175px w-175px">Floor</td>
+                <td class="text-gray-800 min-w-200px">
+                  <a href="#" class="text-gray-800 text-hover-primary">{{item?.floor}}</a>
+                </td>
+              </tr>
+              <!--end::Row-->
+              <!--begin::Row-->
+              <tr>
+                <td class="text-gray-400">No of Seats</td>
+                <td class="text-gray-800">{{item?.no_of_seats}}</td>
+              </tr>
+              <!--end::Row-->
+              <!--begin::Row-->
+              
+              <!--end::Row-->
+            </table>
+            <!--end::Details-->
+          </div>
+          <!--end::Row-->
         </div>
-        <!--end::Col-->
+        <!--end::Row-->
       </div>
-      <!--end::Row-->
-      <!--begin::Row-->
-      <div class="row mb-7">
-        <!--begin::Label-->
-        <label class="col-lg-4 fw-semibold text-muted">Description</label>
-        <!--end::Label-->
-        <!--begin::Col-->
-        <div class="col-lg-8">
-          <span class="fw-bold fs-6 text-gray-800">{{item?.description}}</span>
-        </div>
-        <!--end::Col-->
-      </div>
-      <!--end::Row--><!--begin::Row-->
-      <div class="row mb-7">
-        <!--begin::Label-->
-        <label class="col-lg-4 fw-semibold text-muted">Status</label>
-        <!--end::Label-->
-        <!--begin::Col-->
-        <div class="col-lg-8">
-          <span class="fw-bold fs-6 text-gray-800">{{item?.status}}</span>
-        </div>
-        <!--end::Col-->
-      </div>
-      <!--end::Row--><!--begin::Input group-->
-      <div class="row mb-7">
-        <!--begin::Label-->
-        <label class="col-lg-4 fw-semibold text-muted">Address</label>
-        <!--end::Label-->
-        <!--begin::Col-->
-        <div class="col-lg-8 fv-row">
-          <span class="fw-semibold text-gray-800 fs-6">{{item?.location}}</span>
-        </div>
-        <!--end::Col-->
-      </div>
-      <!--end::Input group-->
-      <!--begin::Input group-->
-     
+      <!--end::Section-->
+      <!--begin::Section-->
 
+      <!--end::Section-->
     </div>
     <!--end::Card body-->
   </div>
-
-
-
-
+  <!--end::Card-->
 </app-kt-list-detail-page>
