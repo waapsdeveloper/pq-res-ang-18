@@ -11,29 +11,6 @@ import { NetworkService } from 'src/app/services/network.service';
 })
 export class EditRestaurantComponent implements OnInit {
   id;
-
-  constructor(
-    private route: ActivatedRoute,
-    private network: NetworkService
-  ) {}
-
-  ngOnInit() {
-    // Access the parameter
-    this.id = this.route.snapshot.paramMap.get('id');
-    console.log('ID from URL:', this.id);
-    this.initialize();
-  }
-
-  async initialize() {
-    // Fetch the data from the server;
-    const res = await this.network.getRestaurantById(this.id);
-    console.log('Response:', res);
-
-    // .get('restaurant/'+this.id).subscribe((response: any) => {
-    //   console.log('Response:', response);
-    //   this.model = response.data;
-    // });
-  }
   form = new FormGroup({});
   model = {
     name: 'Restaurant one',
@@ -56,6 +33,31 @@ export class EditRestaurantComponent implements OnInit {
     rating: Math.floor(Math.random() * 6),
     status: 'active'
   };
+
+
+  constructor(
+    private route: ActivatedRoute,
+    private network: NetworkService
+  ) {}
+
+  ngOnInit() {
+    // Access the parameter
+    this.id = this.route.snapshot.paramMap.get('id');
+    console.log('ID from URL:', this.id);
+    this.initialize();
+  }
+
+  async initialize() {
+    // Fetch the data from the server;
+    const res = await this.network.getRestaurantById(this.id);
+    console.log('Response:', res.restaurant);
+    this.model = res.restaurant;
+
+    // .get('restaurant/'+this.id).subscribe((response: any) => {
+    //   console.log('Response:', response);
+    //   this.model = response.data;
+    // });
+  }
 
   fields: FormlyFieldConfig[] = [
     {
