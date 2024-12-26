@@ -6,9 +6,6 @@
 
   <hr *ngIf="crudService.filters">
 
-  <app-kt-app-list-page-table [columns]="columns" [currentPage]="crudService.page" [totalPages]="crudService.lastPage"
-    (pageChange)="changePage($event)" >
-
   <app-kt-app-list-page-table
     [columns]="columns"
     [currentPage]="crudService.page"
