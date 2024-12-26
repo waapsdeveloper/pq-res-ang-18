@@ -16,6 +16,10 @@ export class AddRestaurantComponent {
     name: 'Restaurant one',
     image: '',
     imageBase64: '',
+    favicon: '',
+    faviconBase64: '',
+    logo: '',
+    logoBase64: '',
     address: '',
     phone: '8957985674',
     email: 'restaurant1@mail.com',
@@ -134,7 +138,31 @@ export class AddRestaurantComponent {
             placeholder: 'Enter image URL',
             type: 'file',
             accept: 'image/*',
-            change: (field, event) => this.onFileChange(field, event)
+            change: (field, event) => this.onFileChange(field, event, 'imageBase64')
+          },
+          className: 'col-md-4 col-12'
+        },
+        {
+          key: 'favicon',
+          type: 'input',
+          props: {
+            label: 'Image',
+            placeholder: 'Enter image URL',
+            type: 'file',
+            accept: 'image/*',
+            change: (field, event) => this.onFileChange(field, event, 'faviconBase64')
+          },
+          className: 'col-md-4 col-12'
+        },
+        {
+          key: 'logo',
+          type: 'input',
+          props: {
+            label: 'Image',
+            placeholder: 'Enter image URL',
+            type: 'file',
+            accept: 'image/*',
+            change: (field, event) => this.onFileChange(field, event, 'logoBase64')
           },
           className: 'col-md-4 col-12'
         },
@@ -301,7 +329,7 @@ export class AddRestaurantComponent {
     private utility: UtilityService
   ) {}
 
-  onFileChange(field, event: Event) {
+  onFileChange(field, event: Event, type: string = 'image') {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
       const file = input.files[0];
@@ -310,7 +338,9 @@ export class AddRestaurantComponent {
         const base64String = reader.result as string;
         console.log(base64String);
 
-        this.model.imageBase64 = base64String; // Update the model
+
+
+        this.model[type] = base64String; // Update the model
         // this.fields[0].fieldGroup[6].props['value'] = base64String; // Update the field value
         // this.fields[0].fieldGroup[6].formControl.setValue(base64String); // Update the form control value
 
@@ -323,19 +353,24 @@ export class AddRestaurantComponent {
   async onSubmit(model) {
     console.log(model);
     console.log('Form Submitted', this.form.value);
-    // if (this.form.valid) {
-    //   // alert('Restaurant added successfully!');
+    if (this.form.valid) {
+      // alert('Restaurant added successfully!');
 
-    //   let d = Object.assign({}, this.form.value);
-    //   d['image'] = this.model.imageBase64;
-    //   const res = await this.network.addRestaurant(d);
-    //   console.log(res);
-    //   if (res) {
-    //     this.nav.pop();
-    //   }
-    // } else {
-    //   this.utility.presentFailureToast('Please fill out all required fields correctly.');
-    //   //alert('Please fill out all required fields correctly.');
-    // }
+      let d = Object.assign({}, this.form.value);
+
+      d['image'] = this.model.imageBase64;
+      d['favicon'] = this.model.faviconBase64;
+      d['logo'] = this.model.logoBase64;
+
+
+      const res = await this.network.addRestaurant(d);
+      console.log(res);
+      if (res) {
+        this.nav.pop();
+      }
+    } else {
+      this.utility.presentFailureToast('Please fill out all required fields correctly.');
+      //alert('Please fill out all required fields correctly.');
+    }
   }
 }
