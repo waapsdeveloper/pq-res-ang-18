@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { NetworkService } from 'src/app/services/network.service';
 
 @Component({
   selector: 'app-edit-category',
@@ -12,7 +13,7 @@ export class EditCategoryComponent implements OnInit {
 
   id;
 
-  constructor(private route: ActivatedRoute){
+  constructor(private route: ActivatedRoute,private network: NetworkService){
 
   }
 
@@ -20,15 +21,17 @@ export class EditCategoryComponent implements OnInit {
     // Access the parameter
     this.id = this.route.snapshot.paramMap.get('id');
     console.log('ID from URL:', this.id);
-
+ this.initialize();
 
 
 
   }
 
-  initialize(){
+   async initialize(){
     // Fetch the data from the server
-
+    const res = await this.network.getCategoriesById(this.id);
+    console.log(res);
+      this.model=res.category;
   }
 
   form = new FormGroup({});

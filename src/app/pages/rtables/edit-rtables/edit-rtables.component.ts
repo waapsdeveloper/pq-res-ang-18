@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NavService } from 'src/app/services/basic/nav.service';
+import { NetworkService } from 'src/app/services/network.service';
 @Component({
   selector: 'app-edit-rtables',
   templateUrl: './edit-rtables.component.html',
@@ -12,7 +13,7 @@ export class EditRtablesComponent  implements OnInit{
 
   id;
 
-  constructor(private route: ActivatedRoute){
+  constructor(private route: ActivatedRoute, private network: NetworkService){
 
   }
 
@@ -20,15 +21,18 @@ export class EditRtablesComponent  implements OnInit{
     // Access the parameter
     this.id = this.route.snapshot.paramMap.get('id');
     console.log('ID from URL:', this.id);
+    this.initialize();
 
 
 
 
   }
 
-  initialize(){
+async  initialize(){
     // Fetch the data from the server
-
+    const res = await this.network.getTablesById(this.id);
+    console.log(res);
+    this.model = res.Rtable;
   }
   form = new FormGroup({});
   model = {

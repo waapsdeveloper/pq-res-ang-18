@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { KtAppFormPageModule } from 'src/app/components/layouts/kt-app-form-page/kt-app-form-page.module';
+import { NetworkService } from 'src/app/services/network.service';
 
 @Component({
   selector: 'app-edit-product',
@@ -14,7 +15,7 @@ export class EditProductComponent  implements OnInit{
 
  id;
 
-  constructor(private route: ActivatedRoute){
+  constructor(private route: ActivatedRoute, private network: NetworkService) {
 
   }
 
@@ -22,15 +23,17 @@ export class EditProductComponent  implements OnInit{
     // Access the parameter
     this.id = this.route.snapshot.paramMap.get('id');
     console.log('ID from URL:', this.id);
-
+   this.initialize();
 
 
 
   }
 
-  initialize(){
+  async initialize(){
     // Fetch the data from the server
-
+    const res = await this.network.getProductsById(this.id);
+    console.log(res);
+    this.model=res.product;
   }
   onSubmit(model){}
   form = new FormGroup({});
