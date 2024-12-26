@@ -3,35 +3,39 @@ import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NavService } from 'src/app/services/basic/nav.service';
+import { NetworkService } from 'src/app/services/network.service';
 @Component({
   selector: 'app-edit-restaurant',
   templateUrl: './edit-restaurant.component.html',
   styleUrl: './edit-restaurant.component.scss'
 })
 export class EditRestaurantComponent implements OnInit {
-
   id;
 
-  constructor(private route: ActivatedRoute){
-
-  }
+  constructor(
+    private route: ActivatedRoute,
+    private network: NetworkService
+  ) {}
 
   ngOnInit() {
     // Access the parameter
     this.id = this.route.snapshot.paramMap.get('id');
     console.log('ID from URL:', this.id);
-
-
-
-
+    this.initialize();
   }
 
-  initialize(){
-    // Fetch the data from the server
+  async initialize() {
+    // Fetch the data from the server;
+    const res = await this.network.getRestaurantById(this.id);
+    console.log('Response:', res);
 
+    // .get('restaurant/'+this.id).subscribe((response: any) => {
+    //   console.log('Response:', response);
+    //   this.model = response.data;
+    // });
   }
- form = new FormGroup({});
-   model = {
+  form = new FormGroup({});
+  model = {
     name: 'Restaurant one',
     image: '',
     address: '',
@@ -50,7 +54,7 @@ export class EditRestaurantComponent implements OnInit {
     // ],
     description: '',
     rating: Math.floor(Math.random() * 6),
-    status: 'active',
+    status: 'active'
   };
 
   fields: FormlyFieldConfig[] = [
@@ -84,7 +88,7 @@ export class EditRestaurantComponent implements OnInit {
           type: 'input',
           props: {
             label: 'Phone Number',
-            placeholder: 'Enter phone number',
+            placeholder: 'Enter phone number'
             // pattern: /^[0-9]{10,15}$/
           },
           className: 'col-md-4 col-12'
@@ -120,7 +124,6 @@ export class EditRestaurantComponent implements OnInit {
           className: 'col-md-4 col-12'
         },
 
-
         // {
         //   key: 'image',
         //   type: 'input',
@@ -155,71 +158,69 @@ export class EditRestaurantComponent implements OnInit {
             ]
           },
           className: 'col-md-4 col-12'
-        },
-      ],
-    },
-//     {
-//       key: 'schedule_table',
-//       fieldGroupClassName: 'col-12 table-responsive', // Full-width table
-//       fieldGroup: [
-//         {
-//           key: 'schedule',
-//           fieldGroupClassName: 'row',
-//           fieldGroup: [
-//             // Define each day of the week as a separate field group
-//             ...['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day) => ({
-//               fieldGroupClassName: 'row border p-2', // Individual row for each day
-//               fieldGroup: [
-//                 {
-//                   key: `${day.toLowerCase()}_day`, // Unique key for each day
-//                   type: 'input',
-//                   props: {
-//                     label: 'Day',
-//                     value: day,
-//                     disabled: true, // Static day name
-//                   },
-//                   className: 'col-md-3 col-12',
-//                 },
-//                 {
-//                   key: `${day.toLowerCase()}_status`,
-//                   type: 'checkbox',
-//                   props: {
-//                     label: 'Active',
-//                   },
-//                   className: 'col-md-3 col-12',
-//                 },
-//                 {
-//                   key: `${day.toLowerCase()}_start_time`,
-//                   type: 'input',
-//                   props: {
-//                     label: 'Start Time',
-//                     type: 'time',
-//                   },
-//                   className: 'col-md-3 col-12',
-//                 },
-//                 {
-//                   key: `${day.toLowerCase()}_end_time`,
-//                   type: 'input',
-//                   props: {
-//                     label: 'End Time',
-//                     type: 'time',
-//                   },
-//                   className: 'col-md-3 col-12',
-//                 },
-//               ],
-//             })),
-//           ],
+        }
+      ]
+    }
+    //     {
+    //       key: 'schedule_table',
+    //       fieldGroupClassName: 'col-12 table-responsive', // Full-width table
+    //       fieldGroup: [
+    //         {
+    //           key: 'schedule',
+    //           fieldGroupClassName: 'row',
+    //           fieldGroup: [
+    //             // Define each day of the week as a separate field group
+    //             ...['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day) => ({
+    //               fieldGroupClassName: 'row border p-2', // Individual row for each day
+    //               fieldGroup: [
+    //                 {
+    //                   key: `${day.toLowerCase()}_day`, // Unique key for each day
+    //                   type: 'input',
+    //                   props: {
+    //                     label: 'Day',
+    //                     value: day,
+    //                     disabled: true, // Static day name
+    //                   },
+    //                   className: 'col-md-3 col-12',
+    //                 },
+    //                 {
+    //                   key: `${day.toLowerCase()}_status`,
+    //                   type: 'checkbox',
+    //                   props: {
+    //                     label: 'Active',
+    //                   },
+    //                   className: 'col-md-3 col-12',
+    //                 },
+    //                 {
+    //                   key: `${day.toLowerCase()}_start_time`,
+    //                   type: 'input',
+    //                   props: {
+    //                     label: 'Start Time',
+    //                     type: 'time',
+    //                   },
+    //                   className: 'col-md-3 col-12',
+    //                 },
+    //                 {
+    //                   key: `${day.toLowerCase()}_end_time`,
+    //                   type: 'input',
+    //                   props: {
+    //                     label: 'End Time',
+    //                     type: 'time',
+    //                   },
+    //                   className: 'col-md-3 col-12',
+    //                 },
+    //               ],
+    //             })),
+    //           ],
 
-//       props: {
-//         label: 'Weekly Schedule',
-//         description: 'Set the schedule for each day of the week.',
-//       },
-//     },
-//   ],
-// },
-   ];
-   onSubmit(model){}
+    //       props: {
+    //         label: 'Weekly Schedule',
+    //         description: 'Set the schedule for each day of the week.',
+    //       },
+    //     },
+    //   ],
+    // },
+  ];
 
-
-
+  onSubmit(model) {}
 }
