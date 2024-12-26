@@ -1,123 +1,390 @@
-<app-kt-list-detail-page [title]="'Restaurant'">
-
-  <div class="card mb-5 mb-xl-10" id="kt_profile_details_view">
-    <!--begin::Card header-->
-    <!--begin::Card header-->
+<!--begin::Card-->
+<div class="card">
+  <!--begin::Card header-->
+  <div class="card-header">
+    <!--begin::Card title-->
+    <div class="card-title fs-3 fw-bold">Restaurant Settings</div>
+    <!--end::Card title-->
+  </div>
+  <!--end::Card header-->
+  <!--begin::Form-->
+  <form id="kt_project_settings_form" class="form">
     <!--begin::Card body-->
-    <div class="card-body">
+    <div class="card-body p-9">
       <!--begin::Row-->
-      <div class="row mb-7">
-        <!--begin::Label-->
-        <label class="col-lg-4 fw-semibold text-muted">Restaurant Name</label>
-        <!--end::Label-->
+      <div class="row mb-5">
+        <!--begin::Col-->
+        <div class="col-xl-3">
+          <div class="fs-6 fw-semibold mt-2 mb-3">Restaurant Logo</div>
+        </div>
+        <!--end::Col-->
         <!--begin::Col-->
         <div class="col-lg-8">
-          <span class="fw-bold fs-6 text-gray-800">{{item?.name}}</span>
+          <!--begin::Image input-->
+          <div
+            class="image-input image-input-outline"
+            data-kt-image-input="true"
+            style="background-image: url('assets/media/svg/avatars/blank.svg')"
+          >
+            <!--begin::Preview existing avatar-->
+            <div
+              class="image-input-wrapper w-125px h-125px bgi-position-center"
+              style="background-size: 75%; background-image: url('assets/media/svg/brand-logos/volicity-9.svg')"
+            ></div>
+            <!--end::Preview existing avatar-->
+            <!--begin::Label-->
+            <label
+              class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-white shadow"
+              data-kt-image-input-action="change"
+              data-bs-toggle="tooltip"
+              title="Change avatar"
+            >
+              <i class="bi bi-pencil-fill fs-7"></i>
+              <!--begin::Inputs-->
+              <input type="file" name="avatar" accept=".png, .jpg, .jpeg" readonly />
+              <input type="hidden" name="avatar_remove" readonly />
+              <!--end::Inputs-->
+            </label>
+            <!--end::Label-->
+            <!--begin::Cancel-->
+            <span
+              class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-white shadow"
+              data-kt-image-input-action="cancel"
+              data-bs-toggle="tooltip"
+              title="Cancel avatar"
+            >
+              <i class="bi bi-x fs-2"></i>
+            </span>
+            <!--end::Cancel-->
+            <!--begin::Remove-->
+            <span
+              class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-white shadow"
+              data-kt-image-input-action="remove"
+              data-bs-toggle="tooltip"
+              title="Remove avatar"
+            >
+              <i class="bi bi-x fs-2"></i>
+            </span>
+            <!--end::Remove-->
+          </div>
+          <!--end::Image input-->
+          <!--begin::Hint-->
+          <div class="form-text">Allowed file types: png, jpg, jpeg.</div>
+          <!--end::Hint-->
         </div>
         <!--end::Col-->
       </div>
       <!--end::Row-->
-      <!--begin::Input group-->
-      <div class="row mb-7">
-        <!--begin::Label-->
-        <label class="col-lg-4 fw-semibold text-muted">Address</label>
-        <!--end::Label-->
+      <!--begin::Row-->
+      <div class="row mb-8">
         <!--begin::Col-->
-        <div class="col-lg-8 fv-row">
-          <span class="fw-semibold text-gray-800 fs-6">{{item?.address}}</span>
+        <div class="col-xl-3">
+          <div class="fs-6 fw-semibold mt-2 mb-3">Restaurent Name</div>
+        </div>
+        <!--end::Col-->
+        <!--begin::Col-->
+        <div class="col-xl-9 fv-row">
+          <input type="text" class="form-control form-control-solid" name="name" value="{{ item?.name }}" readonly />
+        </div>
+      </div>
+      <!--end::Row-->
+      <!--begin::Row-->
+      <div class="row mb-8">
+        <!--begin::Col-->
+        <div class="col-xl-3">
+          <div class="fs-6 fw-semibold mt-2 mb-3">Rating</div>
+        </div>
+        <!--end::Col-->
+        <!--begin::Col-->
+        <div class="col-xl-9 fv-row">
+          <input type="text" class="form-control form-control-solid" name="type" value="{{ item?.rating }}" readonly />
+        </div>
+      </div>
+      <div class="row mb-8">
+        <!--begin::Col-->
+        <div class="col-xl-3">
+          <div class="fs-6 fw-semibold mt-2 mb-3">Contact Phone</div>
+        </div>
+        <!--end::Col-->
+        <!--begin::Col-->
+        <div class="col-xl-9 fv-row">
+          <input type="text" class="form-control form-control-solid" name="type" value="{{ item?.phone }}" readonly />
+        </div>
+      </div>
+      <div class="row mb-8">
+        <!--begin::Col-->
+        <div class="col-xl-3">
+          <div class="fs-6 fw-semibold mt-2 mb-3">Company Site</div>
+        </div>
+        <!--end::Col-->
+        <!--begin::Col-->
+        <div class="col-xl-9 fv-row">
+          <input type="text" class="form-control form-control-solid" name="type" value="{{ item?.website }}" readonly />
+        </div>
+      </div>
+      <div class="row mb-8">
+        <!--begin::Col-->
+        <div class="col-xl-3">
+          <div class="fs-6 fw-semibold mt-2 mb-3">Email</div>
+        </div>
+        <!--end::Col-->
+        <!--begin::Col-->
+        <div class="col-xl-9 fv-row">
+          <input type="text" class="form-control form-control-solid" name="type" value="{{ item?.email }}" readonly />
+        </div>
+      </div>
+      <!--end::Row-->
+      <!--begin::Row-->
+      <div class="row mb-8">
+        <!--begin::Col-->
+        <div class="col-xl-3">
+          <div class="fs-6 fw-semibold mt-2 mb-3">Address</div>
+        </div>
+        <!--end::Col-->
+        <!--begin::Col-->
+        <div class="col-xl-9 fv-row">
+          <textarea name="description" class="form-control form-control-solid h-100px" readonly>{{ item?.address }}</textarea>
+        </div>
+        <!--begin::Col-->
+      </div>
+      <div class="row mb-8">
+        <!--begin::Col-->
+        <div class="col-xl-3">
+          <div class="fs-6 fw-semibold mt-2 mb-3">Description</div>
+        </div>
+        <!--end::Col-->
+        <!--begin::Col-->
+        <div class="col-xl-9 fv-row">
+          <textarea name="description" class="form-control form-control-solid h-100px" readonly>{{ item?.description }}</textarea>
+        </div>
+        <!--begin::Col-->
+      </div>
+      <div class="row mb-8">
+        <!--begin::Col-->
+        <div class="col-xl-3">
+          <div class="fs-6 fw-semibold mt-2 mb-3">Copy Right</div>
+        </div>
+        <!--end::Col-->
+        <!--begin::Col-->
+        <div class="col-xl-9 fv-row">
+          <textarea name="description" class="form-control form-control-solid h-100px" readonly>{{ item?.copyright_text }}</textarea>
+        </div>
+        <!--begin::Col-->
+      </div>
+      <!--end::Row-->
+      <!--begin::Row-->
+      <div class="row mb-8">
+        <!--begin::Col-->
+        <div class="col-xl-3">
+          <div class="fs-6 fw-semibold mt-2 mb-3">Opening Hour</div>
+        </div>
+        <!--end::Col-->
+        <!--begin::Col-->
+        <div class="col-xl-9 fv-row">
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+              <thead class="bg-light fw-bold">
+                <tr>
+                  <th>Day</th>
+                  <th>Opening Time</th>
+                  <th>Closing Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value="{{ item?.status }}"
+                      id="status"
+                      name="status"
+                    />
+                    Monday
+                  </td>
+                  <td>
+                    <input type="time" class="form-control" name="monday_open" />
+                  </td>
+                  <td>
+                    <input type="time" class="form-control" name="monday_close" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value="{{ item?.status }}"
+                      id="status"
+                      name="status"
+                    />
+                    Tuesday
+                  </td>
+                  <td>
+                    <input type="time" class="form-control" name="tuesday_open" />
+                  </td>
+                  <td>
+                    <input type="time" class="form-control" name="tuesday_close" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value="{{ item?.status }}"
+                      id="status"
+                      name="status"
+                    />
+                    Wednesday
+                  </td>
+                  <td>
+                    <input type="time" class="form-control" name="wednesday_open" />
+                  </td>
+                  <td>
+                    <input type="time" class="form-control" name="wednesday_close" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value="{{ item?.status }}"
+                      id="status"
+                      name="status"
+                    />
+                    Thursday
+                  </td>
+                  <td>
+                    <input type="time" class="form-control" name="thursday_open" />
+                  </td>
+                  <td>
+                    <input type="time" class="form-control" name="thursday_close" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value="{{ item?.status }}"
+                      id="status"
+                      name="status"
+                    />
+                    Friday
+                  </td>
+                  <td>
+                    <input type="time" class="form-control" name="friday_open" />
+                  </td>
+                  <td>
+                    <input type="time" class="form-control" name="friday_close" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value="{{ item?.status }}"
+                      id="status"
+                      name="status"
+                    />
+                    Saturday
+                  </td>
+                  <td>
+                    <input type="time" class="form-control" name="saturday_open" />
+                  </td>
+                  <td>
+                    <input type="time" class="form-control" name="saturday_close" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value="{{ item?.status }}"
+                      id="status"
+                      name="status"
+                    />
+                    Sunday
+                  </td>
+                  <td>
+                    <input type="time" class="form-control" name="sunday_open" />
+                  </td>
+                  <td>
+                    <input type="time" class="form-control" name="sunday_close" />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="d-flex justify-content-end mt-4">
+              <button type="button" class="btn btn-primary">Save Changes</button>
+            </div>
+          </div>
         </div>
         <!--end::Col-->
       </div>
-      <!--end::Input group-->
-      <!--begin::Input group-->
-      <div class="row mb-7">
-        <!--begin::Label-->
-        <label class="col-lg-4 fw-semibold text-muted">Contact Phone
-        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" aria-label="Phone number must be active" data-kt-initialized="1"></i></label>
-        <!--end::Label-->
-        <!--begin::Col-->
-        <div class="col-lg-8 d-flex align-items-center">
-          <span class="fw-bold fs-6 text-gray-800 me-2">{{item?.phone}}</span>
-          <!-- <span class="badge badge-success">Verified</span> -->
-        </div>
-        <!--end::Col-->
-      </div>
-      <!--end::Input group-->
-      <!--begin::Input group-->
-      <div class="row mb-7">
-        <!--begin::Label-->
-        <label class="col-lg-4 fw-semibold text-muted">Company Site</label>
-        <!--end::Label-->
-        <!--begin::Col-->
-        <div class="col-lg-8">
-          <a href="#" class="fw-semibold fs-6 text-gray-800 text-hover-primary">{{item?.website}}</a>
-        </div>
-        
-        <!--end::Col-->
-      </div>
-      <div class="row mb-7">
-        <!--begin::Label-->
-        <label class="col-lg-4 fw-semibold text-muted">Description</label>
-        <!--end::Label-->
-        <!--begin::Col-->
-        <div class="col-lg-8">
-          <a href="#" class="fw-semibold fs-6 text-gray-800 text-hover-primary">{{item?.description}}</a>
-        </div>
-        
-        <!--end::Col-->
-      </div>
-      <div class="row mb-7">
-        <!--begin::Label-->
-        <label class="col-lg-4 fw-semibold text-muted">email</label>
-        <!--end::Label-->
-        <!--begin::Col-->
-        <div class="col-lg-8">
-          <a href="#" class="fw-semibold fs-6 text-gray-800 text-hover-primary">{{item?.email}}</a>
-        </div>
-        
-        <!--end::Col-->
-      </div>
-      <div class="row mb-7">
-        <!--begin::Label-->
-        <label class="col-lg-4 fw-semibold text-muted">Opening Hour</label>
-        <!--end::Label-->
-        <!--begin::Col-->
-        <div class="col-lg-8">
-          <a href="#" class="fw-semibold fs-6 text-gray-800 text-hover-primary">{{item?.opening_hours}}</a>
-        </div>
-        
-        <!--end::Col-->
-      </div>
-     
-      <div class="row mb-7">
-        <!--begin::Label-->
-        <label class="col-lg-4 fw-semibold text-muted">Status</label>
-        <!--end::Label-->
-        <!--begin::Col-->
-        <div class="col-lg-8">
-          <a href="#" class="fw-semibold fs-6 text-gray-800 text-hover-primary">{{item?.status}}</a>
-        </div>
-             <!--end::Col-->
-      </div>
-      <div class="row mb-7">
-        <!--begin::Label-->
-        <label class="col-lg-4 fw-semibold text-muted">Rating</label>
-        <!--end::Label-->
-        <!--begin::Col-->
-        <div class="col-lg-8">
-          <a href="#" class="fw-semibold fs-6 text-gray-800 text-hover-primary">{{item?.rating}}</a>
-        </div>
-             <!--end::Col-->
-      </div>
-      
-      <!--end::Input group-->
 
-
+      <!--end::Row-->
+      <!--begin::Row-->
+      <div class="row mb-8">
+        <!--begin::Col-->
+        <div class="col-xl-3">
+          <div class="fs-6 fw-semibold mt-2 mb-3">Notifications</div>
+        </div>
+        <!--end::Col-->
+        <!--begin::Col-->
+        <div class="col-xl-9">
+          <div class="d-flex fw-semibold h-100">
+            <div class="form-check form-check-custom form-check-solid me-9">
+              <input class="form-check-input" type="checkbox" value="" id="email" readonly />
+              <label class="form-check-label ms-3" for="email">Email</label>
+            </div>
+            <div class="form-check form-check-custom form-check-solid">
+              <input class="form-check-input" type="checkbox" value="" id="phone" checked="checked" readonly />
+              <label class="form-check-label ms-3" for="phone">Phone</label>
+            </div>
+          </div>
+        </div>
+        <!--end::Col-->
+      </div>
+      <!--end::Row-->
+      <!--begin::Row-->
+      <div class="row">
+        <!--begin::Col-->
+        <div class="col-xl-3">
+          <div class="fs-6 fw-semibold mt-2 mb-3">Status</div>
+        </div>
+        <!--end::Col-->
+        <!--begin::Col-->
+        <div class="col-xl-9">
+          <div class="form-check form-switch form-check-custom form-check-solid">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="{{ item?.status }}"
+              id="status"
+              name="status"
+              checked="checked"
+              disabled
+            />
+            <label class="form-check-label fw-semibold text-gray-400 ms-3" for="status">Active</label>
+          </div>
+        </div>
+        <!--end::Col-->
+      </div>
+      <!--end::Row-->
     </div>
     <!--end::Card body-->
-  </div>
-
-
-
-
-</app-kt-list-detail-page>
+    <!--begin::Card footer-->
+    <div class="card-footer d-flex justify-content-end py-6 px-9">
+      <button type="reset" class="btn btn-light btn-active-light-primary me-2">Discard</button>
+      <button type="submit" class="btn btn-primary" id="kt_project_settings_submit">Save Changes</button>
+    </div>
+    <!--end::Card footer-->
+  </form>
+  <!--end:Form-->
+</div>
+<!--end::Card-->

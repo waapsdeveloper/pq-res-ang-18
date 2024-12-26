@@ -16,44 +16,37 @@ export class ListUserComponent extends ListBlade {
   title = 'Users';
   addurl = '/pages/users/add';
 
-  columns: any[] = [
-    'Full Name',
-    'Email',
-    'Phone',
-    'Address',
-    'Role',
-    'Status',
-  ]
+  columns: any[] = ['Full Name', 'Email', 'Phone', 'Address', 'Role', 'Status'];
 
   actions: any[] = [
     {
       name: 'Edit',
       icon: 'edit',
-      action: 'editRow',
+      action: 'editRow'
     },
     {
       name: 'Delete',
       icon: 'delete',
-      action: 'deleteRow',
+      action: 'deleteRow'
     },
     {
       name: 'View',
       icon: 'visibility',
-      action: 'openDetails',
+      action: 'openDetails'
     },
     //block
     {
       name: 'Block',
       icon: 'block',
-      action: 'blockUser',
+      action: 'blockUser'
     },
     //statistics
     {
       name: 'Statistics',
       icon: 'bar_chart',
-      action: 'viewStatistics',
-    },
-  ]
+      action: 'viewStatistics'
+    }
+  ];
 
   override model = {
     name: '',
@@ -61,7 +54,7 @@ export class ListUserComponent extends ListBlade {
     phone: '',
     role: '',
     address: '',
-    status: 'active',
+    status: 'active'
   };
 
   fields: FormlyFieldConfig[] = [
@@ -82,7 +75,7 @@ export class ListUserComponent extends ListBlade {
           type: 'input',
           props: {
             label: 'Email',
-            placeholder: '',
+            placeholder: ''
           },
           className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
         },
@@ -144,7 +137,7 @@ export class ListUserComponent extends ListBlade {
     console.log('Roles:', res);
     this.roles = res.data.data;
 
-    this.fields[0].fieldGroup[3].props.options = this.roles.map(role => {
+    this.fields[0].fieldGroup[3].props.options = this.roles.map((role) => {
       return { value: role.id, label: role.name };
     });
   }
@@ -183,7 +176,6 @@ export class ListUserComponent extends ListBlade {
     return [];
   }
 
-
   editRow(index: number) {}
 
   async deleteRow(index: number) {
@@ -196,10 +188,13 @@ export class ListUserComponent extends ListBlade {
   }
 
   openDetails(i) {
-    let item = this.list[i];
+    let item = this.crudService.list[i];;
     this.nav.push('/pages/users/view/' + item.id);
   }
-
+  openEditDetails(i) {
+    let item = this.crudService.list[i];
+    this.nav.push('/pages/users/edit/' + item.id);
+  }
   changePerPage(event: any) {
     this.crudService.onChangePerPage(event.target.value);
   }

@@ -178,8 +178,12 @@ export class ListCategoryComponent extends ListBlade{
 
 
   openDetails(i) {
-    let item = this.list[i];
+    let item = this.crudService.list[i];
     this.nav.push('/pages/categories/view/' + item.id);
+  }
+  openEditDetails(i){
+    let item = this.crudService.list[i];
+    this.nav.push('/pages/categories/edit/' + item.id);
   }
 
   changePerPage(event: any) {

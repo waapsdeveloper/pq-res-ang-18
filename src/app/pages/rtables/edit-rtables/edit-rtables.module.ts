@@ -1,19 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { EditRestaurantRoutingModule } from './edit-restaurant-routing.module';
-import { EditRestaurantComponent } from './edit-restaurant.component';
+import { EditRtablesRoutingModule } from './edit-rtables-routing.module';
+import { EditRtablesComponent } from './edit-rtables.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { KtAppToolbarModule } from 'src/app/components/kt-app-toolbar/kt-app-toolbar.module';
-import { FormlyModule } from '@ngx-formly/core';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
+import { FormlyModule } from '@ngx-formly/core';
 import { KtAppFormPageModule } from 'src/app/components/layouts/kt-app-form-page/kt-app-form-page.module';
 
 @NgModule({
-  declarations: [EditRestaurantComponent],
+  declarations: [EditRtablesComponent],
   imports: [
     CommonModule,
-    EditRestaurantRoutingModule,
+    EditRtablesRoutingModule,
     FormsModule,
     FormlyModule,
     ReactiveFormsModule,
@@ -21,4 +20,4 @@ import { KtAppFormPageModule } from 'src/app/components/layouts/kt-app-form-page
     KtAppFormPageModule
   ]
 })
-export class EditRestaurantModule {}
+export class EditRtablesModule {}

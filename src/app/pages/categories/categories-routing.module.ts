@@ -25,6 +25,10 @@ const routes: Routes = [
       {
         path: 'view/:id',
         loadChildren: () => import('./view-categories/view-categories.module').then((m) => m.ViewCategoriesModule)
+      },
+      {
+        path: 'edit/:id',
+        loadChildren: () => import('./edit-category/edit-category.module').then((m) => m.EditCategoryModule)
       }
     ]
   }
