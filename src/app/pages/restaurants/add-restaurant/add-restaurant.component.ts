@@ -16,6 +16,7 @@ export class AddRestaurantComponent {
   model = {
     name: 'Restaurant one',
     image: '',
+    imageBase64: '',
     address: '',
     phone: '8957985674',
     email: 'restaurant1@mail.com',
@@ -50,7 +51,6 @@ export class AddRestaurantComponent {
           },
           className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
         },
-
         {
           key: 'address',
           type: 'input',
@@ -91,7 +91,6 @@ export class AddRestaurantComponent {
           },
           className: 'col-md-4 col-12'
         },
-        
         {
           key: 'description',
           type: 'textarea',
@@ -101,18 +100,19 @@ export class AddRestaurantComponent {
           },
           className: 'col-md-4 col-12'
         },
+        {
+          key: 'image',
+          type: 'input',
+          props: {
+            label: 'Image',
+            placeholder: 'Enter image URL',
+            type: 'file',
+            accept: 'image/*',
+            change: (field, event) => this.onFileChange(field, event)
+          },
+          className: 'col-md-4 col-12'
 
-
-        // {
-        //   key: 'image',
-        //   type: 'input',
-        //   props: {
-        //     label: 'Image',
-        //     placeholder: 'Enter image URL',
-        //     type: 'file'
-        //   },
-        //   className: 'col-md-4 col-12'
-        // },
+        },
         // {
         //   key: 'rating',
         //   type: 'input',
@@ -139,7 +139,79 @@ export class AddRestaurantComponent {
           className: 'col-md-4 col-12'
         },
       ],
+
     },
+    {
+      key: 'schedule',
+      fieldGroupClassName: 'row border p-2', // Bootstrap row
+      fieldGroup: [
+
+        ...['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day) => ({
+          fieldGroupClassName: 'row',
+          fieldGroup: [
+            {
+              key: `${day.toLowerCase()}_day`, // Unique key for each day
+              type: 'input',
+              props: {
+                label: 'Day',
+                value: day,
+                disabled: true, // Static day name
+              },
+              className: 'col-md-3 col-12',
+            },
+
+            {
+              key: `${day.toLowerCase()}_start_time`,
+              type: 'input',
+              props: {
+                label: 'Start Time',
+                type: 'time',
+              },
+              className: 'col-md-3 col-12',
+            },
+            {
+              key: `${day.toLowerCase()}_end_time`,
+              type: 'input',
+              props: {
+                label: 'End Time',
+                type: 'time',
+              },
+              className: 'col-md-3 col-12',
+            },
+            {
+              key: `${day.toLowerCase()}_status`,
+              type: 'select',
+              props: {
+                label: 'Status',
+                options: [
+                  { value: 'active', label: 'Active' },
+                  { value: 'inactive', label: 'Inactive' }
+                ]
+              },
+              className: 'col-md-3 col-12'
+            },
+          ],
+
+        })
+      ),
+        //         {
+//           key: 'schedule',
+//           fieldGroupClassName: 'row',
+//           fieldGroup: [
+//             // Define each day of the week as a separate field group
+//             ...['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day) => ({
+//               fieldGroupClassName: 'row border p-2', // Individual row for each day
+
+//             })),
+//           ],
+
+//       props: {
+//         label: 'Weekly Schedule',
+//         description: 'Set the schedule for each day of the week.',
+//       },
+//     },
+      ]
+    }
 //     {
 //       key: 'schedule_table',
 //       fieldGroupClassName: 'col-12 table-responsive', // Full-width table
@@ -210,7 +282,24 @@ export class AddRestaurantComponent {
   ) {
   }
 
+  onFileChange(field, event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64String = reader.result as string;
+        console.log(base64String);
 
+        this.model.imageBase64 = base64String; // Update the model
+        // this.fields[0].fieldGroup[6].props['value'] = base64String; // Update the field value
+        // this.fields[0].fieldGroup[6].formControl.setValue(base64String); // Update the form control value
+
+        // field.formControl.setValue(base64String); // Update the form control value
+      };
+      reader.readAsDataURL(file); // Convert file to base64
+    }
+  }
 
   async onSubmit(model) {
     console.log(model);
@@ -218,7 +307,8 @@ export class AddRestaurantComponent {
     if (this.form.valid) {
       // alert('Restaurant added successfully!');
 
-      let d = this.form.value;
+      let d = Object.assign({}, this.form.value) ;
+      d['image'] = this.model.imageBase64;
       const res = await this.network.addRestaurant(d);
       console.log(res);
       if (res) {
