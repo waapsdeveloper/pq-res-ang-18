@@ -131,6 +131,15 @@ export class AddRestaurantComponent {
           className: 'col-md-4 col-12'
         },
         {
+          key: 'Copyright text ',
+          type: 'textarea',
+          props: {
+            label: 'Copyright text',
+            placeholder: 'Enter copy right text'
+          },
+          className: 'col-md-4 col-12'
+        },
+        {
           key: 'image',
           type: 'input',
           props: {
