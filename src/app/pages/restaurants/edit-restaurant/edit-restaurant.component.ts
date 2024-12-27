@@ -72,7 +72,7 @@ export class EditRestaurantComponent implements OnInit {
     private network: NetworkService,
     private nav: NavService,
     private utility: UtilityService
-  ) {}
+  ) { }
 
   ngOnInit() {
     // Access the parameter
@@ -84,12 +84,36 @@ export class EditRestaurantComponent implements OnInit {
   async initialize() {
     // Fetch the data from the server;
     const res = await this.network.getRestaurantById(this.id);
- //   this.model= res.restaurant;
- console.log(res);
-  //   this.model.schedule.monday_start_time = res.restaurant.timings[0].start_time;
-  this.model.name = res.restaurant.name;
+    //   this.model= res.restaurant;
+    console.log(res);
 
-  // .get('restaurant/'+this.id).subscribe((response: any) => {
+    let d = Object.assign({}, res.restaurant);
+    this.model.name = d.name;
+    this.model.copyright_text = d.copyright_text || '';
+    this.model.image = d.image || '';
+    this.model.favicon = d.favicon || '';
+    this.model.logo = d.logo || '';
+    this.model.address = d.address || '';
+    this.model.phone = d.phone || '';
+    this.model.email = d.email || '';
+    this.model.website = d.website || '';
+    this.model.description = d.description || '';
+    this.model.rating = d.rating !== undefined ? d.rating : Math.floor(Math.random() * 6);
+    this.model.status = d.status || 'active';
+
+    // Map default timings if provided
+    if (d.timings && Array.isArray(d.timings) && d.timings.length > 0) {
+      d.timings.forEach((timing) => {
+        const day = timing.day.toLowerCase();
+        this.model.schedule[`${day}_day`] = timing.day || '';
+        this.model.schedule[`${day}_start_time`] = timing.start_time || '09:00';
+        this.model.schedule[`${day}_end_time`] = timing.end_time || '17:00';
+        this.model.schedule[`${day}_status`] = timing.status || 'inactive';
+      });
+    }
+
+
+    // .get('restaurant/'+this.id).subscribe((response: any) => {
     //   console.log('Response:', response);
     //   this.model = response.data;
     // });
