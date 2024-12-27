@@ -49,7 +49,7 @@ export class NetworkService {
   }
 
   updateRestaurant(data, id ) {
-    return this.httpPutResponse('restaurant', data, id);
+    return this.httpPutResponse(`restaurant/${id}`, data, id);
   }
 
   // removeRestaurant(id) {

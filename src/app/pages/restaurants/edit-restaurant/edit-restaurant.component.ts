@@ -310,11 +310,57 @@ export class EditRestaurantComponent implements OnInit {
       d['image'] = this.model.imageBase64;
       d['favicon'] = this.model.faviconBase64;
       d['logo'] = this.model.logoBase64;
+      d['schedule'] = [
+        {
+          day: 'Monday',
+          start_time: this.model.schedule.monday_start_time,
+          end_time: this.model.schedule.monday_end_time,
+          status: this.model.schedule.monday_status
+        },
+        {
+          day: 'Tuesday',
+          start_time: this.model.schedule.tuesday_start_time,
+          end_time: this.model.schedule.tuesday_end_time,
+          status: this.model.schedule.tuesday_status
+        },
+        {
+          day: 'Wednesday',
+          start_time: this.model.schedule.wednesday_start_time,
+          end_time: this.model.schedule.wednesday_end_time,
+          status: this.model.schedule.wednesday_status
+        },
+        {
+          day: 'Thursday',
+          start_time: this.model.schedule.thursday_start_time,
+          end_time: this.model.schedule.thursday_end_time,
+          status: this.model.schedule.thursday_status
+        },
+        {
+          day: 'Friday',
+          start_time: this.model.schedule.friday_start_time,
+          end_time: this.model.schedule.friday_end_time,
+          status: this.model.schedule.friday_status
+        },
+        {
+          day: 'Saturday',
+          start_time: this.model.schedule.saturday_start_time,
+          end_time: this.model.schedule.saturday_end_time,
+          status: this.model.schedule.saturday_status
+        },
+        {
+          day: 'Sunday',
+          start_time: this.model.schedule.sunday_start_time,
+          end_time: this.model.schedule.sunday_end_time,
+          status: this.model.schedule.sunday_status
+        }
+      ];
 
-     const res = await this.network.updateRestaurant(d, this.id);
+      console.log(d);
+
+      const res = await this.network.updateRestaurant(d, this.id);
       console.log(res);
 
-if (res) {
+      if (res) {
         this.nav.pop();
       }
     } else {
