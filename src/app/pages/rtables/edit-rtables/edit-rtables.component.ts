@@ -1,34 +1,103 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
+import { UtilityService } from 'src/app/services/utility.service';
 @Component({
   selector: 'app-edit-rtables',
   templateUrl: './edit-rtables.component.html',
   styleUrl: './edit-rtables.component.scss'
 })
-export class EditRtablesComponent  implements OnInit{
-
+export class EditRtablesComponent implements OnInit {
   id;
 
-  constructor(private route: ActivatedRoute, private network: NetworkService){
-
-  }
+  constructor(
+    private route: ActivatedRoute,
+    private network: NetworkService,
+    private fb: FormBuilder,
+    private nav: NavService,
+    private utility: UtilityService
+  ) {}
 
   ngOnInit() {
+    this.setRoleInForm();
+    this.setRestaurantsInForm();
     // Access the parameter
     this.id = this.route.snapshot.paramMap.get('id');
     console.log('ID from URL:', this.id);
     this.initialize();
+  }
+  async getRestaurants(): Promise<any[]> {
+    let obj = {
+      search: '',
+      perpage: 500
+    };
+    const res = await this.network.getRestaurants(obj);
 
+    if (res && res['data']) {
+      let d = res['data'];
+      let dm = d['data'];
+      return dm.map((r) => {
+        return {
+          value: r.id,
+          label: r.name
+        };
+      }) as any[];
+    }
 
+    return [];
+  }
+  async setRestaurantsInForm() {
+    const res = await this.getRestaurants();
+    console.log(res);
 
+    for (var i = 0; i < this.fields.length; i++) {
+      for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
+        let fl = this.fields[i].fieldGroup[j];
+        if (fl.key == 'restaurant_id') {
+          fl.props.options = res;
+        }
+      }
+    }
+  }
+  async setRoleInForm() {
+    const res = await this.getRoles();
+    console.log(res);
 
+    for (var i = 0; i < this.fields.length; i++) {
+      for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
+        let fl = this.fields[i].fieldGroup[j];
+        if (fl.key == 'role') {
+          fl.props.options = res;
+        }
+      }
+    }
   }
 
-async  initialize(){
+  // get roles array
+  async getRoles(): Promise<any[]> {
+    let obj = {
+      search: ''
+    };
+    const res = await this.network.getRoles(obj);
+
+    if (res && res['data']) {
+      let d = res['data'];
+      let dm = d['data'];
+      return dm.map((r) => {
+        return {
+          value: r.id,
+          label: r.name
+        };
+      }) as any[];
+    }
+
+    return [];
+  }
+
+  async initialize() {
     // Fetch the data from the server
     const res = await this.network.getTablesById(this.id);
     console.log(res);
@@ -42,7 +111,7 @@ async  initialize(){
     floor: '',
     location: '',
     description: '',
-    status: '',
+    status: ''
   };
 
   fields: FormlyFieldConfig[] = [
@@ -56,19 +125,21 @@ async  initialize(){
             label: 'Restaurant',
             placeholder: 'Select a restaurant',
             required: false,
-            options: [],
+            options: []
           },
-          className: 'col-md-4 col-12',
-        },,{
+          className: 'col-md-4 col-12'
+        },
+        ,
+        {
           key: 'identifier',
           type: 'input',
           props: {
             label: 'Name',
             placeholder: 'Enter table name',
             required: true,
-            minLength: 3,
+            minLength: 3
           },
-          className: 'col-md-3 col-12', // 6 columns on md+, full width on small screens
+          className: 'col-md-3 col-12' // 6 columns on md+, full width on small screens
         },
         {
           key: 'no_of_seats',
@@ -78,9 +149,9 @@ async  initialize(){
             placeholder: 'Enter number of seats',
             required: true,
             type: 'number', // Ensures numeric input
-            max: 255, // Constraint for maximum value
+            max: 255 // Constraint for maximum value
           },
-          className: 'col-md-3 col-12',
+          className: 'col-md-3 col-12'
         },
         {
           key: 'floor',
@@ -89,9 +160,9 @@ async  initialize(){
             label: 'Floor',
             placeholder: 'Enter floor description',
             required: true,
-            maxLength: 500, // Constraint for maximum length
+            maxLength: 500 // Constraint for maximum length
           },
-          className: 'col-md-4 col-12',
+          className: 'col-md-4 col-12'
         },
 
         {
@@ -100,11 +171,10 @@ async  initialize(){
           props: {
             label: 'Location',
             placeholder: 'Near west wall',
-            required: true,
+            required: true
           },
-          className: 'col-md-6 col-12',
+          className: 'col-md-6 col-12'
         },
-
 
         {
           key: 'description',
@@ -112,9 +182,9 @@ async  initialize(){
           props: {
             label: 'Description',
             placeholder: 'Enter a description',
-            required: false,
+            required: false
           },
-          className: 'col-md-6 col-12', // Full width for description
+          className: 'col-md-6 col-12' // Full width for description
         },
         {
           key: 'status',
@@ -125,15 +195,32 @@ async  initialize(){
             required: true,
             options: [
               { value: 'active', label: 'Active' },
-              { value: 'inactive', label: 'Inactive' },
-            ],
+              { value: 'inactive', label: 'Inactive' }
+            ]
           },
-          className: 'col-md-4 col-12',
-        },
-      ],
-    },
+          className: 'col-md-4 col-12'
+        }
+      ]
+    }
   ];
 
+  async onSubmit(model) {
+    console.log(model);
+    console.log('Form Submitted', this.form.value);
+    if (this.form.valid) {
+      // alert('Restaurant added successfully!');
 
-  onSubmit(m){}
+      let d = Object.assign({}, this.form.value);
+
+
+      const res = await this.network.updateTable(d, this.id);
+      console.log(res);
+      if (res) {
+        this.nav.pop();
+      }
+    } else {
+      this.utility.presentFailureToast('Please fill out all required fields correctly.');
+      //alert('Please fill out all required fields correctly.');
+    }
+  }
 }

@@ -147,7 +147,9 @@ export class NetworkService {
   addTable(data) {
     return this.httpPostResponse('rtable', data, null, false, true);
   }
-
+  updateTable(data ,id) {
+    return this.httpPutResponse('rtable', data, id, false, true);
+  }
   removeTable(id) {
     return this.httpDeleteResponse('rtable', id, false, true);
   }
