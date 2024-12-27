@@ -84,13 +84,17 @@ export class EditRestaurantComponent implements OnInit {
   async initialize() {
     // Fetch the data from the server;
     const res = await this.network.getRestaurantById(this.id);
-    this.model = res.restaurant;
+ //   this.model= res.restaurant;
+ console.log(res);
+  //   this.model.schedule.monday_start_time = res.restaurant.timings[0].start_time;
+  this.model.name = res.restaurant.name;
 
-    // .get('restaurant/'+this.id).subscribe((response: any) => {
+  // .get('restaurant/'+this.id).subscribe((response: any) => {
     //   console.log('Response:', response);
     //   this.model = response.data;
     // });
   }
+
 
   fields: FormlyFieldConfig[] = [
     {
@@ -299,6 +303,16 @@ export class EditRestaurantComponent implements OnInit {
       reader.readAsDataURL(file); // Convert file to base64
     }
   }
+  updateScheduleFromApi(apiData) {
+    // Update the schedule field directly in the model
+    apiData.timings.forEach(timing => {
+      const dayKey = timing.day.toLowerCase(); // "monday", "tuesday", etc.
+      this.model.schedule[`${dayKey}_start_time`] = timing.start_time;
+      this.model.schedule[`${dayKey}_end_time`] = timing.end_time;
+      this.model.schedule[`${dayKey}_status`] = timing.status;
+    });
+  }
+
   async onSubmit(model) {
     console.log(model);
     console.log('Form Submitted', this.form.value);
@@ -313,45 +327,45 @@ export class EditRestaurantComponent implements OnInit {
       d['schedule'] = [
         {
           day: 'Monday',
-          start_time: this.model.schedule.monday_start_time,
-          end_time: this.model.schedule.monday_end_time,
-          status: this.model.schedule.monday_status
+          start_time: this.model.schedule.monday_start_time || '0:00',
+          end_time: this.model.schedule.monday_end_time || '10:00',
+          status: this.model.schedule.monday_status || 'inactive'
         },
         {
           day: 'Tuesday',
-          start_time: this.model.schedule.tuesday_start_time,
-          end_time: this.model.schedule.tuesday_end_time,
-          status: this.model.schedule.tuesday_status
+          start_time: this.model.schedule.tuesday_start_time || '0:00',
+          end_time: this.model.schedule.tuesday_end_time || '10:00',
+          status: this.model.schedule.tuesday_status || 'inactive'
         },
         {
           day: 'Wednesday',
-          start_time: this.model.schedule.wednesday_start_time,
-          end_time: this.model.schedule.wednesday_end_time,
-          status: this.model.schedule.wednesday_status
+          start_time: this.model.schedule.wednesday_start_time || '0:00',
+          end_time: this.model.schedule.wednesday_end_time || '10:00',
+          status: this.model.schedule.wednesday_status || 'inactive'
         },
         {
           day: 'Thursday',
-          start_time: this.model.schedule.thursday_start_time,
-          end_time: this.model.schedule.thursday_end_time,
-          status: this.model.schedule.thursday_status
+          start_time: this.model.schedule.thursday_start_time || '0:00',
+          end_time: this.model.schedule.thursday_end_time || '10:00',
+          status: this.model.schedule.thursday_status || 'inactive'
         },
         {
           day: 'Friday',
-          start_time: this.model.schedule.friday_start_time,
-          end_time: this.model.schedule.friday_end_time,
-          status: this.model.schedule.friday_status
+          start_time: this.model.schedule.friday_start_time || '10:00',
+          end_time: this.model.schedule.friday_end_time || '10:00',
+          status: this.model.schedule.friday_status || 'inactive'
         },
         {
           day: 'Saturday',
-          start_time: this.model.schedule.saturday_start_time,
-          end_time: this.model.schedule.saturday_end_time,
-          status: this.model.schedule.saturday_status
+          start_time: this.model.schedule.saturday_start_time || '0:00',
+          end_time: this.model.schedule.saturday_end_time || '10:00',
+          status: this.model.schedule.saturday_status || 'inactive'
         },
         {
           day: 'Sunday',
-          start_time: this.model.schedule.sunday_start_time,
-          end_time: this.model.schedule.sunday_end_time,
-          status: this.model.schedule.sunday_status
+          start_time: this.model.schedule.sunday_start_time || '0:00',
+          end_time: this.model.schedule.sunday_end_time || '10:00',
+          status: this.model.schedule.sunday_status || 'inactive'
         }
       ];
 
