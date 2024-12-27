@@ -139,7 +139,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
       website: '',
       schedule: {
         monday_day: 'Monday',
-        monday_start_time: '09:00',
+        monday_start_time: d.schedule.timings[0].start_time || '09:00',
         monday_end_time: '17:00',
         monday_status: 'active',
 
