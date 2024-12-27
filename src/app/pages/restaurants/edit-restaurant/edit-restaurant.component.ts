@@ -127,19 +127,19 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     this.model = {
       name: d.name || '',
       copyright_text: d.copyright_text || '',
-      image: d.image || '',
+      image: '',
       imageBase64: d.imageBase64 || '',
-      favicon: d.favicon ||'',
-      faviconBase64: d.faviconBase64 ||'',
+      favicon: '',
+      faviconBase64: d.faviconBase64 || '',
       description: d.description || '',
-      logo: d.logo || '',
+      logo: '',
       logoBase64: d.logoBase64 || '',
       address: d.address || '',
       phone: d.phone || '',
       email: d.email || '',
       website: d.website || '',
-       schedule : {
-        monday_day: d.timings[0].start_time  ||'Monday',
+      schedule: {
+        monday_day: 'Monday',
         monday_start_time: d.timings && d.timings.length > 0 && d.timings[0].start_time ? d.timings[0].start_time : '09:00',
         monday_end_time: d.timings && d.timings.length > 0 && d.timings[0].end_time ? d.timings[0].end_time : '17:00',
         monday_status: d.timings && d.timings.length > 0 && d.timings[0].status ? d.timings[0].status : 'inactive',
@@ -176,10 +176,10 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
       },
 
       // Now, posting this `schedule` to your model.
-         // If `d.timings` is empty, this code will not iterate over it, and the default times/statuses will be applied.
+      // If `d.timings` is empty, this code will not iterate over it, and the default times/statuses will be applied.
 
-      rating: d.rating|| Math.floor(Math.random() * 6),
-      status: d.status ||''
+      rating: d.rating || Math.floor(Math.random() * 6),
+      status: d.status || ''
     };
 
     console.log(d.timings[0].start_time);
