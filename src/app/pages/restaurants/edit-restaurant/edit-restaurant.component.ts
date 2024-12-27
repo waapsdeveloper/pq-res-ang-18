@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -10,11 +10,11 @@ import { UtilityService } from 'src/app/services/utility.service';
   templateUrl: './edit-restaurant.component.html',
   styleUrl: './edit-restaurant.component.scss'
 })
-export class EditRestaurantComponent implements OnInit {
+export class EditRestaurantComponent implements OnInit, AfterViewInit {
   id;
   form = new FormGroup({});
   model = {
-    name: 'Restaurant one',
+    name: '',
     copyright_text: '',
     image: '',
     imageBase64: '',
@@ -74,6 +74,7 @@ export class EditRestaurantComponent implements OnInit {
     private utility: UtilityService
   ) { }
 
+
   ngOnInit() {
     // Access the parameter
     this.id = this.route.snapshot.paramMap.get('id');
@@ -82,41 +83,102 @@ export class EditRestaurantComponent implements OnInit {
   }
 
   async initialize() {
-    // Fetch the data from the server;
-    const res = await this.network.getRestaurantById(this.id);
-    //   this.model= res.restaurant;
-    console.log(res);
 
-    let d = Object.assign({}, res.restaurant);
-    this.model.name = d.name;
-    this.model.copyright_text = d.copyright_text || '';
-    this.model.image = d.image || '';
-    this.model.favicon = d.favicon || '';
-    this.model.logo = d.logo || '';
-    this.model.address = d.address || '';
-    this.model.phone = d.phone || '';
-    this.model.email = d.email || '';
-    this.model.website = d.website || '';
-    this.model.description = d.description || '';
-    this.model.rating = d.rating !== undefined ? d.rating : Math.floor(Math.random() * 6);
-    this.model.status = d.status || 'active';
+    // this.model.copyright_text = d.copyright_text || '';
+    // this.model.image = d.image || '';
+    // this.model.favicon = d.favicon || '';
+    // this.model.logo = d.logo || '';
+    // this.model.address = d.address || '';
+    // this.model.phone = d.phone || '';
+    // this.model.email = d.email || '';
+    // this.model.website = d.website || '';
+    // this.model.description = d.description || '';
+    // this.model.rating = d.rating !== undefined ? d.rating : Math.floor(Math.random() * 6);
+    // this.model.status = d.status || 'active';
 
-    // Map default timings if provided
-    if (d.timings && Array.isArray(d.timings) && d.timings.length > 0) {
-      d.timings.forEach((timing) => {
-        const day = timing.day.toLowerCase();
-        this.model.schedule[`${day}_day`] = timing.day || '';
-        this.model.schedule[`${day}_start_time`] = timing.start_time || '09:00';
-        this.model.schedule[`${day}_end_time`] = timing.end_time || '17:00';
-        this.model.schedule[`${day}_status`] = timing.status || 'inactive';
-      });
-    }
+    // // Map default timings if provided
+    // if (d.timings && Array.isArray(d.timings) && d.timings.length > 0) {
+    //   d.timings.forEach((timing) => {
+    //     const day = timing.day.toLowerCase();
+    //     this.model.schedule[`${day}_day`] = timing.day || '';
+    //     this.model.schedule[`${day}_start_time`] = timing.start_time || '09:00';
+    //     this.model.schedule[`${day}_end_time`] = timing.end_time || '17:00';
+    //     this.model.schedule[`${day}_status`] = timing.status || 'inactive';
+    //   });
+    // }
 
 
     // .get('restaurant/'+this.id).subscribe((response: any) => {
     //   console.log('Response:', response);
     //   this.model = response.data;
     // });
+  }
+
+  async ngAfterViewInit() {
+    // Fetch the data from the server;
+    const res = await this.network.getRestaurantById(this.id);
+    //   this.model= res.restaurant;
+    console.log(res);
+
+    let d = Object.assign({}, res.restaurant);
+
+    console.log(d);
+
+    this.model = {
+      name: d.name || '',
+      copyright_text: d.copyright_text || '',
+      image: '',
+      imageBase64: '',
+      favicon: '',
+      faviconBase64: '',
+      logo: '',
+      logoBase64: '',
+      address: '',
+      phone: '8957985674',
+      email: 'restaurant1@mail.com',
+      website: '',
+      schedule: {
+        monday_day: 'Monday',
+        monday_start_time: '09:00',
+        monday_end_time: '17:00',
+        monday_status: 'active',
+
+        tuesday_day: 'Tuesday',
+        tuesday_start_time: '09:00',
+        tuesday_end_time: '17:00',
+        tuesday_status: 'active',
+
+        wednesday_day: 'Wednesday',
+        wednesday_start_time: '09:00',
+        wednesday_end_time: '17:00',
+        wednesday_status: 'active',
+
+        thursday_day: 'Thursday',
+        thursday_start_time: '09:00',
+        thursday_end_time: '17:00',
+        thursday_status: 'active',
+
+        friday_day: 'Friday',
+        friday_start_time: '10:00',
+        friday_end_time: '20:00',
+        friday_status: 'active',
+
+        saturday_day: 'Saturday',
+        saturday_start_time: '10:00',
+        saturday_end_time: '18:00',
+        saturday_status: 'inactive',
+
+        sunday_day: 'Sunday',
+        sunday_start_time: '10:00',
+        sunday_end_time: '16:00',
+        sunday_status: 'inactive'
+      },
+      description: '',
+      rating: Math.floor(Math.random() * 6),
+      status: 'active'
+    };
+
+
   }
 
 
@@ -309,6 +371,7 @@ export class EditRestaurantComponent implements OnInit {
       ]
     }
   ];
+
   onFileChange(field, event: Event, type: string = 'image') {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
