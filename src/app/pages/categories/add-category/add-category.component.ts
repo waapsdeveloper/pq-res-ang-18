@@ -18,7 +18,8 @@ export class AddCategoryComponent implements OnInit {
     category: '',
     status: '',
     description: '',
-    image: null
+    image: '',
+    imageBase64: ''
   };
 
   fields: FormlyFieldConfig[] = [
@@ -72,8 +73,10 @@ export class AddCategoryComponent implements OnInit {
           type: 'input',
           props: {
             label: 'Image',
-            placeholder: 'Enter image ',
-            type: 'file'
+            placeholder: 'Enter image URL',
+            type: 'file',
+            accept: 'image/*',
+            change: (field, event) => this.onFileChange(field, event, 'imageBase64')
           },
           className: 'col-md-4 col-12'
         },
@@ -102,7 +105,7 @@ export class AddCategoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.setCategoriesInForm();
-    this.setRestaurantsInForm()
+    this.setRestaurantsInForm();
   }
 
   async setCategoriesInForm() {
@@ -173,15 +176,15 @@ export class AddCategoryComponent implements OnInit {
     }
   }
 
-
-
   async onSubmit(model) {
     console.log(model);
     console.log('Form Submitted', this.form.valid);
     if (this.form.valid) {
       // alert('Restaurant added successfully!');
 
-      let d = this.form.value;
+      let d = Object.assign({}, this.form.value);
+
+      d['image'] = this.model.imageBase64;
       const res = await this.network.addCategory(d);
       console.log(res);
       if (res) {
@@ -190,6 +193,24 @@ export class AddCategoryComponent implements OnInit {
     } else {
       this.utility.presentFailureToast('Please fill out all required fields correctly.');
       //alert('Please fill out all required fields correctly.');
+    }
+  }
+  onFileChange(field, event: Event, type: string = 'image') {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64String = reader.result as string;
+        console.log(base64String);
+
+        this.model[type] = base64String; // Update the model
+        // this.fields[0].fieldGroup[6].props['value'] = base64String; // Update the field value
+        // this.fields[0].fieldGroup[6].formControl.setValue(base64String); // Update the form control value
+
+        // field.formControl.setValue(base64String); // Update the form control value
+      };
+      reader.readAsDataURL(file); // Convert file to base64
     }
   }
 }

@@ -102,6 +102,9 @@ export class NetworkService {
   removeCategory(id) {
     return this.httpDeleteResponse('category', id, false, true);
   }
+  updateCategory(data, id ) {
+    return this.httpPutResponse(`category`, data, id, false, true);
+  }
 
   // Products
 

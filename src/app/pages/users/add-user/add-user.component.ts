@@ -23,7 +23,8 @@ export class AddUserComponent implements OnInit {
     city:'',
     state:'',
     country:'',
-    image:null,
+    image: '',
+    imageBase64: '',
     status: '',
   };
 
@@ -111,8 +112,10 @@ export class AddUserComponent implements OnInit {
           type: 'input',
           props: {
             label: 'Image',
-            placeholder: 'Enter image ',
-            type: 'file'
+            placeholder: 'Enter image URL',
+            type: 'file',
+            accept: 'image/*',
+            change: (field, event) => this.onFileChange(field, event, 'imageBase64')
           },
           className: 'col-md-4 col-12'
         },
@@ -273,14 +276,34 @@ export class AddUserComponent implements OnInit {
 
     return [];
   }
+  onFileChange(field, event: Event, type: string = 'image') {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64String = reader.result as string;
+        console.log(base64String);
 
+        this.model[type] = base64String; // Update the model
+        // this.fields[0].fieldGroup[6].props['value'] = base64String; // Update the field value
+        // this.fields[0].fieldGroup[6].formControl.setValue(base64String); // Update the form control value
+
+        // field.formControl.setValue(base64String); // Update the form control value
+      };
+      reader.readAsDataURL(file); // Convert file to base64
+    }
+  }
   async onSubmit(model) {
     console.log(model);
-    console.log('Form Submitted', this.form.valid);
+    console.log('Form Submitted', this.form.value);
     if (this.form.valid) {
       // alert('Restaurant added successfully!');
 
-      let d = this.form.value;
+      let d = Object.assign({}, this.form.value);
+
+      d['image'] = this.model.imageBase64;
+
       const res = await this.network.addUser(d);
       console.log(res);
       if (res) {
@@ -289,34 +312,6 @@ export class AddUserComponent implements OnInit {
     } else {
       this.utility.presentFailureToast('Please fill out all required fields correctly.');
       //alert('Please fill out all required fields correctly.');
-    }
-  }
-
-  // Method to handle file input change
-  onFileSelected(event: Event): void {
-    const fileInput = event.target as HTMLInputElement;
-
-    if (fileInput.files && fileInput.files[0]) {
-      const file = fileInput.files[0];
-      const reader = new FileReader();
-
-      // Read file as Base64 string
-      reader.onload = () => {
-        const base64String = reader.result as string;
-
-        // Update the form control with the Base64 string
-        // this.bForm.patchValue({ image: base64String });
-
-        // if (this.imageInputPlaceholder) {
-        //   this.imageInputPlaceholder.nativeElement.style.backgroundImage = `url(${base64String})`;
-        // }
-      };
-
-      reader.onerror = (error) => {
-        console.error('Error reading file:', error);
-      };
-
-      reader.readAsDataURL(file); // Convert file to Base64
     }
   }
 
