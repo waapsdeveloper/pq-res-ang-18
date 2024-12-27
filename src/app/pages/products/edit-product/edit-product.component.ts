@@ -282,7 +282,7 @@ export class EditProductComponent implements OnInit {
       let d = Object.assign({}, this.form.value);
 
       d['image'] = this.model.imageBase64;
-      const res = await this.network.addProduct(d);
+      const res = await this.network.updateProduct(d,this.id);
       console.log(res);
       if (res) {
         this.nav.pop();

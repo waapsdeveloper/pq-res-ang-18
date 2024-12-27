@@ -48,7 +48,7 @@ export class NetworkService {
     return this.httpPostResponse('restaurant', data, null, false, true);
   }
 
-  updateRestaurant(data, id ) {
+  updateRestaurant(data, id) {
     return this.httpPutResponse(`restaurant`, data, id, false, true);
   }
 
@@ -102,7 +102,7 @@ export class NetworkService {
   removeCategory(id) {
     return this.httpDeleteResponse('category', id, false, true);
   }
-  updateCategory(data, id ) {
+  updateCategory(data, id) {
     return this.httpPutResponse(`category`, data, id, false, true);
   }
 
@@ -119,6 +119,9 @@ export class NetworkService {
 
   addProduct(data) {
     return this.httpPostResponse('product', data, null, false, true);
+  }
+  updateProduct(data,id) {
+    return this.httpPutResponse('product', data, id, false, true);
   }
 
   removeProduct(id) {
@@ -147,7 +150,7 @@ export class NetworkService {
   addTable(data) {
     return this.httpPostResponse('rtable', data, null, false, true);
   }
-  updateTable(data ,id) {
+  updateTable(data, id) {
     return this.httpPutResponse('rtable', data, id, false, true);
   }
   removeTable(id) {
@@ -223,13 +226,14 @@ export class NetworkService {
         this.utility.showLoader();
       }
       const url = key + (id ? '/' + id : '');
-      const seq = type === 'get'
-        ? this.api.get(url, {})
-        : type === 'delete'
-        ? this.api.delete(url, {})
-        : type === 'put'
-        ? this.api.put(url, data)
-        : this.api.post(url, data);
+      const seq =
+        type === 'get'
+          ? this.api.get(url, {})
+          : type === 'delete'
+            ? this.api.delete(url, {})
+            : type === 'put'
+              ? this.api.put(url, data)
+              : this.api.post(url, data);
 
       seq.subscribe({
         next: (res: any) => {
