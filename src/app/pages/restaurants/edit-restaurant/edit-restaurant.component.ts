@@ -127,57 +127,62 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     this.model = {
       name: d.name || '',
       copyright_text: d.copyright_text || '',
-      image: '',
-      imageBase64: '',
-      favicon: '',
-      faviconBase64: '',
-      logo: '',
-      logoBase64: '',
-      address: '',
-      phone: '8957985674',
-      email: 'restaurant1@mail.com',
-      website: '',
-      schedule: {
-        monday_day: 'Monday',
-        monday_start_time: d.schedule.timings[0].start_time || '09:00',
-        monday_end_time: '17:00',
-        monday_status: 'active',
+      image: d.image || '',
+      imageBase64: d.imageBase64 || '',
+      favicon: d.favicon ||'',
+      faviconBase64: d.faviconBase64 ||'',
+      description: d.description || '',
+      logo: d.logo || '',
+      logoBase64: d.logoBase64 || '',
+      address: d.address || '',
+      phone: d.phone || '',
+      email: d.email || '',
+      website: d.website || '',
+       schedule : {
+        monday_day: d.timings[0].start_time  ||'Monday',
+        monday_start_time: d.timings && d.timings.length > 0 && d.timings[0].start_time ? d.timings[0].start_time : '09:00',
+        monday_end_time: d.timings && d.timings.length > 0 && d.timings[0].end_time ? d.timings[0].end_time : '17:00',
+        monday_status: d.timings && d.timings.length > 0 && d.timings[0].status ? d.timings[0].status : 'inactive',
 
         tuesday_day: 'Tuesday',
-        tuesday_start_time: '09:00',
-        tuesday_end_time: '17:00',
-        tuesday_status: 'active',
+        tuesday_start_time: d.timings && d.timings.length > 1 && d.timings[1].start_time ? d.timings[1].start_time : '09:00',
+        tuesday_end_time: d.timings && d.timings.length > 1 && d.timings[1].end_time ? d.timings[1].end_time : '17:00',
+        tuesday_status: d.timings && d.timings.length > 1 && d.timings[1].status ? d.timings[1].status : 'inactive',
 
         wednesday_day: 'Wednesday',
-        wednesday_start_time: '09:00',
-        wednesday_end_time: '17:00',
-        wednesday_status: 'active',
+        wednesday_start_time: d.timings && d.timings.length > 2 && d.timings[2].start_time ? d.timings[2].start_time : '09:00',
+        wednesday_end_time: d.timings && d.timings.length > 2 && d.timings[2].end_time ? d.timings[2].end_time : '17:00',
+        wednesday_status: d.timings && d.timings.length > 2 && d.timings[2].status ? d.timings[2].status : 'inactive',
 
         thursday_day: 'Thursday',
-        thursday_start_time: '09:00',
-        thursday_end_time: '17:00',
-        thursday_status: 'active',
+        thursday_start_time: d.timings && d.timings.length > 3 && d.timings[3].start_time ? d.timings[3].start_time : '09:00',
+        thursday_end_time: d.timings && d.timings.length > 3 && d.timings[3].end_time ? d.timings[3].end_time : '17:00',
+        thursday_status: d.timings && d.timings.length > 3 && d.timings[3].status ? d.timings[3].status : 'inactive',
 
         friday_day: 'Friday',
-        friday_start_time: '10:00',
-        friday_end_time: '20:00',
-        friday_status: 'active',
+        friday_start_time: d.timings && d.timings.length > 4 && d.timings[4].start_time ? d.timings[4].start_time : '09:00',
+        friday_end_time: d.timings && d.timings.length > 4 && d.timings[4].end_time ? d.timings[4].end_time : '20:00',
+        friday_status: d.timings && d.timings.length > 4 && d.timings[4].status ? d.timings[4].status : 'inactive',
 
         saturday_day: 'Saturday',
-        saturday_start_time: '10:00',
-        saturday_end_time: '18:00',
-        saturday_status: 'inactive',
+        saturday_start_time: d.timings && d.timings.length > 5 && d.timings[5].start_time ? d.timings[5].start_time : '09:00',
+        saturday_end_time: d.timings && d.timings.length > 5 && d.timings[5].end_time ? d.timings[5].end_time : '18:00',
+        saturday_status: d.timings && d.timings.length > 5 && d.timings[5].status ? d.timings[5].status : 'inactive',
 
         sunday_day: 'Sunday',
-        sunday_start_time: '10:00',
-        sunday_end_time: '16:00',
-        sunday_status: 'inactive'
+        sunday_start_time: d.timings && d.timings.length > 6 && d.timings[6].start_time ? d.timings[6].start_time : '09:00',
+        sunday_end_time: d.timings && d.timings.length > 6 && d.timings[6].end_time ? d.timings[6].end_time : '16:00',
+        sunday_status: d.timings && d.timings.length > 6 && d.timings[6].status ? d.timings[6].status : 'inactive',
       },
-      description: '',
-      rating: Math.floor(Math.random() * 6),
-      status: 'active'
+
+      // Now, posting this `schedule` to your model.
+         // If `d.timings` is empty, this code will not iterate over it, and the default times/statuses will be applied.
+
+      rating: d.rating|| Math.floor(Math.random() * 6),
+      status: d.status ||''
     };
 
+    console.log(d.timings[0].start_time);
 
   }
 
