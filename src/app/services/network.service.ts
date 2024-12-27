@@ -4,7 +4,7 @@ import { ApiService } from './api.service';
 import { UtilityService } from './utility.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class NetworkService {
   getUserById(itemId: any) {
@@ -13,8 +13,8 @@ export class NetworkService {
   constructor(
     public api: ApiService,
     public router: Router,
-    public utility: UtilityService,
-  ) { }
+    public utility: UtilityService
+  ) {}
 
   // Authentication Related APIs
 
@@ -24,7 +24,7 @@ export class NetworkService {
 
   // Standard CRUD calls
 
-  index(slug, params){
+  index(slug, params) {
     const query = this.serialize(params);
     return this.httpGetResponse(slug + (query ? `?${query}` : ''), null, false, true);
   }
@@ -32,8 +32,6 @@ export class NetworkService {
   destroy(slug, id) {
     return this.httpDeleteResponse(slug, id, false, true);
   }
-
-
 
   // Restaurants
 
@@ -48,6 +46,10 @@ export class NetworkService {
 
   addRestaurant(data) {
     return this.httpPostResponse('restaurant', data, null, false, true);
+  }
+
+  updateRestaurant(data, id ) {
+    return this.httpPutResponse('restaurant', data, id);
   }
 
   // removeRestaurant(id) {
@@ -82,7 +84,6 @@ export class NetworkService {
     return this.httpGetResponse('role' + (query ? `?${query}` : ''), null, false, true);
   }
 
-
   // Categories
 
   getCategories(params) {
@@ -101,7 +102,6 @@ export class NetworkService {
   removeCategory(id) {
     return this.httpDeleteResponse('category', id, false, true);
   }
-
 
   // Products
 
@@ -128,7 +128,7 @@ export class NetworkService {
   getInvoices(id) {
     return this.httpDeleteResponse('invoice', id, false, true);
   }
-  removeInvoice(id){
+  removeInvoice(id) {
     return this.httpDeleteResponse('invoice', id, false, true);
   }
   // Tables
@@ -164,14 +164,11 @@ export class NetworkService {
     return this.httpPostResponse('order', data, null, false, true);
   }
 
-
-
   serialize = (obj: any) => {
     const str: any[] = [];
     for (const p in obj) {
       if (obj.hasOwnProperty(p)) {
-        let f: string =
-          encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]);
+        let f: string = encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]);
         str.push(f);
       }
     }
@@ -179,42 +176,13 @@ export class NetworkService {
   };
 
   // Function for POST method
-  httpPostResponse(
-    key: any,
-    data: any,
-    id = null,
-    showloader = true,
-    showError = true,
-    contenttype = 'application/json'
-  ) {
-    return this.httpResponse(
-      'post',
-      key,
-      data,
-      id,
-      showloader,
-      showError,
-      contenttype
-    );
+  httpPostResponse(key: any, data: any, id = null, showloader = true, showError = true, contenttype = 'application/json') {
+    return this.httpResponse('post', key, data, id, showloader, showError, contenttype);
   }
 
   // Function for GET method
-  httpGetResponse(
-    key: any,
-    id = null,
-    showloader = true,
-    showError = true,
-    contenttype = 'application/json'
-  ) {
-    return this.httpResponse(
-      'get',
-      key,
-      {},
-      id,
-      showloader,
-      showError,
-      contenttype
-    );
+  httpGetResponse(key: any, id = null, showloader = true, showError = true, contenttype = 'application/json') {
+    return this.httpResponse('get', key, {}, id, showloader, showError, contenttype);
   }
 
   // Function for PUT method
@@ -236,22 +204,8 @@ export class NetworkService {
   }
 
   // Function for DELETE method
-  httpDeleteResponse(
-    key: any,
-    id = null,
-    showloader = true,
-    showError = true,
-    contenttype = 'application/json'
-  ) {
-    return this.httpResponse(
-      'delete',
-      key,
-      {},
-      id,
-      showloader,
-      showError,
-      contenttype
-    );
+  httpDeleteResponse(key: any, id = null, showloader = true, showError = true, contenttype = 'application/json') {
+    return this.httpResponse('delete', key, {}, id, showloader, showError, contenttype);
   }
 
   httpResponse(
@@ -268,10 +222,7 @@ export class NetworkService {
         this.utility.showLoader();
       }
       const url = key + (id ? '/' + id : '');
-      const seq =
-        type === 'get' ? this.api.get(url, {}) :
-          type === 'delete' ? this.api.delete(url, {}) :
-            this.api.post(url, data);
+      const seq = type === 'get' ? this.api.get(url, {}) : type === 'delete' ? this.api.delete(url, {}) : this.api.post(url, data);
 
       seq.subscribe({
         next: (res: any) => {
@@ -280,11 +231,10 @@ export class NetworkService {
             this.utility.hideLoader();
           }
 
-          console.log("EW", res)
+          console.log('EW', res);
           resolve(res.result);
         },
         error: (err: any) => {
-
           this.utility.hideLoader();
 
           if (showError == true) {
@@ -296,7 +246,7 @@ export class NetworkService {
             this.router.navigate(['']);
           }
           reject(err.error);
-        },
+        }
       });
     }).catch((err) => {
       if (err.status == 'Error') {

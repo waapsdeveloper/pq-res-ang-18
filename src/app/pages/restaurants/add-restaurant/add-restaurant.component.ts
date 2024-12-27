@@ -14,6 +14,7 @@ export class AddRestaurantComponent {
   form = new FormGroup({});
   model = {
     name: 'Restaurant one',
+    copyright_text:'',
     image: '',
     imageBase64: '',
     favicon: '',
@@ -24,7 +25,6 @@ export class AddRestaurantComponent {
     phone: '8957985674',
     email: 'restaurant1@mail.com',
     website: '',
-    opening_hours: '',
     schedule: {
       monday_day: 'Monday',
       monday_start_time: '09:00',
@@ -131,7 +131,7 @@ export class AddRestaurantComponent {
           className: 'col-md-4 col-12'
         },
         {
-          key: 'Copyright text ',
+          key: 'copyright_text',
           type: 'textarea',
           props: {
             label: 'Copyright text',
