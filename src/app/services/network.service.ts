@@ -49,7 +49,7 @@ export class NetworkService {
   }
 
   updateRestaurant(data, id ) {
-    return this.httpPutResponse(`restaurant/${id}`, data, id);
+    return this.httpPutResponse(`restaurant`, data, id, false, true);
   }
 
   // removeRestaurant(id) {
@@ -186,12 +186,8 @@ export class NetworkService {
   }
 
   // Function for PUT method
-  httpPutResponse(key: any, data: any, id = null) {
-    return new Promise<any>((resolve, reject) => {
-      this.api.put(key, data).subscribe((res: any) => {
-        resolve(res);
-      });
-    });
+  httpPutResponse(key: any, data: any, id = null, showloader = true, showError = true, contenttype = 'application/json') {
+    return this.httpResponse('put', key, data, id, showloader, showError, contenttype);
   }
 
   // Function for PATCH method
@@ -222,7 +218,13 @@ export class NetworkService {
         this.utility.showLoader();
       }
       const url = key + (id ? '/' + id : '');
-      const seq = type === 'get' ? this.api.get(url, {}) : type === 'delete' ? this.api.delete(url, {}) : this.api.post(url, data);
+      const seq = type === 'get'
+        ? this.api.get(url, {})
+        : type === 'delete'
+        ? this.api.delete(url, {})
+        : type === 'put'
+        ? this.api.put(url, data)
+        : this.api.post(url, data);
 
       seq.subscribe({
         next: (res: any) => {
