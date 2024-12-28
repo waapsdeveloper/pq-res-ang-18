@@ -44,6 +44,7 @@ export class EditUserComponent implements OnInit {
     name: '',
     email: '',
     password: '',
+    restaurant:'',
     phone: '',
     address: '',
     role: '',
@@ -214,6 +215,7 @@ export class EditUserComponent implements OnInit {
     }
   ];
 
+
   async getRestaurants(): Promise<any[]> {
     let obj = {
       search: '',
@@ -247,6 +249,31 @@ export class EditUserComponent implements OnInit {
       }
     }
   }
+  async ngAfterViewInit() {
+    const res = await this.network.getUsersById(this.id);
+    let d = Object.assign({}, res.user);
+    console.log(d);
+   // Dynamic model assignment
+   this.model = {
+    name: d.name || '',               // Matches `model`
+    email: d.email || '',             // Matches `model`
+    password: d.password || '',       // Matches `model`
+    phone: d.phone || '',             // Matches `model`
+    address: d.address || '',         // Matches `model`
+    role: d.role_id || '',               // Matches `model`
+    city: d.city || '',               // Matches `model`
+    state: d.state || '',             // Matches `model`
+    country: d.country || '',         // Matches `model`
+    image: '',                        // Ensures `image` is an empty string
+    imageBase64: d.imageBase64 || '', // Matches `model`
+    status: d.status || '',
+    restaurant: d.restaurant_id || '',            // Matches `model`
+  };
+
+
+
+  }
+
 
 
   async setRoleInForm() {

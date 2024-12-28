@@ -22,7 +22,6 @@ export class EditRtablesComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.setRoleInForm();
     this.setRestaurantsInForm();
     // Access the parameter
     this.id = this.route.snapshot.paramMap.get('id');
@@ -56,46 +55,15 @@ export class EditRtablesComponent implements OnInit {
     for (var i = 0; i < this.fields.length; i++) {
       for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
         let fl = this.fields[i].fieldGroup[j];
-        if (fl.key == 'restaurant_id') {
-          fl.props.options = res;
-        }
-      }
-    }
-  }
-  async setRoleInForm() {
-    const res = await this.getRoles();
-    console.log(res);
-
-    for (var i = 0; i < this.fields.length; i++) {
-      for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
-        let fl = this.fields[i].fieldGroup[j];
-        if (fl.key == 'role') {
-          fl.props.options = res;
-        }
+        if (fl && fl.key === 'restaurant_id') {
+          fl.props = fl.props || {}; // Ensure props exists
+          fl.props.options = res;}
       }
     }
   }
 
-  // get roles array
-  async getRoles(): Promise<any[]> {
-    let obj = {
-      search: ''
-    };
-    const res = await this.network.getRoles(obj);
 
-    if (res && res['data']) {
-      let d = res['data'];
-      let dm = d['data'];
-      return dm.map((r) => {
-        return {
-          value: r.id,
-          label: r.name
-        };
-      }) as any[];
-    }
 
-    return [];
-  }
 
   async initialize() {
     // Fetch the data from the server
@@ -203,6 +171,23 @@ export class EditRtablesComponent implements OnInit {
       ]
     }
   ];
+  async ngAfterViewInit() {
+    const res = await this.network.getTablesById(this.id);
+    let d = Object.assign({}, res.Rtable);
+    console.log(d);
+   // Dynamic model assignment
+this.model = {
+  restaurant_id: d.restaurant_id  || '', // Matches `model`
+  identifier: d.identifier || '',       // Matches `model`
+  no_of_seats: d.no_of_seats || '',     // Matches `model`
+  floor: d.floor || '',                 // Matches `model`
+  location: d.location || '',           // Matches `model`
+  description: d.description || '',     // Matches `model`
+  status: d.status || ''                // Matches `model`
+};
+
+
+  }
 
   async onSubmit(model) {
     console.log(model);
@@ -211,7 +196,6 @@ export class EditRtablesComponent implements OnInit {
       // alert('Restaurant added successfully!');
 
       let d = Object.assign({}, this.form.value);
-
 
       const res = await this.network.updateTable(d, this.id);
       console.log(res);

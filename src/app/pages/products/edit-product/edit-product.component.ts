@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
@@ -13,7 +13,7 @@ import { UtilityService } from 'src/app/services/utility.service';
   templateUrl: './edit-product.component.html',
   styleUrl: './edit-product.component.scss'
 })
-export class EditProductComponent implements OnInit {
+export class EditProductComponent implements OnInit, AfterViewInit {
   id;
 
   constructor(
@@ -38,12 +38,11 @@ export class EditProductComponent implements OnInit {
     // Fetch the data from the server
     const res = await this.network.getProductsById(this.id);
     console.log(res);
-    this.model = res.product;
   }
   form = new FormGroup({});
   model = {
     name: '',
-    category: '',
+    category_id: '',
     restaurant_id: null,
     description: '',
     status: '',
@@ -51,7 +50,10 @@ export class EditProductComponent implements OnInit {
     image: '',
     imageBase64: '',
     discount: null,
-    notes: ''
+    notes: '',
+    sizes: '',
+    spicy: '',
+    type: ''
   };
 
   fields: FormlyFieldConfig[] = [
@@ -70,7 +72,7 @@ export class EditProductComponent implements OnInit {
           className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
         },
         {
-          key: 'category',
+          key: 'category_id',
           type: 'select',
           props: {
             label: 'category',
@@ -205,6 +207,26 @@ export class EditProductComponent implements OnInit {
       ]
     }
   ];
+  async ngAfterViewInit() {
+    const res = await this.network.getProductsById(this.id);
+    let d = Object.assign({}, res.product);
+    console.log(d);
+    this.model = {
+      name: d.name || '',
+      category_id: d.category_id || null,
+      restaurant_id: d.restaurant_id || null,
+      description: d.description || '',
+      status: d.status || '',
+      price: d.price || null,
+      image: '',
+      imageBase64: d.imageBase64 || '',
+      discount: d.discount || null,
+      notes: d.notes || '',
+      sizes: d.sizes || '',
+      spicy: d.spicy || '',
+      type: d.type || ''
+    };
+  }
 
   async getRestaurants(): Promise<any[]> {
     let obj = {
@@ -246,13 +268,12 @@ export class EditProductComponent implements OnInit {
     for (var i = 0; i < this.fields.length; i++) {
       for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
         let fl = this.fields[i].fieldGroup[j];
-        if (fl.key == 'category') {
+        if (fl.key == 'category_id') {
           fl.props.options = res;
         }
       }
     }
   }
-
   async getCategories(): Promise<any[]> {
     let obj = {
       search: '',
@@ -282,7 +303,9 @@ export class EditProductComponent implements OnInit {
       let d = Object.assign({}, this.form.value);
 
       d['image'] = this.model.imageBase64;
-      const res = await this.network.updateProduct(d,this.id);
+      console.log(d);
+
+      const res = await this.network.updateProduct(d, this.id);
       console.log(res);
       if (res) {
         this.nav.pop();

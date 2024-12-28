@@ -35,7 +35,6 @@ export class EditCategoryComponent implements OnInit {
     // Fetch the data from the server
     const res = await this.network.getCategoriesById(this.id);
     console.log(res);
-    this.model = res.category;
   }
 
   form = new FormGroup({});
@@ -161,7 +160,7 @@ export class EditCategoryComponent implements OnInit {
       search: '',
       perpage: 500
     };
-    const res = await this.network.getRestaurants(obj);
+    const res = await this.network.getCategories(obj);
 
     if (res && res['data']) {
       let d = res['data'];
@@ -176,6 +175,21 @@ export class EditCategoryComponent implements OnInit {
 
     return [];
   }
+  async ngAfterViewInit() {
+    const res = await this.network.getCategoriesById(this.id);
+    let d = Object.assign({}, res.category);
+    console.log(d);
+    this.model = {
+      name: d.name || '',
+      restaurant: d.restaurant_id || '', // Updated to match the key in `model`
+      category: d.category_id || '', // Included as it exists in `model`
+      status: d.status || '',
+      description: d.description || '',
+      image:'',
+      imageBase64: d.imageBase64 || ''
+    };
+  }
+
   async setRestaurantsInForm() {
     const res = await this.getRestaurants();
     console.log(res);
@@ -217,7 +231,7 @@ export class EditCategoryComponent implements OnInit {
 
       d['image'] = this.model.imageBase64;
 
-      const res = await this.network.updateCategory(d,this.id);
+      const res = await this.network.updateCategory(d, this.id);
       console.log(res);
       if (res) {
         this.nav.pop();
