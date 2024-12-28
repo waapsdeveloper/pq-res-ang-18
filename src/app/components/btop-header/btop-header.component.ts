@@ -1,6 +1,7 @@
 import { NavService } from 'src/app/services/basic/nav.service';
 import { UsersService } from 'src/app/services/users.service';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { GlobalRestaurantService } from 'src/app/services/global-restaurant.service';
 
 
 @Component({
@@ -12,6 +13,8 @@ export class BtopHeaderComponent {
   @Input('title') title = ''
   @Input('addurl') addurl = '/pages/orders/add'
   @Output('onSearch') onSearch = new EventEmitter<any>();
+
+  restaurant$: any;
 
   menuItems = [
     { label: 'Dashboard', link: '/pages/dashboard', icon: 'ti ti-layout-dashboard' },
@@ -27,8 +30,14 @@ export class BtopHeaderComponent {
   //   { label: 'Customers', link: '/pages/customers', icon: 'ti ti-user-plus' },
    ];
 
-  constructor(private nav: NavService, private users: UsersService){
+  constructor(private nav: NavService, private users: UsersService, public grService: GlobalRestaurantService){
     this.initialize();
+
+    this.grService.getRestaurant().subscribe( data => {
+      this.restaurant$ = data;
+    })
+
+
   }
 
 

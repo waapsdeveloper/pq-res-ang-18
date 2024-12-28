@@ -3,6 +3,7 @@ import { Component, Injector } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { ListBlade } from 'src/app/abstract/list-blade';
 import { NavService } from 'src/app/services/basic/nav.service';
+import { GlobalRestaurantService } from 'src/app/services/global-restaurant.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { UtilityService } from 'src/app/services/utility.service';
 import { RestaurantService } from '../restaurant.service';
@@ -74,6 +75,7 @@ export class ListRestaurantComponent extends ListBlade {
   constructor(
     injector: Injector,
     public override crudService: RestaurantService,
+    public grService: GlobalRestaurantService,
     private nav: NavService,
     private utility: UtilityService,
   ) {
@@ -106,6 +108,12 @@ export class ListRestaurantComponent extends ListBlade {
   editOpenDetails(i) {
     let item = this.crudService.list[i];
     this.nav.push('/pages/restaurants/edit/' + item.id);
+  }
+
+  setDefault(i){
+    let item = this.crudService.list[i];
+    this.grService.setRestaurant(item.id, item.name)
+
   }
 
 
