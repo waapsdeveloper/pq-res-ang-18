@@ -14,7 +14,7 @@ export class AddRestaurantComponent {
   form = new FormGroup({});
   model = {
     name: 'Restaurant one',
-    copyright_text:'',
+    copyright_text: '',
     image: '',
     imageBase64: '',
     favicon: '',
@@ -347,8 +347,6 @@ export class AddRestaurantComponent {
         const base64String = reader.result as string;
         console.log(base64String);
 
-
-
         this.model[type] = base64String; // Update the model
         // this.fields[0].fieldGroup[6].props['value'] = base64String; // Update the field value
         // this.fields[0].fieldGroup[6].formControl.setValue(base64String); // Update the form control value
@@ -370,7 +368,50 @@ export class AddRestaurantComponent {
       d['image'] = this.model.imageBase64;
       d['favicon'] = this.model.faviconBase64;
       d['logo'] = this.model.logoBase64;
-
+      d['schedule'] = [
+        {
+          day: 'Monday',
+          start_time: this.model.schedule.monday_start_time || '0:00',
+          end_time: this.model.schedule.monday_end_time || '10:00',
+          status: this.model.schedule.monday_status || 'inactive'
+        },
+        {
+          day: 'Tuesday',
+          start_time: this.model.schedule.tuesday_start_time || '0:00',
+          end_time: this.model.schedule.tuesday_end_time || '10:00',
+          status: this.model.schedule.tuesday_status || 'inactive'
+        },
+        {
+          day: 'Wednesday',
+          start_time: this.model.schedule.wednesday_start_time || '0:00',
+          end_time: this.model.schedule.wednesday_end_time || '10:00',
+          status: this.model.schedule.wednesday_status || 'inactive'
+        },
+        {
+          day: 'Thursday',
+          start_time: this.model.schedule.thursday_start_time || '0:00',
+          end_time: this.model.schedule.thursday_end_time || '10:00',
+          status: this.model.schedule.thursday_status || 'inactive'
+        },
+        {
+          day: 'Friday',
+          start_time: this.model.schedule.friday_start_time || '10:00',
+          end_time: this.model.schedule.friday_end_time || '10:00',
+          status: this.model.schedule.friday_status || 'inactive'
+        },
+        {
+          day: 'Saturday',
+          start_time: this.model.schedule.saturday_start_time || '0:00',
+          end_time: this.model.schedule.saturday_end_time || '10:00',
+          status: this.model.schedule.saturday_status || 'inactive'
+        },
+        {
+          day: 'Sunday',
+          start_time: this.model.schedule.sunday_start_time || '0:00',
+          end_time: this.model.schedule.sunday_end_time || '10:00',
+          status: this.model.schedule.sunday_status || 'inactive'
+        }
+      ];
 
       const res = await this.network.addRestaurant(d);
       console.log(res);
