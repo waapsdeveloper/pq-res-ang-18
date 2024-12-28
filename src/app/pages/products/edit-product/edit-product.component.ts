@@ -211,6 +211,57 @@ export class EditProductComponent implements OnInit, AfterViewInit {
     const res = await this.network.getProductsById(this.id);
     let d = Object.assign({}, res.product);
     console.log(d);
+
+    /*
+    [
+    {
+        "id": 20,
+        "product_id": 296,
+        "meta_key": "sizes",
+        "meta_value": "{\"small\":true,\"medium\":false,\"large\":false}",
+        "meta_key_type": "string",
+        "created_at": "2024-12-28T18:00:13.000000Z",
+        "updated_at": "2024-12-28T18:00:13.000000Z"
+    },
+    {
+        "id": 21,
+        "product_id": 296,
+        "meta_key": "spicy",
+        "meta_value": "{\"mild\":false,\"medium\":false,\"hot\":false}",
+        "meta_key_type": "string",
+        "created_at": "2024-12-28T18:00:13.000000Z",
+        "updated_at": "2024-12-28T18:00:13.000000Z"
+    },
+    {
+        "id": 22,
+        "product_id": 296,
+        "meta_key": "type",
+        "meta_value": "{\"breakfast\":false,\"lunch\":true,\"dinner\":false}",
+        "meta_key_type": "string",
+        "created_at": "2024-12-28T18:00:13.000000Z",
+        "updated_at": "2024-12-28T18:00:13.000000Z"
+    }
+]
+    */
+
+    let sizesObj = d['props'] ? d['props'].find( x => x.meta_key == 'sizes') : null;
+    if(sizesObj){
+      d['sizes'] = sizesObj['meta_value'] ? JSON.parse(sizesObj['meta_value']) : null;
+    }
+
+    let spicyObj = d['props'] ? d['props'].find( x => x.meta_key == 'spicy') : null;
+    if(spicyObj){
+      d['spicy'] = spicyObj['meta_value'] ? JSON.parse(spicyObj['meta_value']) : null;
+    }
+
+    let typeObj = d['props'] ? d['props'].find( x => x.meta_key == 'type') : null;
+    if(typeObj){
+      d['type'] = typeObj['meta_value'] ? JSON.parse(typeObj['meta_value']) : null;
+    }
+
+
+
+
     this.model = {
       name: d.name || '',
       category_id: d.category_id || null,
@@ -222,7 +273,7 @@ export class EditProductComponent implements OnInit, AfterViewInit {
       imageBase64: d.imageBase64 || '',
       discount: d.discount || null,
       notes: d.notes || '',
-      sizes: JSON.parse(d.sizes) || '',
+      sizes: d.sizes || '',
       spicy: d.spicy || '',
       type: d.type || ''
     };
