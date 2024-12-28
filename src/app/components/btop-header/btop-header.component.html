@@ -2,18 +2,21 @@
   <div class="d-flex flex-row">
     <div class="m-header">
       <a class="b-brand">
-        <img src="assets/images/logo-dark.svg" alt="" class="logo logo-lg" />
+        <img [src]="restaurant$.image ? restaurant$.image : 'assets/svg/logo.svg'" alt="" class="logo logo-lg" />
       </a>
     </div>
 
-    <div class="me-auto pc-mob-drp"></div>
+
+    <div class="me-auto pc-mob-drp d-flex flex-row align-items-center">
+      <h1>{{restaurant$.name}}</h1>
+    </div>
 
     <div class="header-wrapper">
       <div class="ms-auto">
         <ul class="list-unstyled">
-          <li>
+          <!-- <li>
             <div class="btn btn-sm fw-bold btn-primary d-flex align-items-center gap-2 restaurant-123" >Selected Restaurant :{{ restaurant$.name }}</div>
-          </li>
+          </li> -->
           <li>
             <!--begin::Card toolbar-->
             <div class="card-toolbar">

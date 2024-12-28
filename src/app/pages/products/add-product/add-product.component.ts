@@ -268,6 +268,16 @@ export class AddProductComponent {
       let d = Object.assign({}, this.form.value);
 
       d['image'] = this.model.imageBase64;
+
+
+      d['sizes'] = JSON.stringify(d['sizes'])
+      d['spicy'] = JSON.stringify(d['spicy'])
+      d['type'] = JSON.stringify(d['type'])
+
+
+
+
+
       const res = await this.network.addProduct(d);
       console.log(res);
       if (res) {
