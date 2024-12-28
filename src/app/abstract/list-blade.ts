@@ -10,12 +10,48 @@ export abstract class ListBlade{
   perpage = 10;
   list: any[] = [];
   filters = false;
+  selectAll: boolean = false;
 
   form = new FormGroup({});
   model;
 
-  constructor(injector: Injector) {
+  constructor(injector: Injector, protected crudService: any) {
 
+  }
+
+  changePerPage(event: any) {
+    this.crudService.onChangePerPage(event.target.value);
+  }
+
+  changePage(event: any) {
+    this.crudService.pageChange(event);
+  }
+
+  toggleFilters() {
+    this.crudService.onFilter(!this.crudService.filters);
+  }
+
+  submitFilters(model: any) {
+    this.crudService.onSubmit(model);
+  }
+
+  loadMoreData() {
+    this.crudService.loadMore();
+  }
+
+
+  changeSelectAll($event) {
+    this.crudService.onSelectedAll($event);
+  }
+
+  deleteAll($event: any) {
+    this.crudService.deleteAll();
+  }
+
+  checkboxUpdate(i, $event) {
+    const isChecked = ($event.target as HTMLInputElement).checked;
+    const count = this.crudService.onSelectedOne(i, isChecked);
+    this.selectAll = count > 0;
   }
 
 

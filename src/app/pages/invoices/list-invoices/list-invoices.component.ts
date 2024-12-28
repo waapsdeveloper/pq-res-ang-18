@@ -60,12 +60,12 @@ export class ListInvoicesComponent  extends ListBlade{
   ];
  constructor(
      injector: Injector,
-     public crudService: InvoiceService,
+     public override crudService: InvoiceService,
      private nav: NavService,
      private utility: UtilityService,
      private users: UsersService
    ) {
-     super(injector)
+     super(injector, crudService)
      this.initialize();
    }
 
@@ -77,7 +77,7 @@ export class ListInvoicesComponent  extends ListBlade{
     }
   }
 
-  
+
   editRow(index: number) {
 
   }
@@ -95,26 +95,6 @@ export class ListInvoicesComponent  extends ListBlade{
   openDetails(i) {
     let item = this.list[i];
     this.nav.push('/pages/invoices/view/' + item.id);
-  }
-
-  changePerPage(event: any) {
-    this.crudService.onChangePerPage(event.target.value);
-  }
-
-  changePage(event: any) {
-    this.crudService.pageChange(event);
-  }
-
-  toggleFilters() {
-    this.crudService.onFilter(!this.crudService.filters);
-  }
-
-  submitFilters(model: any) {
-    this.crudService.onSubmit(model);
-  }
-
-  loadMoreData() {
-    this.crudService.loadMore();
   }
 
 
