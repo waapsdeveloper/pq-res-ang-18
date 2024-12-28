@@ -21,15 +21,11 @@
         <!--begin::Col-->
         <div class="col-lg-8">
           <!--begin::Image input-->
-          <div
-            class="image-input image-input-outline"
-            data-kt-image-input="true"
-            style="background-image: url('assets/media/svg/avatars/blank.svg')"
-          >
+          <div class="image-input image-input-outline" data-kt-image-input="true">
             <!--begin::Preview existing avatar-->
             <div
               class="image-input-wrapper w-125px h-125px bgi-position-center"
-              style="background-size: 75%; background-image: url('assets/media/svg/brand-logos/volicity-9.svg')"
+              [ngStyle]="{ 'background-image': 'url(' + item.image + ')' }"
             ></div>
             <!--end::Preview existing avatar-->
             <!--begin::Label-->
@@ -193,13 +189,7 @@
               <tbody>
                 <tr>
                   <td>
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      value="{{ item?.status }}"
-                      id="status"
-                      name="status"
-                    />
+                    <input class="form-check-input" type="checkbox" value="{{ item?.status }}" id="status" name="status" />
                     Monday
                   </td>
                   <td>
@@ -211,13 +201,7 @@
                 </tr>
                 <tr>
                   <td>
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      value="{{ item?.status }}"
-                      id="status"
-                      name="status"
-                    />
+                    <input class="form-check-input" type="checkbox" value="{{ item?.status }}" id="status" name="status" />
                     Tuesday
                   </td>
                   <td>
@@ -229,13 +213,7 @@
                 </tr>
                 <tr>
                   <td>
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      value="{{ item?.status }}"
-                      id="status"
-                      name="status"
-                    />
+                    <input class="form-check-input" type="checkbox" value="{{ item?.status }}" id="status" name="status" />
                     Wednesday
                   </td>
                   <td>
@@ -247,13 +225,7 @@
                 </tr>
                 <tr>
                   <td>
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      value="{{ item?.status }}"
-                      id="status"
-                      name="status"
-                    />
+                    <input class="form-check-input" type="checkbox" value="{{ item?.status }}" id="status" name="status" />
                     Thursday
                   </td>
                   <td>
@@ -265,13 +237,7 @@
                 </tr>
                 <tr>
                   <td>
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      value="{{ item?.status }}"
-                      id="status"
-                      name="status"
-                    />
+                    <input class="form-check-input" type="checkbox" value="{{ item?.status }}" id="status" name="status" />
                     Friday
                   </td>
                   <td>
@@ -283,13 +249,7 @@
                 </tr>
                 <tr>
                   <td>
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      value="{{ item?.status }}"
-                      id="status"
-                      name="status"
-                    />
+                    <input class="form-check-input" type="checkbox" value="{{ item?.status }}" id="status" name="status" />
                     Saturday
                   </td>
                   <td>
@@ -301,13 +261,7 @@
                 </tr>
                 <tr>
                   <td>
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      value="{{ item?.status }}"
-                      id="status"
-                      name="status"
-                    />
+                    <input class="form-check-input" type="checkbox" value="{{ item?.status }}" id="status" name="status" />
                     Sunday
                   </td>
                   <td>

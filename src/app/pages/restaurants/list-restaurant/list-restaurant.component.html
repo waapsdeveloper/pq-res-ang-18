@@ -13,9 +13,20 @@
     <tr *ngFor="let item of crudService.list; let i = index">
 
       <td>
-        <div class="d-flex">
+        <div class="d-flex align-items-center">
+          <!--begin::Thumbnail-->
+          <a href="#" class="symbol symbol-50px">
+            <span class="symbol-label" [ngStyle]="{ 'background-image': 'url(' + item.image + ')' }"></span>
+          </a>
+          <!--end::Thumbnail-->
           <div class="ms-5">
-            <a class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1">{{item.name}}</a>
+            <!--begin::Title-->
+            <a href="../../demo1/dist/apps/ecommerce/catalog/edit-product.html"
+              class="text-gray-800 text-hover-primary fs-5 fw-bold" data-kt-ecommerce-product-filter="product_name">
+              {{ item.name }}
+            </a>
+
+            <!--end::Title-->
           </div>
         </div>
       </td>
