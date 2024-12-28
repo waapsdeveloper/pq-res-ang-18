@@ -15,7 +15,7 @@ export class AddProductComponent {
   form = new FormGroup({});
   model = {
     name: '',
-    category: '',
+    category_id: '',
     restaurant_id: null,
     description: '',
     status: '',
@@ -42,7 +42,7 @@ export class AddProductComponent {
           className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
         },
         {
-          key: 'category',
+          key: 'category_id',
           type: 'select',
           props: {
             label: 'category',
@@ -230,7 +230,7 @@ export class AddProductComponent {
     for (var i = 0; i < this.fields.length; i++) {
       for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
         let fl = this.fields[i].fieldGroup[j];
-        if (fl.key == 'category') {
+        if (fl.key == 'category_id') {
           fl.props.options = res;
         }
       }
