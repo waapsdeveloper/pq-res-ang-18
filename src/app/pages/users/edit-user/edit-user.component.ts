@@ -154,7 +154,6 @@ export class EditUserComponent implements OnInit {
             label: 'Restaurant Name',
             placeholder: 'Enter Restaurant  name',
             options: [],
-            required: true,
             minLength: 3
           },
           className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
@@ -346,7 +345,7 @@ export class EditUserComponent implements OnInit {
 
       d['image'] = this.model.imageBase64;
 
-      const res = await this.network.addUser(d);
+      const res = await this.network.updateUser(d, this.id);
       console.log(res);
       if (res) {
         this.nav.pop();

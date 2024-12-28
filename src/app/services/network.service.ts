@@ -74,6 +74,8 @@ export class NetworkService {
   addUser(data) {
     return this.httpPostResponse('user', data, null, false, true);
   }
+  updateUser(data , id) {
+    return this.httpPutResponse('user', data, id, false, true);}
 
   // removeUser(id) {
   //   return this.httpDeleteResponse('user', id, false, true);
@@ -103,7 +105,7 @@ export class NetworkService {
     return this.httpDeleteResponse('category', id, false, true);
   }
   updateCategory(data, id) {
-    return this.httpPutResponse(`category`, data, id, false, true);
+    return this.httpPutResponse('category', data, id, false, true);
   }
 
   // Products

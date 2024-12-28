@@ -26,6 +26,7 @@ export class AddUserComponent implements OnInit {
     image: '',
     imageBase64: '',
     status: '',
+    restaurant: ''
   };
 
   fields: FormlyFieldConfig[] = [
@@ -128,7 +129,6 @@ export class AddUserComponent implements OnInit {
             label: 'Restaurant Name',
             placeholder: 'Enter Restaurant  name',
             options: [],
-            required: true,
             minLength: 3
           },
           className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
