@@ -8,7 +8,8 @@
   <hr *ngIf="crudService.filters">
 
   <app-kt-app-list-page-table [columns]="columns" [currentPage]="crudService.page" [totalPages]="crudService.lastPage"
-    (pageChange)="changePage($event)">
+    (pageChange)="changePage($event)"  (pageChange)="changePage($event)" [selectAll]="selectAll" (changeSelectAll)="changeSelectAll($event)"
+    (actionDeleteAll)="deleteAll($event)">
 
     <tr *ngFor="let item of crudService.list; let i = index">
 
@@ -78,7 +79,7 @@
       <!--begin::Checkbox-->
       <td>
         <div class="form-check form-check-sm form-check-custom form-check-solid">
-          <input class="form-check-input" type="checkbox" value="1" />
+          <input class="form-check-input" type="checkbox" [value]="item.selected" [checked]="item.selected" (change)="checkboxUpdate(i, $event)"  />
         </div>
       </td>
       <!--end::Checkbox-->

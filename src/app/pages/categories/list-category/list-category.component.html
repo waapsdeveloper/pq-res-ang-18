@@ -8,7 +8,7 @@
 
   <app-kt-app-list-page-table [columns]="columns" [currentPage]="crudService.page" [totalPages]="crudService.lastPage"
     (pageChange)="changePage($event)" [selectAll]="selectAll" (changeSelectAll)="changeSelectAll($event)"
-    (actionDeleteAll)="deleteAll($event)">
+    (actionDeleteAll)="deleteAll($event)" >
     <tr *ngFor="let item of crudService.list; let i = index">
       <td>
         <div class="d-flex align-items-center">
