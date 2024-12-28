@@ -16,9 +16,7 @@ export class ListRestaurantComponent extends ListBlade {
 
   title = 'Restaurants';
   addurl = '/pages/restaurants/add';
-
-  selectAll: boolean = false;
-
+  override selectAll: boolean = false;
 
   columns: any[] = [
     'Name',
@@ -75,11 +73,11 @@ export class ListRestaurantComponent extends ListBlade {
 
   constructor(
     injector: Injector,
-    public crudService: RestaurantService,
+    public override crudService: RestaurantService,
     private nav: NavService,
     private utility: UtilityService,
   ) {
-    super(injector)
+    super(injector, crudService);
     this.initialize();
   }
 
@@ -100,8 +98,6 @@ export class ListRestaurantComponent extends ListBlade {
     }
   }
 
-
-
   openDetails(i) {
     let item = this.crudService.list[i];
     this.nav.push('/pages/restaurants/view/' + item.id);
@@ -112,43 +108,7 @@ export class ListRestaurantComponent extends ListBlade {
     this.nav.push('/pages/restaurants/edit/' + item.id);
   }
 
-  changePerPage(event: any) {
-    this.crudService.onChangePerPage(event.target.value);
-  }
 
-  changePage(event: any) {
-    this.crudService.pageChange(event);
-  }
-
-  toggleFilters() {
-    this.crudService.onFilter(!this.crudService.filters);
-  }
-
-  submitFilters(model: any) {
-    this.crudService.onSubmit(model);
-  }
-
-  loadMoreData() {
-    this.crudService.loadMore();
-  }
-
-
-  changeSelectAll($event) {
-    console.log('Select All:', $event); // true or false
-    this.crudService.onSelectedAll($event);
-  }
-
-  deleteAll($event: any) {
-    console.log('Delete All');
-    this.crudService.deleteAll();
-
-  }
-
-  checkboxUpdate(i, $event) {
-    const isChecked = ($event.target as HTMLInputElement).checked;
-    const count = this.crudService.onSelectedOne(i, isChecked);
-    this.selectAll = count > 0;
-  }
 
 
 

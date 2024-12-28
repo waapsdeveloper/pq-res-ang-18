@@ -122,12 +122,12 @@ export class ListUserComponent extends ListBlade {
 
   constructor(
     injector: Injector,
-    public crudService: UserService,
+    public override crudService: UserService,
     private nav: NavService,
     private utility: UtilityService,
     private network: NetworkService
   ) {
-    super(injector);
+    super(injector, crudService);
     this.initialize();
   }
 
@@ -195,25 +195,7 @@ export class ListUserComponent extends ListBlade {
     let item = this.crudService.list[i];
     this.nav.push('/pages/users/edit/' + item.id);
   }
-  changePerPage(event: any) {
-    this.crudService.onChangePerPage(event.target.value);
-  }
 
-  changePage(event: any) {
-    this.crudService.pageChange(event);
-  }
-
-  toggleFilters() {
-    this.crudService.onFilter(!this.crudService.filters);
-  }
-
-  submitFilters(model: any) {
-    this.crudService.onSubmit(model);
-  }
-
-  loadMoreData() {
-    this.crudService.loadMore();
-  }
 
   getRandomNumberBetween50And100(): number {
     const min = 50;

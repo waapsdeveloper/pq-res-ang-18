@@ -109,13 +109,13 @@ export class ListCategoryComponent extends ListBlade{
 
   constructor(
     injector: Injector,
-    public crudService: CategoryService,
+    public override crudService: CategoryService,
     private nav: NavService,
     private utility: UtilityService,
     private users: UsersService,
     private network : NetworkService
   ) {
-    super(injector)
+    super(injector, crudService);
     this.initialize();
   }
 
@@ -186,24 +186,5 @@ export class ListCategoryComponent extends ListBlade{
     this.nav.push('/pages/categories/edit/' + item.id);
   }
 
-  changePerPage(event: any) {
-    this.crudService.onChangePerPage(event.target.value);
-  }
-
-  changePage(event: any) {
-    this.crudService.pageChange(event);
-  }
-
-  toggleFilters() {
-    this.crudService.onFilter(!this.crudService.filters);
-  }
-
-  submitFilters(model: any) {
-    this.crudService.onSubmit(model);
-  }
-
-  loadMoreData() {
-    this.crudService.loadMore();
-  }
 
 }

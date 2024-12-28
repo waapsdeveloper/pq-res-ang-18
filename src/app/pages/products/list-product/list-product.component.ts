@@ -144,13 +144,13 @@ export class ListProductComponent extends ListBlade {
 
   constructor(
     injector: Injector,
-    public crudService: ProductService,
+    public override crudService: ProductService,
     private nav: NavService,
     private utility: UtilityService,
     private users: UsersService,
     private network: NetworkService
   ) {
-    super(injector);
+    super(injector, crudService);
     this.initialize();
   }
 
@@ -221,23 +221,4 @@ export class ListProductComponent extends ListBlade {
 
   }
 
-  changePerPage(event: any) {
-    this.crudService.onChangePerPage(event.target.value);
-  }
-
-  changePage(event: any) {
-    this.crudService.pageChange(event);
-  }
-
-  toggleFilters() {
-    this.crudService.onFilter(!this.crudService.filters);
-  }
-
-  submitFilters(model: any) {
-    this.crudService.onSubmit(model);
-  }
-
-  loadMoreData() {
-    this.crudService.loadMore();
-  }
 }
