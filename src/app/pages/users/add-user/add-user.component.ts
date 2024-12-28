@@ -18,7 +18,7 @@ export class AddUserComponent implements OnInit {
     email: '',
     password: '',
     phone: '',
-    address: '',
+    address:'',
     role_id: '',
     city:'',
     state:'',
@@ -26,7 +26,7 @@ export class AddUserComponent implements OnInit {
     image: '',
     imageBase64: '',
     status: '',
-    restaurant: ''
+    restaurant_id: ''
   };
 
   fields: FormlyFieldConfig[] = [
@@ -69,7 +69,7 @@ export class AddUserComponent implements OnInit {
           className: 'col-md-4 col-12',
         },
         {
-          key: 'address_line',
+          key: 'address',
           type: 'input',
           props: {
             label: 'Address Line',
@@ -123,13 +123,12 @@ export class AddUserComponent implements OnInit {
 
 
         {
-          key: 'restaurant',
+          key: 'restaurant_id',
           type: 'select',
           props: {
             label: 'Restaurant Name',
             placeholder: 'Enter Restaurant  name',
             options: [],
-            minLength: 3
           },
           className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
         },
@@ -139,17 +138,7 @@ export class AddUserComponent implements OnInit {
     {
       fieldGroupClassName: 'row',
       fieldGroup: [
-        {
-          key: 'address',
-          type: 'input',
-          props: {
-            label: 'Address',
-            placeholder: '',
-            type: 'tel',
-            // pattern: '^\\+?[1-9]\\d{1,14}$', // Example pattern for international numbers
-          },
-          className: 'col-md-4 col-12',
-        },
+
         {
           key: 'phone',
           type: 'input',
@@ -228,7 +217,7 @@ export class AddUserComponent implements OnInit {
     for (var i = 0; i < this.fields.length; i++) {
       for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
         let fl = this.fields[i].fieldGroup[j];
-        if (fl.key == 'restaurant') {
+        if (fl.key == 'restaurant_id') {
           fl.props.options = res;
         }
       }

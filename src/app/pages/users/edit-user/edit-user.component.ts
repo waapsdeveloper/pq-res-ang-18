@@ -44,7 +44,7 @@ export class EditUserComponent implements OnInit {
     name: '',
     email: '',
     password: '',
-    restaurant:'',
+    restaurant_id:'',
     phone: '',
     address: '',
     role: '',
@@ -96,7 +96,7 @@ export class EditUserComponent implements OnInit {
           className: 'col-md-4 col-12'
         },
         {
-          key: 'address_line',
+          key: 'address',
           type: 'input',
           props: {
             label: 'Address Line',
@@ -148,7 +148,7 @@ export class EditUserComponent implements OnInit {
           className: 'col-md-4 col-12'
         },
         {
-          key: 'restaurant',
+          key: 'restaurant_id',
           type: 'select',
           props: {
             label: 'Restaurant Name',
@@ -163,17 +163,7 @@ export class EditUserComponent implements OnInit {
     {
       fieldGroupClassName: 'row',
       fieldGroup: [
-        {
-          key: 'address',
-          type: 'input',
-          props: {
-            label: 'Address',
-            placeholder: '',
-            type: 'tel'
-            // pattern: '^\\+?[1-9]\\d{1,14}$', // Example pattern for international numbers
-          },
-          className: 'col-md-4 col-12'
-        },
+
         {
           key: 'phone',
           type: 'input',
@@ -242,7 +232,7 @@ export class EditUserComponent implements OnInit {
     for (var i = 0; i < this.fields.length; i++) {
       for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
         let fl = this.fields[i].fieldGroup[j];
-        if (fl.key == 'restaurant') {
+        if (fl.key == 'restaurant_id') {
           fl.props.options = res;
         }
       }
@@ -259,14 +249,14 @@ export class EditUserComponent implements OnInit {
     password: d.password || '',       // Matches `model`
     phone: d.phone || '',             // Matches `model`
     address: d.address || '',         // Matches `model`
-    role: d.role_id || '',               // Matches `model`
+    role: d.role.id || '',               // Matches `model`
     city: d.city || '',               // Matches `model`
     state: d.state || '',             // Matches `model`
     country: d.country || '',         // Matches `model`
     image: '',                        // Ensures `image` is an empty string
     imageBase64: d.imageBase64 || '', // Matches `model`
     status: d.status || '',
-    restaurant: d.restaurant_id || '',            // Matches `model`
+    restaurant_id: d.restaurant_id || '',            // Matches `model`
   };
 
 
