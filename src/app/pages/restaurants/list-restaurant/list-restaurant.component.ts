@@ -15,7 +15,9 @@ import { RestaurantService } from '../restaurant.service';
 export class ListRestaurantComponent extends ListBlade {
 
   title = 'Restaurants';
-  addurl = '/pages/restaurants/add'
+  addurl = '/pages/restaurants/add';
+
+  selectAll: boolean = false;
 
 
   columns: any[] = [
@@ -85,7 +87,6 @@ export class ListRestaurantComponent extends ListBlade {
     this.crudService.getList('', 1);
   }
 
-
   editRow(index: number) {
 
   }
@@ -129,6 +130,24 @@ export class ListRestaurantComponent extends ListBlade {
 
   loadMoreData() {
     this.crudService.loadMore();
+  }
+
+
+  changeSelectAll($event) {
+    console.log('Select All:', $event); // true or false
+    this.crudService.onSelectedAll($event);
+  }
+
+  deleteAll($event: any) {
+    console.log('Delete All');
+    this.crudService.deleteAll();
+
+  }
+
+  checkboxUpdate(i, $event) {
+    const isChecked = ($event.target as HTMLInputElement).checked;
+    const count = this.crudService.onSelectedOne(i, isChecked);
+    this.selectAll = count > 0;
   }
 
 

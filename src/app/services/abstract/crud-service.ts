@@ -88,4 +88,29 @@ export abstract class BaseCrudService<T> {
     }
   }
 
+  onSelectedAll($event: boolean): void {
+    this.list.forEach((item: any) => item.selected = $event);
+  }
+
+  onSelectedOne(index: number, $event: boolean): number {
+    this.list[index]['selected'] = $event;
+    // get selected count
+    console.log(this.list[index]);
+    return this.list.filter((item: any) => item.selected).length;
+  }
+
+  deleteAll(): void {
+    const selected = this.list.filter((item: any) => item.selected);
+    if (selected.length === 0) {
+      return;
+    }
+
+    selected.forEach(async (item: any) => {
+      await this.deleteItemById(item.id);
+      this.list = this.list.filter((i: any) => i.id !== item.id);
+    });
+
+    this.getList(this.search, this.page);
+  }
+
 }
