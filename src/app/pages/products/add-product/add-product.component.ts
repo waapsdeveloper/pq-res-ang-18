@@ -113,6 +113,7 @@ export class AddProductComponent {
             placeholder: 'Enter image URL',
             type: 'file',
             accept: 'image/*',
+            required: true,
             change: (field, event) => this.onFileChange(field, event, 'imageBase64')
           },
           className: 'col-md-4 col-12'
