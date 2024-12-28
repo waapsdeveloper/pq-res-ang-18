@@ -222,7 +222,7 @@ export class EditProductComponent implements OnInit, AfterViewInit {
       imageBase64: d.imageBase64 || '',
       discount: d.discount || null,
       notes: d.notes || '',
-      sizes: d.sizes || '',
+      sizes: JSON.parse(d.sizes) || '',
       spicy: d.spicy || '',
       type: d.type || ''
     };
