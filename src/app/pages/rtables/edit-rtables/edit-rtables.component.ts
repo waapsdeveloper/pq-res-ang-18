@@ -74,7 +74,6 @@ export class EditRtablesComponent implements OnInit {
   form = new FormGroup({});
   model = {
     restaurant_id: '',
-    identifier: '',
     no_of_seats: '',
     floor: '',
     //location: '',
@@ -97,18 +96,7 @@ export class EditRtablesComponent implements OnInit {
           },
           className: 'col-md-4 col-12'
         },
-        ,
-        {
-          key: 'identifier',
-          type: 'input',
-          props: {
-            label: 'Name',
-            placeholder: 'Enter table name',
-            required: true,
-            minLength: 3
-          },
-          className: 'col-md-3 col-12' // 6 columns on md+, full width on small screens
-        },
+
         {
           key: 'no_of_seats',
           type: 'input',
@@ -178,7 +166,6 @@ export class EditRtablesComponent implements OnInit {
    // Dynamic model assignment
 this.model = {
   restaurant_id: d.restaurant_id  || '', // Matches `model`
-  identifier: d.identifier || '',       // Matches `model`
   no_of_seats: d.no_of_seats || '',     // Matches `model`
   floor: d.floor || '',                 // Matches `model`
   // location: d.location || '',           // Matches `model`
