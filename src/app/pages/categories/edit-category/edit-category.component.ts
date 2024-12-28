@@ -40,8 +40,8 @@ export class EditCategoryComponent implements OnInit {
   form = new FormGroup({});
   model = {
     name: '',
-    restaurant: '',
-    category: '',
+    restaurant_id: '',
+    category_id: '',
     status: '',
     description: '',
     image: '',
@@ -64,7 +64,7 @@ export class EditCategoryComponent implements OnInit {
           className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
         },
         {
-          key: 'restaurant',
+          key: 'restaurant_id',
           type: 'select',
           props: {
             label: 'Restaurant Name',
@@ -85,7 +85,7 @@ export class EditCategoryComponent implements OnInit {
           className: 'col-md-4 col-12'
         },
         {
-          key: 'category',
+          key: 'category_id',
           type: 'select',
           props: {
             label: 'Category',
@@ -128,7 +128,7 @@ export class EditCategoryComponent implements OnInit {
     for (var i = 0; i < this.fields.length; i++) {
       for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
         let fl = this.fields[i].fieldGroup[j];
-        if (fl.key == 'category') {
+        if (fl.key == 'category_id') {
           fl.props.options = res;
         }
       }
@@ -160,8 +160,8 @@ export class EditCategoryComponent implements OnInit {
       search: '',
       perpage: 500
     };
-    const res = await this.network.getCategories(obj);
-
+    const res = await this.network.getRestaurants(obj);
+    
     if (res && res['data']) {
       let d = res['data'];
       let dm = d['data'];
@@ -181,8 +181,8 @@ export class EditCategoryComponent implements OnInit {
     console.log(d);
     this.model = {
       name: d.name || '',
-      restaurant: d.restaurant_id || '', // Updated to match the key in `model`
-      category: d.category_id || '', // Included as it exists in `model`
+      restaurant_id: d.restaurant_id || '', // Updated to match the key in `model`
+      category_id: d.category_id || '', // Included as it exists in `model`
       status: d.status || '',
       description: d.description || '',
       image:'',
@@ -197,7 +197,7 @@ export class EditCategoryComponent implements OnInit {
     for (var i = 0; i < this.fields.length; i++) {
       for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
         let fl = this.fields[i].fieldGroup[j];
-        if (fl.key == 'restaurant') {
+        if (fl.key == 'restaurant_id') {
           fl.props.options = res;
         }
       }
