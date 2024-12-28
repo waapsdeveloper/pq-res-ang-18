@@ -19,7 +19,7 @@ export class AddRtablesComponent {
     identifier: '',
     no_of_seats: '',
     floor: '',
-    location: '',
+  //  location: '',
     description: '',
     status: '',
   };
@@ -73,16 +73,16 @@ export class AddRtablesComponent {
           className: 'col-md-4 col-12',
         },
 
-        {
-          key: 'location',
-          type: 'input',
-          props: {
-            label: 'Location',
-            placeholder: 'Near west wall',
-            required: true,
-          },
-          className: 'col-md-6 col-12',
-        },
+        // {
+        //   key: 'location',
+        //   type: 'input',
+        //   props: {
+        //     label: 'Location',
+        //     placeholder: 'Near west wall',
+        //     required: true,
+        //   },
+        //   className: 'col-md-6 col-12',
+        // },
 
 
         {

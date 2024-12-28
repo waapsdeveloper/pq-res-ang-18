@@ -19,7 +19,7 @@ export class AddUserComponent implements OnInit {
     password: '',
     phone: '',
     address: '',
-    role: '',
+    role_id: '',
     city:'',
     state:'',
     country:'',
@@ -162,7 +162,7 @@ export class AddUserComponent implements OnInit {
           className: 'col-md-3 col-12',
         },
         {
-          key: 'role',
+          key: 'role_id',
           type: 'select',
           props: {
             label: 'Role',
@@ -244,7 +244,7 @@ export class AddUserComponent implements OnInit {
       for(var j = 0; j < this.fields[i].fieldGroup.length; j++) {
 
         let fl = this.fields[i].fieldGroup[j];
-        if(fl.key == 'role'){
+        if(fl.key == 'role_id'){
           fl.props.options = res;
         }
       }

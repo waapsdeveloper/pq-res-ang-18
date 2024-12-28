@@ -77,7 +77,7 @@ export class EditRtablesComponent implements OnInit {
     identifier: '',
     no_of_seats: '',
     floor: '',
-    location: '',
+    //location: '',
     description: '',
     status: ''
   };
@@ -133,16 +133,16 @@ export class EditRtablesComponent implements OnInit {
           className: 'col-md-4 col-12'
         },
 
-        {
-          key: 'location',
-          type: 'input',
-          props: {
-            label: 'Location',
-            placeholder: 'Near west wall',
-            required: true
-          },
-          className: 'col-md-6 col-12'
-        },
+        // {
+        //   key: 'location',
+        //   type: 'input',
+        //   props: {
+        //     label: 'Location',
+        //     placeholder: 'Near west wall',
+        //     required: true
+        //   },
+        //   className: 'col-md-6 col-12'
+        // },
 
         {
           key: 'description',
@@ -181,7 +181,7 @@ this.model = {
   identifier: d.identifier || '',       // Matches `model`
   no_of_seats: d.no_of_seats || '',     // Matches `model`
   floor: d.floor || '',                 // Matches `model`
-  location: d.location || '',           // Matches `model`
+  // location: d.location || '',           // Matches `model`
   description: d.description || '',     // Matches `model`
   status: d.status || ''                // Matches `model`
 };

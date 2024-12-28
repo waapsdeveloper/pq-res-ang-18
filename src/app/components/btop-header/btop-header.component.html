@@ -1,38 +1,39 @@
 <header class="pc-header coded-header d-flex flex-column">
-
-  <div class="d-flex flex-row ">
-
+  <div class="d-flex flex-row">
     <div class="m-header">
       <a class="b-brand">
         <img src="assets/images/logo-dark.svg" alt="" class="logo logo-lg" />
       </a>
     </div>
 
-    <div class="me-auto pc-mob-drp">
-
-    </div>
+    <div class="me-auto pc-mob-drp"></div>
 
     <div class="header-wrapper">
-
       <div class="ms-auto">
-
         <ul class="list-unstyled">
-          <li> <!--begin::Card toolbar-->
+          <li>
+            <div class="btn btn-sm fw-bold btn-primary d-flex align-items-center gap-2 restaurant-123" >Selected Restaurant :{{ restaurant$.name }}</div>
+          </li>
+          <li>
+            <!--begin::Card toolbar-->
             <div class="card-toolbar">
-
-              <div > Selected Restaurant: {{ restaurant$.name }} </div>
-
               <!--begin::Add customer-->
-              <a [routerLink]="addurl" class="btn btn-sm fw-bold btn-primary d-flex align-items-center gap-2"><i
-                  class="ti ti-plus"></i> Create Order </a>
+              <a [routerLink]="addurl" class="btn btn-sm fw-bold btn-primary d-flex align-items-center gap-2">
+                <i class="ti ti-plus"></i>
+                Create Order
+              </a>
               <!--end::Add customer-->
             </div>
             <!--end::Card toolbar-->
           </li>
           <li>
             <div class="dropdown pc-h-item header-user-profile" ngbDropdown>
-              <a class="pc-head-link head-link-primary dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown"
-                href="javascript:" ngbDropdownToggle>
+              <a
+                class="pc-head-link head-link-primary dropdown-toggle arrow-none me-0"
+                data-bs-toggle="dropdown"
+                href="javascript:"
+                ngbDropdownToggle
+              >
                 <img src="assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar" />
                 <span>
                   <i class="ti ti-settings"></i>
@@ -47,7 +48,6 @@
                   <p class="text-muted">Project Admin</p>
 
                   <ng-scrollbar style="height: calc(100vh - 280px)" visibility="hover">
-
                     <a class="dropdown-item">
                       <i class="ti ti-settings"></i>
                       <span>Account Profile</span>
@@ -68,18 +68,19 @@
         </ul>
       </div>
     </div>
-
   </div>
 
-
-  <div class="d-flex flex-row align-items-center p-3 btn btn-sm" style="gap: 16px;">
-    <a *ngFor="let item of menuItems" [routerLink]="item.link" routerLinkActive="active-link"
+  <div class="d-flex flex-row align-items-center p-3 btn btn-sm" style="gap: 16px">
+    <a
+      *ngFor="let item of menuItems"
+      [routerLink]="item.link"
+      routerLinkActive="active-link"
       [routerLinkActiveOptions]="{ exact: false }"
-      class="d-flex align-items-center text-decoration-none text-dark fw-bold" style="color: black;">
-      <i class="{{ item.icon }} me-2"></i> {{ item.label }}
+      class="d-flex align-items-center text-decoration-none text-dark fw-bold"
+      style="color: black"
+    >
+      <i class="{{ item.icon }} me-2"></i>
+      {{ item.label }}
     </a>
   </div>
-
-
-
 </header>
