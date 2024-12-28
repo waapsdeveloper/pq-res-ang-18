@@ -7,10 +7,7 @@
       <div class="card-title">
         <h2 class="fw-bold">Table Details</h2>
       </div>
-      <!--begin::Card title-->
-      <!--begin::Card toolbar-->
-      ]
-      <!--end::Card toolbar-->
+      <!--end::Card title-->
     </div>
     <!--end::Card header-->
     <!--begin::Card body-->
@@ -19,17 +16,17 @@
       <div class="mb-10">
         <!--begin::Details-->
         <div class="d-flex flex-wrap py-5">
-          <!--begin::Row-->
+          <!--begin::Left Column-->
           <div class="flex-equal me-5">
-            <!--begin::Details-->
+            <!--begin::Details Table-->
             <table class="table fs-6 fw-semibold gs-0 gy-2 gx-2 m-0">
               <!--begin::Row-->
               <tr>
-                <td class="text-gray-400 min-w-175px w-175px">Restaurant Name</td>
-                <td class="text-gray-800 min-w-200px">
-                  <a href="../../demo1/dist/pages/apps/customers/view.html" class="text-gray-800 text-hover-primary">{{item?.identifier}}</a>
-                </td>
+                <td class="text-gray-400 min-w-175px w-175px">Table Name</td>
+                <td class="text-gray-800 min-w-200px">{{item?.name}}</td>
               </tr>
+              <!--end::Row-->
+              <!--begin::Row-->
               <!--end::Row-->
               <!--begin::Row-->
               <tr>
@@ -39,51 +36,37 @@
               <!--end::Row-->
               <!--begin::Row-->
               <tr>
-                <td class="text-gray-400">Address</td>
-                <td class="text-gray-800">{{item?.location}}</td>
-              </tr>
-              <!--end::Row-->
-              <!--begin::Row-->
-              <tr>
                 <td class="text-gray-400">Status</td>
                 <td class="text-gray-800">{{item?.status}}</td>
               </tr>
               <!--end::Row-->
             </table>
-            <!--end::Details-->
+            <!--end::Details Table-->
           </div>
-          <!--end::Row-->
-          <!--begin::Row-->
+          <!--end::Left Column-->
+          <!--begin::Right Column-->
           <div class="flex-equal">
-            <!--begin::Details-->
+            <!--begin::Details Table-->
             <table class="table fs-6 fw-semibold gs-0 gy-2 gx-2 m-0">
               <!--begin::Row-->
               <tr>
                 <td class="text-gray-400 min-w-175px w-175px">Floor</td>
-                <td class="text-gray-800 min-w-200px">
-                  <a href="#" class="text-gray-800 text-hover-primary">{{item?.floor}}</a>
-                </td>
+                <td class="text-gray-800 min-w-200px">{{item?.floor}}</td>
               </tr>
               <!--end::Row-->
               <!--begin::Row-->
               <tr>
-                <td class="text-gray-400">No of Seats</td>
+                <td class="text-gray-400">Number of Seats</td>
                 <td class="text-gray-800">{{item?.no_of_seats}}</td>
               </tr>
               <!--end::Row-->
-              <!--begin::Row-->
-              
-              <!--end::Row-->
             </table>
-            <!--end::Details-->
+            <!--end::Details Table-->
           </div>
-          <!--end::Row-->
+          <!--end::Right Column-->
         </div>
-        <!--end::Row-->
+        <!--end::Details-->
       </div>
-      <!--end::Section-->
-      <!--begin::Section-->
-
       <!--end::Section-->
     </div>
     <!--end::Card body-->
