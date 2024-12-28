@@ -14,7 +14,7 @@
         <div class="d-flex align-items-center">
           <!--begin::Thumbnail-->
           <a href="#" class="symbol symbol-50px">
-            <span class="symbol-label" style="background-image: url(assets/images/user/avatar-1.jpg)"></span>
+            <span class="symbol-label" [ngStyle]="{ 'background-image': 'url(' + item.image + ')' }"></span>
           </a>
           <!--end::Thumbnail-->
           <div class="ms-5">

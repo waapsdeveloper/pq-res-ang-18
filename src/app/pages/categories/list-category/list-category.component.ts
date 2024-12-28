@@ -124,6 +124,7 @@ export class ListCategoryComponent extends ListBlade{
     const u = this.users.getUser()
     if (u.role_id == 1 || u.role_id == 2) {
       this.showEdit = true;
+
     }
   }
 
@@ -176,10 +177,11 @@ export class ListCategoryComponent extends ListBlade{
     }
   }
 
-
   openDetails(i) {
     let item = this.crudService.list[i];
     this.nav.push('/pages/categories/view/' + item.id);
+    console.log(item.image);
+
   }
   openEditDetails(i){
     let item = this.crudService.list[i];

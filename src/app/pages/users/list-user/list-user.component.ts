@@ -194,6 +194,7 @@ export class ListUserComponent extends ListBlade {
   openEditDetails(i) {
     let item = this.crudService.list[i];
     this.nav.push('/pages/users/edit/' + item.id);
+    console.log(item.image);
   }
 
 
