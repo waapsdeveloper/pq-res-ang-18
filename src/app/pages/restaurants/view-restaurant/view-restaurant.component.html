@@ -188,91 +188,71 @@
               </thead>
               <tbody>
                 <tr>
+                  <td>Monday</td>
                   <td>
-                    <input class="form-check-input" type="checkbox" value="{{ item?.status }}" id="status" name="status" />
-                    Monday
+                    <input type="time" class="form-control" name="monday_open" value={{item?.timings[0].start_time}} />
                   </td>
                   <td>
-                    <input type="time" class="form-control" name="monday_open" />
-                  </td>
-                  <td>
-                    <input type="time" class="form-control" name="monday_close" />
+                    <input type="time" class="form-control" name="monday_close" value={{item?.timings[0].end_time}} />
                   </td>
                 </tr>
                 <tr>
+                  <td>Tuesday</td>
                   <td>
-                    <input class="form-check-input" type="checkbox" value="{{ item?.status }}" id="status" name="status" />
-                    Tuesday
+                    <input type="time" class="form-control" name="tuesday_open" value={{item?.timings[1].start_time}} />
                   </td>
                   <td>
-                    <input type="time" class="form-control" name="tuesday_open" />
-                  </td>
-                  <td>
-                    <input type="time" class="form-control" name="tuesday_close" />
+                    <input type="time" class="form-control" name="tuesday_close" value={{item?.timings[1].end_time}} />
                   </td>
                 </tr>
                 <tr>
+                  <td>Wednesday</td>
                   <td>
-                    <input class="form-check-input" type="checkbox" value="{{ item?.status }}" id="status" name="status" />
-                    Wednesday
+                    <input type="time" class="form-control" name="wednesday_open" value={{item?.timings[2].start_time}} />
                   </td>
                   <td>
-                    <input type="time" class="form-control" name="wednesday_open" />
-                  </td>
-                  <td>
-                    <input type="time" class="form-control" name="wednesday_close" />
+                    <input type="time" class="form-control" name="wednesday_close" value={{item?.timings[2].end_time}} />
                   </td>
                 </tr>
                 <tr>
+                  <td>Thursday</td>
                   <td>
-                    <input class="form-check-input" type="checkbox" value="{{ item?.status }}" id="status" name="status" />
-                    Thursday
+                    <input type="time" class="form-control" name="thursday_open" value={{item?.timings[3].start_time}} />
                   </td>
                   <td>
-                    <input type="time" class="form-control" name="thursday_open" />
-                  </td>
-                  <td>
-                    <input type="time" class="form-control" name="thursday_close" />
+                    <input type="time" class="form-control" name="thursday_close" value={{item?.timings[3].end_time}} />
                   </td>
                 </tr>
                 <tr>
+                  <td>Friday</td>
                   <td>
-                    <input class="form-check-input" type="checkbox" value="{{ item?.status }}" id="status" name="status" />
-                    Friday
+                    <input type="time" class="form-control" name="friday_open" value={{item?.timings[4].start_time}} />
                   </td>
                   <td>
-                    <input type="time" class="form-control" name="friday_open" />
-                  </td>
-                  <td>
-                    <input type="time" class="form-control" name="friday_close" />
+                    <input type="time" class="form-control" name="friday_close" value={{item?.timings[4].end_time}} />
                   </td>
                 </tr>
                 <tr>
+                  <td>Saturday</td>
                   <td>
-                    <input class="form-check-input" type="checkbox" value="{{ item?.status }}" id="status" name="status" />
-                    Saturday
+                    <input type="time" class="form-control" name="saturday_open" value={{item?.timings[5].start_time}} />
                   </td>
                   <td>
-                    <input type="time" class="form-control" name="saturday_open" />
-                  </td>
-                  <td>
-                    <input type="time" class="form-control" name="saturday_close" />
+                    <input type="time" class="form-control" name="saturday_close" value={{item?.timings[5].end_time}} />
                   </td>
                 </tr>
                 <tr>
+                  <td>Sunday</td>
                   <td>
-                    <input class="form-check-input" type="checkbox" value="{{ item?.status }}" id="status" name="status" />
-                    Sunday
+                    <input type="time" class="form-control" name="sunday_open" value={{item?.timings[6].start_time}} />
                   </td>
                   <td>
-                    <input type="time" class="form-control" name="sunday_open" />
-                  </td>
-                  <td>
-                    <input type="time" class="form-control" name="sunday_close" />
+                    <input type="time" class="form-control" name="sunday_close" value={{item?.timings[6].end_time}} />
                   </td>
                 </tr>
               </tbody>
             </table>
+
             <div class="d-flex justify-content-end mt-4">
               <button type="button" class="btn btn-primary">Save Changes</button>
             </div>
@@ -283,27 +263,6 @@
 
       <!--end::Row-->
       <!--begin::Row-->
-      <div class="row mb-8">
-        <!--begin::Col-->
-        <div class="col-xl-3">
-          <div class="fs-6 fw-semibold mt-2 mb-3">Notifications</div>
-        </div>
-        <!--end::Col-->
-        <!--begin::Col-->
-        <div class="col-xl-9">
-          <div class="d-flex fw-semibold h-100">
-            <div class="form-check form-check-custom form-check-solid me-9">
-              <input class="form-check-input" type="checkbox" value="" id="email" readonly />
-              <label class="form-check-label ms-3" for="email">Email</label>
-            </div>
-            <div class="form-check form-check-custom form-check-solid">
-              <input class="form-check-input" type="checkbox" value="" id="phone" checked="checked" readonly />
-              <label class="form-check-label ms-3" for="phone">Phone</label>
-            </div>
-          </div>
-        </div>
-        <!--end::Col-->
-      </div>
       <!--end::Row-->
       <!--begin::Row-->
       <div class="row">
