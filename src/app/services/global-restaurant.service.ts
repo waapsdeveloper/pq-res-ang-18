@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 export interface GlobalRestaurantState {
   id: number;
   name: string;
+  image: string;
 
 }
 @Injectable({
@@ -29,7 +30,8 @@ export class GlobalRestaurantService extends NgSimpleStateBaseRxjsStore<GlobalRe
   protected initialState(): GlobalRestaurantState {
     return {
       id: 1,
-      name: "Local Food Street"
+      name: "The Local CraftFood",
+      image: 'assets/svg/logo.svg'
     };
   }
 
