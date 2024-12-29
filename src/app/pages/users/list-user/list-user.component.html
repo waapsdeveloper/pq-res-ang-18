@@ -4,20 +4,23 @@
     <button type="submit" class="btn btn-secondary mt-4">search</button>
   </form>
 
-  <hr *ngIf="crudService.filters">
+  <hr *ngIf="crudService.filters" />
 
   <app-kt-app-list-page-table
     [columns]="columns"
     [currentPage]="crudService.page"
     [totalPages]="crudService.lastPage"
     (pageChange)="changePage($event)"
+    [selectAll]="selectAll"
+    (changeSelectAll)="changeSelectAll($event)"
+    (actionDeleteAll)="deleteAll($event)"
   >
     <tr *ngFor="let item of crudService.list; let i = index">
       <td>
         <div class="d-flex align-items-center">
           <!--begin::Thumbnail-->
           <a href="#" class="symbol symbol-50px">
-            <span class="symbol-label" style="background-image: url(assets/images/user/avatar-1.jpg)"></span>
+            <span class="symbol-label" [ngStyle]="{ 'background-image': 'url(' + item.image + ')' }"></span>
           </a>
           <!--end::Thumbnail-->
           <div class="ms-5">
@@ -37,12 +40,12 @@
       </td>
       <td>
         <div class="d-flex">
-          <div class="text-muted fs-7 fw-bold">{{item.email}}</div>
+          <div class="text-muted fs-7 fw-bold">{{ item.email }}</div>
         </div>
       </td>
       <td>
         <div class="d-flex">
-          <div class="text-muted fs-7 fw-bold">{{item.phone}}</div>
+          <div class="text-muted fs-7 fw-bold">{{ item.phone }}</div>
         </div>
       </td>
       <td>
@@ -52,7 +55,7 @@
       </td>
       <td>
         <div class="d-flex">
-          <div class="fs-7 fw-bold">{{item.role}}</div>
+          <div class="fs-7 fw-bold">{{ item.role }}</div>
         </div>
       </td>
       <td>
@@ -63,25 +66,29 @@
 
       <!-- <ng-content></ng-content> -->
       <!--begin::Action=-->
-      <td class="text-end d-flex flex-row justify-content-end align-items-center gap-3">
-
+      <td class="text-end">
         <!-- actions -->
         <!-- <a href="/pages/users/edit/{{item.id}}" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
           <i class="bi bi-pencil"></i>
         </a> -->
-
-        <i class="ti ti-align-box-bottom-center" style="font-size: 24px;"></i>
-        <i class="ti ti-eye" style="font-size: 24px;" (click)="openDetails(i)"></i>
-        <i class="ti ti-edit" style="font-size: 24px;"></i>
-        <i class="ti ti-clock-off" style="font-size: 24px;"></i>
-        <i class="ti ti-trash" style="font-size: 24px;" (click)="deleteRow(i)"></i>
-
+        <div class="d-flex flex-row justify-content-end align-items-center gap-3">
+          <i class="ti ti-eye" style="font-size: 24px; cursor: pointer" (click)="openDetails(i)"></i>
+          <i class="ti ti-edit" style="font-size: 24px; cursor: pointer" (click)="openEditDetails(i)"></i>
+          <i class="ti ti-clock-off" style="font-size: 24px; cursor: pointer"></i>
+          <i class="ti ti-trash" style="font-size: 24px; cursor: pointer" (click)="deleteRow(i)"></i>
+        </div>
       </td>
       <!--end::Action=-->
       <!--begin::Checkbox-->
       <td>
         <div class="form-check form-check-sm form-check-custom form-check-solid">
-          <input class="form-check-input" type="checkbox" value="1" />
+          <input
+            class="form-check-input"
+            type="checkbox"
+            [value]="item.selected"
+            [checked]="item.selected"
+            (change)="checkboxUpdate(i, $event)"
+          />
         </div>
       </td>
       <!--end::Checkbox-->

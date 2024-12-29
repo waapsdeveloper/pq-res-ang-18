@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AddOrderService } from '../add-order.service';
+import { NavService } from 'src/app/services/basic/nav.service';
 
 @Component({
   selector: 'app-add-order-price-list',
@@ -7,11 +8,11 @@ import { AddOrderService } from '../add-order.service';
   styleUrl: './add-order-price-list.component.scss'
 })
 export class AddOrderPriceListComponent {
-  
-  constructor(public orderService: AddOrderService){
+
+  constructor(public orderService: AddOrderService ,public nav: NavService){
 
   }
-  
+
   editNote(item: any): void {
     item.isEditingNote = true;
   }
@@ -35,4 +36,10 @@ export class AddOrderPriceListComponent {
   changeQty(item){
     this.orderService.totalOfProductCost();
   }
+  async onSubmit($event) {
+    const res = await this.orderService.submitOrder();
+    if(res){
+      this.nav.pop();
+    }
+}
 }

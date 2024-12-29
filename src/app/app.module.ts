@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { isDevMode, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -23,9 +23,11 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi   } from '
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
-import { RouteReuseStrategy } from '@angular/router';
 import { InterceptorService } from './services/interceptor.service';
 import { NgApexchartsModule } from 'ng-apexcharts';
+
+import { provideNgSimpleState } from 'ng-simple-state';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,9 +51,15 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     FormlyBootstrapModule,
     NgApexchartsModule,
   ],
-  providers: [NavigationItem, provideHttpClient(withInterceptorsFromDi()),
-
+  providers: [
+    NavigationItem,
+    provideHttpClient(withInterceptorsFromDi()),
     { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true },
+    provideNgSimpleState({
+      enableDevTool: isDevMode(),
+      enableLocalStorage: true,
+      persistentStorage: 'local'
+    })
   ],
   bootstrap: [AppComponent]
 })

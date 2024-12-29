@@ -122,14 +122,14 @@ export class ListRtablesComponent extends ListBlade {
   }
   constructor(
     injector: Injector,
-    public crudService: RtableService,
+    public override crudService: RtableService,
     private nav: NavService,
     private utility: UtilityService,
     private users: UsersService,
     private network: NetworkService,
 
   ) {
-    super(injector);
+    super(injector, crudService);
     this.initialize();
   }
 
@@ -187,27 +187,12 @@ export class ListRtablesComponent extends ListBlade {
   }
 
   openDetails(i) {
-    let item = this.list[i];
-    this.nav.push('/pages/rtables/view/' + item.id);
+    let item = this.crudService.list[i];
+    this.nav.push('/pages/tables/view/' + item.id);
+  }
+  openEditDetails(i){
+    let item = this.crudService.list[i];
+    this.nav.push('/pages/tables/edit/' + item.id);
   }
 
-  changePerPage(event: any) {
-    this.crudService.onChangePerPage(event.target.value);
-  }
-
-  changePage(event: any) {
-    this.crudService.pageChange(event);
-  }
-
-  toggleFilters() {
-    this.crudService.onFilter(!this.crudService.filters);
-  }
-
-  submitFilters(model: any) {
-    this.crudService.onSubmit(model);
-  }
-
-  loadMoreData() {
-    this.crudService.loadMore();
-  }
 }

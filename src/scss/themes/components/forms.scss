@@ -1,3 +1,5 @@
+
+
 .form-floating {
   > label {
     top: 1px;
@@ -16,5 +18,11 @@
   }
   > input {
     color: $body-color;
+  }
+}
+
+[data-theme='dark'] .form-floating {
+  > input {
+    color: #ffffff;
   }
 }

@@ -24,6 +24,10 @@ const routes: Routes = [
       {
         path: 'view/:id',
         loadChildren: () => import('./view-orders/view-orders.module').then((m) => m.ViewOrdersModule)
+      },
+      {
+        path: 'edit/:id',
+        loadChildren: () => import('./edit-order/edit-order.module').then((m) => m.EditOrderModule)
       }
     ]
   }

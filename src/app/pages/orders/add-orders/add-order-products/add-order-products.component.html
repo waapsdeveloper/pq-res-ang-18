@@ -1,29 +1,31 @@
-<div class="d-flex flex-row justify-content-start flex-wrap" >
+<div class="product-items-outer">
+  <div class="single-product-item" *ngFor="let product of orderService.products" (click)="setSelectedToggle(product)"
+    [ngStyle]="{'background-image' : 'url(' + product.image + ')'}">
 
-  <div class="card me-2" *ngFor="let product of orderService.products" (click)="setSelectedToggle(product)">
-    <!-- Product Badge (Price) -->
-    <!-- <div class="badge-container position-relative">
-      <span class="badge bg-primary position-absolute top-0 end-0 p-2">$14,560</span>
-    </div> -->
-  
-    <!-- Card Body -->
-    <div class="card-body d-flex flex-column justify-content-between align-items-start p-4 border rounded border-primary product-card-outer" 
-      [class.selected]="isProductSelected(product.id)"
-    >
+  >
+    <!--begin::Link-->
+
+      <!-- Product Image -->
+      <!-- <div class="category-image-container mb-3">
+        <img
+          *ngIf="product.image"
+          [src]="product.image "
+          alt="{{product.name}}"
+          style="width: 80px; height: 80px; object-fit: cover;">
+      </div> -->
       <!-- Product Name -->
-      <div class="fs-4 text-gray-800 text-hover-primary fw-bold">
-        {{ product.name }}
-      </div>
-      <!-- Product Price (Regular Text) -->
-      <div class="fs-4 text-gray-400">
-        ${{ product.price }}
-      </div>
+      <div class="label-5346">
+        <span class="nav-text text-gray-800 fw-bold fs-6 lh-1">{{ product.name }}</span>
+        <br>
+        <!-- Product Price -->
 
-
-      <div class="check-icon-outer" *ngIf="isProductSelected(product.id)">
-        <i class="ti ti-check"></i>
       </div>
 
-     </div>
+      <span class="price-tags">${{ product.price }}</span>
+
+      <!-- Product Active Indicator -->
+      <span *ngIf="isProductSelected(product.id)" class="bullet-custom position-absolute bottom-0 w-100 h-4px bg-primary"></span>
+
+    <!--end::Link-->
   </div>
 </div>

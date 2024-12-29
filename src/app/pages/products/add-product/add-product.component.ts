@@ -1,5 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
@@ -14,12 +15,13 @@ export class AddProductComponent {
   form = new FormGroup({});
   model = {
     name: '',
-    category: '',
+    category_id: '',
     restaurant_id: null,
     description: '',
     status: '',
     price: null,
-    image: null,
+   image: '',
+    imageBase64: '',
     discount: null,
     notes: ''
   };
@@ -40,7 +42,7 @@ export class AddProductComponent {
           className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
         },
         {
-          key: 'category',
+          key: 'category_id',
           type: 'select',
           props: {
             label: 'category',
@@ -56,8 +58,7 @@ export class AddProductComponent {
             label: 'Restaurant',
             placeholder: 'Select a restaurant',
             required: false, // nullable
-            options: [
-             ]
+            options: []
           },
           className: 'col-md-4 col-12'
         }
@@ -108,10 +109,12 @@ export class AddProductComponent {
           key: 'image',
           type: 'input',
           props: {
-            label: 'Product Image',
-            placeholder: 'Upload product image',
+            label: 'Image',
+            placeholder: 'Enter image URL',
             type: 'file',
-            accept: 'image/'
+            accept: 'image/*',
+            required: true,
+            change: (field, event) => this.onFileChange(field, event, 'imageBase64')
           },
           className: 'col-md-4 col-12'
         },
@@ -123,10 +126,9 @@ export class AddProductComponent {
             placeholder: 'Set a discount',
             type: 'number'
           },
-          className: 'col-md-4 col-12',
-        },
-
-      ],
+          className: 'col-md-4 col-12'
+        }
+      ]
     },
     {
       fieldGroupClassName: 'row', // Bootstrap row
@@ -143,7 +145,7 @@ export class AddProductComponent {
               { value: 'large', label: 'Large' }
             ]
           },
-          className: 'col-md-4 col-12',
+          className: 'col-md-4 col-12'
         },
         // option for spicy level - select
         {
@@ -157,7 +159,7 @@ export class AddProductComponent {
               { value: 'hot', label: 'Hot' }
             ]
           },
-          className: 'col-md-4 col-12',
+          className: 'col-md-4 col-12'
         },
         // options for either breakfast, lunch or dinner - select
         {
@@ -171,13 +173,14 @@ export class AddProductComponent {
               { value: 'dinner', label: 'Dinner' }
             ]
           },
-          className: 'col-md-4 col-12',
-        },
+          className: 'col-md-4 col-12'
+        }
       ]
     }
   ];
 
   constructor(
+    private route: ActivatedRoute,
     private fb: FormBuilder,
     private network: NetworkService,
     private nav: NavService,
@@ -228,7 +231,7 @@ export class AddProductComponent {
     for (var i = 0; i < this.fields.length; i++) {
       for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
         let fl = this.fields[i].fieldGroup[j];
-        if (fl.key == 'category') {
+        if (fl.key == 'category_id') {
           fl.props.options = res;
         }
       }
@@ -262,7 +265,19 @@ export class AddProductComponent {
     if (this.form.valid) {
       // alert('Restaurant added successfully!');
 
-      let d = this.form.value;
+      let d = Object.assign({}, this.form.value);
+
+      d['image'] = this.model.imageBase64;
+
+
+      d['sizes'] = JSON.stringify(d['sizes'])
+      d['spicy'] = JSON.stringify(d['spicy'])
+      d['type'] = JSON.stringify(d['type'])
+
+
+
+
+
       const res = await this.network.addProduct(d);
       console.log(res);
       if (res) {
@@ -271,6 +286,24 @@ export class AddProductComponent {
     } else {
       this.utility.presentFailureToast('Please fill out all required fields correctly.');
       //alert('Please fill out all required fields correctly.');
+    }
+  }
+  onFileChange(field, event: Event, type: string = 'image') {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64String = reader.result as string;
+        console.log(base64String);
+
+        this.model[type] = base64String; // Update the model
+        // this.fields[0].fieldGroup[6].props['value'] = base64String; // Update the field value
+        // this.fields[0].fieldGroup[6].formControl.setValue(base64String); // Update the form control value
+
+        // field.formControl.setValue(base64String); // Update the form control value
+      };
+      reader.readAsDataURL(file); // Convert file to base64
     }
   }
 }

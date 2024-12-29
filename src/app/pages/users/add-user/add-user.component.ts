@@ -18,13 +18,15 @@ export class AddUserComponent implements OnInit {
     email: '',
     password: '',
     phone: '',
-    address: '',
-    role: '',
+    address:'',
+    role_id: '',
     city:'',
     state:'',
     country:'',
-    image:null,
+    image: '',
+    imageBase64: '',
     status: '',
+    restaurant_id: ''
   };
 
   fields: FormlyFieldConfig[] = [
@@ -67,7 +69,7 @@ export class AddUserComponent implements OnInit {
           className: 'col-md-4 col-12',
         },
         {
-          key: 'address_line',
+          key: 'address',
           type: 'input',
           props: {
             label: 'Address Line',
@@ -111,22 +113,22 @@ export class AddUserComponent implements OnInit {
           type: 'input',
           props: {
             label: 'Image',
-            placeholder: 'Enter image ',
-            type: 'file'
+            placeholder: 'Enter image URL',
+            type: 'file',
+            accept: 'image/*',
+            change: (field, event) => this.onFileChange(field, event, 'imageBase64')
           },
           className: 'col-md-4 col-12'
         },
 
 
         {
-          key: 'restaurant',
+          key: 'restaurant_id',
           type: 'select',
           props: {
             label: 'Restaurant Name',
             placeholder: 'Enter Restaurant  name',
             options: [],
-            required: true,
-            minLength: 3
           },
           className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
         },
@@ -136,17 +138,7 @@ export class AddUserComponent implements OnInit {
     {
       fieldGroupClassName: 'row',
       fieldGroup: [
-        {
-          key: 'address',
-          type: 'input',
-          props: {
-            label: 'Address',
-            placeholder: '',
-            type: 'tel',
-            // pattern: '^\\+?[1-9]\\d{1,14}$', // Example pattern for international numbers
-          },
-          className: 'col-md-4 col-12',
-        },
+
         {
           key: 'phone',
           type: 'input',
@@ -159,7 +151,7 @@ export class AddUserComponent implements OnInit {
           className: 'col-md-3 col-12',
         },
         {
-          key: 'role',
+          key: 'role_id',
           type: 'select',
           props: {
             label: 'Role',
@@ -225,7 +217,7 @@ export class AddUserComponent implements OnInit {
     for (var i = 0; i < this.fields.length; i++) {
       for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
         let fl = this.fields[i].fieldGroup[j];
-        if (fl.key == 'restaurant') {
+        if (fl.key == 'restaurant_id') {
           fl.props.options = res;
         }
       }
@@ -241,7 +233,7 @@ export class AddUserComponent implements OnInit {
       for(var j = 0; j < this.fields[i].fieldGroup.length; j++) {
 
         let fl = this.fields[i].fieldGroup[j];
-        if(fl.key == 'role'){
+        if(fl.key == 'role_id'){
           fl.props.options = res;
         }
       }
@@ -273,14 +265,34 @@ export class AddUserComponent implements OnInit {
 
     return [];
   }
+  onFileChange(field, event: Event, type: string = 'image') {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64String = reader.result as string;
+        console.log(base64String);
 
+        this.model[type] = base64String; // Update the model
+        // this.fields[0].fieldGroup[6].props['value'] = base64String; // Update the field value
+        // this.fields[0].fieldGroup[6].formControl.setValue(base64String); // Update the form control value
+
+        // field.formControl.setValue(base64String); // Update the form control value
+      };
+      reader.readAsDataURL(file); // Convert file to base64
+    }
+  }
   async onSubmit(model) {
     console.log(model);
-    console.log('Form Submitted', this.form.valid);
+    console.log('Form Submitted', this.form.value);
     if (this.form.valid) {
       // alert('Restaurant added successfully!');
 
-      let d = this.form.value;
+      let d = Object.assign({}, this.form.value);
+
+      d['image'] = this.model.imageBase64;
+
       const res = await this.network.addUser(d);
       console.log(res);
       if (res) {
@@ -289,34 +301,6 @@ export class AddUserComponent implements OnInit {
     } else {
       this.utility.presentFailureToast('Please fill out all required fields correctly.');
       //alert('Please fill out all required fields correctly.');
-    }
-  }
-
-  // Method to handle file input change
-  onFileSelected(event: Event): void {
-    const fileInput = event.target as HTMLInputElement;
-
-    if (fileInput.files && fileInput.files[0]) {
-      const file = fileInput.files[0];
-      const reader = new FileReader();
-
-      // Read file as Base64 string
-      reader.onload = () => {
-        const base64String = reader.result as string;
-
-        // Update the form control with the Base64 string
-        // this.bForm.patchValue({ image: base64String });
-
-        // if (this.imageInputPlaceholder) {
-        //   this.imageInputPlaceholder.nativeElement.style.backgroundImage = `url(${base64String})`;
-        // }
-      };
-
-      reader.onerror = (error) => {
-        console.error('Error reading file:', error);
-      };
-
-      reader.readAsDataURL(file); // Convert file to Base64
     }
   }
 

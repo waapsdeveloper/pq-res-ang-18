@@ -1,17 +1,29 @@
-<div class="category-items-outer">
-
-  <div class="nav-item" *ngFor="let item of orderService.categories" (click)="setActiveCategory(item)">
+<div class="category-items-outer d-flex flex-wrap gap-4">
+  <!-- Iterate through categories -->
+  <div class="nav-item"
+       *ngFor="let item of orderService.categories"
+       (click)="setActiveCategory(item)"
+       [class.active]="item.active">
     <!--begin::Link-->
-    <a class="nav-link btn btn-flex flex-column overflow-hidden p-5 single-category-item">
-
+    <a class="nav-link btn btn-flex flex-column overflow-hidden p-5 single-category-item text-center shadow-sm">
+      <!--begin::Image-->
+      <div class="category-image-container mb-3">
+        <img
+          *ngIf="item.image"
+          [src]="item.image "
+          alt="{{item.name}}"
+          class="rounded-circle"
+          style="width: 80px; height: 80px; object-fit: cover;">
+      </div>
+      <!--end::Image-->
       <!--begin::Title-->
       <span class="nav-text text-gray-800 fw-bold fs-6 lh-1">{{item.name}}</span>
       <!--end::Title-->
       <!--begin::Bullet-->
-      <span *ngIf="item.active" class="bullet-custom position-absolute bottom-0 w-100 h-4px bg-primary"></span>
+      <span *ngIf="item.active"
+            class="bullet-custom position-absolute bottom-0 w-100 h-4px bg-primary"></span>
       <!--end::Bullet-->
     </a>
     <!--end::Link-->
   </div>
-
 </div>

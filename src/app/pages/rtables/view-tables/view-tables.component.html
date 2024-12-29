@@ -1,64 +1,105 @@
-<app-kt-list-detail-page [title]="'Restaurant'">
+<app-kt-list-detail-page [title]="'Restaurant Table'">
+  <!--begin::Card-->
+  <div class="card card-flush pt-3 mb-5 mb-xl-10">
+    <!--begin::Card header-->
+    <div class="row mb-5">
+      <!--begin::Col-->
+      <div class="col-xl-3">
+        <div class="fs-6 fw-semibold mt-2 mb-3">TABLE QR CODE </div>
+      </div>
+      <!--end::Col-->
+      <!--begin::Col-->
+      <div class="col-lg-8">
+        <!--begin::Image input-->
+        <div class="image-input image-input-outline" data-kt-image-input="true">
+          <!--begin::Preview existing avatar-->
+          <img
+              [src]="'https://api.qrserver.com/v1/create-qr-code/?data=' + item.identifier + '&size=150x150'"
+              alt="QR Code"
+              class="img-fluid"
+            />
+          <!--end::Preview existing avatar-->
+          <!--begin::Label-->
 
-  <div class="card mb-5 mb-xl-10" id="kt_profile_details_view">
-    <!--begin::Card header-->
-    <!--begin::Card header-->
+          <!--end::Label-->
+          <!--begin::Cancel-->
+
+          <!--end::Remove-->
+        </div>
+        <!--end::Image input-->
+        <!--begin::Hint-->
+        <!--end::Hint-->
+      </div>
+      <!--end::Col-->
+    </div>
+    <div class="card-header">
+      <!--begin::Card title-->
+      <div class="card-title">
+        <h2 class="fw-bold">Table Details</h2>
+      </div>
+      <!--end::Card title-->
+    </div>
+    <!--end::Card header-->
     <!--begin::Card body-->
-    <div class="card-body">
-      <!--begin::Row-->
-      <div class="row mb-7">
-        <!--begin::Label-->
-        <label class="col-lg-4 fw-semibold text-muted">Restaurant Name</label>
-        <!--end::Label-->
-        <!--begin::Col-->
-        <div class="col-lg-8">
-          <span class="fw-bold fs-6 text-gray-800">{{item?.identifier}}</span>
+    <div class="card-body pt-3">
+      <!--begin::Section-->
+      <div class="mb-10">
+        <!--begin::Details-->
+        <div class="d-flex flex-wrap py-5">
+          <!--begin::Left Column-->
+          <div class="flex-equal me-5">
+            <!--begin::Details Table-->
+            <table class="table fs-6 fw-semibold gs-0 gy-2 gx-2 m-0">
+              <!--begin::Row-->
+              <tr>
+                <td class="text-gray-400 min-w-175px w-175px">Table Name</td>
+                <td class="text-gray-800 min-w-200px">{{item?.name}}</td>
+              </tr>
+              <!--end::Row-->
+              <!--begin::Row-->
+              <!--end::Row-->
+              <!--begin::Row-->
+              <tr>
+                <td class="text-gray-400">Description</td>
+                <td class="text-gray-800">{{item?.description}}</td>
+              </tr>
+              <!--end::Row-->
+              <!--begin::Row-->
+              <tr>
+                <td class="text-gray-400">Status</td>
+                <td class="text-gray-800">{{item?.status}}</td>
+              </tr>
+              <!--end::Row-->
+            </table>
+            <!--end::Details Table-->
+          </div>
+          <!--end::Left Column-->
+          <!--begin::Right Column-->
+          <div class="flex-equal">
+            <!--begin::Details Table-->
+            <table class="table fs-6 fw-semibold gs-0 gy-2 gx-2 m-0">
+              <!--begin::Row-->
+              <tr>
+                <td class="text-gray-400 min-w-175px w-175px">Floor</td>
+                <td class="text-gray-800 min-w-200px">{{item?.floor}}</td>
+              </tr>
+              <!--end::Row-->
+              <!--begin::Row-->
+              <tr>
+                <td class="text-gray-400">Number of Seats</td>
+                <td class="text-gray-800">{{item?.no_of_seats}}</td>
+              </tr>
+              <!--end::Row-->
+            </table>
+            <!--end::Details Table-->
+          </div>
+          <!--end::Right Column-->
         </div>
-        <!--end::Col-->
+        <!--end::Details-->
       </div>
-      <!--end::Row-->
-      <!--begin::Row-->
-      <div class="row mb-7">
-        <!--begin::Label-->
-        <label class="col-lg-4 fw-semibold text-muted">Description</label>
-        <!--end::Label-->
-        <!--begin::Col-->
-        <div class="col-lg-8">
-          <span class="fw-bold fs-6 text-gray-800">{{item?.description}}</span>
-        </div>
-        <!--end::Col-->
-      </div>
-      <!--end::Row--><!--begin::Row-->
-      <div class="row mb-7">
-        <!--begin::Label-->
-        <label class="col-lg-4 fw-semibold text-muted">Status</label>
-        <!--end::Label-->
-        <!--begin::Col-->
-        <div class="col-lg-8">
-          <span class="fw-bold fs-6 text-gray-800">{{item?.status}}</span>
-        </div>
-        <!--end::Col-->
-      </div>
-      <!--end::Row--><!--begin::Input group-->
-      <div class="row mb-7">
-        <!--begin::Label-->
-        <label class="col-lg-4 fw-semibold text-muted">Address</label>
-        <!--end::Label-->
-        <!--begin::Col-->
-        <div class="col-lg-8 fv-row">
-          <span class="fw-semibold text-gray-800 fs-6">{{item?.location}}</span>
-        </div>
-        <!--end::Col-->
-      </div>
-      <!--end::Input group-->
-      <!--begin::Input group-->
-     
-
+      <!--end::Section-->
     </div>
     <!--end::Card body-->
   </div>
-
-
-
-
+  <!--end::Card-->
 </app-kt-list-detail-page>

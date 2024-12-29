@@ -27,7 +27,6 @@ export class ListCategoryComponent extends ListBlade{
   showEdit = false;
   columns: any[] = [
     'Name',
-    'Restaurant',
     'category',
     'Menu',
     'Status'
@@ -109,13 +108,13 @@ export class ListCategoryComponent extends ListBlade{
 
   constructor(
     injector: Injector,
-    public crudService: CategoryService,
+    public override crudService: CategoryService,
     private nav: NavService,
     private utility: UtilityService,
     private users: UsersService,
     private network : NetworkService
   ) {
-    super(injector)
+    super(injector, crudService);
     this.initialize();
   }
 
@@ -124,6 +123,7 @@ export class ListCategoryComponent extends ListBlade{
     const u = this.users.getUser()
     if (u.role_id == 1 || u.role_id == 2) {
       this.showEdit = true;
+
     }
   }
 
@@ -176,30 +176,21 @@ export class ListCategoryComponent extends ListBlade{
     }
   }
 
-
   openDetails(i) {
-    let item = this.list[i];
+    let item = this.crudService.list[i];
     this.nav.push('/pages/categories/view/' + item.id);
+    console.log(item.image);
+
+  }
+  openEditDetails(i){
+    let item = this.crudService.list[i];
+    this.nav.push('/pages/categories/edit/' + item.id);
   }
 
-  changePerPage(event: any) {
-    this.crudService.onChangePerPage(event.target.value);
+
+  viewMenu(item){
+    this.nav.push('/pages/products/list', {category_id: item.id});
   }
 
-  changePage(event: any) {
-    this.crudService.pageChange(event);
-  }
-
-  toggleFilters() {
-    this.crudService.onFilter(!this.crudService.filters);
-  }
-
-  submitFilters(model: any) {
-    this.crudService.onSubmit(model);
-  }
-
-  loadMoreData() {
-    this.crudService.loadMore();
-  }
 
 }

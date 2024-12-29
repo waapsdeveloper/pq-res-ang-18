@@ -17,7 +17,7 @@ File: style.css
 
 @each $name, $value in $preset-colors {
   [part='#{$name}'] {
-    $pc-body: purple;
+    $pc-body: var(--kt-app-bg-color);
     $pc-primary: map-get($value, 'primary');
     $pc-primary-dark: map-get($value, 'primary-dark');
     $pc-secondary: map-get($value, 'secondary');

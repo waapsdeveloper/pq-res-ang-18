@@ -8,8 +8,12 @@ export class AddOrderService {
 
   categories: any[] = [];
   products: any[] = [];
+  customer_name: string = '';
+  customer_phone: string = '';
   order_notes: string = '';
+  total_price: number = 0;
   selectedCategory = null;
+  orderType = null;
   selected_products: any[] = [];
 
   totalCost = 0;
@@ -19,6 +23,23 @@ export class AddOrderService {
 
   constructor(private network: NetworkService,) {
     this.initialize()
+  }
+
+  async searchProducts(search) {
+    let obj = {
+      perpage: 500,
+      page: 1,
+      search: search
+    }
+    const res = await this.network.getProducts(obj)
+    // console.log(res)
+
+    if (res.data) {
+      let d = res.data.data;
+      console.log(d)
+      this.products = d;
+    }
+
   }
 
   async initialize() {
@@ -40,7 +61,9 @@ export class AddOrderService {
   async updateProductsBySelectedCategory(category) {
 
     let obj = {
-      category_id: category.id,
+      filters: JSON.stringify({
+        category_id: category.id,
+      }),
       perpage: 500
     }
     const res = await this.network.getProducts(obj);
@@ -94,8 +117,10 @@ export class AddOrderService {
         "product_id": item.id,
         "quantity": item.quantity,
         "price": item.price,
-        "notes": item.notes 
+        "notes": item.notes,
+
       }
+      this.total_price += item.price; 
     });
 
     if (prodObj.length == 0) {
@@ -104,10 +129,13 @@ export class AddOrderService {
 
     console.log("order submitted");
     let obj = {
-      "customer_name": "Walk-In Customer",
-      "customer_phone": "XXXXXXXX",
+      "customer_name": this.customer_name,
+      "customer_phone": this.customer_phone,
       "products": prodObj,
-      "notes":this.order_notes
+      "notes":this.order_notes,
+      "status": "pending",
+      "type": this.orderType,
+      "total_price": this.total_price
     }
 
     const res = await this.network.addOrder(obj);

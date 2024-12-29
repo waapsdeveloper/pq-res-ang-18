@@ -70,11 +70,11 @@ export class ListTableBookingComponent extends ListBlade {
   ];
   constructor(
     injector: Injector,
-    public crudService: TableBookingService,
+    public override crudService: TableBookingService,
     private nav: NavService,
     private utility: UtilityService,
   ) {
-    super(injector)
+    super(injector, crudService);
     this.initialize();
   }
 
@@ -100,26 +100,6 @@ export class ListTableBookingComponent extends ListBlade {
   openDetails(i) {
     let item = this.list[i];
     this.nav.push('/pages/users/view/' + item.id);
-  }
-
-  changePerPage(event: any) {
-    this.crudService.onChangePerPage(event.target.value);
-  }
-
-  changePage(event: any) {
-    this.crudService.pageChange(event);
-  }
-
-  toggleFilters() {
-    this.crudService.onFilter(!this.crudService.filters);
-  }
-
-  submitFilters(model: any) {
-    this.crudService.onSubmit(model);
-  }
-
-  loadMoreData() {
-    this.crudService.loadMore();
   }
 
   getRandomNumberBetween50And100(): number {

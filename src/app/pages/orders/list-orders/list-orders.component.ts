@@ -194,6 +194,11 @@ export class ListOrdersComponent {
     let item = this.list[i];
     this.nav.push('/pages/orders/view/' + item.id);
   }
+  openEditDetails(i){
+    let item = this.list[i];
+    this.nav.push('/pages/orders/edit/' + item.id);
+
+  }
 
   onChangePerPage($event) {
     this.getList('', 1);

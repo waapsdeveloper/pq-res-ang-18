@@ -3,6 +3,7 @@ import { Component, Injector } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { ListBlade } from 'src/app/abstract/list-blade';
 import { NavService } from 'src/app/services/basic/nav.service';
+import { GlobalRestaurantService } from 'src/app/services/global-restaurant.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { UtilityService } from 'src/app/services/utility.service';
 import { RestaurantService } from '../restaurant.service';
@@ -15,8 +16,8 @@ import { RestaurantService } from '../restaurant.service';
 export class ListRestaurantComponent extends ListBlade {
 
   title = 'Restaurants';
-  addurl = '/pages/restaurants/add'
-
+  addurl = '/pages/restaurants/add';
+  override selectAll: boolean = false;
 
   columns: any[] = [
     'Name',
@@ -73,18 +74,18 @@ export class ListRestaurantComponent extends ListBlade {
 
   constructor(
     injector: Injector,
-    public crudService: RestaurantService,
+    public override crudService: RestaurantService,
+    public grService: GlobalRestaurantService,
     private nav: NavService,
     private utility: UtilityService,
   ) {
-    super(injector)
+    super(injector, crudService);
     this.initialize();
   }
 
   initialize() {
     this.crudService.getList('', 1);
   }
-
 
   editRow(index: number) {
 
@@ -99,32 +100,23 @@ export class ListRestaurantComponent extends ListBlade {
     }
   }
 
-
-
   openDetails(i) {
-    let item = this.list[i];
+    let item = this.crudService.list[i];
     this.nav.push('/pages/restaurants/view/' + item.id);
   }
 
-  changePerPage(event: any) {
-    this.crudService.onChangePerPage(event.target.value);
+  editOpenDetails(i) {
+    let item = this.crudService.list[i];
+    this.nav.push('/pages/restaurants/edit/' + item.id);
   }
 
-  changePage(event: any) {
-    this.crudService.pageChange(event);
+  setDefault(i){
+    let item = this.crudService.list[i];
+    this.grService.setRestaurant(item.id, item.name)
+
   }
 
-  toggleFilters() {
-    this.crudService.onFilter(!this.crudService.filters);
-  }
 
-  submitFilters(model: any) {
-    this.crudService.onSubmit(model);
-  }
-
-  loadMoreData() {
-    this.crudService.loadMore();
-  }
 
 
 

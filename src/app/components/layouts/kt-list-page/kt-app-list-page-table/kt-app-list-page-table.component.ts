@@ -15,11 +15,24 @@ export class KtAppListPageTableComponent {
   @Input('bulkSelect') bulkSelect: number = 0;
   @Input('actions') actions: any[] = [];
 
+  @Input('selectAll') selectAll: boolean = false;
 
   @Output('pageChange') pageChange: EventEmitter<number> = new EventEmitter<number>();
+  @Output('changeSelectAll') changeSelectAll: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  @Output('actionDeleteAll') actionDeleteAll: EventEmitter<any> = new EventEmitter<any>();
+
 
   getPages(): number[] {
     return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
+
+  updateSelectAll() {
+    this.changeSelectAll.emit(this.selectAll);
+  }
+
+  deleteAll() {
+    this.actionDeleteAll.emit();
   }
 
 

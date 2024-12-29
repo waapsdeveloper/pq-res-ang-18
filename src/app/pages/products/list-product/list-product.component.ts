@@ -7,6 +7,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { Component, Injector } from '@angular/core';
 import { ListBlade } from 'src/app/abstract/list-blade';
 import { UtilityService } from 'src/app/services/utility.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-list-product',
@@ -142,19 +143,34 @@ export class ListProductComponent extends ListBlade {
 
   columns: any[] = ['Name', 'Category', 'Price', 'Type', 'No of Orders', 'Discount', 'Status'];
 
+  category_id;
+
   constructor(
     injector: Injector,
-    public crudService: ProductService,
+    public override crudService: ProductService,
     private nav: NavService,
     private utility: UtilityService,
     private users: UsersService,
-    private network: NetworkService
+    private network: NetworkService,
+    private route: ActivatedRoute
   ) {
-    super(injector);
+    super(injector, crudService);
+
+
+
     this.initialize();
   }
 
   initialize() {
+
+    const params = this.nav.getQueryParams();
+    console.log('ID from URL:', params);
+
+    if(params && params['category_id']){
+      this.category_id = params['category_id'];
+      this.crudService.filters = params as any;
+    }
+
     this.crudService.getList('', 1);
     const u = this.users.getUser();
     if (u.role_id == 1 || u.role_id == 2) {
@@ -163,6 +179,7 @@ export class ListProductComponent extends ListBlade {
   }
   ngOnInit(): void {
     this.setRestaurantsInForm();
+
   }
 
   async getRestaurants(): Promise<any[]> {
@@ -211,27 +228,11 @@ export class ListProductComponent extends ListBlade {
   }
 
   openDetails(i) {
-    let item = this.list[i];
+    let item = this.crudService.list[i];
     this.nav.push('/pages/products/view/' + item.id);
   }
-
-  changePerPage(event: any) {
-    this.crudService.onChangePerPage(event.target.value);
-  }
-
-  changePage(event: any) {
-    this.crudService.pageChange(event);
-  }
-
-  toggleFilters() {
-    this.crudService.onFilter(!this.crudService.filters);
-  }
-
-  submitFilters(model: any) {
-    this.crudService.onSubmit(model);
-  }
-
-  loadMoreData() {
-    this.crudService.loadMore();
+  EditOpenDetails(i) {
+    let item = this.crudService.list[i];
+    this.nav.push('/pages/products/edit/' + item.id);
   }
 }

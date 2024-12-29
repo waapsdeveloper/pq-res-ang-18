@@ -24,6 +24,10 @@ const routes: Routes = [
       {
         path: 'view/:id',
         loadChildren: () => import('./view-tables/view-tables.module').then((m) => m.ViewTablesModule)
+      },
+      {
+        path: 'edit/:id',
+        loadChildren: () => import('./edit-rtables/edit-rtables.module').then((m) => m.EditRtablesModule)
       }
     ]
   }

@@ -22,6 +22,10 @@ const routes: Routes = [
         loadChildren: () => import('./add-restaurant/add-restaurant.module').then((m) => m.AddRestaurantModule)
       },
       {
+        path: 'edit/:id',
+        loadChildren: () => import('./edit-restaurant/edit-restaurant.module').then((m) => m.EditRestaurantModule)
+      },
+      {
         path: 'view/:id',
         loadChildren: () => import('./view-restaurant/view-restaurant.module').then((m) => m.ViewRestaurantModule)
       }

@@ -11,12 +11,36 @@
     [currentPage]="crudService.page"
     [totalPages]="crudService.lastPage"
     (pageChange)="changePage($event)"
+    (pageChange)="changePage($event)"
+    [selectAll]="selectAll"
+    (changeSelectAll)="changeSelectAll($event)"
+    (actionDeleteAll)="deleteAll($event)"
   >
     <tr *ngFor="let item of crudService.list; let i = index">
       <td>
-        <div class="d-flex">
+        <div class="d-flex align-items-center">
+          <!--begin::Thumbnail-->
+          <a href="#" class="symbol symbol-50px">
+            <img
+              [src]="'https://api.qrserver.com/v1/create-qr-code/?data=' + item.identifier + '&size=150x150'"
+              alt="QR Code"
+              class="img-fluid"
+            />
+          </a>
+
+          <!--end::Thumbnail-->
           <div class="ms-5">
-            <a class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1">{{ item.identifier }}</a>
+            <!--begin::Title-->
+            <a
+              href="../../demo1/dist/apps/ecommerce/catalog/edit-product.html"
+              class="text-gray-800 text-hover-primary fs-5 fw-bold"
+              data-kt-ecommerce-product-filter="product_name"
+            >
+              {{ item.identifier }}
+            </a>
+            <div class="text-muted fs-7 fw-bold">Total Orders: 778</div>
+
+            <!--end::Title-->
           </div>
         </div>
       </td>
@@ -53,16 +77,24 @@
       </td>
       <!-- <ng-content></ng-content> -->
       <!--begin::Action=-->
-      <td class="text-end d-flex flex-row justify-content-end align-items-center gap-3">
-        <i class="ti ti-eye" style="font-size: 24px" (click)="openDetails(i)"></i>
-        <i *ngIf="showEdit" class="ti ti-edit" style="font-size: 24px"></i>
-        <i *ngIf="showEdit" class="ti ti-trash" style="font-size: 24px" (click)="deleteRow(i)"></i>
+      <td class="text-end">
+        <div class="d-flex flex-row justify-content-end align-items-center gap-3">
+          <i class="ti ti-eye" style="font-size: 24px; cursor: pointer" (click)="openDetails(i)"></i>
+          <i class="ti ti-edit" style="font-size: 24px; cursor: pointer" (click)="openEditDetails(i)"></i>
+          <i *ngIf="showEdit" class="ti ti-trash" style="font-size: 24px; cursor: pointer" (click)="deleteRow(i)"></i>
+        </div>
       </td>
       <!--end::Action=-->
       <!--begin::Checkbox-->
       <td>
         <div class="form-check form-check-sm form-check-custom form-check-solid">
-          <input class="form-check-input" type="checkbox" value="1" />
+          <input
+            class="form-check-input"
+            type="checkbox"
+            [value]="item.selected"
+            [checked]="item.selected"
+            (change)="checkboxUpdate(i, $event)"
+          />
         </div>
       </td>
       <!--end::Checkbox-->
