@@ -8,6 +8,8 @@ export class AddOrderService {
 
   categories: any[] = [];
   products: any[] = [];
+  customer_name: string = '';
+  customer_phone: number = 0;
   order_notes: string = '';
   selectedCategory = null;
   selected_products: any[] = [];
@@ -94,7 +96,8 @@ export class AddOrderService {
         "product_id": item.id,
         "quantity": item.quantity,
         "price": item.price,
-        "notes": item.notes 
+        "notes": item.notes,
+
       }
     });
 
@@ -104,10 +107,11 @@ export class AddOrderService {
 
     console.log("order submitted");
     let obj = {
-      "customer_name": "Walk-In Customer",
-      "customer_phone": "XXXXXXXX",
+      "customer_name": this.customer_name,
+      "customer_phone": this.customer_phone,
       "products": prodObj,
-      "notes":this.order_notes
+      "notes":this.order_notes,
+      "status": "pending"
     }
 
     const res = await this.network.addOrder(obj);

@@ -24,8 +24,14 @@ export class AddOrdersComponent {
     if(res){
       this.nav.pop();
     }
-    
-    
-  }
 
+
+
+  }
+  selectedStatus: string = 'pending'; // Default status
+
+  onStatusChange(event: any): void {
+    console.log('Selected Status:', this.selectedStatus);
+    // Perform additional logic like sending status to the backend
+  }
 }

@@ -4,55 +4,55 @@
     <button type="submit" class="btn btn-secondary mt-4">search</button>
   </form>
 
-  <hr *ngIf="crudService.filters">
+  <hr *ngIf="crudService.filters" />
 
-  <app-kt-app-list-page-table [columns]="columns" [currentPage]="crudService.page" [totalPages]="crudService.lastPage"
-    (pageChange)="changePage($event)">
-
+  <app-kt-app-list-page-table
+    [columns]="columns"
+    [currentPage]="crudService.page"
+    [totalPages]="crudService.lastPage"
+    (pageChange)="changePage($event)"
+  >
     <tr *ngFor="let item of crudService.list; let i = index">
-
       <td>
         <div *ngFor="let products of item.products" class="d-flex">
           <div class="ms-5">
-            <a class="text-muted fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{products?.product_name }} </a>
+            <a class="text-muted fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{ products?.product_name }}</a>
           </div>
         </div>
       </td>
       <td>
         <div *ngFor="let products of item.products" class="d-flex">
           <div class="ms-5">
-            <a class="text-muted fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{products?.quantity }} </a>
+            <a class="text-muted fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{ products?.quantity }}</a>
           </div>
         </div>
       </td>
       <td>
         <div *ngFor="let products of item.products" class="d-flex">
           <div class="ms-5">
-            <a class="text-muted fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">${{products?.price }} </a>
+            <a class="text-muted fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">${{ products?.price }}</a>
           </div>
         </div>
       </td>
       <td>
         <div class="d-flex">
-          <div class="text-muted fs-7 fw-bold">${{item?.total_price}}</div>
+          <div class="text-muted fs-7 fw-bold">${{ item?.total_price }}</div>
         </div>
       </td>
       <td>
         <div class="d-flex">
-          <div class="badge badge-light-primary fw-bold me-auto px-4 py-3">{{item.status}}</div>
+          <div class="badge badge-light-primary fw-bold me-auto px-4 py-3">{{ item.status }}</div>
         </div>
       </td>
-
-
 
       <!-- <ng-content></ng-content> -->
       <!--begin::Action=-->
-      <td class="text-end d-flex flex-row justify-content-end align-items-center gap-3">
-
-        <i class="ti ti-eye" style="font-size: 24px;" (click)="openDetails(i)"></i>
-        <i *ngIf="showEdit" class="ti ti-edit" style="font-size: 24px;"></i>
-        <i *ngIf="showEdit" class="ti ti-trash" style="font-size: 24px;" (click)="deleteRow(i)"></i>
-
+      <td class="text-end">
+        <div class="d-flex flex-row justify-content-end align-items-center gap-3">
+          <i class="ti ti-eye" style="font-size: 24px" (click)="openDetails(i)"></i>
+          <i *ngIf="showEdit" class="ti ti-edit" style="font-size: 24px"></i>
+          <i *ngIf="showEdit" class="ti ti-trash" style="font-size: 24px" (click)="deleteRow(i)"></i>
+        </div>
       </td>
       <!--end::Action=-->
       <!--begin::Checkbox-->
@@ -64,13 +64,5 @@
       <!--end::Checkbox-->
       <!--end::Table row-->
     </tr>
-
-
-
-
-
-
   </app-kt-app-list-page-table>
-
-
 </app-kt-list-page>
