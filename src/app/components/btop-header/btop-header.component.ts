@@ -63,4 +63,18 @@ export class BtopHeaderComponent {
     this.nav.push('/')
   }
 
+  setLogo(){
+
+    // if(this.restaurant$){
+
+    //   if(this.restaurant$['image']){
+    //     return this.restaurant$['image']
+    //   }
+
+    // }
+
+    return 'assets/svg/logo.svg'
+  }
+
+
 }
