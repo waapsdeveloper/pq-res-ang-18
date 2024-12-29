@@ -1,13 +1,13 @@
 <header class="pc-header coded-header d-flex flex-column">
   <div class="d-flex flex-row">
-    <div class="m-header">
+    <div *ngIf="restaurant$.image"  class="m-header">
       <a class="b-brand">
         <img [src]="restaurant$.image ? restaurant$.image : 'assets/svg/logo.svg'" alt="" class="logo logo-lg" />
       </a>
     </div>
 
 
-    <div class="me-auto pc-mob-drp d-flex flex-row align-items-center">
+    <div  class="me-auto pc-mob-drp d-flex flex-row align-items-center">
       <h1>{{restaurant$.name}}</h1>
     </div>
 

@@ -43,7 +43,7 @@ export class EditProductComponent implements OnInit, AfterViewInit {
   model = {
     name: '',
     category_id: '',
-    restaurant_id: null,
+    restaurant_id: '',
     description: '',
     status: '',
     price: null,
@@ -87,7 +87,7 @@ export class EditProductComponent implements OnInit, AfterViewInit {
           props: {
             label: 'Restaurant',
             placeholder: 'Select a restaurant',
-            required: false, // nullable
+            required: true, // nullable
             options: []
           },
           className: 'col-md-4 col-12'
@@ -244,23 +244,20 @@ export class EditProductComponent implements OnInit, AfterViewInit {
 ]
     */
 
-    let sizesObj = d['props'] ? d['props'].find( x => x.meta_key == 'sizes') : null;
-    if(sizesObj){
+    let sizesObj = d['props'] ? d['props'].find((x) => x.meta_key == 'sizes') : null;
+    if (sizesObj) {
       d['sizes'] = sizesObj['meta_value'] ? JSON.parse(sizesObj['meta_value']) : null;
     }
 
-    let spicyObj = d['props'] ? d['props'].find( x => x.meta_key == 'spicy') : null;
-    if(spicyObj){
+    let spicyObj = d['props'] ? d['props'].find((x) => x.meta_key == 'spicy') : null;
+    if (spicyObj) {
       d['spicy'] = spicyObj['meta_value'] ? JSON.parse(spicyObj['meta_value']) : null;
     }
 
-    let typeObj = d['props'] ? d['props'].find( x => x.meta_key == 'type') : null;
-    if(typeObj){
+    let typeObj = d['props'] ? d['props'].find((x) => x.meta_key == 'type') : null;
+    if (typeObj) {
       d['type'] = typeObj['meta_value'] ? JSON.parse(typeObj['meta_value']) : null;
     }
-
-
-
 
     this.model = {
       name: d.name || '',
@@ -354,7 +351,10 @@ export class EditProductComponent implements OnInit, AfterViewInit {
       let d = Object.assign({}, this.form.value);
 
       d['image'] = this.model.imageBase64;
-      console.log(d);
+
+      d['sizes'] = JSON.stringify(d['sizes']);
+      d['spicy'] = JSON.stringify(d['spicy']);
+      d['type'] = JSON.stringify(d['type']);
 
       const res = await this.network.updateProduct(d, this.id);
       console.log(res);
