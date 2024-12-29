@@ -27,7 +27,6 @@ export class ListCategoryComponent extends ListBlade{
   showEdit = false;
   columns: any[] = [
     'Name',
-    'Restaurant',
     'category',
     'Menu',
     'Status'
@@ -186,6 +185,14 @@ export class ListCategoryComponent extends ListBlade{
   openEditDetails(i){
     let item = this.crudService.list[i];
     this.nav.push('/pages/categories/edit/' + item.id);
+  }
+
+
+  viewMenu(item){
+
+    this.nav.push('/pages/products/list', {category_id: item.id});
+
+
   }
 
 

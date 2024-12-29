@@ -2,6 +2,36 @@
   <!--begin::Card-->
   <div class="card card-flush pt-3 mb-5 mb-xl-10">
     <!--begin::Card header-->
+    <div class="row mb-5">
+      <!--begin::Col-->
+      <div class="col-xl-3">
+        <div class="fs-6 fw-semibold mt-2 mb-3">TABLE QR CODE </div>
+      </div>
+      <!--end::Col-->
+      <!--begin::Col-->
+      <div class="col-lg-8">
+        <!--begin::Image input-->
+        <div class="image-input image-input-outline" data-kt-image-input="true">
+          <!--begin::Preview existing avatar-->
+          <img
+              [src]="'https://api.qrserver.com/v1/create-qr-code/?data=' + item.identifier + '&size=150x150'"
+              alt="QR Code"
+              class="img-fluid"
+            />
+          <!--end::Preview existing avatar-->
+          <!--begin::Label-->
+
+          <!--end::Label-->
+          <!--begin::Cancel-->
+
+          <!--end::Remove-->
+        </div>
+        <!--end::Image input-->
+        <!--begin::Hint-->
+        <!--end::Hint-->
+      </div>
+      <!--end::Col-->
+    </div>
     <div class="card-header">
       <!--begin::Card title-->
       <div class="card-title">

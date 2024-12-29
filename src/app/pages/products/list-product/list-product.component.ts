@@ -7,6 +7,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { Component, Injector } from '@angular/core';
 import { ListBlade } from 'src/app/abstract/list-blade';
 import { UtilityService } from 'src/app/services/utility.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-list-product',
@@ -148,7 +149,8 @@ export class ListProductComponent extends ListBlade {
     private nav: NavService,
     private utility: UtilityService,
     private users: UsersService,
-    private network: NetworkService
+    private network: NetworkService,
+    private route: ActivatedRoute,
   ) {
     super(injector, crudService);
     this.initialize();
@@ -163,6 +165,10 @@ export class ListProductComponent extends ListBlade {
   }
   ngOnInit(): void {
     this.setRestaurantsInForm();
+//  const params =  this.nav.getParams();
+const category_id = this.route.snapshot.paramMap.get('category_id');
+    console.log('ID from URL:', category_id);
+
   }
 
   async getRestaurants(): Promise<any[]> {
