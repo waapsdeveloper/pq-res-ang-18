@@ -189,10 +189,7 @@ export class ListCategoryComponent extends ListBlade{
 
 
   viewMenu(item){
-
     this.nav.push('/pages/products/list', {category_id: item.id});
-
-
   }
 
 

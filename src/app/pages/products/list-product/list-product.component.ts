@@ -143,6 +143,8 @@ export class ListProductComponent extends ListBlade {
 
   columns: any[] = ['Name', 'Category', 'Price', 'Type', 'No of Orders', 'Discount', 'Status'];
 
+  category_id;
+
   constructor(
     injector: Injector,
     public override crudService: ProductService,
@@ -150,13 +152,25 @@ export class ListProductComponent extends ListBlade {
     private utility: UtilityService,
     private users: UsersService,
     private network: NetworkService,
-    private route: ActivatedRoute,
+    private route: ActivatedRoute
   ) {
     super(injector, crudService);
+
+
+
     this.initialize();
   }
 
   initialize() {
+
+    const params = this.nav.getQueryParams();
+    console.log('ID from URL:', params);
+
+    if(params && params['category_id']){
+      this.category_id = params['category_id'];
+      this.crudService.filters = params as any;
+    }
+
     this.crudService.getList('', 1);
     const u = this.users.getUser();
     if (u.role_id == 1 || u.role_id == 2) {
@@ -165,9 +179,6 @@ export class ListProductComponent extends ListBlade {
   }
   ngOnInit(): void {
     this.setRestaurantsInForm();
-//  const params =  this.nav.getParams();
-const category_id = this.route.snapshot.paramMap.get('category_id');
-    console.log('ID from URL:', category_id);
 
   }
 
@@ -220,11 +231,8 @@ const category_id = this.route.snapshot.paramMap.get('category_id');
     let item = this.crudService.list[i];
     this.nav.push('/pages/products/view/' + item.id);
   }
-  EditOpenDetails(i){
+  EditOpenDetails(i) {
     let item = this.crudService.list[i];
     this.nav.push('/pages/products/edit/' + item.id);
-
-
   }
-
 }
