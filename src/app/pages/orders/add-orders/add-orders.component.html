@@ -743,26 +743,25 @@
             <span class="text-gray-400 mt-1 fw-semibold fs-6">take a look at bill details</span>
           </h3>
            <!--begin::Status Dropdown-->
-  <div class="card-toolbar d-flex align-items-center">
-    <label for="statusSelect" class="fw-bold text-gray-600 me-2">Status:</label>
-    <select
-      id="statusSelect"
-      class="form-select form-select-sm"
-      [(ngModel)]="selectedStatus"
-      (change)="onStatusChange($event)"
-    >
-      <option value="pending">Pending</option>
-      <option value="confirmed">Confirmed</option>
-      <option value="preparing">Preparing</option>
-      <option value="ready_for_pickup">Ready for Pickup</option>
-      <option value="out_for_delivery">Out for Delivery</option>
-      <option value="delivered">Delivered</option>
-      <option value="completed">Completed</option>
-      <option value="cancelled">Cancelled</option>
-    </select>
-  </div>
-  <!--end::Status Dropdown-->
-
+ <!--begin::Type Dropdown (Replacement for Status)-->
+ <div class="card-toolbar d-flex align-items-center">
+  <label for="typeSelect" class="fw-bold text-gray-600 me-2">Type:</label>
+  <select
+    id="typeSelect"
+    class="form-select form-select-sm"
+    [(ngModel)]="orderService.orderType"
+    (change)="onTypeChange($event)"
+  >
+    <option value="dine-in">Dine-In</option>
+    <option value="take-away">Take-Away</option>
+    <option value="delivery">Delivery</option>
+    <option value="drive-thru">Drive-Thru</option>
+    <option value="curbside-pickup">Curbside Pickup</option>
+    <option value="catering">Catering</option>
+    <option value="reservation">Reservation</option>
+  </select>
+</div>
+<!--end::Type Dropdown-->
           <!--end::Title-->
           <!--begin::Toolbar-->
           <!-- <div class="card-toolbar">

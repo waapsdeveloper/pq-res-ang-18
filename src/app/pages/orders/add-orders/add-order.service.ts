@@ -11,7 +11,9 @@ export class AddOrderService {
   customer_name: string = '';
   customer_phone: number = 0;
   order_notes: string = '';
+  total_price: number = 0;
   selectedCategory = null;
+  orderType = null;
   selected_products: any[] = [];
 
   totalCost = 0;
@@ -99,6 +101,7 @@ export class AddOrderService {
         "notes": item.notes,
 
       }
+      this.total_price += item.price; 
     });
 
     if (prodObj.length == 0) {
@@ -111,7 +114,9 @@ export class AddOrderService {
       "customer_phone": this.customer_phone,
       "products": prodObj,
       "notes":this.order_notes,
-      "status": "pending"
+      "status": "pending",
+      "type": this.orderType,
+      "total_price": this.total_price
     }
 
     const res = await this.network.addOrder(obj);
