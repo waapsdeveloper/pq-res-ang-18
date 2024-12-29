@@ -38,4 +38,11 @@ export class AddOrdersComponent {
     console.log('Selected Status:', this.selectedStatus);
     // Perform additional logic like sending status to the backend
   }
+
+  searchProducts($event){
+
+    let v = $event.target.value;
+    this.orderService.searchProducts(v);
+
+  }
 }
