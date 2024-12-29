@@ -3,16 +3,10 @@
   <!-- <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form> -->
 
   <!--begin::Row-->
+  <app-add-order-categories class="mb-5"></app-add-order-categories>
 
-  <div class="row gx-5 gx-xl-10">
-    <!--begin::Col-->
-    <div class="col-12">
-      <app-add-order-categories class="mb-5"></app-add-order-categories>
-      <h2 class="pb-2">Customer Name</h2>
-      <input type="text" name="customer name" class="form-control form-control-solid" id="" [(ngModel)]="orderService.customer_name" >
-      <h2 class="pb-2">Customer Phone</h2>
-      <input type="text" name="customer phone" id="" class="form-control form-control-solid " [(ngModel)]="orderService.customer_phone" >
-    </div>
+  <div class="row gx-5 gx-xl-10">    <!--begin::Col-->
+
     <div class="col-xl-6 mb-5 mb-xl-10">
       <!--begin::Tables widget 16-->
       <div class="card card-flush h-xl-100">
@@ -25,7 +19,7 @@
               <div class="d-flex align-items-center justify-content-between pb-3">
                 <h2 class="m-0 me-3">Products</h2>
                 <div class="search-box position-relative">
-                  <input type="text" class="form-control form-control-solid ps-5" placeholder="Search products..." />
+                  <input type="text" class="form-control form-control-solid ps-5" placeholder="Search products..."  (keyup)="searchProducts($event)"/>
                   <i class="ti ti-search position-absolute search-icon"></i>
                 </div>
               </div>
@@ -40,6 +34,16 @@
                 placeholder="Add a note..."
               ></textarea>
             </div>
+
+            <div class="row">
+              <div class="col-md-6 col-12">
+                <input type="text" name="customer name" class="form-control form-control-solid" id="" [(ngModel)]="orderService.customer_name" placeholder="Customer Name" >
+              </div>
+              <div class="col-md-6 col-12">
+                <input type="text" name="customer phone" id="" class="form-control form-control-solid " [(ngModel)]="orderService.customer_phone" placeholder="customer phone" >
+              </div>
+            </div>
+
 
             <!--end::Tap pane-->
             <!--begin::Tap pane-->

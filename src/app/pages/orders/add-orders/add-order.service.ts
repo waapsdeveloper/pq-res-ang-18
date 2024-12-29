@@ -9,7 +9,7 @@ export class AddOrderService {
   categories: any[] = [];
   products: any[] = [];
   customer_name: string = '';
-  customer_phone: number = 0;
+  customer_phone: string = '';
   order_notes: string = '';
   selectedCategory = null;
   selected_products: any[] = [];
@@ -21,6 +21,23 @@ export class AddOrderService {
 
   constructor(private network: NetworkService,) {
     this.initialize()
+  }
+
+  async searchProducts(search) {
+    let obj = {
+      perpage: 500,
+      page: 1,
+      search: search
+    }
+    const res = await this.network.getProducts(obj)
+    // console.log(res)
+
+    if (res.data) {
+      let d = res.data.data;
+      console.log(d)
+      this.products = d;
+    }
+
   }
 
   async initialize() {
@@ -42,7 +59,9 @@ export class AddOrderService {
   async updateProductsBySelectedCategory(category) {
 
     let obj = {
-      category_id: category.id,
+      filters: JSON.stringify({
+        category_id: category.id,
+      }),
       perpage: 500
     }
     const res = await this.network.getProducts(obj);

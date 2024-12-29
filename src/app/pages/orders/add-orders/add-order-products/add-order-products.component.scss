@@ -3,6 +3,8 @@
   flex-direction: row;
   flex-wrap: wrap;
   gap: 12px; /* Increased gap for better spacing */
+  max-height: 300px;
+  overflow-y: scroll;
 }
 
 .single-product-item {
@@ -14,6 +16,32 @@
   position: relative;
   overflow: hidden; /* Ensures clean layout */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+
+  width: 150px;
+  height: 150px;
+  background-position: center center;
+  background-size: cover;
+
+  position: relative;
+  .label-5346 {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    background: rgba(0,0,0,1);
+  }
+
+  .price-tags {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: red;
+    color: #fff;
+    padding: 6px;
+    font-size: 24px;
+    font-weight: bold;
+  }
 }
 
 .single-product-item img {
