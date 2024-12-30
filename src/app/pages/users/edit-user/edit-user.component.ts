@@ -22,6 +22,7 @@ export class EditUserComponent implements OnInit {
     private utility: UtilityService
   ) {}
 
+
   ngOnInit() {
     this.setRoleInForm();
     this.setRestaurantsInForm();
@@ -42,10 +43,11 @@ export class EditUserComponent implements OnInit {
   model = {
     name: '',
     email: '',
-    restaurant_id: '',
+    password: '',
+    restaurant_id:'',
     phone: '',
     address: '',
-    role_id: '',
+    role: '',
     city: '',
     state: '',
     country: '',
@@ -81,7 +83,18 @@ export class EditUserComponent implements OnInit {
           },
           className: 'col-md-4 col-12'
         },
-
+        {
+          key: 'password',
+          type: 'input',
+          props: {
+            label: 'Password',
+            type: 'password',
+            placeholder: 'Enter password',
+            required: true,
+            minLength: 6
+          },
+          className: 'col-md-4 col-12'
+        },
         {
           key: 'address',
           type: 'input',
@@ -150,6 +163,7 @@ export class EditUserComponent implements OnInit {
     {
       fieldGroupClassName: 'row',
       fieldGroup: [
+
         {
           key: 'phone',
           type: 'input',
@@ -162,7 +176,7 @@ export class EditUserComponent implements OnInit {
           className: 'col-md-3 col-12'
         },
         {
-          key: 'role_id',
+          key: 'role',
           type: 'select',
           props: {
             label: 'Role',
@@ -189,6 +203,7 @@ export class EditUserComponent implements OnInit {
       ]
     }
   ];
+
 
   async getRestaurants(): Promise<any[]> {
     let obj = {
@@ -227,57 +242,70 @@ export class EditUserComponent implements OnInit {
     const res = await this.network.getUsersById(this.id);
     let d = Object.assign({}, res.user);
     console.log(d);
-    // Dynamic model assignment
-    this.model = {
-      name: d.name || '', // Matches `model`
-      email: d.email || '', // Matches `model`
-      phone: d.phone || '', // Matches `model`
-      address: d.address || '', // Matches `model`
-      role_id: d.role.id || '', // Matches `model`
-      city: d.city || '', // Matches `model`
-      state: d.state || '', // Matches `model`
-      country: d.country || '', // Matches `model`
-      image: '', // Ensures `image` is an empty string
-      imageBase64: d.imageBase64 || '', // Matches `model`
-      status: d.status || '',
-      restaurant_id: d.restaurant_id || '' // Matches `model`
-    };
+   // Dynamic model assignment
+   this.model = {
+    name: d.name || '',               // Matches `model`
+    email: d.email || '',             // Matches `model`
+    password: d.password || '',       // Matches `model`
+    phone: d.phone || '',             // Matches `model`
+    address: d.address || '',         // Matches `model`
+    role: d.role.id || '',               // Matches `model`
+    city: d.city || '',               // Matches `model`
+    state: d.state || '',             // Matches `model`
+    country: d.country || '',         // Matches `model`
+    image: '',                        // Ensures `image` is an empty string
+    imageBase64: d.imageBase64 || '', // Matches `model`
+    status: d.status || '',
+    restaurant_id: d.restaurant_id || '',            // Matches `model`
+  };
+
+
+
   }
+
+
 
   async setRoleInForm() {
     const res = await this.getRoles();
     console.log(res);
 
-    for (var i = 0; i < this.fields.length; i++) {
-      for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
+    for(var i = 0; i < this.fields.length; i++){
+      for(var j = 0; j < this.fields[i].fieldGroup.length; j++) {
+
         let fl = this.fields[i].fieldGroup[j];
-        if (fl.key == 'role_id') {
+        if(fl.key == 'role'){
           fl.props.options = res;
         }
       }
     }
+
+
+
   }
 
   // get roles array
   async getRoles(): Promise<any[]> {
     let obj = {
       search: ''
-    };
+    }
     const res = await this.network.getRoles(obj);
 
     if (res && res['data']) {
+
       let d = res['data'];
       let dm = d['data'];
-      return dm.map((r) => {
+      return dm.map( r => {
         return {
           value: r.id,
           label: r.name
-        };
+        }
       }) as any[];
+
     }
 
     return [];
   }
+
 
   onFileChange(field, event: Event, type: string = 'image') {
     const input = event.target as HTMLInputElement;
