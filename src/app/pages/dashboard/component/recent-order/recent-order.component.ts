@@ -22,14 +22,11 @@ export class RecentOrderComponent implements OnInit {
   async ngOnInit() {
     // Fetch the data using the service method
     const data = await this.network.getRecentOrder();
-    console.log('API Response:', data); // Check the structure of the response
     const orderArray = data.order;
 
-    console.log('Order Data:', data.order); // Log the orders array
 
     // Map API response to customers array
     this.customers = orderArray.map((order: any) => {
-      console.log('Mapping order:', order); // Log each order being mapped
 
       return {
         orderId: order.order_number || 'N/A',
@@ -42,7 +39,6 @@ export class RecentOrderComponent implements OnInit {
       };
     });
 
-    console.log('Mapped Customers:', this.customers); // Check if data is mapped correctly
   }
 
   columns: any[] = ['Order Id', 'Customer Name', 'Phone Number', 'Total Price', 'Table Number', 'Customer Type', 'Order Status'];
@@ -64,7 +60,6 @@ export class RecentOrderComponent implements OnInit {
     if (u.role_id == 1 || u.role_id == 2) {
       this.showEdit = true;
     }
-    console.log(this.customers);
   }
 
   async getList(search = '', page = 1): Promise<any> {

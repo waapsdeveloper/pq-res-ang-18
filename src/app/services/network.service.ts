@@ -16,15 +16,21 @@ export class NetworkService {
     public utility: UtilityService
   ) {}
 
-   //Dashboard APi
+  //Dashboard APi
 
-   getRecentOrder(){
+  getRecentOrder() {
     return this.httpGetResponse('dashboard/recent-orders', null, false, true);
+  }
 
-
-   }
-
-
+  getMSellingProduct() {
+    return this.httpGetResponse('dashboard/most-selling-products', null, false, true);
+  }
+  getTopSellingProduct() {
+    return this.httpGetResponse('dashboard/top-selling-products', null, false, true);
+  }
+  getLatestTable() {
+    return this.httpGetResponse('dashboard/latest-tables', null, false, true);
+  }
 
   // Authentication Related APIs
 
@@ -47,7 +53,7 @@ export class NetworkService {
 
   getRestaurants(params) {
     const query = this.serialize(params);
-    return this.httpGetResponse('restaurant'  + (query ? `?${query}` : ''), null, false, true);
+    return this.httpGetResponse('restaurant' + (query ? `?${query}` : ''), null, false, true);
   }
 
   getRestaurantById(id) {
@@ -84,8 +90,9 @@ export class NetworkService {
   addUser(data) {
     return this.httpPostResponse('user', data, null, false, true);
   }
-  updateUser(data , id) {
-    return this.httpPutResponse('user', data, id, false, true);}
+  updateUser(data, id) {
+    return this.httpPutResponse('user', data, id, false, true);
+  }
 
   // removeUser(id) {
   //   return this.httpDeleteResponse('user', id, false, true);
@@ -132,7 +139,7 @@ export class NetworkService {
   addProduct(data) {
     return this.httpPostResponse('product', data, null, false, true);
   }
-  updateProduct(data,id) {
+  updateProduct(data, id) {
     return this.httpPutResponse('product', data, id, false, true);
   }
 

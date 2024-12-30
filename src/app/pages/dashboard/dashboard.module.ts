@@ -13,14 +13,13 @@ import { NavBarModule } from 'src/app/theme/layout/admin/nav-bar/nav-bar.module'
 import { BtopHeaderModule } from 'src/app/components/btop-header/btop-header.module';
 import { SalesChartComponent } from './component/sales-chart/sales-chart.component';
 import { RecentOrderComponent } from './component/recent-order/recent-order.component';
-import { FavouriteTableComponent } from './component/favourite-table/favourite-table.component';
 import { OrderStatusComponent } from './component/order-status/order-status.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ApexSalesChartComponent } from './component/apex-sales-chart/apex-sales-chart.component';
 import { ApexSalesChartModule } from './component/apex-sales-chart/apex-sales-chart.module';
 import { ApexTopSalesChartModule } from './component/apex-top-sales-chart/apex-top-sales-chart.module';
 import { ApexCustomerChartModule } from './component/apex-customer-chart/apex-customer-chart.module';
-
+import { FavouriteTableModule } from './component/favourite-table/favourite-table.module';
 @NgModule({
   declarations: [DashboardComponent, RecentOrderComponent, ],
   imports: [
@@ -41,8 +40,8 @@ import { ApexCustomerChartModule } from './component/apex-customer-chart/apex-cu
     ChartOrderComponent,
     SalesChartComponent,
     ProjectStatComponent,
-    FavouriteTableComponent,
-    OrderStatusComponent
+    OrderStatusComponent,
+    FavouriteTableModule
 
 
   ]
