@@ -84,7 +84,7 @@ export class ListUserComponent extends ListBlade {
           props: {
             label: 'Phone Number',
             placeholder: 'Enter phone ',
-            required: true,
+            
             type: 'tel'
           },
           className: 'col-md-4 col-12'
