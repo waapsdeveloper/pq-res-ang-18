@@ -52,9 +52,8 @@ export class ListUserComponent extends ListBlade {
     name: '',
     email: '',
     phone: '',
-    role: '',
-    address: '',
-    status: 'active'
+    role_id: '',
+    status: null
   };
 
   fields: FormlyFieldConfig[] = [
@@ -83,15 +82,15 @@ export class ListUserComponent extends ListBlade {
           key: 'phone',
           type: 'input',
           props: {
-            label: 'Email Address',
-            placeholder: 'Enter email',
-            required: true,
-            type: 'email'
+            label: 'Phone Number',
+            placeholder: 'Enter phone ',
+            
+            type: 'tel'
           },
           className: 'col-md-4 col-12'
         },
         {
-          key: 'role',
+          key: 'role_id',
           type: 'select',
           props: {
             label: 'Role',
@@ -109,7 +108,8 @@ export class ListUserComponent extends ListBlade {
             label: 'Status',
             options: [
               { value: 'active', label: 'Active' },
-              { value: 'inactive', label: 'Inactive' }
+              { value: 'inactive', label: 'Inactive' },
+
             ]
           },
           className: 'col-md-4 col-12'

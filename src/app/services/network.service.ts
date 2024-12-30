@@ -16,6 +16,22 @@ export class NetworkService {
     public utility: UtilityService
   ) {}
 
+  //Dashboard APi
+
+  getRecentOrder() {
+    return this.httpGetResponse('dashboard/recent-orders', null, false, true);
+  }
+
+  getMSellingProduct() {
+    return this.httpGetResponse('dashboard/most-selling-products', null, false, true);
+  }
+  getTopSellingProduct() {
+    return this.httpGetResponse('dashboard/top-selling-products', null, false, true);
+  }
+  getLatestTable() {
+    return this.httpGetResponse('dashboard/latest-tables', null, false, true);
+  }
+
   // Authentication Related APIs
 
   loginViaEmail(data) {
@@ -74,8 +90,9 @@ export class NetworkService {
   addUser(data) {
     return this.httpPostResponse('user', data, null, false, true);
   }
-  updateUser(data , id) {
-    return this.httpPutResponse('user', data, id, false, true);}
+  updateUser(data, id) {
+    return this.httpPutResponse('user', data, id, false, true);
+  }
 
   // removeUser(id) {
   //   return this.httpDeleteResponse('user', id, false, true);
@@ -122,7 +139,7 @@ export class NetworkService {
   addProduct(data) {
     return this.httpPostResponse('product', data, null, false, true);
   }
-  updateProduct(data,id) {
+  updateProduct(data, id) {
     return this.httpPutResponse('product', data, id, false, true);
   }
 
@@ -139,6 +156,7 @@ export class NetworkService {
   removeInvoice(id) {
     return this.httpDeleteResponse('invoice', id, false, true);
   }
+
   // Tables
 
   getTables(params) {

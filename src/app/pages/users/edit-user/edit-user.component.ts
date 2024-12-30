@@ -47,7 +47,7 @@ export class EditUserComponent implements OnInit {
     restaurant_id:'',
     phone: '',
     address: '',
-    role: '',
+    role_id: '',
     city: '',
     state: '',
     country: '',
@@ -90,7 +90,7 @@ export class EditUserComponent implements OnInit {
             label: 'Password',
             type: 'password',
             placeholder: 'Enter password',
-            required: true,
+
             minLength: 6
           },
           className: 'col-md-4 col-12'
@@ -176,7 +176,7 @@ export class EditUserComponent implements OnInit {
           className: 'col-md-3 col-12'
         },
         {
-          key: 'role',
+          key: 'role_id',
           type: 'select',
           props: {
             label: 'Role',
@@ -249,7 +249,7 @@ export class EditUserComponent implements OnInit {
     password: d.password || '',       // Matches `model`
     phone: d.phone || '',             // Matches `model`
     address: d.address || '',         // Matches `model`
-    role: d.role.id || '',               // Matches `model`
+    role_id: d.role.id || '',               // Matches `model`
     city: d.city || '',               // Matches `model`
     state: d.state || '',             // Matches `model`
     country: d.country || '',         // Matches `model`
@@ -273,7 +273,7 @@ export class EditUserComponent implements OnInit {
       for(var j = 0; j < this.fields[i].fieldGroup.length; j++) {
 
         let fl = this.fields[i].fieldGroup[j];
-        if(fl.key == 'role'){
+        if(fl.key == 'role_id'){
           fl.props.options = res;
         }
       }
