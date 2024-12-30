@@ -16,6 +16,16 @@ export class NetworkService {
     public utility: UtilityService
   ) {}
 
+   //Dashboard APi
+
+   getRecentOrder(){
+    return this.httpGetResponse('dashboard/recent-orders', null, false, true);
+
+
+   }
+
+
+
   // Authentication Related APIs
 
   loginViaEmail(data) {
@@ -37,7 +47,7 @@ export class NetworkService {
 
   getRestaurants(params) {
     const query = this.serialize(params);
-    return this.httpGetResponse('restaurant' + (query ? `?${query}` : ''), null, false, true);
+    return this.httpGetResponse('restaurant'  + (query ? `?${query}` : ''), null, false, true);
   }
 
   getRestaurantById(id) {
@@ -139,6 +149,7 @@ export class NetworkService {
   removeInvoice(id) {
     return this.httpDeleteResponse('invoice', id, false, true);
   }
+
   // Tables
 
   getTables(params) {

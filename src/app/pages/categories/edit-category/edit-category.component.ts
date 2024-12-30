@@ -101,7 +101,7 @@ export class EditCategoryComponent implements OnInit {
             label: 'Image',
             placeholder: 'Enter image URL',
             type: 'file',
-            accept: 'image/*',
+            accept: '.jpg,.jpeg,.png',
             change: (field, event) => this.onFileChange(field, event, 'imageBase64')
           },
           className: 'col-md-4 col-12'
@@ -161,7 +161,7 @@ export class EditCategoryComponent implements OnInit {
       perpage: 500
     };
     const res = await this.network.getRestaurants(obj);
-    
+
     if (res && res['data']) {
       let d = res['data'];
       let dm = d['data'];

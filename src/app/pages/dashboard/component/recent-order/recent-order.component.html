@@ -19,7 +19,6 @@
           <div class="table-responsive">
             <!--begin::Table-->
             <table class="table table-row-dashed align-middle gs-0 gy-4 my-0">
-              <!--begin::Table head-->
               <thead>
                 <tr class="fs-7 fw-bold text-gray-500 border-bottom-0">
                   <th class="ps-0">Order ID</th>
@@ -31,14 +30,11 @@
                   <th class="pe-0 text-end">Order Status</th>
                 </tr>
               </thead>
-              <!--end::Table head-->
-              <!--begin::Table body-->
               <tbody>
                 <tr *ngFor="let customer of customers; let i = index">
                   <td class="ps-0">
-                    <a href="../../demo1/dist/apps/ecommerce/catalog/edit-product.html"
-                       class="text-gray-800 fw-bold text-hover-primary mb-1 fs-6 text-start pe-0">
-                      {{ 'ORD-2024-000' + i  }}
+                    <a href="#" class="text-gray-800 fw-bold text-hover-primary mb-1 fs-6 text-start pe-0">
+                      {{ 'ORD-2024-000' + i }}
                     </a>
                   </td>
                   <td>
@@ -53,12 +49,12 @@
                   </td>
                   <td class="text-end pe-0">
                     <span class="text-gray-800 fw-bold d-block fs-6">
-                      ${{ customer.amount | number:'1.2-2' }}
+                      ${{ customer.amount | number: '1.2-2' }}
                     </span>
                   </td>
                   <td class="text-end pe-0">
                     <span class="text-gray-800 fw-bold d-block fs-6">
-                      {{ 'TBL-0003322' + i }}
+                      {{ customer.table }}
                     </span>
                   </td>
                   <td class="text-end pe-0">
@@ -72,12 +68,9 @@
                     </span>
                   </td>
                 </tr>
-
-
               </tbody>
-              <!--end::Table body-->
             </table>
-            <!--end::Table-->
+              <!--end::Table-->
           </div>
           <!--end::Table container-->
         </div>
