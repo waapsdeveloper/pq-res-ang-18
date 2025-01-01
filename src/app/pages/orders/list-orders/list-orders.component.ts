@@ -1,30 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, Injector } from '@angular/core';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { UsersService } from 'src/app/services/users.service';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { ListBlade } from 'src/app/abstract/list-blade';
+import { UtilityService } from 'src/app/services/utility.service';
+import { OrderService } from '../orders.service';
 
 @Component({
   selector: 'app-list-orders',
   templateUrl: './list-orders.component.html',
   styleUrl: './list-orders.component.scss'
 })
-export class ListOrdersComponent {
+export class ListOrdersComponent extends ListBlade {
   title = 'Orders';
   addurl = '/pages/orders/add';
-  search = '';
-  page = 1;
-  lastPage = -1;
-  total = 0;
-  perpage = 10;
-  list: any[] = [];
-  showEdit: boolean = false;
-  filters = false;
+showEdit: boolean = false;
   columns: any[] = ['Order Id', 'Customer Name', 'Phone No', 'Total Price', 'Table No', "Type", 'Status'];
-
-  form = new FormGroup({});
-  model = {
+override  model = {
     order_id: '',
     Customer_name: '',
     phone: '',
@@ -133,21 +127,25 @@ export class ListOrdersComponent {
     },
   ];
   constructor(
-    private nav: NavService,
-    private network: NetworkService,
-    private users: UsersService
-  ) {
-    this.initialize();
-  }
-
-  initialize() {
-    this.getList('', 1);
-
-    const u = this.users.getUser();
-    if (u.role_id == 1 || u.role_id == 2) {
-      this.showEdit = true;
+      injector: Injector,
+      public override crudService: OrderService,
+      private nav: NavService,
+      private utility: UtilityService,
+      private users: UsersService,
+      private network : NetworkService
+    ) {
+      super(injector, crudService);
+      this.initialize();
     }
-  }
+
+    initialize() {
+      this.crudService.getList('', 1);
+      const u = this.users.getUser()
+      if (u.role_id == 1 || u.role_id == 2) {
+        this.showEdit = true;
+
+      }
+    }
 
   async getList(search = '', page = 1): Promise<any> {
     let obj = {
@@ -177,11 +175,12 @@ export class ListOrdersComponent {
   editRow(index: number) { }
 
   async deleteRow(index: number) {
-    let item = this.list[index];
-    if (item) {
-      await this.network.removeTable(item.id);
+    try {
+      await this.crudService.deleteRow(index, this.utility);
+      console.log('Row deleted successfully');
+    } catch (error) {
+      console.error('Error deleting row:', error);
     }
-    this.list.splice(index, 1);
   }
 
   loadMore() {
