@@ -32,10 +32,10 @@
               </thead>
               <tbody>
                 <tr *ngFor="let customer of customers; let i = index">
-                  <td class="ps-0">
-                    <a href="#" class="text-gray-800 fw-bold text-hover-primary mb-1 fs-6 text-start pe-0">
-                      {{ 'ORD-2024-000' + i }}
-                    </a>
+                  <td class="text-end pe-0">
+                    <span class="text-gray-800 fw-bold d-block fs-6">
+                      {{ customer.orderId}}
+                    </span>
                   </td>
                   <td>
                     <span class="text-gray-800 fw-bold d-block fs-6 ps-0 text-end">
