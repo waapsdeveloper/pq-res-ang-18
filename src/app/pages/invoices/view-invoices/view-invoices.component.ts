@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
 
-
 @Component({
   selector: 'app-view-invoices',
   templateUrl: './view-invoices.component.html',
@@ -13,7 +12,11 @@ export class ViewInvoicesComponent {
   itemId;
   item;
 
-  constructor(private nav: NavService, private network: NetworkService, public activatedRoute: ActivatedRoute) {
+  constructor(
+    private nav: NavService,
+    private network: NetworkService,
+    public activatedRoute: ActivatedRoute
+  ) {
     this.initialize();
   }
 
@@ -22,11 +25,7 @@ export class ViewInvoicesComponent {
     this.itemId = rew['id'];
     const res = await this.network.getInvoicesById(this.itemId);
 
-
     this.item = res.invoice;
-console.log(this.item);
-
-
-}
-
+    console.log(this.item);
+  }
 }
