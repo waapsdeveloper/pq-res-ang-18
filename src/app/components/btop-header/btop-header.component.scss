@@ -21,3 +21,19 @@
 .pc-h-item {
   margin-top: 8px; /* Ensure consistent gap for other components */
 }
+.pc-header {
+  display: flex;
+  flex-direction: column;
+}
+.pc-header .d-flex {
+  display: flex;
+}
+.pc-header .m-header {
+  display: flex;
+  align-items: center;
+}
+@media (max-width: 768px) {
+  .pc-header .d-flex.flex-row.align-items-center.p-3 {
+    flex-wrap: wrap; /* Allow wrapping of items on smaller screens */
+  }
+}
