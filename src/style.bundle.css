@@ -49997,7 +49997,7 @@ html:not([data-theme='dark']) {
   --kt-app-footer-bg-color-mobile: #ffffff;
 }
 [data-theme='dark'] {
-  --kt-app-bg-color: #151521;
+  --kt-app-bg-color: #f79a21;
   --kt-app-blank-bg-color: #151521;
   --kt-app-header-base-bg-color: #1e1e2d;
   --kt-app-header-base-bg-color-mobile: #1e1e2d;
