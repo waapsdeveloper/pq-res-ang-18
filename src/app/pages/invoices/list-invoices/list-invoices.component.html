@@ -12,6 +12,7 @@
     [totalPages]="crudService.lastPage"
     (pageChange)="changePage($event)"
   >
+  
     <tr *ngFor="let item of crudService.list; let i = index">
       <td>
         <div  class="d-flex">
