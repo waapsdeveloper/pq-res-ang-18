@@ -1,16 +1,13 @@
 .table-responsive {
-  max-height: 350px; /* Adjust the max height to fit 4-5 rows */
-  overflow-y: auto; /* Enable vertical scrolling for overflowing rows */
-  overflow-x: auto; /* Enable horizontal scrolling if needed */
   border-radius: 8px;
-  padding: 20px;
+  padding: 40px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 
 }
 
 tbody td {
-  padding: 30px; /* Add padding to table cells */
   white-space: nowrap; /* Prevent text wrapping */
   font-size: 14px; /* Adjust font size for better readability */
+  padding: 12px;
 }
 
