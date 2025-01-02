@@ -18,6 +18,11 @@ export class NetworkService {
 
   //Dashboard APi
 
+  getSalesChartData(params: any) {
+    let str = this.serialize(params);
+    return this.httpGetResponse('dashboard/sales-chart-data' + '?' + str, null, false, true);
+  }
+
   getRecentOrder() {
     return this.httpGetResponse('dashboard/recent-orders', null, false, true);
   }

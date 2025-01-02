@@ -25138,7 +25138,7 @@ fieldset:disabled .btn {
   --kt-gray-900-rgb: 24, 28, 50;
   --kt-white: #ffffff;
   --kt-light: #f5f8fa;
-  --kt-primary: #009ef7;
+  --kt-primary: #f79a21; /*#009ef7; */
   --kt-secondary: #e4e6ef;
   --kt-success: #50cd89;
   --kt-info: #7239ea;

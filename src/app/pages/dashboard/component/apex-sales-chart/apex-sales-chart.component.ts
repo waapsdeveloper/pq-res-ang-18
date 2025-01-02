@@ -7,6 +7,7 @@ import {
   ApexXAxis,
   ApexTitleSubtitle
 } from "ng-apexcharts";
+import { NetworkService } from 'src/app/services/network.service';
 
 
 export type ChartOptions = {
@@ -17,6 +18,7 @@ export type ChartOptions = {
   colors: string[];
   legend: any;
   dataLabels: any;
+  plotOptions: any;
 };
 
 @Component({
@@ -28,10 +30,10 @@ export class ApexSalesChartComponent {
 
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
-  btnActive: string = 'year';
+  btnActive: string = 'day';
   amount;
 
-  constructor() {
+  constructor(private network: NetworkService) {
     this.chartOptions = {
       chart: {
         type: 'bar',
@@ -40,8 +42,23 @@ export class ApexSalesChartComponent {
           show: false // Hides the menu to download SVG, PNG, etc.
         }
       },
+      plotOptions: {
+        bar: {
+          dataLabels: {
+            position: 'center' // Position labels at the top of the bars
+          }
+        }
+      },
       dataLabels: {
-        enabled: false // Disables labels over the chart
+        enabled: true, // Enable data labels
+        formatter: function (val: number) {
+          return `$${val}K`; // Add $ as a prefix
+        },
+        style: {
+          fontSize: '12px',
+          colors: ['#fff'] // White color for bar labels
+        },
+        offsetY: -5 // Adjust position if necessary
       },
       series: [
         {
@@ -54,9 +71,9 @@ export class ApexSalesChartComponent {
         }
       ],
       xaxis: {
-        categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
+        categories: []
       },
-      colors: ['#007bff', '#d1d5db'], // Blue for 2023, Gray for 2022
+      colors: ['#d1d5db', '#f79a21'], // Blue for 2023, Gray for 2022
       legend: {
         position: 'top',
         markers: {
@@ -70,8 +87,35 @@ export class ApexSalesChartComponent {
     this.amount = `${v}`;
   }
 
-  toggleActive(value: string) {
+  async toggleActive(value: string) {
     this.btnActive = value;
+
+    if(value == 'day'){
+      let obj = {
+        type: this.btnActive,
+        date: new Date().toISOString()
+      }
+      let data = await this.network.getSalesChartData(obj);
+      console.log(data);
+
+      this.chartOptions.series = [
+        {
+          name: 'Last Day',
+          data: data.series[0].data
+        },
+        {
+          name: 'This Day',
+          data: data.series[1].data
+        }
+      ];
+      this.chartOptions.xaxis.categories = [...data.categories];
+
+
+      return;
+    }
+
+
+
     this.chartOptions.series = [
       {
         name: '2023',
@@ -102,5 +146,14 @@ export class ApexSalesChartComponent {
 
     // this.amount = value === 'month' ? 108 : 961;
   }
+
+  async ngOnInit() {
+
+
+  }
+
+
+
+
 
 }
