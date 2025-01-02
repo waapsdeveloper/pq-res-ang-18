@@ -7,6 +7,7 @@ import { ListUserRoutingModule } from './list-user-routing.module';
 import { ListUserComponent } from './list-user.component';
 import { KtAppListPageTableModule } from 'src/app/components/layouts/kt-list-page/kt-app-list-page-table/kt-app-list-page-table.module';
 import { KtListPageModule } from 'src/app/components/layouts/kt-list-page/kt-list-page.module';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { KtListPageModule } from 'src/app/components/layouts/kt-list-page/kt-lis
     FormlyModule,
     ReactiveFormsModule,
     FormlyBootstrapModule,
+    NgxSkeletonLoaderModule
   ]
 })
 export class ListUserModule { }
