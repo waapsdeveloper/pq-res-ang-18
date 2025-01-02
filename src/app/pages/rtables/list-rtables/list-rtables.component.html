@@ -96,5 +96,84 @@
       <!--end::Checkbox-->
       <!--end::Table row-->
     </tr>
+    <tr *ngIf="crudService.loading">
+      <!-- Thumbnail Column -->
+      <td>
+        <div class="d-flex align-items-center">
+          <!-- Thumbnail Loader -->
+          <ngx-skeleton-loader
+            appearance="custom-content"
+            [theme]="{ width: '50px', height: '50px', background: 'rgba(255,255,255,0.2)' }"
+            [animation]="true"
+          >
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">
+              <i class="ti ti-align-center" style="font-size: 24px"></i>
+            </div>
+          </ngx-skeleton-loader>
+          <div class="ms-5">
+            <!-- Title Loader -->
+            <ngx-skeleton-loader
+              appearance="custom-content"
+              [theme]="{ width: '150px', height: '20px', background: 'rgba(255,255,255,0.2)' }"
+              [animation]="true"
+            ></ngx-skeleton-loader>
+          </div>
+        </div>
+      </td>
+
+      <!-- Address Column -->
+      <td>
+        <div class="d-flex align-items-center">
+          <ngx-skeleton-loader
+            appearance="custom-content"
+            [theme]="{ width: '120px', height: '20px' }"
+            [animation]="true"
+          ></ngx-skeleton-loader>
+        </div>
+      </td>
+
+      <!-- Status Column -->
+      <td>
+        <ngx-skeleton-loader
+          appearance="custom-content"
+          [theme]="{ width: '50px', height: '20px', 'border-radius': '12px' }"
+        ></ngx-skeleton-loader>
+      </td>
+      <td>
+        <ngx-skeleton-loader
+          appearance="custom-content"
+          [theme]="{ width: '90px', height: '20px', 'border-radius': '7px' }"
+        ></ngx-skeleton-loader>
+      </td>
+      <td>
+        <ngx-skeleton-loader
+          appearance="custom-content"
+          [theme]="{ width: '50px', height: '20px', 'border-radius': '7px' }"
+        ></ngx-skeleton-loader>
+      </td>
+      <td>
+        <ngx-skeleton-loader
+          appearance="custom-content"
+          [theme]="{ width: '60px', height: '20px', 'border-radius': '7px' }"
+        ></ngx-skeleton-loader>
+      </td>
+      <!-- Action Icons -->
+      <td class="text-end">
+        <div class="d-flex flex-row justify-content-end align-items-center gap-3">
+          <ngx-skeleton-loader
+            *ngFor="let _ of [1, 2, 3, 4]"
+            appearance="custom-content"
+            [theme]="{ width: '24px', height: '24px' }"
+          ></ngx-skeleton-loader>
+        </div>
+      </td>
+
+      <!-- Checkbox Column -->
+      <td>
+        <div class="form-check form-check-sm form-check-custom form-check-solid">
+          <input class="form-check-input" type="checkbox" />
+        </div>
+      </td>
+    </tr>
   </app-kt-app-list-page-table>
 </app-kt-list-page>
