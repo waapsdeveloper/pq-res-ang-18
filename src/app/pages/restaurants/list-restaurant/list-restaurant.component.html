@@ -108,7 +108,7 @@
       <!-- Status Column -->
       <td>
         <ngx-skeleton-loader
-          appearance="line"
+          appearance="custom-content"
           [theme]="{ 'width': '100px', 'height': '20px', 'border-radius': '12px' }">
         </ngx-skeleton-loader>
       </td>
@@ -118,7 +118,7 @@
         <div class="d-flex flex-row justify-content-end align-items-center gap-3">
           <ngx-skeleton-loader
             *ngFor="let _ of [1, 2, 3, 4]"
-            appearance="circle"
+            appearance="custom-content"
             [theme]="{ 'width': '24px', 'height': '24px' }">
           </ngx-skeleton-loader>
         </div>
