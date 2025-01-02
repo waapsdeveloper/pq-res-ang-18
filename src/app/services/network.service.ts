@@ -191,6 +191,10 @@ export class NetworkService {
   addOrder(data) {
     return this.httpPostResponse('order', data, null, false, true);
   }
+  removeOrder(id) {
+    return this.httpDeleteResponse('order', id, false, true);
+  }
+
 
   serialize = (obj: any) => {
     const str: any[] = [];
