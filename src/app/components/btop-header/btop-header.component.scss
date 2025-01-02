@@ -37,10 +37,11 @@
     flex-wrap: wrap; /* Allow wrapping of items on smaller screens */
 
   }
-  .header-user-profile {
-    display: none !important;
+  .pc-mob-drp{
+    display: none !important;}
+
   }
   .card-toolbar .btn-primary {
     display: none !important;}
 
-}
+
