@@ -20,12 +20,12 @@ export class ViewInvoicesComponent {
   async initialize() {
     const rew = await this.activatedRoute.snapshot.params;
     this.itemId = rew['id'];
-    const res = await this.network.getOrdersById(this.itemId);
-    console.log(res);
-    
+    const res = await this.network.getInvoicesById(this.itemId);
 
-    this.item = res.order;
-    
+
+    this.item = res.invoice;
+console.log(this.item);
+
 
 }
 

@@ -93,7 +93,7 @@ export class ListInvoicesComponent  extends ListBlade{
 
 
   openDetails(i) {
-    let item = this.list[i];
+    let item = this.crudService.list[i];
     this.nav.push('/pages/invoices/view/' + item.id);
   }
 

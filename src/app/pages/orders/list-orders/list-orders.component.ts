@@ -190,7 +190,7 @@ override  model = {
   }
 
   openDetails(i) {
-    let item = this.list[i];
+    let item = this.crudService.list[i];
     this.nav.push('/pages/orders/view/' + item.id);
   }
   openEditDetails(i){

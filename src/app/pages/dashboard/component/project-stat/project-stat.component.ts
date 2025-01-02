@@ -19,12 +19,13 @@ export class ProjectStatComponent implements OnInit {
 
     this.products = d.map(item => ({
      productId: item.product_id,
-      name: item.product.name,
-      description: item.product.description,
-      price: parseFloat(item.product.price), // Convert price to number
-      discount: parseFloat(item.product.discount), // Convert discount to number
-      image: item.product.image,
+      name: item.name,
+      description: item.description,
+      price: parseFloat(item.price), // Convert price to number
+      discount: parseFloat(item.discount), // Convert discount to number
+      image: item.image,
       totalQuantitySold: item.total_quantity_sell
+
     }));
   console.log(this.products);
 

@@ -157,6 +157,10 @@ export class NetworkService {
     return this.httpDeleteResponse('invoice', id, false, true);
   }
 
+  getInvoicesById(id) {
+    return this.httpGetResponse(`invoice/${id}`, null, false, true);
+  }
+
   // Tables
 
   getTables(params) {
