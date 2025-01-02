@@ -8,6 +8,7 @@ import { KtListPageModule } from 'src/app/components/layouts/kt-list-page/kt-lis
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyModule } from '@ngx-formly/core';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { FormlyModule } from '@ngx-formly/core';
     FormlyModule,
     ReactiveFormsModule,
     FormlyBootstrapModule,
+    NgxSkeletonLoaderModule
 
   ]
 })
