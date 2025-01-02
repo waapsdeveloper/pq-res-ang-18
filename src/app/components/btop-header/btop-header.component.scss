@@ -1,7 +1,6 @@
 .active-link {
   // background: var(--bs-blue);
   color: var(--bs-blue) !important;
-  border-bottom: 1px solid var(--bs-blue);
 }
 .toolbar-container {
   display: flex;
@@ -40,8 +39,8 @@
   .pc-mob-drp{
     display: none !important;}
 
+    .card-toolbar .btn-primary {
+      display: none !important;}
   }
-  .card-toolbar .btn-primary {
-    display: none !important;}
 
 
