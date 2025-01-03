@@ -100,7 +100,11 @@ export class ApexSalesChartComponent {
           data: data.series[1].data
         }
       ];
+
       this.chartOptions.xaxis.categories = [...data.categories];
+      let v = this.chartOptions.series[0].data.reduce((a: number, b: number) => a + b, 0) as number;
+      console.log(v);
+      this.amount = v.toFixed(2);
 
       return;
     }
@@ -124,7 +128,10 @@ export class ApexSalesChartComponent {
         }
       ];
       this.chartOptions.xaxis.categories = [...data.categories];
+      let v = this.chartOptions.series[0].data.reduce((a: number, b: number) => a + b, 0) as number;
+      console.log(v);
 
+      this.amount = this.formatAmount(v);
       return;
     }
 
@@ -147,6 +154,9 @@ export class ApexSalesChartComponent {
         }
       ];
       this.chartOptions.xaxis.categories = [...data.categories];
+      let v = this.chartOptions.series[0].data.reduce((a: number, b: number) => a + b, 0) as number;
+      console.log(v);
+      this.amount = this.formatAmount(v);
 
       return;
     }
@@ -176,11 +186,20 @@ export class ApexSalesChartComponent {
       }
     ];
 
-    let v = this.chartOptions.series[0].data.reduce((a: number, b: number) => a + b, 0) as number;
-    console.log(v);
-    this.amount = `${v}`;
-
     // this.amount = value === 'month' ? 108 : 961;
+  }
+  formatAmount(value: number): string {
+    if (value >= 1_000_000_000) {
+      return Math.round(value / 1_000_000_000_000) + 'T';
+    } else if (value >= 1_000_000_000) {
+      return Math.round(value / 1_000_000_000) + 'B';
+    } else if (value >= 1_000_000) {
+      return Math.round(value / 1_000_000) + 'M';
+    } else if (value >= 1_000) {
+      return Math.round(value / 1_000) + 'K';
+    } else {
+      return value.toString(); // Return the number as-is if less than 1000
+    }
   }
 
   async ngOnInit() {}
