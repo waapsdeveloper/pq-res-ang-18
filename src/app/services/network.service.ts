@@ -22,6 +22,9 @@ export class NetworkService {
     let str = this.serialize(params);
     return this.httpGetResponse('dashboard/sales-chart-data' + '?' + str, null, false, true);
   }
+  getCustomerStat(){
+    return this.httpGetResponse('dashboard/customers', null , false ,true);
+  }
 
   getRecentOrder() {
     return this.httpGetResponse('dashboard/recent-orders', null, false, true);

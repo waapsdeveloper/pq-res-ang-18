@@ -1,16 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ApexAxisChartSeries, ApexChart, ApexXAxis, ApexYAxis, ApexTitleSubtitle, ApexTooltip, ApexLegend } from 'ng-apexcharts';
+import { NetworkService } from 'src/app/services/network.service';
 
 @Component({
   selector: 'app-apex-customer-chart',
   templateUrl: './apex-customer-chart.component.html',
   styleUrl: './apex-customer-chart.component.scss'
 })
-export class ApexCustomerChartComponent {
+export class ApexCustomerChartComponent implements OnInit {
+
 
   public chartOptions: any;
 
-  constructor() {
+  constructor(private network : NetworkService) {
     this.chartOptions = {
       chart: {
         type: 'line',
@@ -50,6 +52,30 @@ export class ApexCustomerChartComponent {
         floating: true
       }
     };
+  }
+
+  async ngOnInit() {
+    
+      // Fetch data from the network service
+      const response = await this.network.getCustomerStat();
+
+      // Parse data for monthly statistics
+      const categories = response[1].monthly_data.map((item: any) => `Month ${item.in_months}`);
+      const totalCustomers = response[1].monthly_data.map((item: any) => item.total_customers);
+
+      // Use the same value for all months (adjust based on actual data logic)
+      const newCustomers = Array(response[1].monthly_data.length).fill(response[1].new_customers);
+      const returningCustomers = Array(response[1].monthly_data.length).fill(response[1].returning_customers);
+
+      // Update chart options
+      this.chartOptions.series = [
+        { name: 'New Customers', data: newCustomers },
+        { name: 'Returning Customers', data: returningCustomers },
+        { name: 'Total Customers', data: totalCustomers }
+      ];
+      this.chartOptions.xaxis.categories = categories;
+
+
   }
 
 }
