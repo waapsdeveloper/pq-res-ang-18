@@ -32498,8 +32498,10 @@ html:not([data-theme='dark']) .theme-light-bg-body {
 }
 .btn.btn-primary {
   color: var(--kt-primary-inverse);
-  border-color: var(--kt-primary);
-  background-color: var(--kt-primary);
+  /* border-color: var(--kt-primary);
+  background-color: var(--kt-primary); */
+  border-color: #d12e2e;
+  background-color:#d12e2e;
 }
 .btn.btn-primary .svg-icon,
 .btn.btn-primary i {
