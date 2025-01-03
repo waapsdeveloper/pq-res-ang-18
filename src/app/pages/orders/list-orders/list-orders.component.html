@@ -19,7 +19,7 @@
       <td>
         <div class="d-flex">
           <div class="ms-4">
-            <a class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{ item?.order_number }}</a>
+            <a (click)="openDetails(i)" class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{ item?.order_number }}</a>
           </div>
         </div>
       </td>
@@ -135,16 +135,10 @@
         ></ngx-skeleton-loader>
       </td>
       <td>
-        <ngx-skeleton-loader
-          appearance="custom-content"
-          [theme]="{ width: '60px', height: '20px', }"
-        ></ngx-skeleton-loader>
+        <ngx-skeleton-loader appearance="custom-content" [theme]="{ width: '60px', height: '20px' }"></ngx-skeleton-loader>
       </td>
       <td>
-        <ngx-skeleton-loader
-          appearance="custom-content"
-          [theme]="{ width: '100px', height: '20px' }"
-        ></ngx-skeleton-loader>
+        <ngx-skeleton-loader appearance="custom-content" [theme]="{ width: '100px', height: '20px' }"></ngx-skeleton-loader>
       </td>
       <td>
         <ngx-skeleton-loader

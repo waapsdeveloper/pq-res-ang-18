@@ -17,14 +17,16 @@
       <td>
         <div  class="d-flex">
           <div class="ms-5">
-            <a class="text-muted fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{item?.invoice_no}}</a>
+            <a (click)="openDetails(i)"
+            class="text-muted fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{item?.invoice_no}}</a>
           </div>
         </div>
       </td>
       <td>
         <div  class="d-flex">
           <div class="ms-5">
-            <a class="text-muted fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{item?.order_number}}</a>
+            <a (click)="openDetails(i)"
+            class="text-muted fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{item?.order_number}}</a>
           </div>
         </div>
       </td>
