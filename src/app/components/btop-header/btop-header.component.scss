@@ -1,7 +1,6 @@
 .active-link {
   // background: var(--bs-blue);
   color: var(--bs-blue) !important;
-  border-bottom: 1px solid var(--bs-blue);
 }
 .toolbar-container {
   display: flex;
@@ -20,4 +19,33 @@
 
 .pc-h-item {
   margin-top: 8px; /* Ensure consistent gap for other components */
+}
+.pc-header {
+  display: flex;
+  flex-direction: column;
+}
+.pc-header .d-flex {
+  display: flex;
+}
+.pc-header .m-header {
+  display: flex;
+  align-items: center;
+}
+@media (max-width: 768px) {
+  .pc-header .d-flex.flex-row.align-items-center.p-3 {
+    flex-wrap: wrap; /* Allow wrapping of items on smaller screens */
+
+  }
+  .pc-mob-drp{
+    display: none !important;}
+
+    .card-toolbar .btn-primary {
+      display: none !important;}
+  }
+
+.header-user-profile{
+
+border: none;
+
+
 }

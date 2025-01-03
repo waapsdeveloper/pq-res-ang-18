@@ -1,1 +1,146 @@
-<p>view-invoices works!</p>
+<app-kt-list-detail-page [title]="'items'">
+  <div class="card mb-5 mb-xl-10" id="kt_profile_details_view">
+    <!--begin::Card header-->
+    <!--begin::Card header-->
+    <!--begin::Card body-->
+    <div class="card-body">
+      <!--begin::Row-->
+      <div class="row mb-7">
+        <!--begin::Label-->
+        <label class="col-lg-4 fw-normal text-muted">Customer Name</label>
+        <!--end::Label-->
+        <!--begin::Col-->
+        <div class="col-lg-8">
+          <span class="fw-medium fs-6 text-gray-800">{{item?.customer.name}}</span>
+        </div>
+        <!--end::Col-->
+      </div>
+      <!--end::Row-->
+      <!--begin::Input group-->
+      <div class="row mb-7">
+        <!--begin::Label-->
+        <label class="col-lg-4 fw-normal text-muted">Order Number</label>
+        <!--end::Label-->
+        <!--begin::Col-->
+        <div class="col-lg-8 fv-row">
+          <span class="fw-medium text-gray-800 fs-6">{{ item?.order_number }}</span>
+        </div>
+        <!--end::Col-->
+      </div>
+      <!--end::Input group-->
+      <!--begin::Input group-->
+      <div class="row mb-7">
+        <!--begin::Label-->
+        <label class="col-lg-4 fw-normal text-muted">
+          Contact Phone
+          <i
+            class="fas fa-exclamation-circle ms-1 fs-7"
+            data-bs-toggle="tooltip"
+            aria-label="Phone number must be active"
+            data-kt-initialized="1"
+          ></i>
+        </label>
+        <!--end::Label-->
+        <!--begin::Col-->
+        <div class="col-lg-8 d-flex align-items-center">
+          <span class="fw-medium text-gray-800 fs-6">{{item?.customer.phone}}</span>
+        </div>
+        <!--end::Col-->
+      </div>
+      <!--end::Input group-->
+      <div class="row mb-7">
+        <!--begin::Label-->
+        <label class="col-lg-4 fw-normal text-muted">item Number</label>
+        <!--end::Label-->
+        <!--begin::Col-->
+        <div class="col-lg-8">
+          <span class="fw-medium text-gray-800 fs-6">{{ item?.invoice_no }}</span>
+        </div>
+        <!--end::Col-->
+      </div>
+      <div class="row mb-7">
+        <!--begin::Label-->
+        <label class="col-lg-4 fw-normal text-muted">Invoice Date</label>
+        <!--end::Label-->
+        <!--begin::Col-->
+        <div class="col-lg-8">
+          <span class="fw-medium text-gray-800 fs-6">{{ item?.invoice_date }}</span>
+        </div>
+        <!--end::Col-->
+      </div>
+      <!--end::Input group-->
+      <div class="row mb-7">
+        <label class="col-lg-4 fw-normal text-muted">Total Price</label>
+        <div class="col-lg-8">
+          <span class="fw-medium text-gray-800 fs-6">${{ item?.total_price }}</span>
+        </div>
+      </div>
+      <div class="row mb-7">
+        <label class="col-lg-4 fw-normal text-muted">Discount (if any)</label>
+        <div class="col-lg-8">
+          <span class="fw-medium text-gray-800 fs-6">${{ item?.discount }}</span>
+        </div>
+      </div>
+      <div class="row mb-7">
+        <label class="col-lg-4 fw-normal text-muted">Tax</label>
+        <div class="col-lg-8">
+          <span class="fw-medium text-gray-800 fs-6">${{ item?.tax }}</span>
+        </div>
+      </div>
+      <div class="row mb-7">
+        <label class="col-lg-4 fw-normal text-muted">Important Notes</label>
+        <div class="col-lg-8">
+          <span class="fw-medium text-gray-800 fs-6">{{ item?.important_notes }}</span>
+        </div>
+      </div>
+      <div class="row mb-7">
+        <label class="col-lg-4 fw-normal text-muted">Table No</label>
+        <div class="col-lg-8">
+          <span class="fw-medium text-gray-800 fs-6">{{ item?.table_no }}</span>
+        </div>
+      </div>
+      <div class="row mb-7">
+        <label class="col-lg-4 fw-normal text-muted">Payment Method</label>
+        <div class="col-lg-8">
+          <span class="fw-medium text-gray-800 fs-6">{{ item?.payment_method }}</span>
+        </div>
+      </div>
+      <div class="row mb-7">
+        <label class="col-lg-4 fw-normal text-muted">Payment Status</label>
+        <div class="col-lg-8">
+          <span class="fw-medium text-gray-800 fs-6">{{ item?.payment_status }}</span>
+        </div>
+      </div>
+      <div class="row mb-7">
+        <label class="col-lg-4 fw-normal text-muted">Order Status</label>
+        <div class="col-lg-8">
+          <span class="fw-medium text-gray-800 fs-6">{{ item?.status }}</span>
+        </div>
+      </div>
+      <!--begin::Input group-->
+      <div class="row mb-7">
+        <div class="col-lg-12">
+          <table class="table table-bordered mb-4">
+            <thead>
+              <tr>
+                <th class="fw-normal text-muted">Product Name</th>
+                <th class="fw-normal text-muted">Product Quantity</th>
+                <th class="fw-normal text-muted">Price</th>
+                <th class="fw-normal text-muted">Total Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let product of item?.order_products">
+                <td class="fw-medium fs-6 text-gray-800">{{ product?.product_name }}</td>
+                <td class="fw-medium fs-6 text-gray-800">{{ product?.quantity }}</td>
+                <td class="fw-medium fs-6 text-gray-800">${{ product?.price }}</td>
+                <td class="fw-medium fs-6 text-gray-800">${{ product?.quantity * product?.price }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!--end::Card body-->
+  </div>
+</app-kt-list-detail-page>

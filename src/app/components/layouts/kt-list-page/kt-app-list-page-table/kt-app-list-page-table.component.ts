@@ -8,6 +8,14 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 export class KtAppListPageTableComponent {
 
   role_id: number = 1;
+  loading = true; // Controls the loading state
+
+  ngOnInit(): void {
+    // Simulate a delay to load data
+    setTimeout(() => {
+      this.loading = false; // Stops loader when data is ready
+    }, 1700); // Adjust time based on data fetch time
+  }
 
   @Input('columns') columns: any[] = [];
   @Input('totalPages') totalPages: number = 0;

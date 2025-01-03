@@ -34,6 +34,7 @@ export class ListCategoryComponent extends ListBlade{
 
   override model = {
     name: '',
+    restaurant: '',
     status: '',
   };
 

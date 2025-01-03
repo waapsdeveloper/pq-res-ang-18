@@ -8,14 +8,13 @@ import { ProjectStatComponent } from './project-stat.component';
 
 
 @NgModule({
-  declarations: [
-    ProjectStatComponent
-  ],
+  declarations: [] ,
   imports: [
     CommonModule,
     ProjectStatRoutingModule,
     KtListPageModule,
     KtAppListPageTableModule,
+    ProjectStatComponent
   ]
 })
 export class ProjectStatModule { }

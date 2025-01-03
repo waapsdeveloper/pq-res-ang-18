@@ -12,31 +12,39 @@
     [totalPages]="crudService.lastPage"
     (pageChange)="changePage($event)"
   >
+
     <tr *ngFor="let item of crudService.list; let i = index">
       <td>
-        <div *ngFor="let products of item.products" class="d-flex">
+        <div  class="d-flex">
           <div class="ms-5">
-            <a class="text-muted fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{ products?.product_name }}</a>
+            <a class="text-muted fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{item?.invoice_no}}</a>
           </div>
         </div>
       </td>
       <td>
-        <div *ngFor="let products of item.products" class="d-flex">
+        <div  class="d-flex">
           <div class="ms-5">
-            <a class="text-muted fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{ products?.quantity }}</a>
+            <a class="text-muted fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{item?.order_number}}</a>
           </div>
         </div>
       </td>
       <td>
-        <div *ngFor="let products of item.products" class="d-flex">
+        <div  class="d-flex">
           <div class="ms-5">
-            <a class="text-muted fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">${{ products?.price }}</a>
+            <a class="text-muted fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{item?.invoice_date}}</a>
+          </div>
+        </div>
+      </td>
+      <td>
+        <div  class="d-flex">
+          <div class="ms-5">
+            <a class=" badge badge-pill badge-primary text-muted fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{item?.payment_method}}</a>
           </div>
         </div>
       </td>
       <td>
         <div class="d-flex">
-          <div class="text-muted fs-7 fw-bold">${{ item?.total_price }}</div>
+          <div class="badge badge-secondary text-muted fs-7 fw-bold">${{ item?.total}}</div>
         </div>
       </td>
       <td>
@@ -50,7 +58,6 @@
       <td class="text-end">
         <div class="d-flex flex-row justify-content-end align-items-center gap-3">
           <i class="ti ti-eye" style="font-size: 24px" (click)="openDetails(i)"></i>
-          <i *ngIf="showEdit" class="ti ti-edit" style="font-size: 24px"></i>
           <i *ngIf="showEdit" class="ti ti-trash" style="font-size: 24px" (click)="deleteRow(i)"></i>
         </div>
       </td>
@@ -63,6 +70,79 @@
       </td>
       <!--end::Checkbox-->
       <!--end::Table row-->
+    </tr>
+    <tr *ngIf="crudService.loading">
+      <!-- Thumbnail Column -->
+      <td>
+        <div class="d-flex align-items-center">
+          <div class="ms-5">
+            <!-- Title Loader -->
+            <ngx-skeleton-loader
+              appearance="custom-content"
+              [theme]="{ width: '150px', height: '20px', background: 'rgba(255,255,255,0.2)' }"
+              [animation]="true"
+            ></ngx-skeleton-loader>
+          </div>
+        </div>
+      </td>
+
+      <!-- Address Column -->
+      <td>
+        <div class="d-flex align-items-center">
+          <ngx-skeleton-loader
+            appearance="custom-content"
+            [theme]="{ width: '120px', height: '20px' }"
+            [animation]="true"
+          ></ngx-skeleton-loader>
+        </div>
+      </td>
+      <td>
+        <div class="d-flex align-items-center">
+          <ngx-skeleton-loader
+            appearance="custom-content"
+            [theme]="{ width: '90px', height: '20px' }"
+            [animation]="true"
+          ></ngx-skeleton-loader>
+        </div>
+      </td>
+
+      <!-- Status Column -->
+      <td>
+        <ngx-skeleton-loader
+          appearance="custom-content"
+          [theme]="{ width: '85px', height: '20px', 'border-radius': '12px' }"
+        ></ngx-skeleton-loader>
+      </td>
+      <td>
+        <ngx-skeleton-loader
+          appearance="custom-content"
+          [theme]="{ width: '60px', height: '20px', 'border-radius': '7px' }"
+        ></ngx-skeleton-loader>
+      </td>
+      <td>
+        <ngx-skeleton-loader
+          appearance="custom-content"
+          [theme]="{ width: '90px', height: '20px' }"
+        ></ngx-skeleton-loader>
+      </td>
+
+      <!-- Action Icons -->
+      <td class="text-end">
+        <div class="d-flex flex-row justify-content-end align-items-center gap-3">
+          <ngx-skeleton-loader
+            *ngFor="let _ of [1, 2, 3, 4]"
+            appearance="custom-content"
+            [theme]="{ width: '24px', height: '24px' }"
+          ></ngx-skeleton-loader>
+        </div>
+      </td>
+
+      <!-- Checkbox Column -->
+      <td>
+        <div class="form-check form-check-sm form-check-custom form-check-solid">
+          <input class="form-check-input" type="checkbox" />
+        </div>
+      </td>
     </tr>
   </app-kt-app-list-page-table>
 </app-kt-list-page>

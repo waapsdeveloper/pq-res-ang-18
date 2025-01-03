@@ -12,6 +12,7 @@ export abstract class BaseCrudService<T> {
   public perpage: number = 10;
   public filters: any = null;
   public search: string = '';
+  public loading: boolean = false;
 
   async getList(search: string = '', page: number = 1): Promise<any> {
 
@@ -22,7 +23,9 @@ export abstract class BaseCrudService<T> {
       filters: this.filters ? JSON.stringify(this.filters) : null,
     };
 
+    this.loading = true;
     const res = await this.fetchData(obj);
+    this.loading = false;
 
     if (res.data) {
       const d = res.data;

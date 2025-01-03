@@ -14,7 +14,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
   styleUrls: ['./list-invoices.component.scss'],
 })
 export class ListInvoicesComponent  extends ListBlade{
-  columns: any[] = ['Products', 'Quantity', 'Price', 'Total Price', 'Status'];
+  columns: any[] = ['Invoice Number', 'Order Number', 'Date', 'Method', 'Total Price', 'Status'];
   showEdit = false;
   title = 'Invoices';
   addurl = '/pages/invoices/add';
@@ -93,7 +93,7 @@ export class ListInvoicesComponent  extends ListBlade{
 
 
   openDetails(i) {
-    let item = this.list[i];
+    let item = this.crudService.list[i];
     this.nav.push('/pages/invoices/view/' + item.id);
   }
 

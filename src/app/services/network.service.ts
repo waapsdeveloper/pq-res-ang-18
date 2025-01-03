@@ -18,6 +18,14 @@ export class NetworkService {
 
   //Dashboard APi
 
+  getSalesChartData(params: any) {
+    let str = this.serialize(params);
+    return this.httpGetResponse('dashboard/sales-chart-data' + '?' + str, null, false, true);
+  }
+  getCustomerStat(){
+    return this.httpGetResponse('dashboard/customers', null , false ,true);
+  }
+
   getRecentOrder() {
     return this.httpGetResponse('dashboard/recent-orders', null, false, true);
   }
@@ -157,6 +165,10 @@ export class NetworkService {
     return this.httpDeleteResponse('invoice', id, false, true);
   }
 
+  getInvoicesById(id) {
+    return this.httpGetResponse(`invoice/${id}`, null, false, true);
+  }
+
   // Tables
 
   getTables(params) {
@@ -191,6 +203,10 @@ export class NetworkService {
   addOrder(data) {
     return this.httpPostResponse('order', data, null, false, true);
   }
+  removeOrder(id) {
+    return this.httpDeleteResponse('order', id, false, true);
+  }
+
 
   serialize = (obj: any) => {
     const str: any[] = [];

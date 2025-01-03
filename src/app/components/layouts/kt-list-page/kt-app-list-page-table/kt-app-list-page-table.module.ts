@@ -4,6 +4,7 @@ import { KtAppListPageTableComponent } from './kt-app-list-page-table.component'
 import { RouterModule } from '@angular/router';
 import { KtAppToolbarModule } from '../../../kt-app-toolbar/kt-app-toolbar.module';
 import { FormsModule } from '@angular/forms';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 
 
@@ -15,7 +16,8 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     RouterModule,
     KtAppToolbarModule,
-    FormsModule
+    FormsModule,
+    NgxSkeletonLoaderModule
   ],
   exports: [
     KtAppListPageTableComponent

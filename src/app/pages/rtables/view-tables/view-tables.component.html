@@ -13,11 +13,9 @@
         <!--begin::Image input-->
         <div class="image-input image-input-outline" data-kt-image-input="true">
           <!--begin::Preview existing avatar-->
-          <img
-              [src]="'https://api.qrserver.com/v1/create-qr-code/?data=' + item.identifier + '&size=150x150'"
-              alt="QR Code"
-              class="img-fluid"
-            />
+          <qr-code value="{{item?.qr_code}}"
+         size="300"
+         errorCorrectionLevel="M" />
           <!--end::Preview existing avatar-->
           <!--begin::Label-->
 
