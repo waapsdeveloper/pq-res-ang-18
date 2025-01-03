@@ -18,26 +18,26 @@
     <table class="table  ">
       <thead>
         <tr>
-          <th >Table Name</th>
-          <th >Floor</th>
-          <th >Usage</th>
+          <th class="px-0">Table Name</th>
+          <th class="px-0" >Floor</th>
+          <th class="px-0" >Usage</th>
         </tr>
       </thead>
       <tbody>
         <!-- Loop through the tables -->
         <tr *ngFor="let item of tables">
 
-          <td class="p-0">
+          <td class="px-0">
             <a href="#" class=" text-gray-800 text-hover-primary fs-5 fw-bold">
               {{ item.name }}
             </a>
           </td>
-          <td class="p-0">
+          <td class="px-0">
             <a href="#" class="text-gray-800 text-hover-primary fs-5 fw-bold">
               {{ item.floor }}
             </a>
           </td>
-          <td class="p-0">
+          <td class="px-0">
             <div class="d-flex align-items-center">
               <div class="progress h-6px w-100 me-2 bg-light-success">
                 <div
