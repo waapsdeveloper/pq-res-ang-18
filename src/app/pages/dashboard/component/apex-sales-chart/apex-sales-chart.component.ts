@@ -1,14 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 
-import {
-  ChartComponent,
-  ApexAxisChartSeries,
-  ApexChart,
-  ApexXAxis,
-  ApexTitleSubtitle
-} from "ng-apexcharts";
+import { ChartComponent, ApexAxisChartSeries, ApexChart, ApexXAxis, ApexTitleSubtitle } from 'ng-apexcharts';
 import { NetworkService } from 'src/app/services/network.service';
-
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -27,8 +20,7 @@ export type ChartOptions = {
   styleUrl: './apex-sales-chart.component.scss'
 })
 export class ApexSalesChartComponent {
-
-  @ViewChild("chart") chart: ChartComponent;
+  @ViewChild('chart') chart: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
   btnActive: string = 'day';
   amount;
@@ -90,11 +82,11 @@ export class ApexSalesChartComponent {
   async toggleActive(value: string) {
     this.btnActive = value;
 
-    if(value == 'day'){
+    if (value == 'day') {
       let obj = {
-        type: this.btnActive,
+        param: this.btnActive,
         date: new Date().toISOString()
-      }
+      };
       let data = await this.network.getSalesChartData(obj);
       console.log(data);
 
@@ -110,32 +102,77 @@ export class ApexSalesChartComponent {
       ];
       this.chartOptions.xaxis.categories = [...data.categories];
 
+      return;
+    }
+
+    if (value == 'week') {
+      let obj = {
+        param: this.btnActive,
+        date: new Date().toISOString()
+      };
+      let data = await this.network.getSalesChartData(obj);
+      console.log(data);
+
+      this.chartOptions.series = [
+        {
+          name: 'Last Week',
+          data: data.series[0].data
+        },
+        {
+          name: 'This week',
+          data: data.series[1].data
+        }
+      ];
+      this.chartOptions.xaxis.categories = [...data.categories];
 
       return;
     }
 
+    if (value == 'month') {
+      let obj = {
+        param: this.btnActive,
+        date: new Date().toISOString()
+      };
+      let data = await this.network.getSalesChartData(obj);
+      console.log(data);
 
+      this.chartOptions.series = [
+        {
+          name: 'Last Month',
+          data: data.series[0].data
+        },
+        {
+          name: 'This Month',
+          data: data.series[1].data
+        }
+      ];
+      this.chartOptions.xaxis.categories = [...data.categories];
+
+      return;
+    }
 
     this.chartOptions.series = [
       {
         name: '2023',
-        data: value === 'year'
-          ? [45, 60, 75, 80, 100, 70, 65, 80, 85] // Yearly data
-          : value === 'month'
-          ? [45, 66, 41, 89, 25, 44, 9, 54, 70, 65, 80, 85] // Monthly data for 12 months
-          : value === 'day'
-          ? [12, 15, 20, 18, 22, 24, 19, 25, 28, 30, 27, 26, 24, 22, 20, 18, 15, 14, 17, 20, 21, 19, 15, 14] // Hourly data for "Today"
-          : [] // Default fallback
+        data:
+          value === 'year'
+            ? [45, 60, 75, 80, 100, 70, 65, 80, 85] // Yearly data
+            : value === 'month'
+              ? [45, 66, 41, 89, 25, 44, 9, 54, 70, 65, 80, 85] // Monthly data for 12 months
+              : value === 'day'
+                ? [12, 15, 20, 18, 22, 24, 19, 25, 28, 30, 27, 26, 24, 22, 20, 18, 15, 14, 17, 20, 21, 19, 15, 14] // Hourly data for "Today"
+                : [] // Default fallback
       },
       {
         name: '2022',
-        data: value === 'year'
-          ? [30, 50, 65, 75, 85, 60, 50, 70, 75] // Yearly data
-          : value === 'month'
-          ? [35, 44, 9, 54, 45, 66, 41, 69, 55, 60, 58, 70] // Monthly data for 12 months
-          : value === 'day'
-          ? [10, 12, 15, 13, 17, 19, 14, 18, 21, 22, 20, 18, 16, 14, 12, 11, 10, 13, 16, 19, 20, 18, 16, 14] // Hourly data for "Yesterday"
-          : [] // Default fallback
+        data:
+          value === 'year'
+            ? [30, 50, 65, 75, 85, 60, 50, 70, 75] // Yearly data
+            : value === 'month'
+              ? [35, 44, 9, 54, 45, 66, 41, 69, 55, 60, 58, 70] // Monthly data for 12 months
+              : value === 'day'
+                ? [10, 12, 15, 13, 17, 19, 14, 18, 21, 22, 20, 18, 16, 14, 12, 11, 10, 13, 16, 19, 20, 18, 16, 14] // Hourly data for "Yesterday"
+                : [] // Default fallback
       }
     ];
 
@@ -143,17 +180,8 @@ export class ApexSalesChartComponent {
     console.log(v);
     this.amount = `${v}`;
 
-
     // this.amount = value === 'month' ? 108 : 961;
   }
 
-  async ngOnInit() {
-
-
-  }
-
-
-
-
-
+  async ngOnInit() {}
 }
