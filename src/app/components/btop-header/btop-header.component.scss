@@ -30,6 +30,7 @@
 .pc-header .m-header {
   display: flex;
   align-items: center;
+  width:130px;
 }
 @media (max-width: 768px) {
   .pc-header .d-flex.flex-row.align-items-center.p-3 {
@@ -47,5 +48,9 @@
 
 border: none;
 
+
+}
+img{
+height: 70px;
 
 }
