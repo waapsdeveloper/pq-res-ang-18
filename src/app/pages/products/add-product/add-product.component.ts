@@ -130,53 +130,53 @@ export class AddProductComponent {
         }
       ]
     },
-    {
-      fieldGroupClassName: 'row', // Bootstrap row
-      fieldGroup: [
-        // option for small medium large - select
-        {
-          key: 'sizes',
-          type: 'multicheckbox',
-          props: {
-            label: 'Sizes',
-            options: [
-              { value: 'small', label: 'Small' },
-              { value: 'medium', label: 'Medium' },
-              { value: 'large', label: 'Large' }
-            ]
-          },
-          className: 'col-md-4 col-12'
-        },
-        // option for spicy level - select
-        {
-          key: 'spicy',
-          type: 'multicheckbox',
-          props: {
-            label: 'Spicy Level',
-            options: [
-              { value: 'mild', label: 'Mild' },
-              { value: 'medium', label: 'Medium' },
-              { value: 'hot', label: 'Hot' }
-            ]
-          },
-          className: 'col-md-4 col-12'
-        },
-        // options for either breakfast, lunch or dinner - select
-        {
-          key: 'type',
-          type: 'multicheckbox',
-          props: {
-            label: 'Type',
-            options: [
-              { value: 'breakfast', label: 'Breakfast' },
-              { value: 'lunch', label: 'Lunch' },
-              { value: 'dinner', label: 'Dinner' }
-            ]
-          },
-          className: 'col-md-4 col-12'
-        }
-      ]
-    }
+    // {
+    //   fieldGroupClassName: 'row', // Bootstrap row
+    //   fieldGroup: [
+    //     // option for small medium large - select
+    //     {
+    //       key: 'sizes',
+    //       type: 'multicheckbox',
+    //       props: {
+    //         label: 'Sizes',
+    //         options: [
+    //           { value: 'small', label: 'Small' },
+    //           { value: 'medium', label: 'Medium' },
+    //           { value: 'large', label: 'Large' }
+    //         ]
+    //       },
+    //       className: 'col-md-4 col-12'
+    //     },
+    //     // option for spicy level - select
+    //     {
+    //       key: 'spicy',
+    //       type: 'multicheckbox',
+    //       props: {
+    //         label: 'Spicy Level',
+    //         options: [
+    //           { value: 'mild', label: 'Mild' },
+    //           { value: 'medium', label: 'Medium' },
+    //           { value: 'hot', label: 'Hot' }
+    //         ]
+    //       },
+    //       className: 'col-md-4 col-12'
+    //     },
+    //     // options for either breakfast, lunch or dinner - select
+    //     {
+    //       key: 'type',
+    //       type: 'multicheckbox',
+    //       props: {
+    //         label: 'Type',
+    //         options: [
+    //           { value: 'breakfast', label: 'Breakfast' },
+    //           { value: 'lunch', label: 'Lunch' },
+    //           { value: 'dinner', label: 'Dinner' }
+    //         ]
+    //       },
+    //       className: 'col-md-4 col-12'
+    //     }
+    //   ]
+    // }
   ];
 
   constructor(
