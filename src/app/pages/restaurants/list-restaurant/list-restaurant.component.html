@@ -105,7 +105,7 @@
         <div class="d-flex align-items-center">
           <ngx-skeleton-loader
             appearance="custom-content"
-            [theme]="{ width: '120px', height: '20px' }"
+            [theme]="{ width: '120px', height: '20px' ,background: 'rgba(0,0,0,0.2)' }"
             [animation]="true"
           ></ngx-skeleton-loader>
         </div>
@@ -115,7 +115,7 @@
       <td>
         <ngx-skeleton-loader
           appearance="custom-content"
-          [theme]="{ width: '100px', height: '20px', 'border-radius': '12px' }"
+          [theme]="{ width: '100px', height: '20px', 'border-radius': '12px' ,background: 'rgba(0,0,0,0.2)'}"
         ></ngx-skeleton-loader>
       </td>
 
@@ -125,7 +125,7 @@
           <ngx-skeleton-loader
             *ngFor="let _ of [1, 2, 3, 4]"
             appearance="custom-content"
-            [theme]="{ width: '24px', height: '24px' }"
+            [theme]="{ width: '24px', height: '24px' ,background: 'rgba(0,0,0,0.2)'}"
           ></ngx-skeleton-loader>
         </div>
       </td>
