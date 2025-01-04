@@ -24,7 +24,7 @@ export class SalesChartComponent {
       series: [
         {
           name: 'Sales',
-          data: [20, 35, 50, 60, 45, 75, 80]
+          data: [69, 35, 50, 60, 45, 75, 80]
         }
       ],
       xaxis: {

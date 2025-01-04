@@ -8,11 +8,9 @@ import { NetworkService } from 'src/app/services/network.service';
   styleUrl: './apex-customer-chart.component.scss'
 })
 export class ApexCustomerChartComponent implements OnInit {
-
-
   public chartOptions: any;
 
-  constructor(private network : NetworkService) {
+  constructor(private network: NetworkService) {
     this.chartOptions = {
       chart: {
         type: 'line',
@@ -55,27 +53,46 @@ export class ApexCustomerChartComponent implements OnInit {
   }
 
   async ngOnInit() {
-    
-      // Fetch data from the network service
-      const response = await this.network.getCustomerStat();
+    // Fetch data from the network service
+    const response = await this.network.getCustomerStat();
 
-      // Parse data for monthly statistics
-      const categories = response[1].monthly_data.map((item: any) => `Month ${item.in_months}`);
-      const totalCustomers = response[1].monthly_data.map((item: any) => item.total_customers);
+    const d = response.customers;
 
-      // Use the same value for all months (adjust based on actual data logic)
-      const newCustomers = Array(response[1].monthly_data.length).fill(response[1].new_customers);
-      const returningCustomers = Array(response[1].monthly_data.length).fill(response[1].returning_customers);
+    // Extract categories (x-axis labels)
+    const categories = d.xaxis.categories;
 
-      // Update chart options
-      this.chartOptions.series = [
-        { name: 'New Customers', data: newCustomers },
-        { name: 'Returning Customers', data: returningCustomers },
-        { name: 'Total Customers', data: totalCustomers }
-      ];
-      this.chartOptions.xaxis.categories = categories;
+    // Extract series data directly
+    const series = d.series.map((item) => ({
+      name: item.name, // Series name
+      data: item.data // Series data
+    }));
 
-
+    // Update chart options
+    this.chartOptions = {
+      series: series, // Series for the line chart
+      chart: {
+        type: 'line',
+        height: 360,
+        zoom: {
+          enabled: false
+        }
+      },
+      xaxis: {
+        categories: categories, // X-axis categories (days of the week)
+        title: {
+          text: 'Days'
+        }
+      },
+      yaxis: {
+        title: {
+          text: 'Number of Customers'
+        }
+      },
+     
+      colors: ['#FF6384', '#36A2EB', '#FFCE56'], // Custom colors
+      legend: {
+        position: 'top'
+      }
+    };
   }
-
 }
