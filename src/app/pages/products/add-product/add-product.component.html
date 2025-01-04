@@ -1,8 +1,36 @@
 <app-kt-app-form-page [title]="'Add Products'">
-
+  <!-- Existing Formly Form -->
   <form [formGroup]="form" (ngSubmit)="onSubmit(model)">
     <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
     <button type="submit" class="btn btn-secondary mt-4">Submit</button>
   </form>
 
+  <!-- Product Variations Section -->
+  <div class="variations-section mt-4">
+    <h3>Add Product Variations</h3>
+
+    <!-- List of Variations -->
+    <div *ngFor="let variation of variations; let i = index" class="variation mb-3">
+      <label>Variation Type:</label>
+      <input type="text" [(ngModel)]="variation.type" placeholder="e.g., Size, Toppings" class="form-control mb-2" />
+
+      <div *ngFor="let option of variation.options; let j = index" class="option mb-2">
+        <label>Option Name:</label>
+        <input type="text" [(ngModel)]="option.name" placeholder="e.g., Small" class="form-control mb-1" />
+        <label>Additional Price:</label>
+        <input type="number" [(ngModel)]="option.price" placeholder="e.g., 5" class="form-control mb-1" />
+        <button type="button" (click)="removeOption(i, j)" class="btn btn-danger btn-sm">Remove Option</button>
+      </div>
+
+      <!-- Add Option Button -->
+      <button type="button" (click)="addOption(i)" class="btn btn-primary btn-sm">Add Option</button>
+      <hr />
+    </div>
+
+    <!-- Add Variation Button -->
+    <button type="button" (click)="addVariation()" class="btn btn-secondary">Add Variation</button>
+  </div>
+
+  <!-- Submit Button -->
+  <button type="button"  *ngIf="variations.length > 0"  class="btn btn-secondary  mt-4">Submit</button>
 </app-kt-app-form-page>
