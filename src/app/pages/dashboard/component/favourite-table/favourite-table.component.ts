@@ -15,19 +15,19 @@ export class FavouriteTableComponent implements OnInit {
 
     const d = data.tables;
     console.log(d);
-    this.tables = d.map((table) => ({
+    this.tables = d?.map((table) => ({
       id: table.id,
       name: table.name,
       floor: table.floor,
       no_of_seats: table.no_of_seats,
       description: table.description,
       status: table.status,
-      restaurant_name: table.restaurant_detail.name,
-      restaurant_address: table.restaurant_detail.address,
-      restaurant_phone: table.restaurant_detail.phone,
-      restaurant_email: table.restaurant_detail.email,
-      restaurant_website: table.restaurant_detail.website,
-      restaurant_rating: table.restaurant_detail.rating
+      restaurant_name: table.restaurant_detail?.name,
+      restaurant_address: table.restaurant_detail?.address,
+      restaurant_phone: table.restaurant_detail?.phone,
+      restaurant_email: table.restaurant_detail?.email,
+      restaurant_website: table.restaurant_detail?.website,
+      restaurant_rating: table.restaurant_detail?.rating
     }));
 
     console.log(this.tables);

@@ -77,8 +77,10 @@ export class ApexSalesChartComponent {
     let v = this.chartOptions.series[0].data.reduce((a: number, b: number) => a + b, 0) as number;
     console.log(v);
     this.amount = `${v}`;
+    this.toggleActive(this.btnActive);
   }
 
+  currentDate = new Date().toISOString().split('T')[0];
   async toggleActive(value: string) {
     this.btnActive = value;
 
@@ -96,15 +98,18 @@ export class ApexSalesChartComponent {
           data: data.series[0].data
         },
         {
-          name: 'This Day',
+          name: this.currentDate,
           data: data.series[1].data
         }
       ];
 
-      this.chartOptions.xaxis.categories = [...data.categories];
+      this.chartOptions.xaxis = {
+        ...this.chartOptions.xaxis, // Keep existing xaxis properties
+        categories: data.categories // Update categories dynamically
+      };
       let v = this.chartOptions.series[0].data.reduce((a: number, b: number) => a + b, 0) as number;
       console.log(v);
-      this.amount = v.toFixed(2);
+      this.amount =  v != null ? v.toFixed(2) : "0.00";
 
       return;
     }
@@ -127,7 +132,11 @@ export class ApexSalesChartComponent {
           data: data.series[1].data
         }
       ];
-      this.chartOptions.xaxis.categories = [...data.categories];
+      this.chartOptions.xaxis = {
+        ...this.chartOptions.xaxis, // Keep existing xaxis properties
+        categories: data.categories // Update categories dynamically
+      };
+
       let v = this.chartOptions.series[0].data.reduce((a: number, b: number) => a + b, 0) as number;
       console.log(v);
 
@@ -153,7 +162,10 @@ export class ApexSalesChartComponent {
           data: data.series[1].data
         }
       ];
-      this.chartOptions.xaxis.categories = [...data.categories];
+      this.chartOptions.xaxis = {
+        ...this.chartOptions.xaxis, // Keep existing xaxis properties
+        categories: data.categories // Update categories dynamically
+      };
       let v = this.chartOptions.series[0].data.reduce((a: number, b: number) => a + b, 0) as number;
       console.log(v);
       this.amount = this.formatAmount(v);

@@ -1,10 +1,10 @@
-<app-kt-list-page [title]="'Orders'" [addurl]="'/pages/orders/add'" (onFilter)="filters = !filters">
-  <form [formGroup]="form" *ngIf="filters">
+<app-kt-list-page [title]="'Orders'" [addurl]="'/pages/orders/add'" (onFilter)="toggleFilters()">
+  <form [formGroup]="form" *ngIf="crudService.filters" (ngSubmit)="submitFilters(model)">
     <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
     <button type="submit" class="btn btn-secondary mt-4">search</button>
   </form>
 
-  <hr *ngIf="filters" />
+  <hr *ngIf="crudService.filters" />
 
   <app-kt-app-list-page-table
     [columns]="columns"
@@ -26,7 +26,7 @@
       <td>
         <div class="d-flex">
           <div class="ms-4">
-            <a class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{ item?.customer.name }}</a>
+            <a class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{ item?.customer }}</a>
           </div>
         </div>
       </td>
@@ -63,7 +63,7 @@
       </td>
       <td>
         <div class="d-flex">
-          <div class="badge badge-light-primary fw-bold me-auto px-4 py-3">{{ item.status }}</div>
+          <div class="badge badge-light-primary fw-bold me-auto px-4 py-3">{{ item?.status}}</div>
         </div>
       </td>
 
