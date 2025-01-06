@@ -246,11 +246,16 @@ export class EditProductComponent implements OnInit, AfterViewInit {
 ]
     */
 
-    this.variations = d['variation'] ? d['variation'].find((x) => x.meta_key == 'variation') : null;
-    if (this.variations) {
-      d['variation'] = this.variations['meta_value'] ? JSON.parse(this.variations['meta_value']) : null;
+    const f = d['variation'] && d['variation'].length > 0 ? d['variation'][0] : null;
+    if (f) {
+      const metaValue = f['meta_value'] ? JSON.parse(f['meta_value']) : null;
+
+      if(metaValue){
+        this.variations = metaValue;
+        console.log(this.variations);
+      }
     }
-    console.log(this.variations);
+
 
     // let spicyObj = d['props'] ? d['props'].find((x) => x.meta_key == 'spicy') : null;
     // if (spicyObj) {
