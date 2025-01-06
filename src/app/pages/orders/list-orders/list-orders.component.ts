@@ -39,7 +39,7 @@ override  model = {
           props: {
             label: 'Order ID',
             placeholder: 'Enter order ID',
-            required: true,
+            required: false,
             pattern: '^[a-zA-Z0-9-_]+$', // Alphanumeric with optional hyphen/underscore
             title: 'Order ID can only contain letters, numbers, hyphens, and underscores'
           },
@@ -51,7 +51,7 @@ override  model = {
           props: {
             label: 'Customer Name',
             placeholder: 'Enter customer name',
-            required: true,
+            required: false,
             minLength: 3
           },
           className: 'col-md-4 col-12'
@@ -62,7 +62,7 @@ override  model = {
           props: {
             label: 'Phone',
             placeholder: 'Enter phone number',
-            required: true,
+            required: false,
             type: 'tel',
             pattern: '\\d{11}',
             title: 'Enter a valid 10-digit phone number'
@@ -75,7 +75,7 @@ override  model = {
           props: {
             label: 'Total Price',
             placeholder: 'Enter total price',
-            required: true,
+            required: false,
             type: 'number',
             min: 0,
             step: 0.01 // For decimal prices
@@ -104,7 +104,7 @@ override  model = {
               { label: 'Takeaway', value: 'takeaway' },
               { label: 'Delivery', value: 'delivery' }
             ],
-            required: true
+            required: false
           },
           className: 'col-md-4 col-12'
         },
@@ -118,7 +118,7 @@ override  model = {
               { label: 'Completed', value: 'completed' },
               { label: 'Cancelled', value: 'cancelled' }
             ],
-            required: true
+            required: false
           },
           className: 'col-md-4 col-12'
         }

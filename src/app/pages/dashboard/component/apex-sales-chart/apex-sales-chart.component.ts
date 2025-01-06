@@ -109,7 +109,7 @@ export class ApexSalesChartComponent {
       };
       let v = this.chartOptions.series[0].data.reduce((a: number, b: number) => a + b, 0) as number;
       console.log(v);
-      this.amount = v.toFixed(2);
+      this.amount =  v != null ? v.toFixed(2) : "0.00";
 
       return;
     }
