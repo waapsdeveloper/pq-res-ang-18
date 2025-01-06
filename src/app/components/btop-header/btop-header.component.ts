@@ -68,7 +68,7 @@ export class BtopHeaderComponent {
     if(this.restaurant$){
 
       if(this.restaurant$['image']){
-      //  return this.restaurant$['image']
+        return this.restaurant$['image']
       }
 
     }
