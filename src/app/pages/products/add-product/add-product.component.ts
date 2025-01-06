@@ -13,23 +13,10 @@ import { UtilityService } from 'src/app/services/utility.service';
 })
 export class AddProductComponent {
   form = new FormGroup({});
+
   variations: any[] = [];
-  addVariation() {
-    this.variations.push({
-      type: '', // e.g., "Size"
-      options: [
-        { name: '', price: 0 } // Default empty option
-      ]
-    });
-  }
-   // Add a new option to a variation
-   addOption(variationIndex: number) {
-    this.variations[variationIndex].options.push({ name: '', price: 0 });
-  }
-   // Remove an option from a variation
-   removeOption(variationIndex: number, optionIndex: number) {
-    this.variations[variationIndex].options.splice(optionIndex, 1);
-  }
+  addAttributeInput = '';
+
   model = {
     name: '',
     category_id: '',
@@ -323,4 +310,43 @@ export class AddProductComponent {
       reader.readAsDataURL(file); // Convert file to base64
     }
   }
+
+  addAttributes(){
+
+
+    let v = this.addAttributeInput.trim();
+
+
+    if(!v || v == ''){
+      return;
+    }
+
+
+    let findIndex = this.variations.findIndex( x => x.type == v);
+    if(findIndex == -1){
+      this.addVariation(v)
+    }
+
+    this.addAttributeInput = '';
+
+
+  }
+
+  addVariation(type) {
+    this.variations.push({
+      type: type, // e.g., "Size"
+      options: [
+        { name: '', price: 0 } // Default empty option
+      ]
+    });
+  }
+   // Add a new option to a variation
+   addOption(variationIndex: number) {
+    this.variations[variationIndex].options.push({ name: '', price: 0 });
+  }
+   // Remove an option from a variation
+   removeOption(variationIndex: number, optionIndex: number) {
+    this.variations[variationIndex].options.splice(optionIndex, 1);
+  }
+
 }

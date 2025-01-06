@@ -5,45 +5,89 @@
     <button type="submit" class="btn btn-secondary mt-4">Submit</button>
   </form>
 
-  <!-- Product Variations Section -->
-  <div *ngFor="let variation of variations; let i = index" class="variation mb-3">
-    <!-- Variation Type Input -->
-    <div class="d-flex align-items-center gap-2 mb-2">
 
-      <input
-        type="text"
-        [(ngModel)]="variation.type"
-        placeholder="Variation Type (e.g., Size, Toppings)"
-        class="form-control"
-      />
-      <input
-        type="text"
-        placeholder="Option Name (e.g., Small)"
-        class="form-control"
-      />
-      <input
-        type="number"
-        placeholder="Additional Price (e.g., 5)"
-        class="form-control"
-      />
+
+  <div class="row my-5">
+
+    <div class="col-12">
+      <div class="row">
+        <div class="col-md-6 col-12 my-3">
+          <h3>Product Attributes </h3>
+          <p>Here you can define product sizes, types, flavors and any options you have </p>
+
+          <div class="d-flex flex-row flex-wrap justify-content-start">
+            <div class="badge badge-secondary fw-bold me-2 px-4 py -3" style="height: 32px;" *ngFor="let item of variations">{{ item.type }}</div>
+          </div>
+        </div>
+        <div class="col-md-6 col-12 my-3">
+          <input [(ngModel)]="addAttributeInput"
+            type="text"
+            placeholder="Variation Type (e.g., Size, Toppings)"
+            class="form-control"
+          />
+          <button type="button" (click)="addAttributes()" class="btn btn-warning btn-123">
+            Add Attributes
+          </button>
+        </div>
+      </div>
+
     </div>
 
-    <!-- Buttons (Next Line) -->
-    <div class="d-flex gap-2">
-      <button type="button" (click)="addOption(i)" class="btn btn-primary btn-sm">
-        Add Option
-      </button>
-      <button type="button"  class="btn btn-danger btn-sm">
-        Remove Option
-      </button>
+    <div class="col-12">
+
+      <div class="row">
+        <div class="col-md-6 col-12 my-3">
+          <h3>Product Variations </h3>
+          <p>Select any attribtes and update its variations </p>
+        </div>
+
     </div>
 
-    <hr />
+
+
+    <div *ngFor="let variation of variations; let i = index" class="variation mb-3">
+      <!-- Variation Type Input -->
+      <div class="d-flex align-items-center gap-2 mb-2">
+
+        <input
+          type="text"
+          [(ngModel)]="variation.type"
+          placeholder="Variation Type (e.g., Size, Toppings)"
+          class="form-control"
+        />
+        <input
+          type="text"
+          placeholder="Option Name (e.g., Small)"
+          class="form-control"
+        />
+        <input
+          type="number"
+          placeholder="Additional Price (e.g., 5)"
+          class="form-control"
+        />
+      </div>
+
+      <!-- Buttons (Next Line) -->
+      <div class="d-flex gap-2">
+        <button type="button" (click)="addOption(i)" class="btn btn-primary btn-sm">
+          Add Option
+        </button>
+        <button type="button"  class="btn btn-danger btn-sm">
+          Remove Option
+        </button>
+      </div>
+
+      <hr />
+    </div>
+
+
   </div>
 
-  <!-- Add Variation Button -->
-  <button type="button" (click)="addVariation()" class="btn btn-secondary btn-123">
-    Add Variation
-  </button>
+
+
+
+
+</div>
+
 
 </app-kt-app-form-page>
