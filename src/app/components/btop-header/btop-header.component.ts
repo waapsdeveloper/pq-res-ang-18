@@ -68,12 +68,14 @@ export class BtopHeaderComponent {
     if(this.restaurant$){
 
       if(this.restaurant$['image']){
+
+        console.log( this.restaurant$['image'])
         return this.restaurant$['image']
       }
 
     }
 
-    return 'assets/svg/log.svg'
+  //  return 'assets/svg/log.svg'
   }
 
 
