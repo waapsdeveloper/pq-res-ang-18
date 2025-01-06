@@ -65,17 +65,17 @@ export class BtopHeaderComponent {
 
   setLogo(){
 
-    if(this.restaurant$){
+    // if(this.restaurant$){
 
-      if(this.restaurant$['image']){
+    //   if(this.restaurant$['image']){
 
-        console.log( this.restaurant$['image'])
-        return this.restaurant$['image']
-      }
+    //     console.log( this.restaurant$['image'])
+    //     return this.restaurant$['image']
+    //   }
 
-    }
+    // }
 
-    return 'assets/svg/log.svg'
+    return 'assets/svg/logo.png'
   }
 
 
