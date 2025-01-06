@@ -75,7 +75,7 @@ export class BtopHeaderComponent {
 
     }
 
-  //  return 'assets/svg/log.svg'
+    return 'assets/svg/log.svg'
   }
 
 
