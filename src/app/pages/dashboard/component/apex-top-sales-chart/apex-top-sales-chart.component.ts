@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
   styleUrl: './apex-top-sales-chart.component.scss'
 })
 export class ApexTopSalesChartComponent {
-  chartOptions: any;
+  public  chartOptions: any;
 
   constructor(private network: NetworkService) {}
   async ngOnInit() {

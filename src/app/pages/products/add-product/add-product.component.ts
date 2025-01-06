@@ -24,7 +24,7 @@ export class AddProductComponent {
     description: '',
     status: '',
     price: null,
-   image: '',
+    image: '',
     imageBase64: '',
     discount: null,
     notes: ''
@@ -133,7 +133,7 @@ export class AddProductComponent {
           className: 'col-md-4 col-12'
         }
       ]
-    },
+    }
     // {
     //   fieldGroupClassName: 'row', // Bootstrap row
     //   fieldGroup: [
@@ -273,14 +273,11 @@ export class AddProductComponent {
 
       d['image'] = this.model.imageBase64;
 
-
       // d['sizes'] = JSON.stringify(d['sizes'])
       // d['spicy'] = JSON.stringify(d['spicy'])
       // d['type'] = JSON.stringify(d['type'])
 
-       d['variation'] = this.variations;
-
-
+      d['variation'] = this.variations;
 
       const res = await this.network.addProduct(d);
       console.log(res);
@@ -311,73 +308,58 @@ export class AddProductComponent {
     }
   }
 
-  addAttributes(){
-
-
+  addAttributes() {
     let v = this.addAttributeInput.trim();
 
-
-    if(!v || v == ''){
+    if (!v || v == '') {
       return;
     }
 
-
-    let findIndex = this.variations.findIndex( x => x.type == v);
-    if(findIndex == -1){
-      this.addVariation(v)
+    let findIndex = this.variations.findIndex((x) => x.type == v);
+    if (findIndex == -1) {
+      this.addVariation(v);
     }
 
     this.addAttributeInput = '';
-
-
   }
 
   selectAttribute(type) {
-
-    this.variations = this.variations.map( (item) => {
+    this.variations = this.variations.map((item) => {
       item.selected = item.type == type;
       return item;
     });
-
   }
 
   addVariation(type) {
-
-    this.variations = this.variations.map( (item) => {
+    this.variations = this.variations.map((item) => {
       item['selected'] = false;
       return item;
     });
-
 
     this.variations.push({
       type: type, // e.g., "Size",
       selected: true,
       options: [
-        { name: '',description:'',price: 0 } // Default empty option
+        { name: '', description: '', price: 0 } // Default empty option
       ]
     });
   }
 
-  addItemINVariation(){
-
-    const index = this.variations.findIndex( x => x.selected == true);
-    if(index == -1){
+  addItemINVariation() {
+    const index = this.variations.findIndex((x) => x.selected == true);
+    if (index == -1) {
       return;
     }
 
-    this.variations[index]['options'].push(
-      { name: '',description:'',price: 0 }
-    )
-
+    this.variations[index]['options'].push({ name: '', description: '', price: 0 });
   }
 
-   // Add a new option to a variation
-   addOption(variationIndex: number) {
-    this.variations[variationIndex].options.push({ name: '', price: 0 });
+  // Add a new option to a variation
+  addOption(variationIndex: number) {
+    this.variations[variationIndex].options.push({ name: '', description: '', price: 0 });
   }
-   // Remove an option from a variation
-   removeOption(variationIndex: number, optionIndex: number) {
+  // Remove an option from a variation
+  removeOption(variationIndex: number, optionIndex: number) {
     this.variations[variationIndex].options.splice(optionIndex, 1);
   }
-
 }

@@ -160,7 +160,7 @@ export class EditProductComponent implements OnInit, AfterViewInit {
           className: 'col-md-4 col-12'
         }
       ]
-    },
+    }
     // {
     //   fieldGroupClassName: 'row', // Bootstrap row
     //   fieldGroup: [
@@ -246,20 +246,21 @@ export class EditProductComponent implements OnInit, AfterViewInit {
 ]
     */
 
-    let sizesObj = d['props'] ? d['props'].find((x) => x.meta_key == 'sizes') : null;
-    if (sizesObj) {
-      d['sizes'] = sizesObj['meta_value'] ? JSON.parse(sizesObj['meta_value']) : null;
+    this.variations = d['variation'] ? d['variation'].find((x) => x.meta_key == 'variation') : null;
+    if (this.variations) {
+      d['variation'] = this.variations['meta_value'] ? JSON.parse(this.variations['meta_value']) : null;
     }
+    console.log(this.variations);
 
-    let spicyObj = d['props'] ? d['props'].find((x) => x.meta_key == 'spicy') : null;
-    if (spicyObj) {
-      d['spicy'] = spicyObj['meta_value'] ? JSON.parse(spicyObj['meta_value']) : null;
-    }
+    // let spicyObj = d['props'] ? d['props'].find((x) => x.meta_key == 'spicy') : null;
+    // if (spicyObj) {
+    //   d['spicy'] = spicyObj['meta_value'] ? JSON.parse(spicyObj['meta_value']) : null;
+    // }
 
-    let typeObj = d['props'] ? d['props'].find((x) => x.meta_key == 'type') : null;
-    if (typeObj) {
-      d['type'] = typeObj['meta_value'] ? JSON.parse(typeObj['meta_value']) : null;
-    }
+    // let typeObj = d['props'] ? d['props'].find((x) => x.meta_key == 'type') : null;
+    // if (typeObj) {
+    //   d['type'] = typeObj['meta_value'] ? JSON.parse(typeObj['meta_value']) : null;
+    // }
 
     this.model = {
       name: d.name || '',
@@ -354,10 +355,10 @@ export class EditProductComponent implements OnInit, AfterViewInit {
 
       d['image'] = this.model.imageBase64;
 
-      d['sizes'] = JSON.stringify(d['sizes']);
-      d['spicy'] = JSON.stringify(d['spicy']);
-      d['type'] = JSON.stringify(d['type']);
-
+      // d['sizes'] = JSON.stringify(d['sizes']);
+      // d['spicy'] = JSON.stringify(d['spicy']);
+      // d['type'] = JSON.stringify(d['type']);
+      d['variation'] = this.variations;
       const res = await this.network.updateProduct(d, this.id);
       console.log(res);
       if (res) {
@@ -434,7 +435,7 @@ export class EditProductComponent implements OnInit, AfterViewInit {
 
   // Add a new option to a variation
   addOption(variationIndex: number) {
-    this.variations[variationIndex].options.push({ name: '', price: 0 });
+    this.variations[variationIndex].options.push({ name: '', description: '', price: 0 });
   }
   // Remove an option from a variation
   removeOption(variationIndex: number, optionIndex: number) {
