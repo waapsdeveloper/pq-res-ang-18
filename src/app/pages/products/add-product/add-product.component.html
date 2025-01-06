@@ -15,9 +15,10 @@
           <div class="d-flex flex-row flex-wrap justify-content-start">
             <div
               class="badge badge-secondary fw-bold me-2 px-4 py -3"
+              [class.badge-info]="item.selected == true"
               style="height: 32px; cursor: pointer"
               *ngFor="let item of variations"
-            >
+              (click)="selectAttribute(item.type)"  >
               {{ item.type }}
             </div>
           </div>
@@ -35,11 +36,6 @@
           <h3>Product Variations</h3>
           <p>Select any attribtes and update its variations</p>
         </div>
-        <div class="col-md-6 col-12 text-md-right">
-          <button type="button" class="btn btn-warning btn-123 " style="background-color: #d12e2e;">
-            <i class="ti ti-hexagon-plus m-2" style="font-size: 22px "></i>
-          </button>
-        </div>
       </div>
 
       <table class="table table-bordered">
@@ -53,7 +49,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let variation of variations; let i = index">
+          <tr *ngFor="let variation of variations | filterSelected: 'selected': true; let i = index">
+
             <!-- Variation Type Input -->
             <td>
               <input type="text" [(ngModel)]="variation.type" placeholder="Variation Type (e.g., Size, Toppings)" class="form-control" />
@@ -85,6 +82,13 @@
           </tr>
         </tbody>
       </table>
+
+      <div class="col-12 d-flex flex-row justify-content-end my-3">
+        <button type="button" class="btn btn-warning btn-123 " style="background-color: #d12e2e;" (click)="addItemINVariation()">
+          Add Variations
+        </button>
+      </div>
+
     </div>
   </div>
 </app-kt-app-form-page>

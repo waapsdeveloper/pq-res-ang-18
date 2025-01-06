@@ -332,14 +332,45 @@ export class AddProductComponent {
 
   }
 
+  selectAttribute(type) {
+
+    this.variations = this.variations.map( (item) => {
+      item.selected = item.type == type;
+      return item;
+    });
+
+  }
+
   addVariation(type) {
+
+    this.variations = this.variations.map( (item) => {
+      item['selected'] = false;
+      return item;
+    });
+
+
     this.variations.push({
-      type: type, // e.g., "Size"
+      type: type, // e.g., "Size",
+      selected: true,
       options: [
         { name: '',description:'',price: 0 } // Default empty option
       ]
     });
   }
+
+  addItemINVariation(){
+
+    const index = this.variations.findIndex( x => x.selected == true);
+    if(index == -1){
+      return;
+    }
+
+    this.variations[index]['options'].push(
+      { name: '',description:'',price: 0 }
+    )
+
+  }
+
    // Add a new option to a variation
    addOption(variationIndex: number) {
     this.variations[variationIndex].options.push({ name: '', price: 0 });
