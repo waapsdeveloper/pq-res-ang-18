@@ -274,11 +274,11 @@ export class AddProductComponent {
       d['image'] = this.model.imageBase64;
 
 
-      d['sizes'] = JSON.stringify(d['sizes'])
-      d['spicy'] = JSON.stringify(d['spicy'])
-      d['type'] = JSON.stringify(d['type'])
+      // d['sizes'] = JSON.stringify(d['sizes'])
+      // d['spicy'] = JSON.stringify(d['spicy'])
+      // d['type'] = JSON.stringify(d['type'])
 
-
+       d['variation'] = this.variations;
 
 
 
@@ -336,7 +336,7 @@ export class AddProductComponent {
     this.variations.push({
       type: type, // e.g., "Size"
       options: [
-        { name: '', price: 0 } // Default empty option
+        { name: '',description:'',price: 0 } // Default empty option
       ]
     });
   }
