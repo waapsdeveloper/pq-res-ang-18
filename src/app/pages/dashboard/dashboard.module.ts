@@ -20,6 +20,7 @@ import { ApexSalesChartModule } from './component/apex-sales-chart/apex-sales-ch
 import { ApexTopSalesChartModule } from './component/apex-top-sales-chart/apex-top-sales-chart.module';
 import { ApexCustomerChartModule } from './component/apex-customer-chart/apex-customer-chart.module';
 import { FavouriteTableModule } from './component/favourite-table/favourite-table.module';
+import { SalesChartModule } from './component/sales-chart/sales-chart.module';
 @NgModule({
   declarations: [DashboardComponent, RecentOrderComponent, ],
   imports: [
@@ -38,10 +39,10 @@ import { FavouriteTableModule } from './component/favourite-table/favourite-tabl
     NavBarModule,
     BtopHeaderModule,
     ChartOrderComponent,
-    SalesChartComponent,
     ProjectStatComponent,
     OrderStatusComponent,
-    FavouriteTableModule
+    FavouriteTableModule,
+    SalesChartModule,
 
 
   ]

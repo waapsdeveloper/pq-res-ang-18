@@ -40,6 +40,10 @@ export class NetworkService {
     return this.httpGetResponse('dashboard/latest-tables', null, false, true);
   }
 
+  getTotalSales(){
+    return this.httpGetResponse('dashboard/sales-summary', null, false, true);
+
+  }
   // Authentication Related APIs
 
   loginViaEmail(data) {

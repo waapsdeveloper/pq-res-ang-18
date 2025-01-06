@@ -32498,8 +32498,10 @@ html:not([data-theme='dark']) .theme-light-bg-body {
 }
 .btn.btn-primary {
   color: var(--kt-primary-inverse);
-  border-color: var(--kt-primary);
-  background-color: var(--kt-primary);
+  /* border-color: var(--kt-primary);
+  background-color: var(--kt-primary); */
+  border-color: #d12e2e;
+  background-color:#d12e2e;
 }
 .btn.btn-primary .svg-icon,
 .btn.btn-primary i {
@@ -32516,9 +32518,11 @@ html:not([data-theme='dark']) .theme-light-bg-body {
 .btn.btn-primary:focus:not(.btn-active),
 .btn.btn-primary:hover:not(.btn-active),
 .show > .btn.btn-primary {
-  color: var(--kt-primary-inverse);
+  /* color: var(--kt-primary-inverse);
   border-color: var(--kt-primary-active);
-  background-color: var(--kt-primary-active) !important;
+  background-color: var(--kt-primary-active) !important; */
+  background-color: white;
+  color:#000
 }
 .btn-check:active + .btn.btn-primary .svg-icon,
 .btn-check:active + .btn.btn-primary i,
@@ -43809,7 +43813,8 @@ code:not([class*='language-']) {
   background-color: transparent;
 }
 .badge-light-primary {
-  color: var(--kt-primary);
+  /* color: var(--kt-primary); */
+  color:#d12e2e;
   background-color: var(--kt-primary-light);
 }
 .badge-secondary {

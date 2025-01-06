@@ -7,23 +7,24 @@ import { Component } from '@angular/core';
   styleUrl: './apex-top-sales-chart.component.scss'
 })
 export class ApexTopSalesChartComponent {
-  chartOptions: any;
+  public  chartOptions: any;
+
   constructor(private network: NetworkService) {}
   async ngOnInit() {
     const data = await this.network.getTopSellingProduct();
-    console.log(data);
-    const orderArray = data.order_products;
-    const productNames = orderArray.map((item) => item.product.name);
-    const totalQuantitiesSold = orderArray.map((item) => item.total_quantity_sell);
-
+    const d = data.order_products;
+    // Map the series to numerical values and remove the '%' symbol
+    const totalQuantitiesSold = d.series.map((value) => parseFloat(value.replace('%', '')));
+    // Extract labels as they are
+    const productNames = d.labels;
     this.chartOptions = {
-      series: totalQuantitiesSold, // Total quantities sold for each product
-      chart: {  
+      series: totalQuantitiesSold, // Numerical data for the pie chart
+      chart: {
         type: 'pie',
         height: 360
       },
       labels: productNames, // Product names
-      colors: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'], // Custom colors (you can adjust based on your needs)
+      colors: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'] // Custom colors
     };
   }
 }

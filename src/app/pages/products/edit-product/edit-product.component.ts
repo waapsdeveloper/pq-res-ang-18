@@ -39,6 +39,8 @@ export class EditProductComponent implements OnInit, AfterViewInit {
     const res = await this.network.getProductsById(this.id);
     console.log(res);
   }
+  variations: any[] = [];
+  addAttributeInput = '';
   form = new FormGroup({});
   model = {
     name: '',
@@ -158,54 +160,54 @@ export class EditProductComponent implements OnInit, AfterViewInit {
           className: 'col-md-4 col-12'
         }
       ]
-    },
-    {
-      fieldGroupClassName: 'row', // Bootstrap row
-      fieldGroup: [
-        // option for small medium large - select
-        {
-          key: 'sizes',
-          type: 'multicheckbox',
-          props: {
-            label: 'Sizes',
-            options: [
-              { value: 'small', label: 'Small' },
-              { value: 'medium', label: 'Medium' },
-              { value: 'large', label: 'Large' }
-            ]
-          },
-          className: 'col-md-4 col-12'
-        },
-        // option for spicy level - select
-        {
-          key: 'spicy',
-          type: 'multicheckbox',
-          props: {
-            label: 'Spicy Level',
-            options: [
-              { value: 'mild', label: 'Mild' },
-              { value: 'medium', label: 'Medium' },
-              { value: 'hot', label: 'Hot' }
-            ]
-          },
-          className: 'col-md-4 col-12'
-        },
-        // options for either breakfast, lunch or dinner - select
-        {
-          key: 'type',
-          type: 'multicheckbox',
-          props: {
-            label: 'Type',
-            options: [
-              { value: 'breakfast', label: 'Breakfast' },
-              { value: 'lunch', label: 'Lunch' },
-              { value: 'dinner', label: 'Dinner' }
-            ]
-          },
-          className: 'col-md-4 col-12'
-        }
-      ]
     }
+    // {
+    //   fieldGroupClassName: 'row', // Bootstrap row
+    //   fieldGroup: [
+    //     // option for small medium large - select
+    //     {
+    //       key: 'sizes',
+    //       type: 'multicheckbox',
+    //       props: {
+    //         label: 'Sizes',
+    //         options: [
+    //           { value: 'small', label: 'Small' },
+    //           { value: 'medium', label: 'Medium' },
+    //           { value: 'large', label: 'Large' }
+    //         ]
+    //       },
+    //       className: 'col-md-4 col-12'
+    //     },
+    //     // option for spicy level - select
+    //     {
+    //       key: 'spicy',
+    //       type: 'multicheckbox',
+    //       props: {
+    //         label: 'Spicy Level',
+    //         options: [
+    //           { value: 'mild', label: 'Mild' },
+    //           { value: 'medium', label: 'Medium' },
+    //           { value: 'hot', label: 'Hot' }
+    //         ]
+    //       },
+    //       className: 'col-md-4 col-12'
+    //     },
+    //     // options for either breakfast, lunch or dinner - select
+    //     {
+    //       key: 'type',
+    //       type: 'multicheckbox',
+    //       props: {
+    //         label: 'Type',
+    //         options: [
+    //           { value: 'breakfast', label: 'Breakfast' },
+    //           { value: 'lunch', label: 'Lunch' },
+    //           { value: 'dinner', label: 'Dinner' }
+    //         ]
+    //       },
+    //       className: 'col-md-4 col-12'
+    //     }
+    //   ]
+    // }
   ];
   async ngAfterViewInit() {
     const res = await this.network.getProductsById(this.id);
@@ -244,20 +246,26 @@ export class EditProductComponent implements OnInit, AfterViewInit {
 ]
     */
 
-    let sizesObj = d['props'] ? d['props'].find((x) => x.meta_key == 'sizes') : null;
-    if (sizesObj) {
-      d['sizes'] = sizesObj['meta_value'] ? JSON.parse(sizesObj['meta_value']) : null;
+    const f = d['variation'] && d['variation'].length > 0 ? d['variation'][0] : null;
+    if (f) {
+      const metaValue = f['meta_value'] ? JSON.parse(f['meta_value']) : null;
+
+      if(metaValue){
+        this.variations = metaValue;
+        console.log(this.variations);
+      }
     }
 
-    let spicyObj = d['props'] ? d['props'].find((x) => x.meta_key == 'spicy') : null;
-    if (spicyObj) {
-      d['spicy'] = spicyObj['meta_value'] ? JSON.parse(spicyObj['meta_value']) : null;
-    }
 
-    let typeObj = d['props'] ? d['props'].find((x) => x.meta_key == 'type') : null;
-    if (typeObj) {
-      d['type'] = typeObj['meta_value'] ? JSON.parse(typeObj['meta_value']) : null;
-    }
+    // let spicyObj = d['props'] ? d['props'].find((x) => x.meta_key == 'spicy') : null;
+    // if (spicyObj) {
+    //   d['spicy'] = spicyObj['meta_value'] ? JSON.parse(spicyObj['meta_value']) : null;
+    // }
+
+    // let typeObj = d['props'] ? d['props'].find((x) => x.meta_key == 'type') : null;
+    // if (typeObj) {
+    //   d['type'] = typeObj['meta_value'] ? JSON.parse(typeObj['meta_value']) : null;
+    // }
 
     this.model = {
       name: d.name || '',
@@ -352,10 +360,10 @@ export class EditProductComponent implements OnInit, AfterViewInit {
 
       d['image'] = this.model.imageBase64;
 
-      d['sizes'] = JSON.stringify(d['sizes']);
-      d['spicy'] = JSON.stringify(d['spicy']);
-      d['type'] = JSON.stringify(d['type']);
-
+      // d['sizes'] = JSON.stringify(d['sizes']);
+      // d['spicy'] = JSON.stringify(d['spicy']);
+      // d['type'] = JSON.stringify(d['type']);
+      d['variation'] = this.variations;
       const res = await this.network.updateProduct(d, this.id);
       console.log(res);
       if (res) {
@@ -383,5 +391,59 @@ export class EditProductComponent implements OnInit, AfterViewInit {
       };
       reader.readAsDataURL(file); // Convert file to base64
     }
+  }
+  addAttributes() {
+    let v = this.addAttributeInput.trim();
+
+    if (!v || v == '') {
+      return;
+    }
+
+    let findIndex = this.variations.findIndex((x) => x.type == v);
+    if (findIndex == -1) {
+      this.addVariation(v);
+    }
+
+    this.addAttributeInput = '';
+  }
+
+  selectAttribute(type) {
+    this.variations = this.variations.map((item) => {
+      item.selected = item.type == type;
+      return item;
+    });
+  }
+
+  addVariation(type) {
+    this.variations = this.variations.map((item) => {
+      item['selected'] = false;
+      return item;
+    });
+
+    this.variations.push({
+      type: type, // e.g., "Size",
+      selected: true,
+      options: [
+        { name: '', description: '', price: 0 } // Default empty option
+      ]
+    });
+  }
+
+  addItemINVariation() {
+    const index = this.variations.findIndex((x) => x.selected == true);
+    if (index == -1) {
+      return;
+    }
+
+    this.variations[index]['options'].push({ name: '', description: '', price: 0 });
+  }
+
+  // Add a new option to a variation
+  addOption(variationIndex: number) {
+    this.variations[variationIndex].options.push({ name: '', description: '', price: 0 });
+  }
+  // Remove an option from a variation
+  removeOption(variationIndex: number, optionIndex: number) {
+    this.variations[variationIndex].options.splice(optionIndex, 1);
   }
 }

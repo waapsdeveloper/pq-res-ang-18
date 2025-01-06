@@ -2,13 +2,13 @@
   <div class="d-flex flex-row">
     <div class="m-header">
       <a class="b-brand">
-        <img [src]="setLogo()" alt="" class="logo logo-lg" />
+        <img  [src]="setLogo()" alt="" class="logo logo-lg" />
       </a>
     </div>
 
 
-    <div  class="me-auto pc-mob-drp d-flex flex-row align-items-center">
-      <h1>{{restaurant$?.name}}</h1>
+    <div   class=" me-auto pc-mob-drp d-flex flex-row align-items-center">
+      <h1 class="res-432" >{{restaurant$?.name}}</h1>
     </div>
 
     <div class="header-wrapper">
@@ -32,7 +32,7 @@
           <li>
             <div class="dropdown pc-h-item header-user-profile" ngbDropdown>
               <a
-                class="pc-head-link head-link-primary  me-0"
+                class="pc-head-link   me-0"
                 data-bs-toggle="dropdown"
                 href="javascript:"
                 ngbDropdownToggle
@@ -72,16 +72,16 @@
     </div>
   </div>
 
-  <div class="d-flex flex-row align-items-center p-3 btn btn-sm" style="gap: 16px">
+  <div class="d-flex flex-row align-items-center p-3    " style="gap: 16px; background-color:#d12e2e ;">
     <a
       *ngFor="let item of menuItems"
       [routerLink]="item.link"
       routerLinkActive="active-link"
       [routerLinkActiveOptions]="{ exact: false }"
-      class="d-flex align-items-center text-decoration-none text-dark fw-bold"
-      style="color: black"
+      class="d-flex align-items-center text-decoration-none  "
+      style="color: white ; font-size: 14px;"
     >
-      <i class="{{ item.icon }} me-2"></i>
+      <i style="font-size: 14px; color: white;" class="{{ item.icon }} me-2"></i>
       {{ item.label }}
     </a>
   </div>
