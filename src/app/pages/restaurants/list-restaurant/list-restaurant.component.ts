@@ -14,21 +14,16 @@ import { RestaurantService } from '../restaurant.service';
   styleUrl: './list-restaurant.component.scss'
 })
 export class ListRestaurantComponent extends ListBlade {
-
   title = 'Restaurants';
   addurl = '/pages/restaurants/add';
   override selectAll: boolean = false;
 
-  columns: any[] = [
-    'Name',
-    'Address',
-    'Status'
-  ];
+  columns: any[] = ['Name', 'Address', 'Status'];
 
   override model = {
     name: '',
     address: '',
-    status: 'active',
+    status: 'active'
   };
 
   fields: FormlyFieldConfig[] = [
@@ -40,7 +35,7 @@ export class ListRestaurantComponent extends ListBlade {
           type: 'input',
           props: {
             label: 'Name',
-            placeholder: '',
+            placeholder: ''
           },
           className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
         },
@@ -50,7 +45,7 @@ export class ListRestaurantComponent extends ListBlade {
           type: 'input',
           props: {
             label: 'Address',
-            placeholder: '',
+            placeholder: ''
           },
           className: 'col-md-4 col-12'
         },
@@ -66,10 +61,9 @@ export class ListRestaurantComponent extends ListBlade {
             ]
           },
           className: 'col-md-4 col-12'
-        },
-
-      ],
-    },
+        }
+      ]
+    }
   ];
 
   constructor(
@@ -77,7 +71,7 @@ export class ListRestaurantComponent extends ListBlade {
     public override crudService: RestaurantService,
     public grService: GlobalRestaurantService,
     private nav: NavService,
-    private utility: UtilityService,
+    private utility: UtilityService
   ) {
     super(injector, crudService);
     this.initialize();
@@ -87,12 +81,19 @@ export class ListRestaurantComponent extends ListBlade {
     this.crudService.getList('', 1);
   }
 
-  editRow(index: number) {
-
-  }
+  editRow(index: number) {}
 
   async deleteRow(index: number) {
     try {
+      const item = this.crudService.list[index];
+
+      // Check if the item id is null
+      if (item.id === 1 || item.id === undefined) {
+        console.log('Item cannot be deleted because id is null or undefined.');
+        return; // Exit the function without attempting to delete
+      }
+
+      // Proceed with deletion if id is not null
       await this.crudService.deleteRow(index, this.utility);
       console.log('Row deleted successfully');
     } catch (error) {
@@ -110,17 +111,8 @@ export class ListRestaurantComponent extends ListBlade {
     this.nav.push('/pages/restaurants/edit/' + item.id);
   }
 
-  setDefault(i){
+  setDefault(i) {
     let item = this.crudService.list[i];
-    this.grService.setRestaurant(item.id, item.name)
-
+    this.grService.setRestaurant(item.id, item.name);
   }
-
-
-
-
-
-
-
-
 }
