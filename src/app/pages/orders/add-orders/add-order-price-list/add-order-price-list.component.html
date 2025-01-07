@@ -29,21 +29,34 @@
         <!-- Variations Section -->
         <td class="text-end">
           <ng-template #variation>
-            <div class="row"></div>
-          </ng-template>
-
-          <ng-template #variationTitle>
-            <div class="fw-bold fs-3">
-              <h2>Select Variations</h2>
+            <div class="row">
               <div class="col-12" *ngFor="let variation of item.variation">
-                <div class="fw-bold">{{ variation.type }}</div>
+                <!-- Variation Type as Heading -->
+                <div class="fw-bold fs-5">{{ variation.type }}</div>
+
+                <!-- Options for the Current Variation -->
                 <div *ngFor="let option of variation.options" class="ms-4">
-                  <div>Option Name: {{ option.name }}</div>
-                  <div>Price: ${{ option.price }}</div>
+                  <div class="form-check">
+                    <!-- Option Name and Price Inside Checkbox -->
+                    <input
+                      class="form-check-input small-checkbox"
+                      type="checkbox"
+                      [(ngModel)]="option.selected"
+                      [id]="'option-' + variation.type + '-' + option.name"
+                    />
+                    <label class="form-check-label" [for]="'option-' + variation.type + '-' + option.name">
+                      {{ option.name }} - ${{ option.price }}
+                    </label>
+                  </div>
                 </div>
               </div>
             </div>
           </ng-template>
+
+          <ng-template #variationTitle>
+            <div class="fw-bold fs-3">Select Variations</div>
+          </ng-template>
+
           <button
             class="btn btn-sm"
             [ngbPopover]="variation"
