@@ -6,6 +6,7 @@
     <thead>
       <tr class="fs-7 fw-bold text-white  border-bottom-0">
         <th class="p-0 pb-3 min-w-150px text-start">Products</th>
+        <th class="p-0 pb-3 min-w-100px text-start">Variations</th>
         <th class="p-0 pb-3 min-w-100px text-end pe-13">Notes</th>
         <th class="p-0 pb-3 min-w-100px text-end pe-13">Qty</th>
         <th class="p-0 pb-3 w-150px text-end pe-7">Cost</th>
@@ -16,7 +17,7 @@
     <!--begin::Table body-->
     <tbody>
       <tr *ngFor="let item of orderService.selected_products; let i = index">
-        <td>
+        <td class="">
           <div class="d-flex align-items-center">
             <div class="d-flex justify-content-start flex-column">
               <a class="text-white fw-bold text-hover-primary mb-1 fs-6">{{item.name}}</a>
@@ -25,8 +26,41 @@
             </div>
 
           </div>
-        </td><!-- Notes Section -->
-        <td class="text-end">
+        </td>
+         <!-- Variations Section -->
+<td class="text-end ">
+  <ng-template #variation>
+    <div class="row">
+      <div class="col-12">
+        <input type="checkbox"
+        [(ngModel)]="item.variations" placeholder="Select a Variation">
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #variationTitle>
+    <div class="fw-bold fs-3">Select Variations</div>
+  </ng-template>
+  <button
+  class="btn btn-sm"
+  [ngbPopover]="variation"
+  [popoverTitle]="variationTitle"
+  triggers="manual"
+  [autoClose]="'outside'"
+  placement="top"
+  #variationPopover="ngbPopover"
+  (click)="closeAllPopovers(); variationPopover.open(); registerPopover(variationPopover)"
+>
+  <i class="ti ti-versions" style="color: #ffffff; font-size: 22px"></i>
+</button>
+</td>
+
+
+
+
+
+        <!-- Notes Section -->
+        <td class="text-end ">
           <ng-template #noteContent>
             <div class="row">
               <div class="col-12">
@@ -39,7 +73,7 @@
 
           </ng-template>
           <button class="btn btn-sm " [ngbPopover]="noteContent" [popoverTitle]="noteTitle" triggers="manual"
-            [autoClose]="'outside'" placement="top" #popover="ngbPopover" (click)="popover.open()">
+            [autoClose]="'outside'" placement="top"  #notePopover="ngbPopover"  (click)="closeAllPopovers(); notePopover.open(); registerPopover(notePopover)">
             <i class="ti ti-notes"  style="color: #ffffff; font-size: 22px;"></i>
           </button>
         </td>
@@ -73,7 +107,7 @@
             <div class="fw-bold fs-3">Select Quantity</div>
           </ng-template>
           <button class="badge py-3 px-4 fs-7 badge-light-primary" [ngbPopover]="popContent" [popoverTitle]="popTitle"
-            triggers="manual" [autoClose]="'outside'" placement="top" #popover="ngbPopover" (click)="popover.open()">
+            triggers="manual" [autoClose]="'outside'" placement="top" #quantityPopover="ngbPopover"  (click)="closeAllPopovers(); quantityPopover.open(); registerPopover(quantityPopover)">
             Qty x {{ parseTwoDigitNumber(item.quantity) }}
           </button>
         </td>

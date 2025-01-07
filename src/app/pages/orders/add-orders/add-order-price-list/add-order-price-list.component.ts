@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AddOrderService } from '../add-order.service';
 import { NavService } from 'src/app/services/basic/nav.service';
+import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-add-order-price-list',
@@ -41,5 +42,14 @@ export class AddOrderPriceListComponent {
     if(res){
       this.nav.pop();
     }
+}
+popovers: NgbPopover[] = [];
+
+closeAllPopovers() {
+  this.popovers.forEach((popover) => popover.close());
+}
+
+registerPopover(popover: NgbPopover) {
+  this.popovers.push(popover);
 }
 }
