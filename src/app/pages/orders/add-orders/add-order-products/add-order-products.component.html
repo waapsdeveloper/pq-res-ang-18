@@ -2,7 +2,6 @@
   <div class="single-product-item" *ngFor="let product of orderService.products" (click)="setSelectedToggle(product)"
     [ngStyle]="{'background-image' : 'url(' + product.image + ')'}">
 
-  >
     <!--begin::Link-->
 
       <!-- Product Image -->
@@ -15,7 +14,7 @@
       </div> -->
       <!-- Product Name -->
       <div class="label-5346">
-        <span class="nav-text text-gray-800 fw-bold fs-6 lh-1">{{ product.name }}</span>
+        <span class="text-red fw-bold fs-6 lh-1">{{ product.name }}</span>
         <br>
         <!-- Product Price -->
 
