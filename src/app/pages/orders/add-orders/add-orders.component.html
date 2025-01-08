@@ -6,31 +6,69 @@
   <div class="products-sidebar">
     <app-add-order-products></app-add-order-products>
   </div>
+
   <div class="order-sidebar">
     <!--begin::Chart widget 8-->
     <div class="card card-flush h-xl-100">
       <!--begin::Header-->
       <div class="card-header me-1 ms-8 mt-10">
-        <!--begin::Title-->
-        <h3 class="card-title align-items-start flex-column   ">
-          <span class="card-label fw-bold text-dark">Order Overview</span>
-          <span class="text-gray-400 mt-1 fw-semibold fs-6">take a look at bill details</span>
-        </h3>
-        <!--begin::Status Dropdown-->
+        <!--begin::Customer Details Section-->
+        <div class="mb-4">
+          <div class="row g-3">
+            <!-- Customer Name Input -->
+            <div class="col-md-6">
+              <label for="customerName" class="form-label fw-bold">Customer Name</label>
+              <input
+                type="text"
+                id="customerName"
+                name="customer_name"
+                class="form-control form-control-solid"
+                [(ngModel)]="orderService.customer_name"
+                placeholder="Enter Customer Name"
+              />
+            </div>
 
+            <!-- Customer Phone Input -->
+            <div class="col-md-6">
+              <label for="customerPhone" class="form-label fw-bold">Customer Phone</label>
+              <input
+                type="text"
+                id="customerPhone"
+                name="customer_phone"
+                class="form-control form-control-solid"
+                [(ngModel)]="orderService.customer_phone"
+                placeholder="Enter Phone Number"
+              />
+            </div>
 
-        <!-- <div class="card-toolbar d-flex flex-end">
-          <button (click)="onSubmit($event)" type="submit" class="btn btn-primary mt-4 flex-end">Place Order</button>
-        </div> -->
-        <!--end::Type Dropdown-->
-        <!--end::Title-->
-        <!--begin::Toolbar-->
-        <div class="card-toolbar ">
-          <button type="submit" *ngIf="orderService.selected_products?.length > 0" (click)="onSubmit($event)" class="btn btn-primary mt-4">Place Order</button>
+            <!-- Order Notes -->
+            <div class="col-12">
+              <label for="orderNotes" class="form-label fw-bold">Order Notes</label>
+              <textarea
+                id="orderNotes"
+                name="order_notes"
+                class="form-control form-control-solid enhanced-textarea"
+                [(ngModel)]="orderService.order_notes"
+                rows="4"
+                placeholder="Add additional notes for the order..."
+              ></textarea>
+            </div>
+          </div>
         </div>
-        <!--end::Toolbar-->
+        <!--end::Customer Details Section-->
+      </div>
+
+      <div class="row">
+        <!--begin::Place Order Button-->
+        <div class="card-toolbar">
+          <button type="submit" *ngIf="orderService.selected_products?.length > 0" (click)="onSubmit($event)" class="btn btn-primary mt-4">
+            Place Order
+          </button>
+        </div>
+        <!--end::Place Order Button-->
       </div>
       <!--end::Header-->
+
       <!--begin::Body-->
       <div class="card-body pt-6">
         <!--begin::Tab content-->
@@ -82,8 +120,6 @@
 
               <app-add-order-price-list></app-add-order-price-list>
             </div>
-
-        
             <!--end::Statistics-->
           </div>
           <!--end::Tab pane-->
