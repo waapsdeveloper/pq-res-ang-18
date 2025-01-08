@@ -15,7 +15,7 @@ export class AddOrderService {
   order_notes: string = '';
   total_price: number = 0;
   selectedCategory = null;
-  orderType = null;
+  orderType = 'drive-thru';
   selected_products: any[] = [];
 
   totalCost = 0;
