@@ -14,39 +14,29 @@
       <div class="card-header">
         <!--begin::Title-->
 
-        <h3 class="card-title align-items-start flex-column">
-          <div class="d-flex flex-row gap-5">
+        <h3 class="card-title align-items-start flex-column col-12">
+          <div class="d-flex flex-row gap-5 justify-content-between">
             <div class="d-flex flex-column">
-              <span class="card-label fw-bold text-dark">Order Overview 4</span>
+              <span class="card-label fw-bold text-dark">Order Overview</span>
               <span class="text-gray-400 mt-1 fw-semibold fs-6">take a look at bill details</span>
             </div>
             <div class="d-flex flex-row">
               <span class="fs-1 fw-semibold text-gray-400 me-1 mt-n1">$</span>
               <span class="fs-3x fw-bold text-gray-800 me-2 lh-1 ls-n2">{{ orderService.totalCost }}</span>
             </div>
+            <div class="d-flex justify-content-end">
+              <button type="submit" *ngIf="orderService.selected_products?.length > 0" (click)="onSubmit($event)" class="btn btn-primary">
+                Place Order
+              </button>
+            </div>
           </div>
-
-
-
         </h3>
         <!--begin::Status Dropdown-->
         <!--begin::Type Dropdown (Replacement for Status)-->
-        <div class="card-toolbar d-flex align-items-center">
 
-
-        </div>
         <!--end::Customer Details Section-->
       </div>
 
-      <div class="row">
-        <!--begin::Place Order Button-->
-        <div class="card-toolbar">
-          <button type="submit" *ngIf="orderService.selected_products?.length > 0" (click)="onSubmit($event)" class="btn btn-primary mt-4">
-            Place Order
-          </button>
-        </div>
-        <!--end::Place Order Button-->
-      </div>
       <!--end::Header-->
 
       <!--begin::Body-->
@@ -55,7 +45,6 @@
         <div class="tab-content">
           <!--begin::Tab pane-->
           <div class="tab-pane fade active show" id="kt_chart_widget_8_month_tab" role="tabpanel">
-
             <div class="row mb-5">
               <div class="col-12 mb-5">
                 <textarea
@@ -66,14 +55,34 @@
                 ></textarea>
               </div>
               <div class="col-md-4 col-12">
-                <input type="text" name="customer name" class="form-control" id="" [(ngModel)]="orderService.customer_name" placeholder="Customer Name" >
+                <input
+                  type="text"
+                  name="customer name"
+                  class="form-control"
+                  id=""
+                  [(ngModel)]="orderService.customer_name"
+                  placeholder="Customer Name"
+                />
               </div>
               <div class="col-md-4 col-12">
-                <input type="text" name="customer phone" id="" class="form-control" [(ngModel)]="orderService.customer_phone" placeholder="customer phone" >
+                <input
+                  type="text"
+                  name="customer phone"
+                  id=""
+                  class="form-control"
+                  [(ngModel)]="orderService.customer_phone"
+                  placeholder="customer phone"
+                />
               </div>
               <div class="col-md-4 col-12">
-                <select id="typeSelect" class="form-select form-select-sm" [(ngModel)]="orderService.orderType"
-                  (change)="onTypeChange($event)">
+                <select
+                  id="typeSelect"
+                  class="form-select form-select-sm"
+                  [(ngModel)]="orderService.orderType"
+                  (change)="onTypeChange($event)"
+                  required
+                >
+                  <option value="" disabled selected>Select Order Type</option>
                   <option value="drive-thru">Drive-Thru</option>
                   <option value="dine-in">Dine-In</option>
                   <option value="take-away">Take-Away</option>
@@ -83,9 +92,7 @@
                   <option value="reservation">Reservation</option>
                 </select>
               </div>
-
             </div>
-
 
             <app-add-order-price-list></app-add-order-price-list>
 
