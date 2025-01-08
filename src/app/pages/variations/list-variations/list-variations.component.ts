@@ -1,29 +1,36 @@
-import { Component, Injector } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { ListBlade } from 'src/app/abstract/list-blade';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { GlobalRestaurantService } from 'src/app/services/global-restaurant.service';
 import { UtilityService } from 'src/app/services/utility.service';
 import { RestaurantService } from '../../restaurants/restaurant.service';
+import { NetworkService } from 'src/app/services/network.service';
+import { VariationsService } from '../variations.service';
 
 @Component({
   selector: 'app-list-variations',
   templateUrl: './list-variations.component.html',
   styleUrl: './list-variations.component.scss'
 })
-export class ListVariationsComponent extends ListBlade {
+export class ListVariationsComponent extends ListBlade  implements OnInit{
 
     title = 'Variations';
     addurl = '/pages/variations/add';
     override selectAll: boolean = false;
 
-    columns: any[] = ['Name', 'Address', 'Status'];
+    columns: any[] = ['Name', 'Description', 'Options'];
 
     override model = {
       name: '',
       address: '',
       status: 'active'
     };
+
+async ngOnInit(){
+const res =  await this.network.getVariations();
+
+}
 
     fields: FormlyFieldConfig[] = [
       {
@@ -67,10 +74,11 @@ export class ListVariationsComponent extends ListBlade {
 
     constructor(
       injector: Injector,
-      public override crudService: RestaurantService,
+      public override crudService: VariationsService,
       public grService: GlobalRestaurantService,
       private nav: NavService,
-      private utility: UtilityService
+      private utility: UtilityService,
+      private network : NetworkService
     ) {
       super(injector, crudService);
       this.initialize();
@@ -104,7 +112,8 @@ export class ListVariationsComponent extends ListBlade {
     openDetails(i) {
       let item = this.crudService.list[i];
       this.nav.push('/pages/variations/view/' + item.id);
-       
+
+
     }
 
     editOpenDetails(i) {

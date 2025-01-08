@@ -174,8 +174,18 @@ export class NetworkService {
   }
 // Variations
 getVariations(){
-  return this.httpGetResponse('admin/variation', null , false ,true);
+  return this.httpGetResponse('variation', null , false ,true);
 }
+addVariations(id) {
+  return this.httpDeleteResponse('variation', id, false, true);
+}
+getVariationsById(id) {
+  return this.httpGetResponse(`variation/${id}`, null, false, true);
+}
+removeVariationsById(id) {
+  return this.httpDeleteResponse('variation', id, false, true);
+}
+
 
 
 

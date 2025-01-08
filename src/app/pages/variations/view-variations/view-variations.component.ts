@@ -24,10 +24,10 @@ export class ViewVariationsComponent {
     async initialize() {
       const rew = await this.activatedRoute.snapshot.params;
       this.itemId = rew['id'];
-      const res = await this.network.getOrdersById(this.itemId);
+      const res = await this.network.getVariationsById(this.itemId);
       console.log(res);
 
-      this.item = res.order;
+      this.item = res.variation;
     }
     popovers: NgbPopover[] = [];
     closeAllPopovers() {
@@ -37,6 +37,6 @@ export class ViewVariationsComponent {
     registerPopover(popover: NgbPopover) {
       this.popovers.push(popover);
     }
-  
+
 
 }
