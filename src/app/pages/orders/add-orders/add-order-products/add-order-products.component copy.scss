@@ -1,0 +1,73 @@
+.product-items-outer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 12px; /* Increased gap for better spacing */
+  max-height: 100%;
+  overflow-y: scroll;
+}
+
+.single-product-item {
+  background-color: #f9f9f9; /* Light background for better contrast */
+  border: 1px solid var(--kt-primary); /* Matches primary color */
+  border-radius: 8px; /* Smooth rounded corners */
+  // width: 150px; /* Fixed width for uniformity */
+  text-align: center; /* Center content */
+  position: relative;
+  overflow: hidden; /* Ensures clean layout */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+
+  width: 100%;
+  height: 150px;
+  background-position: center center;
+  background-size: cover;
+
+  position: relative;
+  .label-5346 {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    background: rgba(0,0,0,1);
+  }
+
+  .price-tags {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: red;
+    color: #fff;
+    padding: 6px;
+    font-size: 24px;
+    font-weight: bold;
+  }
+}
+
+.single-product-item img {
+  width: 100%; /* Full width of container */
+  height: 120px; /* Fixed height for consistent sizing */
+  object-fit: cover; /* Maintain aspect ratio, crop if necessary */
+  border-bottom: 1px solid var(--kt-border-color); /* Divider below image */
+}
+
+.single-product-item:hover {
+  background-color: var(--kt-primary-light); /* Slight hover effect */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Elevated shadow on hover */
+  transform: translateY(-2px); /* Subtle lift effect */
+}
+
+.single-product-item.active {
+  border: 2px solid var(--kt-primary-dark); /* Highlight active item */
+  background-color: var(--kt-primary-light); /* Different background for active state */
+}
+
+.single-product-item .nav-text {
+  margin-top: 8px; /* Space between image and text */
+  font-size: 14px; /* Slightly smaller font for text */
+}
+
+.single-product-item .text-gray-500 {
+  font-size: 12px; /* Smaller font for price */
+  margin-top: 4px; /* Space between name and price */
+}

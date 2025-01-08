@@ -5,6 +5,9 @@ import { NetworkService } from 'src/app/services/network.service';
   providedIn: 'root'
 })
 export class AddOrderService {
+
+  showOrderHeader = true;
+
   categories: any[] = [];
   products: any[] = [];
   customer_name: string = '';

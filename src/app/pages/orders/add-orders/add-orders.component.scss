@@ -1,32 +1,30 @@
-.d-flex {
-    display: flex;
-    align-items: center;
-    gap: 20px; /* Reduce space between the heading and search box */
-  }
-  
-  .search-box {
-    position: relative;
-    width: 250px;
-  }
-  
-  .search-box input {
-    border-radius: 6px;
-    padding: 0.5rem 1rem;
-    padding-left: 2.5rem; /* Space for the icon */
-    border: 1px solid #e2e8f0;
-    background-color: #f5f8fa;
-  }
-  
-  .search-box .search-icon {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #6b7280;
-  }
-  
-  .filtered-products {
-    max-height: 200px; /* Add scroll if many products */
-    overflow-y: auto;
-  }
-  
+.order-create-page-outer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw; // Full width of the viewport
+  height: 100vh; // Full height of the viewport
+  display: flex; // Enable Flexbox layout
+  flex-direction: row; // Arrange child elements horizontally
+  // background: rgba(0, 0, 0, 0.2); // Semi-transparent black background
+}
+
+.category-sidebar {
+  flex: 0 0 150px; // Fixed width of 150px
+  background-color: #f4f4f4; // Light gray for visualization
+  padding: 10px;
+  // border-right: 1px solid #ddd; // Optional border
+}
+
+.products-sidebar {
+  flex: 1; // Takes up the remaining space proportionally
+  // background-color: #e9ecef; // Slightly darker gray for visualization
+  padding: 10px 0;
+  // border-right: 1px solid #ddd; // Optional border
+}
+
+.order-sidebar {
+  flex: 1; // Takes up the remaining space proportionally
+  background-color: #f8f9fa; // Light background
+  padding: 10px;
+}

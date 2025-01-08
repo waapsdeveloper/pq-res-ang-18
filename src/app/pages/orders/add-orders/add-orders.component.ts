@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AddOrderService } from './add-order.service';
 import { NavService } from 'src/app/services/basic/nav.service';
 
@@ -7,13 +7,19 @@ import { NavService } from 'src/app/services/basic/nav.service';
   templateUrl: './add-orders.component.html',
   styleUrl: './add-orders.component.scss'
 })
-export class AddOrdersComponent {
+export class AddOrdersComponent implements OnInit, OnDestroy {
   constructor(
     public nav: NavService,
     public orderService: AddOrderService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.orderService.showOrderHeader = false;
+  }
+
+  ngOnDestroy(): void {
+    this.orderService.showOrderHeader = true;
+  }
 
   async onSubmit($event) {
     const res = await this.orderService.submitOrder();
