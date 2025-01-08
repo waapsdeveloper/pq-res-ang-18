@@ -22,6 +22,7 @@ export class BtopHeaderComponent {
     { label: 'Users', link: '/pages/users', icon: 'ti ti-users' },
     { label: 'Categories', link: '/pages/categories', icon: 'ti ti-drag-drop-2' },
     { label: 'All Menu', link: '/pages/products', icon: 'ti ti-artboard' },
+    { label: 'Variations', link: '/pages/variations', icon: 'ti ti-versions' },
     { label: 'Tables', link: '/pages/tables', icon: 'ti ti-table' },
     { label: 'Table Booking', link: '/pages/table-booking', icon: 'ti ti-table' },
     { label: 'Orders', link: '/pages/orders', icon: 'ti ti-truck-delivery' },

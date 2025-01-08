@@ -45,6 +45,10 @@ const routes: Routes = [
     loadChildren: () => import('./products/products.module').then((m) => m.ProductsModule)
   },
   {
+    path: 'variations',
+    loadChildren: () => import('./variations/variations.module').then((m) => m.VariationsModule)
+  },
+  {
     path: 'tables',
     loadChildren: () => import('./rtables/rtables.module').then((m) => m.RtablesModule)
   },
@@ -52,7 +56,7 @@ const routes: Routes = [
     path: 'orders',
     loadChildren: () => import('./orders/orders.module').then((m) => m.OrdersModule)
   },
-  
+
   {
     path: 'invoices',
     loadChildren: () => import('./invoices/invoices.module').then((m) => m.InvoicesModule)

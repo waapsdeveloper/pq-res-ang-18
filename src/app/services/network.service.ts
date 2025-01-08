@@ -172,6 +172,16 @@ export class NetworkService {
   getInvoicesById(id) {
     return this.httpGetResponse(`invoice/${id}`, null, false, true);
   }
+// Variations
+getVariations(){
+  return this.httpGetResponse('admin/variation', null , false ,true);
+}
+
+
+
+
+
+
 
   // Tables
 
