@@ -1,5 +1,4 @@
 <div class="order-create-page-outer">
-
   <div class="category-sidebar">
     <app-add-order-categories class="mb-5"></app-add-order-categories>
   </div>
@@ -7,8 +6,8 @@
   <div class="products-sidebar">
     <app-add-order-products></app-add-order-products>
   </div>
-  <div class="order-sidebar">
 
+  <div class="order-sidebar">
     <!--begin::Chart widget 8-->
     <div class="card card-flush h-xl-100">
       <!--begin::Header-->
@@ -36,15 +35,20 @@
 
 
         </div>
-        <!--end::Type Dropdown-->
-        <!--end::Title-->
-        <!--begin::Toolbar-->
-        <!-- <div class="card-toolbar">
-          <button type="submit" (click)="onSubmit($event)" class="btn btn-primary mt-4">Submit</button>
-        </div> -->
-        <!--end::Toolbar-->
+        <!--end::Customer Details Section-->
+      </div>
+
+      <div class="row">
+        <!--begin::Place Order Button-->
+        <div class="card-toolbar">
+          <button type="submit" *ngIf="orderService.selected_products?.length > 0" (click)="onSubmit($event)" class="btn btn-primary mt-4">
+            Place Order
+          </button>
+        </div>
+        <!--end::Place Order Button-->
       </div>
       <!--end::Header-->
+
       <!--begin::Body-->
       <div class="card-body pt-6">
         <!--begin::Tab content-->
@@ -94,6 +98,5 @@
       <!--end::Body-->
     </div>
     <!--end::Chart widget 8-->
-
   </div>
 </div>
