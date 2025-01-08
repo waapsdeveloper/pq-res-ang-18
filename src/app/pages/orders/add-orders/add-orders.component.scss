@@ -17,8 +17,9 @@
 }
 
 .products-sidebar {
-  flex: 1; // Takes up the remaining space proportionally
+  flex: 0; // Takes up the remaining space proportionally
   // background-color: #e9ecef; // Slightly darker gray for visualization
+  min-width: 560px;
   padding: 10px 0;
   // border-right: 1px solid #ddd; // Optional border
 }
