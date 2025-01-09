@@ -13,7 +13,7 @@ import { VariationsService } from '../variations.service';
   templateUrl: './list-variations.component.html',
   styleUrl: './list-variations.component.scss'
 })
-export class ListVariationsComponent extends ListBlade implements OnInit {
+export class ListVariationsComponent extends ListBlade {
   title = 'Variations';
   addurl = '/pages/variations/add';
   override selectAll: boolean = false;
@@ -25,15 +25,6 @@ export class ListVariationsComponent extends ListBlade implements OnInit {
     address: '',
     status: 'active'
   };
-
-  async ngOnInit() {
-    this.crudService.list.forEach((item) => {
-      if (item.meta_value) {
-        // Parse the meta_value JSON string into an array
-        item.parsedMetaValue = JSON.parse(item.meta_value);
-      }
-    });
-  }
 
   fields: FormlyFieldConfig[] = [
     {
