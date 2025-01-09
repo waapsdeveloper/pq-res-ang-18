@@ -5,13 +5,13 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { UtilityService } from 'src/app/services/utility.service';
-
+import { FieldArrayType } from '@ngx-formly/core';
 @Component({
   selector: 'app-edit-variations',
   templateUrl: './edit-variations.component.html',
   styleUrl: './edit-variations.component.scss'
 })
-export class EditVariationsComponent implements OnInit{
+export class EditVariationsComponent implements OnInit {
   id;
 
   constructor(
@@ -58,13 +58,11 @@ export class EditVariationsComponent implements OnInit{
         let fl = this.fields[i].fieldGroup[j];
         if (fl && fl.key === 'restaurant_id') {
           fl.props = fl.props || {}; // Ensure props exists
-          fl.props.options = res;}
+          fl.props.options = res;
+        }
       }
     }
   }
-
-
-
 
   async initialize() {
     // Fetch the data from the server
@@ -75,13 +73,14 @@ export class EditVariationsComponent implements OnInit{
   form = new FormGroup({});
   model = {
     restaurant_id: '',
-    meta_value:'',
-    description: '',
+    name: '',
+    meta_value:null,
+    description: ''
   };
 
   fields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: 'row', // Bootstrap row
+      fieldGroupClassName: 'row',
       fieldGroup: [
         {
           key: 'restaurant_id',
@@ -94,8 +93,16 @@ export class EditVariationsComponent implements OnInit{
           },
           className: 'col-md-4 col-12'
         },
-
-
+        {
+          key: 'name',
+          type: 'input',
+          props: {
+            label: 'Enter Variation Name',
+            placeholder: 'Enter name',
+            required: true
+          },
+          className: 'col-md-3 col-12'
+        },
         {
           key: 'description',
           type: 'textarea',
@@ -104,23 +111,74 @@ export class EditVariationsComponent implements OnInit{
             placeholder: 'Enter a description',
             required: false
           },
-          className: 'col-md-6 col-12' // Full width for description
+          className: 'col-md-3 col-12'
         },
-
+        {
+          key: 'meta_value',
+          type: 'repeat',
+          props: {
+            label: 'Options',
+            addText: 'Add Option',
+            removeText: 'Remove Option'
+          },
+          fieldArray: {
+            fieldGroupClassName: 'row',
+            fieldGroup: [
+              {
+                key: 'options',
+                type: 'input',
+                props: {
+                  label: 'Option Name',
+                  placeholder: 'Thin Crust',
+                  required: true
+                },
+                className: 'col-md-6 col-12'
+              },
+              {
+                key: 'price_change',
+                type: 'input',
+                props: {
+                  label: 'Price Change',
+                  type: 'number',
+                  placeholder: '50',
+                  required: true
+                },
+                className: 'col-md-6 col-12'
+              }
+            ]
+          },
+          className: 'col-md-12 col-12'
+        }
+,
+        {
+          key: 'default',
+          type: 'select',
+          props: {
+            label: 'Default Option',
+            placeholder: 'Select the default option',
+            required: true,
+            options: [] // You can dynamically populate this based on options
+          },
+          className: 'col-md-3 col-12'
+        }
       ]
     }
   ];
+
   async ngAfterViewInit() {
     const res = await this.network.getVariationsById(this.id);
     let d = Object.assign({}, res.variation);
     console.log(d);
-   // Dynamic model assignment
- this.model = {
-  restaurant_id: d.restaurant_id  || '', // Matches `model`
- description: d.description || '',
- meta_value:d.meta_value    // Matches `model`
-};
-
+    // Dynamic model assignment
+    this.model = {
+      restaurant_id: d.restaurant_id || '',
+      name: d.name || '',
+      description: d.description || '',
+      meta_value: {
+        options: d.meta_value?.options || [],
+        default: d.meta_value?.default || ''
+      }
+    };
 
   }
 

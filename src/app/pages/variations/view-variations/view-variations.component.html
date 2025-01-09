@@ -1,5 +1,4 @@
 <app-kt-list-detail-page [title]="'Variations'">
-
   <div class="card mb-5 mb-xl-10" id="kt_profile_details_view">
     <!--begin::Card body-->
     <div class="card-body">
@@ -9,7 +8,7 @@
         <!--end::Label-->
         <!--begin::Col-->
         <div class="col-lg-8">
-          <span class="fw-bold fs-6 text-gray-800">{{item?.name}}</span>
+          <span class="fw-bold fs-6 text-gray-800">{{ item?.name }}</span>
         </div>
         <!--end::Col-->
       </div>
@@ -22,7 +21,7 @@
         <!--end::Label-->
         <!--begin::Col-->
         <div class="col-lg-8">
-          <span class="fw-bold fs-6 text-gray-800">{{item?.description}}</span>
+          <span class="fw-bold fs-6 text-gray-800">{{ item?.description }}</span>
         </div>
         <!--end::Col-->
       </div>
@@ -34,8 +33,12 @@
         <label class="col-lg-4 fw-semibold text-muted">Options</label>
         <!--end::Label-->
         <!--begin::Col-->
-        <div class="col-lg-8" *ngFor="let opt of item?.meta_value.options">
-          <span class="fw-bold fs-6 text-gray-800">{{opt.option.join(', ')}}</span>
+        <div class="col-lg-8" >
+          <span class="fw-bold fs-6 text-gray-800">
+            <ng-container *ngFor="let opt of item?.meta_value.options; let last = last">
+              {{ opt.option }}{{ last ? '' : ', ' }}
+            </ng-container>
+          </span>
         </div>
         <!--end::Col-->
       </div>
@@ -50,9 +53,7 @@
       <!--begin::Row-->
 
       <!--end::Row-->
-
     </div>
     <!--end::Card body-->
   </div>
-
 </app-kt-list-detail-page>
