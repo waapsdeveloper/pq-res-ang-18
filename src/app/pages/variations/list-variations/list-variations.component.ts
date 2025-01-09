@@ -29,6 +29,12 @@ export class ListVariationsComponent extends ListBlade  implements OnInit{
 
 async ngOnInit(){
 const res =  await this.network.getVariations();
+ this.crudService.list.forEach((item) => {
+      if (item.meta_value) {
+        // Parse the meta_value JSON string into an array
+        item.parsedMetaValue = JSON.parse(item.meta_value);
+      }
+    });
 
 }
 

@@ -40,12 +40,15 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let opt of item?.meta_value.options">
-                <td>{{ opt.option }}</td>
-                <td>{{ opt.price_change }}</td>
+              <tr *ngFor="let variation of item?.meta_value">
+                <ng-container *ngFor="let opt of variation.options">
+                  <td>{{ opt.name }}</td>
+                  <td>{{ opt.price }}</td>
+                </ng-container>
               </tr>
             </tbody>
           </table>
+
         </div>
         <!-- End Table -->
       </div>

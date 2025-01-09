@@ -13,7 +13,7 @@ import { FieldArrayType } from '@ngx-formly/core';
 })
 export class EditVariationsComponent implements OnInit {
   id;
-
+ item;
   variations: any[] = [];
   addAttributeInput = '';
 
@@ -36,18 +36,11 @@ export class EditVariationsComponent implements OnInit {
     // Fetch the data from the server
     const res = await this.network.getVariationsById(this.id);
     let d = Object.assign({}, res.variation);
-    console.log(d);
-    const f = d['variation'] && d['variation'].length > 0 ? d['variation'][0] : null;
-    if (f) {
-      const metaValue = f['meta_value'] ? JSON.parse(f['meta_value']) : null;
-
-      this.variations = [
-        {
-          options: metaValue.options,
-          default: metaValue.default
-        }
-      ];
-      console.log(this.variations);}
+   if(d['meta_value']){
+ const metaValue = JSON.parse(d['meta_value']);
+this.variations = metaValue;
+console.log(this.variations);
+   }
   }
 
   form = new FormGroup({});
@@ -87,7 +80,12 @@ export class EditVariationsComponent implements OnInit {
 
   async ngAfterViewInit() {
     const res = await this.network.getVariationsById(this.id);
-    let d = Object.assign({}, res.variation);
+    this.item = res.variation;
+    if (this.item && this.item.meta_value) {
+      this.item.meta_value = JSON.parse(this.item.meta_value);
+    }
+
+    let d = Object.assign({}, this.item);
     console.log(d);
     // Dynamic model assignment
     this.model = {
@@ -103,7 +101,7 @@ export class EditVariationsComponent implements OnInit {
       // alert('Restaurant added successfully!');
 
       let d = Object.assign({}, this.form.value);
-      d['variation'] = this.variations;
+      d['meta_value'] = this.variations;
       const res = await this.network.updateVariation(d, this.id);
       console.log(res);
       if (res) {

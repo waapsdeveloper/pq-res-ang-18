@@ -64,7 +64,7 @@ export class AddVariationsComponent {
       // alert('Restaurant added successfully!');
 
       let d = this.form.value;
-      d['variation'] = this.variations;
+      d['meta_value'] = this.variations;
       const res = await this.network.addVariations(d);
 
       console.log(res);
