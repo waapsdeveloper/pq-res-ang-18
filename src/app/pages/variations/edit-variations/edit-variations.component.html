@@ -1,9 +1,94 @@
-
 <app-kt-app-form-page [title]="'Edit Restaurant'">
-
   <form [formGroup]="form" (ngSubmit)="onSubmit(model)">
     <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
     <button type="submit" class="btn btn-secondary mt-4">Submit</button>
   </form>
+  <div class="row my-5">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center">
+        <!-- Left side: Product Variations heading -->
+        <div class="my-3">
+          <h3>Product Variations</h3>
+          <p>Select any attributes and update its variations</p>
+        </div>
+
+        <!-- Right side: Input field aligned to opposite side -->
+        <div class="d-flex flex-column align-items-end me-13">
+          <input
+            [(ngModel)]="addAttributeInput"
+            type="text"
+            placeholder="Variation Type (e.g., Size, Toppings)"
+            class="form-control mb-2"
+            style="max-width: 500px; width: 150%;"
+          />
+          <button
+            type="button"
+            (click)="addAttributes()"
+            class="btn btn-warning"
+            style="background-color: #d12e2e"
+          >
+            Add Attributes
+          </button>
+        </div>
+      </div>
+
+      <!-- Other content: Variations and table -->
+      <div class="d-flex flex-row flex-wrap justify-content-start mb-3">
+        <div
+          class="badge badge-secondary fw-bold me-2 px-4 py-2"
+          [class.badge-info]="item.selected == true"
+          style="height: 32px; cursor: pointer"
+          *ngFor="let item of variations"
+          (click)="selectAttribute(item.type)"
+        >
+          {{ item.type }}
+        </div>
+      </div>
+
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Variation Type</th>
+            <th>Option Name</th>
+            <th>Description</th>
+            <th>Additional Price</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let variation of variations | filterSelected: 'selected' : true; let i = index">
+            <td>
+              <input type="text" [(ngModel)]="variation.type" placeholder="Variation Type (e.g., Size, Toppings)" class="form-control" />
+            </td>
+            <td>
+              <div *ngFor="let option of variation.options; let j = index" class="mb-2">
+                <input type="text" [(ngModel)]="option.name" placeholder="Option Name (e.g., Small)" class="form-control mb-1" />
+              </div>
+            </td>
+            <td>
+              <div *ngFor="let option of variation.options; let j = index" class="mb-2">
+                <input type="text" [(ngModel)]="option.description" placeholder="Description" class="form-control mb-1" />
+              </div>
+            </td>
+            <td>
+              <div *ngFor="let option of variation.options">
+                <input type="number" [(ngModel)]="option.price" placeholder="Additional Price (e.g., 5)" class="form-control mb-1" />
+              </div>
+            </td>
+            <td>
+              <i class="ti ti-trash" style="font-size: 26px" (click)="removeOption(i, i)"></i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="col-12 d-flex flex-row justify-content-end my-3">
+        <button type="button" class="btn btn-warning" style="background-color: #d12e2e" (click)="addItemINVariation()">
+          Add Variations
+        </button>
+      </div>
+    </div>
+  </div>
+
 
 </app-kt-app-form-page>

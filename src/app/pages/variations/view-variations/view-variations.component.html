@@ -29,19 +29,27 @@
 
       <!--begin::Row-->
       <div class="row mb-7">
-        <!--begin::Label-->
-        <label class="col-lg-4 fw-semibold text-muted">Options</label>
-        <!--end::Label-->
-        <!--begin::Col-->
-        <div class="col-lg-8" >
-          <span class="fw-bold fs-6 text-gray-800">
-            <ng-container *ngFor="let opt of item?.meta_value.options; let last = last">
-              {{ opt.option }}{{ last ? '' : ', ' }}
-            </ng-container>
-          </span>
+        <!-- Begin Table -->
+        <label class="col-lg-4 fw-semibold text-muted">Options and Prices</label>
+        <div class="col-lg-8">
+          <table class="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th class="fw-bold fs-6 text-gray-800">Option Name</th>
+                <th class="fw-bold fs-6 text-gray-800">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let opt of item?.meta_value.options">
+                <td>{{ opt.option }}</td>
+                <td>{{ opt.price_change }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <!--end::Col-->
+        <!-- End Table -->
       </div>
+
       <!--end::Row-->
 
       <!--begin::Row-->

@@ -7,7 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyModule } from '@ngx-formly/core';
 import { KtAppFormPageModule } from 'src/app/components/layouts/kt-app-form-page/kt-app-form-page.module';
-import { RepeatTypeComponent } from '../edit-variations/repeat-type.component';
+import { FilterSelectedModule } from '../../products/filter-selected/filter-selected.module';
 
 @NgModule({
   declarations: [AddVariationsComponent],
@@ -19,11 +19,7 @@ import { RepeatTypeComponent } from '../edit-variations/repeat-type.component';
     ReactiveFormsModule,
     FormlyBootstrapModule,
     KtAppFormPageModule,
-    FormlyModule.forRoot({
-          types: [
-            { name: 'repeat', component: RepeatTypeComponent } // Register the repeat type
-          ]
-        })
+    FilterSelectedModule
   ]
 })
 export class AddVariationsModule {}

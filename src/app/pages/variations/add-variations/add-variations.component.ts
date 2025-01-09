@@ -12,11 +12,13 @@ import { UtilityService } from 'src/app/services/utility.service';
   styleUrl: './add-variations.component.scss'
 })
 export class AddVariationsComponent {
-
   form = new FormGroup({});
+
+  variations: any[] = [];
+  addAttributeInput = '';
+
   model = {
     name: '',
-    meta_value:null,
     description: ''
   };
   fields: FormlyFieldConfig[] = [
@@ -42,76 +44,29 @@ export class AddVariationsComponent {
             required: false
           },
           className: 'col-md-6 col-12'
-        },
-        {
-          key: 'meta_value',
-          type: 'repeat',
-          props: {
-            label: 'Options',
-            addText: 'Add Option',
-            removeText: 'Remove Option'
-          },
-          fieldArray: {
-            fieldGroupClassName: 'row',
-            fieldGroup: [
-              {
-                key: 'options',
-                type: 'input',
-                props: {
-                  label: 'Option Name',
-                  placeholder: 'Thin Crust',
-                  required: true
-                },
-                className: 'col-md-6 col-12'
-              },
-              {
-                key: 'price_change',
-                type: 'input',
-                props: {
-                  label: 'Price Change',
-                  type: 'number',
-                  placeholder: '50',
-                  required: true
-                },
-                className: 'col-md-6 col-12'
-              }
-            ]
-          },
-          className: 'col-md-12 col-12'
-        }
-,
-        {
-          key: 'default',
-          type: 'select',
-          props: {
-            label: 'Default Option',
-            placeholder: 'Select the default option',
-            options: [] // You can dynamically populate this based on options
-          },
-          className: 'col-md-3 col-12'
         }
       ]
     }
   ];
 
+  constructor(
+    private nav: NavService,
+    private network: NetworkService,
+    private utility: UtilityService
+  ) {}
 
+  ngOnInit(): void {}
 
-
-  constructor(private nav: NavService, private network: NetworkService, private utility: UtilityService) {
-
-  }
-
-  ngOnInit(): void {
-  }
-
-   async onSubmit(model) {
+  async onSubmit(model) {
     console.log(model);
     console.log('Form Submitted', this.form.valid);
     if (this.form.valid) {
       // alert('Restaurant added successfully!');
 
       let d = this.form.value;
+      d['variation'] = this.variations;
       const res = await this.network.addVariations(d);
+
       console.log(res);
       if (res) {
         this.nav.pop();
@@ -122,6 +77,59 @@ export class AddVariationsComponent {
     }
   }
 
-  // Method to handle file input change
+  addAttributes() {
+    let v = this.addAttributeInput.trim();
 
+    if (!v || v == '') {
+      return;
+    }
+
+    let findIndex = this.variations.findIndex((x) => x.type == v);
+    if (findIndex == -1) {
+      this.addVariation(v);
+    }
+
+    this.addAttributeInput = '';
+  }
+
+  selectAttribute(type) {
+    this.variations = this.variations.map((item) => {
+      item.selected = item.type == type;
+      return item;
+    });
+  }
+
+  addVariation(type) {
+    this.variations = this.variations.map((item) => {
+      item['selected'] = false;
+      return item;
+    });
+
+    this.variations.push({
+      type: type, // e.g., "Size",
+      selected: true,
+      options: [
+        { name: '', description: '', price: 0 } // Default empty option
+      ]
+    });
+  }
+
+  addItemINVariation() {
+    const index = this.variations.findIndex((x) => x.selected == true);
+    if (index == -1) {
+      return;
+    }
+
+    this.variations[index]['options'].push({ name: '', description: '', price: 0 });
+  }
+
+  // Add a new option to a variation
+  addOption(variationIndex: number) {
+    this.variations[variationIndex].options.push({ name: '', description: '', price: 0 });
+  }
+  // Remove an option from a variation
+  removeOption(variationIndex: number, optionIndex: number) {
+    this.variations[variationIndex].options.splice(optionIndex, 1);
+  }
+  // Method to handle file input change
 }

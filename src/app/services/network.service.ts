@@ -185,6 +185,9 @@ export class NetworkService {
   removeVariationsById(id) {
     return this.httpDeleteResponse('variation', id, false, true);
   }
+  updateVariation(data, id) {
+    return this.httpPutResponse('variation', data, id, false, true);
+  }
 
   // Tables
 
