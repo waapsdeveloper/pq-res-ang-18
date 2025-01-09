@@ -1,4 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+
 
 @Component({
   selector: 'app-list-variation-tags',
@@ -31,6 +33,17 @@ export class ListVariationTagsComponent {
   }
 
 
+  activePopovers: NgbPopover[] = [];
 
+  // Close all open popovers
+  closeAllPopovers() {
+    this.activePopovers.forEach((popover) => popover.close());
+    this.activePopovers = [];
+  }
+
+  // Register the active popover
+  registerPopover(popover: NgbPopover) {
+    this.activePopovers.push(popover);
+  }
 
 }

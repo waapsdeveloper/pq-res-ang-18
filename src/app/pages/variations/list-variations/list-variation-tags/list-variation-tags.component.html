@@ -1,6 +1,37 @@
-<div *ngFor="let meta of list || []">
-  <p>{{meta.type}}</p>
-  <div *ngFor="let opt of meta.options" class="badge badge-light-primary fw-bold me-auto px-4 py-3">
-    {{ opt.name }}
+<ng-template #metaDetail>
+  <div class="row">
+    <!-- Loop through meta items -->
+    <div class="col-12" *ngFor="let meta of list || []">
+      <!-- Display Type as Heading -->
+      <div class="fw-bold fs-5">{{ meta.type }}</div>
+
+      <!-- Loop through Options for Current Meta -->
+      <div *ngFor="let opt of meta.options" class="ms-4">
+        <div>
+          <!-- Display Option Details -->
+          <span class="fw-semibold">{{ opt.name }}</span>
+          <br>
+          <span class="text-muted">- {{ opt.description }}</span>
+          <span class="text-success">(${{ opt.price }})</span>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+</ng-template>
+
+<ng-template #metaTitle>
+  <div class="fw-bold fs-3">Meta Details</div>
+</ng-template>
+
+<button
+  class="btn btn-sm"
+  [ngbPopover]="metaDetail"
+  [popoverTitle]="metaTitle"
+  triggers="manual"
+  [autoClose]="'outside'"
+  placement="top"
+  #metaPopover="ngbPopover"
+  (click)="closeAllPopovers(); metaPopover.open(); registerPopover(metaPopover)"
+>
+  <i class="ti ti-versions" style="color: #000; font-size: 22px"></i>
+</button>
