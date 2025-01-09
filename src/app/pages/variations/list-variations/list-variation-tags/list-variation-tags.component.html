@@ -1,0 +1,6 @@
+<div *ngFor="let meta of item.parsedMetaValue || []">
+  <div *ngFor="let opt of meta.options" class="badge badge-light-primary fw-bold me-auto px-4 py-3">
+    {{ opt.name }}
+    <!-- Use the 'name' from the option object -->
+  </div>
+</div>

@@ -9,9 +9,10 @@ import { FormlyModule } from '@ngx-formly/core';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { KtAppListPageTableModule } from 'src/app/components/layouts/kt-list-page/kt-app-list-page-table/kt-app-list-page-table.module';
 import { KtListPageModule } from 'src/app/components/layouts/kt-list-page/kt-list-page.module';
+import { ListVariationTagsComponent } from './list-variation-tags/list-variation-tags.component';
 
 @NgModule({
-  declarations: [ListVariationsComponent],
+  declarations: [ListVariationsComponent, ListVariationTagsComponent],
   imports: [
     CommonModule,
     ListVariationsRoutingModule,
