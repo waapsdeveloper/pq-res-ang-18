@@ -21,10 +21,14 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     this.orderService.showOrderHeader = true;
   }
 
-  async onSubmit($event) {
+  async onSubmit($event: Event) {
+    $event.preventDefault(); // Prevent default form behavior
     const res = await this.orderService.submitOrder();
     if (res) {
-      this.nav.pop();
+      console.log('Order submitted successfully.');
+      this.printSlip();
+    } else {
+      console.error('Order submission failed.');
     }
   }
   onTypeChange(event: any): void {
@@ -42,5 +46,18 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   searchProducts($event) {
     let v = $event.target.value;
     this.orderService.searchProducts(v);
+  }
+  printSlip() {
+    const printContents = document.getElementById('print-section')?.innerHTML;
+    const originalContents = document.body.innerHTML;
+
+    if (printContents) {
+      document.body.innerHTML = printContents;
+      window.print();
+      document.body.innerHTML = originalContents;
+      window.location.reload(); // Reload the page to restore the original view
+    } else {
+      console.error('Print section not found.');
+    }
   }
 }

@@ -29,3 +29,112 @@
   background-color: #f8f9fa; // Light background
   padding: 10px;
 }
+/* Printable Slip Styling */
+/* Printable Slip Styling */
+.print-section {
+  display: none; /* Hidden by default */
+}
+
+.bill-slip {
+  font-family: Arial, sans-serif;
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 2px dashed #000;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.bill-header,
+.customer-info,
+.order-details,
+.bill-footer {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.bill-header h2 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.bill-header p {
+  margin: 5px 0;
+  font-size: 0.95rem;
+  color: #666;
+}
+
+.customer-info h3,
+.order-details h3,
+.bill-footer h3 {
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+  color: #444;
+}
+
+.customer-info p,
+.bill-footer p {
+  margin: 5px 0;
+  font-size: 1rem;
+  color: #555;
+}
+
+.order-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0;
+}
+
+.order-table th,
+.order-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.order-table th {
+  background: #f1f1f1;
+  color: #333;
+}
+
+.order-table td {
+  color: #555;
+}
+
+.bill-footer h3 {
+  margin: 10px 0;
+  font-size: 1.5rem;
+  color: #222;
+}
+
+.bill-footer p {
+  font-size: 1rem;
+  color: #666;
+}
+
+/* Print Styles */
+@media print {
+  body * {
+    visibility: hidden; /* Hide everything */
+  }
+
+  .print-section, .print-section * {
+    visibility: visible; /* Show print section */
+  }
+
+  .print-section {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+
+  /* Remove margins and padding for print */
+  .bill-slip {
+    margin: 0;
+    border: none;
+    box-shadow: none;
+  }
+}

@@ -13,28 +13,28 @@
       <!--begin::Header-->
       <div class="card-header">
         <!--begin::Title-->
-
         <h3 class="card-title align-items-start flex-column col-12">
           <div class="d-flex flex-row gap-5 justify-content-between">
             <div class="d-flex flex-column">
               <span class="card-label fw-bold text-dark">Order Overview</span>
-              <span class="text-gray-400 mt-1 fw-semibold fs-6">take a look at bill details</span>
+              <span class="text-gray-400 mt-1 fw-semibold fs-6">Take a look at bill details</span>
             </div>
             <div class="d-flex flex-row">
               <span class="fs-1 fw-semibold text-gray-400 me-1 mt-n1">$</span>
               <span class="fs-3x fw-bold text-gray-800 me-2 lh-1 ls-n2">{{ orderService.totalCost }}</span>
             </div>
             <div class="d-flex justify-content-end">
-              <button type="submit" *ngIf="orderService.selected_products?.length > 0" (click)="onSubmit($event)" class="btn btn-primary">
+              <button
+                type="submit"
+                *ngIf="orderService.selected_products?.length > 0"
+                (click)="onSubmit($event)"
+                class="btn btn-primary"
+              >
                 Place Order
               </button>
             </div>
           </div>
         </h3>
-        <!--begin::Status Dropdown-->
-        <!--begin::Type Dropdown (Replacement for Status)-->
-
-        <!--end::Customer Details Section-->
       </div>
 
       <!--end::Header-->
@@ -59,7 +59,6 @@
                   type="text"
                   name="customer name"
                   class="form-control"
-                  id=""
                   [(ngModel)]="orderService.customer_name"
                   placeholder="Customer Name"
                 />
@@ -68,10 +67,9 @@
                 <input
                   type="text"
                   name="customer phone"
-                  id=""
                   class="form-control"
                   [(ngModel)]="orderService.customer_phone"
-                  placeholder="customer phone"
+                  placeholder="Customer Phone"
                 />
               </div>
               <div class="col-md-4 col-12">
@@ -105,5 +103,55 @@
       <!--end::Body-->
     </div>
     <!--end::Chart widget 8-->
+  </div>
+</div>
+
+<!-- Printable Slip Section -->
+<div id="print-section" class="print-section" #printSection>
+  <div class="bill-slip">
+    <div class="bill-header">
+      <h2>Restaurant Name</h2>
+      <p>123 Food Street, City, Country</p>
+      <p>Phone: (123) 456-7890</p>
+      <hr />
+    </div>
+
+    <div class="customer-info">
+      <h3>Customer Details</h3>
+      <p><strong>Name:</strong> {{ orderService.customer_name }}</p>
+      <p><strong>Phone:</strong> {{ orderService.customer_phone }}</p>
+      <p><strong>Order Type:</strong> {{ orderService.orderType }}</p>
+      <hr />
+    </div>
+
+    <div class="order-details">
+      <h3>Order Details</h3>
+      <table class="order-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of orderService.selected_products; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.price | currency }}</td>
+            <td>{{ item.quantity * item.price | currency }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <hr />
+    </div>
+
+    <div class="bill-footer">
+      <h3>Total: {{ orderService.totalCost | currency }}</h3>
+      <p>Thank you for your order!</p>
+    </div>
   </div>
 </div>
