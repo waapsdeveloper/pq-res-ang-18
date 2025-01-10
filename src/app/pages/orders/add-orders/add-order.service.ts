@@ -127,24 +127,21 @@ export class AddOrderService {
     this.totalCost = cost; // Update the total cost
   }
 
-
   async submitOrder() {
-
     let prodObj = this.selected_products.map((item) => {
-    //   item.price = this.totalCost;
-
-    if (item.variation) {
-      item.variation.forEach((variation: any) => {
-        if (variation.options) {
-          variation.options.forEach((option: any) => {
-            if (option.selected) {
-              // Add variation option price to the product cost
-              item.price += option.price;
-            }
-          });
-        }
-      });
-    }
+      //   item.price = this.totalCost;
+      if (item.variation) {
+        item.variation.forEach((variation: any) => {
+          if (variation.options) {
+            variation.options.forEach((option: any) => {
+              if (option.selected) {
+                // Add variation option price to the product cost
+                item.price = Number(item.price) + Number(option.price);
+              }
+            });
+          }
+        });
+      }
 
       return {
         product_id: item.id,
@@ -153,7 +150,6 @@ export class AddOrderService {
         notes: item.notes,
         variation: item.variation
       };
-
 
       this.total_price += item.price;
     });
