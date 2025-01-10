@@ -131,8 +131,21 @@ export class AddOrderService {
   async submitOrder() {
 
     let prodObj = this.selected_products.map((item) => {
-        item.price = this.totalCost;
-        
+    //   item.price = this.totalCost;
+
+    if (item.variation) {
+      item.variation.forEach((variation: any) => {
+        if (variation.options) {
+          variation.options.forEach((option: any) => {
+            if (option.selected) {
+              // Add variation option price to the product cost
+              item.price += option.price;
+            }
+          });
+        }
+      });
+    }
+
       return {
         product_id: item.id,
         quantity: item.quantity,
@@ -157,7 +170,7 @@ export class AddOrderService {
       notes: this.order_notes,
       status: 'pending',
       type: this.orderType,
-      total_price: this.total_price
+      total_price: this.totalCost
     };
 
     const res = await this.network.addOrder(obj);

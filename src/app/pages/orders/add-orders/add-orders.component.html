@@ -21,7 +21,7 @@
             </div>
             <div class="d-flex flex-row">
               <span class="fs-1 fw-semibold text-gray-400 me-1 mt-n1">$</span>
-              <span class="fs-3x fw-bold text-gray-800 me-2 lh-1 ls-n2">{{ orderService.totalCost }}</span>
+              <span class="fs-3x fw-bold text-gray-800 me-2 lh-1 ls-n2">{{ orderService.totalCost  | number: '1.2-2'}}</span>
             </div>
             <div class="d-flex justify-content-end">
               <button
@@ -119,7 +119,7 @@
 
     <div class="customer-info">
       <h3>Customer Details</h3>
-      <p><strong>Name:</strong> {{ orderService.customer_name }}</p>
+      <p><strong>Name:</strong> {{ orderService.customer_name}}</p>
       <p><strong>Phone:</strong> {{ orderService.customer_phone }}</p>
       <p><strong>Order Type:</strong> {{ orderService.orderType }}</p>
       <hr />
