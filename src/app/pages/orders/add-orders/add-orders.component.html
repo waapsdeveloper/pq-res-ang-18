@@ -140,11 +140,11 @@
               {{ item.name }} x {{ item.quantity }}
               <br />
               <small *ngFor="let variation of item.variation">
-                <span *ngFor="let option of variation.options"  [hidden]="option.selected == true">
-
-                    {{ option.name }} ({{ option.price | currency }})
-
+                <span *ngFor="let option of variation.options"  [hidden]="!(option.selected == true)">
+                    {{option.selected}} {{ option.name }} ({{ option.price | currency }})
+                    <br>
                 </span>
+                
               </small>
             </td>
             <td>{{ item.price | currency }}</td>
