@@ -5,7 +5,6 @@ import { NetworkService } from 'src/app/services/network.service';
   providedIn: 'root'
 })
 export class AddOrderService {
-
   categories: any[] = [];
   products: any[] = [];
   customer_name: string = '';
@@ -18,11 +17,8 @@ export class AddOrderService {
 
   totalCost = 0;
 
-
-
-
-  constructor(private network: NetworkService,) {
-    this.initialize()
+  constructor(private network: NetworkService) {
+    this.initialize();
   }
 
   async searchProducts(search) {
@@ -30,66 +26,71 @@ export class AddOrderService {
       perpage: 500,
       page: 1,
       search: search
-    }
-    const res = await this.network.getProducts(obj)
+    };
+    const res = await this.network.getProducts(obj);
     // console.log(res)
 
     if (res.data) {
       let d = res.data.data;
-      console.log(d)
+      console.log(d);
       this.products = d;
     }
-
   }
 
   async initialize() {
     let obj = {
       perpage: 500,
       page: 1
-    }
-    const res = await this.network.getCategories(obj)
+    };
+    const res = await this.network.getCategories(obj);
     // console.log(res)
 
     if (res.data) {
       let d = res.data.data;
-      console.log(d)
+      console.log(d);
       this.categories = d;
     }
-
   }
 
   async updateProductsBySelectedCategory(category) {
-
     let obj = {
       filters: JSON.stringify({
-        category_id: category.id,
+        category_id: category.id
       }),
       perpage: 500
-    }
+    };
     const res = await this.network.getProducts(obj);
 
     if (res.data) {
       let d = res.data.data;
-      console.log(d)
+      console.log(d);
       this.products = d;
     }
-
   }
 
   async updateProductInSelectedProducts(product: any) {
     if (product.selected) {
       // Check if the product already exists in selected_products
-      const exists = this.selected_products.some(p => p.id === product.id);
+      const exists = this.selected_products.some((p) => p.id === product.id);
       if (!exists) {
         // Add the product if it doesn't exist
         let p = Object.assign({}, product);
         p['quantity'] = 1;
         p['cost'] = p['quantity'] * 1;
+
+        // check and process variations and set to p object
+        if (p.variation && p.variation.length > 0) {
+          let temp = p.variation[0];
+          let json = temp['meta_value'] ? JSON.parse(temp['meta_value']) : [];
+          p['variation'] = json;
+        }
+
+        console.log(p);
         this.selected_products.push(p);
       }
     } else {
       // If product.selected is false, remove the product from selected_products
-      this.selected_products = this.selected_products.filter(p => p.id !== product.id);
+      this.selected_products = this.selected_products.filter((p) => p.id !== product.id);
     }
 
     this.totalOfProductCost();
@@ -102,41 +103,39 @@ export class AddOrderService {
 
   async totalOfProductCost() {
     let cost = this.selected_products.reduce((prev, next) => {
-      return prev + (next.quantity * next.price)
+      return prev + next.quantity * next.price;
     }, 0);
 
     this.totalCost = cost;
-
   }
 
   async submitOrder() {
-
-
-    let prodObj = this.selected_products.map(item => {
+    let prodObj = this.selected_products.map((item) => {
       return {
-        "product_id": item.id,
-        "quantity": item.quantity,
-        "price": item.price,
-        "notes": item.notes,
+        product_id: item.id,
+        quantity: item.quantity,
+        price: item.price,
+        notes: item.notes,
+        variation: item.variation
+      };
 
-      }
-      this.total_price += item.price; 
+      this.total_price += item.price;
     });
 
     if (prodObj.length == 0) {
       return false;
     }
 
-    console.log("order submitted");
+    console.log('order submitted');
     let obj = {
-      "customer_name": this.customer_name,
-      "customer_phone": this.customer_phone,
-      "products": prodObj,
-      "notes":this.order_notes,
-      "status": "pending",
-      "type": this.orderType,
-      "total_price": this.total_price
-    }
+      customer_name: this.customer_name,
+      customer_phone: this.customer_phone,
+      products: prodObj,
+      notes: this.order_notes,
+      status: 'pending',
+      type: this.orderType,
+      total_price: this.total_price
+    };
 
     const res = await this.network.addOrder(obj);
     console.log(res);
@@ -144,12 +143,5 @@ export class AddOrderService {
     this.selected_products = [];
 
     return true;
-
-
-
   }
-
-
-
-
 }

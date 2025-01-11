@@ -17,7 +17,7 @@ export class ListOrdersComponent extends ListBlade {
   title = 'Orders';
   addurl = '/pages/orders/add';
 showEdit: boolean = false;
-  columns: any[] = ['Order Id', 'Customer Name', 'Phone No', 'Total Price', 'Table No', "Type", 'Status'];
+  columns: any[] = ['Order Id', 'Phone No', 'Total Price', 'Table No', "Type", 'Status'];
 override  model = {
     order_id: '',
     Customer_name: '',

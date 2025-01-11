@@ -8,30 +8,24 @@ import { NavService } from 'src/app/services/basic/nav.service';
   styleUrl: './add-orders.component.scss'
 })
 export class AddOrdersComponent {
+  constructor(
+    public nav: NavService,
+    public orderService: AddOrderService
+  ) {}
 
-
-  constructor(public nav: NavService, public orderService: AddOrderService ) {
-
-  }
-
-  ngOnInit(): void {
-
-  }
-
+  ngOnInit(): void {}
 
   async onSubmit($event) {
     const res = await this.orderService.submitOrder();
-    if(res){
+    if (res) {
       this.nav.pop();
     }
-
-
-
   }
   onTypeChange(event: any): void {
     console.log('Selected Type:', this.selectedType);
     // Perform additional logic here (like sending it to the backend)
-  }selectedType: string = 'dine-in';
+  }
+  selectedType: string = 'dine-in';
   selectedStatus: string = 'pending'; // Default status
 
   onStatusChange(event: any): void {
@@ -39,10 +33,8 @@ export class AddOrdersComponent {
     // Perform additional logic like sending status to the backend
   }
 
-  searchProducts($event){
-
+  searchProducts($event) {
     let v = $event.target.value;
     this.orderService.searchProducts(v);
-
   }
 }
