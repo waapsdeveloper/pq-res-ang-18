@@ -119,33 +119,26 @@
 
 /* Print Styles */
 @media print {
-  body * {
-    visibility: hidden; /* Hide everything */
+  @page {
+    size: 58mm auto; /* Set custom width (58mm for thermal printers) */
+    margin: 0; /* Remove default margins */
   }
 
-  .print-section, .print-section * {
-    visibility: visible; /* Show print section */
-  }
-
-  .print-section {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  /* Remove margins and padding for print */
-  .bill-slip {
+  body {
     margin: 0;
     padding: 0;
-    border: none;
-    box-shadow: none;
   }
 
-  .order-table th, .order-table td {
-    font-size: 1.2rem; /* Adjust size for print */
+  #print-section {
+    width: 58mm; /* Match the page size */
+    padding: 10px;
+    margin: auto;
+    border: none; /* Remove border in print */
+  }
+
+  /* Hide unnecessary elements during print */
+  .non-printable {
+    display: none;
   }
 }
+

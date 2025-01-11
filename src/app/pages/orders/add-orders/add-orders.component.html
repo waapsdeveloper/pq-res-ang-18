@@ -108,51 +108,47 @@
 
 <!-- Printable Slip Section -->
 <!-- Printable Slip Section -->
-<div id="print-section" class="print-section col-12">
+<div id="print-section" style="font-family: Arial, sans-serif; font-size: 12px; width: 240px; margin: auto;">
   <div class="bill-slip">
-    <div class="bill-header">
-      <h2>Restaurant Name</h2>
-      <p>123 Food Street, City, Country</p>
-      <p>Phone: (123) 456-7890</p>
-      <hr />
+    <div class="bill-header" style="text-align: center; border-bottom: 1px dashed #000; padding-bottom: 8px;">
+      <h2 style="margin: 0; font-size: 16px;">Restaurant Name</h2>
+      <p style="margin: 0;">123 Food Street, City, Country</p>
+      <p style="margin: 0;">Phone: (123) 456-7890</p>
     </div>
 
-    <div class="customer-info">
-      <h3>Customer Details</h3>
-      <p><strong>Name:</strong> {{ orderService.customer_name}}</p>
-      <p><strong>Phone:</strong> {{ orderService.customer_phone }}</p>
-      <p><strong>Order Type:</strong> {{ orderService.orderType }}</p>
-      <hr />
+    <div class="customer-info" style="padding: 8px 0; border-bottom: 1px dashed #000;">
+      <p style="margin: 0;"><strong>Name:</strong> {{ orderService.customer_name }}</p>
+      <p style="margin: 0;"><strong>Phone:</strong> {{ orderService.customer_phone }}</p>
+      <p style="margin: 0;"><strong>Order Type:</strong> {{ orderService.orderType }}</p>
     </div>
 
-    <div class="order-details">
-      <h3>Order Details</h3>
-      <table class="order-table">
-        <thead>
+    <div class="order-details" style="padding: 8px 0; border-bottom: 1px dashed #000;">
+      <p style="margin: 0;"><strong>Order Details:</strong></p>
+      <table style="width: 100%; font-size: 12px; border-collapse: collapse;">
+        <thead style="display: none;">
           <tr>
             <th>#</th>
             <th>Item</th>
-            <th>Quantity</th>
+            <th>Qty</th>
             <th>Price</th>
             <th>Total</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let item of orderService.selected_products; let i = index">
-            <td>{{ i + 1 }}</td>
-            <td>{{ item.name }}</td>
-            <td>{{ item.quantity }}</td>
-            <td>{{ item.price | currency }}</td>
-            <td>{{ item.quantity * item.price | currency }}</td>
+            <td style="width: 5%;">{{ i + 1 }}</td>
+            <td style="width: 55%;">{{ item.name }}</td>
+            <td style="width: 10%; text-align: center;">{{ item.quantity }}</td>
+            <td style="width: 15%; text-align: right;">{{ item.price | currency }}</td>
+            <td style="width: 15%; text-align: right;">{{ item.quantity * item.price | currency }}</td>
           </tr>
         </tbody>
       </table>
-      <hr />
     </div>
 
-    <div class="bill-footer">
-      <h3>Total: {{ orderService.totalCost | currency }}</h3>
-      <p>Thank you for your order!</p>
+    <div class="bill-footer" style="padding: 8px 0; text-align: center;">
+      <p style="margin: 0; font-size: 14px;"><strong>Total:</strong> {{ orderService.totalCost | currency }}</p>
+      <p style="margin: 0; font-style: italic;">Thank you for your order!</p>
     </div>
   </div>
 </div>
