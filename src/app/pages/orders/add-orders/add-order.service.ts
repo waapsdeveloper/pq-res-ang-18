@@ -5,6 +5,8 @@ import { NetworkService } from 'src/app/services/network.service';
   providedIn: 'root'
 })
 export class AddOrderService {
+  showOrderHeader = true;
+
   categories: any[] = [];
   products: any[] = [];
   customer_name: string = '';
@@ -12,7 +14,7 @@ export class AddOrderService {
   order_notes: string = '';
   total_price: number = 0;
   selectedCategory = null;
-  orderType = null;
+  orderType = '';
   selected_products: any[] = [];
 
   totalCost = 0;
@@ -100,17 +102,47 @@ export class AddOrderService {
     this.selected_products.splice(index, 1);
     this.totalOfProductCost();
   }
-
   async totalOfProductCost() {
     let cost = this.selected_products.reduce((prev, next) => {
-      return prev + next.quantity * next.price;
+      // Calculate base product cost
+      let productCost = next.quantity * next.price;
+
+      // Check if variations exist and calculate the cost of selected variations
+      if (next.variation) {
+        next.variation.forEach((variation: any) => {
+          if (variation.options) {
+            variation.options.forEach((option: any) => {
+              if (option.selected) {
+                // Add variation option price to the product cost
+                productCost += option.price;
+              }
+            });
+          }
+        });
+      }
+
+      return prev + productCost; // Add product cost to the total
     }, 0);
 
-    this.totalCost = cost;
+    this.totalCost = cost; // Update the total cost
   }
 
   async submitOrder() {
     let prodObj = this.selected_products.map((item) => {
+      //   item.price = this.totalCost;
+      if (item.variation) {
+        item.variation.forEach((variation: any) => {
+          if (variation.options) {
+            variation.options.forEach((option: any) => {
+              if (option.selected) {
+                // Add variation option price to the product cost
+                item.price = Number(item.price) + Number(option.price);
+              }
+            });
+          }
+        });
+      }
+
       return {
         product_id: item.id,
         quantity: item.quantity,
@@ -134,7 +166,7 @@ export class AddOrderService {
       notes: this.order_notes,
       status: 'pending',
       type: this.orderType,
-      total_price: this.total_price
+      total_price: this.totalCost
     };
 
     const res = await this.network.addOrder(obj);

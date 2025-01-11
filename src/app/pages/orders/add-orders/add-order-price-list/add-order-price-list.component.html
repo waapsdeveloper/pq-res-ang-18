@@ -43,6 +43,7 @@
                       type="checkbox"
                       [(ngModel)]="option.selected"
                       [id]="'option-' + variation.type + '-' + option.name"
+                      (ngModelChange)="changeVariationSelection($event)"
                     />
                     <label class="form-check-label" [for]="'option-' + variation.type + '-' + option.name">
                       {{ option.name }} - ${{ option.price }}
@@ -150,7 +151,7 @@
           </button>
         </td>
         <td class="text-end">
-          <div class="text-white fw-bold py-3 px-4 fs-2">$ {{ returnListItemCost(item) ?? 0 }}</div>
+          <div class="text-white fw-bold py-3 px-4 fs-2">${{ calculateTotalPrice(item) }}</div>
         </td>
         <td class="text-end">
           <button class="btn btn-icon" (click)="removeItem(i)">
@@ -163,9 +164,7 @@
     </tbody>
     <!--end::Table body-->
   </table>
-  <div *ngIf="orderService.selected_products?.length > 0" class="card-toolbar d-flex flex-end">
-    <button (click)="onSubmit($event)" type="submit" class="btn btn-primary mt-4 flex-end">Place Order</button>
-  </div>
+
   <!--end::Table-->
 </div>
 <!--end::Table container-->

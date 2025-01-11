@@ -2263,6 +2263,38 @@ batch@0.6.1:
   resolved "https://registry.npmjs.org/batch/-/batch-0.6.1.tgz"
   integrity sha512-x+VAiMRL6UPkx+kudNvxTl6hB2XNNCG2r+7wixVfIYwu/2HKRXimwQyaumLjMveWvT2Hkd/cAJw+QBMfJ/EKVw==
 
+"berry-free-angular-admin-template@file:":
+  version "4.1.0"
+  resolved "file:"
+  dependencies:
+    "@angular/animations" "^18.0.5"
+    "@angular/cdk" "^18.0.5"
+    "@angular/common" "^18.0.5"
+    "@angular/compiler" "^18.0.5"
+    "@angular/core" "^18.0.5"
+    "@angular/forms" "^18.2.12"
+    "@angular/platform-browser" "^18.0.5"
+    "@angular/platform-browser-dynamic" "^18.0.5"
+    "@angular/router" "^18.0.5"
+    "@ng-bootstrap/ng-bootstrap" "^17.0.0"
+    "@ngx-formly/bootstrap" "^6.3.11"
+    "@ngx-formly/core" "^6.3.11"
+    "@ngx-formly/schematics" "^6.3.11"
+    "@popperjs/core" "^2.11.8"
+    "@sweetalert2/ngx-sweetalert2" "^12.4.0"
+    apexcharts "^3.54.1"
+    berry-free-angular-admin-template "file:"
+    bootstrap "^5.3.3"
+    ng-apexcharts "^1.15.0"
+    ng-qrcode "^18.0.0"
+    ng-simple-state "^19.0.1"
+    ngx-scrollbar "^15.0.1"
+    ngx-skeleton-loader "^9.0.0"
+    rxjs "~7.8.1"
+    sweetalert2 "^11.14.5"
+    tslib "^2.6.3"
+    zone.js "~0.14.7"
+
 big.js@^5.2.2:
   version "5.2.2"
   resolved "https://registry.npmjs.org/big.js/-/big.js-5.2.2.tgz"

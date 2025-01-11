@@ -13,21 +13,20 @@ export class AddOrderProductsComponent {
 
 
   constructor(public orderService: AddOrderService) {
-
+    this.initialize()
   }
 
   async initialize() {
-
-
+    this.orderService.searchProducts('');
   }
-  
-  
+
+
   setSelectedToggle(product) {
     product.selected = !product.selected;
     this.orderService.updateProductInSelectedProducts(product);
-    
-   
-    
+
+
+
   }
 
 
@@ -35,7 +34,7 @@ export class AddOrderProductsComponent {
     // Check if a product with the given ID exists in the selected_products array
     return this.orderService.selected_products.some(product => product.id === productId);
   console.log(productId);
-  
+
   }
   editNote(product: any, event: Event): void {
     event.stopPropagation(); // Prevent card click event
@@ -59,6 +58,25 @@ export class AddOrderProductsComponent {
   // Prevent event propagation
   stopPropagation(event: Event): void {
     event.stopPropagation();
+  }
+
+  selectedChange($event){
+
+    let v = $event.target.value;
+    console.log(v);
+
+    for (var i = 0; i < this.orderService.categories.length; i++) {
+      this.orderService.categories[i]['active'] = this.orderService.categories[i]['id'] == v;
+    }
+
+    let item = this.orderService.categories.find(item => item.id == v);
+    this.orderService.updateProductsBySelectedCategory(item);
+  }
+
+
+  searchProducts($event) {
+    let v = $event.target.value;
+    this.orderService.searchProducts(v);
   }
 }
 

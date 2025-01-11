@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AddOrderService } from './add-order.service';
 import { NavService } from 'src/app/services/basic/nav.service';
 
@@ -7,18 +7,28 @@ import { NavService } from 'src/app/services/basic/nav.service';
   templateUrl: './add-orders.component.html',
   styleUrl: './add-orders.component.scss'
 })
-export class AddOrdersComponent {
+export class AddOrdersComponent implements OnInit, OnDestroy {
   constructor(
     public nav: NavService,
     public orderService: AddOrderService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.orderService.showOrderHeader = false;
+  }
 
-  async onSubmit($event) {
+  ngOnDestroy(): void {
+    this.orderService.showOrderHeader = true;
+  }
+
+  async onSubmit($event: Event) {
+    $event.preventDefault(); // Prevent default form behavior
     const res = await this.orderService.submitOrder();
     if (res) {
-      this.nav.pop();
+      console.log('Order submitted successfully.');
+      this.printSlip();
+    } else {
+      console.error('Order submission failed.');
     }
   }
   onTypeChange(event: any): void {
@@ -37,4 +47,18 @@ export class AddOrdersComponent {
     let v = $event.target.value;
     this.orderService.searchProducts(v);
   }
+  printSlip() {
+    const printContents = document.getElementById('print-section')?.innerHTML;
+    const originalContents = document.body.innerHTML;
+
+    if (printContents) {
+      document.body.innerHTML = printContents;
+      window.print();
+      document.body.innerHTML = originalContents;
+      window.location.reload(); // Reload the page to restore the original view
+    } else {
+      console.error('Print section not found.');
+    }
+  }
+  
 }

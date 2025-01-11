@@ -22,8 +22,8 @@ export class NetworkService {
     let str = this.serialize(params);
     return this.httpGetResponse('dashboard/sales-chart-data' + '?' + str, null, false, true);
   }
-  getCustomerStat(){
-    return this.httpGetResponse('dashboard/customers', null , false ,true);
+  getCustomerStat() {
+    return this.httpGetResponse('dashboard/customers', null, false, true);
   }
 
   getRecentOrder() {
@@ -40,9 +40,8 @@ export class NetworkService {
     return this.httpGetResponse('dashboard/latest-tables', null, false, true);
   }
 
-  getTotalSales(){
+  getTotalSales() {
     return this.httpGetResponse('dashboard/sales-summary', null, false, true);
-
   }
   // Authentication Related APIs
 
@@ -159,11 +158,12 @@ export class NetworkService {
     return this.httpDeleteResponse('product', id, false, true);
   }
   //invoices
-  addInvoice(id) {
-    return this.httpDeleteResponse('invoice', id, false, true);
+  addInvoice(data) {
+    return this.httpPostResponse('invoice', data, null, false, true);
   }
-  getInvoices(id) {
-    return this.httpDeleteResponse('invoice', id, false, true);
+  getInvoices(params) {
+    const query = this.serialize(params);
+    return this.httpGetResponse('invoice' + (query ? `?${query}` : ''), null, false, true);
   }
   removeInvoice(id) {
     return this.httpDeleteResponse('invoice', id, false, true);
@@ -171,6 +171,22 @@ export class NetworkService {
 
   getInvoicesById(id) {
     return this.httpGetResponse(`invoice/${id}`, null, false, true);
+  }
+  // Variations
+  getVariations() {
+    return this.httpGetResponse('variation', null, false, true);
+  }
+  addVariations(data) {
+    return this.httpPostResponse('variation', data, null, false, true);
+  }
+  getVariationsById(id) {
+    return this.httpGetResponse(`variation/${id}`, null, false, true);
+  }
+  removeVariationsById(id) {
+    return this.httpDeleteResponse('variation', id, false, true);
+  }
+  updateVariation(data, id) {
+    return this.httpPutResponse('variation', data, id, false, true);
   }
 
   // Tables
@@ -210,7 +226,6 @@ export class NetworkService {
   removeOrder(id) {
     return this.httpDeleteResponse('order', id, false, true);
   }
-
 
   serialize = (obj: any) => {
     const str: any[] = [];

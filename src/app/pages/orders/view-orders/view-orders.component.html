@@ -1,5 +1,4 @@
 <app-kt-list-detail-page [title]="'Orders'">
-
   <div class="card mb-5 mb-xl-10" id="kt_profile_details_view">
     <!--begin::Card header-->
     <!--begin::Card header-->
@@ -12,7 +11,7 @@
         <!--end::Label-->
         <!--begin::Col-->
         <div class="col-lg-8">
-          <span class="fw-medium fs-6 text-gray-800">{{item?.customer}}</span>
+          <span class="fw-medium fs-6 text-gray-800">{{ item?.customer }}</span>
         </div>
         <!--end::Col-->
       </div>
@@ -24,7 +23,7 @@
         <!--end::Label-->
         <!--begin::Col-->
         <div class="col-lg-8 fv-row">
-          <span class="fw-medium text-gray-800 fs-6">{{item?.order_number}}</span>
+          <span class="fw-medium text-gray-800 fs-6">{{ item?.order_number }}</span>
         </div>
         <!--end::Col-->
       </div>
@@ -32,16 +31,41 @@
       <!--begin::Input group-->
       <div class="row mb-7">
         <!--begin::Label-->
-        <label class="col-lg-4 fw-normal text-muted">Contact Phone
-          <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
-            aria-label="Phone number must be active" data-kt-initialized="1"></i></label>
+        <label class="col-lg-4 fw-normal text-muted">
+          Contact Phone
+          <i
+            class="fas fa-exclamation-circle ms-1 fs-7"
+            data-bs-toggle="tooltip"
+            aria-label="Phone number must be active"
+            data-kt-initialized="1"
+          ></i>
+        </label>
         <!--end::Label-->
         <!--begin::Col-->
         <div class="col-lg-8 d-flex align-items-center">
-          <span class="fw-medium fs-6 text-gray-800 me-2">{{item?.customer_phone}}</span>
+          <span class="fw-medium fs-6 text-gray-800 me-2">{{ item?.customer_phone }}</span>
         </div>
         <!--end::Col-->
       </div>
+      <div class="row mb-7">
+        <!--begin::Label-->
+        <label class="col-lg-4 fw-normal text-muted">
+          Type
+          <i
+            class="fas fa-exclamation-circle ms-1 fs-7"
+            data-bs-toggle="tooltip"
+            aria-label="Phone number must be active"
+            data-kt-initialized="1"
+          ></i>
+        </label>
+        <!--end::Label-->
+        <!--begin::Col-->
+        <div class="col-lg-8 d-flex align-items-center">
+          <span class="fw-medium fs-6 text-gray-800 me-2">{{ item?.type}}</span>
+        </div>
+        <!--end::Col-->
+      </div>
+
       <!--end::Input group-->
       <div class="row mb-7">
         <!--begin::Label-->
@@ -49,7 +73,7 @@
         <!--end::Label-->
         <!--begin::Col-->
         <div class="col-lg-8">
-          <span class="fw-medium fs-6 text-gray-800">{{item?.customer.address}}</span>
+          <span class="fw-medium fs-6 text-gray-800">{{ item?.customer.address }}</span>
         </div>
         <!--end::Col-->
       </div>
@@ -59,41 +83,41 @@
         <!--end::Label-->
         <!--begin::Col-->
         <div class="col-lg-8">
-          <span class="fw-medium fs-6 text-gray-800">{{item?.status}}</span>
+          <span class="fw-medium fs-6 text-gray-800">{{ item?.status }}</span>
         </div>
         <!--end::Col-->
       </div>
-          <!--end::Input group-->
-          <div class="row mb-7">
-            <label class="col-lg-4 fw-normal text-muted">Total Price</label>
-            <div class="col-lg-8">
-              <span class="fw-medium fs-6 text-gray-800">${{ item?.total_price }}</span>
-            </div>
-          </div>
-          <div class="row mb-7">
-            <label class="col-lg-4 fw-normal text-muted">Discount (if any)</label>
-            <div class="col-lg-8">
-              <span class="fw-medium fs-6 text-gray-800">${{ item?.discount }}</span>
-            </div>
-          </div>
-          <div class="row mb-7">
-            <label class="col-lg-4 fw-normal text-muted">Tax</label>
-            <div class="col-lg-8">
-              <span class="fw-medium fs-6 text-gray-800">${{ item?.tax }}</span>
-            </div>
-          </div>
-          <div class="row mb-7">
-            <label class="col-lg-4 fw-normal text-muted">Important Notes</label>
-            <div class="col-lg-8">
-              <span class="fw-medium fs-6 text-gray-800">{{ item?.important_notes }}</span>
-            </div>
-          </div>
-          <div class="row mb-7">
-            <label class="col-lg-4 fw-normal text-muted">Table No</label>
-            <div class="col-lg-8">
-              <span class="fw-medium fs-6 text-gray-800">{{ item?.table_no }}</span>
-            </div>
-          </div>
+      <!--end::Input group-->
+      <div class="row mb-7">
+        <label class="col-lg-4 fw-normal text-muted">Total Price</label>
+        <div class="col-lg-8">
+          <span class="fw-medium fs-6 text-gray-800">${{ item?.total_price }}</span>
+        </div>
+      </div>
+      <div class="row mb-7">
+        <label class="col-lg-4 fw-normal text-muted">Discount (if any)</label>
+        <div class="col-lg-8">
+          <span class="fw-medium fs-6 text-gray-800">${{ item?.discount }}</span>
+        </div>
+      </div>
+      <div class="row mb-7">
+        <label class="col-lg-4 fw-normal text-muted">Tax</label>
+        <div class="col-lg-8">
+          <span class="fw-medium fs-6 text-gray-800">${{ item?.tax }}</span>
+        </div>
+      </div>
+      <div class="row mb-7">
+        <label class="col-lg-4 fw-normal text-muted">Important Notes</label>
+        <div class="col-lg-8">
+          <span class="fw-medium fs-6 text-gray-800">{{ item?.important_notes }}</span>
+        </div>
+      </div>
+      <div class="row mb-7">
+        <label class="col-lg-4 fw-normal text-muted">Table No</label>
+        <div class="col-lg-8">
+          <span class="fw-medium fs-6 text-gray-800">{{ item?.table_no }}</span>
+        </div>
+      </div>
 
       <!--begin::Input group-->
       <div class="row mb-7">
@@ -102,6 +126,8 @@
             <thead>
               <tr>
                 <th class="fw-normal text-muted">Product Name</th>
+                <th class="fw-normal text-muted">Variations</th>
+
                 <th class="fw-normal text-muted">Product Quantity</th>
                 <th class="fw-normal text-muted">Price</th>
                 <th class="fw-normal text-muted">Total Price</th>
@@ -110,17 +136,59 @@
             <tbody>
               <tr *ngFor="let product of item?.products">
                 <td class="fw-medium fs-6 text-gray-800">{{ product?.product_name }}</td>
+                <td class="">
+                  <ng-template #variation>
+                    <div class="row">
+                      <!-- Loop through Variations -->
+                      <div class="col-12" *ngFor="let variation of product.variation">
+                        <!-- Display only if the Variation is Selected -->
+                        <div *ngIf="variation.selected">
+                          <!-- Variation Type as Heading -->
+                          <div class="fw-bold fs-5">{{ variation.type }}</div>
+
+                          <!-- Loop through Options
+                           for the Current Variation -->
+                          <div *ngFor="let option of variation.options" class="ms-4">
+                            <div>
+                              <!-- Display Option Name, Description, and Price -->
+                              <span class="fw-semibold">{{ option.name }}</span>
+                              <br>
+                              <span class="text-muted">- {{ option.description }}</span>
+                              <span class="text-success">(${{ option.price }})</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-template>
+
+                  <ng-template #variationTitle>
+                    <div class="fw-bold fs-3">Variation Details</div>
+                  </ng-template>
+
+                  <button
+                    class="btn btn-sm"
+                    [ngbPopover]="variation"
+                    [popoverTitle]="variationTitle"
+                    triggers="manual"
+                    [autoClose]="'outside'"
+                    placement="top"
+                    #variationPopover="ngbPopover"
+                    (click)="closeAllPopovers(); variationPopover.open(); registerPopover(variationPopover)"
+                  >
+                    <i class="ti ti-versions" style="color: #000; font-size: 22px"></i>
+                  </button>
+                </td>
+
                 <td class="fw-medium fs-6 text-gray-800">{{ product?.quantity }}</td>
-                <td class="fw-medium fs-6 text-gray-800">${{ product?.price}}</td>
+                <td class="fw-medium fs-6 text-gray-800">${{ product?.price }}</td>
                 <td class="fw-medium fs-6 text-gray-800">${{ product?.quantity * product?.price }}</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
-
     </div>
     <!--end::Card body-->
   </div>
-
 </app-kt-list-detail-page>

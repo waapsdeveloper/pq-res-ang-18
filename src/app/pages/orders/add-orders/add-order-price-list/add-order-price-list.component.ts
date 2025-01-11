@@ -15,9 +15,7 @@ export class AddOrderPriceListComponent implements OnInit {
     public nav: NavService,
     private network: NetworkService
   ) {}
-  async ngOnInit() {
-    
-  }
+  async ngOnInit() {}
 
   editNote(item: any): void {
     item.isEditingNote = true;
@@ -43,6 +41,10 @@ export class AddOrderPriceListComponent implements OnInit {
     this.orderService.totalOfProductCost();
   }
 
+  changeVariationSelection($event){
+    this.orderService.totalOfProductCost();
+  }
+
   async onSubmit($event) {
     const res = await this.orderService.submitOrder();
     if (res) {
@@ -57,5 +59,23 @@ export class AddOrderPriceListComponent implements OnInit {
 
   registerPopover(popover: NgbPopover) {
     this.popovers.push(popover);
+  }
+  calculateTotalPrice(item: any): number {
+    let totalPrice = parseInt(item.price); // Start with the base product price
+
+    // if (item.variation) {
+    //   // Add the price of selected variations
+    //   item.variation.forEach((variation: any) => {
+    //     if (variation.options) {
+    //       variation.options.forEach((option: any) => {
+    //         if (option.selected) {
+    //           totalPrice +=  parseInt(option.price); // Add the price of selected options
+    //         }
+    //       });
+    //     }
+    //   });
+    // }
+    // this.orderService.totalOfProductCost();
+    return totalPrice; // Return the total calculated price
   }
 }
