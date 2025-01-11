@@ -60,4 +60,5 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       console.error('Print section not found.');
     }
   }
+  
 }

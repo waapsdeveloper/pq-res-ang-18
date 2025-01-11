@@ -125,23 +125,41 @@
     <div class="order-details" style="padding: 8px 0; border-bottom: 1px dashed #000;">
       <p style="margin: 0;"><strong>Order Details:</strong></p>
       <table style="width: 100%; font-size: 12px; border-collapse: collapse;">
-        <thead style="display: none;">
+        <thead >
           <tr>
             <th>#</th>
             <th>Item</th>
-            <th>Qty</th>
             <th>Price</th>
             <th>Total</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of orderService.selected_products; let i = index">
-            <td style="width: 5%;">{{ i + 1 }}</td>
-            <td style="width: 55%;">{{ item.name }}</td>
-            <td style="width: 10%; text-align: center;">{{ item.quantity }}</td>
-            <td style="width: 15%; text-align: right;">{{ item.price | currency }}</td>
-            <td style="width: 15%; text-align: right;">{{ item.quantity * item.price | currency }}</td>
+          <tr *ngFor="let item of orderService.selected_products; let i = index;">
+            <td>{{i+1}}</td>
+            <td>
+              {{ item.name }} x {{ item.quantity }}
+              <br />
+              <small *ngFor="let variation of item.variation">
+                <span *ngFor="let option of variation.options"  [hidden]="option.selected == true">
+
+                    {{ option.name }} ({{ option.price | currency }})
+
+                </span>
+              </small>
+            </td>
+            <td>{{ item.price | currency }}</td>
+            <!-- <td>
+              <small *ngFor="let variation of item.variation">
+                <span *ngIf="variation.selected">
+                  <span *ngFor="let option of variation.options">
+                    {{ option.price | currency }}
+                  </span>
+                </span>
+              </small>
+            </td> -->
+            <td>{{ item.quantity * item.price  | currency }}</td>
           </tr>
+
         </tbody>
       </table>
     </div>
@@ -152,4 +170,5 @@
     </div>
   </div>
 </div>
+
 
