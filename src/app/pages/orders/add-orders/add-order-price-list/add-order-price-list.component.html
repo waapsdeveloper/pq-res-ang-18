@@ -43,6 +43,7 @@
                       type="checkbox"
                       [(ngModel)]="option.selected"
                       [id]="'option-' + variation.type + '-' + option.name"
+                      (ngModelChange)="changeVariationSelection($event)"
                     />
                     <label class="form-check-label" [for]="'option-' + variation.type + '-' + option.name">
                       {{ option.name }} - ${{ option.price }}
