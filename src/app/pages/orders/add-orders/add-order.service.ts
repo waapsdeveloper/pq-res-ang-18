@@ -81,11 +81,22 @@ export class AddOrderService {
         p['cost'] = p['quantity'] * 1;
 
         // check and process variations and set to p object
-        if (p.variation && p.variation.length > 0) {
+        if (p.variation && Array.isArray(p.variation) && p.variation.length > 0) {
           let temp = p.variation[0];
-          let json = temp['meta_value'] ? JSON.parse(temp['meta_value']) : [];
+          let json;
+
+          try {
+            json = temp['meta_value'] ? JSON.parse(temp['meta_value']) : [];
+          } catch (error) {
+            console.error('Error parsing JSON:', error, 'meta_value:', temp['meta_value']);
+            json = []; // Fallback to empty array or appropriate default value
+          }
+
           p['variation'] = json;
+        } else {
+          p['variation'] = []; // Set default value or handle appropriately
         }
+
 
         console.log(p);
         this.selected_products.push(p);
