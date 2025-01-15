@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { ActivatedRoute } from '@angular/router';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
+import { Subject } from 'rxjs/internal/Subject';
 import { KtAppFormPageModule } from 'src/app/components/layouts/kt-app-form-page/kt-app-form-page.module';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
@@ -15,6 +17,10 @@ import { UtilityService } from 'src/app/services/utility.service';
 })
 export class EditProductComponent implements OnInit, AfterViewInit {
   id;
+  filteredSuggestions: any[] = [];
+  private searchSubject = new Subject<string>();
+  variations: any[] = [];
+  addAttributeInput = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -27,11 +33,25 @@ export class EditProductComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.setCategoriesInForm();
     this.setRestaurantsInForm();
-
+    this.searchSubject
+      .pipe(
+        debounceTime(300), // Delay for user input
+        distinctUntilChanged(), // Ignore identical inputs
+        switchMap(async (query) => {
+          await this.fetchSuggestions(query);
+          return this.filteredSuggestions;
+        }) // Fetch suggestions
+      )
+      .subscribe((suggestions) => {
+        this.filteredSuggestions = suggestions;
+      });
     // Access the parameter
     this.id = this.route.snapshot.paramMap.get('id');
     console.log('ID from URL:', this.id);
     this.initialize();
+  }
+  onInputChange(query: string) {
+    this.fetchSuggestions(query); // Fetch and display suggestions based on input
   }
 
   async initialize() {
@@ -39,8 +59,6 @@ export class EditProductComponent implements OnInit, AfterViewInit {
     const res = await this.network.getProductsById(this.id);
     console.log(res);
   }
-  variations: any[] = [];
-  addAttributeInput = '';
   form = new FormGroup({});
   model = {
     name: '',
@@ -250,12 +268,11 @@ export class EditProductComponent implements OnInit, AfterViewInit {
     if (f) {
       const metaValue = f['meta_value'] ? JSON.parse(f['meta_value']) : null;
 
-      if(metaValue){
+      if (metaValue) {
         this.variations = metaValue;
         console.log(this.variations);
       }
     }
-
 
     // let spicyObj = d['props'] ? d['props'].find((x) => x.meta_key == 'spicy') : null;
     // if (spicyObj) {
@@ -445,5 +462,40 @@ export class EditProductComponent implements OnInit, AfterViewInit {
   // Remove an option from a variation
   removeOption(variationIndex: number, optionIndex: number) {
     this.variations[variationIndex].options.splice(optionIndex, 1);
+  }
+  async fetchSuggestions(query: string) {
+    let v = query.trim();
+
+    if (!v) {
+      this.filteredSuggestions = []; // Clear suggestions if input is empty
+      return;
+    }
+
+    let obj = {
+      search: v
+    };
+
+    const res = await this.network.getVariations(obj);
+    let array = res?.data?.data || [];
+    this.filteredSuggestions = array;
+  }
+
+  selectSuggestion(suggestion: any) {
+    console.log(suggestion);
+    let meta = JSON.parse(suggestion.meta_value);
+    console.log(meta);
+
+    this.addAttributeInput = suggestion.name;
+    this.variations = [
+      ...this.variations,
+      ...meta.map((metaItem: any) => ({
+        type: metaItem.type,
+        selected: false,
+        options: metaItem.options || []
+      }))
+    ];
+
+    // Fill input with the selected suggestion
+    // this.filteredSuggestions = []; // Clear suggestions
   }
 }
