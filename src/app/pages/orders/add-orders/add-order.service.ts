@@ -85,13 +85,9 @@ export class AddOrderService {
           let temp = p.variation[0];
           let json;
 
-          try {
             json = temp['meta_value'] ? JSON.parse(temp['meta_value']) : [];
-          } catch (error) {
-            console.error('Error parsing JSON:', error, 'meta_value:', temp['meta_value']);
-            json = []; // Fallback to empty array or appropriate default value
-          }
 
+console.log("JSON",json)
           p['variation'] = json;
         } else {
           p['variation'] = []; // Set default value or handle appropriately
