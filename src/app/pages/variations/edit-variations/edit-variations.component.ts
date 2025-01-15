@@ -62,7 +62,7 @@ console.log(this.variations);
             placeholder: 'Enter name',
             required: true
           },
-          className: 'col-md-3 col-12'
+          className: 'col-md-6 col-12'
         },
         {
           key: 'description',
@@ -72,7 +72,7 @@ console.log(this.variations);
             placeholder: 'Enter a description',
             required: false
           },
-          className: 'col-md-3 col-12'
+          className: 'col-md-6 col-12'
         }
       ]
     }
