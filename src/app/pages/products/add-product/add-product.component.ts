@@ -349,36 +349,33 @@ export class AddProductComponent {
   removeOption(variationIndex: number, optionIndex: number) {
     this.variations[variationIndex].options.splice(optionIndex, 1);
   }
-  fetchSuggestions(query: string) {
-    if (!query.trim()) {
+  async fetchSuggestions(query: string) {
+
+    let v = query.trim()
+
+    if (!v) {
       this.filteredSuggestions = []; // Clear suggestions if input is empty
       return;
     }
 
-    this.network.getVariations().then((res: any) => {
-      if (res && res.result && res.result.data && res.result.data.data) {
-        // Extract and parse variations
-        const variations = res.result.data.data.map((item) => {
-          const metaValue = JSON.parse(item.meta_value);
-          return metaValue.map((v) => ({
-            type: v.type,
-            options: v.options,
-          }));
-        }).flat(); // Flatten the array
 
-        // Filter variations based on query
-        this.filteredSuggestions = variations.filter((variation) =>
-          variation.type.toLowerCase().includes(query.trim().toLowerCase())
-        );
-      } else {
-        this.filteredSuggestions = []; // No suggestions found
-      }
-    });
+    let obj = {
+      search: v 
+    }
+    
+    const res = await this.network.getVariations(obj);
+    let array = res?.data?.data || [];
+    this.filteredSuggestions = array;
   }
 
 
   selectSuggestion(suggestion: any) {
-    this.addAttributeInput = suggestion.type; // Fill input with the selected suggestion
-    this.filteredSuggestions = []; // Clear suggestions
+    
+    
+    let meta = suggestion.meta_value
+    console.log(meta)
+    
+    // this.addAttributeInput = suggestion.type; // Fill input with the selected suggestion
+    // this.filteredSuggestions = []; // Clear suggestions
   }
 }

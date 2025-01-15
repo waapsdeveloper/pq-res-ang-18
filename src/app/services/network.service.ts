@@ -173,8 +173,9 @@ export class NetworkService {
     return this.httpGetResponse(`invoice/${id}`, null, false, true);
   }
   // Variations
-  getVariations() {
-    return this.httpGetResponse('variation', null, false, true);
+  getVariations(params) {
+    const query = this.serialize(params);
+    return this.httpGetResponse('variation' + (query ? `?${query}` : ''), null, false, true);
   }
   addVariations(data) {
     return this.httpPostResponse('variation', data, null, false, true);
