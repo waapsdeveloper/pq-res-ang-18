@@ -18,7 +18,8 @@
               [class.badge-info]="item.selected == true"
               style="height: 32px; cursor: pointer"
               *ngFor="let item of variations"
-              (click)="selectAttribute(item.type)"  >
+              (click)="selectAttribute(item.type)"
+            >
               {{ item.type }}
             </div>
           </div>
@@ -32,30 +33,43 @@
             placeholder="Variation Type (e.g., Size, Toppings)"
             class="form-control"
           />
-
           <!-- Autocomplete Suggestions -->
-          <ul class="list-group" *ngIf="filteredSuggestions.length > 0">
-            <li
+          <div
+            class="autocomplete-container"
+            style="
+              display: flex;
+              overflow-x: auto;
+              flex-wrap: wrap;
+              padding: 5px;
+              border-radius: 5px;
+              background-color: #f9f9f9;
+            "
+            *ngIf="filteredSuggestions.length > 0"
+          >
+            <div
               *ngFor="let suggestion of filteredSuggestions"
               (click)="selectSuggestion(suggestion)"
-              class="list-group-item"
-              style="cursor: pointer;"
+              class="chip"
+              style="
+                cursor: pointer;
+                margin-right: 10px;
+                margin-bottom: 5px;
+                padding: 5px 10px;
+                background-color: #e0e0e0;
+                border-radius: 16px;
+                display: inline-block;
+                white-space: nowrap;
+              "
             >
               {{ suggestion.name }}
-            </li>
-          </ul>
+            </div>
+          </div>
 
           <!-- Button to add new attributes -->
-          <button
-            type="button"
-            (click)="addAttributes()"
-            class="btn btn-warning btn-123"
-            style="background-color: #d12e2e;"
-          >
+          <button type="button" (click)="addAttributes()" class="btn btn-warning btn-123" style="background-color: #d12e2e">
             Add Attributes
           </button>
         </div>
-
       </div>
     </div>
 
@@ -78,8 +92,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let variation of variations | filterSelected: 'selected': true; let i = index">
-
+          <tr *ngFor="let variation of variations | filterSelected: 'selected' : true; let i = index">
             <!-- Variation Type Input -->
             <td>
               <input type="text" [(ngModel)]="variation.type" placeholder="Variation Type (e.g., Size, Toppings)" class="form-control" />
@@ -113,11 +126,10 @@
       </table>
 
       <div class="col-12 d-flex flex-row justify-content-end my-3">
-        <button type="button" class="btn btn-warning btn-123 " style="background-color: #d12e2e;" (click)="addItemINVariation()">
+        <button type="button" class="btn btn-warning btn-123" style="background-color: #d12e2e" (click)="addItemINVariation()">
           Add Variations
         </button>
       </div>
-
     </div>
   </div>
 </app-kt-app-form-page>

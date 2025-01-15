@@ -360,9 +360,9 @@ export class AddProductComponent {
 
 
     let obj = {
-      search: v 
+      search: v
     }
-    
+
     const res = await this.network.getVariations(obj);
     let array = res?.data?.data || [];
     this.filteredSuggestions = array;
@@ -370,12 +370,24 @@ export class AddProductComponent {
 
 
   selectSuggestion(suggestion: any) {
-    
-    
-    let meta = suggestion.meta_value
+
+console.log(suggestion)
+    let meta = JSON.parse(suggestion.meta_value)
     console.log(meta)
-    
-    // this.addAttributeInput = suggestion.type; // Fill input with the selected suggestion
+
+
+
+     this.addAttributeInput = suggestion.name;
+     this.variations = [
+      ...this.variations,
+      ...meta.map((metaItem: any) => ({
+        type: metaItem.type,
+        selected:false,
+        options: metaItem.options || [],
+      })),
+    ];
+
+     // Fill input with the selected suggestion
     // this.filteredSuggestions = []; // Clear suggestions
   }
 }
