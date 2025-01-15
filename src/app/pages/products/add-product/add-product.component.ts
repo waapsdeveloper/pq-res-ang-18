@@ -5,7 +5,8 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { UtilityService } from 'src/app/services/utility.service';
-
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 @Component({
   selector: 'app-add-product',
   templateUrl: './add-product.component.html',
@@ -13,7 +14,8 @@ import { UtilityService } from 'src/app/services/utility.service';
 })
 export class AddProductComponent {
   form = new FormGroup({});
-
+  filteredSuggestions: any[] = [];
+  private searchSubject = new Subject<string>();
   variations: any[] = [];
   addAttributeInput = '';
 
@@ -134,53 +136,6 @@ export class AddProductComponent {
         }
       ]
     }
-    // {
-    //   fieldGroupClassName: 'row', // Bootstrap row
-    //   fieldGroup: [
-    //     // option for small medium large - select
-    //     {
-    //       key: 'sizes',
-    //       type: 'multicheckbox',
-    //       props: {
-    //         label: 'Sizes',
-    //         options: [
-    //           { value: 'small', label: 'Small' },
-    //           { value: 'medium', label: 'Medium' },
-    //           { value: 'large', label: 'Large' }
-    //         ]
-    //       },
-    //       className: 'col-md-4 col-12'
-    //     },
-    //     // option for spicy level - select
-    //     {
-    //       key: 'spicy',
-    //       type: 'multicheckbox',
-    //       props: {
-    //         label: 'Spicy Level',
-    //         options: [
-    //           { value: 'mild', label: 'Mild' },
-    //           { value: 'medium', label: 'Medium' },
-    //           { value: 'hot', label: 'Hot' }
-    //         ]
-    //       },
-    //       className: 'col-md-4 col-12'
-    //     },
-    //     // options for either breakfast, lunch or dinner - select
-    //     {
-    //       key: 'type',
-    //       type: 'multicheckbox',
-    //       props: {
-    //         label: 'Type',
-    //         options: [
-    //           { value: 'breakfast', label: 'Breakfast' },
-    //           { value: 'lunch', label: 'Lunch' },
-    //           { value: 'dinner', label: 'Dinner' }
-    //         ]
-    //       },
-    //       className: 'col-md-4 col-12'
-    //     }
-    //   ]
-    // }
   ];
 
   constructor(
@@ -194,7 +149,26 @@ export class AddProductComponent {
   ngOnInit(): void {
     this.setCategoriesInForm();
     this.setRestaurantsInForm();
+
+    this.searchSubject
+      .pipe(
+        debounceTime(300), // Delay for user input
+        distinctUntilChanged(), // Ignore identical inputs
+        switchMap(async (query) => {
+          await this.fetchSuggestions(query);
+          return this.filteredSuggestions;
+        }) // Fetch suggestions
+      )
+      .subscribe((suggestions) => {
+        this.filteredSuggestions = suggestions;
+      });
   }
+
+  onInputChange(query: string) {
+    this.fetchSuggestions(query); // Fetch and display suggestions based on input
+  }
+
+
   async getRestaurants(): Promise<any[]> {
     let obj = {
       search: '',
@@ -309,41 +283,54 @@ export class AddProductComponent {
   }
 
   addAttributes() {
-    let v = this.addAttributeInput.trim();
+    const input = this.addAttributeInput.trim();
 
-    if (!v || v == '') {
-      return;
+    if (!input) return; // Do nothing if the input is empty
+
+    // Check if the variation type already exists in the list
+    const existingVariation = this.variations.find(
+      (item) => item.type.toLowerCase() === input.toLowerCase()
+    );
+
+    if (!existingVariation) {
+      // If variation does not exist, add it using addVariation
+      this.addVariation(input);
+    } else {
+      // If variation exists, select it
+      this.selectAttribute(existingVariation.type);
     }
 
-    let findIndex = this.variations.findIndex((x) => x.type == v);
-    if (findIndex == -1) {
-      this.addVariation(v);
-    }
-
-    this.addAttributeInput = '';
+    this.addAttributeInput = ''; // Clear the input
   }
 
-  selectAttribute(type) {
+
+  selectAttribute(type: string) {
     this.variations = this.variations.map((item) => {
-      item.selected = item.type == type;
+      item['selected'] = item.type === type; // Select the matching type
       return item;
     });
   }
 
-  addVariation(type) {
+
+
+
+  addVariation(type: string) {
+    // Deselect all existing variations
     this.variations = this.variations.map((item) => {
       item['selected'] = false;
       return item;
     });
 
+    // Add a new variation with the given type
     this.variations.push({
-      type: type, // e.g., "Size",
+      type: type, // e.g., "Size"
       selected: true,
       options: [
         { name: '', description: '', price: 0 } // Default empty option
       ]
     });
   }
+
 
   addItemINVariation() {
     const index = this.variations.findIndex((x) => x.selected == true);
@@ -361,5 +348,46 @@ export class AddProductComponent {
   // Remove an option from a variation
   removeOption(variationIndex: number, optionIndex: number) {
     this.variations[variationIndex].options.splice(optionIndex, 1);
+  }
+  async fetchSuggestions(query: string) {
+
+    let v = query.trim()
+
+    if (!v) {
+      this.filteredSuggestions = []; // Clear suggestions if input is empty
+      return;
+    }
+
+
+    let obj = {
+      search: v
+    }
+
+    const res = await this.network.getVariations(obj);
+    let array = res?.data?.data || [];
+    this.filteredSuggestions = array;
+  }
+
+
+  selectSuggestion(suggestion: any) {
+
+console.log(suggestion)
+    let meta = JSON.parse(suggestion.meta_value)
+    console.log(meta)
+
+
+
+     this.addAttributeInput = suggestion.name;
+     this.variations = [
+      ...this.variations,
+      ...meta.map((metaItem: any) => ({
+        type: metaItem.type,
+        selected:false,
+        options: metaItem.options || [],
+      })),
+    ];
+
+     // Fill input with the selected suggestion
+    // this.filteredSuggestions = []; // Clear suggestions
   }
 }

@@ -32,7 +32,7 @@
             <div class="row">
               <div class="col-12" *ngFor="let variation of item.variation">
                 <!-- Variation Type as Heading -->
-                <div class="fw-bold fs-5">{{ variation.type }}</div>
+                <div *ngFor="let variation of item.variation" class="fw-bold fs-5">{{ variation.type }}</div>
 
                 <!-- Options for the Current Variation -->
                 <div *ngFor="let option of variation.options" class="ms-4">

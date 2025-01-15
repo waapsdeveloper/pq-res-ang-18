@@ -81,11 +81,18 @@ export class AddOrderService {
         p['cost'] = p['quantity'] * 1;
 
         // check and process variations and set to p object
-        if (p.variation && p.variation.length > 0) {
+        if (p.variation && Array.isArray(p.variation) && p.variation.length > 0) {
           let temp = p.variation[0];
-          let json = temp['meta_value'] ? JSON.parse(temp['meta_value']) : [];
+          let json;
+
+            json = temp['meta_value'] ? JSON.parse(temp['meta_value']) : [];
+
+console.log("JSON",json)
           p['variation'] = json;
+        } else {
+          p['variation'] = []; // Set default value or handle appropriately
         }
+
 
         console.log(p);
         this.selected_products.push(p);

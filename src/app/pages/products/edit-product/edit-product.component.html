@@ -24,7 +24,47 @@
           </div>
         </div>
         <div class="col-md-6 col-12 my-3">
-          <input [(ngModel)]="addAttributeInput" type="text" placeholder="Variation Type (e.g., Size, Toppings)" class="form-control" />
+          <!-- Input field for adding attributes -->
+          <input
+            [(ngModel)]="addAttributeInput"
+            (input)="onInputChange(addAttributeInput)"
+            type="text"
+            placeholder="Variation Type (e.g., Size, Toppings)"
+            class="form-control"
+          />
+          <!-- Autocomplete Suggestions -->
+          <div
+            class="autocomplete-container"
+            style="
+              display: flex;
+              overflow-x: auto;
+              flex-wrap: wrap;
+              padding: 5px;
+              border-radius: 5px;
+              background-color: #f9f9f9;
+            "
+            *ngIf="filteredSuggestions.length > 0"
+          >
+            <div
+              *ngFor="let suggestion of filteredSuggestions"
+              (click)="selectSuggestion(suggestion)"
+              class="chip"
+              style="
+                cursor: pointer;
+                margin-right: 10px;
+                margin-bottom: 5px;
+                padding: 5px 10px;
+                background-color: #e0e0e0;
+                border-radius: 16px;
+                display: inline-block;
+                white-space: nowrap;
+              "
+            >
+              {{ suggestion.name }}
+            </div>
+          </div>
+
+          <!-- Button to add new attributes -->
           <button type="button" (click)="addAttributes()" class="btn btn-warning btn-123" style="background-color: #d12e2e">
             Add Attributes
           </button>
