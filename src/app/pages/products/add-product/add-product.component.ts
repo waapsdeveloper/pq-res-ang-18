@@ -34,7 +34,7 @@ export class AddProductComponent {
 
   fields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: 'row', // Bootstrap row
+      fieldGroupClassName: 'row', // Single row for all fields
       fieldGroup: [
         {
           key: 'name',
@@ -45,17 +45,17 @@ export class AddProductComponent {
             required: true,
             minLength: 3
           },
-          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
+          className: 'col-md-2 col-12'
         },
         {
           key: 'category_id',
           type: 'select',
           props: {
-            label: 'category',
+            label: 'Category',
             placeholder: 'Select a category',
             options: []
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'restaurant_id',
@@ -66,13 +66,8 @@ export class AddProductComponent {
             required: false, // nullable
             options: []
           },
-          className: 'col-md-4 col-12'
-        }
-      ]
-    },
-    {
-      fieldGroupClassName: 'row', // Bootstrap row
-      fieldGroup: [
+          className: 'col-md-2 col-12'
+        },
         {
           key: 'description',
           type: 'input',
@@ -82,7 +77,7 @@ export class AddProductComponent {
             required: true,
             minLength: 3
           },
-          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
+          className: 'col-md-2 col-12'
         },
         {
           key: 'status',
@@ -94,13 +89,8 @@ export class AddProductComponent {
               { value: 'inactive', label: 'Inactive' }
             ]
           },
-          className: 'col-md-4 col-12'
-        }
-      ]
-    },
-    {
-      fieldGroupClassName: 'row', // Bootstrap row
-      fieldGroup: [
+          className: 'col-md-2 col-12'
+        },
         {
           key: 'price',
           type: 'input',
@@ -109,7 +99,7 @@ export class AddProductComponent {
             placeholder: 'Set a regular price',
             type: 'number'
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'image',
@@ -122,7 +112,7 @@ export class AddProductComponent {
             required: true,
             change: (field, event) => this.onFileChange(field, event, 'imageBase64')
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'discount',
@@ -132,11 +122,12 @@ export class AddProductComponent {
             placeholder: 'Set a discount',
             type: 'number'
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         }
       ]
     }
   ];
+
 
   constructor(
     private route: ActivatedRoute,

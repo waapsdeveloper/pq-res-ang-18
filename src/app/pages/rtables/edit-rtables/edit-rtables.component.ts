@@ -94,9 +94,20 @@ export class EditRtablesComponent implements OnInit {
             required: false,
             options: []
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
-
+        ,
+        {
+          key: 'identifier',
+          type: 'input',
+          props: {
+            label: 'Name',
+            placeholder: 'Enter table name',
+            required: true,
+            minLength: 3
+          },
+          className: 'col-md-2 col-12' // 6 columns on md+, full width on small screens
+        },
         {
           key: 'no_of_seats',
           type: 'input',
@@ -107,7 +118,7 @@ export class EditRtablesComponent implements OnInit {
             type: 'number', // Ensures numeric input
             max: 255 // Constraint for maximum value
           },
-          className: 'col-md-3 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'floor',
@@ -118,7 +129,7 @@ export class EditRtablesComponent implements OnInit {
             required: true,
             maxLength: 500 // Constraint for maximum length
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
 
         // {
@@ -127,21 +138,10 @@ export class EditRtablesComponent implements OnInit {
         //   props: {
         //     label: 'Location',
         //     placeholder: 'Near west wall',
-        //     required: true
+        //     required: true,
         //   },
-        //   className: 'col-md-6 col-12'
+        //   className: 'col-md-6 col-12',
         // },
-
-        {
-          key: 'description',
-          type: 'textarea',
-          props: {
-            label: 'Description',
-            placeholder: 'Enter a description',
-            required: false
-          },
-          className: 'col-md-6 col-12' // Full width for description
-        },
         {
           key: 'status',
           type: 'select',
@@ -154,7 +154,18 @@ export class EditRtablesComponent implements OnInit {
               { value: 'inactive', label: 'Inactive' }
             ]
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
+        },
+
+        {
+          key: 'description',
+          type: 'textarea',
+          props: {
+            label: 'Description',
+            placeholder: 'Enter a description',
+            required: false
+          },
+          className: 'col-md-2 col-12' // Full width for description
         }
       ]
     }

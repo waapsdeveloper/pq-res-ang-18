@@ -61,7 +61,7 @@ export class EditCategoryComponent implements OnInit {
             required: true,
             minLength: 3
           },
-          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
+          className: 'col-md-2 col-12' // 3 columns on md+, full width on small screens
         },
         {
           key: 'restaurant_id',
@@ -73,7 +73,7 @@ export class EditCategoryComponent implements OnInit {
             required: true,
             minLength: 3
           },
-          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
+          className: 'col-md-2 col-12' // 3 columns on md+, full width on small screens
         },
         {
           key: 'description',
@@ -82,7 +82,7 @@ export class EditCategoryComponent implements OnInit {
             label: 'Description',
             placeholder: 'Enter description'
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'category_id',
@@ -92,7 +92,7 @@ export class EditCategoryComponent implements OnInit {
             placeholder: 'Select a parent category',
             options: []
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'image',
@@ -104,7 +104,7 @@ export class EditCategoryComponent implements OnInit {
             accept: '.jpg,.jpeg,.png',
             change: (field, event) => this.onFileChange(field, event, 'imageBase64')
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'status',
@@ -116,7 +116,7 @@ export class EditCategoryComponent implements OnInit {
               { value: 'inactive', label: 'Inactive' }
             ]
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         }
       ]
     }
