@@ -14,7 +14,7 @@ import { RestaurantService } from '../restaurant.service';
   styleUrl: './list-restaurant.component.scss'
 })
 export class ListRestaurantComponent extends ListBlade {
-  title = 'Restaurants';
+  title = 'Branches';
   addurl = '/pages/restaurants/add';
   override selectAll: boolean = false;
 

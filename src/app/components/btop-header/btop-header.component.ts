@@ -18,7 +18,7 @@ export class BtopHeaderComponent {
 
   menuItems = [
     { label: 'Dashboard', link: '/pages/dashboard', icon: 'ti ti-layout-dashboard' },
-    { label: 'Restaurants', link: '/pages/restaurants', icon: 'ti ti-soup' },
+    { label: 'Branches', link: '/pages/restaurants', icon: 'ti ti-soup' },
     { label: 'Users', link: '/pages/users', icon: 'ti ti-users' },
     { label: 'Categories', link: '/pages/categories', icon: 'ti ti-drag-drop-2' },
     { label: 'All Menu', link: '/pages/products', icon: 'ti ti-artboard' },
