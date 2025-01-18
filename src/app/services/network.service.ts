@@ -1,3 +1,4 @@
+import { GlobalRestaurantService } from './global-restaurant.service';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from './api.service';
@@ -13,7 +14,8 @@ export class NetworkService {
   constructor(
     public api: ApiService,
     public router: Router,
-    public utility: UtilityService
+    public utility: UtilityService,
+    public restService: GlobalRestaurantService
   ) {}
 
   //Dashboard APi
@@ -52,6 +54,9 @@ export class NetworkService {
   // Standard CRUD calls
 
   index(slug, params) {
+    console.log(localStorage.getItem('restuarant_id'));
+    params['restaurant_id'] = localStorage.getItem('restuarant_id');
+
     const query = this.serialize(params);
     return this.httpGetResponse(slug + (query ? `?${query}` : ''), null, false, true);
   }

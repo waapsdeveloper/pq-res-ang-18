@@ -38,7 +38,10 @@ export class GlobalRestaurantService extends NgSimpleStateBaseRxjsStore<GlobalRe
   setRestaurant(id: number, name: string) {
     this.restaurant = { id, name };
     this.setState(state => ({ id: id, name: name }));
+    console.log('Service ',this.restaurant);
+    localStorage.setItem("restuarant_id", this.restaurant.id);
   }
+
 
   getRestaurant(): Observable<any>{
     return this.selectState( state => state );

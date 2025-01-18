@@ -163,8 +163,10 @@ export class AddCategoryComponent implements OnInit {
 
     return [];
   }
+  
   async setRestaurantsInForm() {
     const res = await this.getRestaurants();
+    
     console.log(res);
 
     for (var i = 0; i < this.fields.length; i++) {
@@ -184,7 +186,6 @@ export class AddCategoryComponent implements OnInit {
       // alert('Restaurant added successfully!');
 
       let d = Object.assign({}, this.form.value);
-
       d['image'] = this.model.imageBase64;
       const res = await this.network.addCategory(d);
       console.log(res);
