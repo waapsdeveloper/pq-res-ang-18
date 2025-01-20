@@ -125,7 +125,8 @@ export class AddCategoryComponent implements OnInit {
   async getCategories(): Promise<any[]> {
     let obj = {
       search: '',
-      perpage: 500
+      perpage: 500,
+      restaurant_id: localStorage.getItem('restuarant_id')
     };
     const res = await this.network.getCategories(obj);
 
@@ -146,7 +147,8 @@ export class AddCategoryComponent implements OnInit {
   async getRestaurants(): Promise<any[]> {
     let obj = {
       search: '',
-      perpage: 500
+      perpage: 500,
+      restaurant_id: localStorage.getItem('restuarant_id')
     };
     const res = await this.network.getRestaurants(obj);
 
@@ -163,10 +165,10 @@ export class AddCategoryComponent implements OnInit {
 
     return [];
   }
-  
+
   async setRestaurantsInForm() {
     const res = await this.getRestaurants();
-    
+
     console.log(res);
 
     for (var i = 0; i < this.fields.length; i++) {
@@ -190,6 +192,7 @@ export class AddCategoryComponent implements OnInit {
       const res = await this.network.addCategory(d);
       console.log(res);
       if (res) {
+        this.utility.presentSuccessToast('Category Created Succesfully!');
         this.nav.pop();
       }
     } else {

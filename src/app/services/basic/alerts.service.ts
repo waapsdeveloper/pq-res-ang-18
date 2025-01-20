@@ -34,15 +34,20 @@ export class AlertsService {
   }
 
   async presentSuccessToast(msg: string) {
-    // const toast = await this.toastCtrl.create({
-    //   message: this.strings.capitalizeEachFirst(msg),
-    //   duration: 5000,
-    //   position: 'bottom',
-    //   color: 'dark',
-    //   cssClass: 'successToast',
-    // });
-
-    // toast.present();
+    console.log(msg);
+    Swal.fire({
+      toast: true,
+      position: 'top-end',
+      icon: 'success',
+      title: msg,
+      showConfirmButton: false,
+      timer: 3000, // Toast will close after 3 seconds
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
+      }
+    });
   }
 
   async presentFailureToast(msg: any) {

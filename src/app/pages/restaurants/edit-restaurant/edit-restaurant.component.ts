@@ -72,8 +72,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     private network: NetworkService,
     private nav: NavService,
     private utility: UtilityService
-  ) { }
-
+  ) {}
 
   ngOnInit() {
     // Access the parameter
@@ -83,7 +82,6 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
   }
 
   async initialize() {
-
     // this.model.copyright_text = d.copyright_text || '';
     // this.model.image = d.image || '';
     // this.model.favicon = d.favicon || '';
@@ -95,7 +93,6 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     // this.model.description = d.description || '';
     // this.model.rating = d.rating !== undefined ? d.rating : Math.floor(Math.random() * 6);
     // this.model.status = d.status || 'active';
-
     // // Map default timings if provided
     // if (d.timings && Array.isArray(d.timings) && d.timings.length > 0) {
     //   d.timings.forEach((timing) => {
@@ -106,8 +103,6 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     //     this.model.schedule[`${day}_status`] = timing.status || 'inactive';
     //   });
     // }
-
-
     // .get('restaurant/'+this.id).subscribe((response: any) => {
     //   console.log('Response:', response);
     //   this.model = response.data;
@@ -172,7 +167,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
         sunday_day: 'Sunday',
         sunday_start_time: d.timings && d.timings.length > 6 && d.timings[6].start_time ? d.timings[6].start_time : '09:00',
         sunday_end_time: d.timings && d.timings.length > 6 && d.timings[6].end_time ? d.timings[6].end_time : '16:00',
-        sunday_status: d.timings && d.timings.length > 6 && d.timings[6].status ? d.timings[6].status : 'inactive',
+        sunday_status: d.timings && d.timings.length > 6 && d.timings[6].status ? d.timings[6].status : 'inactive'
       },
 
       // Now, posting this `schedule` to your model.
@@ -183,9 +178,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     };
 
     console.log(d.timings[0].start_time);
-
   }
-
 
   fields: FormlyFieldConfig[] = [
     {
@@ -398,7 +391,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
   }
   updateScheduleFromApi(apiData) {
     // Update the schedule field directly in the model
-    apiData.timings.forEach(timing => {
+    apiData.timings.forEach((timing) => {
       const dayKey = timing.day.toLowerCase(); // "monday", "tuesday", etc.
       this.model.schedule[`${dayKey}_start_time`] = timing.start_time;
       this.model.schedule[`${dayKey}_end_time`] = timing.end_time;
@@ -468,6 +461,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
       console.log(res);
 
       if (res) {
+        this.utility.presentSuccessToast('Restaurant information Updated!');
         this.nav.pop();
       }
     } else {

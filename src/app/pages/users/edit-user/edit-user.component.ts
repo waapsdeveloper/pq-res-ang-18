@@ -197,13 +197,14 @@ export class EditUserComponent implements OnInit {
       ]
     }
       ]
-    
+
 
 
   async getRestaurants(): Promise<any[]> {
     let obj = {
       search: '',
-      perpage: 500
+      perpage: 500,
+      restaurant_id: localStorage.getItem('restuarant_id')
     };
     const res = await this.network.getRestaurants(obj);
 
@@ -333,6 +334,7 @@ export class EditUserComponent implements OnInit {
       const res = await this.network.updateUser(d, this.id);
       console.log(res);
       if (res) {
+        this.utility.presentSuccessToast('User Information Updated!')
         this.nav.pop();
       }
     } else {

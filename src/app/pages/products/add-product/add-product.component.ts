@@ -128,7 +128,6 @@ export class AddProductComponent {
     }
   ];
 
-
   constructor(
     private route: ActivatedRoute,
     private fb: FormBuilder,
@@ -159,11 +158,11 @@ export class AddProductComponent {
     this.fetchSuggestions(query); // Fetch and display suggestions based on input
   }
 
-
   async getRestaurants(): Promise<any[]> {
     let obj = {
       search: '',
-      perpage: 500
+      perpage: 500,
+      restaurant_id: localStorage.getItem('restuarant_id')
     };
     const res = await this.network.getRestaurants(obj);
 
@@ -210,7 +209,8 @@ export class AddProductComponent {
   async getCategories(): Promise<any[]> {
     let obj = {
       search: '',
-      perpage: 500
+      perpage: 500,
+      restaurant_id: localStorage.getItem('restuarant_id')
     };
     const res = await this.network.getCategories(obj);
 
@@ -247,6 +247,7 @@ export class AddProductComponent {
       const res = await this.network.addProduct(d);
       console.log(res);
       if (res) {
+        this.utility.presentSuccessToast('Products Created Succesfully!');
         this.nav.pop();
       }
     } else {
@@ -279,9 +280,7 @@ export class AddProductComponent {
     if (!input) return; // Do nothing if the input is empty
 
     // Check if the variation type already exists in the list
-    const existingVariation = this.variations.find(
-      (item) => item.type.toLowerCase() === input.toLowerCase()
-    );
+    const existingVariation = this.variations.find((item) => item.type.toLowerCase() === input.toLowerCase());
 
     if (!existingVariation) {
       // If variation does not exist, add it using addVariation
@@ -294,16 +293,12 @@ export class AddProductComponent {
     this.addAttributeInput = ''; // Clear the input
   }
 
-
   selectAttribute(type: string) {
     this.variations = this.variations.map((item) => {
       item['selected'] = item.type === type; // Select the matching type
       return item;
     });
   }
-
-
-
 
   addVariation(type: string) {
     // Deselect all existing variations
@@ -321,7 +316,6 @@ export class AddProductComponent {
       ]
     });
   }
-
 
   addItemINVariation() {
     const index = this.variations.findIndex((x) => x.selected == true);
@@ -341,44 +335,38 @@ export class AddProductComponent {
     this.variations[variationIndex].options.splice(optionIndex, 1);
   }
   async fetchSuggestions(query: string) {
-
-    let v = query.trim()
+    let v = query.trim();
 
     if (!v) {
       this.filteredSuggestions = []; // Clear suggestions if input is empty
       return;
     }
 
-
     let obj = {
-      search: v
-    }
+      search: v,
+    };
 
     const res = await this.network.getVariations(obj);
     let array = res?.data?.data || [];
     this.filteredSuggestions = array;
   }
 
-
   selectSuggestion(suggestion: any) {
+    console.log(suggestion);
+    let meta = JSON.parse(suggestion.meta_value);
+    console.log(meta);
 
-console.log(suggestion)
-    let meta = JSON.parse(suggestion.meta_value)
-    console.log(meta)
-
-
-
-     this.addAttributeInput = suggestion.name;
-     this.variations = [
+    this.addAttributeInput = suggestion.name;
+    this.variations = [
       ...this.variations,
       ...meta.map((metaItem: any) => ({
         type: metaItem.type,
-        selected:false,
-        options: metaItem.options || [],
-      })),
+        selected: false,
+        options: metaItem.options || []
+      }))
     ];
 
-     // Fill input with the selected suggestion
+    // Fill input with the selected suggestion
     // this.filteredSuggestions = []; // Clear suggestions
   }
 }

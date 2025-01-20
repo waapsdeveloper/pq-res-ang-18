@@ -137,7 +137,8 @@ export class EditCategoryComponent implements OnInit {
   async getCategories(): Promise<any[]> {
     let obj = {
       search: '',
-      perpage: 500
+      perpage: 500,
+      restaurant_id: localStorage.getItem('restuarant_id')
     };
     const res = await this.network.getCategories(obj);
 
@@ -158,7 +159,8 @@ export class EditCategoryComponent implements OnInit {
   async getRestaurants(): Promise<any[]> {
     let obj = {
       search: '',
-      perpage: 500
+      perpage: 500,
+      restaurant_id: localStorage.getItem('restuarant_id')
     };
     const res = await this.network.getRestaurants(obj);
 
@@ -234,6 +236,7 @@ export class EditCategoryComponent implements OnInit {
       const res = await this.network.updateCategory(d, this.id);
       console.log(res);
       if (res) {
+        this.utility.presentSuccessToast('Category Updated!')
         this.nav.pop();
       }
     } else {

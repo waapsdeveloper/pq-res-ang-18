@@ -84,7 +84,7 @@ export class ListUserComponent extends ListBlade {
           props: {
             label: 'Phone Number',
             placeholder: 'Enter phone ',
-            
+
             type: 'tel'
           },
           className: 'col-md-4 col-12'
@@ -181,6 +181,8 @@ export class ListUserComponent extends ListBlade {
   async deleteRow(index: number) {
     try {
       await this.crudService.deleteRow(index, this.utility);
+      this.utility.presentSuccessToast('Deleted Sucessfully!');
+    
       console.log('Row deleted successfully');
     } catch (error) {
       console.error('Error deleting row:', error);

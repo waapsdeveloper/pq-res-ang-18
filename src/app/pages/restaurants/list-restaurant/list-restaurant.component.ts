@@ -95,6 +95,8 @@ export class ListRestaurantComponent extends ListBlade {
 
       // Proceed with deletion if id is not null
       await this.crudService.deleteRow(index, this.utility);
+      this.utility.presentSuccessToast('Deleted Sucessfully!');
+    
       console.log('Row deleted successfully');
     } catch (error) {
       console.error('Error deleting row:', error);

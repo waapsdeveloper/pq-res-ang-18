@@ -125,7 +125,8 @@ export class AddRtablesComponent {
   async getRestaurants(): Promise<any[]> {
     let obj = {
       search: '',
-      perpage: 500
+      perpage: 500,
+      restaurant_id: localStorage.getItem('restuarant_id')
     };
     const res = await this.network.getRestaurants(obj);
 
@@ -200,6 +201,8 @@ export class AddRtablesComponent {
       const res = await this.network.addTable(d);
       console.log(res);
       if (res) {
+        this.utility.presentSuccessToast('Table added Succesfully!')
+
         this.nav.pop();
       }
     } else {

@@ -240,7 +240,9 @@ export class AddUserComponent implements OnInit {
   // get roles array
   async getRoles(): Promise<any[]> {
     let obj = {
-      search: ''
+      search: '',
+      restaurant_id: localStorage.getItem('restuarant_id')
+
     }
     const res = await this.network.getRoles(obj);
 
@@ -290,6 +292,7 @@ export class AddUserComponent implements OnInit {
       const res = await this.network.addUser(d);
       console.log(res);
       if (res) {
+        this.utility.presentSuccessToast('User Created Succesfully!')
         this.nav.pop();
       }
     } else {

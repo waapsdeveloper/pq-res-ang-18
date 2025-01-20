@@ -417,6 +417,7 @@ export class AddRestaurantComponent {
       const res = await this.network.addRestaurant(d);
       console.log(res);
       if (res) {
+        this.utility.presentSuccessToast('Restaurant added Successfully!');
         this.nav.pop();
       }
     } else {

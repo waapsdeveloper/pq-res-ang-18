@@ -27,7 +27,8 @@ export class AddOrderService {
     let obj = {
       perpage: 500,
       page: 1,
-      search: search
+      search: search,
+      restaurant_id: localStorage.getItem('restuarant_id')
     };
     const res = await this.network.getProducts(obj);
     // console.log(res)
@@ -42,7 +43,8 @@ export class AddOrderService {
   async initialize() {
     let obj = {
       perpage: 500,
-      page: 1
+      page: 1,
+      restaurant_id: localStorage.getItem('restuarant_id')
     };
     const res = await this.network.getCategories(obj);
     // console.log(res)
@@ -57,7 +59,8 @@ export class AddOrderService {
   async updateProductsBySelectedCategory(category) {
     let obj = {
       filters: JSON.stringify({
-        category_id: category.id
+        category_id: category.id,
+        restaurant_id: localStorage.getItem('restuarant_id')
       }),
       perpage: 500
     };
@@ -85,14 +88,13 @@ export class AddOrderService {
           let temp = p.variation[0];
           let json;
 
-            json = temp['meta_value'] ? JSON.parse(temp['meta_value']) : [];
+          json = temp['meta_value'] ? JSON.parse(temp['meta_value']) : [];
 
-console.log("JSON",json)
+          console.log('JSON', json);
           p['variation'] = json;
         } else {
           p['variation'] = []; // Set default value or handle appropriately
         }
-
 
         console.log(p);
         this.selected_products.push(p);

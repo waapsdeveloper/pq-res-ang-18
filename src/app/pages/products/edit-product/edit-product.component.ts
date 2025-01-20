@@ -249,7 +249,8 @@ export class EditProductComponent implements OnInit, AfterViewInit {
   async getRestaurants(): Promise<any[]> {
     let obj = {
       search: '',
-      perpage: 500
+      perpage: 500,
+      restaurant_id: localStorage.getItem('restuarant_id')
     };
     const res = await this.network.getRestaurants(obj);
 
@@ -295,7 +296,8 @@ export class EditProductComponent implements OnInit, AfterViewInit {
   async getCategories(): Promise<any[]> {
     let obj = {
       search: '',
-      perpage: 500
+      perpage: 500,
+      restaurant_id: localStorage.getItem('restuarant_id')
     };
     const res = await this.network.getCategories(obj);
 
@@ -329,6 +331,8 @@ export class EditProductComponent implements OnInit, AfterViewInit {
       const res = await this.network.updateProduct(d, this.id);
       console.log(res);
       if (res) {
+        this.utility.presentSuccessToast('Product Info Updated!');
+
         this.nav.pop();
       }
     } else {

@@ -177,6 +177,8 @@ override  model = {
   async deleteRow(index: number) {
     try {
       await this.crudService.deleteRow(index, this.utility);
+      this.utility.presentSuccessToast('Deleted Sucessfully!');
+    
       console.log('Row deleted successfully');
     } catch (error) {
       console.error('Error deleting row:', error);

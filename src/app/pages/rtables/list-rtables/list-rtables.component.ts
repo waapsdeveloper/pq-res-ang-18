@@ -143,7 +143,8 @@ export class ListRtablesComponent extends ListBlade {
   async getRestaurants(): Promise<any[]> {
     let obj = {
       search: '',
-      perpage: 500
+      perpage: 500,
+      restaurant_id: localStorage.getItem('restuarant_id')
     };
     const res = await this.network.getRestaurants(obj);
 
@@ -180,6 +181,7 @@ export class ListRtablesComponent extends ListBlade {
   async deleteRow(index: number) {
     try {
       await this.crudService.deleteRow(index, this.utility);
+      this.utility.presentSuccessToast('Deleted Sucessfully!');
       console.log('Row deleted successfully');
     } catch (error) {
       console.error('Error deleting row:', error);

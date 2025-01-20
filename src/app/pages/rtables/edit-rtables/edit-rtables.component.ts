@@ -31,7 +31,8 @@ export class EditRtablesComponent implements OnInit {
   async getRestaurants(): Promise<any[]> {
     let obj = {
       search: '',
-      perpage: 500
+      perpage: 500,
+      restaurant_id: localStorage.getItem('restuarant_id')
     };
     const res = await this.network.getRestaurants(obj);
 
@@ -57,13 +58,11 @@ export class EditRtablesComponent implements OnInit {
         let fl = this.fields[i].fieldGroup[j];
         if (fl && fl.key === 'restaurant_id') {
           fl.props = fl.props || {}; // Ensure props exists
-          fl.props.options = res;}
+          fl.props.options = res;
+        }
       }
     }
   }
-
-
-
 
   async initialize() {
     // Fetch the data from the server
@@ -174,17 +173,15 @@ export class EditRtablesComponent implements OnInit {
     const res = await this.network.getTablesById(this.id);
     let d = Object.assign({}, res.Rtable);
     console.log(d);
-   // Dynamic model assignment
-this.model = {
-  restaurant_id: d.restaurant_id  || '', // Matches `model`
-  no_of_seats: d.no_of_seats || '',     // Matches `model`
-  floor: d.floor || '',                 // Matches `model`
-  // location: d.location || '',           // Matches `model`
-  description: d.description || '',     // Matches `model`
-  status: d.status || ''                // Matches `model`
-};
-
-
+    // Dynamic model assignment
+    this.model = {
+      restaurant_id: d.restaurant_id || '', // Matches `model`
+      no_of_seats: d.no_of_seats || '', // Matches `model`
+      floor: d.floor || '', // Matches `model`
+      // location: d.location || '',           // Matches `model`
+      description: d.description || '', // Matches `model`
+      status: d.status || '' // Matches `model`
+    };
   }
 
   async onSubmit(model) {
@@ -198,6 +195,7 @@ this.model = {
       const res = await this.network.updateTable(d, this.id);
       console.log(res);
       if (res) {
+        this.utility.presentSuccessToast('Table Updated!');
         this.nav.pop();
       }
     } else {
