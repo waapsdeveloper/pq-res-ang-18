@@ -37,7 +37,7 @@ export class ListVariationsComponent extends ListBlade {
             label: 'Name',
             placeholder: ''
           },
-          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
+          className: 'col-md-2 col-12' // 3 columns on md+, full width on small screens
         },
 
         {
@@ -47,7 +47,7 @@ export class ListVariationsComponent extends ListBlade {
             label: 'Address',
             placeholder: ''
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
 
         {
@@ -60,7 +60,7 @@ export class ListVariationsComponent extends ListBlade {
               { value: 'inactive', label: 'Inactive' }
             ]
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         }
       ]
     }

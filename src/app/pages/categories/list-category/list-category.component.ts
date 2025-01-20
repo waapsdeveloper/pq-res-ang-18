@@ -49,7 +49,7 @@ export class ListCategoryComponent extends ListBlade{
             label: ' Category Name',
             placeholder: '',
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'restaurant',
@@ -61,7 +61,7 @@ export class ListCategoryComponent extends ListBlade{
             minLength: 3,
             options: []
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'status',
@@ -73,7 +73,7 @@ export class ListCategoryComponent extends ListBlade{
               { value: 'inactive', label: 'Inactive' }
             ]
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         // {
         //   key: 'description',
@@ -172,7 +172,7 @@ export class ListCategoryComponent extends ListBlade{
     try {
       await this.crudService.deleteRow(index, this.utility);
       this.utility.presentSuccessToast('Deleted Sucessfully!');
-    
+
       console.log('Row deleted successfully');
     } catch (error) {
       console.error('Error deleting row:', error);

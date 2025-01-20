@@ -37,7 +37,7 @@ export class ListRestaurantComponent extends ListBlade {
             label: 'Name',
             placeholder: ''
           },
-          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
+          className: 'col-md-2 col-12' // 3 columns on md+, full width on small screens
         },
 
         {
@@ -47,7 +47,7 @@ export class ListRestaurantComponent extends ListBlade {
             label: 'Address',
             placeholder: ''
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
 
         {
@@ -60,7 +60,7 @@ export class ListRestaurantComponent extends ListBlade {
               { value: 'inactive', label: 'Inactive' }
             ]
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         }
       ]
     }
@@ -96,7 +96,7 @@ export class ListRestaurantComponent extends ListBlade {
       // Proceed with deletion if id is not null
       await this.crudService.deleteRow(index, this.utility);
       this.utility.presentSuccessToast('Deleted Sucessfully!');
-    
+
       console.log('Row deleted successfully');
     } catch (error) {
       console.error('Error deleting row:', error);
