@@ -41,8 +41,8 @@ export class AddCategoryComponent implements OnInit {
           key: 'restaurant_id',
           type: 'select',
           props: {
-            label: 'Restaurant Name',
-            placeholder: 'Enter Restaurant  name',
+            label: 'Branch Name',
+            placeholder: 'Enter Branch  name',
             options: [],
             required: true,
             minLength: 3

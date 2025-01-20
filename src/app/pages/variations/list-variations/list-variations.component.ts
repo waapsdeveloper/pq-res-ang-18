@@ -78,8 +78,8 @@ export class ListVariationsComponent extends ListBlade {
     this.initialize();
   }
 
-  async initialize() {
-    await this.crudService.getList('', 1);
+   initialize() {
+     this.crudService.getList('', 1);
   }
 
   editRow(index: number) {}

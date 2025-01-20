@@ -18,19 +18,19 @@ export class ListVariationTagsComponent {
 
   set metaValues(value: any){
     this._metaValues = value;
-    this.parseValues(value)
+ //   this.parseValues(value)
 
   }
 
-  parseValues(v){
-    console.log(v);
-    if(v){
-      const json = JSON.parse(v);
-      this.list = json as any[];
-    }
+  // parseValues(v){
+  //   console.log(v);
+  //   if(v){
+  //     const json = JSON.parse(v);
+  //     this.list = json as any[];
+  //   }
 
 
-  }
+  // }
 
 
   activePopovers: NgbPopover[] = [];

@@ -105,8 +105,8 @@ export class EditProductComponent implements OnInit, AfterViewInit {
           key: 'restaurant_id',
           type: 'select',
           props: {
-            label: 'Restaurant',
-            placeholder: 'Select a restaurant',
+            label: 'Branch',
+            placeholder: 'Select a Branch',
             required: false, // nullable
             options: []
           },
