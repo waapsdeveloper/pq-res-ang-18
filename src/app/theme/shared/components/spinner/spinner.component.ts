@@ -3,6 +3,7 @@ import { Component, Input, OnDestroy, Inject, ViewEncapsulation } from '@angular
 import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
 
+
 // project import
 import { Spinkit } from './spinkits';
 
