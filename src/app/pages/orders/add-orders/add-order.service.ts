@@ -60,9 +60,10 @@ export class AddOrderService {
     let obj = {
       filters: JSON.stringify({
         category_id: category.id,
-        restaurant_id: localStorage.getItem('restuarant_id')
       }),
-      perpage: 500
+      perpage: 500,
+      restaurant_id: localStorage.getItem('restuarant_id')
+      
     };
     const res = await this.network.getProducts(obj);
 
