@@ -3,7 +3,6 @@ import { Component, Input, OnDestroy, Inject, ViewEncapsulation } from '@angular
 import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
 
-
 // project import
 import { Spinkit } from './spinkits';
 import { GlobalLoaderState, LoadingService } from 'src/app/services/basic/loading.service';
@@ -20,20 +19,16 @@ export class SpinnerComponent implements OnDestroy {
   Spinkit = Spinkit;
   @Input() backgroundColor = '#2689E2';
   @Input() spinner = Spinkit.skLine;
-   loader=false;
   // Constructor
   constructor(
-
     @Inject(DOCUMENT) private document: Document,
     private router: Router,
     private loaderService: LoadingService
   ) {
-    this.loaderService.getLoader().subscribe(
-      (data) => {
-        console.log(data)
-        this.loader = data.loader
-      }
-    );
+    this.loaderService.getLoader().subscribe((data) => {
+      console.log(data);
+      this.isSpinnerVisible = data.loader;
+    });
     // this.router.events.subscribe(
     //   (event) => {
     //     if (event instanceof NavigationStart) {

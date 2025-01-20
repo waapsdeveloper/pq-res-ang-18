@@ -22,7 +22,7 @@ export class LoadingService extends NgSimpleStateBaseRxjsStore<GlobalLoaderState
   }
   protected initialState(): GlobalLoaderState {
     return {
-      loader: true
+      loader: false
     };
   }
   setLoader(flag: boolean) {
