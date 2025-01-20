@@ -62,7 +62,7 @@ export class AddProductComponent {
           type: 'select',
           props: {
             label: 'Branch',
-            placeholder: 'Select a Branch',
+            placeholder: 'Select a restaurant',
             required: false, // nullable
             options: []
           },
@@ -354,15 +354,16 @@ export class AddProductComponent {
   selectSuggestion(suggestion: any) {
     console.log(suggestion);
     let meta = JSON.parse(suggestion.meta_value);
+   // let meta = suggestion.meta_value
     console.log(meta);
 
     this.addAttributeInput = suggestion.name;
     this.variations = [
       ...this.variations,
-      ...meta.map((metaItem: any) => ({
+      ...meta.options.map((metaItem: any) => ({
         type: metaItem.type,
         selected: false,
-        options: metaItem.options || []
+        options: metaItem.option || []
       }))
     ];
 
