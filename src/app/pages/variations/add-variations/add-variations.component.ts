@@ -69,6 +69,8 @@ export class AddVariationsComponent {
 
       console.log(res);
       if (res) {
+        this.utility.presentSuccessToast('Variations Created Succesfully!')
+
         this.nav.pop();
       }
     } else {

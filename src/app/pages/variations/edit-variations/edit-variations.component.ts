@@ -105,6 +105,8 @@ console.log(this.variations);
       const res = await this.network.updateVariation(d, this.id);
       console.log(res);
       if (res) {
+        this.utility.presentSuccessToast('Variation Updated!')
+
         this.nav.pop();
       }
     } else {

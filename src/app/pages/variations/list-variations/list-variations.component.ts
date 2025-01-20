@@ -78,8 +78,8 @@ export class ListVariationsComponent extends ListBlade {
     this.initialize();
   }
 
-  initialize() {
-    this.crudService.getList('', 1);
+  async initialize() {
+    await this.crudService.getList('', 1);
   }
 
   editRow(index: number) {}
@@ -96,6 +96,7 @@ export class ListVariationsComponent extends ListBlade {
 
       // Proceed with deletion if id is not null
       await this.crudService.deleteRow(index, this.utility);
+      this.utility.presentSuccessToast('Deleted Sucessfully!');
       console.log('Row deleted successfully');
     } catch (error) {
       console.error('Error deleting row:', error);
