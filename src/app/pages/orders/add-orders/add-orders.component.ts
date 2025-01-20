@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AddOrderService } from './add-order.service';
 import { NavService } from 'src/app/services/basic/nav.service';
+import { NetworkService } from 'src/app/services/network.service';
 
 @Component({
   selector: 'app-add-orders',
@@ -10,11 +11,13 @@ import { NavService } from 'src/app/services/basic/nav.service';
 export class AddOrdersComponent implements OnInit, OnDestroy {
   constructor(
     public nav: NavService,
-    public orderService: AddOrderService
+    public orderService: AddOrderService,
+    private network: NetworkService
   ) {}
-
+  restaurant;
   ngOnInit(): void {
     this.orderService.showOrderHeader = false;
+    this.getRestaurants();
   }
 
   ngOnDestroy(): void {
@@ -58,7 +61,36 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       window.location.reload(); // Reload the page to restore the original view
     } else {
       console.error('Print section not found.');
+
     }
   }
-  
+  async getRestaurants(): Promise<void> {
+    let obj = {
+      search: '',
+      perpage: 500,
+      restaurant_id: localStorage.getItem('restaurant_id'),
+    };
+
+    const res = await this.network.getRestaurants(obj);
+
+    if (res && res['data']) {
+      let d = res['data'];
+      let dm = d['data'];
+
+      // Map and set the local variable
+      this.restaurant = dm.map((r) => {
+        return {
+          restaurant_id: r.id, // Corrected the spelling from `restuarant_id`
+          name: r.name,
+          address: r.address,
+          phone: r.phone,
+        };
+      }) as any[];
+
+      // Log the result to verify the data
+      console.log(this.restaurant);
+    }
+  }
+
+
 }
