@@ -61,12 +61,11 @@ export class AddOrderService {
   async updateProductsBySelectedCategory(category) {
     let obj = {
       filters: JSON.stringify({
-        category_id: category.id,
+        category_id: category.id
       }),
       perpage: 500,
 
       restaurant_id: localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1
-
     };
     const res = await this.network.getProducts(obj);
 
@@ -186,7 +185,6 @@ export class AddOrderService {
     console.log(res);
 
     this.selected_products = [];
-
     return true;
   }
 }

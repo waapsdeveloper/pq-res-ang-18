@@ -34,7 +34,7 @@
             >
               {{ item.identifier }}
             </a>
-            <div class=" fs-7 fw-bold">Total Orders: </div>
+            <div class=" fs-7 fw-bold">Total Orders:{{item?.total_orders}} </div>
 
             <!--end::Title-->
           </div>
@@ -43,7 +43,7 @@
       <td>
         <div class="d-flex">
           <div class="ms-5">
-            <a class=" text-hover-primary fs-5 fw-bold mb-1">{{ item.restaurant_id }}</a>
+            <a class=" text-hover-primary fs-5 fw-bold mb-1">{{ item?.restaurant_detail?.name }}</a>
           </div>
         </div>
       </td>
