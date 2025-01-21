@@ -32,7 +32,8 @@ export class EditRtablesComponent implements OnInit {
     let obj = {
       search: '',
       perpage: 500,
-      restaurant_id: localStorage.getItem('restuarant_id')
+
+      restaurant_id: localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1
     };
     const res = await this.network.getRestaurants(obj);
 
@@ -88,9 +89,9 @@ export class EditRtablesComponent implements OnInit {
           key: 'restaurant_id',
           type: 'select',
           props: {
-            label: 'Restaurant',
-            placeholder: 'Select a restaurant',
-            required: false,
+            label: 'Branch',
+            placeholder: 'Select a Branch',
+            required: true,
             options: []
           },
           className: 'col-md-2 col-12'

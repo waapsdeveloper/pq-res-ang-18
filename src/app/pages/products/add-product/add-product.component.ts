@@ -63,7 +63,7 @@ export class AddProductComponent {
           props: {
             label: 'Branch',
             placeholder: 'Select a restaurant',
-            required: false, // nullable
+            required: true, // nullable
             options: []
           },
           className: 'col-md-2 col-12'
@@ -162,7 +162,8 @@ export class AddProductComponent {
     let obj = {
       search: '',
       perpage: 500,
-      restaurant_id: localStorage.getItem('restuarant_id')
+
+      restaurant_id: localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1
     };
     const res = await this.network.getRestaurants(obj);
 
@@ -210,7 +211,7 @@ export class AddProductComponent {
     let obj = {
       search: '',
       perpage: 500,
-      restaurant_id: localStorage.getItem('restuarant_id')
+      restaurant_id: localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1
     };
     const res = await this.network.getCategories(obj);
 
@@ -343,7 +344,7 @@ export class AddProductComponent {
     }
 
     let obj = {
-      search: v,
+      search: v
     };
 
     const res = await this.network.getVariations(obj);
@@ -354,16 +355,16 @@ export class AddProductComponent {
   selectSuggestion(suggestion: any) {
     console.log(suggestion);
     let meta = JSON.parse(suggestion.meta_value);
-   // let meta = suggestion.meta_value
+    //   let meta = suggestion.meta_value
     console.log(meta);
 
     this.addAttributeInput = suggestion.name;
     this.variations = [
       ...this.variations,
-      ...meta.options.map((metaItem: any) => ({
+      ...meta.map((metaItem: any) => ({
         type: metaItem.type,
         selected: false,
-        options: metaItem.option || []
+        options: metaItem.options || []
       }))
     ];
 

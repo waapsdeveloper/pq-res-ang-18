@@ -163,7 +163,8 @@ export class AddUserComponent implements OnInit {
             label: 'Branch Name',
             placeholder: 'Enter Branch name',
             options: [],
-            minLength: 3
+            minLength: 3,
+            required:true,
           },
           className: 'col-md-2 col-12' // 3 columns on md+, full width on small screens
         },
@@ -241,7 +242,8 @@ export class AddUserComponent implements OnInit {
   async getRoles(): Promise<any[]> {
     let obj = {
       search: '',
-      restaurant_id: localStorage.getItem('restuarant_id')
+
+      restaurant_id: localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1
 
     }
     const res = await this.network.getRoles(obj);

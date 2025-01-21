@@ -28,7 +28,8 @@ export class AddOrderService {
       perpage: 500,
       page: 1,
       search: search,
-      restaurant_id: localStorage.getItem('restuarant_id')
+
+      restaurant_id: localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1
     };
     const res = await this.network.getProducts(obj);
     // console.log(res)
@@ -44,7 +45,8 @@ export class AddOrderService {
     let obj = {
       perpage: 500,
       page: 1,
-      restaurant_id: localStorage.getItem('restuarant_id')
+
+      restaurant_id: localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1
     };
     const res = await this.network.getCategories(obj);
     // console.log(res)
@@ -62,8 +64,9 @@ export class AddOrderService {
         category_id: category.id,
       }),
       perpage: 500,
-      restaurant_id: localStorage.getItem('restuarant_id')
-      
+
+      restaurant_id: localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1
+
     };
     const res = await this.network.getProducts(obj);
 
