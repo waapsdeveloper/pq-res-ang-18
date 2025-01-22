@@ -15,12 +15,12 @@
           <div class="d-flex flex-row flex-wrap justify-content-start">
             <div
               class="badge badge-secondary fw-bold me-2 px-4 py -3"
-              [class.badge-info]="item.selected == true"
+              [class.badge-info]="item?.selected == true"
               style="height: 32px; cursor: pointer"
               *ngFor="let item of variations"
-              (click)="selectAttribute(item.type)"
+              (click)="selectAttribute(item?.type)"
             >
-              {{ item.type }}
+              {{ item?.type }}
             </div>
           </div>
         </div>
@@ -44,7 +44,7 @@
               border-radius: 5px;
               background-color: #f9f9f9;
             "
-            *ngIf="filteredSuggestions.length > 0"
+            *ngIf="filteredSuggestions?.length > 0"
           >
             <div
               *ngFor="let suggestion of filteredSuggestions"

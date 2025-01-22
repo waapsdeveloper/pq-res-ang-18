@@ -12,6 +12,7 @@ import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 export class ViewOrdersComponent {
   itemId;
   item;
+  variations;
 
   constructor(
     private nav: NavService,
@@ -28,6 +29,8 @@ export class ViewOrdersComponent {
     console.log(res);
 
     this.item = res.order;
+    this.variations = this.item?.products;
+    this.parseMetaValues(this.variations);
   }
   popovers: NgbPopover[] = [];
   closeAllPopovers() {
@@ -36,5 +39,17 @@ export class ViewOrdersComponent {
 
   registerPopover(popover: NgbPopover) {
     this.popovers.push(popover);
+  }
+  parseMetaValues(products: any[]) {
+    products.forEach((product) => {
+      if (product.meta_value) {
+        product.meta_value = JSON.parse(product.meta_value);
+      }
+    });
+
+    this.variations = products.flatMap((product) => (Array.isArray(product.meta_value) ? product.meta_value : [])); // Flatten meta_value arrays
+    this.item['variation'] = products.flatMap((product) => (Array.isArray(product.meta_value) ? product.meta_value : [])); // Flatten meta_value arrays
+
+    console.log('Parsed products:', this.item);
   }
 }

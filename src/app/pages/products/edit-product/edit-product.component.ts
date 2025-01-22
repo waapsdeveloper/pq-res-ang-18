@@ -105,9 +105,9 @@ export class EditProductComponent implements OnInit, AfterViewInit {
           key: 'restaurant_id',
           type: 'select',
           props: {
-            label: 'Restaurant',
-            placeholder: 'Select a restaurant',
-            required: false, // nullable
+            label: 'Branch',
+            placeholder: 'Select a Branch',
+            required: true, // nullable
             options: []
           },
           className: 'col-md-2 col-12'
@@ -250,7 +250,8 @@ export class EditProductComponent implements OnInit, AfterViewInit {
     let obj = {
       search: '',
       perpage: 500,
-      restaurant_id: localStorage.getItem('restuarant_id')
+
+      restaurant_id: localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1
     };
     const res = await this.network.getRestaurants(obj);
 
@@ -297,7 +298,8 @@ export class EditProductComponent implements OnInit, AfterViewInit {
     let obj = {
       search: '',
       perpage: 500,
-      restaurant_id: localStorage.getItem('restuarant_id')
+
+      restaurant_id: localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1
     };
     const res = await this.network.getCategories(obj);
 

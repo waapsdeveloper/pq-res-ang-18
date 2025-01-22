@@ -56,8 +56,7 @@ export class NetworkService {
 
   index(slug, params) {
     console.log(localStorage.getItem('restuarant_id'));
-    params['restaurant_id'] = localStorage.getItem('restuarant_id');
-
+    params['restaurant_id'] = localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1;
     const query = this.serialize(params);
     return this.httpGetResponse(slug + (query ? `?${query}` : ''), null, true, true);
   }

@@ -151,10 +151,11 @@ export class EditUserComponent implements OnInit {
           key: 'restaurant_id',
           type: 'select',
           props: {
-            label: 'Restaurant Name',
-            placeholder: 'Enter Restaurant  name',
+            label: 'Branch Name',
+            placeholder: 'Enter Branch  name',
             options: [],
-            minLength: 3
+            minLength: 3,
+            required:true,
           },
           className: 'col-md-2 col-12' // 3 columns on md+, full width on small screens
         },
@@ -204,7 +205,8 @@ export class EditUserComponent implements OnInit {
     let obj = {
       search: '',
       perpage: 500,
-      restaurant_id: localStorage.getItem('restuarant_id')
+
+      restaurant_id: localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1
     };
     const res = await this.network.getRestaurants(obj);
 

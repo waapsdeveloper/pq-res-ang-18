@@ -41,8 +41,8 @@ export class AddCategoryComponent implements OnInit {
           key: 'restaurant_id',
           type: 'select',
           props: {
-            label: 'Restaurant Name',
-            placeholder: 'Enter Restaurant  name',
+            label: 'Branch Name',
+            placeholder: 'Enter Branch  name',
             options: [],
             required: true,
             minLength: 3
@@ -126,7 +126,8 @@ export class AddCategoryComponent implements OnInit {
     let obj = {
       search: '',
       perpage: 500,
-      restaurant_id: localStorage.getItem('restuarant_id')
+
+      restaurant_id: localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1
     };
     const res = await this.network.getCategories(obj);
 
@@ -148,7 +149,8 @@ export class AddCategoryComponent implements OnInit {
     let obj = {
       search: '',
       perpage: 500,
-      restaurant_id: localStorage.getItem('restuarant_id')
+
+      restaurant_id: localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1
     };
     const res = await this.network.getRestaurants(obj);
 

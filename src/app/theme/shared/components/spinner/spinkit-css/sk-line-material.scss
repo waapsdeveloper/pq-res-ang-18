@@ -55,12 +55,12 @@
   position: absolute;
   filter: alpha(opacity=70);
   opacity: 1;
-  background-color: rgba(0, 0, 0, 0);
+  background-color: rgba(255, 255, 255, 255);
 }
 
 .colored-parent,
 .colored > div {
-  background-color: rgba(26, 188, 156, 0.8);
+  background-color: rgba(209, 46, 46, 1);
 }
 
 #http-loader {
@@ -87,8 +87,8 @@
 .spinner {
   width: 50px;
   height: 50px;
-  border: 6px solid rgba(255, 255, 255, 0.2); /* Light border */
-  border-top: 6px solid #1abc9c; /* Colored top border */
+  border: 6px solid rgba(255, 255, 255); /* Light border */
+  border-top: 6px solid rgba(209, 46, 46, 1); /* Colored top border */
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }

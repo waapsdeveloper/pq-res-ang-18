@@ -14,7 +14,7 @@ import { UtilityService } from 'src/app/services/utility.service';
   styleUrl: './list-rtables.component.scss'
 })
 export class ListRtablesComponent extends ListBlade {
-  columns: any[] = ['Table No','Restaurant ID','No of seats','Floor', 'No of Orders', 'Status'];
+  columns: any[] = ['Table No','Branch','No of seats','Floor', 'No of Orders', 'Status'];
   title = 'Tables';
   showEdit = false;
   addurl = '/pages/tables/add';
@@ -36,9 +36,9 @@ export class ListRtablesComponent extends ListBlade {
           key: 'restaurant_id',
           type: 'select',
           props: {
-            label: 'Restaurant',
-            placeholder: 'Select a restaurant',
-            required: false,
+            label: 'Branch',
+            placeholder: 'Select a Branch',
+            required: true,
             options: []
           },
           className: 'col-md-4 col-12'
@@ -144,7 +144,8 @@ export class ListRtablesComponent extends ListBlade {
     let obj = {
       search: '',
       perpage: 500,
-      restaurant_id: localStorage.getItem('restuarant_id')
+
+      restaurant_id: localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1
     };
     const res = await this.network.getRestaurants(obj);
 
