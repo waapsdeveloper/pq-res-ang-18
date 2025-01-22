@@ -118,9 +118,9 @@ export class ListRestaurantComponent extends ListBlade {
     let item = this.crudService.list[i];
     this.grService.setRestaurant(item.id, item.name);
 
-    
 
-    // call api to set default restaurnat 
+
+    // call api to set default restaurnat
     let data = {
       is_active: 1
     }

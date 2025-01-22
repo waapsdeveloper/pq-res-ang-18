@@ -137,7 +137,7 @@ export class AddRestaurantComponent {
             label: 'Description',
             placeholder: 'Enter description'
           },
-          className: 'col-md-3 col-12'
+          className: 'col-md-4 col-12'
         },
 
         {
