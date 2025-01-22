@@ -8,6 +8,7 @@ import { UtilityService } from './utility.service';
   providedIn: 'root'
 })
 export class NetworkService {
+  
   getUserById(itemId: any) {
     throw new Error('Method not implemented.');
   }
@@ -81,6 +82,10 @@ export class NetworkService {
 
   updateRestaurant(data, id) {
     return this.httpPutResponse(`restaurant`, data, id, false, true);
+  }
+
+  setActiveRestaurant(data: any, id) {
+    return this.httpPutResponse(`restaurant/update-active`, data, id, false, true);
   }
 
   // removeRestaurant(id) {

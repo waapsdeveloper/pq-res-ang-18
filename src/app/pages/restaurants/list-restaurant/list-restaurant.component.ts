@@ -71,7 +71,8 @@ export class ListRestaurantComponent extends ListBlade {
     public override crudService: RestaurantService,
     public grService: GlobalRestaurantService,
     private nav: NavService,
-    private utility: UtilityService
+    private utility: UtilityService,
+    private network: NetworkService,
   ) {
     super(injector, crudService);
     this.initialize();
@@ -116,5 +117,14 @@ export class ListRestaurantComponent extends ListBlade {
   setDefault(i) {
     let item = this.crudService.list[i];
     this.grService.setRestaurant(item.id, item.name);
+
+    
+
+    // call api to set default restaurnat 
+    let data = {
+      is_active: 1
+    }
+    this.network.setActiveRestaurant(data, item.id)
+
   }
 }

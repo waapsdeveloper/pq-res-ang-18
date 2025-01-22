@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { NgSimpleStateBaseRxjsStore } from 'ng-simple-state';
 import { NgSimpleStateStoreConfig } from 'ng-simple-state/public-api';
 import { Observable } from 'rxjs';
+import { NetworkService } from './network.service';
 
 
 export interface GlobalRestaurantState {
@@ -40,6 +41,10 @@ export class GlobalRestaurantService extends NgSimpleStateBaseRxjsStore<GlobalRe
     this.setState(state => ({ id: id, name: name }));
     console.log('Service ',this.restaurant);
     localStorage.setItem("restuarant_id", this.restaurant.id);
+
+
+
+
   }
 
 
