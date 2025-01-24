@@ -8,7 +8,6 @@ import { UtilityService } from './utility.service';
   providedIn: 'root'
 })
 export class NetworkService {
-  
   getUserById(itemId: any) {
     throw new Error('Method not implemented.');
   }
@@ -237,6 +236,14 @@ export class NetworkService {
     return this.httpDeleteResponse('order', id, false, true);
   }
 
+  //Notification Apis
+  getNotifications() {
+    return this.httpGetResponse('notifications/all', null, false, true);
+  }
+
+  getUnreadNotifications() {
+    return this.httpGetResponse('notifications/unread', null, false, true);
+  }
   serialize = (obj: any) => {
     const str: any[] = [];
     for (const p in obj) {

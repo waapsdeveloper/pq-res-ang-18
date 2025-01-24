@@ -2,6 +2,7 @@ import { NavService } from 'src/app/services/basic/nav.service';
 import { UsersService } from 'src/app/services/users.service';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { GlobalRestaurantService } from 'src/app/services/global-restaurant.service';
+import { NetworkService } from 'src/app/services/network.service';
 
 
 @Component({
@@ -31,7 +32,7 @@ export class BtopHeaderComponent {
   //   { label: 'Customers', link: '/pages/customers', icon: 'ti ti-user-plus' },
    ];
 
-  constructor(private nav: NavService, private users: UsersService, public grService: GlobalRestaurantService){
+  constructor(private nav: NavService, private users: UsersService, public grService: GlobalRestaurantService,private network:NetworkService){
     this.initialize();
 
     this.grService.getRestaurant().subscribe( data => {
@@ -42,9 +43,14 @@ export class BtopHeaderComponent {
   }
 
 
-  initialize(){
+ async  initialize(){
     // filter menu
     const u = this.users.getUser()
+   const notifications = await this.network.getNotifications();
+   const unread = await this.network.getUnreadNotifications();
+   console.log("Notification" , notifications.data)
+   console.log(" UNread Notification" ,unread.data);
+
 
 
     console.log("u", u)
