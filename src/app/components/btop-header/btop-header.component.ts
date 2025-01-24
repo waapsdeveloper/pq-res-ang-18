@@ -14,7 +14,8 @@ export class BtopHeaderComponent {
   @Input('title') title = ''
   @Input('addurl') addurl = '/pages/orders/add'
   @Output('onSearch') onSearch = new EventEmitter<any>();
-
+  unread:any
+  notifications:any;
   restaurant$: any;
 
   menuItems = [
@@ -46,11 +47,13 @@ export class BtopHeaderComponent {
  async  initialize(){
     // filter menu
     const u = this.users.getUser()
-   const notifications = await this.network.getNotifications();
-   const unread = await this.network.getUnreadNotifications();
-   console.log("Notification" , notifications.data)
-   console.log(" UNread Notification" ,unread.data);
+    let notifications = await this.network.getNotifications();
+   let unreads = await this.network.getUnreadNotifications();
+   this.notifications = notifications.data
+   console.log("Notification" , this.notifications)
 
+   this.unread = unreads.data;
+   console.log(" UNread Notification" ,this.unread);
 
 
     console.log("u", u)

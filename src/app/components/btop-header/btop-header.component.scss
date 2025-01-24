@@ -1,7 +1,7 @@
-.active-link {
-  // background: var(--bs-blue);
-  //color: var(--bs-blue) !important;
-}
+// .active-link {
+//   // background: var(--bs-blue);
+//   //color: var(--bs-blue) !important;
+// }
 .toolbar-container {
   display: flex;
   align-items: center; /* Align items in the same line */
@@ -14,7 +14,7 @@
 }
 .restaurant-123 {
   margin-top: 24px; /* Add some gap from the top */
-  margin-right:24px;
+  margin-right: 24px;
 }
 
 .pc-h-item {
@@ -30,32 +30,89 @@
 .pc-header .m-header {
   display: flex;
   align-items: center;
-  width:130px;
+  width: 130px;
 }
 @media (max-width: 768px) {
   .pc-header .d-flex.flex-row.align-items-center.p-3 {
     flex-wrap: wrap; /* Allow wrapping of items on smaller screens */
-
   }
-  .pc-mob-drp{
-    display: none !important;}
-
-    .card-toolbar .btn-primary {
-      display: none !important;}
+  .pc-mob-drp {
+    display: none !important;
   }
 
-.header-user-profile{
-
-border: none;
-
-
+  .card-toolbar .btn-primary {
+    display: none !important;
+  }
 }
-img{
-height: 42px;
 
+.header-user-profile {
+  border: none;
 }
-.res432{
-
-  margin-right:32px;
+img {
+  height: 42px;
+}
+.res432 {
+  margin-right: 32px;
   gap: 32px;
+}
+
+.dropdown-menu {
+  width: 300px;
+}
+.badge {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 12px;
+} /* Ensures vertical stacking of notifications */
+.notification-item {
+  display: block; /* Ensures each notification takes up the full width */
+  margin-bottom: 10px; /* Adds spacing between notifications */
+  border-bottom: 1px solid #ddd; /* Optional: Adds a line between items for better readability */
+  padding: 8px 0; /* Optional: Adds padding for better spacing */
+}
+
+.notification-item strong {
+  display: block; /* Moves the order ID to its own line */
+}
+
+.notification-item span {
+  display: block; /* Ensures the message appears below the order ID */
+  font-size: 12px; /* Optional: Adjust the text size for the message */
+  color: #6c757d; /* Optional: Muted text color */
+}
+
+ul.list-unstyled {
+  padding: 0; /* Removes default padding */
+  margin: 0; /* Removes default margin */
+}
+
+h6.text-muted {
+  margin-bottom: 10px; /* Adds spacing below the header */
+}
+
+.dropdown-menu .px-3 {
+  padding: 15px; /* Adds consistent padding inside the dropdown */
+}
+.notification-item {
+  display: flex; /* Ensures proper alignment of content inside the notification */
+  flex-direction: column; /* Stacks the content vertically (order ID on top, message below) */
+  align-items: flex-start; /* Aligns the content to the left */
+  padding: 8px 0; /* Adds space above and below each notification */
+  border-bottom: 1px solid #e0e0e0; /* Optional: Separates notifications with a bottom border */
+}
+
+ul.list-unstyled {
+  padding-left: 0; /* Ensures the list doesn't have unnecessary padding on the left */
+  margin: 0; /* Removes any margin around the list */
+  list-style: none; /* Removes default bullets from the list */
+}
+
+.notification-item strong {
+  margin-bottom: 4px; /* Adds spacing between the order ID and the message */
+}
+
+.notification-item span {
+  font-size: 12px; /* Adjusts the message font size */
+  color: #6c757d; /* Makes the text muted for a cleaner UI */
 }
