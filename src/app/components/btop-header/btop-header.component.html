@@ -79,24 +79,24 @@
                     <h6 class="text-muted">Unread Notifications</h6>
                     <ul class="list-unstyled">
                       <li class="notification-item">
-                        <div *ngFor="let notification of unread">
-                          <strong>Order: {{ notification?.data.order_id }}</strong>
+                        <a *ngFor="let notification of unread"  (click)="navigateToOrder(notification)" >
+                          <strong>Order: {{ notification?.data.order_number }}</strong>
                           <span class="text-muted small">
                             {{ notification?.data.message }}
                           </span>
-                        </div>
+                        </a>
                       </li>
                     </ul>
 
                     <!-- Read Notifications -->
                     <ul class="list-unstyled">
                       <li class="notification-item">
-                        <div *ngFor="let notification of notifications">
-                          <strong>Order: {{ notification?.data.order_id }}</strong>
+                        <a  *ngFor="let notification of notifications"  (click)="navigateToOrder(notification)">
+                          <strong>Order: {{ notification?.data.order_number }}</strong>
                           <span class="text-muted small">
                             {{ notification?.data.message }}
                           </span>
-                        </div>
+                        </a>
                       </li>
                     </ul>
                   </div>

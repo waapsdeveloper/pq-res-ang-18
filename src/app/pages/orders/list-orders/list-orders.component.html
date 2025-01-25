@@ -67,13 +67,16 @@
             class="badge fw-bold me-auto px-4 py-3"
             [ngClass]="{
               'badge-pending': item?.status === 'Pending',
+              'badge-confirmed': item?.status === 'Confirmed',
+              'badge-preparing': item?.status === 'Preparing',
+              'badge-ready-for-pickup': item?.status === 'Ready For Pickup',
               'badge-out-for-delivery': item?.status === 'Out For Delivery',
               'badge-delivered': item?.status === 'Delivered',
-              'badge-preparing': item?.status === 'Preparing',
-              'badge-canceled': item?.status === 'Canceled',
+              'badge-completed': item?.status === 'Completed',
+              'badge-cancelled': item?.status === 'Cancelled'
             }"
           >
-            {{ item?.status }}
+            {{ item?.status | titlecase }}
           </div>
         </div>
       </td>

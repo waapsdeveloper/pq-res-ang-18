@@ -244,6 +244,9 @@ export class NetworkService {
   getUnreadNotifications() {
     return this.httpGetResponse('notifications/unread', null, false, true);
   }
+  readNotification(id) {
+    return this.httpPostResponse(`notifications/mark-as-read/${id}`, null, false, true);
+  }
   serialize = (obj: any) => {
     const str: any[] = [];
     for (const p in obj) {
