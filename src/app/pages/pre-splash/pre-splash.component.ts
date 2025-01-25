@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavService } from 'src/app/services/basic/nav.service';
+import { NetworkService } from 'src/app/services/network.service';
 
 @Component({
   selector: 'app-pre-splash',
@@ -10,7 +11,7 @@ export class PreSplashComponent {
 
   loading = false;
 
-  constructor(private nav: NavService){
+  constructor(private nav: NavService,private network:NetworkService){
 
   }
 
@@ -18,8 +19,15 @@ export class PreSplashComponent {
     this.initialize();
   }
 
-  initialize(){
+  async initialize(){
     this.loading = true;
+    const defaults = await this.network.getDefaultRestaurantId();
+    console.log(defaults);
+    if(defaults && defaults.active_restaurant){
+
+      let R = defaults.active_restaurant;
+      localStorage.setItem("restaurant" , JSON.stringify(R));
+      localStorage.setItem("restaurant_id" , R.id);
 
     setTimeout( () => {
       this.loading = false;
@@ -27,4 +35,5 @@ export class PreSplashComponent {
     }, 3000)
 
   }
+}
 }

@@ -19,7 +19,9 @@ export class NetworkService {
   ) {}
 
   //Dashboard APi
-
+  getDefaultRestaurantId() {
+    return this.httpGetResponse('restaurant/active', null, false, true);
+  }
   getSalesChartData(params: any) {
     let str = this.serialize(params);
     return this.httpGetResponse('dashboard/sales-chart-data' + '?' + str, null, false, true);
@@ -53,7 +55,7 @@ export class NetworkService {
 
   // Standard CRUD calls
 
-  index(slug, params) {    
+  index(slug, params) {
     const query = this.serialize(params);
     return this.httpGetResponse(slug + (query ? `?${query}` : ''), null, true, true);
   }
@@ -226,9 +228,9 @@ export class NetworkService {
   getOrdersById(id) {
     return this.httpGetResponse(`order/${id}`, null, false, true);
   }
-  orderStatus(id,data){
+  orderStatus(id, data) {
     return this.httpPutResponse(`order/update-status`, data, id, false, true);
-}
+  }
 
   addOrder(data) {
     return this.httpPostResponse('order', data, null, false, true);
@@ -249,9 +251,8 @@ export class NetworkService {
     return this.httpPostResponse(`notifications/mark-as-read/${id}`, null, false, true);
   }
   serialize = (obj: any) => {
-
-    console.log(localStorage.getItem('restuarant_id'));
-    obj['restaurant_id'] = localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1;
+    console.log(localStorage.getItem('restaurant_id'));
+    obj['restaurant_id'] = localStorage.getItem('restaurant_id') ? localStorage.getItem('restaurant_id') : -1;
 
     const str: any[] = [];
     for (const p in obj) {
@@ -265,9 +266,8 @@ export class NetworkService {
 
   // Function for POST method
   httpPostResponse(key: any, data: any, id = null, showloader = true, showError = true, contenttype = 'application/json') {
-
-    console.log(localStorage.getItem('restuarant_id'));
-    data['restaurant_id'] = localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1;
+    console.log(localStorage.getItem('restaurant_id'));
+    data['restaurant_id'] = localStorage.getItem('restaurant_id') ? localStorage.getItem('restaurant_id') : -1;
 
     return this.httpResponse('post', key, data, id, showloader, showError, contenttype);
   }

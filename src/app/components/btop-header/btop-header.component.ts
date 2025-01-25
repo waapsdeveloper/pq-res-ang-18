@@ -1,9 +1,10 @@
 import { NavService } from 'src/app/services/basic/nav.service';
 import { UsersService } from 'src/app/services/users.service';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
 import { GlobalRestaurantService } from 'src/app/services/global-restaurant.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { NotificationsService } from 'src/app/services/notifications.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-btop-header',
@@ -11,13 +12,12 @@ import { NotificationsService } from 'src/app/services/notifications.service';
   styleUrl: './btop-header.component.scss'
 })
 export class BtopHeaderComponent {
-
-  @Input('title') title = ''
-  @Input('addurl') addurl = '/pages/orders/add'
+  @Input('title') title = '';
+  @Input('addurl') addurl = '/pages/orders/add';
   @Output('onSearch') onSearch = new EventEmitter<any>();
-  
-  restaurant$: any;
 
+  restaurant$: any;
+  date = new Date();
   menuItems = [
     { label: 'Dashboard', link: '/pages/dashboard', icon: 'ti ti-layout-dashboard' },
     { label: 'Branches', link: '/pages/restaurants', icon: 'ti ti-soup' },
@@ -33,22 +33,29 @@ export class BtopHeaderComponent {
     //   { label: 'Customers', link: '/pages/customers', icon: 'ti ti-user-plus' },
   ];
 
-  constructor(private nav: NavService, private users: UsersService, public grService: GlobalRestaurantService, public notifcationService: NotificationsService) { 
+  constructor(
+    private nav: NavService,
+    private users: UsersService,
+    public grService: GlobalRestaurantService,
+    public notifcationService: NotificationsService,
+    private changeDetectorRef: ChangeDetectorRef,
+    private router: Router
+  ) {
     this.initialize();
     this.notifcationService.registerPusherEvent();
     this.notifcationService.getNotificationsFromApi();
 
     this.grService.getRestaurant().subscribe((data) => {
       this.restaurant$ = data;
-    });
+     });
   }
 
   async initialize() {
     // filter menu
-    const u = this.users.getUser()
+    const u = this.users.getUser();
 
-    if(u.role_id != 1){
-      this.menuItems = this.menuItems.filter( x => x.label != 'Restaurants');
+    if (u.role_id != 1) {
+      this.menuItems = this.menuItems.filter((x) => x.label != 'Restaurants');
     }
 
     if (u.role_id != 1 && u.role_id != 2) {
@@ -75,10 +82,31 @@ export class BtopHeaderComponent {
     return 'assets/svg/logo.png';
   }
 
-  async navigateToOrder(i) {
-    let item = this.notifcationService.notifications[i].order_id;
+   navigateToOrder(i) {
+    let item = this.notifcationService.notifications[i]?.data?.order_id;
+    console.log(item);
+
     if (item) {
-      this.nav.push('/pages/orders/view/' + item);
+      this.router.navigate(['/pages/orders/view', item]);
+      this.changeDetectorRef.markForCheck();
+    }
+  }
+
+  getTimeAgo(timestamp: string): string {
+    const notificationDate = new Date(timestamp);
+    const now = new Date();
+    const diffInMilliseconds = now.getTime() - notificationDate.getTime();
+
+    if (diffInMilliseconds < 60000) {
+      return 'just now';
+    } else if (diffInMilliseconds < 3600000) {
+      const minutes = Math.floor(diffInMilliseconds / 60000);
+      return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+    } else if (diffInMilliseconds < 86400000) {
+      const hours = Math.floor(diffInMilliseconds / 3600000);
+      return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+    } else {
+      return '1 day ago'; // Or more specific date/time format
     }
   }
 }

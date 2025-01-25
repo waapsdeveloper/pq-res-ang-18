@@ -74,15 +74,21 @@
                   <h4>Notifications</h4>
                 </div>
                 <ng-scrollbar visibility="hover" style="max-height: 300px; overflow: auto">
-                  <div class="px-3">                    
+                  <div class="px-3">
                     <ul class="list-unstyled">
                       <li class="notification-item">
-                        <div *ngFor="let notification of notifcationService.notifications; let i = index" style="cursor: pointer;" (click)="navigateToOrder(i)">
+                        <a
+                          *ngFor="let notification of notifcationService.notifications; let i=index;"
+                          class="anc"
+                          style="cursor: pointer"
+                          (click)="navigateToOrder(i)"
+                        >
                           <strong>Order: {{ notification?.data.order_id }}</strong>
                           <span class="text-muted small">
-                            {{ notification?.data.message }}
+                            {{ notification?.data.message }} - {{ getTimeAgo(notification?.created_at) }}
+
                           </span>
-                        </div>
+                        </a>
                       </li>
                     </ul>
                   </div>
