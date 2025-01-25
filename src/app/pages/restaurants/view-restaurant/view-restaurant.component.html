@@ -25,7 +25,7 @@
             <!--begin::Preview existing avatar-->
             <div
               class="image-input-wrapper w-125px h-125px bgi-position-center"
-              [ngStyle]="{ 'background-image': 'url(' + item.image + ')' }"
+              [ngStyle]="{ 'background-image': 'url(' + item?.image + ')' }"
             ></div>
             <!--end::Preview existing avatar-->
             <!--begin::Label-->
@@ -190,70 +190,68 @@
                 <tr>
                   <td>Monday</td>
                   <td>
-                    <input type="time" class="form-control" name="monday_open" value={{item?.timings[0].start_time}} />
+                    <input type="time" class="form-control" name="monday_open" value="{{ item?.schedule[0]?.start_time }}" />
                   </td>
                   <td>
-                    <input type="time" class="form-control" name="monday_close" value={{item?.timings[0].end_time}} />
+                    <input type="time" class="form-control" name="monday_close" value="{{ item?.schedule[0]?.end_time }}" />
                   </td>
                 </tr>
                 <tr>
                   <td>Tuesday</td>
                   <td>
-                    <input type="time" class="form-control" name="tuesday_open" value={{item?.timings[1].start_time}} />
+                    <input type="time" class="form-control" name="tuesday_open" value="{{ item?.schedule[1]?.start_time }}" />
                   </td>
                   <td>
-                    <input type="time" class="form-control" name="tuesday_close" value={{item?.timings[1].end_time}} />
+                    <input type="time" class="form-control" name="tuesday_close" value="{{ item?.schedule[1]?.end_time }}" />
                   </td>
                 </tr>
                 <tr>
                   <td>Wednesday</td>
                   <td>
-                    <input type="time" class="form-control" name="wednesday_open" value={{item?.timings[2].start_time}} />
+                    <input type="time" class="form-control" name="wednesday_open" value="{{ item?.schedule[2]?.start_time }}" />
                   </td>
                   <td>
-                    <input type="time" class="form-control" name="wednesday_close" value={{item?.timings[2].end_time}} />
+                    <input type="time" class="form-control" name="wednesday_close" value="{{ item?.schedule[2]?.end_time }}" />
                   </td>
                 </tr>
                 <tr>
                   <td>Thursday</td>
                   <td>
-                    <input type="time" class="form-control" name="thursday_open" value={{item?.timings[3].start_time}} />
+                    <input type="time" class="form-control" name="thursday_open" value="{{ item?.schedule[3]?.start_time }}" />
                   </td>
                   <td>
-                    <input type="time" class="form-control" name="thursday_close" value={{item?.timings[3].end_time}} />
+                    <input type="time" class="form-control" name="thursday_close" value="{{ item?.schedule[3]?.end_time }}" />
                   </td>
                 </tr>
                 <tr>
                   <td>Friday</td>
                   <td>
-                    <input type="time" class="form-control" name="friday_open" value={{item?.timings[4].start_time}} />
+                    <input type="time" class="form-control" name="friday_open" value="{{ item?.schedule[4]?.start_time }}" />
                   </td>
                   <td>
-                    <input type="time" class="form-control" name="friday_close" value={{item?.timings[4].end_time}} />
+                    <input type="time" class="form-control" name="friday_close" value="{{ item?.schedule[4]?.end_time }}" />
                   </td>
                 </tr>
                 <tr>
                   <td>Saturday</td>
                   <td>
-                    <input type="time" class="form-control" name="saturday_open" value={{item?.timings[5].start_time}} />
+                    <input type="time" class="form-control" name="saturday_open" value="{{ item?.schedule[5]?.start_time }}" />
                   </td>
                   <td>
-                    <input type="time" class="form-control" name="saturday_close" value={{item?.timings[5].end_time}} />
+                    <input type="time" class="form-control" name="saturday_close" value="{{ item?.schedule[5]?.end_time }}" />
                   </td>
                 </tr>
                 <tr>
                   <td>Sunday</td>
                   <td>
-                    <input type="time" class="form-control" name="sunday_open" value={{item?.timings[6].start_time}} />
+                    <input type="time" class="form-control" name="sunday_open" value="{{ item?.schedule[6]?.start_time }}" />
                   </td>
                   <td>
-                    <input type="time" class="form-control" name="sunday_close" value={{item?.timings[6].end_time}} />
+                    <input type="time" class="form-control" name="sunday_close" value="{{ item?.schedule[6]?.end_time }}" />
                   </td>
                 </tr>
               </tbody>
             </table>
-
-
           </div>
         </div>
         <!--end::Col-->
@@ -290,7 +288,7 @@
     </div>
     <!--end::Card body-->
     <!--begin::Card footer-->
-   
+
     <!--end::Card footer-->
   </form>
   <!--end:Form-->

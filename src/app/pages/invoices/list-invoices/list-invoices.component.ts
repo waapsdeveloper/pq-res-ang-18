@@ -36,12 +36,12 @@ export class ListInvoicesComponent  extends ListBlade{
           key: 'name',
           type: 'input',
           props: {
-            label: 'Restaurant Name',
-            placeholder: 'Enter restaurant name',
+            label: 'Branch Name',
+            placeholder: 'Enter Branch name',
             required: true,
             minLength: 3
           },
-          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
+          className: 'col-md-2 col-12' // 3 columns on md+, full width on small screens
         },
 
         {
@@ -52,7 +52,7 @@ export class ListInvoicesComponent  extends ListBlade{
             placeholder: 'Enter address',
             required: true
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
 
       ],
@@ -85,6 +85,8 @@ export class ListInvoicesComponent  extends ListBlade{
   async deleteRow(index: number) {
     try {
       await this.crudService.deleteRow(index, this.utility);
+      this.utility.presentSuccessToast('Deleted Sucessfully!');
+
       console.log('Row deleted successfully');
     } catch (error) {
       console.error('Error deleting row:', error);

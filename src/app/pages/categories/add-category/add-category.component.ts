@@ -35,19 +35,19 @@ export class AddCategoryComponent implements OnInit {
             required: true,
             minLength: 3
           },
-          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
+          className: 'col-md-2 col-12' // 3 columns on md+, full width on small screens
         },
         {
           key: 'restaurant_id',
           type: 'select',
           props: {
-            label: 'Restaurant Name',
-            placeholder: 'Enter Restaurant  name',
+            label: 'Branch Name',
+            placeholder: 'Enter Branch  name',
             options: [],
             required: true,
             minLength: 3
           },
-          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
+          className: 'col-md-2 col-12' // 3 columns on md+, full width on small screens
         },
         {
           key: 'description',
@@ -56,7 +56,7 @@ export class AddCategoryComponent implements OnInit {
             label: 'Description',
             placeholder: 'Enter description'
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'category_id',
@@ -66,7 +66,7 @@ export class AddCategoryComponent implements OnInit {
             placeholder: 'Select a parent category',
             options: []
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'image',
@@ -79,7 +79,7 @@ export class AddCategoryComponent implements OnInit {
             required: true,
             change: (field, event) => this.onFileChange(field, event, 'imageBase64')
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'status',
@@ -91,7 +91,7 @@ export class AddCategoryComponent implements OnInit {
               { value: 'inactive', label: 'Inactive' }
             ]
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         }
       ]
     }
@@ -125,7 +125,9 @@ export class AddCategoryComponent implements OnInit {
   async getCategories(): Promise<any[]> {
     let obj = {
       search: '',
-      perpage: 500
+      perpage: 500,
+
+      restaurant_id: localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1
     };
     const res = await this.network.getCategories(obj);
 
@@ -146,7 +148,9 @@ export class AddCategoryComponent implements OnInit {
   async getRestaurants(): Promise<any[]> {
     let obj = {
       search: '',
-      perpage: 500
+      perpage: 500,
+
+      restaurant_id: localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1
     };
     const res = await this.network.getRestaurants(obj);
 
@@ -163,8 +167,10 @@ export class AddCategoryComponent implements OnInit {
 
     return [];
   }
+
   async setRestaurantsInForm() {
     const res = await this.getRestaurants();
+
     console.log(res);
 
     for (var i = 0; i < this.fields.length; i++) {
@@ -184,11 +190,11 @@ export class AddCategoryComponent implements OnInit {
       // alert('Restaurant added successfully!');
 
       let d = Object.assign({}, this.form.value);
-
       d['image'] = this.model.imageBase64;
       const res = await this.network.addCategory(d);
       console.log(res);
       if (res) {
+        this.utility.presentSuccessToast('Category Created Succesfully!');
         this.nav.pop();
       }
     } else {

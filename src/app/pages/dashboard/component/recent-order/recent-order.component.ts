@@ -30,7 +30,7 @@ export class RecentOrderComponent implements OnInit {
 
       return {
         orderId: order.order_number || 'N/A',
-        name: orderArray.customer?.name || 'Walk in Customer',
+        name: order.customer?.name || 'Walk in Customer',
         phone: order.customer?.phone || 'N/A',
         amount: parseFloat(order.total_price) || 0,
         table: order.table_no || 'N/A',

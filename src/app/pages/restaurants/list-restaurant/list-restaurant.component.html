@@ -1,4 +1,4 @@
-<app-kt-list-page [title]="'Restaurants'" [addurl]="'/pages/restaurants/add'" (onFilter)="toggleFilters()">
+<app-kt-list-page [title]="'Branches'" [addurl]="'/pages/restaurants/add'" (onFilter)="toggleFilters()">
   <form [formGroup]="form" *ngIf="crudService.filters" (ngSubmit)="submitFilters(model)">
     <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
     <button type="submit" class="btn btn-secondary mt-4">search</button>

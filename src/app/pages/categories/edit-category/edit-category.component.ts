@@ -61,19 +61,19 @@ export class EditCategoryComponent implements OnInit {
             required: true,
             minLength: 3
           },
-          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
+          className: 'col-md-2 col-12' // 3 columns on md+, full width on small screens
         },
         {
           key: 'restaurant_id',
           type: 'select',
           props: {
-            label: 'Restaurant Name',
-            placeholder: 'Enter Restaurant  name',
+            label: 'Branch Name',
+            placeholder: 'Enter Branch  name',
             options: [],
             required: true,
             minLength: 3
           },
-          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
+          className: 'col-md-2 col-12' // 3 columns on md+, full width on small screens
         },
         {
           key: 'description',
@@ -82,7 +82,7 @@ export class EditCategoryComponent implements OnInit {
             label: 'Description',
             placeholder: 'Enter description'
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'category_id',
@@ -92,7 +92,7 @@ export class EditCategoryComponent implements OnInit {
             placeholder: 'Select a parent category',
             options: []
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'image',
@@ -104,7 +104,7 @@ export class EditCategoryComponent implements OnInit {
             accept: '.jpg,.jpeg,.png',
             change: (field, event) => this.onFileChange(field, event, 'imageBase64')
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'status',
@@ -116,7 +116,7 @@ export class EditCategoryComponent implements OnInit {
               { value: 'inactive', label: 'Inactive' }
             ]
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         }
       ]
     }
@@ -137,7 +137,9 @@ export class EditCategoryComponent implements OnInit {
   async getCategories(): Promise<any[]> {
     let obj = {
       search: '',
-      perpage: 500
+      perpage: 500,
+
+      restaurant_id: localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1
     };
     const res = await this.network.getCategories(obj);
 
@@ -158,7 +160,9 @@ export class EditCategoryComponent implements OnInit {
   async getRestaurants(): Promise<any[]> {
     let obj = {
       search: '',
-      perpage: 500
+      perpage: 500,
+
+      restaurant_id: localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1
     };
     const res = await this.network.getRestaurants(obj);
 
@@ -234,6 +238,7 @@ export class EditCategoryComponent implements OnInit {
       const res = await this.network.updateCategory(d, this.id);
       console.log(res);
       if (res) {
+        this.utility.presentSuccessToast('Category Updated!')
         this.nav.pop();
       }
     } else {

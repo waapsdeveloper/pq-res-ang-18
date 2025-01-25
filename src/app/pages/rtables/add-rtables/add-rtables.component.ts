@@ -11,17 +11,15 @@ import { UtilityService } from 'src/app/services/utility.service';
   styleUrl: './add-rtables.component.scss'
 })
 export class AddRtablesComponent {
-
-
   form = new FormGroup({});
   model = {
     restaurant_id: '',
     identifier: '',
     no_of_seats: '',
     floor: '',
-  //  location: '',
+    //  location: '',
     description: '',
-    status: '',
+    status: ''
   };
 
   fields: FormlyFieldConfig[] = [
@@ -34,20 +32,22 @@ export class AddRtablesComponent {
           props: {
             label: 'Restaurant',
             placeholder: 'Select a restaurant',
-            required: false,
-            options: [],
+            required: true,
+            options: []
           },
-          className: 'col-md-4 col-12',
-        },,{
+          className: 'col-md-2 col-12'
+        },
+        ,
+        {
           key: 'identifier',
           type: 'input',
           props: {
             label: 'Name',
             placeholder: 'Enter table name',
             required: true,
-            minLength: 3,
+            minLength: 3
           },
-          className: 'col-md-3 col-12', // 6 columns on md+, full width on small screens
+          className: 'col-md-2 col-12' // 6 columns on md+, full width on small screens
         },
         {
           key: 'no_of_seats',
@@ -57,9 +57,9 @@ export class AddRtablesComponent {
             placeholder: 'Enter number of seats',
             required: true,
             type: 'number', // Ensures numeric input
-            max: 255, // Constraint for maximum value
+            max: 255 // Constraint for maximum value
           },
-          className: 'col-md-3 col-12',
+          className: 'col-md-2 col-12'
         },
         {
           key: 'floor',
@@ -68,9 +68,9 @@ export class AddRtablesComponent {
             label: 'Floor',
             placeholder: 'Enter floor description',
             required: true,
-            maxLength: 500, // Constraint for maximum length
+            maxLength: 500 // Constraint for maximum length
           },
-          className: 'col-md-4 col-12',
+          className: 'col-md-2 col-12'
         },
 
         // {
@@ -83,18 +83,6 @@ export class AddRtablesComponent {
         //   },
         //   className: 'col-md-6 col-12',
         // },
-
-
-        {
-          key: 'description',
-          type: 'textarea',
-          props: {
-            label: 'Description',
-            placeholder: 'Enter a description',
-            required: false,
-          },
-          className: 'col-md-6 col-12', // Full width for description
-        },
         {
           key: 'status',
           type: 'select',
@@ -104,21 +92,31 @@ export class AddRtablesComponent {
             required: true,
             options: [
               { value: 'active', label: 'Active' },
-              { value: 'inactive', label: 'Inactive' },
-            ],
+              { value: 'inactive', label: 'Inactive' }
+            ]
           },
-          className: 'col-md-4 col-12',
+          className: 'col-md-2 col-12'
         },
-      ],
-    },
+
+        {
+          key: 'description',
+          type: 'textarea',
+          props: {
+            label: 'Description',
+            placeholder: 'Enter a description',
+            required: false
+          },
+          className: 'col-md-2 col-12' // Full width for description
+        }
+      ]
+    }
   ];
 
-
-
-
-  constructor(private nav: NavService, private network: NetworkService, private utility: UtilityService) {
-
-  }
+  constructor(
+    private nav: NavService,
+    private network: NetworkService,
+    private utility: UtilityService
+  ) {}
 
   ngOnInit(): void {
     this.setRoleInForm();
@@ -127,7 +125,9 @@ export class AddRtablesComponent {
   async getRestaurants(): Promise<any[]> {
     let obj = {
       search: '',
-      perpage: 500
+      perpage: 500,
+
+      restaurant_id: localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1
     };
     const res = await this.network.getRestaurants(obj);
 
@@ -163,36 +163,30 @@ export class AddRtablesComponent {
 
     for (var i = 0; i < this.fields.length; i++) {
       for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
-
         let fl = this.fields[i].fieldGroup[j];
         if (fl.key == 'role') {
           fl.props.options = res;
         }
       }
     }
-
-
-
   }
 
   // get roles array
   async getRoles(): Promise<any[]> {
     let obj = {
       search: ''
-    }
+    };
     const res = await this.network.getRoles(obj);
 
     if (res && res['data']) {
-
       let d = res['data'];
       let dm = d['data'];
-      return dm.map(r => {
+      return dm.map((r) => {
         return {
           value: r.id,
           label: r.name
-        }
+        };
       }) as any[];
-
     }
 
     return [];
@@ -208,6 +202,8 @@ export class AddRtablesComponent {
       const res = await this.network.addTable(d);
       console.log(res);
       if (res) {
+        this.utility.presentSuccessToast('Table added Succesfully!');
+
         this.nav.pop();
       }
     } else {

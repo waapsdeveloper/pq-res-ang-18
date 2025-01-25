@@ -34,7 +34,7 @@ export class AddProductComponent {
 
   fields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: 'row', // Bootstrap row
+      fieldGroupClassName: 'row', // Single row for all fields
       fieldGroup: [
         {
           key: 'name',
@@ -45,34 +45,29 @@ export class AddProductComponent {
             required: true,
             minLength: 3
           },
-          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
+          className: 'col-md-2 col-12'
         },
         {
           key: 'category_id',
           type: 'select',
           props: {
-            label: 'category',
+            label: 'Category',
             placeholder: 'Select a category',
             options: []
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'restaurant_id',
           type: 'select',
           props: {
-            label: 'Restaurant',
+            label: 'Branch',
             placeholder: 'Select a restaurant',
-            required: false, // nullable
+            required: true, // nullable
             options: []
           },
-          className: 'col-md-4 col-12'
-        }
-      ]
-    },
-    {
-      fieldGroupClassName: 'row', // Bootstrap row
-      fieldGroup: [
+          className: 'col-md-2 col-12'
+        },
         {
           key: 'description',
           type: 'input',
@@ -82,7 +77,7 @@ export class AddProductComponent {
             required: true,
             minLength: 3
           },
-          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
+          className: 'col-md-2 col-12'
         },
         {
           key: 'status',
@@ -94,13 +89,8 @@ export class AddProductComponent {
               { value: 'inactive', label: 'Inactive' }
             ]
           },
-          className: 'col-md-4 col-12'
-        }
-      ]
-    },
-    {
-      fieldGroupClassName: 'row', // Bootstrap row
-      fieldGroup: [
+          className: 'col-md-2 col-12'
+        },
         {
           key: 'price',
           type: 'input',
@@ -109,7 +99,7 @@ export class AddProductComponent {
             placeholder: 'Set a regular price',
             type: 'number'
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'image',
@@ -122,7 +112,7 @@ export class AddProductComponent {
             required: true,
             change: (field, event) => this.onFileChange(field, event, 'imageBase64')
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'discount',
@@ -132,7 +122,7 @@ export class AddProductComponent {
             placeholder: 'Set a discount',
             type: 'number'
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         }
       ]
     }
@@ -168,11 +158,12 @@ export class AddProductComponent {
     this.fetchSuggestions(query); // Fetch and display suggestions based on input
   }
 
-
   async getRestaurants(): Promise<any[]> {
     let obj = {
       search: '',
-      perpage: 500
+      perpage: 500,
+
+      restaurant_id: localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1
     };
     const res = await this.network.getRestaurants(obj);
 
@@ -219,7 +210,8 @@ export class AddProductComponent {
   async getCategories(): Promise<any[]> {
     let obj = {
       search: '',
-      perpage: 500
+      perpage: 500,
+      restaurant_id: localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1
     };
     const res = await this.network.getCategories(obj);
 
@@ -256,6 +248,7 @@ export class AddProductComponent {
       const res = await this.network.addProduct(d);
       console.log(res);
       if (res) {
+        this.utility.presentSuccessToast('Products Created Succesfully!');
         this.nav.pop();
       }
     } else {
@@ -288,9 +281,7 @@ export class AddProductComponent {
     if (!input) return; // Do nothing if the input is empty
 
     // Check if the variation type already exists in the list
-    const existingVariation = this.variations.find(
-      (item) => item.type.toLowerCase() === input.toLowerCase()
-    );
+    const existingVariation = this.variations.find((item) => item.type.toLowerCase() === input.toLowerCase());
 
     if (!existingVariation) {
       // If variation does not exist, add it using addVariation
@@ -303,16 +294,12 @@ export class AddProductComponent {
     this.addAttributeInput = ''; // Clear the input
   }
 
-
   selectAttribute(type: string) {
     this.variations = this.variations.map((item) => {
       item['selected'] = item.type === type; // Select the matching type
       return item;
     });
   }
-
-
-
 
   addVariation(type: string) {
     // Deselect all existing variations
@@ -330,7 +317,6 @@ export class AddProductComponent {
       ]
     });
   }
-
 
   addItemINVariation() {
     const index = this.variations.findIndex((x) => x.selected == true);
@@ -350,44 +336,39 @@ export class AddProductComponent {
     this.variations[variationIndex].options.splice(optionIndex, 1);
   }
   async fetchSuggestions(query: string) {
-
-    let v = query.trim()
+    let v = query.trim();
 
     if (!v) {
       this.filteredSuggestions = []; // Clear suggestions if input is empty
       return;
     }
 
-
     let obj = {
       search: v
-    }
+    };
 
     const res = await this.network.getVariations(obj);
     let array = res?.data?.data || [];
     this.filteredSuggestions = array;
   }
 
-
   selectSuggestion(suggestion: any) {
+    console.log(suggestion);
+    let meta = JSON.parse(suggestion.meta_value);
+    //   let meta = suggestion.meta_value
+    console.log(meta);
 
-console.log(suggestion)
-    let meta = JSON.parse(suggestion.meta_value)
-    console.log(meta)
-
-
-
-     this.addAttributeInput = suggestion.name;
-     this.variations = [
+    this.addAttributeInput = suggestion.name;
+    this.variations = [
       ...this.variations,
       ...meta.map((metaItem: any) => ({
         type: metaItem.type,
-        selected:false,
-        options: metaItem.options || [],
-      })),
+        selected: false,
+        options: metaItem.options || []
+      }))
     ];
 
-     // Fill input with the selected suggestion
+    // Fill input with the selected suggestion
     // this.filteredSuggestions = []; // Clear suggestions
   }
 }

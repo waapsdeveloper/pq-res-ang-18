@@ -69,7 +69,7 @@ export class EditUserComponent implements OnInit {
             required: true,
             minLength: 3
           },
-          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
+          className: 'col-md-2 col-12' // 3 columns on md+, full width on small screens
         },
 
         {
@@ -81,7 +81,7 @@ export class EditUserComponent implements OnInit {
             required: true,
             type: 'email'
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'password',
@@ -93,7 +93,7 @@ export class EditUserComponent implements OnInit {
 
             minLength: 6
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'address',
@@ -103,7 +103,7 @@ export class EditUserComponent implements OnInit {
             placeholder: 'Enter address',
             required: true
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'city',
@@ -113,7 +113,7 @@ export class EditUserComponent implements OnInit {
             placeholder: 'Enter city',
             required: false // nullable
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'state',
@@ -123,7 +123,7 @@ export class EditUserComponent implements OnInit {
             placeholder: 'Enter state',
             required: false // nullable
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'country',
@@ -133,7 +133,7 @@ export class EditUserComponent implements OnInit {
             placeholder: 'Enter country',
             required: false // nullable
           },
-          className: 'col-md-4 xcol-12'
+          className: 'col-md-2 xcol-12'
         },
         {
           key: 'image',
@@ -145,25 +145,20 @@ export class EditUserComponent implements OnInit {
             accept: 'image/*',
             change: (field, event) => this.onFileChange(field, event, 'imageBase64')
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'restaurant_id',
           type: 'select',
           props: {
-            label: 'Restaurant Name',
-            placeholder: 'Enter Restaurant  name',
+            label: 'Branch Name',
+            placeholder: 'Enter Branch  name',
             options: [],
-            minLength: 3
+            minLength: 3,
+            required:true,
           },
-          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
-        }
-      ]
-    },
-    {
-      fieldGroupClassName: 'row',
-      fieldGroup: [
-
+          className: 'col-md-2 col-12' // 3 columns on md+, full width on small screens
+        },
         {
           key: 'phone',
           type: 'input',
@@ -173,7 +168,7 @@ export class EditUserComponent implements OnInit {
             type: 'tel'
             // pattern: '^\\+?[1-9]\\d{1,14}$', // Example pattern for international numbers
           },
-          className: 'col-md-3 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'role_id',
@@ -184,7 +179,7 @@ export class EditUserComponent implements OnInit {
             required: true,
             options: []
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'status',
@@ -198,17 +193,20 @@ export class EditUserComponent implements OnInit {
               { value: 'inactive', label: 'Inactive' }
             ]
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         }
       ]
     }
-  ];
+      ]
+
 
 
   async getRestaurants(): Promise<any[]> {
     let obj = {
       search: '',
-      perpage: 500
+      perpage: 500,
+
+      restaurant_id: localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1
     };
     const res = await this.network.getRestaurants(obj);
 
@@ -338,6 +336,7 @@ export class EditUserComponent implements OnInit {
       const res = await this.network.updateUser(d, this.id);
       console.log(res);
       if (res) {
+        this.utility.presentSuccessToast('User Information Updated!')
         this.nav.pop();
       }
     } else {

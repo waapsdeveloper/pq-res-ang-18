@@ -67,7 +67,7 @@ export class ListUserComponent extends ListBlade {
             label: 'Name',
             placeholder: 'Enter Name'
           },
-          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
+          className: 'col-md-2 col-12' // 3 columns on md+, full width on small screens
         },
         {
           key: 'email',
@@ -76,7 +76,7 @@ export class ListUserComponent extends ListBlade {
             label: 'Email',
             placeholder: ''
           },
-          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
+          className: 'col-md-2 col-12' // 3 columns on md+, full width on small screens
         },
         {
           key: 'phone',
@@ -84,10 +84,10 @@ export class ListUserComponent extends ListBlade {
           props: {
             label: 'Phone Number',
             placeholder: 'Enter phone ',
-            
+
             type: 'tel'
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'role_id',
@@ -99,7 +99,7 @@ export class ListUserComponent extends ListBlade {
               { value: 'inactive', label: 'Inactive' }
             ]
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'status',
@@ -112,7 +112,7 @@ export class ListUserComponent extends ListBlade {
 
             ]
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         }
       ]
     }
@@ -181,6 +181,8 @@ export class ListUserComponent extends ListBlade {
   async deleteRow(index: number) {
     try {
       await this.crudService.deleteRow(index, this.utility);
+      this.utility.presentSuccessToast('Deleted Sucessfully!');
+
       console.log('Row deleted successfully');
     } catch (error) {
       console.error('Error deleting row:', error);

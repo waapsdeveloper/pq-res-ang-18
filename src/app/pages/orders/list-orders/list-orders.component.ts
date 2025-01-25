@@ -43,7 +43,7 @@ override  model = {
             pattern: '^[a-zA-Z0-9-_]+$', // Alphanumeric with optional hyphen/underscore
             title: 'Order ID can only contain letters, numbers, hyphens, and underscores'
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'Customer_name',
@@ -54,7 +54,7 @@ override  model = {
             required: false,
             minLength: 3
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'phone',
@@ -67,7 +67,7 @@ override  model = {
             pattern: '\\d{11}',
             title: 'Enter a valid 10-digit phone number'
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'total_price',
@@ -80,7 +80,7 @@ override  model = {
             min: 0,
             step: 0.01 // For decimal prices
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'table',
@@ -92,7 +92,7 @@ override  model = {
             type: 'number',
             min: 0
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'type',
@@ -106,7 +106,7 @@ override  model = {
             ],
             required: false
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'status',
@@ -120,7 +120,7 @@ override  model = {
             ],
             required: false
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         }
 
       ],
@@ -177,6 +177,8 @@ override  model = {
   async deleteRow(index: number) {
     try {
       await this.crudService.deleteRow(index, this.utility);
+      this.utility.presentSuccessToast('Deleted Sucessfully!');
+
       console.log('Row deleted successfully');
     } catch (error) {
       console.error('Error deleting row:', error);

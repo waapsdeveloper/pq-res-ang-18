@@ -2,6 +2,7 @@ import { NavService } from 'src/app/services/basic/nav.service';
 import { UsersService } from 'src/app/services/users.service';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { GlobalRestaurantService } from 'src/app/services/global-restaurant.service';
+import { NetworkService } from 'src/app/services/network.service';
 
 
 @Component({
@@ -13,12 +14,13 @@ export class BtopHeaderComponent {
   @Input('title') title = ''
   @Input('addurl') addurl = '/pages/orders/add'
   @Output('onSearch') onSearch = new EventEmitter<any>();
-
+  unread:any
+  notifications:any;
   restaurant$: any;
 
   menuItems = [
     { label: 'Dashboard', link: '/pages/dashboard', icon: 'ti ti-layout-dashboard' },
-    { label: 'Restaurants', link: '/pages/restaurants', icon: 'ti ti-soup' },
+    { label: 'Branches', link: '/pages/restaurants', icon: 'ti ti-soup' },
     { label: 'Users', link: '/pages/users', icon: 'ti ti-users' },
     { label: 'Categories', link: '/pages/categories', icon: 'ti ti-drag-drop-2' },
     { label: 'All Menu', link: '/pages/products', icon: 'ti ti-artboard' },
@@ -31,7 +33,7 @@ export class BtopHeaderComponent {
   //   { label: 'Customers', link: '/pages/customers', icon: 'ti ti-user-plus' },
    ];
 
-  constructor(private nav: NavService, private users: UsersService, public grService: GlobalRestaurantService){
+  constructor(private nav: NavService, private users: UsersService, public grService: GlobalRestaurantService,private network:NetworkService){
     this.initialize();
 
     this.grService.getRestaurant().subscribe( data => {
@@ -42,9 +44,16 @@ export class BtopHeaderComponent {
   }
 
 
-  initialize(){
+ async  initialize(){
     // filter menu
     const u = this.users.getUser()
+    let notifications = await this.network.getNotifications();
+   let unreads = await this.network.getUnreadNotifications();
+   this.notifications = notifications.data
+   console.log("Notification" , this.notifications)
+
+   this.unread = unreads.data;
+   console.log(" UNread Notification" ,this.unread);
 
 
     console.log("u", u)

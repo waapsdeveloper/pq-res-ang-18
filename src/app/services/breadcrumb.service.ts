@@ -3,7 +3,6 @@ import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-
 export interface Breadcrumb {
   label: string;
   url: string;
@@ -14,28 +13,32 @@ export interface Breadcrumb {
   providedIn: 'root'
 })
 export class BreadcrumbService {
-
   private breadcrumbs = new BehaviorSubject<Breadcrumb[]>([]);
   breadcrumbs$ = this.breadcrumbs.asObservable();
 
   constructor(private router: Router) {
-    this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => {
-        const root = this.router.routerState.snapshot.root;
-        const breadcrumbs = this.createBreadcrumbs(root);
-        this.breadcrumbs.next(breadcrumbs);
-      });
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
+      const root = this.router.routerState.snapshot.root;
+      const breadcrumbs = this.createBreadcrumbs(root);
+      this.breadcrumbs.next(breadcrumbs);
+    });
   }
 
-  public getBreadcrumbs(){
+  public getBreadcrumbs() {
     const root = this.router.routerState.snapshot.root;
-    return this.createBreadcrumbs(root);
+    const breadcrumbs = this.createBreadcrumbs(root);
 
+    for (let i = 0; i < breadcrumbs.length; i++) {
+      if (breadcrumbs[i].label === 'Restaurant') {
+        breadcrumbs[i].label = 'Branches';
+        break;
+      }
+    }
+
+    return breadcrumbs;
   }
 
   private createBreadcrumbs(route: ActivatedRouteSnapshot, url: string = '', breadcrumbs: Breadcrumb[] = []): Breadcrumb[] {
-
     if (route) {
       const routeUrl = route.url.map((segment) => segment.path).join('/');
       const nextUrl = routeUrl ? `${url}/${routeUrl}` : url;
@@ -44,7 +47,7 @@ export class BreadcrumbService {
         breadcrumbs.push({
           label: route.data['breadcrumb'],
           url: nextUrl,
-          active: !route.firstChild, // Mark the last breadcrumb as active
+          active: !route.firstChild // Mark the last breadcrumb as active
         });
       }
 
@@ -54,7 +57,4 @@ export class BreadcrumbService {
     }
     return breadcrumbs;
   }
-
-
-
 }

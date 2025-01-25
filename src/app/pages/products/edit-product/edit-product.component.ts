@@ -78,7 +78,7 @@ export class EditProductComponent implements OnInit, AfterViewInit {
 
   fields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: 'row', // Bootstrap row
+      fieldGroupClassName: 'row', // Single row for all fields
       fieldGroup: [
         {
           key: 'name',
@@ -89,34 +89,29 @@ export class EditProductComponent implements OnInit, AfterViewInit {
             required: true,
             minLength: 3
           },
-          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
+          className: 'col-md-2 col-12'
         },
         {
           key: 'category_id',
           type: 'select',
           props: {
-            label: 'category',
+            label: 'Category',
             placeholder: 'Select a category',
             options: []
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'restaurant_id',
           type: 'select',
           props: {
-            label: 'Restaurant',
-            placeholder: 'Select a restaurant',
+            label: 'Branch',
+            placeholder: 'Select a Branch',
             required: true, // nullable
             options: []
           },
-          className: 'col-md-4 col-12'
-        }
-      ]
-    },
-    {
-      fieldGroupClassName: 'row', // Bootstrap row
-      fieldGroup: [
+          className: 'col-md-2 col-12'
+        },
         {
           key: 'description',
           type: 'input',
@@ -126,7 +121,7 @@ export class EditProductComponent implements OnInit, AfterViewInit {
             required: true,
             minLength: 3
           },
-          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
+          className: 'col-md-2 col-12'
         },
         {
           key: 'status',
@@ -138,13 +133,8 @@ export class EditProductComponent implements OnInit, AfterViewInit {
               { value: 'inactive', label: 'Inactive' }
             ]
           },
-          className: 'col-md-4 col-12'
-        }
-      ]
-    },
-    {
-      fieldGroupClassName: 'row', // Bootstrap row
-      fieldGroup: [
+          className: 'col-md-2 col-12'
+        },
         {
           key: 'price',
           type: 'input',
@@ -153,7 +143,7 @@ export class EditProductComponent implements OnInit, AfterViewInit {
             placeholder: 'Set a regular price',
             type: 'number'
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'image',
@@ -163,9 +153,10 @@ export class EditProductComponent implements OnInit, AfterViewInit {
             placeholder: 'Enter image URL',
             type: 'file',
             accept: 'image/*',
+            required: true,
             change: (field, event) => this.onFileChange(field, event, 'imageBase64')
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'discount',
@@ -175,58 +166,12 @@ export class EditProductComponent implements OnInit, AfterViewInit {
             placeholder: 'Set a discount',
             type: 'number'
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         }
       ]
     }
-    // {
-    //   fieldGroupClassName: 'row', // Bootstrap row
-    //   fieldGroup: [
-    //     // option for small medium large - select
-    //     {
-    //       key: 'sizes',
-    //       type: 'multicheckbox',
-    //       props: {
-    //         label: 'Sizes',
-    //         options: [
-    //           { value: 'small', label: 'Small' },
-    //           { value: 'medium', label: 'Medium' },
-    //           { value: 'large', label: 'Large' }
-    //         ]
-    //       },
-    //       className: 'col-md-4 col-12'
-    //     },
-    //     // option for spicy level - select
-    //     {
-    //       key: 'spicy',
-    //       type: 'multicheckbox',
-    //       props: {
-    //         label: 'Spicy Level',
-    //         options: [
-    //           { value: 'mild', label: 'Mild' },
-    //           { value: 'medium', label: 'Medium' },
-    //           { value: 'hot', label: 'Hot' }
-    //         ]
-    //       },
-    //       className: 'col-md-4 col-12'
-    //     },
-    //     // options for either breakfast, lunch or dinner - select
-    //     {
-    //       key: 'type',
-    //       type: 'multicheckbox',
-    //       props: {
-    //         label: 'Type',
-    //         options: [
-    //           { value: 'breakfast', label: 'Breakfast' },
-    //           { value: 'lunch', label: 'Lunch' },
-    //           { value: 'dinner', label: 'Dinner' }
-    //         ]
-    //       },
-    //       className: 'col-md-4 col-12'
-    //     }
-    //   ]
-    // }
   ];
+
   async ngAfterViewInit() {
     const res = await this.network.getProductsById(this.id);
     let d = Object.assign({}, res.product);
@@ -304,7 +249,9 @@ export class EditProductComponent implements OnInit, AfterViewInit {
   async getRestaurants(): Promise<any[]> {
     let obj = {
       search: '',
-      perpage: 500
+      perpage: 500,
+
+      restaurant_id: localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1
     };
     const res = await this.network.getRestaurants(obj);
 
@@ -350,7 +297,9 @@ export class EditProductComponent implements OnInit, AfterViewInit {
   async getCategories(): Promise<any[]> {
     let obj = {
       search: '',
-      perpage: 500
+      perpage: 500,
+
+      restaurant_id: localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1
     };
     const res = await this.network.getCategories(obj);
 
@@ -384,6 +333,8 @@ export class EditProductComponent implements OnInit, AfterViewInit {
       const res = await this.network.updateProduct(d, this.id);
       console.log(res);
       if (res) {
+        this.utility.presentSuccessToast('Product Info Updated!');
+
         this.nav.pop();
       }
     } else {

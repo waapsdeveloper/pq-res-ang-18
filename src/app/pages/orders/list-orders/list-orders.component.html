@@ -63,7 +63,18 @@
       </td>
       <td>
         <div class="d-flex">
-          <div class="badge badge-light-primary fw-bold me-auto px-4 py-3">{{ item?.status}}</div>
+          <div
+            class="badge fw-bold me-auto px-4 py-3"
+            [ngClass]="{
+              'badge-pending': item?.status === 'Pending',
+              'badge-out-for-delivery': item?.status === 'Out For Delivery',
+              'badge-delivered': item?.status === 'Delivered',
+              'badge-preparing': item?.status === 'Preparing',
+              'badge-canceled': item?.status === 'Canceled',
+            }"
+          >
+            {{ item?.status }}
+          </div>
         </div>
       </td>
 
@@ -100,7 +111,7 @@
             <!-- Title Loader -->
             <ngx-skeleton-loader
               appearance="custom-content"
-              [theme]="{ width: '150px', height: '20px', background: 'rgba(0,0,0,0.2)'}"
+              [theme]="{ width: '150px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
               [animation]="true"
             ></ngx-skeleton-loader>
           </div>
@@ -112,7 +123,7 @@
         <div class="d-flex align-items-center">
           <ngx-skeleton-loader
             appearance="custom-content"
-            [theme]="{ width: '120px', height: '20px' ,background: 'rgba(0,0,0,0.2)'}"
+            [theme]="{ width: '120px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
             [animation]="true"
           ></ngx-skeleton-loader>
         </div>
@@ -121,7 +132,7 @@
         <div class="d-flex align-items-center">
           <ngx-skeleton-loader
             appearance="custom-content"
-            [theme]="{ width: '120px', height: '20px',background: 'rgba(0,0,0,0.2)'}"
+            [theme]="{ width: '120px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
             [animation]="true"
           ></ngx-skeleton-loader>
         </div>
@@ -131,19 +142,25 @@
       <td>
         <ngx-skeleton-loader
           appearance="custom-content"
-          [theme]="{ width: '100px', height: '20px', 'border-radius': '12px' ,background: 'rgba(0,0,0,0.2)'}"
+          [theme]="{ width: '100px', height: '20px', 'border-radius': '12px', background: 'rgba(0,0,0,0.2)' }"
         ></ngx-skeleton-loader>
-      </td>
-      <td>
-        <ngx-skeleton-loader appearance="custom-content" [theme]="{ width: '60px', height: '20px',background: 'rgba(0,0,0,0.2)' }"></ngx-skeleton-loader>
-      </td>
-      <td>
-        <ngx-skeleton-loader appearance="custom-content" [theme]="{ width: '100px', height: '20px',background: 'rgba(0,0,0,0.2)' }"></ngx-skeleton-loader>
       </td>
       <td>
         <ngx-skeleton-loader
           appearance="custom-content"
-          [theme]="{ width: '100px', height: '20px', 'border-radius': '12px' ,background: 'rgba(0,0,0,0.2)'}"
+          [theme]="{ width: '60px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
+        ></ngx-skeleton-loader>
+      </td>
+      <td>
+        <ngx-skeleton-loader
+          appearance="custom-content"
+          [theme]="{ width: '100px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
+        ></ngx-skeleton-loader>
+      </td>
+      <td>
+        <ngx-skeleton-loader
+          appearance="custom-content"
+          [theme]="{ width: '100px', height: '20px', 'border-radius': '12px', background: 'rgba(0,0,0,0.2)' }"
         ></ngx-skeleton-loader>
       </td>
       <!-- Action Icons -->
@@ -152,7 +169,7 @@
           <ngx-skeleton-loader
             *ngFor="let _ of [1, 2, 3, 4]"
             appearance="custom-content"
-            [theme]="{ width: '24px', height: '24px' ,background: 'rgba(0,0,0,0.2)'}"
+            [theme]="{ width: '24px', height: '24px', background: 'rgba(0,0,0,0.2)' }"
           ></ngx-skeleton-loader>
         </div>
       </td>

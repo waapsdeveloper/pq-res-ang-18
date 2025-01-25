@@ -40,9 +40,9 @@ export class AddUserComponent implements OnInit {
             label: 'Name',
             placeholder: 'Enter user name',
             required: true,
-            minLength: 3,
+            minLength: 3
           },
-          className: 'col-md-4 col-12', // 3 columns on md+, full width on small screens
+          className: 'col-md-2 col-12' // 3 columns on md+, full width on small screens
         },
 
         {
@@ -52,9 +52,9 @@ export class AddUserComponent implements OnInit {
             label: 'Email Address',
             placeholder: 'Enter email',
             required: true,
-            type: 'email',
+            type: 'email'
           },
-          className: 'col-md-4 col-12',
+          className: 'col-md-2 col-12'
         },
         {
           key: 'password',
@@ -63,10 +63,10 @@ export class AddUserComponent implements OnInit {
             label: 'Password',
             type: 'password',
             placeholder: 'Enter password',
-            required: true,
-            minLength: 6,
+
+            minLength: 6
           },
-          className: 'col-md-4 col-12',
+          className: 'col-md-2 col-12'
         },
         {
           key: 'address',
@@ -74,9 +74,45 @@ export class AddUserComponent implements OnInit {
           props: {
             label: 'Address Line',
             placeholder: 'Enter address',
-            required: true,
+            required: true
           },
-          className: 'col-md-4 col-12',
+          className: 'col-md-2 col-12'
+        },
+        {
+          key: 'phone',
+          type: 'input',
+          props: {
+            label: 'Phone Number',
+            placeholder: 'XXX- XXX- XXXX',
+            type: 'tel'
+            // pattern: '^\\+?[1-9]\\d{1,14}$', // Example pattern for international numbers
+          },
+          className: 'col-md-2 col-12'
+        },
+        {
+          key: 'role_id',
+          type: 'select',
+          props: {
+            label: 'Role',
+            placeholder: 'Select a role',
+            required: true,
+            options: []
+          },
+          className: 'col-md-2 col-12'
+        },
+        {
+          key: 'status',
+          type: 'select',
+          props: {
+            label: 'Status',
+            placeholder: 'Select status',
+            required: true,
+            options: [
+              { value: 'active', label: 'Active' },
+              { value: 'inactive', label: 'Inactive' }
+            ]
+          },
+          className: 'col-md-2 col-12'
         },
         {
           key: 'city',
@@ -84,9 +120,9 @@ export class AddUserComponent implements OnInit {
           props: {
             label: 'City',
             placeholder: 'Enter city',
-            required: false, // nullable
+            required: false // nullable
           },
-          className: 'col-md-4 col-12',
+          className: 'col-md-2 col-12'
         },
         {
           key: 'state',
@@ -94,9 +130,9 @@ export class AddUserComponent implements OnInit {
           props: {
             label: 'State',
             placeholder: 'Enter state',
-            required: false, // nullable
+            required: false // nullable
           },
-          className: 'col-md-4 col-12',
+          className: 'col-md-2 col-12'
         },
         {
           key: 'country',
@@ -104,9 +140,9 @@ export class AddUserComponent implements OnInit {
           props: {
             label: 'Country',
             placeholder: 'Enter country',
-            required: false, // nullable
+            required: false // nullable
           },
-          className: 'col-md-4 xcol-12',
+          className: 'col-md-2 xcol-12'
         },
         {
           key: 'image',
@@ -118,66 +154,25 @@ export class AddUserComponent implements OnInit {
             accept: 'image/*',
             change: (field, event) => this.onFileChange(field, event, 'imageBase64')
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
-
-
         {
           key: 'restaurant_id',
           type: 'select',
           props: {
-            label: 'Restaurant Name',
-            placeholder: 'Enter Restaurant  name',
+            label: 'Branch Name',
+            placeholder: 'Enter Branch name',
             options: [],
+            minLength: 3,
+            required:true,
           },
-          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
+          className: 'col-md-2 col-12' // 3 columns on md+, full width on small screens
         },
-      ],
 
-    },
-    {
-      fieldGroupClassName: 'row',
-      fieldGroup: [
+      ]
+    }
 
-        {
-          key: 'phone',
-          type: 'input',
-          props: {
-            label: 'Phone Number',
-            placeholder: 'XXX- XXX- XXXX',
-            type: 'tel',
-            // pattern: '^\\+?[1-9]\\d{1,14}$', // Example pattern for international numbers
-          },
-          className: 'col-md-3 col-12',
-        },
-        {
-          key: 'role_id',
-          type: 'select',
-          props: {
-            label: 'Role',
-            placeholder: 'Select a role',
-            required: true,
-            options: []
-          },
-          className: 'col-md-4 col-12',
-        },
-        {
-          key: 'status',
-          type: 'select',
-          props: {
-            label: 'Status',
-            placeholder: 'Select status',
-            required: true,
-            options: [
-              { value: 'active', label: 'Active' },
-              { value: 'inactive', label: 'Inactive' },
-            ],
-          },
-          className: 'col-md-4 col-12',
-        },
-      ],
-    },
-  ];
+  ]
 
 
 
@@ -246,7 +241,10 @@ export class AddUserComponent implements OnInit {
   // get roles array
   async getRoles(): Promise<any[]> {
     let obj = {
-      search: ''
+      search: '',
+
+      restaurant_id: localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1
+
     }
     const res = await this.network.getRoles(obj);
 
@@ -296,6 +294,7 @@ export class AddUserComponent implements OnInit {
       const res = await this.network.addUser(d);
       console.log(res);
       if (res) {
+        this.utility.presentSuccessToast('User Created Succesfully!')
         this.nav.pop();
       }
     } else {

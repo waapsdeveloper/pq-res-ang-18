@@ -31,7 +31,9 @@ export class EditRtablesComponent implements OnInit {
   async getRestaurants(): Promise<any[]> {
     let obj = {
       search: '',
-      perpage: 500
+      perpage: 500,
+
+      restaurant_id: localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1
     };
     const res = await this.network.getRestaurants(obj);
 
@@ -57,13 +59,11 @@ export class EditRtablesComponent implements OnInit {
         let fl = this.fields[i].fieldGroup[j];
         if (fl && fl.key === 'restaurant_id') {
           fl.props = fl.props || {}; // Ensure props exists
-          fl.props.options = res;}
+          fl.props.options = res;
+        }
       }
     }
   }
-
-
-
 
   async initialize() {
     // Fetch the data from the server
@@ -89,14 +89,25 @@ export class EditRtablesComponent implements OnInit {
           key: 'restaurant_id',
           type: 'select',
           props: {
-            label: 'Restaurant',
-            placeholder: 'Select a restaurant',
-            required: false,
+            label: 'Branch',
+            placeholder: 'Select a Branch',
+            required: true,
             options: []
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
-
+        ,
+        {
+          key: 'identifier',
+          type: 'input',
+          props: {
+            label: 'Name',
+            placeholder: 'Enter table name',
+            required: true,
+            minLength: 3
+          },
+          className: 'col-md-2 col-12' // 6 columns on md+, full width on small screens
+        },
         {
           key: 'no_of_seats',
           type: 'input',
@@ -107,7 +118,7 @@ export class EditRtablesComponent implements OnInit {
             type: 'number', // Ensures numeric input
             max: 255 // Constraint for maximum value
           },
-          className: 'col-md-3 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'floor',
@@ -118,7 +129,7 @@ export class EditRtablesComponent implements OnInit {
             required: true,
             maxLength: 500 // Constraint for maximum length
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
 
         // {
@@ -127,21 +138,10 @@ export class EditRtablesComponent implements OnInit {
         //   props: {
         //     label: 'Location',
         //     placeholder: 'Near west wall',
-        //     required: true
+        //     required: true,
         //   },
-        //   className: 'col-md-6 col-12'
+        //   className: 'col-md-6 col-12',
         // },
-
-        {
-          key: 'description',
-          type: 'textarea',
-          props: {
-            label: 'Description',
-            placeholder: 'Enter a description',
-            required: false
-          },
-          className: 'col-md-6 col-12' // Full width for description
-        },
         {
           key: 'status',
           type: 'select',
@@ -154,7 +154,18 @@ export class EditRtablesComponent implements OnInit {
               { value: 'inactive', label: 'Inactive' }
             ]
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
+        },
+
+        {
+          key: 'description',
+          type: 'textarea',
+          props: {
+            label: 'Description',
+            placeholder: 'Enter a description',
+            required: false
+          },
+          className: 'col-md-2 col-12' // Full width for description
         }
       ]
     }
@@ -163,17 +174,15 @@ export class EditRtablesComponent implements OnInit {
     const res = await this.network.getTablesById(this.id);
     let d = Object.assign({}, res.Rtable);
     console.log(d);
-   // Dynamic model assignment
-this.model = {
-  restaurant_id: d.restaurant_id  || '', // Matches `model`
-  no_of_seats: d.no_of_seats || '',     // Matches `model`
-  floor: d.floor || '',                 // Matches `model`
-  // location: d.location || '',           // Matches `model`
-  description: d.description || '',     // Matches `model`
-  status: d.status || ''                // Matches `model`
-};
-
-
+    // Dynamic model assignment
+    this.model = {
+      restaurant_id: d.restaurant_id || '', // Matches `model`
+      no_of_seats: d.no_of_seats || '', // Matches `model`
+      floor: d.floor || '', // Matches `model`
+      // location: d.location || '',           // Matches `model`
+      description: d.description || '', // Matches `model`
+      status: d.status || '' // Matches `model`
+    };
   }
 
   async onSubmit(model) {
@@ -187,6 +196,7 @@ this.model = {
       const res = await this.network.updateTable(d, this.id);
       console.log(res);
       if (res) {
+        this.utility.presentSuccessToast('Table Updated!');
         this.nav.pop();
       }
     } else {

@@ -1,3 +1,4 @@
+import { GlobalRestaurantService } from './global-restaurant.service';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from './api.service';
@@ -13,7 +14,8 @@ export class NetworkService {
   constructor(
     public api: ApiService,
     public router: Router,
-    public utility: UtilityService
+    public utility: UtilityService,
+    public restService: GlobalRestaurantService
   ) {}
 
   //Dashboard APi
@@ -52,8 +54,10 @@ export class NetworkService {
   // Standard CRUD calls
 
   index(slug, params) {
+    console.log(localStorage.getItem('restuarant_id'));
+    params['restaurant_id'] = localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1;
     const query = this.serialize(params);
-    return this.httpGetResponse(slug + (query ? `?${query}` : ''), null, false, true);
+    return this.httpGetResponse(slug + (query ? `?${query}` : ''), null, true, true);
   }
 
   destroy(slug, id) {
@@ -77,6 +81,10 @@ export class NetworkService {
 
   updateRestaurant(data, id) {
     return this.httpPutResponse(`restaurant`, data, id, false, true);
+  }
+
+  setActiveRestaurant(data: any, id) {
+    return this.httpPutResponse(`restaurant/update-active`, data, id, false, true);
   }
 
   // removeRestaurant(id) {
@@ -228,6 +236,14 @@ export class NetworkService {
     return this.httpDeleteResponse('order', id, false, true);
   }
 
+  //Notification Apis
+  getNotifications() {
+    return this.httpGetResponse('notifications/all', null, false, true);
+  }
+
+  getUnreadNotifications() {
+    return this.httpGetResponse('notifications/unread', null, false, true);
+  }
   serialize = (obj: any) => {
     const str: any[] = [];
     for (const p in obj) {

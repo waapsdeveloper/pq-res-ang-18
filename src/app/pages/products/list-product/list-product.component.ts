@@ -43,7 +43,7 @@ export class ListProductComponent extends ListBlade {
             required: true,
             minLength: 3
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'category',
@@ -53,7 +53,7 @@ export class ListProductComponent extends ListBlade {
             placeholder: 'Enter category',
             required: true
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'restaurant_id',
@@ -68,7 +68,7 @@ export class ListProductComponent extends ListBlade {
               { value: 2, label: 'Restaurant 2' }
             ]
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'price',
@@ -80,7 +80,7 @@ export class ListProductComponent extends ListBlade {
             type: 'number',
             min: 0
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'discount',
@@ -91,7 +91,7 @@ export class ListProductComponent extends ListBlade {
             type: 'number',
             min: 0
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'status',
@@ -104,7 +104,7 @@ export class ListProductComponent extends ListBlade {
             ],
             required: true
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'type',
@@ -114,7 +114,7 @@ export class ListProductComponent extends ListBlade {
             placeholder: 'Enter type',
             required: true
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'noOfOrders',
@@ -125,7 +125,7 @@ export class ListProductComponent extends ListBlade {
             type: 'number',
             min: 0
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'notes',
@@ -135,7 +135,7 @@ export class ListProductComponent extends ListBlade {
             placeholder: 'Enter any additional notes about the product',
             required: false
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         }
       ]
     }
@@ -221,6 +221,8 @@ export class ListProductComponent extends ListBlade {
   async deleteRow(index: number) {
     try {
       await this.crudService.deleteRow(index, this.utility);
+      this.utility.presentSuccessToast('Deleted Sucessfully!');
+
       console.log('Row deleted successfully');
     } catch (error) {
       console.error('Error deleting row:', error);
