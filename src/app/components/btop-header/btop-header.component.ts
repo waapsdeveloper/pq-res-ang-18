@@ -79,8 +79,6 @@ export class BtopHeaderComponent {
     let item = i?.data?.order_id;
     if (item) {
       this.nav.push('/pages/orders/view/' + item);
-
-      await this.network.readNotification(i?.id);
     }
   }
 }
