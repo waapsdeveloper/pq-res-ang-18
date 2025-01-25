@@ -4,14 +4,10 @@
     <!--begin::Card header-->
     <!--begin::Card body-->
     <div class="card-body">
-
       <div class="d-flex flex-row justify-content-end mb-9">
         <div class="col-lg-3 d-flex align-items-center gap-3">
           <!-- Dropdown with col-3 -->
-          <select
-            class="form-select  fw-medium fs-6 text-gray-800"
-            [(ngModel)]="selectedStatus"
-          >
+          <select class="form-select fw-medium fs-6 text-gray-800" [(ngModel)]="selectedStatus">
             <option *ngFor="let status of statuses" [value]="status">
               {{ status | titlecase }}
             </option>
@@ -20,7 +16,6 @@
           <button class="btn btn-primary col-auto" (click)="updateStatus(item)">Update</button>
         </div>
       </div>
-
 
       <!--begin::Row-->
       <div class="row mb-7">
@@ -79,7 +74,7 @@
         <!--end::Label-->
         <!--begin::Col-->
         <div class="col-lg-8 d-flex align-items-center">
-          <span class="fw-medium fs-6 text-gray-800 me-2">{{ item?.type}}</span>
+          <span class="fw-medium fs-6 text-gray-800 me-2">{{ item?.type }}</span>
         </div>
         <!--end::Col-->
       </div>
@@ -96,10 +91,28 @@
         <!--end::Col-->
       </div>
       <div class="row mb-7">
-        <!-- Label -->
+        <!--begin::Label-->
         <label class="col-lg-4 fw-normal text-muted">Status</label>
-        <!-- Dropdown and Button -->
-        <div class="badge">{{item?.status}}</div>
+        <!--end::Label-->
+        <!--begin::Col-->
+        <div class="col-lg-8">
+          <span
+            class="badge fw-bold me-auto px-4 py-3"
+            [ngClass]="{
+              'badge-pending': item?.status === 'Pending',
+              'badge-confirmed': item?.status === 'Confirmed',
+              'badge-preparing': item?.status === 'Preparing',
+              'badge-ready-for-pickup': item?.status === 'Ready For Pickup',
+              'badge-out-for-delivery': item?.status === 'Out For Delivery',
+              'badge-delivered': item?.status === 'Delivered',
+              'badge-completed': item?.status === 'Completed',
+              'badge-cancelled': item?.status === 'Cancelled'
+            }"
+          >
+            {{ item?.status }}
+          </span>
+        </div>
+        <!--end::Col-->
       </div>
 
       <!--end::Input group-->
@@ -167,7 +180,7 @@
                             <div>
                               <!-- Display Option Name, Description, and Price -->
                               <span class="fw-semibold">{{ option.name }}</span>
-                              <br>
+                              <br />
                               <span class="text-muted">- {{ option.description }}</span>
                               <span class="text-success">(${{ option.price }})</span>
                             </div>
