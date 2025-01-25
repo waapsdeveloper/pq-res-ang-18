@@ -63,7 +63,6 @@ export class EditProductComponent implements OnInit, AfterViewInit {
   model = {
     name: '',
     category_id: '',
-    restaurant_id: '',
     description: '',
     status: '',
     price: null,
@@ -101,17 +100,7 @@ export class EditProductComponent implements OnInit, AfterViewInit {
           },
           className: 'col-md-2 col-12'
         },
-        {
-          key: 'restaurant_id',
-          type: 'select',
-          props: {
-            label: 'Branch',
-            placeholder: 'Select a Branch',
-            required: true, // nullable
-            options: []
-          },
-          className: 'col-md-2 col-12'
-        },
+
         {
           key: 'description',
           type: 'input',
@@ -232,7 +221,6 @@ export class EditProductComponent implements OnInit, AfterViewInit {
     this.model = {
       name: d.name || '',
       category_id: d.category_id || null,
-      restaurant_id: d.restaurant_id || null,
       description: d.description || '',
       status: d.status || '',
       price: d.price || null,

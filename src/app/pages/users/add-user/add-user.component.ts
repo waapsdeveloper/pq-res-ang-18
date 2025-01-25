@@ -26,7 +26,6 @@ export class AddUserComponent implements OnInit {
     image: '',
     imageBase64: '',
     status: '',
-    restaurant_id: ''
   };
 
   fields: FormlyFieldConfig[] = [

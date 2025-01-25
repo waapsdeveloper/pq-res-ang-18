@@ -73,7 +73,6 @@ export class EditRtablesComponent implements OnInit {
   }
   form = new FormGroup({});
   model = {
-    restaurant_id: '',
     no_of_seats: '',
     floor: '',
     //location: '',
@@ -85,18 +84,8 @@ export class EditRtablesComponent implements OnInit {
     {
       fieldGroupClassName: 'row', // Bootstrap row
       fieldGroup: [
-        {
-          key: 'restaurant_id',
-          type: 'select',
-          props: {
-            label: 'Branch',
-            placeholder: 'Select a Branch',
-            required: true,
-            options: []
-          },
-          className: 'col-md-2 col-12'
-        },
-        ,
+
+
         {
           key: 'identifier',
           type: 'input',
@@ -176,7 +165,6 @@ export class EditRtablesComponent implements OnInit {
     console.log(d);
     // Dynamic model assignment
     this.model = {
-      restaurant_id: d.restaurant_id || '', // Matches `model`
       no_of_seats: d.no_of_seats || '', // Matches `model`
       floor: d.floor || '', // Matches `model`
       // location: d.location || '',           // Matches `model`

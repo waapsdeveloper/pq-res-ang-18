@@ -14,7 +14,6 @@ export class AddCategoryComponent implements OnInit {
   form = new FormGroup({});
   model = {
     name: '',
-    restaurant_id: '',
     category_id: '',
     status: '',
     description: '',
@@ -37,18 +36,7 @@ export class AddCategoryComponent implements OnInit {
           },
           className: 'col-md-2 col-12' // 3 columns on md+, full width on small screens
         },
-        {
-          key: 'restaurant_id',
-          type: 'select',
-          props: {
-            label: 'Branch Name',
-            placeholder: 'Enter Branch  name',
-            options: [],
-            required: true,
-            minLength: 3
-          },
-          className: 'col-md-2 col-12' // 3 columns on md+, full width on small screens
-        },
+       
         {
           key: 'description',
           type: 'textarea',

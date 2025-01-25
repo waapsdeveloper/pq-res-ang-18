@@ -44,7 +44,6 @@ export class EditUserComponent implements OnInit {
     name: '',
     email: '',
     password: '',
-    restaurant_id:'',
     phone: '',
     address: '',
     role_id: '',
@@ -147,18 +146,7 @@ export class EditUserComponent implements OnInit {
           },
           className: 'col-md-2 col-12'
         },
-        {
-          key: 'restaurant_id',
-          type: 'select',
-          props: {
-            label: 'Branch Name',
-            placeholder: 'Enter Branch  name',
-            options: [],
-            minLength: 3,
-            required:true,
-          },
-          className: 'col-md-2 col-12' // 3 columns on md+, full width on small screens
-        },
+
         {
           key: 'phone',
           type: 'input',
@@ -254,7 +242,6 @@ export class EditUserComponent implements OnInit {
     image: '',                        // Ensures `image` is an empty string
     imageBase64: d.imageBase64 || '', // Matches `model`
     status: d.status || '',
-    restaurant_id: d.restaurant_id || '',            // Matches `model`
   };
 
 

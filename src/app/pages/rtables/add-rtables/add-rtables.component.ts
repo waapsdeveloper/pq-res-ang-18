@@ -13,7 +13,6 @@ import { UtilityService } from 'src/app/services/utility.service';
 export class AddRtablesComponent {
   form = new FormGroup({});
   model = {
-    restaurant_id: '',
     identifier: '',
     no_of_seats: '',
     floor: '',
@@ -26,18 +25,8 @@ export class AddRtablesComponent {
     {
       fieldGroupClassName: 'row', // Bootstrap row
       fieldGroup: [
-        {
-          key: 'restaurant_id',
-          type: 'select',
-          props: {
-            label: 'Restaurant',
-            placeholder: 'Select a restaurant',
-            required: true,
-            options: []
-          },
-          className: 'col-md-2 col-12'
-        },
-        ,
+
+        
         {
           key: 'identifier',
           type: 'input',

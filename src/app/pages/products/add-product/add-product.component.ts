@@ -22,7 +22,6 @@ export class AddProductComponent {
   model = {
     name: '',
     category_id: '',
-    restaurant_id: null,
     description: '',
     status: '',
     price: null,
@@ -57,17 +56,7 @@ export class AddProductComponent {
           },
           className: 'col-md-2 col-12'
         },
-        {
-          key: 'restaurant_id',
-          type: 'select',
-          props: {
-            label: 'Branch',
-            placeholder: 'Select a restaurant',
-            required: true, // nullable
-            options: []
-          },
-          className: 'col-md-2 col-12'
-        },
+       
         {
           key: 'description',
           type: 'input',
