@@ -228,6 +228,9 @@ export class NetworkService {
   getOrdersById(id) {
     return this.httpGetResponse(`order/${id}`, null, false, true);
   }
+  orderStatus(id){
+    return this.httpPostResponse(`order/update-status/${id}`, null, false, true);
+}
 
   addOrder(data) {
     return this.httpPostResponse('order', data, null, false, true);
