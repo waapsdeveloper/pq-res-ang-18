@@ -13,6 +13,8 @@ export class ViewOrdersComponent {
   itemId;
   item;
   variations;
+  selectedStatus;
+  statuses = ['pending', 'confirmed', 'preparing', 'ready_for_pickup', 'out_for_delivery', 'delivered', 'completed', 'cancelled'];
 
   constructor(
     private nav: NavService,
@@ -51,5 +53,13 @@ export class ViewOrdersComponent {
     this.item['variation'] = products.flatMap((product) => (Array.isArray(product.meta_value) ? product.meta_value : [])); // Flatten meta_value arrays
 
     console.log('Parsed products:', this.item);
+  }
+  async updateStatus(item) {
+let obj = {
+  status:this.selectedStatus
+}
+console.log(obj);
+
+    await this.network.orderStatus(item.id,obj);
   }
 }
