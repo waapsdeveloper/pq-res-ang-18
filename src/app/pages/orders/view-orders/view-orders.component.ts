@@ -14,7 +14,7 @@ export class ViewOrdersComponent {
   itemId;
   item;
   variations;
-  selectedStatus;
+  selectedStatus ;
   statuses = ['pending', 'confirmed', 'preparing', 'ready_for_pickup', 'out_for_delivery', 'delivered', 'completed', 'cancelled'];
 
   constructor(
@@ -29,7 +29,7 @@ export class ViewOrdersComponent {
     const rew = await this.activatedRoute.snapshot.params;
     this.itemId = rew['id'];
     const res = await this.network.getOrdersById(this.itemId);
-    console.log(res);
+   console.log(res);
 
     this.item = res.order;
     this.variations = this.item?.products;
