@@ -76,7 +76,7 @@ export class BtopHeaderComponent {
   }
 
   async navigateToOrder(i) {
-    let item = i?.data?.order_id;
+    let item = this.notifcationService.notifications[i].order_id;
     if (item) {
       this.nav.push('/pages/orders/view/' + item);
     }

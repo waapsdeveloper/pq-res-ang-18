@@ -4,6 +4,24 @@
     <!--begin::Card header-->
     <!--begin::Card body-->
     <div class="card-body">
+
+      <div class="d-flex flex-row justify-content-end mb-9">
+        <div class="col-lg-3 d-flex align-items-center gap-3">
+          <!-- Dropdown with col-3 -->
+          <select
+            class="form-select  fw-medium fs-6 text-gray-800"
+            [(ngModel)]="selectedStatus"
+          >
+            <option *ngFor="let status of statuses" [value]="status">
+              {{ status | titlecase }}
+            </option>
+          </select>
+          <!-- Button with fixed width -->
+          <button class="btn btn-primary col-auto" (click)="updateStatus(item)">Update</button>
+        </div>
+      </div>
+
+
       <!--begin::Row-->
       <div class="row mb-7">
         <!--begin::Label-->
@@ -81,19 +99,7 @@
         <!-- Label -->
         <label class="col-lg-4 fw-normal text-muted">Status</label>
         <!-- Dropdown and Button -->
-        <div class="col-lg-3 d-flex align-items-center gap-3">
-          <!-- Dropdown with col-3 -->
-          <select
-            class="form-select  fw-medium fs-6 text-gray-800"
-            [(ngModel)]="selectedStatus"
-          >
-            <option *ngFor="let status of statuses" [value]="item?.status">
-              {{ status | titlecase }}
-            </option>
-          </select>
-          <!-- Button with fixed width -->
-          <button class="btn btn-primary col-auto" (click)="updateStatus(item)">Update</button>
-        </div>
+        <div class="badge">{{item?.status}}</div>
       </div>
 
       <!--end::Input group-->

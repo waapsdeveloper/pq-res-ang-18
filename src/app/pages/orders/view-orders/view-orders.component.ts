@@ -14,14 +14,15 @@ export class ViewOrdersComponent {
   itemId;
   item;
   variations;
-  selectedStatus ;
+  selectedStatus = '';
   statuses = ['pending', 'confirmed', 'preparing', 'ready_for_pickup', 'out_for_delivery', 'delivered', 'completed', 'cancelled'];
 
   constructor(
     private nav: NavService,
     private network: NetworkService,
     public activatedRoute: ActivatedRoute,
-    public utility: UtilityService  ) {
+    public utility: UtilityService
+  ) {
     this.initialize();
   }
 
@@ -29,12 +30,14 @@ export class ViewOrdersComponent {
     const rew = await this.activatedRoute.snapshot.params;
     this.itemId = rew['id'];
     const res = await this.network.getOrdersById(this.itemId);
-   console.log(res);
+    console.log(res);
 
     this.item = res.order;
+
+    this.selectedStatus = this.item.status.toLowerCase();
+
     this.variations = this.item?.products;
     this.parseMetaValues(this.variations);
-
   }
   popovers: NgbPopover[] = [];
   closeAllPopovers() {
@@ -57,12 +60,14 @@ export class ViewOrdersComponent {
     console.log('Parsed products:', this.item);
   }
   async updateStatus(item) {
-let obj = {
-  status:this.selectedStatus
-}
-console.log(obj);
 
-    await this.network.orderStatus(item.id,obj);
-    this.utility.presentSuccessToast( `Order Status Updated to ${obj.status}` );
+    let obj = {
+      status: this.selectedStatus
+    };
+    console.log(obj);
+
+    await this.network.orderStatus(item.id, obj);
+    
+    this.utility.presentSuccessToast(`Order Status Updated to ${obj.status}`);
   }
 }

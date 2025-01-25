@@ -77,7 +77,7 @@
                   <div class="px-3">                    
                     <ul class="list-unstyled">
                       <li class="notification-item">
-                        <div *ngFor="let notification of notifcationService.notifications">
+                        <div *ngFor="let notification of notifcationService.notifications; let i = index" style="cursor: pointer;" (click)="navigateToOrder(i)">
                           <strong>Order: {{ notification?.data.order_id }}</strong>
                           <span class="text-muted small">
                             {{ notification?.data.message }}
