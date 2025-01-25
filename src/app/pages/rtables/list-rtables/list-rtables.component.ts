@@ -25,24 +25,13 @@ export class ListRtablesComponent extends ListBlade {
     no_of_seats: '',
     floor: '',
     location: '',
-    restaurant_id: ''
   };
 
   fields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: 'row', // Bootstrap row
       fieldGroup: [
-        {
-          key: 'restaurant_id',
-          type: 'select',
-          props: {
-            label: 'Branch',
-            placeholder: 'Select a Branch',
-            required: true,
-            options: []
-          },
-          className: 'col-md-4 col-12'
-        },
+        
         {
           key: 'no_of_seats',
           type: 'input',

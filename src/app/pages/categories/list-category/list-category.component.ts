@@ -34,7 +34,6 @@ export class ListCategoryComponent extends ListBlade{
 
   override model = {
     name: '',
-    restaurant: '',
     status: '',
   };
 
@@ -51,18 +50,7 @@ export class ListCategoryComponent extends ListBlade{
           },
           className: 'col-md-2 col-12'
         },
-        {
-          key: 'restaurant',
-          type: 'select',
-          props: {
-            label: 'Restaurant Name',
-            placeholder: 'Enter Restaurant  name',
-            required: true,
-            minLength: 3,
-            options: []
-          },
-          className: 'col-md-2 col-12'
-        },
+        
         {
           key: 'status',
           type: 'select',
