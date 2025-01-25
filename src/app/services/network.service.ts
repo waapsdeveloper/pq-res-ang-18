@@ -53,9 +53,7 @@ export class NetworkService {
 
   // Standard CRUD calls
 
-  index(slug, params) {
-    console.log(localStorage.getItem('restuarant_id'));
-    params['restaurant_id'] = localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1;
+  index(slug, params) {    
     const query = this.serialize(params);
     return this.httpGetResponse(slug + (query ? `?${query}` : ''), null, true, true);
   }
@@ -251,6 +249,10 @@ export class NetworkService {
     return this.httpPostResponse(`notifications/mark-as-read/${id}`, null, false, true);
   }
   serialize = (obj: any) => {
+
+    console.log(localStorage.getItem('restuarant_id'));
+    obj['restaurant_id'] = localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1;
+
     const str: any[] = [];
     for (const p in obj) {
       if (obj.hasOwnProperty(p)) {
@@ -263,6 +265,10 @@ export class NetworkService {
 
   // Function for POST method
   httpPostResponse(key: any, data: any, id = null, showloader = true, showError = true, contenttype = 'application/json') {
+
+    console.log(localStorage.getItem('restuarant_id'));
+    data['restaurant_id'] = localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1;
+
     return this.httpResponse('post', key, data, id, showloader, showError, contenttype);
   }
 

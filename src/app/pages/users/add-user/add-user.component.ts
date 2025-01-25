@@ -156,18 +156,18 @@ export class AddUserComponent implements OnInit {
           },
           className: 'col-md-2 col-12'
         },
-        {
-          key: 'restaurant_id',
-          type: 'select',
-          props: {
-            label: 'Branch Name',
-            placeholder: 'Enter Branch name',
-            options: [],
-            minLength: 3,
-            required:true,
-          },
-          className: 'col-md-2 col-12' // 3 columns on md+, full width on small screens
-        },
+        // {
+        //   key: 'restaurant_id',
+        //   type: 'select',
+        //   props: {
+        //     label: 'Branch Name',
+        //     placeholder: 'Enter Branch name',
+        //     options: [],
+        //     minLength: 3,
+        //     required:true,
+        //   },
+        //   className: 'col-md-2 col-12' // 3 columns on md+, full width on small screens
+        // },
 
       ]
     }
