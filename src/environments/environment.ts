@@ -7,7 +7,8 @@ import packageInfo from '../../package.json';
 export const environment = {
   appVersion: packageInfo.version,
   production: false,
-  apiBaseUrl: 'http://',
+  // apiBaseUrl: 'http://127.0.0.1:8000/api/admin', // Base URL for API endpoints
+  apiBaseUrl: 'https://pqresapi.spacess.online/api/admin', // Base URL for API endpoints
   pusher: {
     key: '54fd449f6275a062159f',
     cluster: 'ap2'

@@ -12,11 +12,11 @@ import { NotificationsService } from 'src/app/services/notifications.service';
   styleUrl: './btop-header.component.scss'
 })
 export class BtopHeaderComponent {
+
   @Input('title') title = ''
   @Input('addurl') addurl = '/pages/orders/add'
   @Output('onSearch') onSearch = new EventEmitter<any>();
-  unread:any
-  notifications:any;
+  
   restaurant$: any;
 
   menuItems = [
@@ -34,9 +34,10 @@ export class BtopHeaderComponent {
   //   { label: 'Customers', link: '/pages/customers', icon: 'ti ti-user-plus' },
    ];
 
-  constructor(private nav: NavService, private users: UsersService, public grService: GlobalRestaurantService,private network:NetworkService, private notifcationService: NotificationsService) { 
+  constructor(private nav: NavService, private users: UsersService, public grService: GlobalRestaurantService, public notifcationService: NotificationsService) { 
     this.initialize();
     this.notifcationService.registerPusherEvent();
+    this.notifcationService.getNotificationsFromApi();
 
     this.grService.getRestaurant().subscribe( data => {
       this.restaurant$ = data;
@@ -49,16 +50,6 @@ export class BtopHeaderComponent {
  async  initialize(){
     // filter menu
     const u = this.users.getUser()
-    let notifications = await this.network.getNotifications();
-   let unreads = await this.network.getUnreadNotifications();
-   this.notifications = notifications.data
-   console.log("Notification" , this.notifications)
-
-   this.unread = unreads.data;
-   console.log(" UNread Notification" ,this.unread);
-
-
-    console.log("u", u)
 
     if(u.role_id != 1){
       this.menuItems = this.menuItems.filter( x => x.label != 'Restaurants');

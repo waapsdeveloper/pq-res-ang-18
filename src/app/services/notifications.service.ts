@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import Pusher from 'pusher-js';
 import { environment } from 'src/environments/environment';
+import { NetworkService } from './network.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,9 @@ export class NotificationsService {
   notificationChannel: any;
   private pusher: Pusher;
 
-  constructor() { 
+  notifications: any[] = [];  
+
+  constructor(private network: NetworkService) { 
     this.initPusher();
   }
 
@@ -45,8 +48,17 @@ export class NotificationsService {
   notificationChannelReceived($event: any) {
 
     console.log('Notification Received', $event);
+    this.notifications.unshift($event);
     // this.events.publish('get-dashboard-stats');
     
+  }
+
+  async getNotificationsFromApi() {
+
+    const res = await this.network.getNotifications();
+    console.log('Notifications', res);
+    this.notifications = res.data;
+
   }
 
 
