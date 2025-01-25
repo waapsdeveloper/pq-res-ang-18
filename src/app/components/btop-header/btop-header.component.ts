@@ -5,7 +5,6 @@ import { GlobalRestaurantService } from 'src/app/services/global-restaurant.serv
 import { NetworkService } from 'src/app/services/network.service';
 import { NotificationsService } from 'src/app/services/notifications.service';
 
-
 @Component({
   selector: 'app-btop-header',
   templateUrl: './btop-header.component.html',
@@ -29,25 +28,22 @@ export class BtopHeaderComponent {
     { label: 'Tables', link: '/pages/tables', icon: 'ti ti-table' },
     { label: 'Table Booking', link: '/pages/table-booking', icon: 'ti ti-table' },
     { label: 'Orders', link: '/pages/orders', icon: 'ti ti-truck-delivery' },
-    { label: 'Invoices', link: '/pages/invoices', icon: 'ti ti-file-dollar' },
- //   { label: 'Reports', link: '/pages/reports', icon: 'ti ti-clipboard-text' },
-  //   { label: 'Customers', link: '/pages/customers', icon: 'ti ti-user-plus' },
-   ];
+    { label: 'Invoices', link: '/pages/invoices', icon: 'ti ti-file-dollar' }
+    //   { label: 'Reports', link: '/pages/reports', icon: 'ti ti-clipboard-text' },
+    //   { label: 'Customers', link: '/pages/customers', icon: 'ti ti-user-plus' },
+  ];
 
   constructor(private nav: NavService, private users: UsersService, public grService: GlobalRestaurantService, public notifcationService: NotificationsService) { 
     this.initialize();
     this.notifcationService.registerPusherEvent();
     this.notifcationService.getNotificationsFromApi();
 
-    this.grService.getRestaurant().subscribe( data => {
+    this.grService.getRestaurant().subscribe((data) => {
       this.restaurant$ = data;
-    })
-
-
+    });
   }
 
-
- async  initialize(){
+  async initialize() {
     // filter menu
     const u = this.users.getUser()
 
@@ -55,19 +51,17 @@ export class BtopHeaderComponent {
       this.menuItems = this.menuItems.filter( x => x.label != 'Restaurants');
     }
 
-    if(u.role_id != 1 && u.role_id != 2){
-      this.menuItems = this.menuItems.filter( x => x.label != 'Users');
+    if (u.role_id != 1 && u.role_id != 2) {
+      this.menuItems = this.menuItems.filter((x) => x.label != 'Users');
     }
   }
 
-
-  logout(){
+  logout() {
     localStorage.removeItem('token');
-    this.nav.push('/')
+    this.nav.push('/');
   }
 
-  setLogo(){
-
+  setLogo() {
     // if(this.restaurant$){
 
     //   if(this.restaurant$['image']){
@@ -78,8 +72,15 @@ export class BtopHeaderComponent {
 
     // }
 
-    return 'assets/svg/logo.png'
+    return 'assets/svg/logo.png';
   }
 
+  async navigateToOrder(i) {
+    let item = i?.data?.order_id;
+    if (item) {
+      this.nav.push('/pages/orders/view/' + item);
 
+      await this.network.readNotification(i?.id);
+    }
+  }
 }

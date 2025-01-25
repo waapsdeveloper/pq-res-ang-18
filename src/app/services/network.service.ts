@@ -228,6 +228,9 @@ export class NetworkService {
   getOrdersById(id) {
     return this.httpGetResponse(`order/${id}`, null, false, true);
   }
+  orderStatus(id,data){
+    return this.httpPutResponse(`order/update-status`, data, id, false, true);
+}
 
   addOrder(data) {
     return this.httpPostResponse('order', data, null, false, true);
@@ -243,6 +246,9 @@ export class NetworkService {
 
   getUnreadNotifications() {
     return this.httpGetResponse('notifications/unread', null, false, true);
+  }
+  readNotification(id) {
+    return this.httpPostResponse(`notifications/mark-as-read/${id}`, null, false, true);
   }
   serialize = (obj: any) => {
     const str: any[] = [];

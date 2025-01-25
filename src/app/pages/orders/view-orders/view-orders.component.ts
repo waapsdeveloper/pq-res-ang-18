@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import { UtilityService } from 'src/app/services/utility.service';
 
 @Component({
   selector: 'app-view-orders',
@@ -13,12 +14,14 @@ export class ViewOrdersComponent {
   itemId;
   item;
   variations;
+  selectedStatus ;
+  statuses = ['pending', 'confirmed', 'preparing', 'ready_for_pickup', 'out_for_delivery', 'delivered', 'completed', 'cancelled'];
 
   constructor(
     private nav: NavService,
     private network: NetworkService,
-    public activatedRoute: ActivatedRoute
-  ) {
+    public activatedRoute: ActivatedRoute,
+    public utility: UtilityService  ) {
     this.initialize();
   }
 
@@ -26,11 +29,12 @@ export class ViewOrdersComponent {
     const rew = await this.activatedRoute.snapshot.params;
     this.itemId = rew['id'];
     const res = await this.network.getOrdersById(this.itemId);
-    console.log(res);
+   console.log(res);
 
     this.item = res.order;
     this.variations = this.item?.products;
     this.parseMetaValues(this.variations);
+
   }
   popovers: NgbPopover[] = [];
   closeAllPopovers() {
@@ -51,5 +55,14 @@ export class ViewOrdersComponent {
     this.item['variation'] = products.flatMap((product) => (Array.isArray(product.meta_value) ? product.meta_value : [])); // Flatten meta_value arrays
 
     console.log('Parsed products:', this.item);
+  }
+  async updateStatus(item) {
+let obj = {
+  status:this.selectedStatus
+}
+console.log(obj);
+
+    await this.network.orderStatus(item.id,obj);
+    this.utility.presentSuccessToast( `Order Status Updated to ${obj.status}` );
   }
 }
