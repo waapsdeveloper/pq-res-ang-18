@@ -7,6 +7,12 @@ import packageInfo from '../../package.json';
 export const environment = {
   appVersion: packageInfo.version,
   production: false,
+  apiBaseUrl: 'http://',
+  pusher: {
+    key: '54fd449f6275a062159f',
+    cluster: 'ap2'
+  }
+
 };
 
 /*

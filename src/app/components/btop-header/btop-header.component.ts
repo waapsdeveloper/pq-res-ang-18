@@ -3,6 +3,7 @@ import { UsersService } from 'src/app/services/users.service';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { GlobalRestaurantService } from 'src/app/services/global-restaurant.service';
 import { NetworkService } from 'src/app/services/network.service';
+import { NotificationsService } from 'src/app/services/notifications.service';
 
 @Component({
   selector: 'app-btop-header',
@@ -32,13 +33,9 @@ export class BtopHeaderComponent {
     //   { label: 'Customers', link: '/pages/customers', icon: 'ti ti-user-plus' },
   ];
 
-  constructor(
-    private nav: NavService,
-    private users: UsersService,
-    public grService: GlobalRestaurantService,
-    private network: NetworkService
-  ) {
+  constructor(private nav: NavService, private users: UsersService, public grService: GlobalRestaurantService,private network:NetworkService, private notifcationService: NotificationsService) {
     this.initialize();
+    this.notifcationService.registerPusherEvent();
 
     this.grService.getRestaurant().subscribe((data) => {
       this.restaurant$ = data;
