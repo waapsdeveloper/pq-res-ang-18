@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
@@ -10,7 +10,7 @@ import { UtilityService } from 'src/app/services/utility.service';
   templateUrl: './view-orders.component.html',
   styleUrl: './view-orders.component.scss'
 })
-export class ViewOrdersComponent {
+export class ViewOrdersComponent implements OnInit {
   itemId;
   item;
   variations;
@@ -25,6 +25,14 @@ export class ViewOrdersComponent {
   ) {
     this.initialize();
   }
+
+  ngOnInit(): void {
+    this.activatedRoute.paramMap.subscribe((params) => {
+      this.initialize();
+    })
+  }
+
+
 
   async initialize() {
     const rew = await this.activatedRoute.snapshot.params;
