@@ -5,6 +5,7 @@ import { GlobalRestaurantService } from 'src/app/services/global-restaurant.serv
 import { NetworkService } from 'src/app/services/network.service';
 import { NotificationsService } from 'src/app/services/notifications.service';
 import { Router } from '@angular/router';
+import { EventsService } from 'src/app/services/events.service';
 
 @Component({
   selector: 'app-btop-header',
@@ -16,6 +17,7 @@ export class BtopHeaderComponent {
   @Input('addurl') addurl = '/pages/orders/add';
   @Output('onSearch') onSearch = new EventEmitter<any>();
 
+  showNewOrder = false;
   restaurant$: any;
   date = new Date();
   menuItems = [
@@ -39,7 +41,8 @@ export class BtopHeaderComponent {
     public grService: GlobalRestaurantService,
     public notifcationService: NotificationsService,
     private changeDetectorRef: ChangeDetectorRef,
-    private router: Router
+    private router: Router,    
+    private events: EventsService
   ) {
     this.initialize();
     this.notifcationService.registerPusherEvent();
@@ -48,6 +51,12 @@ export class BtopHeaderComponent {
     this.grService.getRestaurant().subscribe((data) => {
       this.restaurant$ = data;
      });
+
+     this.events.subscribe('new-order-notification', (data) => {
+        console.log("events", data);
+
+        this.showNewOrder = true;
+     })
   }
 
   async initialize() {

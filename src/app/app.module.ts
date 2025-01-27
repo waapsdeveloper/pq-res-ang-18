@@ -27,6 +27,7 @@ import { InterceptorService } from './services/interceptor.service';
 import { NgApexchartsModule } from 'ng-apexcharts';
 
 import { provideNgSimpleState } from 'ng-simple-state';
+import { NgxPubSubModule } from '@pscoped/ngx-pub-sub';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { provideNgSimpleState } from 'ng-simple-state';
     FormlyModule.forRoot(),
     FormlyBootstrapModule,
     NgApexchartsModule,
+    NgxPubSubModule,
   ],
   providers: [
     NavigationItem,
