@@ -2288,6 +2288,7 @@ batch@0.6.1:
     "@ngx-formly/core" "^6.3.11"
     "@ngx-formly/schematics" "^6.3.11"
     "@popperjs/core" "^2.11.8"
+    "@pscoped/ngx-pub-sub" "^6.0.1"
     "@sweetalert2/ngx-sweetalert2" "^12.4.0"
     apexcharts "^3.54.1"
     berry-free-angular-admin-template "file:"

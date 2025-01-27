@@ -19,9 +19,7 @@ export class NetworkService {
   ) {}
 
   //Dashboard APi
-  getDefaultRestaurantId() {
-    return this.httpGetResponse('restaurant/active', null, false, true);
-  }
+  
   getSalesChartData(params: any) {
     let str = this.serialize(params);
     return this.httpGetResponse('dashboard/sales-chart-data' + '?' + str, null, false, true);
