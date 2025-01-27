@@ -86,6 +86,9 @@ export class NetworkService {
   setActiveRestaurant(data: any, id) {
     return this.httpPutResponse(`restaurant/update-active`, data, id, false, true);
   }
+  getDefaultRestaurantId() {
+    return this.httpGetResponse('restaurant/active', null, false, true);
+  }
 
   // removeRestaurant(id) {
   //   return this.httpDeleteResponse('restaurant', id, false, true);

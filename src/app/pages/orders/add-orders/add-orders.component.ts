@@ -51,6 +51,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     this.orderService.searchProducts(v);
   }
   printSlip() {
+
     const printContents = document.getElementById('print-section')?.innerHTML;
     const originalContents = document.body.innerHTML;
 
@@ -78,8 +79,11 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       let d = res['data'];
       let dm = d['data'];
 
- this.restaurant = localStorage.getItem('restuarant_id') ?  localStorage.getItem('restuarant_id') : -1;
     }
+    this.restaurant = localStorage.getItem('restaurant') ? localStorage.getItem('restaurant') : -1;
+    this.restaurant = JSON.parse(this.restaurant);
+    console.log('Restaurant:', this.restaurant);
+
   }
 
 
