@@ -78,18 +78,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       let d = res['data'];
       let dm = d['data'];
 
-      // Map and set the local variable
-      this.restaurant = dm.map((r) => {
-        return {
-          restaurant_id: r.id, // Corrected the spelling from `restuarant_id`
-          name: r.name,
-          address: r.address,
-          phone: r.phone,
-        };
-      }) as any[];
-
-      // Log the result to verify the data
-      console.log(this.restaurant);
+ this.restaurant = localStorage.getItem('restuarant_id') ?  localStorage.getItem('restuarant_id') : -1;
     }
   }
 
