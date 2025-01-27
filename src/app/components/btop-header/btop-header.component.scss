@@ -118,7 +118,7 @@ ul.list-unstyled {
 }
 .anc ::hover
 {
-  color: #d12e2e
+  color: rgb(209, 46, 46)
 }
 
 
@@ -128,8 +128,8 @@ ul.list-unstyled {
   left: 50%;
   width: 70vw;
   height: 90vh;
-  background: blue;
+  background: rgb(209, 46, 46);
   transform: translate(-50%, -50%);
   z-index: 999;
-  
+
 }

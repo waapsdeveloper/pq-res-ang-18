@@ -17,7 +17,7 @@ export class BtopHeaderComponent {
   @Input('addurl') addurl = '/pages/orders/add';
   @Output('onSearch') onSearch = new EventEmitter<any>();
 
-  showNewOrder = false;
+  showNewOrder = true;
   restaurant$: any;
   date = new Date();
   menuItems = [
@@ -41,7 +41,7 @@ export class BtopHeaderComponent {
     public grService: GlobalRestaurantService,
     public notifcationService: NotificationsService,
     private changeDetectorRef: ChangeDetectorRef,
-    private router: Router,    
+    private router: Router,
     private events: EventsService
   ) {
     this.initialize();
