@@ -8,32 +8,31 @@ import { NetworkService } from 'src/app/services/network.service';
   styleUrl: './pre-splash.component.scss'
 })
 export class PreSplashComponent {
-
   loading = false;
 
-  constructor(private nav: NavService,private network:NetworkService){
-
-  }
+  constructor(
+    private nav: NavService,
+    private network: NetworkService
+  ) {}
 
   ngOnInit(): void {
     this.initialize();
   }
 
-  async initialize(){
+  async initialize() {
     this.loading = true;
     const defaults = await this.network.getDefaultRestaurantId();
     console.log(defaults);
-    if(defaults && defaults.active_restaurant){
-
+    if (defaults && defaults.active_restaurant) {
       let R = defaults.active_restaurant;
-      localStorage.setItem("restaurant" , JSON.stringify(R));
-      localStorage.setItem("restaurant_id" , R.id);
+      localStorage.setItem('restaurant', JSON.stringify(R));
+      localStorage.setItem('restaurant_id', R.id);
 
-    setTimeout( () => {
-      this.loading = false;
-      this.nav.push('/pages/dashboard')
-    }, 3000)
-
+      setTimeout(() => {
+        this.loading = false;
+        this.nav.push('/pages/dashboard');
+      }, 3000);
+    }
   }
 }
-}
+
