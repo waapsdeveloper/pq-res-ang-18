@@ -17,7 +17,7 @@ export class BtopHeaderComponent {
   @Input('addurl') addurl = '/pages/orders/add';
   @Output('onSearch') onSearch = new EventEmitter<any>();
 
-  showNewOrder = true;
+  showNewOrder = false;
   restaurant$: any;
   date = new Date();
   menuItems = [
