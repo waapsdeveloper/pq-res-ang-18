@@ -31,7 +31,7 @@ export class BtopHeaderComponent {
     { label: 'Table Booking', link: '/pages/table-booking', icon: 'ti ti-table' },
     { label: 'Orders', link: '/pages/orders', icon: 'ti ti-truck-delivery' },
     { label: 'Invoices', link: '/pages/invoices', icon: 'ti ti-file-dollar' },
-    { label: 'Messages', link: '/pages/messages', icon: 'ti ti-file-dollar' },
+    { label: 'Messages', link: '/pages/messages', icon: 'ti ti-message-dots' },
 
     //   { label: 'Reports', link: '/pages/reports', icon: 'ti ti-clipboard-text' },
     //   { label: 'Customers', link: '/pages/customers', icon: 'ti ti-user-plus' },
