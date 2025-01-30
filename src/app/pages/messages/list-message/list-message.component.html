@@ -20,17 +20,14 @@
       <td>
         <div class="d-flex align-items-center">
           <!--begin::Thumbnail-->
-          <a href="#" class="symbol symbol-50px">
-            <i class="ti ti-chef-hat" style="font-size: 24px; cursor: pointer"></i>
-          </a>
+
 
           <!--end::Thumbnail-->
-          <div class="ms-5">
+          <div class="">
             <!--begin::Title-->
             <a (click)="openDetails(i)" class="text-hover-primary fs-5 fw-bold" data-kt-ecommerce-product-filter="product_name">
-              {{ item.identifier }}
+              {{ item?.name }}
             </a>
-            <div class="fs-7 fw-bold">Total Orders:{{ item?.total_orders }}</div>
 
             <!--end::Title-->
           </div>
@@ -38,35 +35,26 @@
       </td>
       <td>
         <div class="d-flex">
-          <div class="ms-5">
-            <a class="text-hover-primary fs-5 fw-bold mb-1">{{ item?.restaurant_detail?.name }}</a>
+          <div class="">
+            <a class="text-hover-primary fs-5 fw-bold mb-1">{{ item?.email}}</a>
           </div>
         </div>
       </td>
       <td>
         <div class="d-flex">
-          <div class="ms-5">
-            <a class="text-hover-primary fs-5 fw-bold mb-1">{{ item.no_of_seats }}</a>
+          <div class="">
+            <a class="text-hover-primary fs-5 fw-bold mb-1">{{item?.phone}}</a>
           </div>
         </div>
       </td>
       <td>
         <div class="d-flex">
-          <div class="ms-5">
-            <a class="text-hover-primary fs-5 fw-bold mb-1">{{ item.floor }}</a>
+          <div class="">
+            <a class="text-hover-primary fs-5 fw-bold mb-1">{{ item.message }}</a>
           </div>
         </div>
       </td>
-      <td>
-        <div class="d-flex">
-          <a href="#" class="badge badge-info fw-bold me-auto px-4 py-3">349</a>
-        </div>
-      </td>
-      <td>
-        <div class="d-flex">
-          <div class="badge badge-light-primary fw-bold me-auto px-4 py-3">{{ item.status }}</div>
-        </div>
-      </td>
+
       <!-- <ng-content></ng-content> -->
       <!--begin::Action=-->
       <td class="text-end">

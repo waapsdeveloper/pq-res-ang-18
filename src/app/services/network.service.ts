@@ -19,7 +19,7 @@ export class NetworkService {
   ) {}
 
   //Dashboard APi
-  
+
   getSalesChartData(params: any) {
     let str = this.serialize(params);
     return this.httpGetResponse('dashboard/sales-chart-data' + '?' + str, null, false, true);
@@ -265,6 +265,15 @@ export class NetworkService {
     return str.join('&');
   };
 
+
+
+  // MESSAGES API
+  getMessages(){
+    return this.httpGetResponse('message', null, false, true);
+  }
+  replyMessage(data,id){
+    return this.httpPutResponse('message/reply', data, id, false, true);
+  }
   // Function for POST method
   httpPostResponse(key: any, data: any, id = null, showloader = true, showError = true, contenttype = 'application/json') {
     console.log(localStorage.getItem('restaurant_id'));

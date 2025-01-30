@@ -6,6 +6,7 @@ import { NetworkService } from 'src/app/services/network.service';
 import { UsersService } from 'src/app/services/users.service';
 import { UtilityService } from 'src/app/services/utility.service';
 import { RtableService } from '../../rtables/rtable.service';
+import { MessageService } from '../messages.service';
 
 @Component({
   selector: 'app-list-message',
@@ -13,17 +14,14 @@ import { RtableService } from '../../rtables/rtable.service';
   styleUrl: './list-message.component.scss'
 })
 export class ListMessageComponent extends ListBlade {
-  columns: any[] = ['Table No', 'Branch', 'No of seats', 'Floor', 'No of Orders', 'Status'];
+  columns: any[] = ['Name', 'Email', 'Phone', 'Message'];
   title = 'Tables';
   showEdit = false;
   addurl = '/pages/tables/add';
   override model = {
-    tableNo: '',
-    status: '',
-    noOfOrders: '',
-    no_of_seats: '',
-    floor: '',
-    location: ''
+    name: '',
+    email: '',
+    phone: ''
   };
 
   fields: FormlyFieldConfig[] = [
@@ -31,75 +29,35 @@ export class ListMessageComponent extends ListBlade {
       fieldGroupClassName: 'row', // Bootstrap row
       fieldGroup: [
         {
-          key: 'no_of_seats',
+          key: 'name',
           type: 'input',
           props: {
-            label: 'Number of Seats',
-            placeholder: 'Enter number of seats',
-            required: true,
-            type: 'number', // Ensures numeric input
-            max: 255 // Constraint for maximum value
+            label: 'Name',
+            placeholder: ''
           },
-          className: 'col-md-3 col-12'
+          className: 'col-md-2 col-12' // 3 columns on md+, full width on small screens
         },
         {
-          key: 'floor',
+          key: 'email',
           type: 'input',
           props: {
-            label: 'Floor',
-            placeholder: 'Enter floor description',
-            required: true,
-            maxLength: 500 // Constraint for maximum length
+            label: 'Email',
+            placeholder: '',
+            type: 'email'
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12' // 3 columns on md+, full width on small screens
         },
 
         {
-          key: 'location',
+          key: 'phone',
           type: 'input',
           props: {
-            label: 'Location',
-            placeholder: 'Near west wall',
-            required: true
-          },
-          className: 'col-md-4 col-12'
-        },
+            label: 'Phone Number',
+            placeholder: 'Enter phone ',
 
-        {
-          key: 'tableNo',
-
-          type: 'input',
-          props: {
-            label: 'Table no',
-            placeholder: 'Enter Table no',
-            required: true,
-            minLength: 3
+            type: 'tel'
           },
-          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
-        },
-        {
-          key: 'status',
-          type: 'select',
-          props: {
-            label: 'Status',
-            options: [
-              { label: 'Active', value: 'active' },
-              { label: 'Inactive', value: 'inactive' }
-            ],
-            required: true
-          },
-          className: 'col-md-3 col-12'
-        },
-
-        {
-          key: 'noOfOrders',
-          type: 'input',
-          props: {
-            label: 'Orders',
-            placeholder: 'Enter Orders',
-            required: true
-          },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         }
       ]
     }
@@ -109,7 +67,7 @@ export class ListMessageComponent extends ListBlade {
   }
   constructor(
     injector: Injector,
-    public override crudService: RtableService,
+    public override crudService: MessageService,
     private nav: NavService,
     private utility: UtilityService,
     private users: UsersService,
