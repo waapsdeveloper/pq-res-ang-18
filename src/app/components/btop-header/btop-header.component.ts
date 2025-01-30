@@ -20,6 +20,7 @@ export class BtopHeaderComponent {
   showNewOrder = false;
   restaurant$: any;
   date = new Date();
+  orderNumber: string = 'ORD-909803';
   menuItems = [
     { label: 'Dashboard', link: '/pages/dashboard', icon: 'ti ti-layout-dashboard' },
     { label: 'Branches', link: '/pages/restaurants', icon: 'ti ti-soup' },
@@ -31,7 +32,7 @@ export class BtopHeaderComponent {
     { label: 'Table Booking', link: '/pages/table-booking', icon: 'ti ti-table' },
     { label: 'Orders', link: '/pages/orders', icon: 'ti ti-truck-delivery' },
     { label: 'Invoices', link: '/pages/invoices', icon: 'ti ti-file-dollar' },
-    { label: 'Messages', link: '/pages/messages', icon: 'ti ti-message-dots' },
+    { label: 'Messages', link: '/pages/messages', icon: 'ti ti-message-dots' }
 
     //   { label: 'Reports', link: '/pages/reports', icon: 'ti ti-clipboard-text' },
     //   { label: 'Customers', link: '/pages/customers', icon: 'ti ti-user-plus' },
@@ -52,13 +53,14 @@ export class BtopHeaderComponent {
 
     this.grService.getRestaurant().subscribe((data) => {
       this.restaurant$ = data;
-     });
+    });
 
-     this.events.subscribe('new-order-notification', (data) => {
-        console.log("events", data);
+    this.events.subscribe('new-order-notification', (data) => {
+      console.log('events', data);
+      this.orderNumber = this.notifcationService.data?.order_id;
+      this.showNewOrder = true;
 
-        this.showNewOrder = true;
-     })
+    });
   }
 
   async initialize() {
@@ -93,7 +95,7 @@ export class BtopHeaderComponent {
     return 'assets/svg/logo.png';
   }
 
-   navigateToOrder(i) {
+  navigateToOrder(i) {
     let item = this.notifcationService.notifications[i]?.data?.order_id;
     console.log(item);
 
@@ -119,5 +121,14 @@ export class BtopHeaderComponent {
     } else {
       return '1 day ago'; // Or more specific date/time format
     }
+  }
+  closeOrder() {
+    this.showNewOrder = false;
+  }
+  goToOrder() {
+    this.orderNumber = this.notifcationService.data?.order_id;
+    this.router.navigate(['/pages/orders/view', this.orderNumber]);
+    this.showNewOrder = false;
+    console.log(this.orderNumber);
   }
 }

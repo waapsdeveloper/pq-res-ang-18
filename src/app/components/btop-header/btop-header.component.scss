@@ -116,20 +116,56 @@ ul.list-unstyled {
   font-size: 12px; /* Adjusts the message font size */
   color: #6c757d; /* Makes the text muted for a cleaner UI */
 }
-.anc ::hover
-{
-  color: rgb(209, 46, 46)
+.anc ::hover {
+  color: rgb(209, 46, 46);
 }
-
 
 .new-order-received-fixed-layout {
   position: fixed;
   top: 50%;
   left: 50%;
   width: 70vw;
-  height: 90vh;
   background: rgb(209, 46, 46);
   transform: translate(-50%, -50%);
   z-index: 999;
+}
+.new-order-received-fixed-layout {
+  position: fixed;
+  bottom: 180px;
+  right: 20px;
+  width: 300px;
+  background: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
 
+.order-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.buttons {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+button {
+  border: none;
+  padding: 8px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:first-child {
+  background-color: red;
+  color: white;
+}
+
+button:last-child {
+  background-color: green;
+  color: white;
 }

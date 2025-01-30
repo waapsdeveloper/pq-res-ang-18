@@ -115,6 +115,14 @@
     </a>
   </div>
 </header>
-<div class="new-order-received-fixed-layout" *ngIf="showNewOrder" >
-  New Order Received
+<div class="new-order-received-fixed-layout" *ngIf="showNewOrder">
+  <div class="order-content">
+    <h2><img src="assets/svg/order.svg" alt=""> New Order</h2>
+    <p>Order #<strong>{{ orderNumber }}</strong></p>
+    <div class="buttons">
+      <button (click)="closeOrder()">Close</button>
+      <button (click)="goToOrder()">View Order</button>
+    </div>
+  </div>
 </div>
+

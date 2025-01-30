@@ -8,29 +8,31 @@ import { NetworkService } from './network.service';
   providedIn: 'root'
 })
 export class NotificationsService {
-
+  data: any;
   notificationChannel: any;
   private pusher: Pusher;
 
-  notifications: any[] = [];  
+  notifications: any[] = [];
 
-  constructor(private network: NetworkService, private events: EventsService) { 
+  constructor(
+    private network: NetworkService,
+    private events: EventsService
+  ) {
     this.initPusher();
   }
 
-
   // Initialize Pusher
   initPusher() {
-     const options = {
+    const options = {
       cluster: environment.pusher.cluster,
-      forceTLS: true,
+      forceTLS: true
     };
 
-    this.pusher = new Pusher( environment.pusher.key, options);
+    this.pusher = new Pusher(environment.pusher.key, options);
     this.notificationChannel = this.pusher.subscribe('notification-channel');
   }
 
-  unRegisterPusherEvent(){
+  unRegisterPusherEvent() {
     if (this.pusher) {
       this.pusher.unsubscribe('notification-channel');
       this.pusher.disconnect();
@@ -40,32 +42,21 @@ export class NotificationsService {
   }
 
   registerPusherEvent() {
-    this.notificationChannel.bind(
-      'notification-update',
-      this.notificationChannelReceived.bind(this)
-    );
+    this.notificationChannel.bind('notification-update', this.notificationChannelReceived.bind(this));
   }
 
   notificationChannelReceived($event: any) {
-
     console.log('Notification Received', $event);
+    this.data = $event?.data;
+
     this.notifications.unshift($event);
     // this.events.publish('get-dashboard-stats');
-    this.events.publish('new-order-notification', $event)
-    
+    this.events.publish('new-order-notification', $event);
   }
 
   async getNotificationsFromApi() {
-
     const res = await this.network.getNotifications();
     console.log('Notifications', res);
     this.notifications = res.data;
-
-    
-
   }
-
-
-
-
 }
