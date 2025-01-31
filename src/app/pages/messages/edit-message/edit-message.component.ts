@@ -12,7 +12,6 @@ import { UtilityService } from 'src/app/services/utility.service';
   styleUrl: './edit-message.component.scss'
 })
 export class EditMessageComponent implements OnInit {
-
   id;
 
   constructor(
@@ -75,104 +74,65 @@ export class EditMessageComponent implements OnInit {
   }
   form = new FormGroup({});
   model = {
-    no_of_seats: '',
-    floor: '',
-    //location: '',
-    description: '',
-    status: ''
+    name: '',
+    email: '',
+    phone: ''
   };
 
   fields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: 'row', // Bootstrap row
       fieldGroup: [
-
-
         {
-          key: 'identifier',
+          key: 'name',
           type: 'input',
           props: {
             label: 'Name',
-            placeholder: 'Enter table name',
-            required: true,
-            minLength: 3
+            placeholder: ''
           },
-          className: 'col-md-2 col-12' // 6 columns on md+, full width on small screens
+          className: 'col-md-2 col-12' // 3 columns on md+, full width on small screens
         },
         {
-          key: 'no_of_seats',
+          key: 'email',
           type: 'input',
           props: {
-            label: 'Number of Seats',
-            placeholder: 'Enter number of seats',
-            required: true,
-            type: 'number', // Ensures numeric input
-            max: 255 // Constraint for maximum value
+            label: 'Email',
+            placeholder: '',
+            type: 'email'
           },
-          className: 'col-md-2 col-12'
-        },
-        {
-          key: 'floor',
-          type: 'input',
-          props: {
-            label: 'Floor',
-            placeholder: 'Enter floor description',
-            required: true,
-            maxLength: 500 // Constraint for maximum length
-          },
-          className: 'col-md-2 col-12'
-        },
-
-        // {
-        //   key: 'location',
-        //   type: 'input',
-        //   props: {
-        //     label: 'Location',
-        //     placeholder: 'Near west wall',
-        //     required: true,
-        //   },
-        //   className: 'col-md-6 col-12',
-        // },
-        {
-          key: 'status',
-          type: 'select',
-          props: {
-            label: 'Status',
-            placeholder: 'Select status',
-            required: true,
-            options: [
-              { value: 'active', label: 'Active' },
-              { value: 'inactive', label: 'Inactive' }
-            ]
-          },
-          className: 'col-md-2 col-12'
+          className: 'col-md-2 col-12' // 3 columns on md+, full width on small screens
         },
 
         {
-          key: 'description',
-          type: 'textarea',
+          key: 'phone',
+          type: 'input',
           props: {
-            label: 'Description',
-            placeholder: 'Enter a description',
-            required: false
+            label: 'Phone Number',
+            placeholder: 'Enter phone ',
+
+            type: 'tel'
           },
-          className: 'col-md-2 col-12' // Full width for description
+          className: 'col-md-2 col-12'
         }
       ]
     }
   ];
   async ngAfterViewInit() {
-    const res = await this.network.getTablesById(this.id);
+    let obj = {
+      email: localStorage.getItem('email'),
+      
+    }
+    const res = await this.network.replyMessage(obj,this.id);
     let d = Object.assign({}, res.Rtable);
     console.log(d);
     // Dynamic model assignment
-    this.model = {
-      no_of_seats: d.no_of_seats || '', // Matches `model`
-      floor: d.floor || '', // Matches `model`
-      // location: d.location || '',           // Matches `model`
-      description: d.description || '', // Matches `model`
-      status: d.status || '' // Matches `model`
-    };
+    // this.model = {
+    //   no_of_seats: d.no_of_seats || '', // Matches `model`
+    //   floor: d.floor || '', // Matches `model`
+    //   // location: d.location || '',           // Matches `model`
+    //   description: d.description || '', // Matches `model`
+    //   status: d.status || '' // Matches `model`
+    // };
   }
 
   async onSubmit(model) {
@@ -194,5 +154,4 @@ export class EditMessageComponent implements OnInit {
       //alert('Please fill out all required fields correctly.');
     }
   }
-
 }

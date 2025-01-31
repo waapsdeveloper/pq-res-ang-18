@@ -56,10 +56,13 @@ export class ViewOrdersComponent implements OnInit {
     this.popovers.push(popover);
   }
   parseMetaValues(products: any[]) {
+    console.log("meta_value",products)
     products.forEach((product) => {
-      if (product.meta_value) {
-        product.meta_value = JSON.parse(product.meta_value);
+      if (product.variation) {
+        product.variation = JSON.parse(JSON.parse(product.variation));
+
       }
+      console.log("variation",product.variation);
     });
 
     this.variations = products.flatMap((product) => (Array.isArray(product.meta_value) ? product.meta_value : [])); // Flatten meta_value arrays
@@ -75,7 +78,7 @@ export class ViewOrdersComponent implements OnInit {
     console.log(obj);
 
     await this.network.orderStatus(item.id, obj);
-    
+
     this.utility.presentSuccessToast(`Order Status Updated to ${obj.status}`);
   }
 }

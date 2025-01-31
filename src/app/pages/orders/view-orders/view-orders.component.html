@@ -168,7 +168,7 @@
                   <ng-template #variation>
                     <div class="row">
                       <!-- Loop through Variations -->
-                      <div class="col-12" *ngFor="let variation of item?.variation">
+                      <div class="col-12" *ngFor="let variation of product?.variation">
                         <!-- Display only if the Variation is Selected -->
                         <div>
                           <!-- Variation Type as Heading -->
@@ -177,7 +177,7 @@
                           <!-- Loop through Options
                            for the Current Variation -->
                           <div *ngFor="let option of variation.options" class="ms-4">
-                            <div>
+                            <div *ngIf="option.selected">
                               <!-- Display Option Name, Description, and Price -->
                               <span class="fw-semibold">{{ option.name }}</span>
                               <br />
