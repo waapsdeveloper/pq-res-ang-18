@@ -271,6 +271,9 @@ export class NetworkService {
   getMessages(){
     return this.httpGetResponse('message', null, false, true);
   }
+  getMessageById(id) {
+    return this.httpGetResponse(`message/${id}`, null, false, true);
+  }
   replyMessage(data,id){
     return this.httpPutResponse('message/reply', data, id, false, true);
   }

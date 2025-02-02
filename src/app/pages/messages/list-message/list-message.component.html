@@ -1,4 +1,4 @@
-<app-kt-list-page [title]="'Messages'" [addurl]="'/pages/messages/add'" (onFilter)="toggleFilters()">
+<app-kt-list-page  [showCreate]="false" [title]="'Messages'" [addurl]="'/pages/messages/add'" (onFilter)="toggleFilters() ">
   <form [formGroup]="form" *ngIf="crudService.filters" (ngSubmit)="submitFilters(model)">
     <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
     <button type="submit" class="btn btn-secondary mt-4">search</button>
@@ -60,7 +60,7 @@
       <td class="text-end">
         <div class="d-flex flex-row justify-content-end align-items-center gap-3">
           <i class="ti ti-eye" style="font-size: 24px; cursor: pointer" (click)="openDetails(i)"></i>
-          <i class="ti ti-edit" style="font-size: 24px; cursor: pointer" (click)="openEditDetails(i)"></i>
+          <!-- <i class="ti ti-edit" style="font-size: 24px; cursor: pointer" (click)="openEditDetails(i)"></i> -->
           <i *ngIf="showEdit" class="ti ti-trash" style="font-size: 24px; cursor: pointer" (click)="deleteRow(i)"></i>
         </div>
       </td>

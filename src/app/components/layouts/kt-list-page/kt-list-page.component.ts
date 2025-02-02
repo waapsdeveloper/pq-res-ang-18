@@ -1,3 +1,4 @@
+import { Title } from '@angular/platform-browser';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({

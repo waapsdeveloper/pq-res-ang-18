@@ -11,7 +11,8 @@ import { NetworkService } from 'src/app/services/network.service';
 export class ViewMessageComponent {
   itemId;
   item;
-
+  user;
+  responseMessage: string = '';
   constructor(
     private nav: NavService,
     private network: NetworkService,
@@ -22,14 +23,26 @@ export class ViewMessageComponent {
 
   async initialize() {
     console.log('yayay');
+ let user = localStorage.getItem('user');
+ this.user = JSON.parse(user)
+ console.log(user);
 
     const rew = await this.activatedRoute.snapshot.params;
 
     this.itemId = rew['id'];
 
-    const res = await this.network.getTablesById(this.itemId);
-    console.log(res);
+    const res = await this.network.getMessageById(this.itemId);
+    console.log(res.message);
 
-    this.item = res.Rtable;
+    this.item = res?.message;
+  }
+async  postResponse(){
+    console.log(this.responseMessage);
+    let obj = {
+      reply_by_user_id:this.user?.id,
+      content: this.responseMessage,
+      restaurant_id: localStorage.getItem('restaurant_id')
+    }
+    let res = await this.network.replyMessage(obj,this.item?.email);
   }
 }
