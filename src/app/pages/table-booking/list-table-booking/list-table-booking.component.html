@@ -16,16 +16,19 @@
           <div class="d-flex align-items-center">
             <!--begin::Thumbnail-->
             <a href="#" class="symbol symbol-50px">
-              <span class="symbol-label" style="background-image:url(assets/images/user/avatar-1.jpg);"></span>
+              <i class="ti ti-chef-hat" style="font-size: 24px; cursor: pointer"></i>
             </a>
+
             <!--end::Thumbnail-->
             <div class="ms-5">
               <!--begin::Title-->
-              <a href="../../demo1/dist/apps/ecommerce/catalog/edit-product.html"
-                class="text-gray-800 text-hover-primary fs-5 fw-bold"
-                data-kt-ecommerce-product-filter="product_name">{{item.name}}</a>
-              <div class="text-muted fs-7 fw-bold">Total Orders: 778</div>
-
+              <a
+                (click)="openDetails(i)"
+                class=" text-hover-primary fs-5 fw-bold"
+                data-kt-ecommerce-product-filter="product_name"
+              >
+                {{ item.name }}
+              </a>
               <!--end::Title-->
             </div>
           </div>
