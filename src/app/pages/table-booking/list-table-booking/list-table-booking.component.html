@@ -1,87 +1,83 @@
 <app-kt-list-page [title]="'Table Booking'" [addurl]="'/pages/users/add'" (onFilter)="toggleFilters()" [showCreate]="false">
+  <form [formGroup]="form" *ngIf="crudService.filters" (ngSubmit)="submitFilters(model)">
+    <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
+    <button type="submit" class="btn btn-secondary mt-4">search</button>
+  </form>
 
-    <form [formGroup]="form" *ngIf="crudService.filters" (ngSubmit)="submitFilters(model)">
-      <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
-      <button type="submit" class="btn btn-secondary mt-4">search</button>
-    </form>
+  <hr *ngIf="crudService.filters" />
 
-    <hr *ngIf="crudService.filters">
+  <app-kt-app-list-page-table
+    [columns]="columns"
+    [currentPage]="crudService.page"
+    [totalPages]="crudService.lastPage"
+    (pageChange)="changePage($event)"
+  >
+    <tr *ngFor="let item of crudService.list; let i = index">
+      <td>
+        <div class="d-flex align-items-center">
+          <!--begin::Thumbnail-->
+          <a href="#" class="symbol symbol-50px">
+            <i class="ti ti-chef-hat" style="font-size: 24px; cursor: pointer"></i>
+          </a>
 
-    <app-kt-app-list-page-table [columns]="columns" [currentPage]="crudService.page" [totalPages]="crudService.lastPage"
-      (pageChange)="changePage($event)">
-
-      <tr *ngFor="let item of crudService.list; let i = index">
-
-        <td>
-          <div class="d-flex align-items-center">
-            <!--begin::Thumbnail-->
-            <a href="#" class="symbol symbol-50px">
-              <i class="ti ti-chef-hat" style="font-size: 24px; cursor: pointer"></i>
+          <!--end::Thumbnail-->
+          <div class="ms-5">
+            <!--begin::Title-->
+            <a (click)="openDetails(i)" class="text-hover-primary fs-5 fw-bold" data-kt-ecommerce-product-filter="product_name">
+              {{ item?.customer?.name }}
             </a>
+            <!--end::Title-->
+          </div>
+        </div>
+      </td>
+      <td>
+        <div class="d-flex">
+          <div class="badge badge-light-primary fs-7 fw-bold">{{ item?.customer?.phone }}</div>
+        </div>
+      </td>
+      <td>
+        <div class="d-flex">
+          <div class="text-muted fs-7 fw-bold">{{ item.booking_start.split(' ')[0] }}</div>
+        </div>
+      </td>
+      <td>
+        <div class="d-flex">
+          <div class="text-muted fs-7 fw-bold">{{ item.booking_start.split(' ')[1] }}</div>
+        </div>
+      </td>
 
-            <!--end::Thumbnail-->
-            <div class="ms-5">
-              <!--begin::Title-->
-              <a
-                (click)="openDetails(i)"
-                class=" text-hover-primary fs-5 fw-bold"
-                data-kt-ecommerce-product-filter="product_name"
-              >
-                {{ item.name }}
-              </a>
-              <!--end::Title-->
-            </div>
-          </div>
-        </td>
-        <td>
-          <div class="d-flex">
-            <div class="text-muted fs-7 fw-bold">{{item.booking_start}}</div>
-          </div>
-        </td>
-        <td>
-          <div class="d-flex">
-            <div class="badge badge-light-primary fs-7 fw-bold">{{ item.no_of_seats }}</div>
-          </div>
-        </td>
-        <!-- <td>
+      <td>
+        <div class="d-flex">
+          <div class="badge badge-light-primary fs-7 fw-bold">{{ item.no_of_seats }}</div>
+        </div>
+      </td>
+      <!-- <td>
           <div class="d-flex">
             <div class="fs-7 fw-bold">{{getRandomNumberBetween50And100()}}</div>
           </div>
         </td> -->
-        <td>
-          <div class="d-flex">
-            <div class="badge badge-light-primary fw-bold me-auto px-4 py-3">{{item.status}}</div>
-          </div>
-        </td>
+      <td>
+        <div class="d-flex">
+          <div class="badge badge-light-primary fw-bold me-auto px-4 py-3">{{ item.status }}</div>
+        </div>
+      </td>
 
-
-
-        <!-- <ng-content></ng-content> -->
-        <!--begin::Action=-->
-        <td class="text-end d-flex flex-row justify-content-end align-items-center gap-3">
-
-          <i class="ti ti-eye" style="font-size: 24px;" (click)="openDetails(i)"></i>
-          <i class="ti ti-edit" style="font-size: 24px;"></i>
-          <i class="ti ti-trash" style="font-size: 24px;" (click)="deleteRow(i)"></i>
-
-        </td>
-        <!--end::Action=-->
-        <!--begin::Checkbox-->
-        <td>
-          <div class="form-check form-check-sm form-check-custom form-check-solid">
-            <input class="form-check-input" type="checkbox" value="1" />
-          </div>
-        </td>
-        <!--end::Checkbox-->
-        <!--end::Table row-->
-      </tr>
-
-
-
-
-
-
-    </app-kt-app-list-page-table>
-
-
-  </app-kt-list-page>
+      <!-- <ng-content></ng-content> -->
+      <!--begin::Action=-->
+      <td class="text-end d-flex flex-row justify-content-end align-items-center gap-3">
+        <i class="ti ti-eye" style="font-size: 24px" (click)="openDetails(i)"></i>
+        <i class="ti ti-edit" style="font-size: 24px"></i>
+        <i class="ti ti-trash" style="font-size: 24px" (click)="deleteRow(i)"></i>
+      </td>
+      <!--end::Action=-->
+      <!--begin::Checkbox-->
+      <td>
+        <div class="form-check form-check-sm form-check-custom form-check-solid">
+          <input class="form-check-input" type="checkbox" value="1" />
+        </div>
+      </td>
+      <!--end::Checkbox-->
+      <!--end::Table row-->
+    </tr>
+  </app-kt-app-list-page-table>
+</app-kt-list-page>

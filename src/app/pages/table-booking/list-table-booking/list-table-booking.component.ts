@@ -18,7 +18,9 @@ export class ListTableBookingComponent extends ListBlade {
 
   columns: any[] = [
     'Name',
+    'Phone',
     'Booking Date',
+    'Booking Time',
     'Seats',
     'Status',
   ]
@@ -96,10 +98,13 @@ export class ListTableBookingComponent extends ListBlade {
       console.error('Error deleting row:', error);
     }
   }
-
   openDetails(i) {
-    let item = this.list[i];
-    this.nav.push('/pages/users/view/' + item.id);
+    let item = this.crudService.list[i];
+    this.nav.push('/pages/table-booking/view/' + item.id);
+  }
+  openEditDetails(i){
+    let item = this.crudService.list[i];
+    this.nav.push('/pages/table-booking/edit/' + item.id);
   }
 
   getRandomNumberBetween50And100(): number {

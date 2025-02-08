@@ -218,6 +218,9 @@ export class NetworkService {
   removeTable(id) {
     return this.httpDeleteResponse('rtable', id, false, true);
   }
+  getTableBookingById(id) {
+    return this.httpGetResponse(`table-booking/${id}`, null, false, true);
+  }
 
   // Orders
 

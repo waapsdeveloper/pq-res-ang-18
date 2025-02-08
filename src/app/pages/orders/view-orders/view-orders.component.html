@@ -168,9 +168,9 @@
                   <ng-template #variation>
                     <div class="row">
                       <!-- Loop through Variations -->
-                      <div class="col-12" *ngFor="let variation of product?.variation">
+                      <div class="col-12" *ngFor="let vari of product?.variation">
                         <!-- Display only if the Variation is Selected -->
-                        <div>
+                        <div *ngFor="let variation of vari">
                           <!-- Variation Type as Heading -->
                           <div class="fw-bold fs-5">{{ variation.type }}</div>
 

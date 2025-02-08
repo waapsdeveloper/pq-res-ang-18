@@ -50,10 +50,13 @@
       <td>
         <div class="d-flex">
           <div class="">
-            <a class="text-hover-primary fs-5 fw-bold mb-1">{{ item.message }}</a>
+            <a class="text-hover-primary fs-5 fw-bold mb-1">
+              {{ item.message | slice:0:40 }}{{ item.message.length > 35 ? '...' : '' }}
+            </a>
           </div>
         </div>
       </td>
+
 
       <!-- <ng-content></ng-content> -->
       <!--begin::Action=-->

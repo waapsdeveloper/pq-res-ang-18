@@ -12,31 +12,36 @@ import { NetworkService } from 'src/app/services/network.service';
 export class ViewTableBookingComponent {
   itemId;
   item;
+  start_date
+  start_time
+  end_date;
+  end_time;
 
-
-
-  constructor(private nav: NavService, private network: NetworkService, public router: Router, public activatedRoute: ActivatedRoute) {
+  constructor(
+    private nav: NavService,
+    private network: NetworkService,
+    public router: Router,
+    public activatedRoute: ActivatedRoute
+  ) {
     this.initialize();
   }
-
-
-
   async initialize() {
-    console.log("agbdsb");
+    console.log('agbdsb');
 
     const rew = await this.activatedRoute.snapshot.params;
-
 
     this.itemId = rew['id'];
 
     console.log(this.itemId);
-    
-    const res = await this.network.getUsersById(this.itemId);
-    console.log(res,"4165416516");
-    this.item = res.user;
 
+    const res = await this.network.getTableBookingById(this.itemId);
 
+    this.item = res.data;
+    const [date, time] = this.item.booking_start.split(" ");
+    this.start_date = date
+    this.start_time=time;
+     const [datee,timee] = this.item.booking_end.split(" ");
+     this.end_date = datee;
+     this.end_time = timee
   }
-
-
 }

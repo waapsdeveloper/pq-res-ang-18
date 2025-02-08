@@ -1,68 +1,118 @@
 <app-kt-list-detail-page [title]="' View Table'">
-
-    <div class="card mb-5 mb-xl-10" id="kt_profile_details_view">
-      <!--begin::Card header-->
-      <!--begin::Card header-->
-      <!--begin::Card body-->
-      <div class="card-body">
-        <!--begin::Row-->
-        <div class="row mb-7">
-          <!--begin::Label-->
-          <label class="col-lg-4 fw-semibold text-muted">User Name</label>
-          <!--end::Label-->
-          <!--begin::Col-->
-          <div class="col-lg-8">
-            <span class="fw-bold fs-6 text-gray-800">{{item?.name}}</span>
-          </div>
-          <!--end::Col-->
+  <div class="card mb-5 mb-xl-10" id="kt_profile_details_view">
+    <!--begin::Card header-->
+    <!--begin::Card header-->
+    <!--begin::Card body-->
+    <div class="card-body">
+      <!--begin::Row-->
+      <div class="row mb-7">
+        <!--begin::Label-->
+        <label class="col-lg-4 fw-semibold text-muted">Customer Name</label>
+        <!--end::Label-->
+        <!--begin::Col-->
+        <div class="col-lg-8">
+          <span class="fw-bold fs-6 text-gray-800">{{ item?.customer.name }}</span>
         </div>
-        <!--end::Row-->
-        <!--begin::Input group-->
-        <div class="row mb-7">
-          <!--begin::Label-->
-          <label class="col-lg-4 fw-semibold text-muted">Email</label>
-          <!--end::Label-->
-          <!--begin::Col-->
-          <div class="col-lg-8 fv-row">
-            <span class="fw-semibold text-gray-800 fs-6">{{item?.email}}</span>
-          </div>
-          <!--end::Col-->
-        </div>
-        <!--end::Input group-->
-        <!--begin::Input group-->
-        <div class="row mb-7">
-          <!--begin::Label-->
-          <label class="col-lg-4 fw-semibold text-muted">Status
-          <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" aria-label="Phone number must be active" data-kt-initialized="1"></i></label>
-          <!--end::Label-->
-          <!--begin::Col-->
-          <div class="col-lg-8 d-flex align-items-center">
-            <span class="fw-bold fs-6 text-gray-800 me-2">{{item?.status}}</span>
-            <!-- <span class="badge badge-success">Verified</span> -->
-          </div>
-          <!--end::Col-->
-        </div>
-        <!--end::Input group-->
-        <!--begin::Input group-->
-        <div class="row mb-7">
-          <!--begin::Label-->
-          <!-- <label class="col-lg-4 fw-semibold text-muted">Company Site</label> -->
-          <!--end::Label-->
-          <!--begin::Col-->
-          <div class="col-lg-8">
-            <a href="#" class="fw-semibold fs-6 text-gray-800 text-hover-primary">{{item?.website}}</a>
-          </div>
-          <!--end::Col-->
-        </div>
-        <!--end::Input group-->
-  
-  
+        <!--end::Col-->
       </div>
-      <!--end::Card body-->
+      <!--end::Row-->
+      <!--begin::Input group-->
+      <div class="row mb-7">
+        <!--begin::Label-->
+        <label class="col-lg-4 fw-semibold text-muted">Customer Email</label>
+        <!--end::Label-->
+        <!--begin::Col-->
+        <div class="col-lg-8 fv-row">
+          <span class="fw-semibold text-gray-800 fs-6">{{ item?.customer.email }}</span>
+        </div>
+        <!--end::Col-->
+      </div>
+      <div class="row mb-7">
+        <!--begin::Label-->
+        <label class="col-lg-4 fw-semibold text-muted">Customer Phone</label>
+        <!--end::Label-->
+        <!--begin::Col-->
+        <div class="col-lg-8 fv-row">
+          <span class="fw-semibold text-gray-800 fs-6">{{ item?.customer.phone }}</span>
+        </div>
+        <!--end::Col-->
+      </div>
+      <div class="row mb-7">
+        <!--begin::Label-->
+        <label class="col-lg-4 fw-semibold text-muted">Booking Date</label>
+        <!--end::Label-->
+        <!--begin::Col-->
+        <div class="col-lg-8 fv-row">
+          <span class="fw-semibold text-gray-800 fs-6">{{ start_date }}</span>
+        </div>
+        <!--end::Col-->
+      </div>
+      <div class="row mb-7">
+        <!--begin::Label-->
+        <label class="col-lg-4 fw-semibold text-muted">Booking Time</label>
+        <!--end::Label-->
+        <!--begin::Col-->
+        <div class="col-lg-8 fv-row">
+          <span class="fw-semibold text-gray-800 fs-6">{{ start_time }} - {{ end_time }}</span>
+        </div>
+        <!--end::Col-->
+      </div>
+      <div class="row mb-7">
+        <!--begin::Label-->
+        <label class="col-lg-4 fw-semibold text-muted">No of seats</label>
+        <!--end::Label-->
+        <!--begin::Col-->
+        <div class="col-lg-8 fv-row">
+          <span class="fw-semibold text-gray-800 fs-6">{{ item?.no_of_seats }}</span>
+        </div>
+        <!--end::Col-->
+      </div>
+      <div class="row mb-7">
+        <!--begin::Label-->
+        <label class="col-lg-4 fw-semibold text-muted">Description</label>
+        <!--end::Label-->
+        <!--begin::Col-->
+        <div class="col-lg-8 fv-row">
+          <span class="fw-semibold text-gray-800 fs-6">{{ item?.description }}</span>
+        </div>
+        <!--end::Col-->
+      </div>
+
+      <!--end::Input group-->
+      <!--begin::Input group-->
+      <div class="row mb-7">
+        <!--begin::Label-->
+        <label class="col-lg-4 fw-semibold text-muted">
+          Status
+          <i
+            class="fas fa-exclamation-circle ms-1 fs-7"
+            data-bs-toggle="tooltip"
+            aria-label="Phone number must be active"
+            data-kt-initialized="1"
+          ></i>
+        </label>
+        <!--end::Label-->
+        <!--begin::Col-->
+        <div class="col-lg-8 d-flex align-items-center">
+          <span class="fw-bold fs-6 text-gray-800 me-2">{{ item?.customer.status }}</span>
+          <!-- <span class="badge badge-success">Verified</span> -->
+        </div>
+        <!--end::Col-->
+      </div>
+      <!--end::Input group-->
+      <!--begin::Input group-->
+      <div class="row mb-7">
+        <!--begin::Label-->
+        <!-- <label class="col-lg-4 fw-semibold text-muted">Company Site</label> -->
+        <!--end::Label-->
+        <!--begin::Col-->
+        <div class="col-lg-8">
+          <a href="#" class="fw-semibold fs-6 text-gray-800 text-hover-primary">{{ item?.website }}</a>
+        </div>
+        <!--end::Col-->
+      </div>
+      <!--end::Input group-->
     </div>
-  
-  
-  
-  
-  </app-kt-list-detail-page>
-  
+    <!--end::Card body-->
+  </div>
+</app-kt-list-detail-page>
