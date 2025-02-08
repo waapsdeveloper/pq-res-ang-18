@@ -56,7 +56,7 @@ export class AddProductComponent {
           },
           className: 'col-md-2 col-12'
         },
-       
+
         {
           key: 'description',
           type: 'input',
@@ -152,7 +152,7 @@ export class AddProductComponent {
       search: '',
       perpage: 500,
 
-      restaurant_id: localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1
+      restaurant_id: localStorage.getItem('restaurant_id') ? localStorage.getItem('restaurant_id') : -1
     };
     const res = await this.network.getRestaurants(obj);
 
@@ -200,7 +200,7 @@ export class AddProductComponent {
     let obj = {
       search: '',
       perpage: 500,
-      restaurant_id: localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1
+      restaurant_id: localStorage.getItem('restaurant_id') ? localStorage.getItem('restaurant_id') : -1
     };
     const res = await this.network.getCategories(obj);
 

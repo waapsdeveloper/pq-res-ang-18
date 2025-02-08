@@ -36,7 +36,7 @@ export class AddCategoryComponent implements OnInit {
           },
           className: 'col-md-2 col-12' // 3 columns on md+, full width on small screens
         },
-       
+
         {
           key: 'description',
           type: 'textarea',
@@ -115,7 +115,7 @@ export class AddCategoryComponent implements OnInit {
       search: '',
       perpage: 500,
 
-      restaurant_id: localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1
+      restaurant_id: localStorage.getItem('restaurant_id') ? localStorage.getItem('restaurant_id') : -1
     };
     const res = await this.network.getCategories(obj);
 
@@ -138,7 +138,7 @@ export class AddCategoryComponent implements OnInit {
       search: '',
       perpage: 500,
 
-      restaurant_id: localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1
+      restaurant_id: localStorage.getItem('restaurant_id') ? localStorage.getItem('restaurant_id') : -1
     };
     const res = await this.network.getRestaurants(obj);
 

@@ -114,7 +114,7 @@ export class AddMessageComponent {
       search: '',
       perpage: 500,
 
-      restaurant_id: localStorage.getItem('restuarant_id') ? localStorage.getItem('restuarant_id') : -1
+      restaurant_id: localStorage.getItem('restaurant_id') ? localStorage.getItem('restaurant_id') : -1
     };
     const res = await this.network.getRestaurants(obj);
 
