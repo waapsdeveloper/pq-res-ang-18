@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
+import { UtilityService } from 'src/app/services/utility.service';
 
 @Component({
   selector: 'app-view-message',
@@ -16,7 +17,8 @@ export class ViewMessageComponent {
   constructor(
     private nav: NavService,
     private network: NetworkService,
-    public activatedRoute: ActivatedRoute
+    public activatedRoute: ActivatedRoute,
+    public utility:UtilityService
   ) {
     this.initialize();
   }
@@ -44,5 +46,6 @@ async  postResponse(){
       restaurant_id: localStorage.getItem('restaurant_id')
     }
     let res = await this.network.replyMessage(obj,this.item?.email);
+    this.utility.presentSuccessToast("Email send sucesssfully!")
   }
 }
