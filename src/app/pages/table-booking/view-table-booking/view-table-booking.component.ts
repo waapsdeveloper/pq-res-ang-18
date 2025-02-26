@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { async } from 'rxjs';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
+import { UtilityService } from 'src/app/services/utility.service';
 
 @Component({
   selector: 'app-view-table-booking',
@@ -16,12 +17,15 @@ export class ViewTableBookingComponent {
   start_time
   end_date;
   end_time;
+  statuses = ['pending', 'confirmed',  'completed', 'cancelled'];
+  selectedStatus = '';
 
   constructor(
     private nav: NavService,
     private network: NetworkService,
     public router: Router,
-    public activatedRoute: ActivatedRoute
+    public activatedRoute: ActivatedRoute,
+    private utility: UtilityService
   ) {
     this.initialize();
   }
@@ -43,5 +47,15 @@ export class ViewTableBookingComponent {
      const [datee,timee] = this.item.booking_end.split(" ");
      this.end_date = datee;
      this.end_time = timee
+  }
+  async updateStatus(item) {
+    let obj = {
+      status: this.selectedStatus
+    };
+    console.log(obj);
+
+    await this.network.orderStatus(item.id, obj);
+
+    this.utility.presentSuccessToast(`Order Status Updated to ${obj.status}`);
   }
 }
