@@ -17,7 +17,7 @@ export class ViewTableBookingComponent {
   start_time
   end_date;
   end_time;
-  statuses = ['pending', 'confirmed', 'preparing', 'ready_for_pickup', 'out_for_delivery', 'delivered', 'completed', 'cancelled'];
+  statuses = ['pending', 'confirmed',  'completed', 'cancelled'];
   selectedStatus = '';
 
   constructor(
