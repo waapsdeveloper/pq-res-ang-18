@@ -16,7 +16,14 @@ export class AddOrderService {
   selectedCategory = null;
   orderType = '';
   selected_products: any[] = [];
-
+  paymentMethod: any;
+  paymentMethods: { label: string; value: string }[] = [
+    { label: 'Cash on Delivery', value: 'Cash on Delivery' },
+    { label: 'Apple Pay', value: 'applePay' },
+    { label: 'Google Pay', value: 'googlePay' },
+    { label: 'Credit/Debit Card', value: 'card' },
+    { label: 'PayPal', value: 'paypal' },
+  ];
   totalCost = 0;
 
   constructor(private network: NetworkService) {
@@ -177,7 +184,8 @@ export class AddOrderService {
       products: prodObj,
       notes: this.order_notes,
       status: 'pending',
-      type: this.orderType,
+      payment_method: this.paymentMethod,
+      order_type: this.orderType,
       total_price: this.totalCost
     };
 

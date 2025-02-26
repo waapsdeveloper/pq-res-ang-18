@@ -15,6 +15,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     private network: NetworkService
   ) {}
   restaurant;
+
   ngOnInit(): void {
     this.orderService.showOrderHeader = false;
     this.getRestaurants();
@@ -38,6 +39,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     console.log('Selected Type:', this.selectedType);
     // Perform additional logic here (like sending it to the backend)
   }
+
   selectedType: string = 'dine-in';
   selectedStatus: string = 'pending'; // Default status
 
