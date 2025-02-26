@@ -54,7 +54,7 @@ export class ViewTableBookingComponent {
     };
     console.log(obj);
 
-    await this.network.orderStatus(item.id, obj);
+    await this.network.tableStatus(item.id, obj);
 
     this.utility.presentSuccessToast(`Order Status Updated to ${obj.status}`);
   }

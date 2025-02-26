@@ -221,6 +221,9 @@ export class NetworkService {
   getTableBookingById(id) {
     return this.httpGetResponse(`table-booking/${id}`, null, false, true);
   }
+  tableStatus(id:any,data){
+    return this.httpPutResponse(`table-booking/update-status`, data, id, false, true);
+  }
 
   // Orders
 
