@@ -19,6 +19,7 @@ export class ListTableBookingComponent extends ListBlade {
   columns: any[] = [
     'Name',
     'Phone',
+    'Email',
     'Booking Date',
     'Booking Time',
     'Seats',
