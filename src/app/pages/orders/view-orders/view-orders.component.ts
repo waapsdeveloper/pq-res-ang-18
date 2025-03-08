@@ -39,7 +39,7 @@ export class ViewOrdersComponent implements OnInit {
     console.log(res);
 
     this.item = res.order;
-
+    this.item['selectedStatus'] = this.item.status.toLowerCase();
     this.selectedStatus = this.item.status.toLowerCase();
 
     this.variations = this.item?.products;

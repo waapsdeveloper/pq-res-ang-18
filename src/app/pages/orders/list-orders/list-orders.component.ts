@@ -16,17 +16,18 @@ import { OrderService } from '../orders.service';
 export class ListOrdersComponent extends ListBlade {
   title = 'Orders';
   addurl = '/pages/orders/add';
-showEdit: boolean = false;
-  columns: any[] = ['Order Id', 'Phone No', 'Total Price', 'Table No', "Type", 'Status'];
-override  model = {
+  showEdit: boolean = false;
+  columns: any[] = ['Order Id', 'Customer', 'Role', 'Phone No', 'Total Price', 'Table No', 'Type', 'Status', 'Update Status'];
+  statuses = ['pending', 'confirmed', 'preparing', 'ready_for_pickup', 'out_for_delivery', 'delivered', 'completed', 'cancelled'];
+  selectedStatus = '';
+  override model = {
     order_id: '',
     Customer_name: '',
     phone: '',
     total_price: '',
     table: '',
     type: '',
-    status: '',
-
+    status: ''
   };
 
   fields: FormlyFieldConfig[] = [
@@ -122,30 +123,28 @@ override  model = {
           },
           className: 'col-md-2 col-12'
         }
-
-      ],
-    },
+      ]
+    }
   ];
   constructor(
-      injector: Injector,
-      public override crudService: OrderService,
-      private nav: NavService,
-      private utility: UtilityService,
-      private users: UsersService,
-      private network : NetworkService
-    ) {
-      super(injector, crudService);
-      this.initialize();
-    }
+    injector: Injector,
+    public override crudService: OrderService,
+    private nav: NavService,
+    private utility: UtilityService,
+    private users: UsersService,
+    private network: NetworkService
+  ) {
+    super(injector, crudService);
+    this.initialize();
+  }
 
-    initialize() {
-      this.crudService.getList('', 1);
-      const u = this.users.getUser()
-      if (u.role_id == 1 || u.role_id == 2) {
-        this.showEdit = true;
-
-      }
+  initialize() {
+    this.crudService.getList('', 1);
+    const u = this.users.getUser();
+    if (u.role_id == 1 || u.role_id == 2) {
+      this.showEdit = true;
     }
+  }
 
   async getList(search = '', page = 1): Promise<any> {
     let obj = {
@@ -172,7 +171,7 @@ override  model = {
     return res;
   }
 
-  editRow(index: number) { }
+  editRow(index: number) {}
 
   async deleteRow(index: number) {
     try {
@@ -195,10 +194,9 @@ override  model = {
     let item = this.crudService.list[i];
     this.nav.push('/pages/orders/view/' + item.id);
   }
-  openEditDetails(i){
+  openEditDetails(i) {
     let item = this.list[i];
     this.nav.push('/pages/orders/edit/' + item.id);
-
   }
 
   onChangePerPage($event) {
@@ -224,5 +222,14 @@ override  model = {
   payBill(order: any): void {
     console.log('Paying bill for:', order);
   }
+  async updateStatus(item) {
+    let obj = {
+      status: this.selectedStatus
+    };
+    console.log(obj);
 
+    await this.network.orderStatus(item.id, obj);
+
+    this.utility.presentSuccessToast(`Order Status Updated to ${obj.status}`);
+  }
 }

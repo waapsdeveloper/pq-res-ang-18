@@ -16,6 +16,7 @@
     (actionDeleteAll)="deleteAll($event)"
   >
     <tr *ngFor="let item of crudService.list; let i = index">
+
       <td>
         <div class="d-flex">
           <div class="ms-4">
@@ -23,13 +24,27 @@
           </div>
         </div>
       </td>
-      <!-- <td>
+      <td>
         <div class="d-flex">
           <div class="ms-4">
-            <a class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{ item?.customer }}</a>
+            <a class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">
+              {{ item?.customer }}
+              
+            </a>
           </div>
         </div>
-      </td> -->
+      </td>
+      <td>
+        <div class="d-flex">
+          <div class="ms-4">
+            <a class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">
+              <span class="badge badge-pill badge-primary">{{ item?.role }}</span>
+              
+            </a>
+          </div>
+        </div>
+      </td>
+
       <td>
         <div class="d-flex">
           <div class="ms-4">
@@ -37,6 +52,14 @@
           </div>
         </div>
       </td>
+
+      <!-- <td>
+        <div class="d-flex">
+          <div class="ms-4">
+            <a class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{ item?.customer }}</a>
+          </div>
+        </div>
+      </td> -->
 
       <!-- <td>
         <div *ngFor="let products of item.products" class="d-flex">
@@ -78,6 +101,18 @@
           >
             {{ item?.status | titlecase }}
           </div>
+        </div>
+      </td>
+      <td>
+        <div class="d-flex">
+          
+          <select class="form-select fw-medium fs-6 text-gray-800" [(ngModel)]="item.selectedStatus">
+            <option *ngFor="let status of statuses" [value]="status">
+              {{ status | titlecase }}
+            </option>
+          </select>
+          <!-- Button with fixed width -->
+          <button class="btn btn-primary col-auto" (click)="updateStatus(item)">Update</button>
         </div>
       </td>
 
