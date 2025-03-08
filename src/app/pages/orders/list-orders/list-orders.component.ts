@@ -183,6 +183,10 @@ export class ListOrdersComponent extends ListBlade {
       console.error('Error deleting row:', error);
     }
   }
+  async updateStatusfromService(index:number){
+    console.log('updateStatusfromService',index);
+  }
+
 
   loadMore() {
     if (this.page < this.lastPage) {

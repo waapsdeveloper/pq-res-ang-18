@@ -69,7 +69,7 @@ export class ViewOrdersComponent implements OnInit {
   }
   async updateStatus(item) {
     let obj = {
-      status: this.selectedStatus
+      status: this.item.selectedStatus
     };
     console.log(obj);
 

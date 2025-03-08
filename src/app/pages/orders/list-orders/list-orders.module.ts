@@ -8,6 +8,7 @@ import { ListOrdersComponent } from './list-orders.component';
 import { KtAppListPageTableModule } from 'src/app/components/layouts/kt-list-page/kt-app-list-page-table/kt-app-list-page-table.module';
 import { KtListPageModule } from 'src/app/components/layouts/kt-list-page/kt-list-page.module';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { ListOrderItemStatusModule } from './list-order-item-status/list-order-item-status.module';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     FormlyModule,
     ReactiveFormsModule,
     FormlyBootstrapModule,
-    NgxSkeletonLoaderModule
+    NgxSkeletonLoaderModule,
+    ListOrderItemStatusModule
   ],
 
 })

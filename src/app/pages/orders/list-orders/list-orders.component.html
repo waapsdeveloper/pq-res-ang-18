@@ -104,16 +104,7 @@
         </div>
       </td>
       <td>
-        <div class="d-flex">
-          
-          <select class="form-select fw-medium fs-6 text-gray-800" [(ngModel)]="item.selectedStatus">
-            <option *ngFor="let status of statuses" [value]="status">
-              {{ status | titlecase }}
-            </option>
-          </select>
-          <!-- Button with fixed width -->
-          <button class="btn btn-primary col-auto" (click)="updateStatus(item)">Update</button>
-        </div>
+        <app-list-order-item-status [item] = "item"></app-list-order-item-status>
       </td>
 
       <!-- <ng-content></ng-content> -->
