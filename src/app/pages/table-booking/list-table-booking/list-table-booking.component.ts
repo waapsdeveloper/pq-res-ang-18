@@ -23,6 +23,7 @@ export class ListTableBookingComponent extends ListBlade {
     'Booking Time',
     'Seats',
     'Status',
+    'Update Status'
   ]
 
   override model = {
