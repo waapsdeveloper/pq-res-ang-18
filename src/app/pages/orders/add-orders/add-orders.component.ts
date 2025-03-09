@@ -88,8 +88,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   }
   onInputChange(data) {
     console.log('Input changed', data);
-   this.fetchSuggestions(data);
-
+    this.fetchSuggestions(data);
   }
   async fetchSuggestions(query: any) {
     let v = query.trim();
@@ -100,8 +99,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     }
 
     let obj = {
-      search: v,
-      filters: v ? JSON.stringify(v) : null,
+      search: v      
     };
 
     const res = await this.network.index('user', obj);
@@ -110,5 +108,25 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
 
     console.log(this.filteredSuggestions);
   }
-  
+  onInputChangePhone(data) {
+    console.log('Input changed', data);
+    if(!data) return;
+    this.fetchSuggestionsPhone(data);
+  }
+  async fetchSuggestionsPhone(query: any) {
+
+    let temp = {
+      phone: query
+    }
+
+    let obj = {
+      filters: JSON.stringify(temp)
+    };
+
+    const res = await this.network.index('user', obj);
+    let array = res?.data?.data || [];
+    this.filteredSuggestions = array;
+
+    console.log(this.filteredSuggestions);
+  }
 }
