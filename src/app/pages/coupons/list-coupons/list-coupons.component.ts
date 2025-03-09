@@ -17,7 +17,7 @@ export class ListCouponsComponent extends ListBlade{
   columns: any[] = ['Table No','Branch','No of seats','Floor', 'No of Orders', 'Status'];
   title = 'Tables';
   showEdit = false;
-  addurl = '/pages/tables/add';
+  addurl = '/pages/coupons/add';
   override model = {
     tableNo: '',
     status: '',
@@ -180,11 +180,11 @@ export class ListCouponsComponent extends ListBlade{
 
   openDetails(i) {
     let item = this.crudService.list[i];
-    this.nav.push('/pages/tables/view/' + item.id);
+    this.nav.push('/pages/coupons/view/' + item.id);
   }
   openEditDetails(i){
     let item = this.crudService.list[i];
-    this.nav.push('/pages/tables/edit/' + item.id);
+    this.nav.push('/pages/coupons/edit/' + item.id);
   }
 
 
