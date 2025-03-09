@@ -88,9 +88,13 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   }
   onInputChange(data) {
     console.log('Input changed', data);
+    let obj ={
+      filters: data ? JSON.stringify(data) : null,
+    }
     this.fetchSuggestions(data);
+
   }
-  async fetchSuggestions(query: string) {
+  async fetchSuggestions(query: any) {
     let v = query.trim();
     console.log(v);
     if (!v) {

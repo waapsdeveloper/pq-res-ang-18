@@ -99,7 +99,27 @@
           </div>
 
           <div class="chip-container mt-3" >
-           <span class="chip" (click)="makeWalkingCustomer()"> Walk-in Customer</span>
+            <span
+            class="chip"
+            *ngFor="let item of filteredSuggestions"
+            style="
+              cursor: pointer;
+              margin-right: 10px;
+              margin-bottom: 5px;
+              padding: 5px 10px;
+              border-radius: 16px;
+              display: inline-block;
+              white-space: nowrap;
+            "
+            (click)="makeWalkingCustomer();"
+          >
+            <span class="chip-content">
+              <strong>Walk-in Customer</strong>
+              <!-- Name on top -->
+              <small>0000000000000</small>
+              <!-- Phone number below -->
+            </span>
+          </span>
             <span
               class="chip"
               *ngFor="let item of filteredSuggestions"
