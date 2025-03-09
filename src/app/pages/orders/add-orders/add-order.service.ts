@@ -145,6 +145,19 @@ export class AddOrderService {
 
     this.totalCost = cost; // Update the total cost
   }
+  selectSuggestion(suggestion: any) {
+    console.log(suggestion);
+    this.customer_name = suggestion.name;
+    this.customer_phone = suggestion.phone;
+  }
+  makeWalkingCustomer(){
+    this.customer_name = 'Walk-in Customer';
+    this.customer_phone = '0000000000';
+    this.orderType = 'dine-in';
+    this.paymentMethod = 'card';
+
+
+  }
 
   async submitOrder() {
     let prodObj = this.selected_products.map((item) => {
@@ -195,4 +208,5 @@ export class AddOrderService {
     this.selected_products = [];
     return true;
   }
+
 }

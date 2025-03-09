@@ -53,6 +53,7 @@
                 <input
                   type="text"
                   name="customer name"
+                  (input)="onInputChange(orderService.customer_name)"
                   class="form-control"
                   [(ngModel)]="orderService.customer_name"
                   placeholder="Customer Name"
@@ -65,6 +66,7 @@
                   class="form-control"
                   [(ngModel)]="orderService.customer_phone"
                   placeholder="Customer Phone"
+                  (input)="onInputChange(orderService.customer_phone)"
                 />
               </div>
               <div class="col-md-3 col-12">
@@ -87,13 +89,38 @@
               </div>
               <div class="col-md-3 col-12">
                 <select id="paymentMethod typeSelect" class="int-field form-select form-select-sm" [(ngModel)]="orderService.paymentMethod">
-                <option value="" disabled selected>Select Payment </option>
+                  <option value="" disabled selected>Select Payment</option>
                   <option *ngFor="let method of orderService.paymentMethods" [value]="method.value">
                     {{ method.label }}
                   </option>
                 </select>
               </div>
             </div>
+          </div>
+
+          <div class="chip-container mt-3" >
+           <span class="chip" (click)="makeWalkingCustomer()"> Walk-in Customer</span>
+            <span
+              class="chip"
+              *ngFor="let item of filteredSuggestions"
+              style="
+                cursor: pointer;
+                margin-right: 10px;
+                margin-bottom: 5px;
+                padding: 5px 10px;
+                border-radius: 16px;
+                display: inline-block;
+                white-space: nowrap;
+              "
+              (click)="orderService.selectSuggestion(item)"
+            >
+              <span class="chip-content">
+                <strong>{{ item.name }}</strong>
+                <!-- Name on top -->
+                <small>{{ item.phone }}</small>
+                <!-- Phone number below -->
+              </span>
+            </span>
           </div>
 
           <app-add-order-price-list></app-add-order-price-list>

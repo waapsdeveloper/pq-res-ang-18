@@ -15,7 +15,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     private network: NetworkService
   ) {}
   restaurant;
-
+  filteredSuggestions = [];
   ngOnInit(): void {
     this.orderService.showOrderHeader = false;
     this.getRestaurants();
@@ -53,7 +53,6 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     this.orderService.searchProducts(v);
   }
   printSlip() {
-
     const printContents = document.getElementById('print-section')?.innerHTML;
     const originalContents = document.body.innerHTML;
 
@@ -64,7 +63,6 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       window.location.reload(); // Reload the page to restore the original view
     } else {
       console.error('Print section not found.');
-
     }
   }
   async getRestaurants(): Promise<void> {
@@ -80,13 +78,35 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     if (res && res['data']) {
       let d = res['data'];
       let dm = d['data'];
-
     }
     this.restaurant = localStorage.getItem('restaurant') ? localStorage.getItem('restaurant') : -1;
     this.restaurant = JSON.parse(this.restaurant);
     console.log('Restaurant:', this.restaurant);
-
   }
+  makeWalkingCustomer() {
+    this.orderService.makeWalkingCustomer();
+  }
+  onInputChange(data) {
+    console.log('Input changed', data);
+    this.fetchSuggestions(data);
+  }
+  async fetchSuggestions(query: string) {
+    let v = query.trim();
+    console.log(v);
+    if (!v) {
+      this.filteredSuggestions = []; // Clear suggestions if input is empty
+      return;
+    }
 
+    let obj = {
+      search: v
+    };
 
+    const res = await this.network.index('user', obj);
+    let array = res?.data?.data || [];
+    this.filteredSuggestions = array;
+
+    console.log(this.filteredSuggestions);
+  }
+  
 }
