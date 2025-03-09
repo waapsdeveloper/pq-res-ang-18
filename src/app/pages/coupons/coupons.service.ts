@@ -12,9 +12,9 @@ export class CouponsService  extends BaseCrudService<any>{
 
   protected async fetchData(params: any): Promise<any> {
     // Call the specific network function
-    return this.network.index('coupons', params);
+    return this.network.index('coupon', params);
   }
 
   protected async deleteItemById(id: any): Promise<any> {
-    return this.network.destroy('coupons', id);
+    return this.network.destroy('coupon', id);
   }}

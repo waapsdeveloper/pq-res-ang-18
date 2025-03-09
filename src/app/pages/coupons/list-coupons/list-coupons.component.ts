@@ -5,118 +5,140 @@ import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { UsersService } from 'src/app/services/users.service';
 import { UtilityService } from 'src/app/services/utility.service';
-import { RtableService } from '../../rtables/rtable.service';
+import { FormGroup } from '@angular/forms';
+import { CouponsService } from '../coupons.service';
 
 @Component({
   selector: 'app-list-coupons',
   templateUrl: './list-coupons.component.html',
   styleUrl: './list-coupons.component.scss'
 })
-export class ListCouponsComponent extends ListBlade{
-
-  columns: any[] = ['Table No','Branch','No of seats','Floor', 'No of Orders', 'Status'];
-  title = 'Tables';
+export class ListCouponsComponent extends ListBlade {
+  columns: any[] = ['Coupon Code', 'Discount', 'Discount type', 'Usage Limit', 'Used Count', 'expires at', 'Status'];
+  title = 'Coupon';
   showEdit = false;
   addurl = '/pages/coupons/add';
+
+  override form = new FormGroup({});
   override model = {
-    tableNo: '',
-    status: '',
-    noOfOrders: '',
-    no_of_seats: '',
-    floor: '',
-    location: '',
+    code: '',
+    discount: '',
+    discount_type: '',
+    usage_limit: '',
+    usage_count: '',
+    expires_at: '',
+    is_active: ''
   };
 
   fields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: 'row', // Bootstrap row
       fieldGroup: [
-
         {
-          key: 'no_of_seats',
+          key: 'code',
           type: 'input',
           props: {
-            label: 'Number of Seats',
-            placeholder: 'Enter number of seats',
+            label: 'Coupon Code',
+            placeholder: 'Enter coupon code',
+            required: true,
+            minLength: 3
+          },
+          className: 'col-md-2 col-12' // 6 columns on md+, full width on small screens
+        },
+        {
+          key: 'discount',
+          type: 'input',
+          props: {
+            label: 'Discount',
+            placeholder: 'Enter discount',
             required: true,
             type: 'number', // Ensures numeric input
             max: 255 // Constraint for maximum value
           },
-          className: 'col-md-3 col-12'
+          className: 'col-md-2 col-12'
         },
         {
-          key: 'floor',
+          key: 'discount_type',
           type: 'input',
           props: {
-            label: 'Floor',
-            placeholder: 'Enter floor description',
+            label: 'Discount Type',
+            placeholder: 'Enter discount type',
             required: true,
             maxLength: 500 // Constraint for maximum length
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         },
 
+        // {
+        //   key: 'location',
+        //   type: 'input',
+        //   props: {
+        //     label: 'Location',
+        //     placeholder: 'Near west wall',
+        //     required: true,
+        //   },
+        //   className: 'col-md-6 col-12',
+        // },
         {
-          key: 'location',
-          type: 'input',
-          props: {
-            label: 'Location',
-            placeholder: 'Near west wall',
-            required: true
-          },
-          className: 'col-md-4 col-12'
-        },
-
-        {
-          key: 'tableNo',
-
-          type: 'input',
-          props: {
-            label: 'Table no',
-            placeholder: 'Enter Table no',
-            required: true,
-            minLength: 3
-          },
-          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
-        },
-        {
-          key: 'status',
+          key: 'is_active',
           type: 'select',
           props: {
             label: 'Status',
+            placeholder: 'Select status',
+            required: true,
             options: [
-              { label: 'Active', value: 'active' },
-              { label: 'Inactive', value: 'inactive' }
-            ],
-            required: true
+              { value: 'active', label: 'Active' },
+              { value: 'inactive', label: 'Inactive' }
+            ]
           },
-          className: 'col-md-3 col-12'
+          className: 'col-md-2 col-12'
         },
-
         {
-          key: 'noOfOrders',
+          key: 'usage_limit',
           type: 'input',
           props: {
-            label: 'Orders',
-            placeholder: 'Enter Orders',
+            label: 'Usage Limit',
+            placeholder: 'Enter usage limit',
+            required: true,
+            type: 'number', // Ensures numeric input
+            max: 255 // Constraint for maximum value
+          },
+          className: 'col-md-2 col-12'
+        },
+        {
+          key: 'usage_count',
+          type: 'input',
+          props: {
+            label: 'Usage Count',
+            placeholder: 'Enter Usage Count',
+            required: true,
+            type: 'number', // Ensures numeric input
+            max: 255 // Constraint for maximum value
+          },
+          className: 'col-md-2 col-12'
+        },
+        {
+          key: 'expires_at',
+          type: 'input',
+          templateOptions: {
+            label: 'Date of Birth',
+            type: 'date',
+            placeholder: 'Select a date',
             required: true
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-2 col-12'
         }
       ]
     }
   ];
-  ngOnInit(): void {
-    this.setRestaurantsInForm();
-  }
+
   constructor(
     injector: Injector,
-    public override crudService: RtableService,
+    public override crudService: CouponsService,
     private nav: NavService,
     private utility: UtilityService,
     private users: UsersService,
-    private network: NetworkService,
-
+    private network: NetworkService
   ) {
     super(injector, crudService);
     this.initialize();
@@ -129,42 +151,6 @@ export class ListCouponsComponent extends ListBlade{
       this.showEdit = true;
     }
   }
-  async getRestaurants(): Promise<any[]> {
-    let obj = {
-      search: '',
-      perpage: 500,
-
-      restaurant_id: localStorage.getItem('restaurant_id') ? localStorage.getItem('restaurant_id') : -1
-    };
-    const res = await this.network.getRestaurants(obj);
-
-    if (res && res['data']) {
-      let d = res['data'];
-      let dm = d['data'];
-      return dm.map((r) => {
-        return {
-          value: r.id,
-          label: r.name
-        };
-      }) as any[];
-    }
-
-    return [];
-  }
-  async setRestaurantsInForm() {
-    const res = await this.getRestaurants();
-    console.log(res);
-
-    for (var i = 0; i < this.fields.length; i++) {
-      for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
-        let fl = this.fields[i].fieldGroup[j];
-        if (fl.key == 'restaurant_id') {
-          fl.props.options = res;
-        }
-      }
-    }
-  }
-
 
   editRow(index: number) {}
 
@@ -182,10 +168,8 @@ export class ListCouponsComponent extends ListBlade{
     let item = this.crudService.list[i];
     this.nav.push('/pages/coupons/view/' + item.id);
   }
-  openEditDetails(i){
+  openEditDetails(i) {
     let item = this.crudService.list[i];
     this.nav.push('/pages/coupons/edit/' + item.id);
   }
-
-
 }

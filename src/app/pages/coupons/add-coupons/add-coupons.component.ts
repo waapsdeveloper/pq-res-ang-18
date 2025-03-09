@@ -14,12 +14,13 @@ export class AddCouponsComponent {
 
   form = new FormGroup({});
   model = {
-    identifier: '',
-    no_of_seats: '',
-    floor: '',
-    //  location: '',
-    description: '',
-    status: ''
+    code: '',
+    discount_value: '',
+    discount_type: '',
+    usage_limit: '',
+    usage_count: '',
+    expires_at: '',
+    is_active: '',
   };
 
   fields: FormlyFieldConfig[] = [
@@ -29,22 +30,22 @@ export class AddCouponsComponent {
 
 
         {
-          key: 'identifier',
+          key: 'code',
           type: 'input',
           props: {
-            label: 'Name',
-            placeholder: 'Enter table name',
+            label: 'Coupon Code',
+            placeholder: 'Enter coupon code',
             required: true,
             minLength: 3
           },
           className: 'col-md-2 col-12' // 6 columns on md+, full width on small screens
         },
         {
-          key: 'no_of_seats',
+          key: 'discount_value',
           type: 'input',
           props: {
-            label: 'Number of Seats',
-            placeholder: 'Enter number of seats',
+            label: 'Discount',
+            placeholder: 'Enter discount',
             required: true,
             type: 'number', // Ensures numeric input
             max: 255 // Constraint for maximum value
@@ -52,13 +53,16 @@ export class AddCouponsComponent {
           className: 'col-md-2 col-12'
         },
         {
-          key: 'floor',
-          type: 'input',
+          key: 'discount_type',
+          type: 'select',
           props: {
-            label: 'Floor',
-            placeholder: 'Enter floor description',
+            label: 'Discount Type',
+            placeholder: 'Enter discount type',
             required: true,
-            maxLength: 500 // Constraint for maximum length
+            options: [
+              { value: 'percentage', label: 'Percentage' },
+              { value: 'fixed', label: 'Fixed' }
+            ]
           },
           className: 'col-md-2 col-12'
         },
@@ -74,30 +78,55 @@ export class AddCouponsComponent {
         //   className: 'col-md-6 col-12',
         // },
         {
-          key: 'status',
+          key: 'is_active',
           type: 'select',
           props: {
             label: 'Status',
             placeholder: 'Select status',
             required: true,
             options: [
-              { value: 'active', label: 'Active' },
-              { value: 'inactive', label: 'Inactive' }
+              { value: true, label: 'Active' },
+              { value: false, label: 'Inactive' }
             ]
           },
           className: 'col-md-2 col-12'
         },
-
         {
-          key: 'description',
-          type: 'textarea',
+          key: 'usage_limit',
+          type: 'input',
           props: {
-            label: 'Description',
-            placeholder: 'Enter a description',
-            required: false
+            label: 'Usage Limit',
+            placeholder: 'Enter usage limit',
+            required: true,
+            type: 'number', // Ensures numeric input
+            max: 255 // Constraint for maximum value
           },
-          className: 'col-md-2 col-12' // Full width for description
-        }
+          className: 'col-md-2 col-12'
+        },
+        {
+          key: 'usage_count',
+          type: 'input',
+          props: {
+            label: 'Usage Count',
+            placeholder: 'Enter Usage Count',
+            required: true,
+            type: 'number', // Ensures numeric input
+            max: 255 // Constraint for maximum value
+          },
+          className: 'col-md-2 col-12'
+        },
+        {
+          key: 'expires_at',
+          type: 'input',
+          templateOptions: {
+            label: 'Expires at ',
+            type: 'date',
+            placeholder: 'Select a date',
+            required: true,
+          },
+          className: 'col-md-2 col-12'
+        },
+        
       ]
     }
   ];
@@ -189,7 +218,7 @@ export class AddCouponsComponent {
       // alert('Restaurant added successfully!');
 
       let d = this.form.value;
-      const res = await this.network.addTable(d);
+      const res = await this.network.addCoupon(d);
       console.log(res);
       if (res) {
         this.utility.presentSuccessToast('Table added Succesfully!');

@@ -1,4 +1,4 @@
-<app-kt-list-page [title]="'Tables'" [addurl]="'/pages/coupons/add'" (onFilter)="toggleFilters()">
+<app-kt-list-page [title]="'Coupon'" [addurl]="'/pages/coupons/add'" (onFilter)="toggleFilters()">
     <form [formGroup]="form" *ngIf="crudService.filters" (ngSubmit)="submitFilters(model)">
       <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
       <button type="submit" class="btn btn-secondary mt-4">search</button>
@@ -21,7 +21,7 @@
           <div class="d-flex align-items-center">
             <!--begin::Thumbnail-->
             <a href="#" class="symbol symbol-50px">
-              <i class="ti ti-chef-hat" style="font-size: 24px; cursor: pointer"></i>
+              <i class="ti ti-ticket" style="font-size: 24px; cursor: pointer"></i>
             </a>
   
             <!--end::Thumbnail-->
@@ -32,10 +32,9 @@
                 class=" text-hover-primary fs-5 fw-bold"
                 data-kt-ecommerce-product-filter="product_name"
               >
-                {{ item.identifier }}
+                {{ item.code }}
               </a>
-              <div class=" fs-7 fw-bold">Total Orders:{{item?.total_orders}} </div>
-  
+              
               <!--end::Title-->
             </div>
           </div>
@@ -43,32 +42,40 @@
         <td>
           <div class="d-flex">
             <div class="ms-5">
-              <a class=" text-hover-primary fs-5 fw-bold mb-1">{{ item?.restaurant_detail?.name }}</a>
+              <a class=" text-hover-primary fs-5 fw-bold mb-1">{{ item?.discount_value }}</a>
             </div>
           </div>
         </td>
         <td>
           <div class="d-flex">
             <div class="ms-5">
-              <a class=" text-hover-primary fs-5 fw-bold mb-1">{{ item.no_of_seats }}</a>
+              <a class=" text-hover-primary fs-5 fw-bold mb-1">{{ item.discount_type }}</a>
             </div>
           </div>
         </td>
         <td>
           <div class="d-flex">
             <div class="ms-5">
-              <a class=" text-hover-primary fs-5 fw-bold mb-1">{{ item.floor }}</a>
+              <a class=" text-hover-primary fs-5 fw-bold mb-1">{{ item.usage_limit }}</a>
+            </div>
+          </div>
+        </td>
+
+        <td>
+          <div class="d-flex">
+            <div class="ms-5">
+              <a class=" text-hover-primary fs-5 fw-bold mb-1">{{ item.used_count }}</a>
             </div>
           </div>
         </td>
         <td>
           <div class="d-flex">
-            <a href="#" class="badge badge-info fw-bold me-auto px-4 py-3">349</a>
+            <a href="#" class="badge badge-info fw-bold me-auto px-4 py-3">{{item?.expires_at}}</a>
           </div>
         </td>
         <td>
           <div class="d-flex">
-            <div class="badge badge-light-primary fw-bold me-auto px-4 py-3">{{ item.status }}</div>
+            <div class="badge badge-light-primary fw-bold me-auto px-4 py-3">{{ item.is_active }}</div>
           </div>
         </td>
         <!-- <ng-content></ng-content> -->

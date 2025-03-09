@@ -225,6 +225,18 @@ export class NetworkService {
     return this.httpPutResponse(`table-booking/update-status`, data, id, false, true);
   }
 
+
+
+  // Coupons
+  addCoupon(data) {
+    return this.httpPostResponse('coupon', data, null, false, true);
+  }
+  updateCoupon(data, id) {
+    return this.httpPutResponse('coupon', data, id, false, true);
+  }
+  getCouponById(id) {
+    return this.httpGetResponse(`coupon/${id}`, null, false, true);
+  }
   // Orders
 
   getOrders(params) {
