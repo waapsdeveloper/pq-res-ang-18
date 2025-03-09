@@ -142,40 +142,44 @@
   }
 }
 
-
-
-
 .chip-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 12px; /* Adds spacing between chips */
+  margin: 8px;
 }
 
 .chip {
-  background-color:#d12e2e;;
-  color: white;
-  padding: 8px 12px;
-  border-radius: 15px;
+  background-color: transparent;
+  border: 1px solid var(--kt-primary) !important;
+  transition: all 0.2s ease-in-out;
+  padding: 10px 15px;
   display: flex;
-  flex-direction: column;  /* Ensures name appears above phone */
+  flex-direction: row; /* Arrange text in a row */
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start; /* Align content to the left */
   font-size: 14px;
-  min-width: 100px;
-  text-align: center;
+  min-width: 150px;
+  text-align: left; /* Left-align text */
+  gap: 8px; /* Add spacing between name and phone */
+}
 
-  margin-bottom: 8px;
-
+.chip:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.05); /* Subtle hover effect */
 }
 
 .chip-content {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start; /* Align text to the left */
+}
+
+.chip strong {
+  font-size: 14px;
 }
 
 .chip small {
   font-size: 12px;
-  color: #d1e7ff; /* Light blue for contrast */
+  color: #666; /* Subtle contrast */
 }
-
