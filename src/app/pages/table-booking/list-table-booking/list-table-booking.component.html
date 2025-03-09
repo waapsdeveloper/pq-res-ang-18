@@ -32,7 +32,17 @@
       </td>
       <td>
         <div class="d-flex">
-          <div class="badge badge-light-primary fs-7 fw-bold"> {{item?.customer?.dial_code}}{{ item?.customer?.phone }}</div>
+          <div class="ms-4">
+            <a class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">
+              <span class="badge badge-pill badge-primary">{{ item?.role }}</span>
+            </a>
+          </div>
+        </div>
+      </td>
+
+      <td>
+        <div class="d-flex">
+          <div class="badge badge-light-primary fs-7 fw-bold">{{ item?.customer?.dial_code }}{{ item?.customer?.phone }}</div>
         </div>
       </td>
       <td>

@@ -1,3 +1,4 @@
+import { UtilityService } from './../../../services/utility.service';
 import { Injectable } from '@angular/core';
 import { NetworkService } from 'src/app/services/network.service';
 
@@ -22,11 +23,14 @@ export class AddOrderService {
     { label: 'Apple Pay', value: 'applePay' },
     { label: 'Google Pay', value: 'googlePay' },
     { label: 'Credit/Debit Card', value: 'card' },
-    { label: 'PayPal', value: 'paypal' },
+    { label: 'PayPal', value: 'paypal' }
   ];
   totalCost = 0;
 
-  constructor(private network: NetworkService) {
+  constructor(
+    private network: NetworkService,
+    private utilityService: UtilityService
+  ) {
     this.initialize();
   }
 
@@ -150,13 +154,11 @@ export class AddOrderService {
     this.customer_name = suggestion.name;
     this.customer_phone = suggestion.phone;
   }
-  makeWalkingCustomer(){
+  makeWalkingCustomer() {
     this.customer_name = 'Walk-in Customer';
     this.customer_phone = '0000000000';
     this.orderType = 'dine-in';
     this.paymentMethod = 'card';
-
-
   }
 
   async submitOrder() {
@@ -191,6 +193,25 @@ export class AddOrderService {
     }
 
     console.log('order submitted');
+    if (!this.customer_name || this.customer_name.trim() === '') {
+      this.utilityService.presentFailureToast('Please enter Customer Name');
+      return false;
+    }
+
+    if (!this.customer_phone || !/^\d{10,15}$/.test(this.customer_phone)) {
+      this.utilityService.presentFailureToast('Please enter a valid Phone Number (10-15 digits)');
+      return false;
+    }
+
+    if (!this.orderType || this.orderType.trim() === '') {
+      this.utilityService.presentFailureToast('Please select an Order Type');
+      return false;
+    }
+
+    if (!this.paymentMethod || this.paymentMethod.trim() === '') {
+      this.utilityService.presentFailureToast('Please select a Payment Method');
+      return false;
+    }
     let obj = {
       customer_name: this.customer_name,
       customer_phone: this.customer_phone,
@@ -208,5 +229,4 @@ export class AddOrderService {
     this.selected_products = [];
     return true;
   }
-
 }
