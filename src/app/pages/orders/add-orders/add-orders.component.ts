@@ -88,10 +88,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   }
   onInputChange(data) {
     console.log('Input changed', data);
-    let obj ={
-      filters: data ? JSON.stringify(data) : null,
-    }
-    this.fetchSuggestions(data);
+   this.fetchSuggestions(data);
 
   }
   async fetchSuggestions(query: any) {
@@ -103,7 +100,8 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     }
 
     let obj = {
-      search: v
+      search: v,
+      filters: v ? JSON.stringify(v) : null,
     };
 
     const res = await this.network.index('user', obj);
