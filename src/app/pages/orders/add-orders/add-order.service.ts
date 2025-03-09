@@ -18,6 +18,9 @@ export class AddOrderService {
   orderType = '';
   selected_products: any[] = [];
   paymentMethod: any;
+  couponCode;
+  discountAmount = 0;
+  finalTotal= 0 ;
   paymentMethods: { label: string; value: string }[] = [
     { label: 'Cash on Delivery', value: 'Cash on Delivery' },
     { label: 'Apple Pay', value: 'applePay' },
@@ -228,5 +231,18 @@ export class AddOrderService {
 
     this.selected_products = [];
     return true;
+  }
+
+  async applyCoupon(){
+    let obj = {
+      search: this.couponCode    
+    };
+
+   
+  const res =  await this.network.index('coupon', obj);
+  const data = res?.data.data[0];
+  console.log(data);
+  this.discountAmount = data?.discount_value;
+  this.finalTotal = this.totalCost - this.discountAmount;
   }
 }

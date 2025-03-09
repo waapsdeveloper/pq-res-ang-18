@@ -1,3 +1,4 @@
+import { CouponsService } from './../../coupons/coupons.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AddOrderService } from './add-order.service';
 import { NavService } from 'src/app/services/basic/nav.service';
@@ -12,7 +13,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   constructor(
     public nav: NavService,
     public orderService: AddOrderService,
-    private network: NetworkService
+    private network: NetworkService,
   ) {}
   restaurant;
   filteredSuggestions = [];
@@ -129,4 +130,5 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
 
     console.log(this.filteredSuggestions);
   }
+ 
 }
