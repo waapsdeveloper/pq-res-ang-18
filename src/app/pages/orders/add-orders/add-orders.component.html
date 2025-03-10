@@ -36,7 +36,7 @@
       <!-- Coupon & Price Section -->
       <!-- Coupon & Price Section -->
       <div class="card-body mt-4 pt-6 border-top">
-        <div class="row align-items-center justify-content-start gap-3">
+        <div class="row align-items-start jsustify-content-start gap-3">
           <!-- Left: Coupon Input (Slightly Bigger) -->
           <div class="col-md-5 d-flex align-items-center gap-3">
             <input
@@ -50,18 +50,13 @@
           </div>
 
           <!-- Right: Price & Discount Section (More to the Left) -->
-          <div class="col-md-6 d-flex justify-content-start gap-4">
-            <div class="fs-6 fw-semibold text-gray-600">
-              Subtotal:
-              <span class="text-dark">${{ orderService.totalCost | number: '1.2-2' }}</span>
-            </div>
-            <div class="fs-6 fw-semibold text-success">
+          <div class="col-md-6 d-flex justify-content-end gap-4 " style="margin-left: 75px;">
+            <div class="fs-6 fw-semibold text-white badge badge-info">
               Discount:
-              <span class="text-success">${{ orderService.discountAmount | number: '1.2-2' }}</span>
+              <span class="text-white">${{ orderService.discountAmount | number: '1.2-2' }}</span>
             </div>
             <div class="fs-5 fw-bold text-dark">
-              Total:
-              <span class="text-primary">${{ orderService.final_total | number: '1.2-2' }}</span>
+              <span class="fs-3x fw-bold text-gray-800 me-2 lh-1 ls-n2">${{ orderService.final_total | number: '1.2-2' }}</span>
             </div>
           </div>
         </div>

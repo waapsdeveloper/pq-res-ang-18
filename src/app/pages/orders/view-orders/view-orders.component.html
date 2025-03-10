@@ -143,9 +143,21 @@
         </div>
       </div>
       <div class="row mb-7">
+        <label class="col-lg-4 fw-normal text-muted">Coupon Code :</label>
+        <div class="col-lg-8">
+          <span class="fw-medium fs-6 text-gray-800">{{ item?.coupon_code }}</span>
+        </div>
+      </div>
+      <div class="row mb-7">
+        <label class="col-lg-4 fw-normal text-muted">Discounted Price</label>
+        <div class="col-lg-8">
+          <span class="fw-medium fs-6 text-gray-800">${{ item?.final_total }}</span>
+        </div>
+      </div>
+      <div class="row mb-7">
         <label class="col-lg-4 fw-normal text-muted">Discount (if any)</label>
         <div class="col-lg-8">
-          <span class="fw-medium fs-6 text-gray-800">${{ item?.discount }}</span>
+          <span class="fw-medium fs-6 text-gray-800">${{ item?.discount_value }}</span>
         </div>
       </div>
       <div class="row mb-7">
@@ -157,7 +169,7 @@
       <div class="row mb-7">
         <label class="col-lg-4 fw-normal text-muted">Important Notes</label>
         <div class="col-lg-8">
-          <span class="fw-medium fs-6 text-gray-800">{{ item?.important_notes }}</span>
+          <span class="fw-medium fs-6 text-gray-800">{{ item?.notes }}</span>
         </div>
       </div>
       <div class="row mb-7">

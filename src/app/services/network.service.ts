@@ -221,11 +221,9 @@ export class NetworkService {
   getTableBookingById(id) {
     return this.httpGetResponse(`table-booking/${id}`, null, false, true);
   }
-  tableStatus(id:any,data){
+  tableStatus(id: any, data) {
     return this.httpPutResponse(`table-booking/update-status`, data, id, false, true);
   }
-
-
 
   // Coupons
   addCoupon(data) {
@@ -239,7 +237,12 @@ export class NetworkService {
   }
   getAvailableCoupon(params) {
     const query = this.serialize(params);
-    return this.httpGetResponse('available-valid-coupon' + (query ? `?${query}` : ''), null, false, true);  }
+    return this.httpGetResponse('coupon/available-valid-coupon' + (query ? `?${query}` : ''), null, true, true);
+  }
+
+  updateCouponUsage(data) {
+    return this.httpPostResponse('coupon/update-coupon-usage', data, null, false, true);
+  }
   // Orders
 
   getOrders(params) {
@@ -286,16 +289,14 @@ export class NetworkService {
     return str.join('&');
   };
 
-
-
   // MESSAGES API
-  getMessages(){
+  getMessages() {
     return this.httpGetResponse('message', null, false, true);
   }
   getMessageById(id) {
     return this.httpGetResponse(`message/${id}`, null, false, true);
   }
-  replyMessage(data,id){
+  replyMessage(data, id) {
     return this.httpPutResponse('message/reply', data, id, false, true);
   }
   // Function for POST method

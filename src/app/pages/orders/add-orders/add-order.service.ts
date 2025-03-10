@@ -20,7 +20,7 @@ export class AddOrderService {
   paymentMethod: any;
   couponCode;
   discountAmount = 0;
-  final_total= 0 ;
+  final_total = 0;
   paymentMethods: { label: string; value: string }[] = [
     { label: 'Cash on Delivery', value: 'Cash on Delivery' },
     { label: 'Apple Pay', value: 'applePay' },
@@ -222,31 +222,69 @@ export class AddOrderService {
       notes: this.order_notes,
       status: 'pending',
       final_total: this.final_total,
-      discount_value:this.discountAmount,
+      discount_value: this.discountAmount,
       coupon_code: this.couponCode,
       payment_method: this.paymentMethod,
       order_type: this.orderType,
       total_price: this.totalCost
     };
-
+    let coupon = {
+      code: this.couponCode
+    };
     const res = await this.network.addOrder(obj);
     console.log(res);
-
+    const response = await this.network.updateCouponUsage(coupon);
+    console.log(response);
     this.selected_products = [];
     return true;
   }
 
-  async applyCoupon(){
-   
+  resetFields() {
+    this.discountAmount = 0;
+    this.final_total = 0;
+  }
+  async applyCoupon() {
+    this.resetFields();
+    let obj = {
+      code: this.couponCode
+    };
 
-   let obj = {
-    code:this.couponCode
-   }
-  const res =  await this.network.getAvailableCoupon(obj);
-  console.log(res);
-  const data = res?.data.data[0];
-  console.log(data);
-  this.discountAmount = data?.discount_value;
-  this.final_total = this.totalCost - this.discountAmount;
+    const res = await this.network.getAvailableCoupon(obj);
+    console.log(res?.coupon);
+
+    const data = res?.coupon;
+    console.log(data);
+
+    if (!data) {
+      console.warn('No coupon data available');
+      return;
+    }
+
+    let discountValue = data?.discount_value || 0;
+    let calculatedDiscount = 0; // To store the calculated discount before applying it
+
+    if (data?.discount_type === 'percentage') {
+      // Calculate discount as a percentage
+      calculatedDiscount = (this.totalCost * discountValue) / 100;
+    } else if (data?.discount_type === 'fixed') {
+      // Directly assign the fixed discount amount
+      calculatedDiscount = discountValue;
+    } else {
+      console.warn('Invalid discount type');
+      return;
+    }
+
+    // Check if the discount exceeds 50% of the total cost
+    if (calculatedDiscount > this.totalCost * 0.5) {
+      console.error('Invalid coupon: Discount exceeds 50% of the total cost.');
+      this.utilityService.presentFailureToast('Invalid coupon: Discount cannot exceed 50% of the total cost.'); // Display error message
+      return;
+    }
+
+    // Apply the validated discount
+    this.discountAmount = calculatedDiscount;
+    this.final_total = Math.max(this.totalCost - this.discountAmount, 0);
+
+    console.log('Final total after discount:', this.final_total);
   }
 }
