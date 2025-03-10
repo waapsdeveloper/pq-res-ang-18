@@ -237,6 +237,9 @@ export class NetworkService {
   getCouponById(id) {
     return this.httpGetResponse(`coupon/${id}`, null, false, true);
   }
+  getAvailableCoupon(params) {
+    const query = this.serialize(params);
+    return this.httpGetResponse('available-valid-coupon' + (query ? `?${query}` : ''), null, false, true);  }
   // Orders
 
   getOrders(params) {

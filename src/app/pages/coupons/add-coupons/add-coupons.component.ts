@@ -11,7 +11,6 @@ import { UtilityService } from 'src/app/services/utility.service';
   styleUrl: './add-coupons.component.scss'
 })
 export class AddCouponsComponent {
-
   form = new FormGroup({});
   model = {
     code: '',
@@ -20,15 +19,13 @@ export class AddCouponsComponent {
     usage_limit: '',
     usage_count: '',
     expires_at: '',
-    is_active: '',
+    is_active: ''
   };
 
   fields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: 'row', // Bootstrap row
       fieldGroup: [
-
-
         {
           key: 'code',
           type: 'input',
@@ -48,7 +45,7 @@ export class AddCouponsComponent {
             placeholder: 'Enter discount',
             required: true,
             type: 'number', // Ensures numeric input
-            max: 255 // Constraint for maximum value
+            max: 100 // Constraint for maximum value
           },
           className: 'col-md-2 col-12'
         },
@@ -66,17 +63,6 @@ export class AddCouponsComponent {
           },
           className: 'col-md-2 col-12'
         },
-
-        // {
-        //   key: 'location',
-        //   type: 'input',
-        //   props: {
-        //     label: 'Location',
-        //     placeholder: 'Near west wall',
-        //     required: true,
-        //   },
-        //   className: 'col-md-6 col-12',
-        // },
         {
           key: 'is_active',
           type: 'select',
@@ -122,11 +108,10 @@ export class AddCouponsComponent {
             label: 'Expires at ',
             type: 'date',
             placeholder: 'Select a date',
-            required: true,
+            required: true
           },
           className: 'col-md-2 col-12'
-        },
-        
+        }
       ]
     }
   ];
@@ -137,87 +122,15 @@ export class AddCouponsComponent {
     private utility: UtilityService
   ) {}
 
-  ngOnInit(): void {
-    this.setRoleInForm();
-    this.setRestaurantsInForm();
-  }
-  async getRestaurants(): Promise<any[]> {
-    let obj = {
-      search: '',
-      perpage: 500,
-
-      restaurant_id: localStorage.getItem('restaurant_id') ? localStorage.getItem('restaurant_id') : -1
-    };
-    const res = await this.network.getRestaurants(obj);
-
-    if (res && res['data']) {
-      let d = res['data'];
-      let dm = d['data'];
-      return dm.map((r) => {
-        return {
-          value: r.id,
-          label: r.name
-        };
-      }) as any[];
-    }
-
-    return [];
-  }
-  async setRestaurantsInForm() {
-    const res = await this.getRestaurants();
-    console.log(res);
-
-    for (var i = 0; i < this.fields.length; i++) {
-      for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
-        let fl = this.fields[i].fieldGroup[j];
-        if (fl.key == 'restaurant_id') {
-          fl.props.options = res;
-        }
-      }
-    }
-  }
-  async setRoleInForm() {
-    const res = await this.getRoles();
-    console.log(res);
-
-    for (var i = 0; i < this.fields.length; i++) {
-      for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
-        let fl = this.fields[i].fieldGroup[j];
-        if (fl.key == 'role') {
-          fl.props.options = res;
-        }
-      }
-    }
-  }
-
-  // get roles array
-  async getRoles(): Promise<any[]> {
-    let obj = {
-      search: ''
-    };
-    const res = await this.network.getRoles(obj);
-
-    if (res && res['data']) {
-      let d = res['data'];
-      let dm = d['data'];
-      return dm.map((r) => {
-        return {
-          value: r.id,
-          label: r.name
-        };
-      }) as any[];
-    }
-
-    return [];
-  }
-
   async onSubmit(model) {
     console.log(model);
     console.log('Form Submitted', this.form.valid);
+
     if (this.form.valid) {
       // alert('Restaurant added successfully!');
 
       let d = this.form.value;
+
       const res = await this.network.addCoupon(d);
       console.log(res);
       if (res) {
@@ -258,5 +171,4 @@ export class AddCouponsComponent {
       reader.readAsDataURL(file); // Convert file to Base64
     }
   }
-
 }

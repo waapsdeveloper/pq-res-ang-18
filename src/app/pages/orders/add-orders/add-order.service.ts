@@ -20,7 +20,7 @@ export class AddOrderService {
   paymentMethod: any;
   couponCode;
   discountAmount = 0;
-  finalTotal= 0 ;
+  final_total= 0 ;
   paymentMethods: { label: string; value: string }[] = [
     { label: 'Cash on Delivery', value: 'Cash on Delivery' },
     { label: 'Apple Pay', value: 'applePay' },
@@ -221,6 +221,9 @@ export class AddOrderService {
       products: prodObj,
       notes: this.order_notes,
       status: 'pending',
+      final_total: this.final_total,
+      discount_value:this.discountAmount,
+      coupon_code: this.couponCode,
       payment_method: this.paymentMethod,
       order_type: this.orderType,
       total_price: this.totalCost
@@ -234,15 +237,16 @@ export class AddOrderService {
   }
 
   async applyCoupon(){
-    let obj = {
-      search: this.couponCode    
-    };
-
    
-  const res =  await this.network.index('coupon', obj);
+
+   let obj = {
+    code:this.couponCode
+   }
+  const res =  await this.network.getAvailableCoupon(obj);
+  console.log(res);
   const data = res?.data.data[0];
   console.log(data);
   this.discountAmount = data?.discount_value;
-  this.finalTotal = this.totalCost - this.discountAmount;
+  this.final_total = this.totalCost - this.discountAmount;
   }
 }

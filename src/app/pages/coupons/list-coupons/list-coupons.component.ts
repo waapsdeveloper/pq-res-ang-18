@@ -14,7 +14,7 @@ import { CouponsService } from '../coupons.service';
   styleUrl: './list-coupons.component.scss'
 })
 export class ListCouponsComponent extends ListBlade {
-  columns: any[] = ['Coupon Code', 'Discount', 'Discount type', 'Usage Limit', 'Used Count', 'expires at', 'Status'];
+  columns: any[] = ['Coupon Code', 'Discount','Usage Limit', 'Used Count', 'expires at', 'Status'];
   title = 'Coupon';
   showEdit = false;
   addurl = '/pages/coupons/add';

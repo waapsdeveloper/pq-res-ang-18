@@ -42,17 +42,13 @@
         <td>
           <div class="d-flex">
             <div class="ms-5">
-              <a class=" text-hover-primary fs-5 fw-bold mb-1">{{ item?.discount_value }}</a>
+              <a class="text-hover-primary fs-5 fw-bold mb-1">
+                {{ item?.discount_type === 'fixed' ? '$' : '' }} {{ item?.discount_value }} {{ item?.discount_type === 'percentage' ? '%' : '' }}
+              </a>
             </div>
           </div>
         </td>
-        <td>
-          <div class="d-flex">
-            <div class="ms-5">
-              <a class=" text-hover-primary fs-5 fw-bold mb-1">{{ item.discount_type }}</a>
-            </div>
-          </div>
-        </td>
+        
         <td>
           <div class="d-flex">
             <div class="ms-5">
@@ -70,7 +66,7 @@
         </td>
         <td>
           <div class="d-flex">
-            <a href="#" class="badge badge-info fw-bold me-auto px-4 py-3">{{item?.expires_at}}</a>
+            <a href="#" class="badge badge-info fw-bold me-auto px-4 py-3">{{ item?.expires_at | date:'dd/MM/yyyy' }}</a>
           </div>
         </td>
         <td>
