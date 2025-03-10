@@ -16,7 +16,6 @@
     (actionDeleteAll)="deleteAll($event)"
   >
     <tr *ngFor="let item of crudService.list; let i = index">
-
       <td>
         <div class="d-flex">
           <div class="ms-4">
@@ -29,7 +28,6 @@
           <div class="ms-4">
             <a class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">
               {{ item?.customer }}
-              
             </a>
           </div>
         </div>
@@ -39,7 +37,6 @@
           <div class="ms-4">
             <a class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">
               <span class="badge badge-pill badge-primary">{{ item?.role }}</span>
-              
             </a>
           </div>
         </div>
@@ -73,6 +70,14 @@
           <div class="fs-7 fw-bold">${{ item?.total_price }}</div>
         </div>
       </td>
+      <td>
+        <div class="d-flex flex-row gap-2" class="ms-4">
+          <div class="fs-7 fw-bold">
+            ${{ item?.final_total }}
+            <span class="badge badge-preparing fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{ item?.discount_value }}</span>
+          </div>
+        </div>
+      </td>
 
       <td>
         <div class="d-flex">
@@ -104,7 +109,7 @@
         </div>
       </td>
       <td>
-        <app-list-order-item-status [item] = "item"></app-list-order-item-status>
+        <app-list-order-item-status [item]="item"></app-list-order-item-status>
       </td>
 
       <!-- <ng-content></ng-content> -->
