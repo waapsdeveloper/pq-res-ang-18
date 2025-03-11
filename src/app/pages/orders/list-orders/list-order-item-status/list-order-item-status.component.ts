@@ -14,11 +14,11 @@ export class ListOrderItemStatusComponent {
   
   constructor(private network: NetworkService, private utility: UtilityService) {}
  
-  async updateStatus(item) {
+  async updateStatus(status,item) {
     let obj = {
-      status: this.selectedStatus
+      status: status
     };
-    console.log(obj);
+    console.log(obj , item);
 
     await this.network.orderStatus(item.id, obj);
 

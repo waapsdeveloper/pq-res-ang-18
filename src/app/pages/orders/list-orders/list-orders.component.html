@@ -90,28 +90,9 @@
         </div>
       </td>
       <td>
-        <div class="d-flex">
-          <div
-            class="badge fw-bold me-auto px-4 py-3"
-            [ngClass]="{
-              'badge-pending': item?.status === 'Pending',
-              'badge-confirmed': item?.status === 'Confirmed',
-              'badge-preparing': item?.status === 'Preparing',
-              'badge-ready-for-pickup': item?.status === 'Ready For Pickup',
-              'badge-out-for-delivery': item?.status === 'Out For Delivery',
-              'badge-delivered': item?.status === 'Delivered',
-              'badge-completed': item?.status === 'Completed',
-              'badge-cancelled': item?.status === 'Cancelled'
-            }"
-          >
-            {{ item?.status | titlecase }}
-          </div>
-        </div>
-      </td>
-      <td>
         <app-list-order-item-status [item]="item"></app-list-order-item-status>
+     
       </td>
-
       <!-- <ng-content></ng-content> -->
       <!--begin::Action=-->
       <td class="text-end">

@@ -9,12 +9,10 @@ import { FormlyModule } from '@ngx-formly/core';
 import { KtAppListPageTableModule } from 'src/app/components/layouts/kt-list-page/kt-app-list-page-table/kt-app-list-page-table.module';
 import { KtListPageModule } from 'src/app/components/layouts/kt-list-page/kt-list-page.module';
 import { ListTableBookingStatusModule } from './list-table-booking-status/list-table-booking-status.module';
-
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-  declarations: [
-    ListTableBookingComponent
-  ],
+  declarations: [ListTableBookingComponent],
   imports: [
     CommonModule,
     ListTableBookingRoutingModule,
@@ -24,8 +22,8 @@ import { ListTableBookingStatusModule } from './list-table-booking-status/list-t
     FormlyModule,
     ReactiveFormsModule,
     FormlyBootstrapModule,
-    ListTableBookingStatusModule
-  
+    ListTableBookingStatusModule,
+    NgbDropdownModule
   ]
 })
-export class ListTableBookingModule { }
+export class ListTableBookingModule {}

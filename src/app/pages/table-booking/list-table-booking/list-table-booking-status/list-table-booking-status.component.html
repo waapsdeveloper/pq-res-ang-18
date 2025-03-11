@@ -1,10 +1,43 @@
-<div class="d-flex " style="gap: 8px;"> 
+<!-- <div class="d-flex " style="gap: 8px;"> 
           
     <select class="form-select fw-medium fs-6 text-gray-800 "[(ngModel)]="selectedStatus">
       <option *ngFor="let status of statuses" [value]="status" >
         {{ status | titlecase }}
       </option>
     </select>
-    <!-- Button with fixed width -->
     <button class="btn btn-primary col-auto" (click)="updateStatus(item)">Update</button>
+  </div> -->
+
+  <div class="d-flex align-items-center">
+    <div
+      class="badge fw-bold me-auto px-4 py-3 position-relative"
+      [ngClass]="{
+        'badge-pending': item?.status === 'Pending',
+        'badge-confirmed': item?.status === 'Confirmed',
+        'badge-preparing': item?.status === 'Preparing',
+        'badge-ready-for-pickup': item?.status === 'Ready For Pickup',
+        'badge-out-for-delivery': item?.status === 'Out For Delivery',
+        'badge-delivered': item?.status === 'Delivered',
+        'badge-completed': item?.status === 'Completed',
+        'badge-cancelled': item?.status === 'Cancelled'
+      }"
+      ngbDropdown
+    >
+      {{ item?.status | titlecase }}
+      
+      <!-- Dropdown Icon -->
+      <i class="bi bi-chevron-down ms-3 fw-bold fs-12" ngbDropdownToggle></i>
+
+  
+      <!-- Dropdown Menu -->
+      <div ngbDropdownMenu>
+        <button
+          *ngFor="let status of statuses"
+          class="dropdown-item"
+          (click)="updateStatus(status,item)"
+        >
+          {{ status }}
+        </button>
+      </div>
+    </div>
   </div>

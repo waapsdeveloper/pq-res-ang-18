@@ -25,14 +25,15 @@
       {{ item?.status | titlecase }}
       
       <!-- Dropdown Icon -->
-      <i class="bi bi-chevron-down ms-2" ngbDropdownToggle></i>
+      <i class="bi bi-chevron-down ms-2 fs-12 text-dark" ngbDropdownToggle></i>
+
   
       <!-- Dropdown Menu -->
       <div ngbDropdownMenu>
         <button
           *ngFor="let status of statuses"
           class="dropdown-item"
-          (click)="updateStatus(status)"
+          (click)="updateStatus(status,item)"
         >
           {{ status }}
         </button>

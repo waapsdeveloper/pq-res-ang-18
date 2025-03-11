@@ -17,13 +17,13 @@ export class ListTableBookingStatusComponent {
     private utility: UtilityService
   ) {}
 
-  async updateStatus(item) {
+  async updateStatus(status,item) {
     let obj = {
-      status: this.selectedStatus
+      status: status
     };
-    console.log(obj);
+    console.log(obj , item);
 
-    await this.network.tableStatus(item.id, obj);
+    await this.network.orderStatus(item.id, obj);
 
     this.utility.presentSuccessToast(`Order Status Updated to ${obj.status}`);
   }
