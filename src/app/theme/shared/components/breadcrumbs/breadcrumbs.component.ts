@@ -27,7 +27,6 @@ export class BreadcrumbsComponent {
     private titleService: Title
   ) {
     this.navigation = this.nav.get();
-    console.log(this.navigation);
     this.setBreadcrumb();
   }
 
@@ -47,6 +46,7 @@ export class BreadcrumbsComponent {
   filterNavigation(activeLink: any) {
     let result: any;
     let title = 'Welcome';
+    console.log(this.navigation)
     this.navigation.forEach(function (a: any) {
       if (a.type === 'item' && 'url' in a && a.url === activeLink) {
         result = [
