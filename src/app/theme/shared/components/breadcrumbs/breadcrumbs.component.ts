@@ -27,6 +27,7 @@ export class BreadcrumbsComponent {
     private titleService: Title
   ) {
     this.navigation = this.nav.get();
+    console.log(this.navigation);
     this.setBreadcrumb();
   }
 

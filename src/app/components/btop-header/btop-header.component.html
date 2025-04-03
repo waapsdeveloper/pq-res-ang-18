@@ -42,14 +42,14 @@
               <li class="dropdown-menu-header">
                 <div class="dropdown-header d-flex justify-content-between m-0 px-3 py-2 white bg-primary">
                   <div class="d-flex">
-                    <i class="ft-bell font-medium-3 d-flex align-items-center mr-2"></i><span class="noti-title">7 New
+                    <i class="ft-bell font-medium-3 d-flex align-items-center mr-2"></i><span class="noti-title">{{ notifcationService?.notifications.length || 0 }} New
                       Notification</span>
                   </div>
-                  <span class="text-bold-400 cursor-pointer">Mark all as read</span>
+                  <!-- <span class="text-bold-400 cursor-pointer">Mark all as read</span> -->
                 </div>
               </li>
               <li class="scrollable-container">
-                <a class="d-flex justify-content-between" href="javascript:void(0)">
+                <a class="d-flex justify-content-between" href="javascript:void(0)" *ngFor="let notification of notifcationService?.notifications; let i=index;">
                   <div class="media d-flex align-items-center">
                     <div class="media-left">
                       <div class="mr-3">
