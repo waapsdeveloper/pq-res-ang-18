@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,ViewEncapsulation } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NavService } from 'src/app/services/basic/nav.service';
@@ -8,7 +8,9 @@ import { UtilityService } from 'src/app/services/utility.service';
 @Component({
   selector: 'app-add-rtables',
   templateUrl: './add-rtables.component.html',
-  styleUrl: './add-rtables.component.scss'
+  styleUrl: './add-rtables.component.scss',
+  encapsulation: ViewEncapsulation.None
+
 })
 export class AddRtablesComponent {
   form = new FormGroup({});

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit,ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
@@ -13,7 +13,9 @@ import { UtilityService } from 'src/app/services/utility.service';
 @Component({
   selector: 'app-edit-product',
   templateUrl: './edit-product.component.html',
-  styleUrl: './edit-product.component.scss'
+  styleUrl: './edit-product.component.scss',
+  encapsulation: ViewEncapsulation.None
+
 })
 export class EditProductComponent implements OnInit, AfterViewInit {
   id;

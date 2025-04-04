@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit ,ViewEncapsulation} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NetworkService } from 'src/app/services/network.service';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -7,7 +7,8 @@ import { UtilityService } from 'src/app/services/utility.service';
 @Component({
   selector: 'app-add-table-booking',
   templateUrl: './add-table-booking.component.html',
-  styleUrl: './add-table-booking.component.scss'
+  styleUrl: './add-table-booking.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class AddTableBookingComponent implements OnInit {
 

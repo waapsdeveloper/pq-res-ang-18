@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef,ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NavService } from 'src/app/services/basic/nav.service';
@@ -8,7 +8,8 @@ import { UtilityService } from 'src/app/services/utility.service';
 @Component({
   selector: 'app-add-restaurant',
   templateUrl: './add-restaurant.component.html',
-  styleUrl: './add-restaurant.component.scss'
+  styleUrl: './add-restaurant.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class AddRestaurantComponent {
   form = new FormGroup({});

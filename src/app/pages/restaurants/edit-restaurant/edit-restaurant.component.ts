@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit,ViewEncapsulation } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -8,7 +8,8 @@ import { UtilityService } from 'src/app/services/utility.service';
 @Component({
   selector: 'app-edit-restaurant',
   templateUrl: './edit-restaurant.component.html',
-  styleUrl: './edit-restaurant.component.scss'
+  styleUrl: './edit-restaurant.component.scss',
+  encapsulation:ViewEncapsulation.None
 })
 export class EditRestaurantComponent implements OnInit, AfterViewInit {
   id;

@@ -2300,6 +2300,7 @@ batch@0.6.1:
     apexcharts "^3.54.1"
     berry-free-angular-admin-template "file:"
     bootstrap "^5.3.3"
+    core-js "^3.41.0"
     ng-apexcharts "^1.15.0"
     ng-qrcode "^18.0.0"
     ng-simple-state "^19.0.1"

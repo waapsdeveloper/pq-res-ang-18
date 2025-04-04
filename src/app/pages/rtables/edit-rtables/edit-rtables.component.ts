@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -8,7 +8,8 @@ import { UtilityService } from 'src/app/services/utility.service';
 @Component({
   selector: 'app-edit-rtables',
   templateUrl: './edit-rtables.component.html',
-  styleUrl: './edit-rtables.component.scss'
+  styleUrl: './edit-rtables.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class EditRtablesComponent implements OnInit {
   id;

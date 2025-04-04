@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,ViewEncapsulation} from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -9,7 +9,9 @@ import { UtilityService } from 'src/app/services/utility.service';
 @Component({
   selector: 'app-edit-user',
   templateUrl: './edit-user.component.html',
-  styleUrl: './edit-user.component.scss'
+  styleUrl: './edit-user.component.scss',
+    encapsulation: ViewEncapsulation.None
+  
 })
 export class EditUserComponent implements OnInit {
   id;

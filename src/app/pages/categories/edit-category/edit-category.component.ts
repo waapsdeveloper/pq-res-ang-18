@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -9,7 +9,8 @@ import { UtilityService } from 'src/app/services/utility.service';
 @Component({
   selector: 'app-edit-category',
   templateUrl: './edit-category.component.html',
-  styleUrl: './edit-category.component.scss'
+  styleUrl: './edit-category.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class EditCategoryComponent implements OnInit {
   id;

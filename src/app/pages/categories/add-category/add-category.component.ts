@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
+import { Component, ElementRef, ViewChild, OnInit,ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NavService } from 'src/app/services/basic/nav.service';
@@ -8,7 +8,8 @@ import { UtilityService } from 'src/app/services/utility.service';
 @Component({
   selector: 'app-add-category',
   templateUrl: './add-category.component.html',
-  styleUrl: './add-category.component.scss'
+  styleUrl: './add-category.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class AddCategoryComponent implements OnInit {
   form = new FormGroup({});
