@@ -22,13 +22,13 @@ export type ChartOptions = {
 export class ApexSalesChartComponent {
   @ViewChild('chart') chart: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
-  btnActive: string = 'day';
+  btnActive: string = 'month';
   amount;
 
   constructor(private network: NetworkService) {
     this.chartOptions = {
       chart: {
-        type: 'bar',
+        type: 'area',
         height: 350,
         toolbar: {
           show: false // Hides the menu to download SVG, PNG, etc.
@@ -55,10 +55,12 @@ export class ApexSalesChartComponent {
       series: [
         {
           name: '2023',
+          type: 'line',
           data: [45, 60, 75, 80, 100, 70, 65, 80, 85]
         },
         {
           name: '2022',
+          type: 'area',
           data: [30, 50, 65, 75, 85, 60, 50, 70, 75]
         }
       ],
