@@ -1,6 +1,6 @@
 export class Config {
 //  static apiBaseUrl: string = 'http://127.0.0.1:8000/api/admin'; // Base URL for API endpoints
- static apiBaseUrl: string = 'https://pqres.gadgetreviewzone.com';
+ static apiBaseUrl: string = 'https://pqres.gadgetreviewzone.com/api/admin';
         // static apiBaseUrl: string = 'https://pqresapi.spacess.online/api/admin'; // Base URL for API endpoints
   // static apiBaseUrl: string = 'https://api.restaurant.axetechsolutions.com/api/admin'; // Base URL for API endpoints
 
