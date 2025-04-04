@@ -4,6 +4,7 @@ import { BtopHeaderComponent } from './btop-header.component';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { NgbDropdownModule, NgbDropdownToggle } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule } from '@angular/router';
+import { NavbarComponent } from './navbar/navbar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
@@ -11,7 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     BtopHeaderComponent,
-
+    NavbarComponent
   ],
   imports: [
     CommonModule,

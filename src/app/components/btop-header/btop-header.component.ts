@@ -1,69 +1,18 @@
 import { NavService } from 'src/app/services/basic/nav.service';
 import { UsersService } from 'src/app/services/users.service';
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
 import { GlobalRestaurantService } from 'src/app/services/global-restaurant.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { NotificationsService } from 'src/app/services/notifications.service';
 import { Router } from '@angular/router';
 import { EventsService } from 'src/app/services/events.service';
 
-// theme imports
-import { UntypedFormControl } from '@angular/forms';
-
 @Component({
   selector: 'app-btop-header',
   templateUrl: './btop-header.component.html',
   styleUrl: './btop-header.component.scss'
 })
-export class BtopHeaderComponent implements AfterViewInit {
-
-  // theme variables
-  menuPosition = 'Top';
-  isSmallScreen = false;
-  public config: any = {};
-  control = new UntypedFormControl();
-  searchOpenClass = "";
-  @ViewChild('search') searchElement: ElementRef;
-  @Output()
-  seachTextEmpty = new EventEmitter<boolean>();
-  toggleClass = "ft-maximize";
-  logoUrl = 'assets/svg/logo.png';
-
-  user: any;
-
-
-  toggleSearchOpenClass(display) {
-    this.control.setValue("");
-    if (display) {
-      this.searchOpenClass = 'open';
-      setTimeout(() => {
-        this.searchElement.nativeElement.focus();
-      }, 0);
-    }
-    else {
-      this.searchOpenClass = '';
-    }
-    this.seachTextEmpty.emit(true);
-
-  }
-
-
-  ToggleClass() {
-    if (this.toggleClass === "ft-maximize") {
-      this.toggleClass = "ft-minimize";
-    } else {
-      this.toggleClass = "ft-maximize";
-    }
-  }
-
-
-
-
-
-
-
-
-
+export class BtopHeaderComponent {
   @Input('title') title = '';
   @Input('addurl') addurl = '/pages/orders/add';
   @Output('onSearch') onSearch = new EventEmitter<any>();
@@ -90,6 +39,8 @@ export class BtopHeaderComponent implements AfterViewInit {
     //   { label: 'Customers', link: '/pages/customers', icon: 'ti ti-user-plus' },
   ];
 
+  user: any;
+
   constructor(
     private nav: NavService,
     private users: UsersService,
@@ -111,11 +62,8 @@ export class BtopHeaderComponent implements AfterViewInit {
       console.log('events', data);
       this.orderNumber = this.notifcationService.data?.order_id;
       this.showNewOrder = true;
+
     });
-  }
-
-  ngAfterViewInit() {
-
   }
 
   async initialize() {
