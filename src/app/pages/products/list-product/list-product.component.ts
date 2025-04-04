@@ -4,7 +4,7 @@ import { NetworkService } from 'src/app/services/network.service';
 import { UsersService } from 'src/app/services/users.service';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { Component, Injector } from '@angular/core';
+import { Component, Injector, ViewEncapsulation } from '@angular/core';
 import { ListBlade } from 'src/app/abstract/list-blade';
 import { UtilityService } from 'src/app/services/utility.service';
 import { ActivatedRoute } from '@angular/router';
@@ -12,7 +12,8 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-list-product',
   templateUrl: './list-product.component.html',
-  styleUrl: './list-product.component.scss'
+  styleUrl: './list-product.component.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class ListProductComponent extends ListBlade {
   title = 'Products';

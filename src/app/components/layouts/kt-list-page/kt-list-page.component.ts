@@ -1,10 +1,11 @@
 import { Title } from '@angular/platform-browser';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-kt-list-page',
   templateUrl: './kt-list-page.component.html',
-  styleUrl: './kt-list-page.component.scss'
+  styleUrl: './kt-list-page.component.scss',
+  encapsulation: ViewEncapsulation.None // Ensure styles are not scoped
 })
 export class KtListPageComponent {
 
