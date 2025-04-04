@@ -288,8 +288,8 @@
 
 .vertical-overlay-menu.menu-open .main-menu {
   opacity: 1;
-  transform: translate3d(250px, 0, 0);
-  transition: opacity .25s, transform .25s;
+  transform: translate3d(0px, 0, 0);
+  transition: opacity .25s, transform 1.25s;
   z-index: 998; }
 
 .vertical-overlay-menu.menu-flipped .main-menu {

@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RestaurantsRoutingModule } from './restaurants-routing.module';
 import { RestaurantsComponent } from './restaurants.component';
 import { BtopHeaderModule } from 'src/app/components/btop-header/btop-header.module';
-import { SharedModule } from 'src/app/theme/shared/shared.module';
 import { FormsModule } from '@angular/forms';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -13,9 +13,10 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     RestaurantsRoutingModule,
-    SharedModule,
+    // SharedModule,
     BtopHeaderModule,
-    FormsModule
-  ]
+    FormsModule,
+    SharedModule
+]
 })
 export class RestaurantsModule { }

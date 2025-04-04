@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { VariationsRoutingModule } from './variations-routing.module';
 import { VariationsComponent } from './variations.component';
-import { SharedModule } from "../../theme/shared/shared.module";
+import { SharedModule } from "../../shared/shared.module";
 import { BtopHeaderModule } from "../../components/btop-header/btop-header.module";
 
 
