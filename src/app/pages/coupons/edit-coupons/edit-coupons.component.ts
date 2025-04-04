@@ -77,7 +77,7 @@ export class EditCouponsComponent implements OnInit {
   form = new FormGroup({});
   model = {
     code: '',
-    discount: '',
+    discount_value: '',
     discount_type: '',
     usage_limit: '',
     usage_count: '',
@@ -101,7 +101,7 @@ export class EditCouponsComponent implements OnInit {
           className: 'col-md-2 col-12' // 6 columns on md+, full width on small screens
         },
         {
-          key: 'discount',
+          key: 'discount_value',
           type: 'input',
           props: {
             label: 'Discount',
@@ -142,8 +142,8 @@ export class EditCouponsComponent implements OnInit {
             placeholder: 'Select status',
             required: true,
             options: [
-              { value: 'active', label: 'Active' },
-              { value: 'inactive', label: 'Inactive' }
+              { value: true, label: 'Active' },
+              { value: false, label: 'Inactive' }
             ]
           },
           className: 'col-md-2 col-12'
@@ -194,7 +194,7 @@ export class EditCouponsComponent implements OnInit {
     // Dynamic model assignment
     this.model = {
       code: d.code,
-      discount: d.discount,
+      discount_value: d.discount,
       discount_type: d.discount_type,
       usage_limit: d.usage_limit,
       usage_count: d.usage_count,

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit,ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -9,7 +9,8 @@ import { FieldArrayType } from '@ngx-formly/core';
 @Component({
   selector: 'app-edit-variations',
   templateUrl: './edit-variations.component.html',
-  styleUrl: './edit-variations.component.scss'
+  styleUrl: './edit-variations.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class EditVariationsComponent implements OnInit {
   id;

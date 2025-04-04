@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AddCouponsComponent } from '../add-coupons/add-coupons.component';
-
+import { EditCouponsComponent } from './edit-coupons.component';
 const routes: Routes = [
   {
     path: '',
-    component: AddCouponsComponent,
+    component: EditCouponsComponent,
 
-    data: { breadcrumb: 'Add' },
+    data: { breadcrumb: 'Edit' },
   }
 ];
 

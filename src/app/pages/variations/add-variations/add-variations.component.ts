@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -9,7 +9,8 @@ import { UtilityService } from 'src/app/services/utility.service';
 @Component({
   selector: 'app-add-variations',
   templateUrl: './add-variations.component.html',
-  styleUrl: './add-variations.component.scss'
+  styleUrl: './add-variations.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class AddVariationsComponent {
   form = new FormGroup({});
