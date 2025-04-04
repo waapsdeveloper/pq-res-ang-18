@@ -1,5 +1,5 @@
 import { CouponsService } from './../../coupons/coupons.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { AddOrderService } from './add-order.service';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
@@ -7,7 +7,8 @@ import { NetworkService } from 'src/app/services/network.service';
 @Component({
   selector: 'app-add-orders',
   templateUrl: './add-orders.component.html',
-  styleUrl: './add-orders.component.scss'
+  styleUrl: './add-orders.component.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class AddOrdersComponent implements OnInit, OnDestroy {
   constructor(
@@ -100,7 +101,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     }
 
     let obj = {
-      search: v      
+      search: v
     };
 
     const res = await this.network.index('user', obj);
@@ -130,5 +131,5 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
 
     console.log(this.filteredSuggestions);
   }
- 
+
 }
