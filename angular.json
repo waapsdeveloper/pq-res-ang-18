@@ -29,7 +29,8 @@
               "src/styles.scss",
               "src/assets/css/bootstrap.css",
               "src/assets/css/bootstrap-extended.css",
-              "src/assets/css/components.css"
+              "src/assets/css/components.css",
+              "src/assets/css/colors.css"
             ],
             "scripts": [
               "node_modules/apexcharts/dist/apexcharts.min.js"

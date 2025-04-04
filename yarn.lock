@@ -1836,6 +1836,13 @@
   resolved "https://registry.npmjs.org/@types/retry/-/retry-0.12.2.tgz"
   integrity sha512-XISRgDJ2Tc5q4TRqvgJtzsRkFYNJzZrhTdtMoGVBttwzzQJkPnS3WWTFc7kuDRoPtPakl+T+OfdEUjYJj7Jbow==
 
+"@types/screenfull@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.npmjs.org/@types/screenfull/-/screenfull-4.1.0.tgz"
+  integrity sha512-TuFSOzuzGFVCdQmwp+a0/Qim+nJhclaWha18yK/xmjrwdPI7qrfeyoSyPx8MoJP8X5d2MwB4a6d2sZhUjJwz9A==
+  dependencies:
+    screenfull "*"
+
 "@types/send@*":
   version "0.17.4"
   resolved "https://registry.npmjs.org/@types/send/-/send-0.17.4.tgz"
@@ -2293,14 +2300,15 @@ batch@0.6.1:
     apexcharts "^3.54.1"
     berry-free-angular-admin-template "file:"
     bootstrap "^5.3.3"
-    feather-icons "^4.29.2"
     ng-apexcharts "^1.15.0"
     ng-qrcode "^18.0.0"
     ng-simple-state "^19.0.1"
+    ngx-device-detector "^9.0.0"
     ngx-scrollbar "^15.0.1"
     ngx-skeleton-loader "^9.0.0"
     pusher-js "^8.4.0-rc2"
     rxjs "~7.8.1"
+    screenfull "^6.0.2"
     sweetalert2 "^11.17.2"
     tslib "^2.6.3"
     zone.js "~0.14.7"
@@ -2708,6 +2716,11 @@ core-js-compat@^3.31.0, core-js-compat@^3.36.1:
   integrity sha512-9TNiImhKvQqSUkOvk/mMRZzOANTiEVC7WaBNhHcKM7x+/5E1l5NvsysR19zuDQScE8k+kfQXWRN3AtS/eOSHpg==
   dependencies:
     browserslist "^4.23.0"
+
+core-js@^3.41.0:
+  version "3.41.0"
+  resolved "https://registry.npmjs.org/core-js/-/core-js-3.41.0.tgz"
+  integrity sha512-SJ4/EHwS36QMJd6h/Rg+GyR4A5xE0FSI3eZ+iBVpfqf1x0eTSg1smWLHrA+2jQThZSh97fmSgFSU8B61nxosxA==
 
 core-util-is@~1.0.0:
   version "1.0.3"
@@ -4705,6 +4718,13 @@ ng-simple-state@^19.0.1:
   dependencies:
     tslib "^2.3.0"
 
+ngx-device-detector@^9.0.0:
+  version "9.0.0"
+  resolved "https://registry.npmjs.org/ngx-device-detector/-/ngx-device-detector-9.0.0.tgz"
+  integrity sha512-zpio/wqH1GnxIpWCdA7cp5fmWf7YLycgzfXzQHmB9vaS7eAcqpBF5mxDS65IhE7TzNTJziDrYJCT+9tVqBcsDg==
+  dependencies:
+    tslib "^2.0.0"
+
 ngx-scrollbar@^15.0.1:
   version "15.0.1"
   resolved "https://registry.npmjs.org/ngx-scrollbar/-/ngx-scrollbar-15.0.1.tgz"
@@ -5648,6 +5668,11 @@ schema-utils@^4.0.0, schema-utils@^4.2.0:
     ajv "^8.9.0"
     ajv-formats "^2.1.1"
     ajv-keywords "^5.1.0"
+
+screenfull@*, screenfull@^6.0.2:
+  version "6.0.2"
+  resolved "https://registry.npmjs.org/screenfull/-/screenfull-6.0.2.tgz"
+  integrity sha512-AQdy8s4WhNvUZ6P8F6PB21tSPIYKniic+Ogx0AacBMjKP1GUHN2E9URxQHtCusiwxudnCKkdy4GrHXPPJSkCCw==
 
 select-hose@^2.0.0:
   version "2.0.0"

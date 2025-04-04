@@ -5,7 +5,7 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { ChartDataMonthComponent } from 'src/app/demo/default/chart-data-month/chart-data-month.component';
 import { ChartOrderComponent } from './component/chart-order/chart-order.component';
-import { SharedModule } from 'src/app/theme/shared/shared.module';
+// import { SharedModule } from 'src/app/theme/shared/shared.module';
 import { BajajChartComponent } from 'src/app/demo/default/bajaj-chart/bajaj-chart.component';
 import { BarChartComponent } from 'src/app/demo/default/bar-chart/bar-chart.component';
 import { NavBarComponent } from 'src/app/theme/layout/admin/nav-bar/nav-bar.component';
@@ -21,12 +21,17 @@ import { ApexTopSalesChartModule } from './component/apex-top-sales-chart/apex-t
 import { ApexCustomerChartModule } from './component/apex-customer-chart/apex-customer-chart.module';
 import { FavouriteTableModule } from './component/favourite-table/favourite-table.module';
 import { SalesChartModule } from './component/sales-chart/sales-chart.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 @NgModule({
   declarations: [DashboardComponent, RecentOrderComponent, ],
   imports: [
     CommonModule,
     DashboardRoutingModule,
     SharedModule,
+
+
+
+
     // APEX CHART
     ApexSalesChartModule,
     ApexTopSalesChartModule,

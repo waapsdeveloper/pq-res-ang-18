@@ -4,15 +4,11 @@ import { BtopHeaderComponent } from './btop-header.component';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { NgbDropdownModule, NgbDropdownToggle } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule } from '@angular/router';
-import { NavbarComponent } from './navbar/navbar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-
-
+import { SharedModule } from 'src/app/shared/shared.module';
 @NgModule({
   declarations: [
     BtopHeaderComponent,
-    NavbarComponent
   ],
   imports: [
     CommonModule,
@@ -21,7 +17,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     NgbDropdownModule,
     RouterModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
 
   ],
   exports: [

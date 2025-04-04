@@ -12,17 +12,21 @@ import {
 
 import { DOCUMENT } from "@angular/common";
 import { Subscription } from "rxjs";
+import { DeviceDetectorService } from 'ngx-device-detector';
+import { WINDOW } from 'src/app/shared/services/window.service';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { ConfigService } from "src/app/shared/services/config.service";
 import { LayoutService } from "src/app/shared/services/layout.service";
+import { CustomizerService } from "src/app/shared/services/customizer.service";
 
 @Component({
-  selector: 'app-btop-header',
-  templateUrl: './btop-header.component.html',
-  styleUrl: './btop-header.component.scss'
+  selector: "app-full-layout",
+  templateUrl: "./full-layout.component.html",
+  styleUrls: ["./full-layout.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BtopHeaderComponent  implements OnInit, AfterViewInit, OnDestroy {
+export class FullLayoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
   hideSidebar: boolean = true;
   overlayContent = false;
@@ -44,9 +48,11 @@ export class BtopHeaderComponent  implements OnInit, AfterViewInit, OnDestroy {
     private configService: ConfigService,
     private layoutService: LayoutService,
     private router: Router,
+    private customizerService: CustomizerService,
     @Inject(DOCUMENT) private document: Document,
     private renderer: Renderer2,
     private cdr: ChangeDetectorRef,
+    private deviceService: DeviceDetectorService
   ) {
 
     this.config = this.configService.templateConf;
@@ -185,7 +191,7 @@ export class BtopHeaderComponent  implements OnInit, AfterViewInit, OnDestroy {
       this.bgImage = this.config.layout.sidebar.backgroundImageURL;
     }
 
-    // //Set sidebar menu background color
+    //Set sidebar menu background color
     // if (!this.config.layout.sidebar.backgroundColor) {
     //   this.bgColor = this.customizerService.light_dark_colors[7].code;
     // } else {
@@ -291,16 +297,16 @@ export class BtopHeaderComponent  implements OnInit, AfterViewInit, OnDestroy {
 
   isTouchDevice() {
 
-    // const isMobile = this.deviceService.isMobile();
-    // const isTablet = this.deviceService.isTablet();
+    const isMobile = this.deviceService.isMobile();
+    const isTablet = this.deviceService.isTablet();
 
-    // if (isMobile || isTablet) {
-    //   if(!this.hideSidebar){
-    //     this.renderer.addClass(this.document.body, "overflow-hidden");
-    //   } else {
-    //     this.renderer.removeClass(this.document.body, "overflow-hidden");
-    //   }
-    // }
+    if (isMobile || isTablet) {
+      if(!this.hideSidebar){
+        this.renderer.addClass(this.document.body, "overflow-hidden");
+      } else {
+        this.renderer.removeClass(this.document.body, "overflow-hidden");
+      }
+    }
 
   }
 
@@ -314,13 +320,13 @@ export class BtopHeaderComponent  implements OnInit, AfterViewInit, OnDestroy {
 
   //Remove transparent layout classes
   removeTransparentBGClasses() {
-    // this.customizerService.transparent_colors.forEach(_ => {
-    //   this.renderer.removeClass(this.document.body, _.class);
-    // });
+    this.customizerService.transparent_colors.forEach(_ => {
+      this.renderer.removeClass(this.document.body, _.class);
+    });
 
-    // this.customizerService.transparent_colors_with_shade.forEach(_ => {
-    //   this.renderer.removeClass(this.document.body, _.class);
-    // });
+    this.customizerService.transparent_colors_with_shade.forEach(_ => {
+      this.renderer.removeClass(this.document.body, _.class);
+    });
   }
 
   sidebarMouseenter(e) {
@@ -402,132 +408,3 @@ export class BtopHeaderComponent  implements OnInit, AfterViewInit, OnDestroy {
   }
 
 }
-
-
-  /*
-
-  @Input('title') title = '';
-  @Input('addurl') addurl = '/pages/orders/add';
-  @Output('onSearch') onSearch = new EventEmitter<any>();
-
-  showNewOrder = false;
-  restaurant$: any;
-  date = new Date();
-  orderNumber: string = 'ORD-909803';
-  menuItems = [
-    { label: 'Dashboard', link: '/pages/dashboard', icon: 'ti ti-layout-dashboard' },
-    { label: 'Branches', link: '/pages/restaurants', icon: 'ti ti-soup' },
-    { label: 'Users', link: '/pages/users', icon: 'ti ti-users' },
-    { label: 'Categories', link: '/pages/categories', icon: 'ti ti-drag-drop-2' },
-    { label: 'All Menu', link: '/pages/products', icon: 'ti ti-artboard' },
-    { label: 'Variations', link: '/pages/variations', icon: 'ti ti-versions' },
-    { label: 'Tables', link: '/pages/tables', icon: 'ti ti-table' },
-    { label: 'Table Booking', link: '/pages/table-booking', icon: 'ti ti-table' },
-    { label: 'Orders', link: '/pages/orders', icon: 'ti ti-truck-delivery' },
-    { label: 'Invoices', link: '/pages/invoices', icon: 'ti ti-file-dollar' },
-    { label: 'Messages', link: '/pages/messages', icon: 'ti ti-message-dots' },
-    { label: 'Coupons', link: '/pages/coupons', icon: 'ti ti-ticket' }
-
-    //   { label: 'Reports', link: '/pages/reports', icon: 'ti ti-clipboard-text' },
-    //   { label: 'Customers', link: '/pages/customers', icon: 'ti ti-user-plus' },
-  ];
-
-  user: any;
-
-  constructor(
-    private nav: NavService,
-    private users: UsersService,
-    public grService: GlobalRestaurantService,
-    public notifcationService: NotificationsService,
-    private changeDetectorRef: ChangeDetectorRef,
-    private router: Router,
-    private events: EventsService
-  ) {
-    this.initialize();
-    this.notifcationService.registerPusherEvent();
-    this.notifcationService.getNotificationsFromApi();
-
-    this.grService.getRestaurant().subscribe((data) => {
-      this.restaurant$ = data;
-    });
-
-    this.events.subscribe('new-order-notification', (data) => {
-      console.log('events', data);
-      this.orderNumber = this.notifcationService.data?.order_id;
-      this.showNewOrder = true;
-
-    });
-  }
-
-  async initialize() {
-    // filter menu
-    const u = this.users.getUser();
-    this.user = u;
-
-    if (u.role_id != 1) {
-      this.menuItems = this.menuItems.filter((x) => x.label != 'Restaurants');
-    }
-
-    if (u.role_id != 1 && u.role_id != 2) {
-      this.menuItems = this.menuItems.filter((x) => x.label != 'Users');
-    }
-  }
-
-  logout() {
-    localStorage.removeItem('token');
-    this.nav.push('/');
-  }
-
-  setLogo() {
-    // if(this.restaurant$){
-
-    //   if(this.restaurant$['image']){
-
-    //     console.log( this.restaurant$['image'])
-    //     return this.restaurant$['image']
-    //   }
-
-    // }
-
-    return 'assets/svg/logo.png';
-  }
-
-  navigateToOrder(i) {
-    let item = this.notifcationService.notifications[i]?.data?.order_id;
-    console.log(item);
-
-    if (item) {
-      this.router.navigate(['/pages/orders/view', item]);
-      this.changeDetectorRef.markForCheck();
-    }
-  }
-
-  getTimeAgo(timestamp: string): string {
-    const notificationDate = new Date(timestamp);
-    const now = new Date();
-    const diffInMilliseconds = now.getTime() - notificationDate.getTime();
-
-    if (diffInMilliseconds < 60000) {
-      return 'just now';
-    } else if (diffInMilliseconds < 3600000) {
-      const minutes = Math.floor(diffInMilliseconds / 60000);
-      return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
-    } else if (diffInMilliseconds < 86400000) {
-      const hours = Math.floor(diffInMilliseconds / 3600000);
-      return `${hours} hour${hours > 1 ? 's' : ''} ago`;
-    } else {
-      return '1 day ago'; // Or more specific date/time format
-    }
-  }
-  closeOrder() {
-    this.showNewOrder = false;
-  }
-  goToOrder() {
-    this.orderNumber = this.notifcationService.data?.order_id;
-    this.router.navigate(['/pages/orders/view', this.orderNumber]);
-    this.showNewOrder = false;
-    console.log(this.orderNumber);
-  }
-}
-
-*/
