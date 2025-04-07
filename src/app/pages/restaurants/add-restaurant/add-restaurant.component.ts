@@ -80,7 +80,7 @@ export class AddRestaurantComponent {
             required: true,
             minLength: 3
           },
-          className: 'col-md-2 col-12' // 3 columns on md+, full width on small screens
+          className: 'col-md-6 col-12' // 3 columns on md+, full width on small screens
         },
         {
           key: 'address',
@@ -90,7 +90,7 @@ export class AddRestaurantComponent {
             placeholder: 'Enter address',
             required: true
           },
-          className: 'col-md-2 col-12'
+          className: 'col-md-6 col-12'
         },
         {
           key: 'phone',
@@ -100,7 +100,7 @@ export class AddRestaurantComponent {
             placeholder: 'Enter phone number'
             // pattern: /^[0-9]{10,15}$/
           },
-          className: 'col-md-2 col-12'
+          className: 'col-md-6 col-12'
         },
         {
           key: 'email',
@@ -110,7 +110,7 @@ export class AddRestaurantComponent {
             placeholder: 'Enter email',
             type: 'email'
           },
-          className: 'col-md-2 col-12'
+          className: 'col-md-6 col-12'
         },
         {
           key: 'website',
@@ -120,7 +120,7 @@ export class AddRestaurantComponent {
             placeholder: 'Enter website URL',
             pattern: /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/
           },
-          className: 'col-md-2 col-12'
+          className: 'col-md-6 col-12'
         },
         {
           key: 'copyright_text',
@@ -129,7 +129,7 @@ export class AddRestaurantComponent {
             label: 'Copyright text',
             placeholder: 'Enter copy right text'
           },
-          className: 'col-md-2 col-12'
+          className: 'col-md-6 col-12'
         },
         {
           key: 'description',
@@ -138,7 +138,7 @@ export class AddRestaurantComponent {
             label: 'Description',
             placeholder: 'Enter description'
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-6 col-12'
         },
 
         {
@@ -151,7 +151,7 @@ export class AddRestaurantComponent {
             accept: 'image/*',
             change: (field, event) => this.onFileChange(field, event, 'imageBase64')
           },
-          className: 'col-md-2 col-12'
+          className: 'formly-image-wrapper-3232 col-md-6 col-12'
         },
         {
           key: 'favicon',
@@ -163,7 +163,7 @@ export class AddRestaurantComponent {
             accept: 'image/*',
             change: (field, event) => this.onFileChange(field, event, 'faviconBase64')
           },
-          className: 'col-md-2 col-12'
+          className: 'formly-image-wrapper-3232 col-md-6 col-12'
         },
         {
           key: 'logo',
@@ -175,7 +175,7 @@ export class AddRestaurantComponent {
             accept: 'image/*',
             change: (field, event) => this.onFileChange(field, event, 'logoBase64')
           },
-          className: 'col-md-2 col-12'
+          className: 'formly-image-wrapper-3232 col-md-6 col-12'
         },
         // {
         //   key: 'rating',
@@ -200,16 +200,16 @@ export class AddRestaurantComponent {
               { value: 'inactive', label: 'Inactive' }
             ]
           },
-          className: 'col-md-2 col-12'
+          className: 'formly-select-wrapper-3232 col-md-6 col-12'
         }
       ]
     },
     {
       key: 'schedule',
-      fieldGroupClassName: 'row border p-2', // Bootstrap row
+      fieldGroupClassName: 'row', // Bootstrap row
       fieldGroup: [
         ...['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day) => ({
-          fieldGroupClassName: 'row',
+          fieldGroupClassName: 'row col-12',
           fieldGroup: [
             {
               key: `${day.toLowerCase()}_day`, // Unique key for each day
@@ -250,7 +250,7 @@ export class AddRestaurantComponent {
                   { value: 'inactive', label: 'Inactive' }
                 ]
               },
-              className: 'col-md-3 col-12'
+              className: 'formly-select-wrapper-3232 col-md-3 col-12'
             }
           ]
         }))
