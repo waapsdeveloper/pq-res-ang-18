@@ -46,7 +46,7 @@ export class AddProductComponent {
             required: true,
             minLength: 3
           },
-          className: 'col-md-2 col-12'
+          className: 'col-12'
         },
         {
           key: 'category_id',
@@ -56,7 +56,7 @@ export class AddProductComponent {
             placeholder: 'Select a category',
             options: []
           },
-          className: 'col-md-2 col-12'
+          className: 'form-group col-12'
         },
 
         {
@@ -68,7 +68,7 @@ export class AddProductComponent {
             required: true,
             minLength: 3
           },
-          className: 'col-md-2 col-12'
+          className: 'col-12'
         },
         {
           key: 'status',
@@ -80,7 +80,7 @@ export class AddProductComponent {
               { value: 'inactive', label: 'Inactive' }
             ]
           },
-          className: 'col-md-2 col-12'
+          className: 'col-12'
         },
         {
           key: 'price',
@@ -90,7 +90,7 @@ export class AddProductComponent {
             placeholder: 'Set a regular price',
             type: 'number'
           },
-          className: 'col-md-2 col-12'
+          className: 'col-12'
         },
         {
           key: 'image',
@@ -103,7 +103,7 @@ export class AddProductComponent {
             required: true,
             change: (field, event) => this.onFileChange(field, event, 'imageBase64')
           },
-          className: 'col-md-2 col-12'
+          className: 'col-12'
         },
         {
           key: 'discount',
@@ -113,7 +113,7 @@ export class AddProductComponent {
             placeholder: 'Set a discount',
             type: 'number'
           },
-          className: 'col-md-2 col-12'
+          className: 'col-12'
         }
       ]
     }

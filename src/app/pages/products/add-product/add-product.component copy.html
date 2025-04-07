@@ -1,0 +1,168 @@
+<app-kt-app-form-page [title]="'Add Products'">
+  <!-- Existing Formly Form -->
+  <form [formGroup]="form" (ngSubmit)="onSubmit(model)">
+    <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
+  </form>
+
+  <div class="row my-5">
+    <div class="col-12">
+      <div class="row">
+        <!-- Left Section -->
+        <div class="col-md-12 col-12 my-3">
+          <div class="text-start">
+            <h3 class="mb-3">Product Attributes</h3>
+            <p class="mb-4">Here you can define product sizes, types, flavors and any options you have</p>
+  
+            
+          </div>
+        </div>
+  
+        <!-- Right Section -->
+        <div class="col-md-4 col-12 my-3">
+          <div class="text-start">
+            <!-- Row container for input + button -->
+            <div class="d-flex align-items-start gap-2 mb-3 flex-wrap">
+              <!-- Input Field -->
+              <input
+                [(ngModel)]="addAttributeInput"
+                (input)="onInputChange(addAttributeInput)"
+                type="text"
+                placeholder="Variation Type (e.g., Size, Toppings)"
+                class="form-control"
+                style="max-width: 300px;"
+              />
+          
+              <!-- Add Button -->
+              <button
+                type="button"
+                (click)="addAttributes()"
+                class="btn btn-warning btn-sm"
+                style="background-color: #d12e2e; color: white; white-space: nowrap;"
+              >
+                Add Attributes
+              </button>
+            </div>
+          
+            <!-- Autocomplete -->
+            <div
+              class="autocomplete-container mb-3"
+              style="
+                display: flex;
+                overflow-x: auto;
+                flex-wrap: wrap;
+                padding: 5px;
+                border-radius: 5px;
+                background-color: #f9f9f9;
+                gap: 8px;
+              "
+              *ngIf="filteredSuggestions?.length > 0"
+            >
+              <div
+                *ngFor="let suggestion of filteredSuggestions"
+                (click)="selectSuggestion(suggestion)"
+                class="chip"
+                style="
+                  cursor: pointer;
+                  padding: 5px 12px;
+                  background-color: #e0e0e0;
+                  border-radius: 16px;
+                  white-space: nowrap;
+                  font-size: 0.9rem;
+                "
+              >
+                {{ suggestion.name }}
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="col-12">
+      <div class="row align-items-center">
+        <div class="col-md-6 col-12 my-3">
+          <h3>Product Variations</h3>
+          <p>Select any attribtes and update its variations</p>
+        </div>
+      </div>
+      <!-- Badges -->
+      <div class="d-flex flex-row flex-wrap justify-content-start gap-2 mb-4">
+        <div
+          class="badge badge-secondary fw-bold px-4 py-2"
+          [class.badge-info]="item?.selected"
+          style="cursor: pointer"
+          *ngFor="let item of variations"
+          (click)="selectAttribute(item?.type)"
+        >
+          {{ item?.type }}
+        </div>
+      </div>
+
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Variation Type</th>
+            <th>Option Name</th>
+            <th>Description</th>
+            <th>Additional Price</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let variation of variations | filterSelected: 'selected' : true; let i = index">
+            <!-- Variation Type Input -->
+            <td style="vertical-align: top !important;">
+              <input
+                type="text"
+                [(ngModel)]="variation.type"
+                placeholder="Variation Type (e.g., Size, Toppings)"
+                class="form-control"
+            />
+            </td>
+            
+
+            <!-- Options -->
+            <td>
+              <div *ngFor="let option of variation.options; let j = index" class="mb-2">
+                <input type="text" [(ngModel)]="option.name" placeholder="Option Name (e.g., Small)" class="form-control mb-1" />
+              </div>
+            </td>
+            <td>
+              <div *ngFor="let option of variation.options; let j = index" class="mb-2">
+                <input type="text" [(ngModel)]="option.description" placeholder="Description" class="form-control mb-1" />
+              </div>
+            </td>
+
+            <!-- Additional Price -->
+            <td>
+              <div *ngFor="let option of variation.options">
+                <input type="number" [(ngModel)]="option.price" placeholder="Additional Price (e.g., 5)" class="form-control mb-1" />
+              </div>
+            </td>
+
+            <!-- Actions -->
+            <td>
+              <i class="ti ti-trash" style="font-size: 26px" (click)="removeOption(i, i)"></i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="col-12 d-flex flex-row align-items-start my-3" style="margin-left: 0;">
+        <button type="button" class="btn btn-warning btn-sm" style="background-color: #d12e2e" (click)="addItemINVariation()">
+          Add Variations
+        </button>
+      </div>
+      
+
+      <div class="col-12 d-flex flex-row justify-content-end my-3">
+        <div class="d-flex justify-content-end">
+          <button type="submit" class="btn btn-warning btn-123 mt-4" style="background-color: #d12e2e" (click)="onSubmit(model)">
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
+  
+</app-kt-app-form-page>

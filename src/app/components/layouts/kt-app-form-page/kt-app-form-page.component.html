@@ -1,41 +1,26 @@
-<!--begin::Content-->
-<div id="kt_app_content" class="flex-column-fluid">
-  <!--begin::Content container-->
-  <div id="kt_app_content_container" class="">
-    <!--begin::Category-->
-    <div class="card card-flush">
-      <!--begin::Card header-->
-      <div class="card-header align-items-center py-5 gap-2 gap-md-5">
-        <!--begin::Card title-->
-        <div class="card-title">
-          <app-kt-app-toolbar [title]="title"></app-kt-app-toolbar>
+<div class="main-panel app-content" id="app-content">
+  <!-- BEGIN : Main Content-->
+  <div class="main-content">
+    <div class="content-overlay"></div>
+    <div class="content-wrapper">
+      <div class="row">
+        <div class="col-12">
+          <div class="content-header">{{ title }}</div>
+        </div>
+      </div>
 
-          <!--begin::Search-->
-          <div class="d-flex align-items-center position-relative my-1">
-            <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
 
+      <section  class="">
+        <div class="content-body">
+          <div class="row">
+            <div class="col-12">
+              <ng-content></ng-content>
+            </div>
           </div>
-          <!--end::Search-->
         </div>
-        <!--end::Card title-->
-        <!--begin::Card toolbar-->
-        <div class="card-toolbar">
-
-        </div>
-        <!--end::Card toolbar-->
-      </div>
-      <!--end::Card header-->
-      <!--begin::Card body-->
-      <div class="card-body pt-0">
-
-        <ng-content></ng-content>
+      </section>
 
 
-      </div>
-      <!--end::Card body-->
     </div>
-    <!--end::Category-->
   </div>
-  <!--end::Content container-->
 </div>
-<!--end::Content-->

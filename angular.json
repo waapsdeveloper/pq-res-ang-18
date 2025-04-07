@@ -105,7 +105,6 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "src/styles.scss",
-              "src/style.bundle.css",
               "src/assets/css/core//menu/horizontal-menu.css"
             ],
             "scripts": []
