@@ -90,7 +90,7 @@ export class EditProductComponent implements OnInit, AfterViewInit {
             required: true,
             minLength: 3
           },
-          className: 'col-md-2 col-12'
+          className: 'col-12 col-lg-6'
         },
         {
           key: 'category_id',
@@ -100,7 +100,7 @@ export class EditProductComponent implements OnInit, AfterViewInit {
             placeholder: 'Select a category',
             options: []
           },
-          className: 'col-md-2 col-12'
+          className: 'formly-select-wrapper-3232 col-12 col-lg-6'
         },
 
         {
@@ -112,7 +112,7 @@ export class EditProductComponent implements OnInit, AfterViewInit {
             required: true,
             minLength: 3
           },
-          className: 'col-md-2 col-12'
+          className: 'col-12 col-lg-6'
         },
         {
           key: 'status',
@@ -124,7 +124,7 @@ export class EditProductComponent implements OnInit, AfterViewInit {
               { value: 'inactive', label: 'Inactive' }
             ]
           },
-          className: 'col-md-2 col-12'
+          className: 'formly-select-wrapper-3232 col-12 col-lg-6'
         },
         {
           key: 'price',
@@ -134,7 +134,7 @@ export class EditProductComponent implements OnInit, AfterViewInit {
             placeholder: 'Set a regular price',
             type: 'number'
           },
-          className: 'col-md-2 col-12'
+          className: 'col-12 col-lg-6'
         },
         {
           key: 'image',
@@ -147,7 +147,7 @@ export class EditProductComponent implements OnInit, AfterViewInit {
             required: true,
             change: (field, event) => this.onFileChange(field, event, 'imageBase64')
           },
-          className: 'col-md-2 col-12'
+          className: 'formly-image-wrapper-3232 col-12 col-lg-6'
         },
         {
           key: 'discount',
@@ -157,7 +157,7 @@ export class EditProductComponent implements OnInit, AfterViewInit {
             placeholder: 'Set a discount',
             type: 'number'
           },
-          className: 'col-md-2 col-12'
+          className: 'col-12 col-lg-6'
         }
       ]
     }
