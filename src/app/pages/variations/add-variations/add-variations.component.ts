@@ -36,7 +36,7 @@ export class AddVariationsComponent {
             placeholder: 'Enter name',
             required: true
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-6 col-12'
         },
         {
           key: 'description',
@@ -46,7 +46,7 @@ export class AddVariationsComponent {
             placeholder: 'Enter a description',
             required: false
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-6 col-12'
         }
       ]
     }

@@ -65,7 +65,7 @@ export class EditVariationsComponent implements OnInit {
             placeholder: 'Enter name',
             required: true
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-6 col-12'
         },
         {
           key: 'description',
@@ -75,7 +75,7 @@ export class EditVariationsComponent implements OnInit {
             placeholder: 'Enter a description',
             required: false
           },
-          className: 'col-md-4 col-12'
+          className: 'col-md-6 col-12'
         }
       ]
     }
@@ -213,5 +213,5 @@ export class EditVariationsComponent implements OnInit {
     // Fill input with the selected suggestion
     // this.filteredSuggestions = []; // Clear suggestions
   }
-  
+
 }
