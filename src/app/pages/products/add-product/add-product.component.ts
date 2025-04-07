@@ -41,92 +41,8 @@ export class AddProductComponent {
     notes: ''
   };
 
-  fields: FormlyFieldConfig[] = [
-    {
-      fieldGroupClassName: 'row', // Single row for all fields
-      fieldGroup: [
-        {
-          key: 'name',
-          type: 'input',
-          props: {
-            label: 'Product Name',
-            placeholder: 'Enter product name',
-            required: true,
-            minLength: 3
-          },
-          className: 'col-12'
-        },
-        {
-          key: 'category_id',
-          type: 'select',
-          props: {
-            label: 'Category',
-            placeholder: 'Select a category',
-            options: []
-          },
-          className: 'form-group col-12'
-        },
-
-        {
-          key: 'description',
-          type: 'input',
-          props: {
-            label: 'Description',
-            placeholder: 'Enter description',
-            required: true,
-            minLength: 3
-          },
-          className: 'col-12'
-        },
-        {
-          key: 'status',
-          type: 'select',
-          props: {
-            label: 'Status',
-            options: [
-              { value: 'active', label: 'Active' },
-              { value: 'inactive', label: 'Inactive' }
-            ]
-          },
-          className: 'col-12'
-        },
-        {
-          key: 'price',
-          type: 'input',
-          props: {
-            label: 'Price',
-            placeholder: 'Set a regular price',
-            type: 'number'
-          },
-          className: 'col-12'
-        },
-        {
-          key: 'image',
-          type: 'input',
-          props: {
-            label: 'Image',
-            placeholder: 'Enter image URL',
-            type: 'file',
-            accept: 'image/*',
-            required: true,
-            change: (field, event) => this.onFileChange(field, event, 'imageBase64')
-          },
-          className: 'col-12'
-        },
-        {
-          key: 'discount',
-          type: 'input',
-          props: {
-            label: 'Discount',
-            placeholder: 'Set a discount',
-            type: 'number'
-          },
-          className: 'col-12'
-        }
-      ]
-    }
-  ];
-  categories: any;
+  categories: any[] = [];
+  restaurants: any[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -183,15 +99,9 @@ export class AddProductComponent {
   async setRestaurantsInForm() {
     const res = await this.getRestaurants();
     console.log(res);
+    this.restaurants = res;
 
-    for (var i = 0; i < this.fields.length; i++) {
-      for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
-        let fl = this.fields[i].fieldGroup[j];
-        if (fl.key == 'restaurant_id') {
-          fl.props.options = res;
-        }
-      }
-    }
+
   }
   async setCategoriesInForm() {
     const res = await this.getCategories();

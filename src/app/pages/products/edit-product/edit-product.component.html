@@ -3,37 +3,37 @@
     <!-- Basic Product Form -->
     <div class="col-12 mb-4">
       <div class="card">
-        <div class="card-header">
-          <h4 class="card-title">Edit Product</h4>
-        </div>
         <div class="card-content">
           <div class="card-body">
-            <p>Edit the product details below</p>
-            <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+            <form>
+              <!-- Row 1: Product Name + Category -->
               <div class="form-row">
-                <!-- Product Name -->
                 <div class="col-md-6 col-12">
                   <div class="form-group mb-2">
                     <label for="name">Product Name</label>
                     <input
-                      id="name"
                       type="text"
-                      formControlName="name"
+                      id="name"
                       class="form-control"
+                      [(ngModel)]="name"
+                      name="name"
                       placeholder="Enter product name"
                       required
-                      minlength="3"
                     />
                   </div>
                 </div>
-
-                <!-- Category -->
                 <div class="col-md-6 col-12">
                   <div class="form-group mb-2">
                     <label for="category_id">Category</label>
-                    <select id="category_id" formControlName="category_id" class="form-control">
-                      <option value="">Select a category</option>
-                      <option *ngFor="let option of categoryOptions" [value]="option.value">
+                    <select
+                      id="category_id"
+                      class="form-control"
+                      [(ngModel)]="category_id"
+                      name="category_id"
+                      required
+                    >
+                      <option value="" disabled selected>Select a category</option>
+                      <option *ngFor="let option of categories" [value]="option.value">
                         {{ option.label }}
                       </option>
                     </select>
@@ -41,28 +41,32 @@
                 </div>
               </div>
 
+              <!-- Row 2: Description + Status -->
               <div class="form-row">
-                <!-- Description -->
                 <div class="col-md-6 col-12">
                   <div class="form-group mb-2">
                     <label for="description">Description</label>
                     <input
-                      id="description"
                       type="text"
-                      formControlName="description"
+                      id="description"
                       class="form-control"
+                      [(ngModel)]="description"
+                      name="description"
                       placeholder="Enter description"
                       required
-                      minlength="3"
                     />
                   </div>
                 </div>
-
-                <!-- Status -->
                 <div class="col-md-6 col-12">
                   <div class="form-group mb-2">
                     <label for="status">Status</label>
-                    <select id="status" formControlName="status" class="form-control">
+                    <select
+                      id="status"
+                      class="form-control"
+                      [(ngModel)]="status"
+                      name="status"
+                      required
+                    >
                       <option value="active">Active</option>
                       <option value="inactive">Inactive</option>
                     </select>
@@ -70,20 +74,32 @@
                 </div>
               </div>
 
+              <!-- Row 3: Price + Discount -->
               <div class="form-row">
-                <!-- Price -->
                 <div class="col-md-6 col-12">
                   <div class="form-group mb-2">
                     <label for="price">Price</label>
-                    <input id="price" type="number" formControlName="price" class="form-control" placeholder="Set a regular price" />
+                    <input
+                      type="number"
+                      id="price"
+                      class="form-control"
+                      [(ngModel)]="price"
+                      name="price"
+                      placeholder="Set a regular price"
+                    />
                   </div>
                 </div>
-
-                <!-- Discount -->
                 <div class="col-md-6 col-12">
                   <div class="form-group mb-2">
                     <label for="discount">Discount</label>
-                    <input id="discount" type="number" formControlName="discount" class="form-control" placeholder="Set a discount" />
+                    <input
+                      type="number"
+                      id="discount"
+                      class="form-control"
+                      [(ngModel)]="discount"
+                      name="discount"
+                      placeholder="Set a discount"
+                    />
                   </div>
                 </div>
               </div>
@@ -91,31 +107,71 @@
               <!-- Image Upload -->
               <div class="form-group mb-2">
                 <label for="image">Upload Image</label>
-                <input id="image" type="file" accept="image/*" class="form-control-file" />
+                <input
+                  type="file"
+                  class="form-control-file"
+                  id="image"
+                  accept="image/*"
+                  (change)="onFileChange($event)"
+                />
               </div>
             </form>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- Product Attributes Section -->
-    <div class="col-12 mb-4">
-      <div class="card">
-        <div class="card-header">
-          <h4 class="card-title">Product Attributes</h4>
-        </div>
-        <div class="card-content">
-          <div class="card-body">
-            <p>Here you can define product sizes, types, flavors and any options you have</p>
+            <hr />
+            <h4 class="card-title">Product Attributes</h4>
 
-            <div class="form-row">
-              <div class="col-md-6 col-12">
+            <div class="card-content">
+              <div class="card-body p-0">
+                <p>Here you can define product sizes, types, flavors and any options you have</p>
+
+                <div class="form-row">
+                  <div class="col-md-12 col-12">
+                    <div class="form-group mb-2">
+                      <!-- Input + Button Row -->
+                      <div class="d-flex align-items-start gap-2 mb-3 flex-wrap">
+                        <input
+                          [(ngModel)]="addAttributeInput"
+                          (input)="onInputChange(addAttributeInput)"
+                          type="text"
+                          placeholder="Variation Type (e.g., Size, Toppings)"
+                          class="form-control"
+                          style="max-width: 300px"
+                        />
+                        <button
+                          type="button"
+                          (click)="addAttributes()"
+                          class="btn btn-primary"
+                          style="white-space: nowrap"
+                        >
+                          Add Attributes
+                        </button>
+                      </div>
+
+                      <!-- Autocomplete Suggestions -->
+                      <div
+                        class="autocomplete-container mb-3"
+                        style="display: flex; overflow-x: auto; flex-wrap: wrap; padding: 5px; border-radius: 5px; background-color: #f9f9f9; gap: 8px;"
+                        *ngIf="filteredSuggestions?.length > 0"
+                      >
+                        <div
+                          *ngFor="let suggestion of filteredSuggestions"
+                          (click)="selectSuggestion(suggestion)"
+                          class="chip"
+                          style="cursor: pointer; padding: 5px 12px; background-color: #e0e0e0; border-radius: 16px; white-space: nowrap; font-size: 0.9rem;"
+                        >
+                          {{ suggestion.name }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Attribute Badges -->
                 <div class="form-group mb-4">
                   <div class="d-flex flex-row flex-wrap justify-content-start gap-2">
                     <div
                       class="badge badge-secondary fw-bold px-4 py-2"
-                      [class.badge-info]="item.selected == true"
+                      [class.badge-info]="item.selected"
                       style="cursor: pointer"
                       *ngFor="let item of variations"
                       (click)="selectAttribute(item.type)"
@@ -125,130 +181,109 @@
                   </div>
                 </div>
               </div>
+            </div>
 
-              <div class="col-md-6 col-12">
-                <div class="form-group mb-2">
-                  <div class="d-flex align-items-start gap-2 mb-3 flex-wrap">
-                    <input
-                      [(ngModel)]="addAttributeInput"
-                      (input)="onInputChange(addAttributeInput)"
-                      type="text"
-                      placeholder="Variation Type (e.g., Size, Toppings)"
-                      class="form-control"
-                      style="max-width: 300px"
-                    />
-                    <button type="button" (click)="addAttributes()" class="btn btn-primary" style="white-space: nowrap">
-                      Add Attributes
+            <hr />
+            <h4 class="card-title">Product Variations</h4>
+
+            <div class="card-content">
+              <div class="card-body p-0">
+                <p>Select any attributes and update its variations</p>
+
+                <!-- Variations Table -->
+                <div class="form-group">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>Variation Type</th>
+                        <th>Option Name</th>
+                        <th>Description</th>
+                        <th>Additional Price</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let variation of variations; let i = index">
+                        <td>
+                          <input
+                            type="text"
+                            [(ngModel)]="variation.type"
+                            placeholder="Variation Type (e.g., Size, Toppings)"
+                            class="form-control"
+                          />
+                        </td>
+                        <td>
+                          <div *ngFor="let option of variation.options; let j = index" class="mb-2">
+                            <input
+                              type="text"
+                              [(ngModel)]="option.name"
+                              placeholder="Option Name"
+                              class="form-control mb-1"
+                            />
+                          </div>
+                        </td>
+                        <td>
+                          <div *ngFor="let option of variation.options" class="mb-2">
+                            <input
+                              type="text"
+                              [(ngModel)]="option.description"
+                              placeholder="Description"
+                              class="form-control mb-1"
+                            />
+                          </div>
+                        </td>
+                        <td>
+                          <div *ngFor="let option of variation.options">
+                            <input
+                              type="number"
+                              [(ngModel)]="option.price"
+                              placeholder="Additional Price"
+                              class="form-control mb-1"
+                            />
+                          </div>
+                        </td>
+                        <td>
+                          <i
+                            class="ti ti-trash"
+                            style="font-size: 26px; cursor: pointer;"
+                            (click)="removeOption(i, j)"
+                          ></i>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="form-row mt-3">
+                  <div class="col-md-6 col-12">
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      (click)="addItemINVariation()"
+                    >
+                      Add Variations
                     </button>
                   </div>
-
-                  <div
-                    class="autocomplete-container mb-3"
-                    style="
-                      display: flex;
-                      overflow-x: auto;
-                      flex-wrap: wrap;
-                      padding: 5px;
-                      border-radius: 5px;
-                      background-color: #f9f9f9;
-                      gap: 8px;
-                    "
-                    *ngIf="filteredSuggestions.length > 0"
-                  >
-                    <div
-                      *ngFor="let suggestion of filteredSuggestions"
-                      (click)="selectSuggestion(suggestion)"
-                      class="chip"
-                      style="
-                        cursor: pointer;
-                        padding: 5px 12px;
-                        background-color: #e0e0e0;
-                        border-radius: 16px;
-                        white-space: nowrap;
-                        font-size: 0.9rem;
-                      "
-                    >
-                      {{ suggestion.name }}
-                    </div>
-                  </div>
                 </div>
+
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Product Variations Section -->
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header">
-          <h4 class="card-title">Product Variations</h4>
-        </div>
-        <div class="card-content">
-          <div class="card-body">
-            <p>Select any attributes and update its variations</p>
-
-            <div class="form-group mb-4">
-              <table class="table table-bordered">
-                <thead>
-                  <tr>
-                    <th>Variation Type</th>
-                    <th>Option Name</th>
-                    <th>Description</th>
-                    <th>Additional Price</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let variation of variations | filterSelected: 'selected' : true; let i = index">
-                    <td style="vertical-align: top !important">
-                      <input
-                        type="text"
-                        [(ngModel)]="variation.type"
-                        placeholder="Variation Type (e.g., Size, Toppings)"
-                        class="form-control"
-                      />
-                    </td>
-                    <td>
-                      <div *ngFor="let option of variation.options; let j = index" class="mb-2">
-                        <input type="text" [(ngModel)]="option.name" placeholder="Option Name (e.g., Small)" class="form-control mb-1" />
-                      </div>
-                    </td>
-                    <td>
-                      <div *ngFor="let option of variation.options; let j = index" class="mb-2">
-                        <input type="text" [(ngModel)]="option.description" placeholder="Description" class="form-control mb-1" />
-                      </div>
-                    </td>
-                    <td>
-                      <div *ngFor="let option of variation.options">
-                        <input
-                          type="number"
-                          [(ngModel)]="option.price"
-                          placeholder="Additional Price (e.g., 5)"
-                          class="form-control mb-1"
-                        />
-                      </div>
-                    </td>
-                    <td>
-                      <i class="ti ti-trash" style="font-size: 26px; cursor: pointer" (click)="removeOption(i, i)"></i>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <div class="form-row">
-              <div class="col-md-6 col-12">
-                <button type="button" class="btn btn-primary" (click)="addItemINVariation()">Add Variations</button>
-              </div>
-              <div class="col-md-6 col-12 text-right">
-                <button type="submit" class="btn btn-primary" (click)="onSubmit(form.value)">Submit</button>
-              </div>
-            </div>
-          </div>
-        </div>
+      <!-- Submit Button -->
+      <div class="text-right">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          (click)="onSubmit()"
+        >
+          Submit
+        </button>
       </div>
+
     </div>
   </div>
 </app-kt-app-form-page>
