@@ -14,6 +14,95 @@ import { UtilityService } from 'src/app/services/utility.service';
 export class EditRtablesComponent implements OnInit {
   id;
 
+  form = new FormGroup({});
+  model = {
+    no_of_seats: '',
+    floor: '',
+    //location: '',
+    description: '',
+    status: ''
+  };
+
+  fields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: 'row', // Bootstrap row
+      fieldGroup: [
+
+
+        {
+          key: 'identifier',
+          type: 'input',
+          props: {
+            label: 'Name',
+            placeholder: 'Enter table name',
+            required: true,
+            minLength: 3
+          },
+          className: 'col-md-6 col-12' // 6 columns on md+, full width on small screens
+        },
+        {
+          key: 'no_of_seats',
+          type: 'input',
+          props: {
+            label: 'Number of Seats',
+            placeholder: 'Enter number of seats',
+            required: true,
+            type: 'number', // Ensures numeric input
+            max: 255 // Constraint for maximum value
+          },
+          className: 'col-md-6 col-12'
+        },
+        {
+          key: 'floor',
+          type: 'input',
+          props: {
+            label: 'Floor',
+            placeholder: 'Enter floor description',
+            required: true,
+            maxLength: 500 // Constraint for maximum length
+          },
+          className: 'col-md-6 col-12'
+        },
+
+        // {
+        //   key: 'location',
+        //   type: 'input',
+        //   props: {
+        //     label: 'Location',
+        //     placeholder: 'Near west wall',
+        //     required: true,
+        //   },
+        //   className: 'col-md-6 col-12',
+        // },
+        {
+          key: 'status',
+          type: 'select',
+          props: {
+            label: 'Status',
+            placeholder: 'Select status',
+            required: true,
+            options: [
+              { value: 'active', label: 'Active' },
+              { value: 'inactive', label: 'Inactive' }
+            ]
+          },
+          className: 'formly-select-wrapper-3232 col-md-6 col-12'
+        },
+
+        {
+          key: 'description',
+          type: 'textarea',
+          props: {
+            label: 'Description',
+            placeholder: 'Enter a description',
+            required: false
+          },
+          className: 'col-md-6 col-12' // Full width for description
+        }
+      ]
+    }
+  ];
+
   constructor(
     private route: ActivatedRoute,
     private network: NetworkService,
@@ -72,94 +161,7 @@ export class EditRtablesComponent implements OnInit {
     console.log(res);
     this.model = res.Rtable;
   }
-  form = new FormGroup({});
-  model = {
-    no_of_seats: '',
-    floor: '',
-    //location: '',
-    description: '',
-    status: ''
-  };
-
-  fields: FormlyFieldConfig[] = [
-    {
-      fieldGroupClassName: 'row', // Bootstrap row
-      fieldGroup: [
-
-
-        {
-          key: 'identifier',
-          type: 'input',
-          props: {
-            label: 'Name',
-            placeholder: 'Enter table name',
-            required: true,
-            minLength: 3
-          },
-          className: 'col-md-2 col-12' // 6 columns on md+, full width on small screens
-        },
-        {
-          key: 'no_of_seats',
-          type: 'input',
-          props: {
-            label: 'Number of Seats',
-            placeholder: 'Enter number of seats',
-            required: true,
-            type: 'number', // Ensures numeric input
-            max: 255 // Constraint for maximum value
-          },
-          className: 'col-md-2 col-12'
-        },
-        {
-          key: 'floor',
-          type: 'input',
-          props: {
-            label: 'Floor',
-            placeholder: 'Enter floor description',
-            required: true,
-            maxLength: 500 // Constraint for maximum length
-          },
-          className: 'col-md-2 col-12'
-        },
-
-        // {
-        //   key: 'location',
-        //   type: 'input',
-        //   props: {
-        //     label: 'Location',
-        //     placeholder: 'Near west wall',
-        //     required: true,
-        //   },
-        //   className: 'col-md-6 col-12',
-        // },
-        {
-          key: 'status',
-          type: 'select',
-          props: {
-            label: 'Status',
-            placeholder: 'Select status',
-            required: true,
-            options: [
-              { value: 'active', label: 'Active' },
-              { value: 'inactive', label: 'Inactive' }
-            ]
-          },
-          className: 'col-md-2 col-12'
-        },
-
-        {
-          key: 'description',
-          type: 'textarea',
-          props: {
-            label: 'Description',
-            placeholder: 'Enter a description',
-            required: false
-          },
-          className: 'col-md-2 col-12' // Full width for description
-        }
-      ]
-    }
-  ];
+  
   async ngAfterViewInit() {
     const res = await this.network.getTablesById(this.id);
     let d = Object.assign({}, res.Rtable);

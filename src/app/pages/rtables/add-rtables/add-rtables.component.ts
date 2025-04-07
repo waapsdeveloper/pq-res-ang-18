@@ -38,7 +38,7 @@ export class AddRtablesComponent {
             required: true,
             minLength: 3
           },
-          className: 'col-md-2 col-12' // 6 columns on md+, full width on small screens
+          className: 'col-md-6 col-12' // 6 columns on md+, full width on small screens
         },
         {
           key: 'no_of_seats',
@@ -50,7 +50,7 @@ export class AddRtablesComponent {
             type: 'number', // Ensures numeric input
             max: 255 // Constraint for maximum value
           },
-          className: 'col-md-2 col-12'
+          className: 'col-md-6 col-12'
         },
         {
           key: 'floor',
@@ -61,7 +61,7 @@ export class AddRtablesComponent {
             required: true,
             maxLength: 500 // Constraint for maximum length
           },
-          className: 'col-md-2 col-12'
+          className: 'col-md-6 col-12'
         },
 
         // {
@@ -86,7 +86,7 @@ export class AddRtablesComponent {
               { value: 'inactive', label: 'Inactive' }
             ]
           },
-          className: 'col-md-2 col-12'
+          className: 'formly-select-wrapper-3232 col-md-6 col-12'
         },
 
         {
@@ -97,7 +97,7 @@ export class AddRtablesComponent {
             placeholder: 'Enter a description',
             required: false
           },
-          className: 'col-md-2 col-12' // Full width for description
+          className: 'col-md-6 col-12' // Full width for description
         }
       ]
     }

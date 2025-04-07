@@ -98,7 +98,7 @@ export class EditCouponsComponent implements OnInit {
             required: true,
             minLength: 3
           },
-          className: 'col-md-2 col-12' // 6 columns on md+, full width on small screens
+          className: 'col-md-6 col-12' // 6 columns on md+, full width on small screens
         },
         {
           key: 'discount_value',
@@ -110,18 +110,21 @@ export class EditCouponsComponent implements OnInit {
             type: 'number', // Ensures numeric input
             max: 255 // Constraint for maximum value
           },
-          className: 'col-md-2 col-12'
+          className: 'col-md-6 col-12'
         },
         {
           key: 'discount_type',
-          type: 'input',
+          type: 'select',
           props: {
             label: 'Discount Type',
             placeholder: 'Enter discount type',
             required: true,
-            maxLength: 500 // Constraint for maximum length
+            options: [
+              { value: 'percentage', label: 'Percentage' },
+              { value: 'fixed', label: 'Fixed' }
+            ]
           },
-          className: 'col-md-2 col-12'
+          className: 'formly-select-wrapper-3232 col-md-6 col-12'
         },
 
         // {
@@ -146,7 +149,7 @@ export class EditCouponsComponent implements OnInit {
               { value: false, label: 'Inactive' }
             ]
           },
-          className: 'col-md-2 col-12'
+          className: 'formly-select-wrapper-3232 col-md-6 col-12'
         },
         {
           key: 'usage_limit',
@@ -158,7 +161,7 @@ export class EditCouponsComponent implements OnInit {
             type: 'number', // Ensures numeric input
             max: 255 // Constraint for maximum value
           },
-          className: 'col-md-2 col-12'
+          className: 'col-md-6 col-12'
         },
         {
           key: 'usage_count',
@@ -170,7 +173,7 @@ export class EditCouponsComponent implements OnInit {
             type: 'number', // Ensures numeric input
             max: 255 // Constraint for maximum value
           },
-          className: 'col-md-2 col-12'
+          className: 'col-md-6 col-12'
         },
         {
           key: 'expires_at',
@@ -181,7 +184,7 @@ export class EditCouponsComponent implements OnInit {
             placeholder: 'Select a date',
             required: true
           },
-          className: 'col-md-2 col-12'
+          className: 'col-md-6 col-12'
         }
       ]
     }
