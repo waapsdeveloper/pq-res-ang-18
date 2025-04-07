@@ -20,15 +20,29 @@
         <!-- Right Section -->
         <div class="col-md-4 col-12 my-3">
           <div class="text-start">
-            <!-- Input Field -->
-            <input
-              [(ngModel)]="addAttributeInput"
-              (input)="onInputChange(addAttributeInput)"
-              type="text"
-              placeholder="Variation Type (e.g., Size, Toppings)"
-              class="form-control mb-3"
-            />
-  
+            <!-- Row container for input + button -->
+            <div class="d-flex align-items-start gap-2 mb-3 flex-wrap">
+              <!-- Input Field -->
+              <input
+                [(ngModel)]="addAttributeInput"
+                (input)="onInputChange(addAttributeInput)"
+                type="text"
+                placeholder="Variation Type (e.g., Size, Toppings)"
+                class="form-control"
+                style="max-width: 300px;"
+              />
+          
+              <!-- Add Button -->
+              <button
+                type="button"
+                (click)="addAttributes()"
+                class="btn btn-warning btn-sm"
+                style="background-color: #d12e2e; color: white; white-space: nowrap;"
+              >
+                Add Attributes
+              </button>
+            </div>
+          
             <!-- Autocomplete -->
             <div
               class="autocomplete-container mb-3"
@@ -59,17 +73,8 @@
                 {{ suggestion.name }}
               </div>
             </div>
-  
-            <!-- Add Button -->
-            <button
-              type="button"
-              (click)="addAttributes()"
-              class="btn btn-warning btn-sm"
-              style="background-color: #d12e2e; color: white;"
-            >
-              Add Attributes
-            </button>
           </div>
+          
         </div>
       </div>
     </div>
@@ -149,6 +154,7 @@
           Add Variations
         </button>
       </div>
+      
 
       <div class="col-12 d-flex flex-row justify-content-end my-3">
         <div class="d-flex justify-content-end">
