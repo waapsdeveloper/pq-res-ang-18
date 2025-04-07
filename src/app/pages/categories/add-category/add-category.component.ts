@@ -35,7 +35,7 @@ export class AddCategoryComponent implements OnInit {
             required: true,
             minLength: 3
           },
-          className: 'col-md-2 col-12' // 3 columns on md+, full width on small screens
+          className: 'col-md-6 col-12' // 3 columns on md+, full width on small screens
         },
 
         {
@@ -45,7 +45,7 @@ export class AddCategoryComponent implements OnInit {
             label: 'Description',
             placeholder: 'Enter description'
           },
-          className: 'col-md-2 col-12'
+          className: 'col-md-6 col-12'
         },
         {
           key: 'category_id',
@@ -55,7 +55,7 @@ export class AddCategoryComponent implements OnInit {
             placeholder: 'Select a parent category',
             options: []
           },
-          className: 'col-md-2 col-12'
+          className: 'formly-select-wrapper-3232 col-md-6 col-12'
         },
         {
           key: 'image',
@@ -68,7 +68,7 @@ export class AddCategoryComponent implements OnInit {
             required: true,
             change: (field, event) => this.onFileChange(field, event, 'imageBase64')
           },
-          className: 'col-md-2 col-12'
+          className: 'formly-image-wrapper-3232 col-md-6 col-12'
         },
         {
           key: 'status',
@@ -80,7 +80,7 @@ export class AddCategoryComponent implements OnInit {
               { value: 'inactive', label: 'Inactive' }
             ]
           },
-          className: 'col-md-2 col-12'
+          className: 'formly-select-wrapper-3232 col-md-6 col-12'
         }
       ]
     }

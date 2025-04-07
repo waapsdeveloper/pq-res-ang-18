@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit,ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -6,6 +6,7 @@ import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { UtilityService } from 'src/app/services/utility.service';
 import { FieldArrayType } from '@ngx-formly/core';
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-edit-variations',
   templateUrl: './edit-variations.component.html',
@@ -14,7 +15,9 @@ import { FieldArrayType } from '@ngx-formly/core';
 })
 export class EditVariationsComponent implements OnInit {
   id;
- item;
+  item;
+  filteredSuggestions: any[] = [];
+  private searchSubject = new Subject<string>();
   variations: any[] = [];
   addAttributeInput = '';
 
@@ -37,11 +40,11 @@ export class EditVariationsComponent implements OnInit {
     // Fetch the data from the server
     const res = await this.network.getVariationsById(this.id);
     let d = Object.assign({}, res.variation);
-   if(d['meta_value']){
- const metaValue = JSON.parse(d['meta_value']);
-this.variations = metaValue;
-console.log(this.variations);
-   }
+    if (d['meta_value']) {
+      const metaValue = JSON.parse(d['meta_value']);
+      this.variations = metaValue;
+      console.log(this.variations);
+    }
   }
 
   form = new FormGroup({});
@@ -54,7 +57,6 @@ console.log(this.variations);
     {
       fieldGroupClassName: 'row',
       fieldGroup: [
-
         {
           key: 'name',
           type: 'input',
@@ -106,7 +108,7 @@ console.log(this.variations);
       const res = await this.network.updateVariation(d, this.id);
       console.log(res);
       if (res) {
-        this.utility.presentSuccessToast('Variation Updated!')
+        this.utility.presentSuccessToast('Variation Updated!');
 
         this.nav.pop();
       }
@@ -115,6 +117,28 @@ console.log(this.variations);
       //alert('Please fill out all required fields correctly.');
     }
   }
+
+  onInputChange(query: string) {
+    this.fetchSuggestions(query); // Fetch and display suggestions based on input
+  }
+
+  async fetchSuggestions(query: string) {
+    let v = query.trim();
+
+    if (!v) {
+      this.filteredSuggestions = []; // Clear suggestions if input is empty
+      return;
+    }
+
+    let obj = {
+      search: v
+    };
+
+    const res = await this.network.getVariations(obj);
+    let array = res?.data?.data || [];
+    this.filteredSuggestions = array;
+  }
+
   addAttributes() {
     let v = this.addAttributeInput.trim();
 
@@ -169,4 +193,25 @@ console.log(this.variations);
   removeOption(variationIndex: number, optionIndex: number) {
     this.variations[variationIndex].options.splice(optionIndex, 1);
   }
+
+  selectSuggestion(suggestion: any) {
+    console.log(suggestion);
+    let meta = JSON.parse(suggestion.meta_value);
+    //   let meta = suggestion.meta_value
+    console.log(meta);
+
+    this.addAttributeInput = suggestion.name;
+    this.variations = [
+      ...this.variations,
+      ...meta.map((metaItem: any) => ({
+        type: metaItem.type,
+        selected: false,
+        options: metaItem.options || []
+      }))
+    ];
+
+    // Fill input with the selected suggestion
+    // this.filteredSuggestions = []; // Clear suggestions
+  }
+  
 }

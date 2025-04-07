@@ -5,6 +5,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { UtilityService } from 'src/app/services/utility.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-add-variations',
@@ -14,7 +15,8 @@ import { UtilityService } from 'src/app/services/utility.service';
 })
 export class AddVariationsComponent {
   form = new FormGroup({});
-
+  filteredSuggestions: any[] = [];
+  private searchSubject = new Subject<string>();
   variations: any[] = [];
   addAttributeInput = '';
 
@@ -95,6 +97,27 @@ export class AddVariationsComponent {
     this.addAttributeInput = '';
   }
 
+  onInputChange(query: string) {
+    this.fetchSuggestions(query); // Fetch and display suggestions based on input
+  }
+
+  async fetchSuggestions(query: string) {
+    let v = query.trim();
+
+    if (!v) {
+      this.filteredSuggestions = []; // Clear suggestions if input is empty
+      return;
+    }
+
+    let obj = {
+      search: v
+    };
+
+    const res = await this.network.getVariations(obj);
+    let array = res?.data?.data || [];
+    this.filteredSuggestions = array;
+  }
+
   selectAttribute(type) {
     this.variations = this.variations.map((item) => {
       item.selected = item.type == type;
@@ -135,4 +158,24 @@ export class AddVariationsComponent {
     this.variations[variationIndex].options.splice(optionIndex, 1);
   }
   // Method to handle file input change
+
+  selectSuggestion(suggestion: any) {
+    console.log(suggestion);
+    let meta = JSON.parse(suggestion.meta_value);
+    //   let meta = suggestion.meta_value
+    console.log(meta);
+
+    this.addAttributeInput = suggestion.name;
+    this.variations = [
+      ...this.variations,
+      ...meta.map((metaItem: any) => ({
+        type: metaItem.type,
+        selected: false,
+        options: metaItem.options || []
+      }))
+    ];
+
+    // Fill input with the selected suggestion
+    // this.filteredSuggestions = []; // Clear suggestions
+  }
 }
