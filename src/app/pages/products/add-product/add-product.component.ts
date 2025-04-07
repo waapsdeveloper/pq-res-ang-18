@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild ,ViewEncapsulation} from '@angular/core';
+import { Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -12,7 +12,6 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
   templateUrl: './add-product.component.html',
   styleUrl: './add-product.component.scss',
   encapsulation: ViewEncapsulation.None
-
 })
 export class AddProductComponent {
   form = new FormGroup({});
@@ -20,6 +19,15 @@ export class AddProductComponent {
   private searchSubject = new Subject<string>();
   variations: any[] = [];
   addAttributeInput = '';
+  name = '';
+  category_id = '';
+  description = '';
+  status = '';
+  price = null;
+  image = '';
+  imageBase64 = '';
+  discount = null;
+  notes = '';
 
   model = {
     name: '',
@@ -118,6 +126,7 @@ export class AddProductComponent {
       ]
     }
   ];
+  categories: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -220,31 +229,31 @@ export class AddProductComponent {
     return [];
   }
 
-  async onSubmit(model) {
-    console.log(model);
-    console.log('Form Submitted', this.form.valid);
-    if (this.form.valid) {
-      // alert('Restaurant added successfully!');
+  async onSubmit() {
+    // Prepare the data object from local variables
+    const formData = {
+      name: this.name,
+      category_id: this.category_id,
+      description: this.description,
+      status: this.status,
+      price: this.price,
+      image: this.imageBase64, // Using the base64 encoded image
+      discount: this.discount,
+      notes: this.notes,
+      variation: this.variations
+    };
 
-      let d = Object.assign({}, this.form.value);
+    // Log the data to console first
+    console.log('Form data being submitted:', formData);
 
-      d['image'] = this.model.imageBase64;
+    // Send to API (assuming this.network.addProduct exists)
+    const res = await this.network.addProduct(formData);
 
-      // d['sizes'] = JSON.stringify(d['sizes'])
-      // d['spicy'] = JSON.stringify(d['spicy'])
-      // d['type'] = JSON.stringify(d['type'])
+    console.log('API Response:', res);
 
-      d['variation'] = this.variations;
-
-      const res = await this.network.addProduct(d);
-      console.log(res);
-      if (res) {
-        this.utility.presentSuccessToast('Products Created Succesfully!');
-        this.nav.pop();
-      }
-    } else {
-      this.utility.presentFailureToast('Please fill out all required fields correctly.');
-      //alert('Please fill out all required fields correctly.');
+    if (res) {
+      this.utility.presentSuccessToast('Product Created Successfully!');
+      this.nav.pop();
     }
   }
   onFileChange(field, event: Event, type: string = 'image') {

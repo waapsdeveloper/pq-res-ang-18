@@ -23,6 +23,8 @@ export class EditProductComponent implements OnInit, AfterViewInit {
   private searchSubject = new Subject<string>();
   variations: any[] = [];
   addAttributeInput = '';
+categoryOptions: any;
+categories: any;
 
   constructor(
     private route: ActivatedRoute,

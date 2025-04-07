@@ -22,7 +22,8 @@ import { FilterSelectedModule } from '../filter-selected/filter-selected.module'
     ReactiveFormsModule,
     FormlyBootstrapModule,
     KtAppFormPageModule,
-    FilterSelectedModule
+    FilterSelectedModule,
+    FormsModule
   ]
 })
 export class AddProductModule { }
