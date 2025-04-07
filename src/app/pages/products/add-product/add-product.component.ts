@@ -196,15 +196,7 @@ export class AddProductComponent {
   async setCategoriesInForm() {
     const res = await this.getCategories();
     console.log(res);
-
-    for (var i = 0; i < this.fields.length; i++) {
-      for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
-        let fl = this.fields[i].fieldGroup[j];
-        if (fl.key == 'category_id') {
-          fl.props.options = res;
-        }
-      }
-    }
+    this.categories = res;
   }
 
   async getCategories(): Promise<any[]> {
