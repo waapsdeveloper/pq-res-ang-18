@@ -11,7 +11,7 @@ import { UtilityService } from 'src/app/services/utility.service';
   encapsulation: ViewEncapsulation.None
 })
 export class AddUserComponent implements OnInit {
-
+   
 
   form = new FormGroup({});
   model = {
@@ -28,6 +28,21 @@ export class AddUserComponent implements OnInit {
     imageBase64: '',
     status: '',
   };
+  name= '';
+  email= '';
+  password= '';
+  phone= '';
+  address= '';
+  city='';
+  role_id='';
+  state='';
+  country='';
+  image= '';
+  imageBase64= '';
+  status= '';
+
+
+
 
   fields: FormlyFieldConfig[] = [
     {
@@ -152,7 +167,7 @@ export class AddUserComponent implements OnInit {
             placeholder: 'Enter image URL',
             type: 'file',
             accept: 'image/*',
-            change: (field, event) => this.onFileChange(field, event, 'imageBase64')
+            change: (field, event) => this.onFileChange(event, 'imageBase64')
           },
           className: 'col-md-2 col-12'
         },
@@ -173,6 +188,7 @@ export class AddUserComponent implements OnInit {
     }
 
   ]
+roles: any;
 
 
 
@@ -224,18 +240,17 @@ export class AddUserComponent implements OnInit {
     const res = await this.getRoles();
     console.log(res);
 
-    for(var i = 0; i < this.fields.length; i++){
-      for(var j = 0; j < this.fields[i].fieldGroup.length; j++) {
+    // Assign the roles to the local array
+    this.roles = res;
 
+    for (var i = 0; i < this.fields.length; i++) {
+      for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
         let fl = this.fields[i].fieldGroup[j];
-        if(fl.key == 'role_id'){
+        if (fl.key == 'role_id') {
           fl.props.options = res;
         }
       }
     }
-
-
-
   }
 
   // get roles array
@@ -258,12 +273,13 @@ export class AddUserComponent implements OnInit {
           label: r.name
         }
       }) as any[];
+      
 
     }
-
+ 
     return [];
   }
-  onFileChange(field, event: Event, type: string = 'image') {
+  onFileChange(event: Event, type: string = 'image') {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
       const file = input.files[0];
@@ -281,26 +297,53 @@ export class AddUserComponent implements OnInit {
       reader.readAsDataURL(file); // Convert file to base64
     }
   }
-  async onSubmit(model) {
-    console.log(model);
-    console.log('Form Submitted', this.form.value);
-    if (this.form.valid) {
-      // alert('Restaurant added successfully!');
+  async onSubmit() {
+    console.log('Form Submitted', {
+      name: this.name,
+      email: this.email,
+      password: this.password,
+      phone: this.phone,
+      address: this.address,
+      city: this.city,
+      role_id: this.,
+      state: this.state,
+      country: this.country,
+      image: this.imageBase64,
+      status: this.status
+    });
 
-      let d = Object.assign({}, this.form.value);
+    // Basic validation
+    if (!this.name || !this.email || !this.address || !this.role_id || !this.status) {
+      this.utility.presentFailureToast('Please fill out all required fields correctly.');
+      return;
+    }
 
-      d['image'] = this.model.imageBase64;
+    
+      const userData = {
+        name: this.name,
+        email: this.email,
+        password: this.password,
+        phone: this.phone,
+        address: this.address,
+        city: this.city,
+        role_id: this.role_id,
+        state: this.state,
+        country: this.country,
+        image: this.imageBase64,
+        status: this.status
+      };
 
-      const res = await this.network.addUser(d);
+      const res = await this.network.addUser(userData);
       console.log(res);
+      
       if (res) {
-        this.utility.presentSuccessToast('User Created Succesfully!')
+        this.utility.presentSuccessToast('User Created Successfully!');
         this.nav.pop();
       }
-    } else {
-      this.utility.presentFailureToast('Please fill out all required fields correctly.');
-      //alert('Please fill out all required fields correctly.');
-    }
+      else {
+        this.utility.presentFailureToast('Failed to create user. Please try again.');
+      }
+   
   }
 
 }
