@@ -1,4 +1,4 @@
-import { Component, Injector } from '@angular/core';
+import { Component, Injector, ViewEncapsulation } from '@angular/core';
 
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { ListBlade } from 'src/app/abstract/list-blade';
@@ -11,7 +11,9 @@ import { RestaurantService } from '../restaurant.service';
 @Component({
   selector: 'app-list-restaurant',
   templateUrl: './list-restaurant.component.html',
-  styleUrl: './list-restaurant.component.scss'
+  styleUrl: './list-restaurant.component.scss',
+  encapsulation: ViewEncapsulation.None,
+
 })
 export class ListRestaurantComponent extends ListBlade {
   title = 'Branches';
