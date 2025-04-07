@@ -37,3 +37,10 @@ margin-top:16px;
 .autocomplete-list li:hover {
   background-color: #f0f0f0;
 }
+
+.align-top {
+  vertical-align: top !important;
+}
+.table td {
+  vertical-align: top;
+}

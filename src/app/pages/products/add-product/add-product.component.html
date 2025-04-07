@@ -2,82 +2,96 @@
   <!-- Existing Formly Form -->
   <form [formGroup]="form" (ngSubmit)="onSubmit(model)">
     <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
-    <button type="submit" class="btn btn-secondary mt-4">Submit</button>
   </form>
 
   <div class="row my-5">
     <div class="col-12">
       <div class="row">
-        <div class="col-md-6 col-12 my-3">
-          <h3>Product Attributes</h3>
-          <p>Here you can define product sizes, types, flavors and any options you have</p>
-
-          <div class="d-flex flex-row flex-wrap justify-content-start">
-            <div
-              class="badge badge-secondary fw-bold me-2 px-4 py -3"
-              [class.badge-info]="item?.selected == true"
-              style="height: 32px; cursor: pointer"
-              *ngFor="let item of variations"
-              (click)="selectAttribute(item?.type)"
-            >
-              {{ item?.type }}
-            </div>
+        <!-- Left Section -->
+        <div class="col-md-12 col-12 my-3">
+          <div class="text-start">
+            <h3 class="mb-3">Product Attributes</h3>
+            <p class="mb-4">Here you can define product sizes, types, flavors and any options you have</p>
+  
+            
           </div>
         </div>
-        <div class="col-md-6 col-12 my-3">
-          <!-- Input field for adding attributes -->
-          <input
-            [(ngModel)]="addAttributeInput"
-            (input)="onInputChange(addAttributeInput)"
-            type="text"
-            placeholder="Variation Type (e.g., Size, Toppings)"
-            class="form-control"
-          />
-          <!-- Autocomplete Suggestions -->
-          <div
-            class="autocomplete-container"
-            style="
-              display: flex;
-              overflow-x: auto;
-              flex-wrap: wrap;
-              padding: 5px;
-              border-radius: 5px;
-              background-color: #f9f9f9;
-            "
-            *ngIf="filteredSuggestions?.length > 0"
-          >
+  
+        <!-- Right Section -->
+        <div class="col-md-4 col-12 my-3">
+          <div class="text-start">
+            <!-- Input Field -->
+            <input
+              [(ngModel)]="addAttributeInput"
+              (input)="onInputChange(addAttributeInput)"
+              type="text"
+              placeholder="Variation Type (e.g., Size, Toppings)"
+              class="form-control mb-3"
+            />
+  
+            <!-- Autocomplete -->
             <div
-              *ngFor="let suggestion of filteredSuggestions"
-              (click)="selectSuggestion(suggestion)"
-              class="chip"
+              class="autocomplete-container mb-3"
               style="
-                cursor: pointer;
-                margin-right: 10px;
-                margin-bottom: 5px;
-                padding: 5px 10px;
-                background-color: #e0e0e0;
-                border-radius: 16px;
-                display: inline-block;
-                white-space: nowrap;
+                display: flex;
+                overflow-x: auto;
+                flex-wrap: wrap;
+                padding: 5px;
+                border-radius: 5px;
+                background-color: #f9f9f9;
+                gap: 8px;
               "
+              *ngIf="filteredSuggestions?.length > 0"
             >
-              {{ suggestion.name }}
+              <div
+                *ngFor="let suggestion of filteredSuggestions"
+                (click)="selectSuggestion(suggestion)"
+                class="chip"
+                style="
+                  cursor: pointer;
+                  padding: 5px 12px;
+                  background-color: #e0e0e0;
+                  border-radius: 16px;
+                  white-space: nowrap;
+                  font-size: 0.9rem;
+                "
+              >
+                {{ suggestion.name }}
+              </div>
             </div>
+  
+            <!-- Add Button -->
+            <button
+              type="button"
+              (click)="addAttributes()"
+              class="btn btn-warning btn-sm"
+              style="background-color: #d12e2e; color: white;"
+            >
+              Add Attributes
+            </button>
           </div>
-
-          <!-- Button to add new attributes -->
-          <button type="button" (click)="addAttributes()" class="btn btn-warning btn-123" style="background-color: #d12e2e">
-            Add Attributes
-          </button>
         </div>
       </div>
     </div>
+  </div>
 
     <div class="col-12">
       <div class="row align-items-center">
         <div class="col-md-6 col-12 my-3">
           <h3>Product Variations</h3>
           <p>Select any attribtes and update its variations</p>
+        </div>
+      </div>
+      <!-- Badges -->
+      <div class="d-flex flex-row flex-wrap justify-content-start gap-2 mb-4">
+        <div
+          class="badge badge-secondary fw-bold px-4 py-2"
+          [class.badge-info]="item?.selected"
+          style="cursor: pointer"
+          *ngFor="let item of variations"
+          (click)="selectAttribute(item?.type)"
+        >
+          {{ item?.type }}
         </div>
       </div>
 
@@ -94,9 +108,15 @@
         <tbody>
           <tr *ngFor="let variation of variations | filterSelected: 'selected' : true; let i = index">
             <!-- Variation Type Input -->
-            <td>
-              <input type="text" [(ngModel)]="variation.type" placeholder="Variation Type (e.g., Size, Toppings)" class="form-control" />
+            <td style="vertical-align: top !important;">
+              <input
+                type="text"
+                [(ngModel)]="variation.type"
+                placeholder="Variation Type (e.g., Size, Toppings)"
+                class="form-control"
+            />
             </td>
+            
 
             <!-- Options -->
             <td>
@@ -124,12 +144,19 @@
           </tr>
         </tbody>
       </table>
-
-      <div class="col-12 d-flex flex-row justify-content-end my-3">
-        <button type="button" class="btn btn-warning btn-123" style="background-color: #d12e2e" (click)="addItemINVariation()">
+      <div class="col-12 d-flex flex-row align-items-start my-3" style="margin-left: 0;">
+        <button type="button" class="btn btn-warning btn-sm" style="background-color: #d12e2e" (click)="addItemINVariation()">
           Add Variations
         </button>
       </div>
+
+      <div class="col-12 d-flex flex-row justify-content-end my-3">
+        <div class="d-flex justify-content-end">
+          <button type="submit" class="btn btn-warning btn-123 mt-4" style="background-color: #d12e2e" (click)="onSubmit(model)">
+            Submit
+          </button>
+        </div>
+      </div>
     </div>
-  </div>
+  
 </app-kt-app-form-page>
