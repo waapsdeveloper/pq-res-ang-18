@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef,ViewEncapsulation } from '@angular/core';
+import { Component, ViewChild, ElementRef,ViewEncapsulation,OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NavService } from 'src/app/services/basic/nav.service';
@@ -11,8 +11,9 @@ import { UtilityService } from 'src/app/services/utility.service';
   styleUrl: './add-restaurant.component.scss',
   encapsulation: ViewEncapsulation.None
 })
-export class AddRestaurantComponent {
+export class AddRestaurantComponent  implements OnInit{
   form = new FormGroup({});
+  days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   model = {
     name: 'Restaurant one',
     copyright_text: '',
@@ -149,7 +150,7 @@ export class AddRestaurantComponent {
             placeholder: 'Enter image URL',
             type: 'file',
             accept: 'image/*',
-            change: (field, event) => this.onFileChange(field, event, 'imageBase64')
+            change: (field, event) => this.onFileChange( event, 'imageBase64')
           },
           className: 'col-md-2 col-12'
         },
@@ -161,7 +162,7 @@ export class AddRestaurantComponent {
             placeholder: 'Enter image URL',
             type: 'file',
             accept: 'image/*',
-            change: (field, event) => this.onFileChange(field, event, 'faviconBase64')
+            change: (field, event) => this.onFileChange( event, 'faviconBase64')
           },
           className: 'col-md-2 col-12'
         },
@@ -173,7 +174,7 @@ export class AddRestaurantComponent {
             placeholder: 'Enter image URL',
             type: 'file',
             accept: 'image/*',
-            change: (field, event) => this.onFileChange(field, event, 'logoBase64')
+            change: (field, event) => this.onFileChange( event, 'logoBase64')
           },
           className: 'col-md-2 col-12'
         },
@@ -340,7 +341,7 @@ export class AddRestaurantComponent {
     private utility: UtilityService
   ) {}
 
-  onFileChange(field, event: Event, type: string = 'image') {
+  onFileChange(event: Event, type: string = 'image') {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
       const file = input.files[0];
@@ -359,8 +360,7 @@ export class AddRestaurantComponent {
     }
   }
 
-  async onSubmit(model) {
-    console.log(model);
+  async onSubmit() {
     console.log('Form Submitted', this.form.value);
     if (this.form.valid) {
       // alert('Restaurant added successfully!');
@@ -426,4 +426,32 @@ export class AddRestaurantComponent {
       //alert('Please fill out all required fields correctly.');
     }
   }
+  
+  ngOnInit() {
+    this.initializeForm();
+  }
+
+  private initializeForm(): void {
+    // Initialize with empty form
+    this.form = this.fb.group({});
+    
+    // First create all controls synchronously
+    const controlsConfig: any = {
+      name: [''],
+      address: [''],
+      // Add all other main form controls...
+    };
+
+    // Add schedule controls
+    this.days.forEach(day => {
+      const dayKey = day.toLowerCase();
+      controlsConfig[`${dayKey}_start_time`] = [''];
+      controlsConfig[`${dayKey}_end_time`] = [''];
+      controlsConfig[`${dayKey}_status`] = ['active'];
+    });
+
+    // Then build the form all at once
+    this.form = this.fb.group(controlsConfig);
+  }
+
 }

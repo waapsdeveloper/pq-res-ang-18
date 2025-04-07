@@ -1,9 +1,152 @@
-
 <app-kt-app-form-page [title]="'Add Branch'">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <!-- Restaurant Details Section -->
+    <div class="col-12 mb-4">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Restaurant Details</h4>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <p>Manage your restaurant information and settings.</p>
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit(model)">
-    <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
-    <button type="submit" class="btn btn-secondary mt-4">Submit</button>
+            <!-- Row 1: Name + Address + Phone -->
+            <div class="form-row">
+              <div class="col-md-4 col-12">
+                <div class="form-group mb-2">
+                  <label>Restaurant Name</label>
+                  <input type="text" class="form-control" formControlName="name" placeholder="Enter restaurant name" required />
+                </div>
+              </div>
+              <div class="col-md-4 col-12">
+                <div class="form-group mb-2">
+                  <label>Address</label>
+                  <input type="text" class="form-control" formControlName="address" placeholder="Enter address" required />
+                </div>
+              </div>
+              <div class="col-md-4 col-12">
+                <div class="form-group mb-2">
+                  <label>Phone Number</label>
+                  <input type="text" class="form-control" formControlName="phone" placeholder="Enter phone number" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Row 2: Email + Website + Status -->
+            <div class="form-row">
+              <div class="col-md-4 col-12">
+                <div class="form-group mb-2">
+                  <label>Email Address</label>
+                  <input type="email" class="form-control" formControlName="email" placeholder="Enter email" />
+                </div>
+              </div>
+              <div class="col-md-4 col-12">
+                <div class="form-group mb-2">
+                  <label>Website</label>
+                  <input type="url" class="form-control" formControlName="website" placeholder="Enter website URL" />
+                </div>
+              </div>
+              <div class="col-md-4 col-12">
+                <div class="form-group mb-2">
+                  <label>Status</label>
+                  <select class="form-control" formControlName="status">
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Row 3: Copyright + Description -->
+            <div class="form-row">
+              <div class="col-md-6 col-12">
+                <div class="form-group mb-2">
+                  <label>Copyright text</label>
+                  <textarea class="form-control" formControlName="copyright_text" placeholder="Enter copy right text" rows="2"></textarea>
+                </div>
+              </div>
+              <div class="col-md-6 col-12">
+                <div class="form-group mb-2">
+                  <label>Description</label>
+                  <textarea class="form-control" formControlName="description" placeholder="Enter description" rows="2"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Row 4: Image Uploads -->
+            <div class="form-row">
+              <div class="col-md-4 col-12">
+                <div class="form-group mb-2">
+                  <label>Image</label>
+                  <input type="file" class="form-control-file" (change)="onFileChange($event, 'image')" accept="image/*" />
+                </div>
+              </div>
+              <div class="col-md-4 col-12">
+                <div class="form-group mb-2">
+                  <label>Favicon</label>
+                  <input type="file" class="form-control-file" (change)="onFileChange($event, 'favicon')" accept="image/*" />
+                </div>
+              </div>
+              <div class="col-md-4 col-12">
+                <div class="form-group mb-2">
+                  <label>Logo</label>
+                  <input type="file" class="form-control-file" (change)="onFileChange($event, 'logo')" accept="image/*" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Schedule Section -->
+    <!-- Schedule Section -->
+    <div class="col-12 mb-4">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Weekly Schedule</h4>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <div *ngFor="let day of days" class="mb-3">
+              <h5 class="mb-2">{{ day }}</h5>
+              <div class="form-row">
+                <div class="col-md-3 col-12">
+                  <div class="form-group mb-2">
+                    <label>Day</label>
+                    <input type="text" class="form-control" [value]="day" readonly />
+                  </div>
+                </div>
+                <div class="col-md-3 col-12">
+                  <div class="form-group mb-2">
+                    <label>Start Time</label>
+                    <input type="time" class="form-control" [formControlName]="day.toLowerCase() + '_start_time'" />
+                  </div>
+                </div>
+                <div class="col-md-3 col-12">
+                  <div class="form-group mb-2">
+                    <label>End Time</label>
+                    <input type="time" class="form-control" [formControlName]="day.toLowerCase() + '_end_time'" />
+                  </div>
+                </div>
+                <div class="col-md-3 col-12">
+                  <div class="form-group mb-2">
+                    <label>Status</label>
+                    <select class="form-control" [formControlName]="day.toLowerCase() + '_status'">
+                      <option value="active">Active</option>
+                      <option value="inactive">Inactive</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 text-right">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
   </form>
-
 </app-kt-app-form-page>
