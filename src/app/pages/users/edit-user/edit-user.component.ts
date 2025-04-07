@@ -70,7 +70,7 @@ export class EditUserComponent implements OnInit {
             required: true,
             minLength: 3
           },
-          className: 'col-md-2 col-12' // 3 columns on md+, full width on small screens
+          className: 'col-md-6 col-12' // 3 columns on md+, full width on small screens
         },
 
         {
@@ -82,7 +82,7 @@ export class EditUserComponent implements OnInit {
             required: true,
             type: 'email'
           },
-          className: 'col-md-2 col-12'
+          className: 'col-md-6 col-12'
         },
         {
           key: 'password',
@@ -94,7 +94,7 @@ export class EditUserComponent implements OnInit {
 
             minLength: 6
           },
-          className: 'col-md-2 col-12'
+          className: 'col-md-6 col-12'
         },
         {
           key: 'address',
@@ -104,7 +104,7 @@ export class EditUserComponent implements OnInit {
             placeholder: 'Enter address',
             required: true
           },
-          className: 'col-md-2 col-12'
+          className: 'col-md-6 col-12'
         },
         {
           key: 'city',
@@ -114,7 +114,7 @@ export class EditUserComponent implements OnInit {
             placeholder: 'Enter city',
             required: false // nullable
           },
-          className: 'col-md-2 col-12'
+          className: 'col-md-6 col-12'
         },
         {
           key: 'state',
@@ -124,7 +124,7 @@ export class EditUserComponent implements OnInit {
             placeholder: 'Enter state',
             required: false // nullable
           },
-          className: 'col-md-2 col-12'
+          className: 'col-md-6 col-12'
         },
         {
           key: 'country',
@@ -134,7 +134,7 @@ export class EditUserComponent implements OnInit {
             placeholder: 'Enter country',
             required: false // nullable
           },
-          className: 'col-md-2 xcol-12'
+          className: 'col-md-6 xcol-12'
         },
         {
           key: 'image',
@@ -146,7 +146,7 @@ export class EditUserComponent implements OnInit {
             accept: 'image/*',
             change: (field, event) => this.onFileChange(field, event, 'imageBase64')
           },
-          className: 'col-md-2 col-12'
+          className: 'formly-image-wrapper-3232 col-md-6 col-12'
         },
 
         {
@@ -158,7 +158,7 @@ export class EditUserComponent implements OnInit {
             type: 'tel'
             // pattern: '^\\+?[1-9]\\d{1,14}$', // Example pattern for international numbers
           },
-          className: 'col-md-2 col-12'
+          className: 'col-md-6 col-12'
         },
         {
           key: 'role_id',
@@ -169,7 +169,7 @@ export class EditUserComponent implements OnInit {
             required: true,
             options: []
           },
-          className: 'col-md-2 col-12'
+          className: 'formly-select-wrapper-3232 col-md-6 col-12'
         },
         {
           key: 'status',
@@ -183,7 +183,7 @@ export class EditUserComponent implements OnInit {
               { value: 'inactive', label: 'Inactive' }
             ]
           },
-          className: 'col-md-2 col-12'
+          className: 'formly-select-wrapper-3232 col-md-6 col-12'
         }
       ]
     }
