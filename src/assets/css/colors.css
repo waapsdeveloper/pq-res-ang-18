@@ -1,3 +1,33 @@
+:root {
+  --blue: #007bff;
+  --indigo: #6610f2;
+  --purple: #6f42c1;
+  --pink: #e83e8c;
+  --red: #e0301e;
+  --orange: #ff8100;
+  --yellow: #ffc107;
+  --green: #28a745;
+  --teal: #20c997;
+  --cyan: #17a2b8;
+  --white: #fff;
+  --gray: #6c757d;
+  --gray-dark: #343a40;
+  --primary: #975AFF;
+  --secondary: #616D89;
+  --success: #40C057;
+  --info: #2F8BE6;
+  --warning: #F77E17;
+  --danger: #F55252;
+  --light: #DBDEE5;
+  --dark: #1A051D;
+  --breakpoint-xs: 0;
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+  --font-family-sans-serif: "Montserrat", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+
 .gradient-mint {
   background-image: linear-gradient(45deg, #226CC5, #6CD975);
   background-repeat: repeat-x; }
@@ -390,15 +420,18 @@ input:focus ~ .bg-black {
 .bg-primary.bg-lighten-4 {
   background-color: #EFDEFF !important; }
 
-.btn-primary.btn-lighten-4 {
-  border-color: #562DB7 !important;
-  background-color: #EFDEFF !important; }
+  .btn-primary.btn-lighten-4 {
+    border-color: var(--red) !important;
+    background-color: var(--red) !important;
+  }
   .btn-primary.btn-lighten-4:hover {
-    border-color: #562DB7 !important;
-    background-color: #3B1C93 !important; }
+    border-color: var(--red) !important;
+    background-color: darken(var(--red), 10%) !important;
+  }
   .btn-primary.btn-lighten-4:focus, .btn-primary.btn-lighten-4:active {
-    border-color: #3B1C93 !important;
-    background-color: #28117A !important; }
+    border-color: darken(var(--red), 10%) !important;
+    background-color: darken(var(--red), 15%) !important;
+  }
 
 .btn-outline-primary.btn-outline-lighten-4 {
   border-color: #EFDEFF !important;
@@ -644,45 +677,55 @@ input:focus ~ .bg-primary {
   .card.card-outline-primary .card-footer {
     background-color: transparent; }
 
-.bg-light-primary {
-  background-color: #EFDEFF !important;
-  color: #975AFF !important;
-  border-color: #EFDEFF; }
-
-.btn.bg-light-primary:hover {
-  background-color: #975AFF !important;
-  color: #fff !important;
-  border-color: #975AFF; }
-
-.btn-primary:active {
-  background-color: #9455ff;
-  border-color: #9455ff; }
-
-.btn-primary:hover {
-  background-color: #a169ff;
-  border-color: #a169ff; }
-
-.btn-primary:focus {
-  color: #fff; }
-
-.btn-primary ~ .dropdown-menu .dropdown-item.active {
-  color: #fff !important;
-  background-color: #975AFF !important; }
-
-.btn-outline-primary {
-  border: 1px solid;
-  border-color: #975AFF;
-  background-color: transparent;
-  color: #975AFF; }
-  .btn-outline-primary:focus {
-    background-color: transparent !important;
-    color: #975AFF !important; }
-  .btn-outline-primary.active {
-    background-color: #975AFF !important;
-    color: #fff !important; }
-  .btn-outline-primary:hover {
-    background-color: #8d4bff !important;
-    color: #fff !important; }
+    .bg-light-primary {
+      background-color: var(--red) !important;
+      color: #fff !important;
+      border-color: var(--red);
+    }
+    
+    .btn.bg-light-primary:hover {
+      background-color: var(--red) !important;
+      color: #fff !important;
+      border-color: var(--red);
+    }
+    
+    .btn-primary:active {
+      background-color: var(--red) !important;
+      border-color: var(--red);
+    }
+    
+    .btn-primary:hover {
+      background-color: var(--red) !important;
+      border-color: var(--red);
+    }
+    
+    .btn-primary:focus {
+      color: #fff;
+    }
+    
+    .btn-primary ~ .dropdown-menu .dropdown-item.active {
+      color: #fff !important;
+      background-color: var(--red) !important;
+    }
+    
+    .btn-outline-primary {
+      border: 1px solid;
+      border-color: var(--red);
+      background-color: transparent;
+      color: var(--red);
+    }
+    .btn-outline-primary:focus {
+      background-color: transparent !important;
+      color: var(--red) !important;
+    }
+    .btn-outline-primary.active {
+      background-color: var(--red) !important;
+      color: #fff !important;
+    }
+    .btn-outline-primary:hover {
+      background-color: var(--red) !important;
+      color: #fff !important;
+    }
 
 a.btn.btn-primary, a.btn.bg-light-primary {
   color: #fff; }
