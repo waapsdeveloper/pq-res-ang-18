@@ -36,8 +36,8 @@
 <!--end::Table-->
 <div class="row">
   <div class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start">
-    <div class="dataTables_length" id="kt_table_length"><label><select name="kt_table_length"
-          class="form-select form-select-sm form-select-solid">
+    <div class="dataTables_length" id="kt_table_length"><label>
+      <select name="kt_table_length" class=" table-wrapper-form-field-select-253">
           <option value="10">10</option>
           <option value="25">25</option>
           <option value="50">50</option>
@@ -48,7 +48,7 @@
     <div class="dataTables_paginate paging_simple_numbers d-flex flex-row gap-3 align-items-center"
       id="kt_table_paginate">
       <label> Page</label>
-      <select [(ngModel)]="currentPage" (change)="pageChange.emit(currentPage)" name="kt_table_length" class="form-select form-select-sm form-select-solid">
+      <select [(ngModel)]="currentPage" (change)="pageChange.emit(currentPage)" name="kt_table_length" class=" table-wrapper-form-field-select-253">
         <option *ngFor="let p of getPages()" [value]="p">{{p}}</option>
       </select>
     </div>
