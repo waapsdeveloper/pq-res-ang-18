@@ -1,7 +1,11 @@
 <app-kt-list-page [title]="'Orders'" [addurl]="'/pages/orders/add'" (onFilter)="toggleFilters()">
-  <form [formGroup]="form" *ngIf="crudService.filters" (ngSubmit)="submitFilters(model)">
+  <form class="mt-3" [formGroup]="form" *ngIf="crudService.filters" (ngSubmit)="submitFilters(model)">
     <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
-    <button type="submit" class="btn btn-secondary mt-4">search</button>
+    <div class="d-flex justify-content-end">
+      <button type="submit" class="btn btn-warning btn-123">
+        Submit
+      </button>
+    </div>
   </form>
 
   <hr *ngIf="crudService.filters" />

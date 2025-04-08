@@ -69,7 +69,7 @@ export class ListProductComponent extends ListBlade {
               { value: 2, label: 'Restaurant 2' }
             ]
           },
-          className: 'col-md-2 col-12'
+          className: 'formly-select-wrapper-3232 col-md-2 col-12'
         },
         {
           key: 'price',
@@ -105,7 +105,7 @@ export class ListProductComponent extends ListBlade {
             ],
             required: true
           },
-          className: 'col-md-2 col-12'
+          className: 'formly-select-wrapper-3232 col-md-2 col-12'
         },
         {
           key: 'type',
@@ -121,8 +121,8 @@ export class ListProductComponent extends ListBlade {
           key: 'noOfOrders',
           type: 'input',
           props: {
-            label: 'Number of Orders',
-            placeholder: 'Enter number of orders',
+            label: 'No. of Orders',
+            placeholder: '',
             type: 'number',
             min: 0
           },
@@ -133,7 +133,7 @@ export class ListProductComponent extends ListBlade {
           type: 'textarea',
           props: {
             label: 'Notes',
-            placeholder: 'Enter any additional notes about the product',
+            placeholder: '',
             required: false
           },
           className: 'col-md-2 col-12'

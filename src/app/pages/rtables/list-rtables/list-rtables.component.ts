@@ -90,7 +90,7 @@ export class ListRtablesComponent extends ListBlade {
             ],
             required: true
           },
-          className: 'col-md-3 col-12'
+          className: 'formly-select-wrapper-3232 col-md-3 col-12'
         },
 
         {

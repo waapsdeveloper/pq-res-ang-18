@@ -60,7 +60,7 @@ export class ListVariationsComponent extends ListBlade {
               { value: 'inactive', label: 'Inactive' }
             ]
           },
-          className: 'col-md-2 col-12'
+          className: 'formly-select-wrapper-3232 col-md-2 col-12'
         }
       ]
     }

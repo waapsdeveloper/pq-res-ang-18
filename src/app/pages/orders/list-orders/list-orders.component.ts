@@ -107,7 +107,7 @@ export class ListOrdersComponent extends ListBlade {
             ],
             required: false
           },
-          className: 'col-md-2 col-12'
+          className: 'formly-select-wrapper-3232 col-md-2 col-12'
         },
         {
           key: 'status',
@@ -121,7 +121,7 @@ export class ListOrdersComponent extends ListBlade {
             ],
             required: false
           },
-          className: 'col-md-2 col-12'
+          className: 'formly-select-wrapper-3232 col-md-2 col-12'
         }
       ]
     }
