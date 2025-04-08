@@ -52,7 +52,10 @@ File: style.css
 }
 
 // Custom global CSS classes
-
+.table th, .table td {
+  padding: 8px 3px !important;
+  vertical-align: middle !important;
+}
 .formly-select-wrapper-3232 {
 
   formly-wrapper-form-field > div {

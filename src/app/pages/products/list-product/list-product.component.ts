@@ -142,7 +142,7 @@ export class ListProductComponent extends ListBlade {
     }
   ];
 
-  columns: any[] = ['Name', 'Category', 'Price', 'Type', 'No of Orders', 'Discount', 'Status'];
+  columns: any[] = ['Name', 'Category', 'Price', 'Type', 'Orders', 'Discount', 'Status'];
 
   category_id;
 
