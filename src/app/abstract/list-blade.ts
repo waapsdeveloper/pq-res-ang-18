@@ -14,6 +14,7 @@ export abstract class ListBlade{
 
   form = new FormGroup({});
   model;
+  public debounceTimer: any;
 
   constructor(injector: Injector, protected crudService: any) {
 
@@ -55,5 +56,11 @@ export abstract class ListBlade{
   }
 
 
-
+  debouncedSubmitFilters(model: any): void {
+    clearTimeout(this.debounceTimer);
+    this.debounceTimer = setTimeout(() => {
+      this.submitFilters(model);
+    }, 700); // Adjust the delay to 500ms or 1000ms as needed
+  }
+  
 }
