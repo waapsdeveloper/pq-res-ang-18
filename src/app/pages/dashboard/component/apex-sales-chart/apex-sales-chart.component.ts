@@ -65,7 +65,10 @@ export class ApexSalesChartComponent {
         }
       ],
       xaxis: {
-        categories: []
+        labels: {
+          show: true // Ensure labels are visible
+        },
+        // categories: [] // Remove this line
       },
       colors: ['#d1d5db', '#f79a21'], // Blue for 2023, Gray for 2022
       legend: {
@@ -106,8 +109,12 @@ export class ApexSalesChartComponent {
       ];
 
       this.chartOptions.xaxis = {
-        ...this.chartOptions.xaxis, // Keep existing xaxis properties
-        categories: data.categories // Update categories dynamically
+        ...this.chartOptions.xaxis,
+        // Generate numeric labels like ["1", "2", "3"...] 
+        categories: Array.from(
+          { length: data.series[0].data.length }, 
+          (_, index) => (index + 1).toString()
+        )
       };
       let v = this.chartOptions.series[0].data.reduce((a: number, b: number) => a + b, 0) as number;
       console.log(v);
@@ -135,8 +142,12 @@ export class ApexSalesChartComponent {
         }
       ];
       this.chartOptions.xaxis = {
-        ...this.chartOptions.xaxis, // Keep existing xaxis properties
-        categories: data.categories // Update categories dynamically
+        ...this.chartOptions.xaxis,
+        // Generate numeric labels like ["1", "2", "3"...] 
+        categories: Array.from(
+          { length: data.series[0].data.length }, 
+          (_, index) => (index + 1).toString()
+        )
       };
 
       let v = this.chartOptions.series[0].data.reduce((a: number, b: number) => a + b, 0) as number;
@@ -165,8 +176,12 @@ export class ApexSalesChartComponent {
         }
       ];
       this.chartOptions.xaxis = {
-        ...this.chartOptions.xaxis, // Keep existing xaxis properties
-        categories: data.categories // Update categories dynamically
+        ...this.chartOptions.xaxis,
+        // Generate numeric labels like ["1", "2", "3"...] 
+        categories: Array.from(
+          { length: data.series[0].data.length }, 
+          (_, index) => (index + 1).toString()
+        )
       };
       let v = this.chartOptions.series[0].data.reduce((a: number, b: number) => a + b, 0) as number;
       console.log(v);

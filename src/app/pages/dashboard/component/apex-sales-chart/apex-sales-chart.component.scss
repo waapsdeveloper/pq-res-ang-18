@@ -1,0 +1,12 @@
+.btn-tab {
+    border-radius: 0.375rem 0.375rem 0 0;
+    border-bottom: 2px solid transparent;
+    transition: 0.2s;
+  }
+  
+  .btn-tab.active {
+    background-color: #0d6efd; /* Bootstrap primary */
+    color: white;
+    border-color: #0d6efd;
+  }
+  
