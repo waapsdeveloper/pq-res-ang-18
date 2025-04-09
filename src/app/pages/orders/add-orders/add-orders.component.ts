@@ -28,6 +28,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   }
 
   async onSubmit($event: Event) {
+
     $event.preventDefault(); // Prevent default form behavior
     const res = await this.orderService.submitOrder();
     if (res) {
