@@ -22,7 +22,7 @@ export class NetworkService {
 
   getSalesChartData(params: any) {
     let str = this.serialize(params);
-    return this.httpGetResponse('dashboard/sales-chart-data' + '?' + str, null, false, true);
+    return this.httpGetResponse('dashboard/sales-chart-data' + '?' + str, null, true, true);
   }
   getCustomerStat() {
     return this.httpGetResponse('dashboard/customers', null, false, true);
