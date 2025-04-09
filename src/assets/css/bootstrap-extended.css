@@ -58,7 +58,7 @@ body {
   font-family: "Montserrat", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
 
 a:focus {
-  color: #8741ff;
+  color: var(--red);
   text-decoration: none; }
 
 a.text-info:hover, a.text-info:focus {
