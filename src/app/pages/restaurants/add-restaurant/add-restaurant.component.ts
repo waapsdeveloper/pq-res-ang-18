@@ -291,9 +291,9 @@ export class AddRestaurantComponent {
     if (this.form.valid) {
       let d = Object.assign({}, this.form.value);
 
-      d['image'] = this.model.imageBase64;
-      d['favicon'] = this.model.faviconBase64;
-      d['logo'] = this.model.logoBase64;
+      // d['image'] = this.model.imageBase64;
+      // d['favicon'] = this.model.faviconBase64;
+      // d['logo'] = this.model.logoBase64;
       d['schedule'] = [
         {
           day: 'Monday',
