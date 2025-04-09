@@ -43,7 +43,8 @@ export class AddCategoryComponent implements OnInit {
           type: 'textarea',
           props: {
             label: 'Description',
-            placeholder: 'Enter description'
+            placeholder: 'Enter description',
+            required: true
           },
           className: 'col-md-6 col-12'
         },
@@ -53,7 +54,8 @@ export class AddCategoryComponent implements OnInit {
           props: {
             label: 'Category',
             placeholder: 'Select a parent category',
-            options: []
+            options: [],
+            required: true
           },
           className: 'formly-select-wrapper-3232 col-md-6 col-12'
         },
@@ -78,7 +80,8 @@ export class AddCategoryComponent implements OnInit {
             options: [
               { value: 'active', label: 'Active' },
               { value: 'inactive', label: 'Inactive' }
-            ]
+            ],
+            required: true
           },
           className: 'formly-select-wrapper-3232 col-md-6 col-12'
         }

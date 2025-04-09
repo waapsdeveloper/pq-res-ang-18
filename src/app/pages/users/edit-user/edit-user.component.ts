@@ -91,7 +91,7 @@ export class EditUserComponent implements OnInit {
             label: 'Password',
             type: 'password',
             placeholder: 'Enter password',
-
+            required: true,
             minLength: 6
           },
           className: 'col-md-6 col-12'
@@ -112,7 +112,7 @@ export class EditUserComponent implements OnInit {
           props: {
             label: 'City',
             placeholder: 'Enter city',
-            required: false // nullable
+            required: true
           },
           className: 'col-md-6 col-12'
         },
@@ -122,7 +122,7 @@ export class EditUserComponent implements OnInit {
           props: {
             label: 'State',
             placeholder: 'Enter state',
-            required: false // nullable
+            required: true
           },
           className: 'col-md-6 col-12'
         },
@@ -132,7 +132,7 @@ export class EditUserComponent implements OnInit {
           props: {
             label: 'Country',
             placeholder: 'Enter country',
-            required: false // nullable
+            required: true
           },
           className: 'col-md-6 xcol-12'
         },
@@ -144,6 +144,7 @@ export class EditUserComponent implements OnInit {
             placeholder: 'Enter image URL',
             type: 'file',
             accept: 'image/*',
+            required: true,
             change: (field, event) => this.onFileChange(field, event, 'imageBase64')
           },
           className: 'formly-image-wrapper-3232 col-md-6 col-12'
@@ -155,8 +156,8 @@ export class EditUserComponent implements OnInit {
           props: {
             label: 'Phone Number',
             placeholder: 'XXX- XXX- XXXX',
-            type: 'tel'
-            // pattern: '^\\+?[1-9]\\d{1,14}$', // Example pattern for international numbers
+            type: 'tel',
+            required: true
           },
           className: 'col-md-6 col-12'
         },

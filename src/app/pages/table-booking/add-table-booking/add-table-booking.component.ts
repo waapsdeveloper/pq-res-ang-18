@@ -73,7 +73,7 @@ export class AddTableBookingComponent implements OnInit {
             label: 'Phone Number',
             placeholder: 'Enter phone number',
             type: 'tel',
-            // pattern: '^\\+?[1-9]\\d{1,14}$', // Example pattern for international numbers
+            required: true,
           },
           className: 'col-md-4 col-12',
         },

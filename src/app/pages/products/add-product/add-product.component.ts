@@ -62,7 +62,8 @@ export class AddProductComponent {
             required: true,
             multiple: false,
             placeholder: 'Select a category',
-            options: []
+            options: [],
+            required: true // Ensure required is true
           },
           className: 'formly-select-wrapper-3232 col-12 col-lg-6'
         },
@@ -73,7 +74,7 @@ export class AddProductComponent {
           props: {
             label: 'Description',
             placeholder: 'Enter description',
-            required: true,
+            required: true, // Ensure required is true
             minLength: 3
           },
           className: 'col-12 col-lg-6'
@@ -87,7 +88,8 @@ export class AddProductComponent {
             options: [
               { value: 'active', label: 'Active' },
               { value: 'inactive', label: 'Inactive' }
-            ]
+            ],
+            required: true // Ensure required is true
           },
           className: 'formly-select-wrapper-3232 col-12 col-lg-6'
         },
@@ -98,7 +100,8 @@ export class AddProductComponent {
             label: 'Price',
             required: true,
             placeholder: 'Set a regular price',
-            type: 'number'
+            type: 'number',
+            required: true // Ensure required is true
           },
           className: 'col-12 col-lg-6'
         },
@@ -110,7 +113,7 @@ export class AddProductComponent {
             placeholder: 'Enter image URL',
             type: 'file',
             accept: 'image/*',
-            required: true,
+            required: true, // Ensure required is true
             change: (field, event) => this.onFileChange(field, event, 'imageBase64')
           },
           className: 'formly-image-wrapper-3232 col-12 col-lg-6'
@@ -122,7 +125,8 @@ export class AddProductComponent {
             label: 'Discount',
             required: true,
             placeholder: 'Set a discount',
-            type: 'number'
+            type: 'number',
+            required: true // Ensure required is true
           },
           className: 'col-12 col-lg-6'
         }

@@ -58,7 +58,7 @@ export class EditCategoryComponent implements OnInit {
           props: {
             label: 'Category Name',
             placeholder: 'Enter category name',
-            required: true,
+            required: true, // Ensure required is true
             minLength: 3
           },
           className: 'col-md-6 col-12' // 3 columns on md+, full width on small screens
@@ -69,7 +69,8 @@ export class EditCategoryComponent implements OnInit {
           type: 'textarea',
           props: {
             label: 'Description',
-            placeholder: 'Enter description'
+            placeholder: 'Enter description',
+            required: true // Ensure required is true
           },
           className: 'col-md-6 col-12'
         },
@@ -79,7 +80,8 @@ export class EditCategoryComponent implements OnInit {
           props: {
             label: 'Category',
             placeholder: 'Select a parent category',
-            options: []
+            options: [],
+            required: true // Ensure required is true
           },
           className: 'formly-select-wrapper-3232 col-md-6 col-12'
         },
@@ -91,7 +93,7 @@ export class EditCategoryComponent implements OnInit {
             placeholder: 'Enter image URL',
             type: 'file',
             accept: 'image/*',
-            required: true,
+            required: true, // Ensure required is true
             change: (field, event) => this.onFileChange(field, event, 'imageBase64')
           },
           className: 'formly-image-wrapper-3232 col-md-6 col-12'
@@ -104,7 +106,8 @@ export class EditCategoryComponent implements OnInit {
             options: [
               { value: 'active', label: 'Active' },
               { value: 'inactive', label: 'Inactive' }
-            ]
+            ],
+            required: true // Ensure required is true
           },
           className: 'formly-select-wrapper-3232 col-md-6 col-12'
         }

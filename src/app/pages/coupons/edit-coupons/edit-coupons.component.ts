@@ -95,7 +95,7 @@ export class EditCouponsComponent implements OnInit {
           props: {
             label: 'Coupon Code',
             placeholder: 'Enter coupon code',
-            required: true,
+            required: true, // Ensure required is true
             minLength: 3
           },
           className: 'col-md-6 col-12' // 6 columns on md+, full width on small screens
@@ -106,7 +106,7 @@ export class EditCouponsComponent implements OnInit {
           props: {
             label: 'Discount',
             placeholder: 'Enter discount',
-            required: true,
+            required: true, // Ensure required is true
             type: 'number', // Ensures numeric input
             max: 255 // Constraint for maximum value
           },
@@ -118,7 +118,7 @@ export class EditCouponsComponent implements OnInit {
           props: {
             label: 'Discount Type',
             placeholder: 'Enter discount type',
-            required: true,
+            required: true, // Ensure required is true
             options: [
               { value: 'percentage', label: 'Percentage' },
               { value: 'fixed', label: 'Fixed' }
@@ -126,24 +126,13 @@ export class EditCouponsComponent implements OnInit {
           },
           className: 'formly-select-wrapper-3232 col-md-6 col-12'
         },
-
-        // {
-        //   key: 'location',
-        //   type: 'input',
-        //   props: {
-        //     label: 'Location',
-        //     placeholder: 'Near west wall',
-        //     required: true,
-        //   },
-        //   className: 'col-md-6 col-12',
-        // },
         {
           key: 'is_active',
           type: 'select',
           props: {
             label: 'Status',
             placeholder: 'Select status',
-            required: true,
+            required: true, // Ensure required is true
             options: [
               { value: true, label: 'Active' },
               { value: false, label: 'Inactive' }
@@ -157,7 +146,7 @@ export class EditCouponsComponent implements OnInit {
           props: {
             label: 'Usage Limit',
             placeholder: 'Enter usage limit',
-            required: true,
+            required: true, // Ensure required is true
             type: 'number', // Ensures numeric input
             max: 255 // Constraint for maximum value
           },
@@ -169,7 +158,7 @@ export class EditCouponsComponent implements OnInit {
           props: {
             label: 'Usage Count',
             placeholder: 'Enter Usage Count',
-            required: true,
+            required: true, // Ensure required is true
             type: 'number', // Ensures numeric input
             max: 255 // Constraint for maximum value
           },
@@ -182,7 +171,7 @@ export class EditCouponsComponent implements OnInit {
             label: 'Date of Birth',
             type: 'date',
             placeholder: 'Select a date',
-            required: true
+            required: true // Ensure required is true
           },
           className: 'col-md-6 col-12'
         }
