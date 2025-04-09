@@ -44,7 +44,13 @@ export class AddProductComponent {
             label: 'Product Name',
             placeholder: 'Enter product name',
             required: true,
-            minLength: 3
+            minLength: 3,
+            validation: {
+              messages: {
+                required: 'Product name is required',
+                minlength: 'Product name must be at least 3 characters long',
+              },
+            },
           },
           className: 'col-12 col-lg-6'
         },
@@ -53,6 +59,8 @@ export class AddProductComponent {
           type: 'select',
           props: {
             label: 'Category',
+            required: true,
+            multiple: false,
             placeholder: 'Select a category',
             options: []
           },
@@ -75,6 +83,7 @@ export class AddProductComponent {
           type: 'select',
           props: {
             label: 'Status',
+            required: true,
             options: [
               { value: 'active', label: 'Active' },
               { value: 'inactive', label: 'Inactive' }
@@ -87,6 +96,7 @@ export class AddProductComponent {
           type: 'input',
           props: {
             label: 'Price',
+            required: true,
             placeholder: 'Set a regular price',
             type: 'number'
           },
@@ -110,6 +120,7 @@ export class AddProductComponent {
           type: 'input',
           props: {
             label: 'Discount',
+            required: true,
             placeholder: 'Set a discount',
             type: 'number'
           },
@@ -223,30 +234,28 @@ export class AddProductComponent {
   async onSubmit(model) {
     console.log(model);
     console.log('Form Submitted', this.form.valid);
+
+    if (this.form.invalid) {
+      // Mark all fields as touched to trigger validation styles
+      this.form.markAllAsTouched();
+      this.utility.presentFailureToast('Please fill out all required fields correctly.');
+      return;
+    }
+
     if (this.form.valid) {
-      // alert('Restaurant added successfully!');
-
       let d = Object.assign({}, this.form.value);
-
       d['image'] = this.model.imageBase64;
-
-      // d['sizes'] = JSON.stringify(d['sizes'])
-      // d['spicy'] = JSON.stringify(d['spicy'])
-      // d['type'] = JSON.stringify(d['type'])
-
       d['variation'] = this.variations;
 
       const res = await this.network.addProduct(d);
       console.log(res);
       if (res) {
-        this.utility.presentSuccessToast('Products Created Succesfully!');
+        this.utility.presentSuccessToast('Products Created Successfully!');
         this.nav.pop();
       }
-    } else {
-      this.utility.presentFailureToast('Please fill out all required fields correctly.');
-      //alert('Please fill out all required fields correctly.');
     }
   }
+
   onFileChange(field, event: Event, type: string = 'image') {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {

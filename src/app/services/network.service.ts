@@ -157,10 +157,10 @@ export class NetworkService {
   }
 
   addProduct(data) {
-    return this.httpPostResponse('product', data, null, false, true);
+    return this.httpPostResponse('product', data, null, true, true);
   }
   updateProduct(data, id) {
-    return this.httpPutResponse('product', data, id, false, true);
+    return this.httpPutResponse('product', data, id, true, true);
   }
 
   removeProduct(id) {

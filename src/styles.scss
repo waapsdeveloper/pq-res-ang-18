@@ -87,6 +87,10 @@ File: style.css
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   }
 
+  formly-wrapper-form-field > div > select.is-invalid {
+    border: 1px solid red;
+  }
+
 }
 
 .formly-image-wrapper-3232 {
@@ -103,6 +107,11 @@ File: style.css
     white-space: pre;
   }
 }
+
+// .ng-invalid.ng-touched {
+//   border: 1px solid red;
+// }
+
 
 
 // flex classes like tailwind
