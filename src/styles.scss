@@ -215,3 +215,44 @@ File: style.css
 .pe-2 {
   padding-right: 0.5rem;
 }
+
+
+.trash-icon {
+  font-size: 20px; /* Smaller icon size */
+  cursor: pointer;
+  color: red;
+  border: 1px solid red;
+  padding: 4px; /* Increased padding */
+  border-radius: 4px;
+  /* Add ti-trash icon */
+   
+} 
+.edit-icon {
+  font-size: 20px;
+  cursor: pointer;
+  color: #ffc107; /* Bootstrap warning yellow */
+  border: 1px solid #ffc107;
+  padding: 4px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.view-icon {
+  font-size: 20px;
+  cursor: pointer;
+  color: black;
+  border: 1px solid black;
+  padding: 4px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.view-icon:hover {
+  background-color: rgba(0, 0, 0, 0.05); /* Light gray hover */
+}

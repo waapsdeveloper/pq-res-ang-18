@@ -54,12 +54,16 @@
 
       <!-- <ng-content></ng-content> -->
       <!--begin::Action=-->
-      <td class="text-end">
-        <div class="d-flex flex-row justify-content-end align-items-center gap-3">
-          <i class="ti ti-ad" style="font-size: 24px;cursor: pointer" (click)="setDefault(i)"></i>
-          <i class="ti ti-eye" style="font-size: 24px; cursor: pointer" (click)="openDetails(i)"></i>
-          <i class="ti ti-edit" style="font-size: 24px; cursor: pointer" (click)="editOpenDetails(i)"></i>
-          <i class="ti ti-trash" style="font-size: 24px; cursor: pointer" (click)="deleteRow(i)"></i>
+      <td class="text-start">
+        <div class="d-flex flex-row justify-content-start align-items-center gap-3">
+          <i 
+            class="ti ti-ad" 
+            style="font-size: 20px; cursor: pointer; border: 1px solid #4CAF50; color: #4CAF50; padding: 4px; border-radius: 4px;" 
+            (click)="setDefault(i)">
+          </i>
+          <i class="ti ti-eye  view-icon" style="font-size: 20px; cursor: pointer" (click)="openDetails(i)"></i>
+          <i class="edit-icon ti ti-edit" style="font-size: 20px; cursor: pointer" (click)="editOpenDetails(i)"></i>
+          <i class="ti ti-trash trash-icon" style="font-size: 20px; cursor: pointer" (click)="deleteRow(i)"></i>
         </div>
       </td>
       <!--end::Action=-->
