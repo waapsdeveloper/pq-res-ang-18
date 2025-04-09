@@ -63,7 +63,6 @@ export class AddProductComponent {
             multiple: false,
             placeholder: 'Select a category',
             options: [],
-            required: true // Ensure required is true
           },
           className: 'formly-select-wrapper-3232 col-12 col-lg-6'
         },
@@ -89,7 +88,6 @@ export class AddProductComponent {
               { value: 'active', label: 'Active' },
               { value: 'inactive', label: 'Inactive' }
             ],
-            required: true // Ensure required is true
           },
           className: 'formly-select-wrapper-3232 col-12 col-lg-6'
         },
@@ -101,7 +99,6 @@ export class AddProductComponent {
             required: true,
             placeholder: 'Set a regular price',
             type: 'number',
-            required: true // Ensure required is true
           },
           className: 'col-12 col-lg-6'
         },
@@ -126,7 +123,6 @@ export class AddProductComponent {
             required: true,
             placeholder: 'Set a discount',
             type: 'number',
-            required: true // Ensure required is true
           },
           className: 'col-12 col-lg-6'
         }
