@@ -66,8 +66,8 @@
                 {{ item?.type }}
               </div>
             </div>
-        
-            <div class="table-responsive">
+
+            <div class="table-responsive" style="min-height: 80px;">
               <table class="table m-0">
                 <thead class="thead-light">
                   <tr>
@@ -85,8 +85,8 @@
                       <input type="text" [(ngModel)]="variation.type" placeholder="Variation Type (e.g., Size, Toppings)"
                         class="form-control" />
                     </td>
-          
-          
+
+
                     <!-- Options -->
                     <td>
                       <div *ngFor="let option of variation.options; let j = index" class="mb-2">
@@ -99,7 +99,7 @@
                         <input type="text" [(ngModel)]="option.description" placeholder="Description" class="form-control mb-1" />
                       </div>
                     </td>
-          
+
                     <!-- Additional Price -->
                     <td>
                       <div *ngFor="let option of variation.options">
@@ -107,7 +107,7 @@
                           class="form-control mb-1" />
                       </div>
                     </td>
-          
+
                     <!-- Actions -->
                     <td>
                       <i class="ti ti-trash" style="font-size: 26px" (click)="removeOption(i, i)"></i>
@@ -116,15 +116,15 @@
                 </tbody>
               </table>
             </div>
-            
-            <div class="col-12 d-flex flex-row align-items-start my-3 p-0">
+
+            <div class="col-12 d-flex flex-row align-items-start my-3 p-0" *ngIf="(variations | filterSelected: 'selected' : true).length > 0">
               <button type="button" class="btn btn-warning btn-sm"
                 (click)="addItemINVariation()">
                 Add Variations
               </button>
             </div>
-        
-        
+
+
             <div class="d-flex justify-content-end">
               <button type="submit" class="btn btn-warning btn-123"
                 (click)="onSubmit(model)">
