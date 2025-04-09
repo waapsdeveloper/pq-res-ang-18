@@ -3,12 +3,13 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+  styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
 
   navCollapsed: boolean;
   navCollapsedMob = false;
+
 
   ListGroup = [
     {
@@ -86,5 +87,66 @@ export class DashboardComponent {
       document.querySelector('app-navigation.pc-sidebar')?.classList.remove('navbar-collapsed');
     }
   }
+
+  public chartSeries1 = [
+    { name: 'Widget Line Chart', data: [80, 60, 70, 50, 60, 53, 71, 48, 65, 60] }
+  ];
+  public chartSeries2 = [
+    { name: 'Widget Line Chart', data: [80, 60, 70, 50, 60, 53, 71, 48, 65, 60] }
+  ];
+  public chartSeries3 = [
+    { name: 'Widget Line Chart', data: [45, 55, 51, 65, 50, 62, 58, 70, 48, 57] }
+  ];
+  public chartSeries4 = [
+    { name: 'Widget Line Chart', data: [70, 55, 90, 49, 65, 60, 78, 55, 80, 68] }
+  ];
+
+  public chartOptions = {
+    chart: {
+      type: 'line',
+      height: 360,
+      toolbar: {
+        show: false // Hides the menu to download SVG, PNG, etc.
+      }
+    } as ApexChart,
+    xaxis: {
+      categories: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+      axisBorder: {
+        show: false
+      },
+      axisTicks: {
+        show: false
+      },
+      labels: {
+        show: false
+      }
+    },
+    yaxis: {
+      min: 40,
+      labels: {
+        show: false
+      }
+    },
+    grid: {
+      show: false
+    },
+    stroke: {
+      curve: 'smooth',
+      width: 2
+    },
+    tooltip: {
+      enabled: true,
+      theme: 'dark',
+      y: {
+        formatter: (val: number) => {
+          return '$' + val;
+        }
+      }
+    },
+    title: {
+      text: 'Dashboard Widget Line Chart',
+      align: 'left'
+    }
+  };
 
 }

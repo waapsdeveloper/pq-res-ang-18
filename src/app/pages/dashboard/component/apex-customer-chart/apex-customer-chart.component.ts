@@ -88,7 +88,7 @@ export class ApexCustomerChartComponent implements OnInit {
           text: 'Number of Customers'
         }
       },
-     
+
       colors: ['#FF6384', '#36A2EB', '#FFCE56'], // Custom colors
       legend: {
         position: 'top'
