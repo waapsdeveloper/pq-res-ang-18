@@ -161,7 +161,7 @@ export class EditRtablesComponent implements OnInit {
     console.log(res);
     this.model = res.Rtable;
   }
-  
+
   async ngAfterViewInit() {
     const res = await this.network.getTablesById(this.id);
     let d = Object.assign({}, res.Rtable);
@@ -177,6 +177,14 @@ export class EditRtablesComponent implements OnInit {
   }
 
   async onSubmit(model) {
+
+    if (this.form.invalid) {
+      // Mark all fields as touched to trigger validation styles
+      this.form.markAllAsTouched();
+      this.utility.presentFailureToast('Please fill out all required fields correctly.');
+      return;
+    }
+
     console.log(model);
     console.log('Form Submitted', this.form.value);
     if (this.form.valid) {

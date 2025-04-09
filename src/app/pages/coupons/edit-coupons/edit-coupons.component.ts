@@ -196,6 +196,14 @@ export class EditCouponsComponent implements OnInit {
   }
 
   async onSubmit(model) {
+
+    if (this.form.invalid) {
+      // Mark all fields as touched to trigger validation styles
+      this.form.markAllAsTouched();
+      this.utility.presentFailureToast('Please fill out all required fields correctly.');
+      return;
+    }
+
     console.log(model);
     console.log('Form Submitted', this.form.value);
     if (this.form.valid) {
