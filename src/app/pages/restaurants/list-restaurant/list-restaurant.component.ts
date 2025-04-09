@@ -68,6 +68,7 @@ export class ListRestaurantComponent extends ListBlade {
     }
   ];
 
+
   constructor(
     injector: Injector,
     public override crudService: RestaurantService,
@@ -129,4 +130,6 @@ export class ListRestaurantComponent extends ListBlade {
     this.network.setActiveRestaurant(data, item.id)
 
   }
+
+  
 }
