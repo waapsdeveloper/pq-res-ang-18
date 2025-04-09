@@ -31,7 +31,7 @@ export class AddMessageComponent {
           props: {
             label: 'Name',
             placeholder: 'Enter table name',
-            required: true,
+            required: true, // Ensure required is true
             minLength: 3
           },
           className: 'col-md-2 col-12' // 6 columns on md+, full width on small screens
@@ -42,7 +42,7 @@ export class AddMessageComponent {
           props: {
             label: 'Number of Seats',
             placeholder: 'Enter number of seats',
-            required: true,
+            required: true, // Ensure required is true
             type: 'number', // Ensures numeric input
             max: 255 // Constraint for maximum value
           },
@@ -54,29 +54,18 @@ export class AddMessageComponent {
           props: {
             label: 'Floor',
             placeholder: 'Enter floor description',
-            required: true,
+            required: true, // Ensure required is true
             maxLength: 500 // Constraint for maximum length
           },
           className: 'col-md-2 col-12'
         },
-
-        // {
-        //   key: 'location',
-        //   type: 'input',
-        //   props: {
-        //     label: 'Location',
-        //     placeholder: 'Near west wall',
-        //     required: true,
-        //   },
-        //   className: 'col-md-6 col-12',
-        // },
         {
           key: 'status',
           type: 'select',
           props: {
             label: 'Status',
             placeholder: 'Select status',
-            required: true,
+            required: true, // Ensure required is true
             options: [
               { value: 'active', label: 'Active' },
               { value: 'inactive', label: 'Inactive' }
@@ -84,14 +73,13 @@ export class AddMessageComponent {
           },
           className: 'col-md-2 col-12'
         },
-
         {
           key: 'description',
           type: 'textarea',
           props: {
             label: 'Description',
             placeholder: 'Enter a description',
-            required: false
+            required: true // Ensure required is true
           },
           className: 'col-md-2 col-12' // Full width for description
         }

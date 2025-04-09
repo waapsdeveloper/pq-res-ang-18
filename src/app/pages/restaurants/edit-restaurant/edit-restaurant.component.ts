@@ -211,8 +211,8 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
           type: 'input',
           props: {
             label: 'Phone Number',
-            placeholder: 'Enter phone number'
-            // pattern: /^[0-9]{10,15}$/
+            placeholder: 'Enter phone number',
+            required: true
           },
           className: 'col-md-6 col-12'
         },
@@ -222,7 +222,8 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
           props: {
             label: 'Email Address',
             placeholder: 'Enter email',
-            type: 'email'
+            type: 'email',
+            required: true
           },
           className: 'col-md-6 col-12'
         },
@@ -232,7 +233,8 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
           props: {
             label: 'Website',
             placeholder: 'Enter website URL',
-            pattern: /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/
+            pattern: /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/,
+            required: true
           },
           className: 'col-md-6 col-12'
         },
@@ -241,7 +243,8 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
           type: 'textarea',
           props: {
             label: 'Copyright text',
-            placeholder: 'Enter copy right text'
+            placeholder: 'Enter copy right text',
+            required: true
           },
           className: 'col-md-6 col-12'
         },
@@ -250,7 +253,8 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
           type: 'textarea',
           props: {
             label: 'Description',
-            placeholder: 'Enter description'
+            placeholder: 'Enter description',
+            required: true
           },
           className: 'col-md-6 col-12'
         },
@@ -263,7 +267,8 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
             placeholder: 'Enter image URL',
             type: 'file',
             accept: 'image/*',
-            change: (field, event) => this.onFileChange(field, event, 'imageBase64')
+            change: (field, event) => this.onFileChange(field, event, 'imageBase64'),
+            required: true
           },
           className: 'formly-image-wrapper-3232 col-md-6 col-12'
         },
@@ -275,7 +280,8 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
             placeholder: 'Enter image URL',
             type: 'file',
             accept: 'image/*',
-            change: (field, event) => this.onFileChange(field, event, 'faviconBase64')
+            change: (field, event) => this.onFileChange(field, event, 'faviconBase64'),
+            required: true
           },
           className: 'formly-image-wrapper-3232 col-md-6 col-12'
         },
@@ -287,23 +293,11 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
             placeholder: 'Enter image URL',
             type: 'file',
             accept: 'image/*',
-            change: (field, event) => this.onFileChange(field, event, 'logoBase64')
+            change: (field, event) => this.onFileChange(field, event, 'logoBase64'),
+            required: true
           },
           className: 'formly-image-wrapper-3232 col-md-6 col-12'
         },
-        // {
-        //   key: 'rating',
-        //   type: 'input',
-        //   props: {
-        //     label: 'Rating',
-        //     placeholder: 'Enter rating (0-5)',
-        //     type: 'number',
-        //     min: 0,
-        //     max: 5,
-        //     pattern: /^\d+(\.\d{1,2})?$/
-        //   },
-        //   className: 'col-md-4 col-12'
-        // },
         {
           key: 'status',
           type: 'select',
@@ -312,7 +306,8 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
             options: [
               { value: 'active', label: 'Active' },
               { value: 'inactive', label: 'Inactive' }
-            ]
+            ],
+            required: true
           },
           className: 'formly-select-wrapper-3232 col-md-6 col-12'
         }
@@ -331,7 +326,8 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
               props: {
                 label: 'Day',
                 value: `${day}`,
-                readonly: true // Static day name
+                readonly: true, // Static day name
+                required: true
               },
               className: 'col-md-3 col-12'
             },
@@ -341,7 +337,8 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
               type: 'input',
               props: {
                 label: 'Start Time',
-                type: 'time'
+                type: 'time',
+                required: true
               },
               className: 'col-md-3 col-12'
             },
@@ -350,7 +347,8 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
               type: 'input',
               props: {
                 label: 'End Time',
-                type: 'time'
+                type: 'time',
+                required: true
               },
               className: 'col-md-3 col-12'
             },
@@ -362,7 +360,8 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
                 options: [
                   { value: 'active', label: 'Active' },
                   { value: 'inactive', label: 'Inactive' }
-                ]
+                ],
+                required: true
               },
               className: 'formly-select-wrapper-3232 col-md-3 col-12'
             }

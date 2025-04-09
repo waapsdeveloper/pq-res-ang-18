@@ -87,7 +87,7 @@ export class EditProductComponent implements OnInit, AfterViewInit {
           props: {
             label: 'Product Name',
             placeholder: 'Enter product name',
-            required: true,
+            required: true, // Ensure required is true
             minLength: 3
           },
           className: 'col-12 col-lg-6'
@@ -98,18 +98,18 @@ export class EditProductComponent implements OnInit, AfterViewInit {
           props: {
             label: 'Category',
             placeholder: 'Select a category',
-            options: []
+            options: [],
+            required: true // Ensure required is true
           },
           className: 'formly-select-wrapper-3232 col-12 col-lg-6'
         },
-
         {
           key: 'description',
           type: 'input',
           props: {
             label: 'Description',
             placeholder: 'Enter description',
-            required: true,
+            required: true, // Ensure required is true
             minLength: 3
           },
           className: 'col-12 col-lg-6'
@@ -122,7 +122,8 @@ export class EditProductComponent implements OnInit, AfterViewInit {
             options: [
               { value: 'active', label: 'Active' },
               { value: 'inactive', label: 'Inactive' }
-            ]
+            ],
+            required: true // Ensure required is true
           },
           className: 'formly-select-wrapper-3232 col-12 col-lg-6'
         },
@@ -132,7 +133,8 @@ export class EditProductComponent implements OnInit, AfterViewInit {
           props: {
             label: 'Price',
             placeholder: 'Set a regular price',
-            type: 'number'
+            type: 'number',
+            required: true // Ensure required is true
           },
           className: 'col-12 col-lg-6'
         },
@@ -144,7 +146,7 @@ export class EditProductComponent implements OnInit, AfterViewInit {
             placeholder: 'Enter image URL',
             type: 'file',
             accept: 'image/*',
-            required: true,
+            required: true, // Ensure required is true
             change: (field, event) => this.onFileChange(field, event, 'imageBase64')
           },
           className: 'formly-image-wrapper-3232 col-12 col-lg-6'
@@ -155,7 +157,8 @@ export class EditProductComponent implements OnInit, AfterViewInit {
           props: {
             label: 'Discount',
             placeholder: 'Set a discount',
-            type: 'number'
+            type: 'number',
+            required: true // Ensure required is true
           },
           className: 'col-12 col-lg-6'
         }

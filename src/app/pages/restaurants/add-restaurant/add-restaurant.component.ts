@@ -77,10 +77,10 @@ export class AddRestaurantComponent {
           props: {
             label: 'Restaurant Name',
             placeholder: 'Enter restaurant name',
-            required: true,
+            required: true, // Ensure required is true
             minLength: 3
           },
-          className: 'col-md-6 col-12' // 3 columns on md+, full width on small screens
+          className: 'col-md-6 col-12'
         },
         {
           key: 'address',
@@ -88,7 +88,7 @@ export class AddRestaurantComponent {
           props: {
             label: 'Address',
             placeholder: 'Enter address',
-            required: true
+            required: true // Ensure required is true
           },
           className: 'col-md-6 col-12'
         },
@@ -97,8 +97,8 @@ export class AddRestaurantComponent {
           type: 'input',
           props: {
             label: 'Phone Number',
-            placeholder: 'Enter phone number'
-            // pattern: /^[0-9]{10,15}$/
+            placeholder: 'Enter phone number',
+            required: true // Ensure required is true
           },
           className: 'col-md-6 col-12'
         },
@@ -108,7 +108,8 @@ export class AddRestaurantComponent {
           props: {
             label: 'Email Address',
             placeholder: 'Enter email',
-            type: 'email'
+            type: 'email',
+            required: true // Ensure required is true
           },
           className: 'col-md-6 col-12'
         },
@@ -118,7 +119,8 @@ export class AddRestaurantComponent {
           props: {
             label: 'Website',
             placeholder: 'Enter website URL',
-            pattern: /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/
+            pattern: /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/,
+            required: true // Ensure required is true
           },
           className: 'col-md-6 col-12'
         },
@@ -127,7 +129,8 @@ export class AddRestaurantComponent {
           type: 'textarea',
           props: {
             label: 'Copyright text',
-            placeholder: 'Enter copy right text'
+            placeholder: 'Enter copy right text',
+            required: true // Ensure required is true
           },
           className: 'col-md-6 col-12'
         },
@@ -136,11 +139,11 @@ export class AddRestaurantComponent {
           type: 'textarea',
           props: {
             label: 'Description',
-            placeholder: 'Enter description'
+            placeholder: 'Enter description',
+            required: true // Ensure required is true
           },
           className: 'col-md-6 col-12'
         },
-
         {
           key: 'image',
           type: 'input',
@@ -149,7 +152,8 @@ export class AddRestaurantComponent {
             placeholder: 'Enter image URL',
             type: 'file',
             accept: 'image/*',
-            change: (field, event) => this.onFileChange(field, event, 'imageBase64')
+            change: (field, event) => this.onFileChange(field, event, 'imageBase64'),
+            required: true // Ensure required is true
           },
           className: 'formly-image-wrapper-3232 col-md-6 col-12'
         },
@@ -161,7 +165,8 @@ export class AddRestaurantComponent {
             placeholder: 'Enter image URL',
             type: 'file',
             accept: 'image/*',
-            change: (field, event) => this.onFileChange(field, event, 'faviconBase64')
+            change: (field, event) => this.onFileChange(field, event, 'faviconBase64'),
+            required: true // Ensure required is true
           },
           className: 'formly-image-wrapper-3232 col-md-6 col-12'
         },
@@ -173,23 +178,11 @@ export class AddRestaurantComponent {
             placeholder: 'Enter image URL',
             type: 'file',
             accept: 'image/*',
-            change: (field, event) => this.onFileChange(field, event, 'logoBase64')
+            change: (field, event) => this.onFileChange(field, event, 'logoBase64'),
+            required: true // Ensure required is true
           },
           className: 'formly-image-wrapper-3232 col-md-6 col-12'
         },
-        // {
-        //   key: 'rating',
-        //   type: 'input',
-        //   props: {
-        //     label: 'Rating',
-        //     placeholder: 'Enter rating (0-5)',
-        //     type: 'number',
-        //     min: 0,
-        //     max: 5,
-        //     pattern: /^\d+(\.\d{1,2})?$/
-        //   },
-        //   className: 'col-md-4 col-12'
-        // },
         {
           key: 'status',
           type: 'select',
@@ -198,7 +191,8 @@ export class AddRestaurantComponent {
             options: [
               { value: 'active', label: 'Active' },
               { value: 'inactive', label: 'Inactive' }
-            ]
+            ],
+            required: true // Ensure required is true
           },
           className: 'formly-select-wrapper-3232 col-md-6 col-12'
         }
@@ -212,22 +206,23 @@ export class AddRestaurantComponent {
           fieldGroupClassName: 'row col-12',
           fieldGroup: [
             {
-              key: `${day.toLowerCase()}_day`, // Unique key for each day
+              key: `${day.toLowerCase()}_day`,
               type: 'input',
               props: {
                 label: 'Day',
                 value: `${day}`,
-                readonly: true // Static day name
+                readonly: true,
+                required: true // Ensure required is true
               },
               className: 'col-md-3 col-12'
             },
-
             {
               key: `${day.toLowerCase()}_start_time`,
               type: 'input',
               props: {
                 label: 'Start Time',
-                type: 'time'
+                type: 'time',
+                required: true // Ensure required is true
               },
               className: 'col-md-3 col-12'
             },
@@ -236,7 +231,8 @@ export class AddRestaurantComponent {
               type: 'input',
               props: {
                 label: 'End Time',
-                type: 'time'
+                type: 'time',
+                required: true // Ensure required is true
               },
               className: 'col-md-3 col-12'
             },
@@ -248,89 +244,15 @@ export class AddRestaurantComponent {
                 options: [
                   { value: 'active', label: 'Active' },
                   { value: 'inactive', label: 'Inactive' }
-                ]
+                ],
+                required: true // Ensure required is true
               },
               className: 'formly-select-wrapper-3232 col-md-3 col-12'
             }
           ]
         }))
-        //         {
-        //           key: 'schedule',
-        //           fieldGroupClassName: 'row',
-        //           fieldGroup: [
-        //             // Define each day of the week as a separate field group
-        //             ...['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day) => ({
-        //               fieldGroupClassName: 'row border p-2', // Individual row for each day
-
-        //             })),
-        //           ],
-
-        //       props: {
-        //         label: 'Weekly Schedule',
-        //         description: 'Set the schedule for each day of the week.',
-        //       },
-        //     },
       ]
     }
-    //     {
-    //       key: 'schedule_table',
-    //       fieldGroupClassName: 'col-12 table-responsive', // Full-width table
-    //       fieldGroup: [
-    //         {
-    //           key: 'schedule',
-    //           fieldGroupClassName: 'row',
-    //           fieldGroup: [
-    //             // Define each day of the week as a separate field group
-    //             ...['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day) => ({
-    //               fieldGroupClassName: 'row border p-2', // Individual row for each day
-    //               fieldGroup: [
-    //                 {
-    //                   key: `${day.toLowerCase()}_day`, // Unique key for each day
-    //                   type: 'input',
-    //                   props: {
-    //                     label: 'Day',
-    //                     value: day,
-    //                     disabled: true, // Static day name
-    //                   },
-    //                   className: 'col-md-3 col-12',
-    //                 },
-    //                 {
-    //                   key: `${day.toLowerCase()}_status`,
-    //                   type: 'checkbox',
-    //                   props: {
-    //                     label: 'Active',
-    //                   },
-    //                   className: 'col-md-3 col-12',
-    //                 },
-    //                 {
-    //                   key: `${day.toLowerCase()}_start_time`,
-    //                   type: 'input',
-    //                   props: {
-    //                     label: 'Start Time',
-    //                     type: 'time',
-    //                   },
-    //                   className: 'col-md-3 col-12',
-    //                 },
-    //                 {
-    //                   key: `${day.toLowerCase()}_end_time`,
-    //                   type: 'input',
-    //                   props: {
-    //                     label: 'End Time',
-    //                     type: 'time',
-    //                   },
-    //                   className: 'col-md-3 col-12',
-    //                 },
-    //               ],
-    //             })),
-    //           ],
-
-    //       props: {
-    //         label: 'Weekly Schedule',
-    //         description: 'Set the schedule for each day of the week.',
-    //       },
-    //     },
-    //   ],
-    // },
   ];
 
   constructor(
@@ -350,10 +272,6 @@ export class AddRestaurantComponent {
         console.log(base64String);
 
         this.model[type] = base64String; // Update the model
-        // this.fields[0].fieldGroup[6].props['value'] = base64String; // Update the field value
-        // this.fields[0].fieldGroup[6].formControl.setValue(base64String); // Update the form control value
-
-        // field.formControl.setValue(base64String); // Update the form control value
       };
       reader.readAsDataURL(file); // Convert file to base64
     }
@@ -363,8 +281,6 @@ export class AddRestaurantComponent {
     console.log(model);
     console.log('Form Submitted', this.form.value);
     if (this.form.valid) {
-      // alert('Restaurant added successfully!');
-
       let d = Object.assign({}, this.form.value);
 
       d['image'] = this.model.imageBase64;
@@ -423,7 +339,6 @@ export class AddRestaurantComponent {
       }
     } else {
       this.utility.presentFailureToast('Please fill out all required fields correctly.');
-      //alert('Please fill out all required fields correctly.');
     }
   }
 }

@@ -44,7 +44,7 @@ export class AddVariationsComponent {
           props: {
             label: 'Description',
             placeholder: 'Enter a description',
-            required: false
+            required: true
           },
           className: 'col-md-6 col-12'
         }

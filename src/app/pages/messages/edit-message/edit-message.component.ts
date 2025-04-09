@@ -88,7 +88,8 @@ export class EditMessageComponent implements OnInit {
           type: 'input',
           props: {
             label: 'Name',
-            placeholder: ''
+            placeholder: '',
+            required: true
           },
           className: 'col-md-2 col-12' // 3 columns on md+, full width on small screens
         },
@@ -98,7 +99,8 @@ export class EditMessageComponent implements OnInit {
           props: {
             label: 'Email',
             placeholder: '',
-            type: 'email'
+            type: 'email',
+            required: true
           },
           className: 'col-md-2 col-12' // 3 columns on md+, full width on small screens
         },
@@ -109,8 +111,8 @@ export class EditMessageComponent implements OnInit {
           props: {
             label: 'Phone Number',
             placeholder: 'Enter phone ',
-
-            type: 'tel'
+            type: 'tel',
+            required: true
           },
           className: 'col-md-2 col-12'
         }

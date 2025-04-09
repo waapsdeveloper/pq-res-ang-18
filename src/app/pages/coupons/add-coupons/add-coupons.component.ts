@@ -33,7 +33,7 @@ export class AddCouponsComponent {
           props: {
             label: 'Coupon Code',
             placeholder: 'Enter coupon code',
-            required: true,
+            required: true, // Ensure required is true
             minLength: 3
           },
           className: 'col-md-6 col-12' // 6 columns on md+, full width on small screens
@@ -44,7 +44,7 @@ export class AddCouponsComponent {
           props: {
             label: 'Discount',
             placeholder: 'Enter discount',
-            required: true,
+            required: true, // Ensure required is true
             type: 'number', // Ensures numeric input
             max: 100 // Constraint for maximum value
           },
@@ -56,7 +56,7 @@ export class AddCouponsComponent {
           props: {
             label: 'Discount Type',
             placeholder: 'Enter discount type',
-            required: true,
+            required: true, // Ensure required is true
             options: [
               { value: 'percentage', label: 'Percentage' },
               { value: 'fixed', label: 'Fixed' }
@@ -70,7 +70,7 @@ export class AddCouponsComponent {
           props: {
             label: 'Status',
             placeholder: 'Select status',
-            required: true,
+            required: true, // Ensure required is true
             options: [
               { value: true, label: 'Active' },
               { value: false, label: 'Inactive' }
@@ -84,7 +84,7 @@ export class AddCouponsComponent {
           props: {
             label: 'Usage Limit',
             placeholder: 'Enter usage limit',
-            required: true,
+            required: true, // Ensure required is true
             type: 'number', // Ensures numeric input
             max: 255 // Constraint for maximum value
           },
@@ -96,7 +96,7 @@ export class AddCouponsComponent {
           props: {
             label: 'Usage Count',
             placeholder: 'Enter Usage Count',
-            required: true,
+            required: true, // Ensure required is true
             type: 'number', // Ensures numeric input
             max: 255 // Constraint for maximum value
           },
@@ -109,7 +109,7 @@ export class AddCouponsComponent {
             label: 'Expires at ',
             type: 'date',
             placeholder: 'Select a date',
-            required: true
+            required: true // Ensure required is true
           },
           className: 'col-md-6 col-12'
         }
