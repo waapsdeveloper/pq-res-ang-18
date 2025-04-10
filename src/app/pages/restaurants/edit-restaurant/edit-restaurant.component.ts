@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit,ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -9,7 +9,7 @@ import { UtilityService } from 'src/app/services/utility.service';
   selector: 'app-edit-restaurant',
   templateUrl: './edit-restaurant.component.html',
   styleUrl: './edit-restaurant.component.scss',
-  encapsulation:ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None
 })
 export class EditRestaurantComponent implements OnInit, AfterViewInit {
   id;
@@ -17,9 +17,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
   model = {
     name: '',
     copyright_text: '',
-    image: '',
     imageBase64: '',
-    favicon: '',
     faviconBase64: '',
     logo: '',
     logoBase64: '',
@@ -123,9 +121,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     this.model = {
       name: d.name || '',
       copyright_text: d.copyright_text || '',
-      image: '',
       imageBase64: d.imageBase64 || '',
-      favicon: '',
       faviconBase64: d.faviconBase64 || '',
       description: d.description || '',
       logo: '',
@@ -258,33 +254,6 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
           },
           className: 'col-md-6 col-12'
         },
-
-        {
-          key: 'image',
-          type: 'input',
-          props: {
-            label: 'Image',
-            placeholder: 'Enter image URL',
-            type: 'file',
-            accept: 'image/*',
-            change: (field, event) => this.onFileChange(field, event, 'imageBase64'),
-            required: true
-          },
-          className: 'formly-image-wrapper-3232 col-md-6 col-12'
-        },
-        {
-          key: 'favicon',
-          type: 'input',
-          props: {
-            label: 'favicon',
-            placeholder: 'Enter image URL',
-            type: 'file',
-            accept: 'image/*',
-            change: (field, event) => this.onFileChange(field, event, 'faviconBase64'),
-            required: true
-          },
-          className: 'formly-image-wrapper-3232 col-md-6 col-12'
-        },
         {
           key: 'logo',
           type: 'input',
@@ -400,7 +369,6 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
   }
 
   async onSubmit(model) {
-
     if (this.form.invalid) {
       // Mark all fields as touched to trigger validation styles
       this.form.markAllAsTouched();

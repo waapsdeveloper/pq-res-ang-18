@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-content">
       <div class="card-body">
-        <form [formGroup]="form" (ngSubmit)="onSubmit(model)">
+        <form [formGroup]="form">
           <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
         </form>
         <hr />
@@ -21,20 +21,29 @@
               <!-- Row container for input + button -->
               <div class="d-flex flex-column align-items-start gap-2 mb-3 flex-wrap">
                 <!-- Input Field -->
-                <input [(ngModel)]="addAttributeInput" (input)="onInputChange(addAttributeInput)" type="text"
-                  placeholder="Variation Type (e.g., Size, Toppings)" class="form-control" style="max-width: 300px;" />
+                <input
+                  [(ngModel)]="addAttributeInput"
+                  (input)="onInputChange(addAttributeInput)"
+                  type="text"
+                  placeholder="Variation Type (e.g., Size, Toppings)"
+                  class="form-control"
+                  style="max-width: 300px"
+                />
 
                 <!-- Add Button -->
-                <button type="button" (click)="addAttributes()" class="btn btn-warning btn-sm">
-                  Add Attributes
-                </button>
+                <button type="button" (click)="addAttributes()" class="btn btn-warning btn-sm">Add Attributes</button>
               </div>
 
               <!-- Autocomplete -->
-              <div class="autocomplete-container mb-3"
-                style="display: flex; overflow-x: auto; flex-wrap: wrap; gap: 8px;"
-                *ngIf="filteredSuggestions?.length > 0">
-                <div *ngFor="let suggestion of filteredSuggestions" (click)="selectSuggestion(suggestion)" class="chip"
+              <div
+                class="autocomplete-container mb-3"
+                style="display: flex; overflow-x: auto; flex-wrap: wrap; gap: 8px"
+                *ngIf="filteredSuggestions?.length > 0"
+              >
+                <div
+                  *ngFor="let suggestion of filteredSuggestions"
+                  (click)="selectSuggestion(suggestion)"
+                  class="chip"
                   style="
                     cursor: pointer;
                     padding: 5px 12px;
@@ -42,12 +51,12 @@
                     border-radius: 16px;
                     white-space: nowrap;
                     font-size: 0.9rem;
-                  ">
+                  "
+                >
                   {{ suggestion.name }}
                 </div>
               </div>
             </div>
-
           </div>
         </div>
         <hr />
@@ -61,8 +70,13 @@
             </div>
             <!-- Badges -->
             <div class="d-flex flex-row flex-wrap justify-content-start gap-2 mb-4">
-              <div class="badge badge-secondary fw-bold px-4 py-2" [class.badge-info]="item?.selected"
-                style="cursor: pointer" *ngFor="let item of variations" (click)="selectAttribute(item?.type)">
+              <div
+                class="badge badge-secondary fw-bold px-4 py-2"
+                [class.badge-info]="item?.selected"
+                style="cursor: pointer"
+                *ngFor="let item of variations"
+                (click)="selectAttribute(item?.type)"
+              >
                 {{ item?.type }}
               </div>
             </div>
@@ -81,31 +95,36 @@
                 <tbody>
                   <tr *ngFor="let variation of variations | filterSelected: 'selected' : true; let i = index">
                     <!-- Variation Type Input -->
-                    <td style="vertical-align: top !important;">
-                      <input type="text" [(ngModel)]="variation.type"
-                        placeholder="Variation Type (e.g., Size, Toppings)" class="form-control" />
+                    <td style="vertical-align: top !important">
+                      <input
+                        type="text"
+                        [(ngModel)]="variation.type"
+                        placeholder="Variation Type (e.g., Size, Toppings)"
+                        class="form-control"
+                      />
                     </td>
-
 
                     <!-- Options -->
                     <td>
                       <div *ngFor="let option of variation.options; let j = index" class="mb-2">
-                        <input type="text" [(ngModel)]="option.name" placeholder="Option Name (e.g., Small)"
-                          class="form-control mb-1" />
+                        <input type="text" [(ngModel)]="option.name" placeholder="Option Name (e.g., Small)" class="form-control mb-1" />
                       </div>
                     </td>
                     <td>
                       <div *ngFor="let option of variation.options; let j = index" class="mb-2">
-                        <input type="text" [(ngModel)]="option.description" placeholder="Description"
-                          class="form-control mb-1" />
+                        <input type="text" [(ngModel)]="option.description" placeholder="Description" class="form-control mb-1" />
                       </div>
                     </td>
 
                     <!-- Additional Price -->
                     <td>
                       <div *ngFor="let option of variation.options">
-                        <input type="number" [(ngModel)]="option.price" placeholder="Additional Price (e.g., 5)"
-                          class="form-control mb-1" />
+                        <input
+                          type="number"
+                          [(ngModel)]="option.price"
+                          placeholder="Additional Price (e.g., 5)"
+                          class="form-control mb-1"
+                        />
                       </div>
                     </td>
 
@@ -119,22 +138,15 @@
             </div>
 
             <div class="col-12 d-flex flex-row align-items-start my-3 p-0">
-              <button type="button" class="btn btn-warning btn-sm" (click)="addItemINVariation()">
-                Add Variations
-              </button>
+              <button type="button" class="btn btn-warning btn-sm" (click)="addItemINVariation()">Add Variations</button>
             </div>
 
-
             <div class="d-flex justify-content-end">
-              <button type="submit" class="btn btn-warning btn-123" (click)="onSubmit(model)">
-                Submit
-              </button>
+              <button type="submit" class="btn btn-warning btn-123" (click)="onSubmit(model)">Submit</button>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-
 </app-kt-app-form-page>

@@ -1,19 +1,14 @@
-  <app-kt-app-form-page [title]="'Edit User'">
-
-    <div class="card">
-      <div class="card-content">
-        <div class="card-body">
-          <form [formGroup]="form" (ngSubmit)="onSubmit(model)">
-            <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
-            <div class="d-flex justify-content-end">
-              <button type="submit" class="btn btn-warning btn-123"
-                (click)="onSubmit(model)">
-                Submit
-              </button>
-            </div>
-          </form>
-        </div>
+<app-kt-app-form-page [title]="'Edit User'">
+  <div class="card">
+    <div class="card-content">
+      <div class="card-body">
+        <form [formGroup]="form">
+          <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
+          <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-warning btn-123" (click)="onSubmit(model)">Submit</button>
+          </div>
+        </form>
       </div>
     </div>
-
-  </app-kt-app-form-page>
+  </div>
+</app-kt-app-form-page>

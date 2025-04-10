@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef,ViewEncapsulation } from '@angular/core';
+import { Component, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NavService } from 'src/app/services/basic/nav.service';
@@ -16,9 +16,9 @@ export class AddRestaurantComponent {
   model = {
     name: 'Restaurant one',
     copyright_text: '',
-    image: '',
+    // image: '',
     imageBase64: '',
-    favicon: '',
+    // favicon: '',
     faviconBase64: '',
     logo: '',
     logoBase64: '',
@@ -144,32 +144,32 @@ export class AddRestaurantComponent {
           },
           className: 'col-md-6 col-12'
         },
-        {
-          key: 'image',
-          type: 'input',
-          props: {
-            label: 'Image',
-            placeholder: 'Enter image URL',
-            type: 'file',
-            accept: 'image/*',
-            change: (field, event) => this.onFileChange(field, event, 'imageBase64'),
-            required: true // Ensure required is true
-          },
-          className: 'formly-image-wrapper-3232 col-md-6 col-12'
-        },
-        {
-          key: 'favicon',
-          type: 'input',
-          props: {
-            label: 'favicon',
-            placeholder: 'Enter image URL',
-            type: 'file',
-            accept: 'image/*',
-            change: (field, event) => this.onFileChange(field, event, 'faviconBase64'),
-            required: true // Ensure required is true
-          },
-          className: 'formly-image-wrapper-3232 col-md-6 col-12'
-        },
+        // {
+        //   key: 'image',
+        //   type: 'input',
+        //   props: {
+        //     label: 'Image',
+        //     placeholder: 'Enter image URL',
+        //     type: 'file',
+        //     accept: 'image/*',
+        //     change: (field, event) => this.onFileChange(field, event, 'imageBase64'),
+        //     required: true // Ensure required is true
+        //   },
+        //   className: 'formly-image-wrapper-3232 col-md-6 col-12'
+        // },
+        // {
+        //   key: 'favicon',
+        //   type: 'input',
+        //   props: {
+        //     label: 'favicon',
+        //     placeholder: 'Enter image URL',
+        //     type: 'file',
+        //     accept: 'image/*',
+        //     change: (field, event) => this.onFileChange(field, event, 'faviconBase64'),
+        //     required: true // Ensure required is true
+        //   },
+        //   className: 'formly-image-wrapper-3232 col-md-6 col-12'
+        // },
         {
           key: 'logo',
           type: 'input',
@@ -278,7 +278,6 @@ export class AddRestaurantComponent {
   }
 
   async onSubmit(model) {
-
     if (this.form.invalid) {
       // Mark all fields as touched to trigger validation styles
       this.form.markAllAsTouched();

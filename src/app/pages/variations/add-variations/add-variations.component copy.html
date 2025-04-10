@@ -1,5 +1,5 @@
 <app-kt-app-form-page [title]="'Add Variations'">
-  <form [formGroup]="form" (ngSubmit)="onSubmit(model)">
+  <form [formGroup]="form">
     <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
     <button type="submit" class="btn btn-secondary mt-4">Submit</button>
   </form>
