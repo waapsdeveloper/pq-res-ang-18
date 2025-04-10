@@ -1,11 +1,6 @@
 <app-kt-list-page [title]="'Branches'" [addurl]="'/pages/restaurants/add'" (onFilter)="toggleFilters()">
   <form class="mt-3" [formGroup]="form" *ngIf="crudService.filters">
-    <formly-form 
-      [form]="form" 
-      [fields]="fields" 
-      [model]="model" 
-      (modelChange)="debouncedSubmitFilters($event)">
-    </formly-form>
+    <formly-form [form]="form" [fields]="fields" [model]="model" (modelChange)="debouncedSubmitFilters($event)"></formly-form>
   </form>
 
   <hr *ngIf="crudService.filters" />
@@ -29,11 +24,7 @@
           <!--end::Thumbnail-->
           <div class="ms-5">
             <!--begin::Title-->
-            <a
-              (click)="openDetails(i)"
-              class=" text-hover-primary fs-5 fw-bold"
-              data-kt-ecommerce-product-filter="product_name"
-            >
+            <a (click)="openDetails(i)" class="text-hover-primary fs-5 fw-bold" data-kt-ecommerce-product-filter="product_name">
               {{ item.name }}
             </a>
 
@@ -43,7 +34,7 @@
       </td>
       <td>
         <div class="d-flex">
-          <div class=" fs-7 fw-bold">{{ item.address }}</div>
+          <div class="fs-7 fw-bold">{{ item.address }}</div>
         </div>
       </td>
       <td>
@@ -56,12 +47,21 @@
       <!--begin::Action=-->
       <td class="text-start">
         <div class="d-flex flex-row justify-content-start align-items-center gap-3">
-          <i 
-            class="ti ti-ad" 
-            style="font-size: 20px; cursor: pointer; border: 1px solid #4CAF50; color: #4CAF50; padding: 4px; border-radius: 4px;" 
-            (click)="setDefault(i)">
-          </i>
-          <i class="ti ti-eye  view-icon" style="font-size: 20px; cursor: pointer" (click)="openDetails(i)"></i>
+          <ng-container *ngIf="item.is_active === '1'; else notDefault">
+            <i
+             (click)="default()"
+              class="ti ti-check"
+              style="font-size: 20px; cursor: pointer; border: 1px solid #1b2068; color: #1b2068; padding: 4px; border-radius: 4px"
+            ></i>
+          </ng-container>
+          <ng-template #notDefault>
+            <i
+              class="ti ti-ad"
+              style="font-size: 20px; cursor: pointer; border: 1px solid #4caf50; color: #4caf50; padding: 4px; border-radius: 4px"
+              (click)="setDefault(i)"
+            ></i>
+          </ng-template>
+          <i class="ti ti-eye view-icon" style="font-size: 20px; cursor: pointer" (click)="openDetails(i)"></i>
           <i class="edit-icon ti ti-edit" style="font-size: 20px; cursor: pointer" (click)="editOpenDetails(i)"></i>
           <i class="ti ti-trash trash-icon" style="font-size: 20px; cursor: pointer" (click)="deleteRow(i)"></i>
         </div>
@@ -113,7 +113,7 @@
         <div class="d-flex align-items-center">
           <ngx-skeleton-loader
             appearance="custom-content"
-            [theme]="{ width: '120px', height: '20px' ,background: 'rgba(0,0,0,0.2)' }"
+            [theme]="{ width: '120px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
             [animation]="true"
           ></ngx-skeleton-loader>
         </div>
@@ -123,7 +123,7 @@
       <td>
         <ngx-skeleton-loader
           appearance="custom-content"
-          [theme]="{ width: '100px', height: '20px', 'border-radius': '12px' ,background: 'rgba(0,0,0,0.2)'}"
+          [theme]="{ width: '100px', height: '20px', 'border-radius': '12px', background: 'rgba(0,0,0,0.2)' }"
         ></ngx-skeleton-loader>
       </td>
 
@@ -133,7 +133,7 @@
           <ngx-skeleton-loader
             *ngFor="let _ of [1, 2, 3, 4]"
             appearance="custom-content"
-            [theme]="{ width: '24px', height: '24px' ,background: 'rgba(0,0,0,0.2)'}"
+            [theme]="{ width: '24px', height: '24px', background: 'rgba(0,0,0,0.2)' }"
           ></ngx-skeleton-loader>
         </div>
       </td>

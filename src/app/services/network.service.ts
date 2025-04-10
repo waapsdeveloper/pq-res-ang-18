@@ -55,7 +55,7 @@ export class NetworkService {
 
   index(slug, params) {
     const query = this.serialize(params);
-    return this.httpGetResponse(slug + (query ? `?${query}` : ''), null, true, true);
+    return this.httpGetResponse(slug + (query ? `?${query}` : ''), null, false, true);
   }
 
   destroy(slug, id) {

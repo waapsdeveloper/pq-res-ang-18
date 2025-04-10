@@ -12,8 +12,7 @@ import { RestaurantService } from '../restaurant.service';
   selector: 'app-list-restaurant',
   templateUrl: './list-restaurant.component.html',
   styleUrl: './list-restaurant.component.scss',
-  encapsulation: ViewEncapsulation.None,
-
+  encapsulation: ViewEncapsulation.None
 })
 export class ListRestaurantComponent extends ListBlade {
   title = 'Branches';
@@ -68,14 +67,13 @@ export class ListRestaurantComponent extends ListBlade {
     }
   ];
 
-
   constructor(
     injector: Injector,
     public override crudService: RestaurantService,
     public grService: GlobalRestaurantService,
     private nav: NavService,
     private utility: UtilityService,
-    private network: NetworkService,
+    private network: NetworkService
   ) {
     super(injector, crudService);
     this.initialize();
@@ -117,19 +115,30 @@ export class ListRestaurantComponent extends ListBlade {
     this.nav.push('/pages/restaurants/edit/' + item.id);
   }
 
-  setDefault(i) {
-    let item = this.crudService.list[i];
+  async setDefault(i) {
+    const confirmed = await this.utility.presentConfirm(
+      'Set Default',
+      'Cancel',
+      'Default Restaurant',
+      'Are you sure you want to switch restaurant?'
+    );
+
+    if (!confirmed) {
+      return; // User clicked "Cancel"
+    }
+
+    const item = this.crudService.list[i];
     this.grService.setRestaurant(item.id, item.name);
 
-
-
-    // call api to set default restaurnat
-    let data = {
+    // Call API to set default restaurant
+    const data = {
       is_active: 1
-    }
-    this.network.setActiveRestaurant(data, item.id)
+    };
 
+    this.network.setActiveRestaurant(data, item.id);
+    this.utility.presentSuccessToast('Default Restaurant Set Successfully!');
   }
-
-  
+  default(){
+    this.utility.presentSuccessToast('Already Selected As Default Restaurant!');
+  }
 }
