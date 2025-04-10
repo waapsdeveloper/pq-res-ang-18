@@ -19,56 +19,25 @@
         </div>
         <!--end::Col-->
         <!--begin::Col-->
-        <div class="col-lg-8" style="margin-bottom:50px">
+        <div class="col-lg-8">
           <!--begin::Image input-->
-          <div class="image-input image-input-outline" data-kt-image-input="true">
+          <div class="image-input image-input-outline" style="background-size: cover" data-kt-image-input="true">
             <!--begin::Preview existing avatar-->
             <div
-              class="image-input-wrapper w-125px h-125px bgi-position-center"
-              [ngStyle]="{ 'background-image': 'url(' + item?.image + ')' }"
+              class="image-input-wrapper"
+              [ngStyle]="{
+                'background-image': 'url(/assets/svg/logo.png)',
+                'background-size': 'cover',
+                'background-position': 'center',
+                'background-repeat': 'no-repeat',
+                height: '200px',
+                width: '200px',
+                'border-radius': '0px'
+              }"
+              style="height: 200px; width: 200px; overflow: hidden"
             ></div>
-            <!--end::Preview existing avatar-->
-            <!--begin::Label-->
-            <label
-              class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-white shadow"
-              data-kt-image-input-action="change"
-              data-bs-toggle="tooltip"
-              title="Change avatar"
-            >
-              <i class="bi bi-pencil-fill fs-7"></i>
-              <!--begin::Inputs-->
-              <input type="file" name="avatar" accept=".png, .jpg, .jpeg" readonly />
-              <input type="hidden" name="avatar_remove" readonly />
-              <!--end::Inputs-->
-            </label>
-            <!--end::Label-->
-            <!--begin::Cancel-->
-            <span
-              class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-white shadow"
-              data-kt-image-input-action="cancel"
-              data-bs-toggle="tooltip"
-              title="Cancel avatar"
-            >
-              <i class="bi bi-x fs-2"></i>
-            </span>
-            <!--end::Cancel-->
-            <!--begin::Remove-->
-            <span
-              class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-white shadow"
-              data-kt-image-input-action="remove"
-              data-bs-toggle="tooltip"
-              title="Remove avatar"
-            >
-              <i class="bi bi-x fs-2"></i>
-            </span>
-            <!--end::Remove-->
           </div>
-          <!--end::Image input-->
-          <!--begin::Hint-->
-          <div class="form-text">Allowed file types: png, jpg, jpeg.</div>
-          <!--end::Hint-->
         </div>
-        <!--end::Col-->
       </div>
       <!--end::Row-->
       <!--begin::Row-->
@@ -131,7 +100,7 @@
       </div>
       <!--end::Row-->
       <!--begin::Row-->
-      <div class="row mb-8">
+      <div class="row mb-8" style="padding-bottom: 10px">
         <!--begin::Col-->
         <div class="col-xl-3">
           <div class="fs-6 fw-semibold mt-2 mb-3">Address</div>
@@ -143,14 +112,14 @@
         </div>
         <!--begin::Col-->
       </div>
-      <div class="row mb-8">
+      <div class="row mb-8" style="padding-bottom: 10px">
         <!--begin::Col-->
         <div class="col-xl-3">
           <div class="fs-6 fw-semibold mt-2 mb-3">Description</div>
         </div>
         <!--end::Col-->
         <!--begin::Col-->
-        <div class="col-xl-9 fv-row">
+        <div class="col-xl-9 fv-row" style="padding-bottom: 10px">
           <textarea name="description" class="form-control form-control-solid h-100px" readonly>{{ item?.description }}</textarea>
         </div>
         <!--begin::Col-->
@@ -169,7 +138,7 @@
       </div>
       <!--end::Row-->
       <!--begin::Row-->
-      <div class="row mb-8">
+      <div class="row mb-8" style="padding-top: 10px">
         <!--begin::Col-->
         <div class="col-xl-3">
           <div class="fs-6 fw-semibold mt-2 mb-3">Opening Hour</div>
