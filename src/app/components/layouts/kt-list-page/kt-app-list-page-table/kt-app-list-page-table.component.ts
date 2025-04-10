@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { UtilityService } from 'src/app/services/utility.service';
 
 @Component({
   selector: 'app-kt-app-list-page-table',
@@ -7,7 +8,6 @@ import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angu
   encapsulation: ViewEncapsulation.None
 })
 export class KtAppListPageTableComponent {
-
   role_id: number = 1;
   loading = true; // Controls the loading state
 
@@ -31,7 +31,7 @@ export class KtAppListPageTableComponent {
 
   @Output('actionDeleteAll') actionDeleteAll: EventEmitter<any> = new EventEmitter<any>();
 
-
+  constructor(private utility: UtilityService) {}
   getPages(): number[] {
     return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
@@ -41,9 +41,10 @@ export class KtAppListPageTableComponent {
   }
 
   deleteAll() {
+    const flag = this.utility.presentConfirm('Delete', 'Cancel', 'Delete All Record', 'Are you sure you want to delete all?');
+    if (!flag) {
+      return;
+    }
     this.actionDeleteAll.emit();
   }
-
-
-
 }
