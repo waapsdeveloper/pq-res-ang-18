@@ -17,13 +17,13 @@ export type ChartOptions = {
 @Component({
   selector: 'app-apex-sales-chart',
   templateUrl: './apex-sales-chart.component.html',
-  styleUrl: './apex-sales-chart.component.scss'
+  styleUrls: ['./apex-sales-chart.component.scss']
 })
 export class ApexSalesChartComponent {
   @ViewChild('chart') chart: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
   btnActive: string = 'month';
-  amount;
+  amount: string;
 
   constructor(private network: NetworkService) {
     this.chartOptions = {
@@ -68,7 +68,17 @@ export class ApexSalesChartComponent {
         labels: {
           show: true // Ensure labels are visible
         },
-        // categories: [] // Remove this line
+        categories: [
+          '2023-01-01',
+          '2023-01-02',
+          '2023-01-03',
+          '2023-01-04',
+          '2023-01-05',
+          '2023-01-06',
+          '2023-01-07',
+          '2023-01-08',
+          '2023-01-09'
+        ] // Sample dates for the x-axis
       },
       colors: ['#d1d5db', '#f79a21'], // Blue for 2023, Gray for 2022
       legend: {
@@ -79,148 +89,55 @@ export class ApexSalesChartComponent {
       }
     };
 
-    let v = this.chartOptions.series[0].data.reduce((a: number, b: number) => a + b, 0) as number;
+    const v = this.chartOptions.series![0].data.reduce((a: number, b: number) => a + b, 0) as number;
     console.log(v);
     this.amount = `${v}`;
     this.toggleActive(this.btnActive);
   }
 
   currentDate = new Date().toISOString().split('T')[0];
+
   async toggleActive(value: string) {
     this.btnActive = value;
 
-    if (value == 'day') {
-      let obj = {
-        param: this.btnActive,
-        date: new Date().toISOString()
-      };
-      let data = await this.network.getSalesChartData(obj);
-      console.log(data);
+    const obj = {
+      param: this.btnActive,
+      date: new Date().toISOString()
+    };
 
-      this.chartOptions.series = [
-        {
-          name: 'Last Day',
-          data: data.series[0].data
-        },
-        {
-          name: this.currentDate,
-          data: data.series[1].data
-        }
-      ];
-
-      this.chartOptions.xaxis = {
-        ...this.chartOptions.xaxis,
-        // Generate numeric labels like ["1", "2", "3"...] 
-        categories: Array.from(
-          { length: data.series[0].data.length }, 
-          (_, index) => (index + 1).toString()
-        )
-      };
-      let v = this.chartOptions.series[0].data.reduce((a: number, b: number) => a + b, 0) as number;
-      console.log(v);
-      this.amount =  v != null ? v.toFixed(2) : "0.00";
-
-      return;
-    }
-
-    if (value == 'week') {
-      let obj = {
-        param: this.btnActive,
-        date: new Date().toISOString()
-      };
-      let data = await this.network.getSalesChartData(obj);
-      console.log(data);
-
-      this.chartOptions.series = [
-        {
-          name: 'Last Week',
-          data: data.series[0].data
-        },
-        {
-          name: 'This week',
-          data: data.series[1].data
-        }
-      ];
-      this.chartOptions.xaxis = {
-        ...this.chartOptions.xaxis,
-        // Generate numeric labels like ["1", "2", "3"...] 
-        categories: Array.from(
-          { length: data.series[0].data.length }, 
-          (_, index) => (index + 1).toString()
-        )
-      };
-
-      let v = this.chartOptions.series[0].data.reduce((a: number, b: number) => a + b, 0) as number;
-      console.log(v);
-
-      this.amount = this.formatAmount(v);
-      return;
-    }
-
-    if (value == 'month') {
-      let obj = {
-        param: this.btnActive,
-        date: new Date().toISOString()
-      };
-      let data = await this.network.getSalesChartData(obj);
-      console.log(data);
-
-      this.chartOptions.series = [
-        {
-          name: 'Last Month',
-          data: data.series[0].data
-        },
-        {
-          name: 'This Month',
-          data: data.series[1].data
-        }
-      ];
-      this.chartOptions.xaxis = {
-        ...this.chartOptions.xaxis,
-        // Generate numeric labels like ["1", "2", "3"...] 
-        categories: Array.from(
-          { length: data.series[0].data.length }, 
-          (_, index) => (index + 1).toString()
-        )
-      };
-      let v = this.chartOptions.series[0].data.reduce((a: number, b: number) => a + b, 0) as number;
-      console.log(v);
-      this.amount = this.formatAmount(v);
-
-      return;
-    }
+    const data = await this.network.getSalesChartData(obj);
+    console.log(data);
 
     this.chartOptions.series = [
       {
-        name: '2023',
-        data:
-          value === 'year'
-            ? [45, 60, 75, 80, 100, 70, 65, 80, 85] // Yearly data
-            : value === 'month'
-              ? [45, 66, 41, 89, 25, 44, 9, 54, 70, 65, 80, 85] // Monthly data for 12 months
-              : value === 'day'
-                ? [12, 15, 20, 18, 22, 24, 19, 25, 28, 30, 27, 26, 24, 22, 20, 18, 15, 14, 17, 20, 21, 19, 15, 14] // Hourly data for "Today"
-                : [] // Default fallback
+        name: value === 'day' ? 'Last Day' : value === 'week' ? 'Last Week' : 'Last Month',
+        data: data.series[0].data
       },
       {
-        name: '2022',
-        data:
-          value === 'year'
-            ? [30, 50, 65, 75, 85, 60, 50, 70, 75] // Yearly data
-            : value === 'month'
-              ? [35, 44, 9, 54, 45, 66, 41, 69, 55, 60, 58, 70] // Monthly data for 12 months
-              : value === 'day'
-                ? [10, 12, 15, 13, 17, 19, 14, 18, 21, 22, 20, 18, 16, 14, 12, 11, 10, 13, 16, 19, 20, 18, 16, 14] // Hourly data for "Yesterday"
-                : [] // Default fallback
+        name: value === 'day' ? this.currentDate : value === 'week' ? 'This Week' : 'This Month',
+        data: data.series[1].data
       }
     ];
 
-    // this.amount = value === 'month' ? 108 : 961;
+    this.chartOptions.xaxis = {
+      ...this.chartOptions.xaxis,
+      categories:
+        value === 'day'
+          ? ['2023-01-01 00:00', '2023-01-01 01:00', '2023-01-01 02:00', '2023-01-01 03:00','2023-01-01 00:00', '2023-01-01 01:00', '2023-01-01 02:00', '2023-01-01 03:00',] // Sample hourly data
+          : value === 'week'
+            ? ['2023-01-01', '2023-01-02', '2023-01-03', '2023-01-04', '2023-01-05', '2023-01-06', '2023-01-07','2023-01-01', '2023-01-02', '2023-01-03', '2023-01-04', '2023-01-05', '2023-01-06', '2023-01-07'] // Sample daily data for a week
+            : value === 'month'
+              ? ['2023-01-01', '2023-01-05', '2023-01-10', '2023-01-15', '2023-01-20', '2023-01-25', '2023-01-30','2023-01-01', '2023-01-05', '2023-01-10', '2023-01-15', '2023-01-20', '2023-01-25', '2023-01-30'] // Sample dates for a month
+              : ['2023-01', '2023-02', '2023-03', '2023-04', '2023-05', '2023-06', '2023-07', '2023-08', '2023-09'] // Sample monthly data for a year
+    };
+
+    const v = this.chartOptions.series![0].data.reduce((a: number, b: number) => a + b, 0) as number;
+    console.log(v);
+    this.amount = this.formatAmount(v);
   }
+
   formatAmount(value: number): string {
     if (value >= 1_000_000_000) {
-      return Math.round(value / 1_000_000_000_000) + 'T';
-    } else if (value >= 1_000_000_000) {
       return Math.round(value / 1_000_000_000) + 'B';
     } else if (value >= 1_000_000) {
       return Math.round(value / 1_000_000) + 'M';
@@ -231,5 +148,7 @@ export class ApexSalesChartComponent {
     }
   }
 
-  async ngOnInit() {}
+  async ngOnInit() {
+    // Ensure any initialization logic is handled here
+  }
 }
