@@ -35,22 +35,38 @@
 
 <!--end::Table-->
 <div class="row">
+  <!-- Page size dropdown -->
   <div class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start">
-    <div class="dataTables_length" id="kt_table_length"><label>
-      <select name="kt_table_length" class=" table-wrapper-form-field-select-253">
+    <div class="dataTables_length" id="users-list-datatable_length">
+      <label>
+        <select name="kt_table_length" class="table-wrapper-form-field-select-253">
           <option value="10">10</option>
           <option value="25">25</option>
           <option value="50">50</option>
           <option value="100">100</option>
-        </select></label></div>
+        </select>
+      </label>
+    </div>
   </div>
+
+  <!-- Pagination numbers -->
   <div class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
-    <div class="dataTables_paginate paging_simple_numbers d-flex flex-row gap-3 align-items-center"
-      id="kt_table_paginate">
-      <label> Page</label>
-      <select [(ngModel)]="currentPage" (change)="pageChange.emit(currentPage)" name="kt_table_length" class=" table-wrapper-form-field-select-253">
-        <option *ngFor="let p of getPages()" [value]="p">{{p}}</option>
-      </select>
+    <div class="dataTables_paginate paging_simple_numbers" id="users-list-datatable_paginate">
+      <ul class="pagination">
+        <li class="paginate_button page-item previous" [class.disabled]="currentPage === 1">
+          <a href="javascript:void(0)" class="page-link" (click)="currentPage > 1 && pageChange.emit(currentPage - 1)">Previous</a>
+        </li>
+
+        <li *ngFor="let p of getPages()" class="paginate_button page-item" [class.active]="p === currentPage">
+          <a href="javascript:void(0)" class="page-link" (click)="pageChange.emit(p)">{{ p }}</a>
+        </li>
+
+        <li class="paginate_button page-item next" [class.disabled]="currentPage === getPages().length">
+          <a href="javascript:void(0)" class="page-link" (click)="currentPage < getPages().length && pageChange.emit(currentPage + 1)">Next</a>
+        </li>
+      </ul>
     </div>
   </div>
 </div>
+
+
