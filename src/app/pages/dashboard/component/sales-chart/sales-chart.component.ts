@@ -55,8 +55,17 @@ export class SalesChartComponent implements OnInit {
 
     // Ensure data values are parsed as numbers and x-axis categories are set
     const formattedData = apiResponse.series[0].data.map((value) => parseFloat(value)); // Parse data values as numbers
-    const formattedCategories = apiResponse.xaxis.categories; // Use categories from the response
-   console.log(formattedData);
+    // Format x-axis categories to '4 Fr' (date + day)
+    const formattedCategories = apiResponse.xaxis.categories.map((item: string) => {
+      const parts = item.split(', '); // e.g., ["Fri", "04 Apr 25"]
+      if (parts.length === 2) {
+        const [day, dateStr] = parts;
+        const dateParts = dateStr.split(' '); // ["04", "Apr", "25"]
+        return `${dateParts[0]} ${day.slice(0, 2)}`; // "04 Fr"
+      }
+      return item; // fallback if format is unewxpected
+    });
+    console.log(formattedCategories, ' i am ');
     // Update chart options
     this.chartOptions = {
       ...this.chartOptions, // Keep existing options
