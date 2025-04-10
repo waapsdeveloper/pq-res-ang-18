@@ -2,18 +2,23 @@
 
 <div class="table-responsive mt-3">
   <table class="table fs-6 gy-5" id="kt_ecommerce_category_table">
-
     <!--begin::Table head-->
     <thead class="thead-light">
       <!--begin::Table row-->
       <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
-        <th class="" *ngFor="let col of columns">{{col}}</th>
-        <th class="text-end min-w-70px" *ngIf="!selectAll">
-          Actions
-        </th>
-  
-        <th class="text-end min-w-70px" *ngIf="selectAll" (click)="deleteAll()">
-          <span style="color: red; cursor: pointer;">Delete Selected</span>
+        <th *ngFor="let col of columns">{{ col }}</th>
+        <th class="text-end min-w-150px">
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="text-start">Actions</span>
+            <span
+              *ngIf="selectAll"
+              class="text-end ms-3"
+              style="color: red; cursor: pointer; border: 1px solid red; padding: 2px 5px"
+              (click)="deleteAll()"
+            >
+              Delete Selected
+            </span>
+          </div>
         </th>
         <th class="w-10px pe-2">
           <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
@@ -62,11 +67,11 @@
         </li>
 
         <li class="paginate_button page-item next" [class.disabled]="currentPage === getPages().length">
-          <a href="javascript:void(0)" class="page-link" (click)="currentPage < getPages().length && pageChange.emit(currentPage + 1)">Next</a>
+          <a href="javascript:void(0)" class="page-link" (click)="currentPage < getPages().length && pageChange.emit(currentPage + 1)">
+            Next
+          </a>
         </li>
       </ul>
     </div>
   </div>
 </div>
-
-
