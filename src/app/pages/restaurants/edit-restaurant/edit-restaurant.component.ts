@@ -258,7 +258,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
           key: 'logo',
           type: 'input',
           props: {
-            label: 'Image',
+            label: 'logo',
             placeholder: 'Enter image URL',
             type: 'file',
             accept: 'image/*',
