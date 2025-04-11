@@ -292,7 +292,7 @@ export class AddRestaurantComponent {
 
       // d['image'] = this.model.imageBase64;
       // d['favicon'] = this.model.faviconBase64;
-      // d['logo'] = this.model.logoBase64;
+      d['logo'] = this.model.logoBase64;
       d['schedule'] = [
         {
           day: 'Monday',
