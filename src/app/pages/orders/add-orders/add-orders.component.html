@@ -36,10 +36,10 @@
                       <span class="fs-3 fw-semibold text-gray-400 me-1">$</span>
                       <span class="fs-2 fw-bold text-gray-800">{{ orderService.totalCost | number: '1.2-2' }}</span>
                     </div>
-                    <button 
-                      type="submit" 
-                      *ngIf="orderService.selected_products?.length > 0" 
-                      (click)="onSubmit($event)" 
+                    <button
+                      type="submit"
+                      *ngIf="orderService.selected_products?.length > 0"
+                      (click)="onSubmit($event)"
                       class="btn btn-primary btn-sm"
                     >
                       Place Order
@@ -48,107 +48,165 @@
                 </div>
               </h3>
             </div>
-        
+
             <!-- Coupon & Price Section -->
             <div class="card-body pt-4 border-top">
               <div class="d-flex flex-column gap-3">
-                <div class="d-flex flex-wrap gap-2 align-items-center">
-                  <input
-                    type="text"
-                    [(ngModel)]="orderService.couponCode"
-                    class="form-control form-control-sm flex-grow-1"
-                    placeholder="Enter Coupon"
-                  />
-                  <button class="btn btn-secondary btn-sm flex-shrink-0" (click)="orderService.applyCoupon()">
-                    Apply
-                  </button>
-                </div>
-                
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="badge bg-info fs-7 p-2">
-                    Discount: ${{ orderService.discountAmount | number: '1.2-2' }}
+                <!-- Coupon Input Group -->
+                <div class="coupon-input-group mb-3">
+                  <div class="input-group input-group-sm shadow-sm">
+                    <input
+                      type="text"
+                      [(ngModel)]="orderService.couponCode"
+                      class="form-control border-end-0"
+                      placeholder="Enter coupon code..."
+                      aria-label="Coupon code"
+                    />
+                    <button class="btn btn-outline-primary border-start-0" type="button" (click)="orderService.applyCoupon()">
+                      <i class="ti ti-discount-2 me-2"></i>
+                      Apply
+                    </button>
                   </div>
-                  <div class="d-flex align-items-baseline">
-                    <span class="fs-4 fw-bold text-gray-800">
-                      ${{ orderService.final_total | number: '1.2-2' }}
-                    </span>
+                </div>
+
+                <!-- Price Breakdown -->
+                <div class="price-summary bg-light rounded-3 p-3">
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="text-muted fs-7">Subtotal:</span>
+                    <span class="fs-7">${{ orderService.totalCost | number: '1.2-2' }}</span>
+                  </div>
+
+                  <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="d-flex align-items-center gap-2 text-danger">
+                      <span class="badge bg-danger bg-opacity-10 text-danger fs-7 p-2">
+                        <i class="ti ti-currency-dollar-off me-1"></i>
+                        Discount: ${{ orderService.discountAmount | number: '1.2-2' }}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="total-price border-top pt-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <span class="fw-bold fs-6">Grand Total:</span>
+                      <span class="fs-5 fw-bold text-primary">${{ orderService.final_total | number: '1.2-2' }}</span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-        
+
             <!--begin::Body-->
             <div class="card-body pt-0">
               <div class="tab-content">
                 <div class="tab-pane fade active show" id="kt_chart_widget_8_month_tab" role="tabpanel">
                   <div class="d-flex flex-column gap-3">
-                    <textarea
-                      [(ngModel)]="orderService.order_notes"
-                      class="form-control form-control-sm"
-                      rows="3"
-                      placeholder="Add a note..."
-                    ></textarea>
-        
-                    <div class="row g-2">
-                      <div class="col-12 col-md-6">
-                        <input
-                          type="text"
-                          class="form-control form-control-sm"
-                          [(ngModel)]="orderService.customer_name"
-                          placeholder="Customer Name"
-                        />
-                      </div>
-                      <div class="col-12 col-md-6">
-                        <input
-                          type="text"
-                          class="form-control form-control-sm"
-                          [(ngModel)]="orderService.customer_phone"
-                          placeholder="Customer Phone"
-                        />
-                      </div>
-                      <div class="col-12 col-md-6">
-                        <select
-                          class="form-select form-select-sm"
-                          [(ngModel)]="orderService.orderType"
-                        >
-                          <option value="" disabled selected>Order Type</option>
-                          <option value="drive-thru">Drive-Thru</option>
-                          <option value="dine-in">Dine-In</option>
-                          <!-- ... other options ... -->
-                        </select>
-                      </div>
-                      <div class="col-12 col-md-6">
-                        <select
-                          class="form-select form-select-sm"
-                          [(ngModel)]="orderService.paymentMethod"
-                        >
-                          <option value="" disabled selected>Payment Method</option>
-                          <option *ngFor="let method of orderService.paymentMethods" [value]="method.value">
-                            {{ method.label }}
-                          </option>
-                        </select>
+                    <!-- Order Notes -->
+                    <div class="order-notes">
+                      <label class="form-label small text-muted mb-2">Order Notes</label>
+                      <textarea
+                        [(ngModel)]="orderService.order_notes"
+                        class="form-control form-control-sm shadow-sm"
+                        rows="3"
+                        placeholder="Add special instructions or notes..."
+                      ></textarea>
+                    </div>
+
+                    <!-- Customer Information -->
+                    <div class="customer-info-section">
+                      <h6 class="section-title text-muted mb-3">Customer Details</h6>
+                      <div class="row g-3">
+                        <div class="col-12 col-md-6">
+                          <div class="input-group">
+                            <span class="input-group-text">
+                              <i class="ti ti-user fs-5 text-primary"></i>
+                            </span>
+                            <input
+                              type="text"
+                              class="form-control form-control-sm"
+                              [(ngModel)]="orderService.customer_name"
+                              placeholder="Customer Name"
+                            />
+                          </div>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                          <div class="input-group">
+                            <span class="input-group-text">
+                              <i class="ti ti-phone fs-5 text-primary"></i>
+                            </span>
+                            <input
+                              type="text"
+                              class="form-control form-control-sm"
+                              [(ngModel)]="orderService.customer_phone"
+                              placeholder="Customer Phone"
+                            />
+                          </div>
+                        </div>
                       </div>
                     </div>
-        
-                    <div class="d-flex flex-wrap gap-2">
-                      <span
-                        class="chip bg-light-primary"
-                        *ngFor="let item of filteredSuggestions"
-                        (click)="orderService.selectSuggestion(item)"
-                      >
-                        <strong class="d-block">{{ item.name }}</strong>
-                        <small>{{ item.phone }}</small>
-                      </span>
-                      <span
-                        class="chip bg-light-primary"
-                        (click)="makeWalkingCustomer()"
-                      >
-                        <strong class="d-block">Walk-in Customer</strong>
-                        <small>0000000000000</small>
-                      </span>
+
+                    <!-- Order Configuration -->
+                    <div class="order-config-section">
+                      <h6 class="section-title text-muted mb-3">Order Settings</h6>
+                      <div class="row g-3">
+                        <div class="col-12 col-md-6">
+                          <div class="input-group">
+                            <span class="input-group-text">
+                              <i class="ti ti-truck-delivery fs-5 text-primary"></i>
+                            </span>
+                            <select class="form-select form-select-sm" [(ngModel)]="orderService.orderType">
+                              <option value="" disabled selected>Select Order Type</option>
+                              <option value="drive-thru">Drive-Thru</option>
+                              <option value="dine-in">Dine-In</option>
+                              <!-- ... other options ... -->
+                            </select>
+                          </div>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                          <div class="input-group">
+                            <span class="input-group-text">
+                              <i class="ti ti-credit-card fs-5 text-primary"></i>
+                            </span>
+                            <select class="form-select form-select-sm" [(ngModel)]="orderService.paymentMethod">
+                              <option value="" disabled selected>Select Payment Method</option>
+                              <option *ngFor="let method of orderService.paymentMethods" [value]="method.value">
+                                {{ method.label }}
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-        
-                    <app-add-order-price-list></app-add-order-price-list>
+
+                    <!-- Customer Chips -->
+                    <div class="customer-chips-section">
+                      <h6 class="section-title text-muted mb-3">Quick Select Customers</h6>
+                      <div class="d-flex flex-wrap gap-2">
+                        <span
+                          class="customer-chip bg-light-primary"
+                          *ngFor="let item of filteredSuggestions"
+                          (click)="orderService.selectSuggestion(item)"
+                        >
+                          <div class="chip-content">
+                            <strong class="chip-name">{{ item.name }}</strong>
+                            <small class="chip-details">{{ item.phone }}</small>
+                          </div>
+                        </span>
+
+                        <span class="customer-chip bg-light-warning" (click)="makeWalkingCustomer()">
+                          <div class="chip-content">
+                            <strong class="chip-name">Walk-in Customer</strong>
+                            <small class="chip-details">0000000000000</small>
+                          </div>
+                        </span>
+                      </div>
+                    </div>
+
+                    <!-- Price List -->
+                    <div class="price-list-section mt-3">
+                      <app-add-order-price-list></app-add-order-price-list>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -34,7 +34,7 @@
 
 .print-section {
   display: none; /* Hidden by default */
-  width: 100%;  /* Full screen width */
+  width: 100%; /* Full screen width */
   padding: 20px;
 }
 
@@ -210,7 +210,7 @@
     padding-right: 0;
     margin-bottom: 20px;
   }
-  
+
   .order-sidebar {
     position: static;
   }
@@ -248,9 +248,100 @@
     height: auto;
     margin-top: 1rem;
   }
-  
+
   .chip {
     width: 100%;
     text-align: center;
+  }
+}
+/* Custom Styles */
+.section-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.input-group {
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+
+  .input-group-text {
+    background-color: #f8f9fa;
+    border-right: none;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .form-control,
+  .form-select {
+    border-left: none;
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+.customer-chip {
+  padding: 0.6rem 1rem;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  width: 200px;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .chip-content {
+    .chip-name {
+      font-weight: 500;
+      font-size: 0.875rem;
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .chip-details {
+      font-size: 0.75rem;
+      color: #6c757d;
+      margin-top: 0.25rem;
+    }
+  }
+}
+
+.bg-light-primary {
+  background-color: #e3f2fd;
+  border-color: #bbdefb;
+}
+
+.bg-light-warning {
+  background-color: #fff3cd;
+  border-color: #ffeeba;
+}
+
+.price-list-section {
+  border-top: 2px dashed #dee2e6;
+  padding-top: 1.5rem;
+  margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+  .customer-chip {
+    width: 100%;
+  }
+
+  .input-group {
+    flex-direction: column;
+
+    .input-group-text {
+      border-right: 1px solid #dee2e6;
+      border-bottom: none;
+    }
+
+    .form-control,
+    .form-select {
+      border-left: 1px solid #dee2e6;
+    }
   }
 }
