@@ -1,14 +1,12 @@
-@import '../../../../assets/css/style.bundle.css';
-
 .order-create-page-outer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw; // Full width of the viewport
-  height: 100vh; // Full height of the viewport
-  display: flex; // Enable Flexbox layout
-  flex-direction: row; // Arrange child elements horizontally
-  // background: rgba(0, 0, 0, 0.2); // Semi-transparent black background
+  position: relative;
+  // top: 0;
+  // left: 0;
+  // width: 100vw; // Full width of the viewport
+  // height: 100vh; // Full height of the viewport
+  // display: flex; // Enable Flexbox layout
+  // flex-direction: row; // Arrange child elements horizontally
+  // // background: rgba(0, 0, 0, 0.2); // Semi-transparent black background
 }
 
 .category-sidebar {
