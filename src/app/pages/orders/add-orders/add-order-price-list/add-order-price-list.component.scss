@@ -1,61 +1,99 @@
 .line-items-table-outer {
   background-color: #d12e2e;
-  padding: 3rem;
+  padding: 1rem;
   border-radius: 14px;
   height: calc(100vh - 200px);
+  display: flex;
+  flex-direction: column;
+  
+  table {
+    margin: -0.5rem -0.75rem;
+    width: calc(100% + 1.5rem);
+    
+    thead {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background: #d12e2e;
+    }
+    
+    tbody {
+      overflow-y: auto;
+      flex: 1;
+    }
+  }
 }
 
 .number-box-select-9877 {
   border: 2px solid;
-  width: 100%;
   border-radius: 4px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  padding: 0.25rem;
   cursor: pointer;
-  user-select: none;
-}
-.enhanced-textarea {
-  resize: vertical;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 10px;
-  font-size: 16px;
-  background-color: #f8f9fa;
-  border: 1px solid #ced4da;
-}
-.enhanced-textarea:focus {
-  border-color: #80bdff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
-  outline: none;
-}
-/* Checkbox size matched with font size */
-.small-checkbox {
-  transform: scale(1); /* Same size as the font size */
+  background: rgba(255,255,255,0.1);
 }
 
-/* Adjust the popover size for better visibility */
 .popover {
-  max-width: 600px !important; /* Increased width */
-  width: auto !important; /* Allow width to auto adjust */
-  font-size: 14px !important; /* Smaller text inside the popover */
-  padding: 15px !important; /* Add padding for more space */
+  max-width: 300px !important;
+  background: #d12e2e;
+  
+  .form-check-label {
+    color: white !important;
+  }
+  
+  .form-range {
+    width: 100%;
+  }
 }
 
-/* Label inside the popover */
+.text-truncate {
+  max-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.btn-icon {
+  transition: opacity 0.2s;
+  &:hover {
+    opacity: 0.8;
+  }
+}
+/* Variation Popover Fix */
+::ng-deep .variation-popover .popover {
+  background-color: #ffffff !important;
+  border: 1px solid #dee2e6;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  max-width: 320px !important;
+}
+
+::ng-deep .variation-popover .popover-header {
+  background-color: #ffffff;
+  color: #d12e2e;
+  font-weight: 600;
+  border-bottom: 1px solid #dee2e6;
+}
+
+::ng-deep .variation-popover .popover-body {
+  color: #212529;
+  padding: 1rem;
+}
+
+.variation-type {
+  color: #d12e2e !important;
+  font-weight: 600;
+  margin: 0.5rem 0;
+}
+
 .form-check-label {
-  font-size: 14px !important; /* Same font size as text */
-  /* White color text */
+  color: #495057 !important;
+  font-size: 0.9rem;
 }
 
-/* Optional: Adjust button icon size */
-button .ti {
-  font-size: 24px; /* Make the icon a little bigger */
+.form-check-input {
+  margin-top: 0.25rem;
 }
 
-/* Heading for variation type */
-.fw-bold.fs-5 {
-  font-size: 16px; /* Font size for variation type */
- /* White color for better contrast */
+.variation-popover-content {
+  max-height: 400px;
+  overflow-y: auto;
 }

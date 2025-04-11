@@ -1,0 +1,61 @@
+.line-items-table-outer {
+  background-color: #d12e2e;
+  padding: 3rem;
+  border-radius: 14px;
+  height: calc(100vh - 200px);
+}
+
+.number-box-select-9877 {
+  border: 2px solid;
+  width: 100%;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+.enhanced-textarea {
+  resize: vertical;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  font-size: 16px;
+  background-color: #f8f9fa;
+  border: 1px solid #ced4da;
+}
+.enhanced-textarea:focus {
+  border-color: #80bdff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+  outline: none;
+}
+/* Checkbox size matched with font size */
+.small-checkbox {
+  transform: scale(1); /* Same size as the font size */
+}
+
+/* Adjust the popover size for better visibility */
+.popover {
+  max-width: 600px !important; /* Increased width */
+  width: auto !important; /* Allow width to auto adjust */
+  font-size: 14px !important; /* Smaller text inside the popover */
+  padding: 15px !important; /* Add padding for more space */
+}
+
+/* Label inside the popover */
+.form-check-label {
+  font-size: 14px !important; /* Same font size as text */
+  /* White color text */
+}
+
+/* Optional: Adjust button icon size */
+button .ti {
+  font-size: 24px; /* Make the icon a little bigger */
+}
+
+/* Heading for variation type */
+.fw-bold.fs-5 {
+  font-size: 16px; /* Font size for variation type */
+ /* White color for better contrast */
+}

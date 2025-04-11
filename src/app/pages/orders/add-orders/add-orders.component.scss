@@ -185,3 +185,72 @@
   font-size: 12px;
   color: #666; /* Subtle contrast */
 }
+
+.order-create-page-outer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.navbar {
+  padding: 0.5rem 1rem;
+}
+
+.products-sidebar {
+  padding-right: 15px;
+}
+
+.order-sidebar {
+  position: sticky;
+  top: 20px;
+}
+
+@media (max-width: 768px) {
+  .products-sidebar {
+    padding-right: 0;
+    margin-bottom: 20px;
+  }
+  
+  .order-sidebar {
+    position: static;
+  }
+}
+.order-sidebar {
+  height: calc(100vh - 150px);
+  overflow-y: auto;
+}
+
+.chip {
+  cursor: pointer;
+  padding: 0.5rem 0.75rem;
+  border-radius: 1rem;
+  display: inline-block;
+  transition: background-color 0.2s;
+}
+
+.chip:hover {
+  background-color: #e1f0ff;
+}
+
+.chip strong {
+  font-size: 0.8rem;
+  line-height: 1.2;
+}
+
+.chip small {
+  font-size: 0.7rem;
+  display: block;
+  color: #6c757d;
+}
+
+@media (max-width: 768px) {
+  .order-sidebar {
+    height: auto;
+    margin-top: 1rem;
+  }
+  
+  .chip {
+    width: 100%;
+    text-align: center;
+  }
+}
