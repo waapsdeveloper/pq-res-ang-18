@@ -25,10 +25,18 @@
     </div>
     <div class="col-md-4 col-12 mb-3">
       <app-add-order-price-list></app-add-order-price-list>
-      <button class="btn btn-primary mb-3" data-bs-toggle="collapse" data-bs-target="#orderFormCollapse"(click)="toggleForm()">
-        {{ showForm ? 'Hide' : 'Show' }} Order Form
-      </button>
-      <div *ngIf="showForm" id="orderFormCollapse" class="collapse show card card-body border shadow-sm">
+      <div
+        class="d-flex justify-content-between align-items-center bg-light p-3 border rounded cursor-pointer"
+        (click)="toggleForm()"
+        style="cursor: pointer"
+      >
+        <span class="fw-bold">Order Details</span>
+        <i class="bi" [ngClass]="showForm ? 'ti ti-caret-up-filled' : 'ti ti-caret-down-filled'"></i>
+      </div>
+
+      <!-- Collapsible Section -->
+      <div [@slideToggle]="showForm ? 'open' : 'closed'" class="mt-3">
+        <div class="card card-body border shadow-sm">
           <div class="order-sidebar h-100">
             <div class="card card-flush h-xl-100">
               <div class="card-header">
@@ -48,7 +56,7 @@
                   </div>
                 </div>
               </div>
-    
+
               <div class="card-body border-top">
                 <div class="row g-3">
                   <div class="col-12">
@@ -65,7 +73,7 @@
                       </button>
                     </div>
                   </div>
-    
+
                   <div class="col-12">
                     <div class="form-group">
                       <label for="notes" class="col-form-label">Order Notes</label>
@@ -76,7 +84,7 @@
                         placeholder="Add a note..."
                       ></textarea>
                     </div>
-    
+
                     <div class="form-group">
                       <label for="customer_name" class="col-form-label">Customer Name</label>
                       <input
@@ -87,7 +95,7 @@
                         (input)="onInputChange(orderService.customer_name)"
                       />
                     </div>
-    
+
                     <div class="form-group">
                       <label for="customer_phone" class="col-form-label">Customer Phone</label>
                       <input
@@ -98,7 +106,7 @@
                         (input)="onInputChangePhone(orderService.customer_phone)"
                       />
                     </div>
-    
+
                     <div class="form-group">
                       <label for="notes" class="col-form-label">Order Type</label>
                       <select class="select2 form-control" [(ngModel)]="orderService.orderType" (change)="onTypeChange($event)">
@@ -112,7 +120,7 @@
                         <option value="reservation">Reservation</option>
                       </select>
                     </div>
-    
+
                     <div class="form-group">
                       <label for="method" class="col-form-label">Payment Method</label>
                       <select class="select2 form-control" [(ngModel)]="orderService.paymentMethod">
@@ -124,7 +132,7 @@
                     </div>
                   </div>
                 </div>
-    
+
                 <!-- Chips Section -->
                 <div class="card-body pt-0" style="margin-left: -20ssssssspx">
                   <div class="d-flex flex-wrap">
@@ -134,7 +142,7 @@
                         <span class="text-muted fs-8">0000000000000</span>
                       </div>
                     </div>
-    
+
                     <div
                       *ngFor="let item of filteredSuggestions"
                       class="badge bg-light text-dark d-flex align-items-center p-2"
@@ -148,13 +156,10 @@
                   </div>
                 </div>
               </div>
-    
             </div>
           </div>
-        </div> 
-      </div>
-    </div>
-    <!-- <div class="col-md-4 col-12 mb-3">
+        </div>
+        <!-- <div class="col-md-4 col-12 mb-3">
       <div class="order-sidebar h-100">
         <div class="card card-flush h-xl-100">
           <div class="card-header">
@@ -252,25 +257,28 @@
             </div>
 
             <!-- Chips Section -->
-            <div class="card-body pt-0" style="margin-left: -20ssssssspx">
-              <div class="d-flex flex-wrap">
-                <div class="badge bg-light text-dark d-flex align-items-center" (click)="makeWalkingCustomer()">
-                  <div class="d-flex flex-column">
-                    <span class="fw-bold fs-7">Walk-in Customer</span>
-                    <span class="text-muted fs-8">0000000000000</span>
-                  </div>
-                </div>
+        <div class="card-body pt-0" style="margin-left: -20ssssssspx">
+          <div class="d-flex flex-wrap">
+            <div class="badge bg-light text-dark d-flex align-items-center" (click)="makeWalkingCustomer()">
+              <div class="d-flex flex-column">
+                <span class="fw-bold fs-7">Walk-in Customer</span>
+                <span class="text-muted fs-8">0000000000000</span>
+              </div>
+            </div>
 
-                <div
-                  *ngFor="let item of filteredSuggestions"
-                  class="badge bg-light text-dark d-flex align-items-center p-2"
-                  (click)="orderService.selectSuggestion(item)"
-                >
-                  <div class="d-flex flex-column">
-                    <span class="fw-bold fs-7">{{ item.name }}</span>
-                    <span class="text-muted fs-8">{{ item.phone }}</span>
-                  </div>
-                </div>
+            <div
+              *ngFor="let item of filteredSuggestions"
+              class="badge bg-light text-dark d-flex align-items-center p-2"
+              (click)="orderService.selectSuggestion(item)"
+            >
+              <div class="d-flex flex-column">
+                <span class="fw-bold fs-7">{{ item.name }}</span>
+                <span class="text-muted fs-8">{{ item.phone }}</span>
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

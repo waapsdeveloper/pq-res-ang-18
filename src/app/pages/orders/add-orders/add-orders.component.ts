@@ -3,18 +3,26 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { AddOrderService } from './add-order.service';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-add-orders',
   templateUrl: './add-orders.component.html',
   styleUrl: './add-orders.component.scss',
-  encapsulation: ViewEncapsulation.None,
+  animations: [
+    trigger('slideToggle', [
+      state('closed', style({ height: '0', overflow: 'hidden', opacity: 0 })),
+      state('open', style({ height: '*', opacity: 1 })),
+      transition('closed <=> open', animate('300ms ease'))
+    ])
+  ],
+  encapsulation: ViewEncapsulation.None
 })
 export class AddOrdersComponent implements OnInit, OnDestroy {
   constructor(
     public nav: NavService,
     public orderService: AddOrderService,
-    private network: NetworkService,
+    private network: NetworkService
   ) {}
   restaurant;
   filteredSuggestions = [];
@@ -33,7 +41,6 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   }
 
   async onSubmit($event: Event) {
-
     $event.preventDefault(); // Prevent default form behavior
     const res = await this.orderService.submitOrder();
     if (res) {
@@ -118,14 +125,13 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   }
   onInputChangePhone(data) {
     console.log('Input changed', data);
-    if(!data) return;
+    if (!data) return;
     this.fetchSuggestionsPhone(data);
   }
   async fetchSuggestionsPhone(query: any) {
-
     let temp = {
       phone: query
-    }
+    };
 
     let obj = {
       filters: JSON.stringify(temp)
@@ -137,5 +143,4 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
 
     console.log(this.filteredSuggestions);
   }
-
 }
