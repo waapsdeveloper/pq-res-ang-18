@@ -1,36 +1,24 @@
 <!--begin::Products-->
-<div class="card card-flush">
-  <div class="card-body pt-0" style="height: calc(100vh - 115px);">
-    <div class="product-items-outer">
-      <div class="single-product-item gap-8 mt-2" *ngFor="let product of orderService.products" (click)="setSelectedToggle(product)"
-        [ngStyle]="{'background-image' : 'url(' + product.image + ')'}">
-        <!--begin::Link-->
-
-          <!-- Product Image -->
-          <!-- <div class="category-image-container mb-3">
-            <img
-              *ngIf="product.image"
-              [src]="product.image "
-              alt="{{product.name}}"
-              style="width: 80px; height: 80px; object-fit: cover;">
-          </div> -->
-          <!-- Product Name -->
-          <div class="label-5346" style="background-color: #d12e2e;">
-            <span class="nav-text fw-bold fs-6 lh-1" style="color:#ffffff;">{{ product.name }}</span>
-            <br>
-            <!-- Product Price -->
-
+<div class="row">
+  <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngFor="let product of orderService.products" [ngClass]="{'col-md-4': orderService.products.length > 3, 'col-md-6': orderService.products.length <= 3}">
+    <div class="card single-product-item">
+      <div class="card-body p-1 d-flex flex-column gap-2">
+        <div class="product-image-container" [ngStyle]="{'background-image' : 'url(' + product.image + ')'}" >
+          <div class="label-5346">
+            <i class="ft-layers"></i>
           </div>
-
-          <span class="price-tags">${{ product.price }}</span>
-
-          <!-- Product Active Indicator -->
-          <span *ngIf="isProductSelected(product.id)" class="bullet-custom position-absolute bottom-0 w-100 h-4px bg-primary"></span>
-
-        <!--end::Link-->
+        </div>
+        <div class="d-flex flex-row justify-content-between align-items-center">
+          <p class="card-text text-left m-0" style="font-weight: bold;">{{ product?.name }}</p>
+          <p class="card-text text-right m-0">${{ product?.price | number: '1.2-2' }}</p>
+        </div>
+        <button class="btn btn-primary " (click)="setSelectedToggle(product)" [disabled]="isProductSelected(product.id)"> 
+          <i class="ft-plus"></i> Add to Order
+        </button>
       </div>
     </div>
+
   </div>
-  <!--end::Card body-->
+  
 </div>
 <!--end::Products-->
