@@ -1,152 +1,175 @@
-<!--begin::Table container-->
-<div class="line-items-table-outer" style="overflow-y: scroll;">
-  <!--begin::Table-->
-  <table class="table table-row-dashed align-middle gs-0 gy-3" >
-    <!--begin::Table head-->
-    <thead>
-      <tr class="fs-7 fw-bold text-white">
-        <th class="pb-3 min-w-100px text-start">Products</th>
-        <th class="pb-3 min-w-60px text-center">Var</th>
-        <th class="pb-3 min-w-60px text-center">Notes</th>
-        <th class="pb-3 min-w-80px text-center">Qty</th>
-        <th class="pb-3 min-w-80px text-end">Cost</th>
-        <th class="pb-3 min-w-40px text-end">Action</th>
-      </tr>
-    </thead>
-    <!--end::Table head-->
+<div class="row">
+  <div class="col-12">
+    <div class="card card-flush border-0">
+      <div class="card-header p-2 d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <h3 class="card-title fw-bold">Order Summary</h3>
+        <div class="card-toolbar">
+          <button class="btn btn-primary" (click)="orderService.clearSelectedProducts()">Clear All</button>
+        </div>
+      </div>
+      <div class="card-body p-2">
+        <div clas="d-flex flex-column gap-3">
+          <div class="card rounded-4 border-0 shadow-sm mb-2" *ngFor="let item of orderService.selected_products">
+            
+              <div class="card-body d-flex align-items-start p-1 gap-2">
+                <!-- Image -->
+                <div class="selected-product-image-container" [ngStyle]="{'background-image' : 'url(' + item.image + ')'}">
+                </div>
 
-    <!--begin::Table body-->
-    <tbody>
-      <tr *ngFor="let item of orderService.selected_products; let i = index" >
-        <td>
-          <div class="d-flex align-items-center">
-            <div class="d-flex flex-column">
-              <a class="text-white fw-bold text-hover-primary fs-6 text-truncate">{{ item.name }}</a>
-              <span class="text-white fw-semibold fs-7">${{ item.price }}</span>
-              <input type="hidden" [(ngModel)]="item.price" />
-            </div>
+                <!-- Details -->
+                <div class="flex-grow-1">
+                  <div class="d-flex justify-content-between align-items-start">
+                    <h6 class="mb-0 fw-semibold">French Fries <span class="text-muted">(1)</span></h6>
+                    <small class="text-muted">#B12309</small>
+                  </div>
+                  <small class="text-muted d-block">Notes: None &nbsp; • &nbsp; Size: Large</small>
+                  <p class="fw-semibold mb-1 mt-1">$7.50</p>
+                </div>
+
+                <!-- Actions -->
+                <div class="ms-2 text-end">
+                  <button class="btn btn-sm btn-light text-primary" title="Edit">
+                    <i class="fas fa-pen"></i>
+                  </button>
+                  <button class="btn btn-sm btn-light text-danger mt-1" title="Delete">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </div>
+              </div>
+            
           </div>
-        </td>
-
-        <!-- Variations Section -->
-        <td class="text-center">
-          <button
-            class="btn btn-sm p-1"
-            [ngbPopover]="variation"
-            triggers="manual"
-            [autoClose]="'outside'"
-            placement="top"
-            #variationPopover="ngbPopover"
-            (click)="closeAllPopovers(); variationPopover.open(); registerPopover(variationPopover)"
-          >
-            <i class="ti ti-versions text-white" style="font-size: 20px"></i>
-          </button>
-
-          <!-- Keep your existing variation popover template -->
-          <ng-template #variation>
-            <div class="variation-popover-content">
-              <div class="fw-bold fs-6 mb-2">Select Variations</div>
-              <div *ngFor="let variation of item.variation">
-                <div class="variation-type">{{ variation.type }}</div>
-                <div *ngFor="let option of variation.options" class="ms-3">
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      [(ngModel)]="option.selected"
-                      [id]="'option-' + variation.type + '-' + option.name"
-                      (ngModelChange)="changeVariationSelection($event)"
-                    />
-                    <label class="form-check-label" [for]="'option-' + variation.type + '-' + option.name">
-                      {{ option.name }} (+${{ option.price }})
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </ng-template>
-          
-        </td>
-
-        <!-- Notes Section -->
-        <td class="text-center">
-          <button
-            class="btn btn-sm p-1"
-            [ngbPopover]="noteContent"
-            triggers="manual"
-            [autoClose]="'outside'"
-            placement="top"
-            #notePopover="ngbPopover"
-            (click)="closeAllPopovers(); notePopover.open(); registerPopover(notePopover)"
-          >
-            <i class="ti ti-notes text-white" style="font-size: 20px"></i>
-          </button>
-
-          <ng-template #noteContent>
-            <div class="p-2">
-              <textarea class="form-control form-control-solid" [(ngModel)]="item.notes" rows="3" placeholder="Add a note..."></textarea>
-            </div>
-          </ng-template>
-        </td>
-
-        <!-- Quantity -->
-        <td class="text-center">
-          <button
-            class="badge py-2 px-3 fs-7 badge-light-primary"
-            [ngbPopover]="popContent"
-            [popoverTitle]="popTitle"
-            triggers="manual"
-            [autoClose]="'outside'"
-            placement="top"
-            #quantityPopover="ngbPopover"
-            (click)="closeAllPopovers(); quantityPopover.open(); registerPopover(quantityPopover)"
-          >
-            Qty x {{ parseTwoDigitNumber(item.quantity) }}
-          </button>
-
-          <ng-template #popContent>
-            <div class="p-2">
-              <div class="row">
-                <div class="col-6">
-                  <label class="form-label">From 1 to 50</label>
-                  <input
-                    type="range"
-                    class="form-range"
-                    [(ngModel)]="item.quantity"
-                    min="1"
-                    max="50"
-                    step="1"
-                    (ngModelChange)="changeQty($event)"
-                  />
-                </div>
-                <div class="col-6">
-                  <input type="number" class="form-control" [(ngModel)]="item.quantity" (ngModelChange)="changeQty($event)" />
-                </div>
-              </div>
-              <div class="row mt-2 g-1">
-                <div class="col-2" *ngFor="let n of [2, 3, 4, 5, 6, 8]" (click)="item.quantity = n; changeQty($event)">
-                  <div class="number-box-select-9877">
-                    <span class="fw-bold fs-6">{{ n }}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </ng-template>
-          <ng-template #popTitle>
-            <div class="fw-bold fs-6 text-white">Select Quantity</div>
-          </ng-template>
-        </td>
-
-        <td class="text-end">
-          <div class="text-white fw-bold fs-5">${{ calculateTotalPrice(item) }}</div>
-        </td>
-        <td class="text-end">
-          <button class="btn btn-icon p-1" (click)="removeItem(i)">
-            <i class="ti ti-trash text-white" style="font-size: 20px"></i>
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
+
+
+
+
+<div class="row">
+  <div class="col-12">
+    <table class="table">
+      <!--begin::Table head-->
+      <thead>
+        <tr class="fs-7 fw-bold text-white">
+          <th class="pb-3 min-w-100px text-start">Products</th>
+          <th class="pb-3 min-w-60px text-center">Var</th>
+          <th class="pb-3 min-w-60px text-center">Notes</th>
+          <th class="pb-3 min-w-80px text-center">Qty</th>
+          <th class="pb-3 min-w-80px text-end">Cost</th>
+          <th class="pb-3 min-w-40px text-end">Action</th>
+        </tr>
+      </thead>
+      <!--end::Table head-->
+
+      <!--begin::Table body-->
+      <tbody>
+        <tr *ngFor="let item of orderService.selected_products; let i = index">
+          <td>
+            <div class="d-flex align-items-center">
+              <div class="d-flex flex-column">
+                <a class="text-white fw-bold text-hover-primary fs-6 text-truncate">{{ item.name }}</a>
+                <span class="text-white fw-semibold fs-7">${{ item.price }}</span>
+                <input type="hidden" [(ngModel)]="item.price" />
+              </div>
+            </div>
+          </td>
+
+          <!-- Variations Section -->
+          <td class="text-center">
+            <button class="btn btn-sm p-1" [ngbPopover]="variation" triggers="manual" [autoClose]="'outside'"
+              placement="top" #variationPopover="ngbPopover"
+              (click)="closeAllPopovers(); variationPopover.open(); registerPopover(variationPopover)">
+              <i class="ti ti-versions text-white" style="font-size: 20px"></i>
+            </button>
+
+            <!-- Keep your existing variation popover template -->
+            <ng-template #variation>
+              <div class="variation-popover-content">
+                <div class="fw-bold fs-6 mb-2">Select Variations</div>
+                <div *ngFor="let variation of item.variation">
+                  <div class="variation-type">{{ variation.type }}</div>
+                  <div *ngFor="let option of variation.options" class="ms-3">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" [(ngModel)]="option.selected"
+                        [id]="'option-' + variation.type + '-' + option.name"
+                        (ngModelChange)="changeVariationSelection($event)" />
+                      <label class="form-check-label" [for]="'option-' + variation.type + '-' + option.name">
+                        {{ option.name }} (+${{ option.price }})
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+
+          </td>
+
+          <!-- Notes Section -->
+          <td class="text-center">
+            <button class="btn btn-sm p-1" [ngbPopover]="noteContent" triggers="manual" [autoClose]="'outside'"
+              placement="top" #notePopover="ngbPopover"
+              (click)="closeAllPopovers(); notePopover.open(); registerPopover(notePopover)">
+              <i class="ti ti-notes text-white" style="font-size: 20px"></i>
+            </button>
+
+            <ng-template #noteContent>
+              <div class="p-2">
+                <textarea class="form-control form-control-solid" [(ngModel)]="item.notes" rows="3"
+                  placeholder="Add a note..."></textarea>
+              </div>
+            </ng-template>
+          </td>
+
+          <!-- Quantity -->
+          <td class="text-center">
+            <button class="badge py-2 px-3 fs-7 badge-light-primary" [ngbPopover]="popContent" [popoverTitle]="popTitle"
+              triggers="manual" [autoClose]="'outside'" placement="top" #quantityPopover="ngbPopover"
+              (click)="closeAllPopovers(); quantityPopover.open(); registerPopover(quantityPopover)">
+              Qty x {{ parseTwoDigitNumber(item.quantity) }}
+            </button>
+
+            <ng-template #popContent>
+              <div class="p-2">
+                <div class="row">
+                  <div class="col-6">
+                    <label class="form-label">From 1 to 50</label>
+                    <input type="range" class="form-range" [(ngModel)]="item.quantity" min="1" max="50" step="1"
+                      (ngModelChange)="changeQty($event)" />
+                  </div>
+                  <div class="col-6">
+                    <input type="number" class="form-control" [(ngModel)]="item.quantity"
+                      (ngModelChange)="changeQty($event)" />
+                  </div>
+                </div>
+                <div class="row mt-2 g-1">
+                  <div class="col-2" *ngFor="let n of [2, 3, 4, 5, 6, 8]"
+                    (click)="item.quantity = n; changeQty($event)">
+                    <div class="number-box-select-9877">
+                      <span class="fw-bold fs-6">{{ n }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+            <ng-template #popTitle>
+              <div class="fw-bold fs-6 text-white">Select Quantity</div>
+            </ng-template>
+          </td>
+
+          <td class="text-end">
+            <div class="text-white fw-bold fs-5">${{ calculateTotalPrice(item) }}</div>
+          </td>
+          <td class="text-end">
+            <button class="btn btn-icon p-1" (click)="removeItem(i)">
+              <i class="ti ti-trash text-white" style="font-size: 20px"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>

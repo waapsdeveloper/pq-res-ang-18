@@ -1,28 +1,11 @@
-.line-items-table-outer {
-  background-color: #d12e2e;
-  padding: 1rem;
-  border-radius: 14px;
-  height: calc(100vh - 200px);
-  display: flex;
-  flex-direction: column;
-  
-  table {
-    margin: -0.5rem -0.75rem;
-    width: calc(100% + 1.5rem);
-    
-    thead {
-      position: sticky;
-      top: 0;
-      z-index: 1;
-      background: #d12e2e;
-    }
-    
-    tbody {
-      overflow-y: auto;
-      flex: 1;
-    }
-  }
+.selected-product-image-container {
+  height: 70px;
+  width: 70px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 4px;
 }
+
 
 .number-box-select-9877 {
   border: 2px solid;

@@ -298,4 +298,15 @@ export class AddOrderService {
 
     console.log('Final total after discount:', this.final_total);
   }
+
+  clearSelectedProducts() {
+    this.selected_products = [];
+    this.totalCost = 0;
+    this.customer_name = '';
+    this.customer_phone = '';
+    this.order_notes = '';
+    this.couponCode = '';
+    this.discountAmount = 0;
+    this.final_total = 0;
+  }
 }
