@@ -1,8 +1,27 @@
 <div class="my-3">
-  <div class="d-flex justify-content-between align-items-center">
-    <h3 class="mb-0">Add Orders</h3>
-    <app-add-order-categories></app-add-order-categories>
+
+  <div class="row">
+    <div class="col-md-9 col-12">
+      <div class="d-flex flex-wrap justify-content-start align-items-center gap-3">
+        <h3 class="mb-0">Add Orders</h3>
+        <app-add-order-categories></app-add-order-categories>
+      </div>
+    </div>
+    <div class="col-md-3 col-12">
+      <div class="d-flex flex-row justify-content-end align-items-center gap-3">
+        <div class="form-group mb-0">
+          <input type="text" class="form-control" id="add-order-search-product" name="add-order-search-product">
+        </div>
+        <button class="btn" style="background-color: #E7E9EC;">
+          <i class="ft-search"></i>
+          <span>Search</span>
+        </button>
+      </div>
+    </div>
+
   </div>
+
+  
   
 </div>
 

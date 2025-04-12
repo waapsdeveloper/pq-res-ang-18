@@ -68,10 +68,15 @@ export class AddOrderService {
     if (res.data) {
       let d = res.data.data;
       console.log(d);
+      let totalProducts = d.reduce((acc, category) => {
+        return acc + (category.product_count || 0); // Use 0 if product_count is undefined
+      }, 0);
       // add a first item as all categories
       d.unshift({
         id: -1,
-        name: 'All Categories',        
+        name: 'All',
+        product_count: totalProducts,
+        active: true
       });
       this.selectedCategory = d[0];
       this.categories = d;
