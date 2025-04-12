@@ -1,32 +1,187 @@
-.d-flex {
-    display: flex;
-    align-items: center;
-    gap: 20px; /* Reduce space between the heading and search box */
+@import '../../../../assets/css/style.bundle.css';
+
+.order-create-page-outer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw; // Full width of the viewport
+  height: 100vh; // Full height of the viewport
+  display: flex; // Enable Flexbox layout
+  flex-direction: row; // Arrange child elements horizontally
+  // background: rgba(0, 0, 0, 0.2); // Semi-transparent black background
+}
+
+.category-sidebar {
+  flex: 0 0 150px; // Fixed width of 150px
+  background-color: #f4f4f4; // Light gray for visualization
+  padding: 10px;
+  // border-right: 1px solid #ddd; // Optional border
+}
+
+.products-sidebar {
+  flex: 0; // Takes up the remaining space proportionally
+  // background-color: #e9ecef; // Slightly darker gray for visualization
+  min-width: 560px;
+  padding: 10px 0;
+  // border-right: 1px solid #ddd; // Optional border
+}
+
+.order-sidebar {
+  flex: 1; // Takes up the remaining space proportionally
+  background-color: #f8f9fa; // Light background
+  padding: 10px;
+}
+
+.print-section {
+  display: none; /* Hidden by default */
+  width: 100%;  /* Full screen width */
+  padding: 20px;
+}
+
+.bill-slip {
+  font-family: Arial, sans-serif;
+  width: 100%; /* Full width */
+  max-width: 100%;
+  margin: 0;
+  padding: 20px;
+  border: 2px dashed #000;
+  border-radius: 10px;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.bill-header,
+.customer-info,
+.order-details,
+.bill-footer {
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+.bill-header h2 {
+  margin: 0;
+  font-size: 2rem;
+  color: #333;
+}
+
+.bill-header p {
+  margin: 5px 0;
+  font-size: 1rem;
+  color: #666;
+}
+
+.customer-info h3,
+.order-details h3,
+.bill-footer h3 {
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+  color: #444;
+}
+
+.customer-info p,
+.bill-footer p {
+  margin: 5px 0;
+  font-size: 1rem;
+  color: #555;
+}
+
+.order-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0;
+}
+
+.order-table th,
+.order-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.order-table th {
+  background: #f1f1f1;
+  color: #333;
+}
+
+.order-table td {
+  color: #555;
+}
+
+.bill-footer h3 {
+  margin: 10px 0;
+  font-size: 1.5rem;
+  color: #222;
+}
+
+.bill-footer p {
+  font-size: 1rem;
+  color: #666;
+}
+
+/* Print Styles */
+@media print {
+  @page {
+    size: 58mm auto; /* Set custom width (58mm for thermal printers) */
+    margin: 0; /* Remove default margins */
   }
-  
-  .search-box {
-    position: relative;
-    width: 250px;
+
+  body {
+    margin: 0;
+    padding: 0;
   }
-  
-  .search-box input {
-    border-radius: 6px;
-    padding: 0.5rem 1rem;
-    padding-left: 2.5rem; /* Space for the icon */
-    border: 1px solid #e2e8f0;
-    background-color: #f5f8fa;
+
+  #print-section {
+    width: 58mm; /* Match the page size */
+    padding: 10px;
+    margin: auto;
+    border: none; /* Remove border in print */
   }
-  
-  .search-box .search-icon {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #6b7280;
+
+  /* Hide unnecessary elements during print */
+  .non-printable {
+    display: none;
   }
-  
-  .filtered-products {
-    max-height: 200px; /* Add scroll if many products */
-    overflow-y: auto;
-  }
-  
+}
+
+.chip-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px; /* Adds spacing between chips */
+  margin: 8px;
+}
+
+.chip {
+  background-color: transparent;
+  border: 1px solid var(--kt-primary) !important;
+  transition: all 0.2s ease-in-out;
+  padding: 10px 15px;
+  display: flex;
+  flex-direction: row; /* Arrange text in a row */
+  align-items: center;
+  justify-content: flex-start; /* Align content to the left */
+  font-size: 14px;
+  min-width: 150px;
+  text-align: left; /* Left-align text */
+  gap: 8px; /* Add spacing between name and phone */
+}
+
+.chip:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.05); /* Subtle hover effect */
+}
+
+.chip-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align text to the left */
+}
+
+.chip strong {
+  font-size: 14px;
+}
+
+.chip small {
+  font-size: 12px;
+  color: #666; /* Subtle contrast */
+}
