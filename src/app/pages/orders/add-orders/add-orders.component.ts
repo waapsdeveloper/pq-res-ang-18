@@ -18,6 +18,11 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   ) {}
   restaurant;
   filteredSuggestions = [];
+  showForm = false;
+
+  toggleForm() {
+    this.showForm = !this.showForm;
+  }
   ngOnInit(): void {
     this.orderService.showOrderHeader = false;
     this.getRestaurants();
