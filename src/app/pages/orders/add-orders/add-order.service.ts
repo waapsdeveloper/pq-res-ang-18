@@ -68,6 +68,12 @@ export class AddOrderService {
     if (res.data) {
       let d = res.data.data;
       console.log(d);
+      // add a first item as all categories
+      d.unshift({
+        id: -1,
+        name: 'All Categories',        
+      });
+      this.selectedCategory = d[0];
       this.categories = d;
     }
   }
