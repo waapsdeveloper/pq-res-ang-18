@@ -24,13 +24,11 @@
       <app-add-order-products></app-add-order-products>
     </div>
     <div class="col-md-4 col-12 mb-3">
-      <!-- place order elements -->
+      <app-add-order-price-list></app-add-order-price-list>
+    </div>
+    <!-- <div class="col-md-4 col-12 mb-3">
       <div class="order-sidebar h-100">
-        <!--begin::Chart widget 8-->
         <div class="card card-flush h-xl-100">
-          <!--begin::Header-->
-
-          <!-- Header Section -->
           <div class="card-header">
             <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
               <div class="flex-grow-1">
@@ -49,10 +47,8 @@
             </div>
           </div>
 
-          <!-- Coupon & Pricing Section -->
           <div class="card-body border-top">
             <div class="row g-3">
-              <!-- Coupon Input -->
               <div class="col-12">
                 <label for="code" class="col-form-label">Coupon Code</label>
                 <div class="input-group">
@@ -68,9 +64,7 @@
                 </div>
               </div>
 
-              <!-- Form Fields -->
               <div class="col-12">
-                <!-- Order Notes -->
                 <div class="form-group">
                   <label for="notes" class="col-form-label">Order Notes</label>
                   <textarea
@@ -81,7 +75,6 @@
                   ></textarea>
                 </div>
 
-                <!-- Customer Name -->
                 <div class="form-group">
                   <label for="customer_name" class="col-form-label">Customer Name</label>
                   <input
@@ -93,7 +86,6 @@
                   />
                 </div>
 
-                <!-- Customer Phone -->
                 <div class="form-group">
                   <label for="customer_phone" class="col-form-label">Customer Phone</label>
                   <input
@@ -105,7 +97,6 @@
                   />
                 </div>
 
-                <!-- Order Type -->
                 <div class="form-group">
                   <label for="notes" class="col-form-label">Order Type</label>
                   <select class="select2 form-control" [(ngModel)]="orderService.orderType" (change)="onTypeChange($event)">
@@ -120,7 +111,6 @@
                   </select>
                 </div>
 
-                <!-- Payment Method -->
                 <div class="form-group">
                   <label for="method" class="col-form-label">Payment Method</label>
                   <select class="select2 form-control" [(ngModel)]="orderService.paymentMethod">
@@ -134,9 +124,8 @@
             </div>
 
             <!-- Chips Section -->
-            <div class="card-body pt-0" style="margin-left: -20px">
+            <div class="card-body pt-0" style="margin-left: -20ssssssspx">
               <div class="d-flex flex-wrap">
-                <!-- Walk-in Customer Chip -->
                 <div class="badge bg-light text-dark d-flex align-items-center" (click)="makeWalkingCustomer()">
                   <div class="d-flex flex-column">
                     <span class="fw-bold fs-7">Walk-in Customer</span>
@@ -144,7 +133,6 @@
                   </div>
                 </div>
 
-                <!-- Customer Chips -->
                 <div
                   *ngFor="let item of filteredSuggestions"
                   class="badge bg-light text-dark d-flex align-items-center p-2"
@@ -159,14 +147,8 @@
             </div>
           </div>
 
-          <app-add-order-price-list></app-add-order-price-list>
-
-          <!--end::Statistics-->
         </div>
-        <!--end::Tab pane-->
       </div>
-      <!--end::Tab content-->
-    </div>
-    <!--end::Body-->
+    </div> 
   </div>
 </div>
