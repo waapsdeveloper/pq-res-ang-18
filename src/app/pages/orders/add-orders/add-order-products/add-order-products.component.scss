@@ -8,28 +8,26 @@
 
 .single-product-item {
 
-  background-color: #f9f9f9; /* Light background for better contrast */
-  border: 1px solid var(--kt-primary); /* Matches primary color */
   border-radius: 8px; /* Smooth rounded corners */
-  // width: 150px; /* Fixed width for uniformity */
-  text-align: center; /* Center content */
-  position: relative;
-  overflow: hidden; /* Ensures clean layout */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  .product-image-container {
+    position: relative;
+    background-position: center center;
+    background-size: cover;
+    width: 100%;
+    padding-bottom: 80%;
+    border-radius: 8px 8px 0 0;
+  }
+  
 
-  width: 150px;
-  height: 150px;
-  background-position: center center;
-  background-size: cover;
-
-  position: relative;
   .label-5346 {
     position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    background: rgba(0,0,0,1);
+    top: 8px;
+    right: 8px;
+    background: rgba(255,255,255,1);
+    padding: 4px 8px;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 4px;
   }
 
   .price-tags {
