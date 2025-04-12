@@ -27,6 +27,13 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   restaurant;
   filteredSuggestions = [];
   showForm = false;
+  tabs: any[] = [
+    { name: 'order', title: 'Order', icon: 'ft-layers', active: true },
+    { name: 'customer', title: 'Customer', icon: 'ft-user', active: false },
+    { name: 'payment', title: 'Payment', icon: 'ft-credit-card', active: false }
+  ];
+
+  activeTabName = 'order';
 
   toggleForm() {
     this.showForm = !this.showForm;
@@ -142,5 +149,18 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     this.filteredSuggestions = array;
 
     console.log(this.filteredSuggestions);
+  }
+
+  setActiveTab(name: string) {  
+    for (var i = 0; i < this.tabs.length; i++) {
+      this.tabs[i]['active'] = this.tabs[i]['name'] == name;
+    }
+    console.log('Selected tab:', this.tabs);
+    this.activeTabName = name;
+    // this.updateProductsBySelectedTab(item);
+  }
+
+  updateProductsBySelectedTab(item) {
+    // this.orderService.updateProductsBySelectedTab(item);
   }
 }
