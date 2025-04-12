@@ -1,5 +1,4 @@
 <div class="my-3">
-
   <div class="row">
     <div class="col-md-8 col-12 mb-3">
       <div class="d-flex flex-wrap justify-content-start align-items-center gap-3">
@@ -10,15 +9,14 @@
     <div class="col-md-4 col-12 mb-3">
       <div class="d-flex flex-row justify-content-end align-items-center gap-3">
         <div class="form-group mb-0">
-          <input type="text" class="form-control" id="add-order-search-product" name="add-order-search-product">
+          <input type="text" class="form-control" id="add-order-search-product" name="add-order-search-product" />
         </div>
-        <button class="btn" style="background-color: #E7E9EC;">
+        <button class="btn" style="background-color: #e7e9ec">
           <i class="ft-search"></i>
           <span>Search</span>
         </button>
       </div>
     </div>
-
   </div>
 
   <div class="row">
@@ -27,59 +25,49 @@
     </div>
     <div class="col-md-4 col-12 mb-3">
       <!-- place order elements -->
-      <div class="order-sidebar  h-100">
+      <div class="order-sidebar h-100">
         <!--begin::Chart widget 8-->
         <div class="card card-flush h-xl-100">
           <!--begin::Header-->
-          
-            <!-- Header Section -->
-            <div class="card-header">
-              <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
-                <div class="flex-grow-1">
-                  <h3 class="card-label fw-bold text-dark mb-1">Order Overview</h3>
-                  <span class="text-muted fs-7">Take a look at bill details</span>
+
+          <!-- Header Section -->
+          <div class="card-header">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+              <div class="flex-grow-1">
+                <h3 class="card-label fw-bold text-dark mb-1">Order Overview</h3>
+                <span class="text-muted fs-7">Take a look at bill details</span>
+              </div>
+              <div class="d-flex align-items-center gap-2">
+                <div class="d-flex align-items-baseline">
+                  <span class="fs-5 text-muted">$</span>
+                  <span class="fs-3 fw-bold text-dark">{{ orderService.totalCost | number: '1.2-2' }}</span>
                 </div>
-                <div class="d-flex align-items-center gap-2">
-                  <div class="d-flex align-items-baseline">
-                    <span class="fs-5 text-muted">$</span>
-                    <span class="fs-3 fw-bold text-dark">{{ orderService.totalCost | number: '1.2-2' }}</span>
-                  </div>
-                  <button 
-                    *ngIf="orderService.selected_products?.length > 0" 
-                    (click)="onSubmit($event)" 
-                    class="btn btn-primary btn-sm"
-                  >
-                    Place Order
-                  </button>
-                </div>
+                <button *ngIf="orderService.selected_products?.length > 0" (click)="onSubmit($event)" class="btn btn-primary btn-sm">
+                  Place Order
+                </button>
               </div>
             </div>
-          
-            <!-- Coupon & Pricing Section -->
-            <div class="card-body border-top py-4">
-              <div class="row g-3">
-                <!-- Coupon Input -->
-                <div class="col-12">
-                  <div class="d-flex gap-2">
-                    <input
-                      type="text"
-                      [(ngModel)]="orderService.couponCode"
-                      class="form-control form-control-sm"
-                      placeholder="Enter Coupon"
-                    />
-                    <button class="btn btn-secondary btn-sm" (click)="orderService.applyCoupon()">
-                      Apply
-                    </button>
-                  </div>
-                </div>
-          
-                <!-- Pricing Info -->
-                <div class="col-12">
+          </div>
+
+          <!-- Coupon & Pricing Section -->
+          <div class="card-body border-top py-4">
+            <div class="row g-3">
+              <!-- Coupon Input -->
+              <div class="col-12">
+                <label for="code" class="col-form-label">Coupon Code</label>
+                <div class="input-group">
+                  <input
+                    type="text"
+                    [(ngModel)]="orderService.couponCode"
+                    class="form-control sqaure form-control-sm"
+                    placeholder="Enter Coupon"
+                  />
+                  <button class="btn btn-secondary input-group-append" (click)="orderService.applyCoupon()">Apply</button>
                   <div class="d-flex justify-content-between align-items-center">
-                    <div class="badge bg-info">
+                    <div class="badge  text-white input-group-append" style="background-color: #e7e9ec;">
                       Discount: ${{ orderService.discountAmount | number: '1.2-2' }}
                     </div>
-                    <div class="d-flex align-items-baseline gap-1">
+                    <div class="d-flex align-items-baseline gap-1 input-group-append">
                       <span class="fs-5 text-muted">$</span>
                       <span class="fs-4 fw-bold text-dark">
                         {{ orderService.final_total | number: '1.2-2' }}
@@ -88,101 +76,106 @@
                   </div>
                 </div>
               </div>
+
+              <!-- Pricing Info -->
+              <div class="col-12"></div>
             </div>
-          
-            <!-- Form Fields -->
-            <div class="card-body pt-0">
-              <div class="row g-3">
-                <div class="col-12">
-                  <textarea
-                    [(ngModel)]="orderService.order_notes"
-                    class="form-control sqaure form-control-sm"
-                    rows="3"
-                    placeholder="Add a note..."
-                  ></textarea>
-                </div>
-          
-                <div class="col-12">
-                  <input
-                    type="text"
-                    class="form-control  sqaure form-control-sm"
-                    [(ngModel)]="orderService.customer_name"
-                    placeholder="Customer Name"
-                    (input)="onInputChange(orderService.customer_name)"
-                  />
-                </div>
-          
-                <div class="col-12">
-                  <input
-                    type="text"
-                    class="form-control sqaure form-control-sm"
-                    [(ngModel)]="orderService.customer_phone"
-                    placeholder="Customer Phone"
-                    (input)="onInputChangePhone(orderService.customer_phone)"
-                  />
-                </div>
-          
-                <div class="col-12">
-                  <select
-                    class="form-select form-select-sm"
-                    [(ngModel)]="orderService.orderType"
-                    (change)="onTypeChange($event)"
-                  >
-                    <!-- options remain same -->
-                  </select>
-                </div>
-          
-                <div class="col-12">
-                  <select
-                    class="form-select form-select-sm"
-                    [(ngModel)]="orderService.paymentMethod"
-                  >
-                    <!-- options remain same -->
-                  </select>
-                </div>
+          </div>
+
+          <!-- Form Fields -->
+          <div class="card-body pt-0">
+            <div class="row g-3">
+              <div class="col-12 form-group">
+                <label for="notes" class="col-form-label">Order Notes</label>
+                <textarea
+                  [(ngModel)]="orderService.order_notes"
+                  class="form-control sqaure form-control-sm"
+                  rows="3"
+                  placeholder="Add a note..."
+                ></textarea>
+              </div>
+
+              <div class="col-12 form-group">
+                <label for="customer_name" class="col-form-label">Customer Name</label>
+                <input
+                  type="text"
+                  class="form-control sqaure form-control-sm"
+                  [(ngModel)]="orderService.customer_name"
+                  placeholder="Customer Name"
+                  (input)="onInputChange(orderService.customer_name)"
+                />
+              </div>
+
+              <div class="col-12 form-group">
+                <label for="customer_phone" class="col-form-label">Customer Phone</label>
+                <input
+                  type="text"
+                  class="form-control sqaure form-control-sm"
+                  [(ngModel)]="orderService.customer_phone"
+                  placeholder="Customer Phone"
+                  (input)="onInputChangePhone(orderService.customer_phone)"
+                />
+              </div>
+
+              <div class="col-12 form-group">
+                <label for="notes" class="col-form-label">Order Type</label>
+                <select class="select2 form-control" [(ngModel)]="orderService.orderType" (change)="onTypeChange($event)">
+                  <option value="" disabled selected>Select Order Type</option>
+                  <option value="drive-thru">Drive-Thru</option>
+                  <option value="dine-in">Dine-In</option>
+                  <option value="take-away">Take-Away</option>
+                  <option value="delivery">Delivery</option>
+                  <option value="curbside-pickup">Curbside Pickup</option>
+                  <option value="catering">Catering</option>
+                  <option value="reservation">Reservation</option>
+                </select>
+              </div>
+
+              <div class="col-12 form-group">
+                <label for="method" class="col-form-label">Payment Method</label>
+                <select class="select2 form-control" [(ngModel)]="orderService.paymentMethod">
+                  <option value="" disabled selected>Select Payment</option>
+                  <option *ngFor="let method of orderService.paymentMethods" [value]="method.value">
+                    {{ method.label }}
+                  </option>
+                </select>
               </div>
             </div>
-          
-            <!-- Chips Section -->
-            <div class="card-body pt-0">
-              <div class="d-flex flex-wrap gap-2">
-                <!-- Walk-in Customer Chip -->
-                <div 
-                  class="badge bg-light text-dark d-flex align-items-center p-2"
-                  (click)="makeWalkingCustomer()"
-                >
-                  <div class="d-flex flex-column">
-                    <span class="fw-bold fs-7">Walk-in Customer</span>
-                    <span class="text-muted fs-8">0000000000000</span>
-                  </div>
+          </div>
+
+          <!-- Chips Section -->
+          <div class="card-body pt-0">
+            <div class="d-flex flex-wrap gap-2">
+              <!-- Walk-in Customer Chip -->
+              <div class="badge bg-light text-dark d-flex align-items-center p-2" (click)="makeWalkingCustomer()">
+                <div class="d-flex flex-column">
+                  <span class="fw-bold fs-7">Walk-in Customer</span>
+                  <span class="text-muted fs-8">0000000000000</span>
                 </div>
-          
-                <!-- Customer Chips -->
-                <div 
-                  *ngFor="let item of filteredSuggestions"
-                  class="badge bg-light text-dark d-flex align-items-center p-2"
-                  (click)="orderService.selectSuggestion(item)"
-                >
-                  <div class="d-flex flex-column">
-                    <span class="fw-bold fs-7">{{ item.name }}</span>
-                    <span class="text-muted fs-8">{{ item.phone }}</span>
-                  </div>
+              </div>
+
+              <!-- Customer Chips -->
+              <div
+                *ngFor="let item of filteredSuggestions"
+                class="badge bg-light text-dark d-flex align-items-center p-2"
+                (click)="orderService.selectSuggestion(item)"
+              >
+                <div class="d-flex flex-column">
+                  <span class="fw-bold fs-7">{{ item.name }}</span>
+                  <span class="text-muted fs-8">{{ item.phone }}</span>
                 </div>
               </div>
             </div>
           </div>
-    
-              <app-add-order-price-list></app-add-order-price-list>
-    
-              <!--end::Statistics-->
-            </div>
-            <!--end::Tab pane-->
-          </div>
-          <!--end::Tab content-->
         </div>
-        <!--end::Body-->
+
+        <app-add-order-price-list></app-add-order-price-list>
+
+        <!--end::Statistics-->
       </div>
-       
-
-
-
+      <!--end::Tab pane-->
+    </div>
+    <!--end::Tab content-->
+  </div>
+  <!--end::Body-->
+</div>
