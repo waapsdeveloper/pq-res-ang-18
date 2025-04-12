@@ -135,8 +135,9 @@ export class ListRestaurantComponent extends ListBlade {
       is_active: 1
     };
 
-    this.network.setActiveRestaurant(data, item.id);
+    await this.network.setActiveRestaurant(data, item.id);
     this.utility.presentSuccessToast('Default Restaurant Set Successfully!');
+    this.crudService.getList('', 1);
   }
   default(){
     this.utility.presentSuccessToast('Already Selected As Default Restaurant!');
