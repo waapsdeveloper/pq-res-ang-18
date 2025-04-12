@@ -2,7 +2,7 @@
 <div class="card card-flush">
   <div class="card-body pt-0" style="height: calc(100vh - 115px);">
     <div class="product-items-outer">
-      <div class="single-product-item" *ngFor="let product of orderService.products" (click)="setSelectedToggle(product)"
+      <div class="single-product-item gap-8 mt-2" *ngFor="let product of orderService.products" (click)="setSelectedToggle(product)"
         [ngStyle]="{'background-image' : 'url(' + product.image + ')'}">
         <!--begin::Link-->
 
