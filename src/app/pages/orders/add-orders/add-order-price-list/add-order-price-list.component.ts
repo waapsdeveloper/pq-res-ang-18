@@ -61,20 +61,20 @@ export class AddOrderPriceListComponent implements OnInit {
     this.popovers.push(popover);
   }
   calculateTotalPrice(item: any): number {
-    let totalPrice = parseInt(item.price); // Start with the base product price
+    let totalPrice = parseFloat(item.price); // Start with the base product price
 
-    // if (item.variation) {
-    //   // Add the price of selected variations
-    //   item.variation.forEach((variation: any) => {
-    //     if (variation.options) {
-    //       variation.options.forEach((option: any) => {
-    //         if (option.selected) {
-    //           totalPrice +=  parseInt(option.price); // Add the price of selected options
-    //         }
-    //       });
-    //     }
-    //   });
-    // }
+    if (item.variation) {
+      // Add the price of selected variations
+      item.variation.forEach((variation: any) => {
+        if (variation.options) {
+          variation.options.forEach((option: any) => {
+            if (option.selected) {
+              totalPrice +=  parseFloat(option.price); // Add the price of selected options
+            }
+          });
+        }
+      });
+    }
     // this.orderService.totalOfProductCost();
     return totalPrice; // Return the total calculated price
   }
