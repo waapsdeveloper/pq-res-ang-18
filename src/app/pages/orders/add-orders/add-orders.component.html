@@ -62,20 +62,12 @@
                     class="form-control sqaure form-control-sm"
                     placeholder="Enter Coupon"
                   />
-                  <button class="btn btn-secondary input-group-append" (click)="orderService.applyCoupon()">Apply</button>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="badge  text-white input-group-append" style="background-color: #e7e9ec;">
-                      Discount: ${{ orderService.discountAmount | number: '1.2-2' }}
-                    </div>
-                    <div class="d-flex align-items-baseline gap-1 input-group-append">
-                      <span class="fs-5 text-muted">$</span>
-                      <span class="fs-4 fw-bold text-dark">
-                        {{ orderService.final_total | number: '1.2-2' }}
-                      </span>
-                    </div>
-                  </div>
+                  <button class="btn btn-light input-group-append" (click)="orderService.applyCoupon()">
+                    Apply Discount: ${{ orderService.discountAmount | number: '1.2-2' }}
+                  </button>
+                 
                 </div>
-              </div>
+              </div>  
 
               <!-- Pricing Info -->
               <div class="col-12"></div>
