@@ -1,0 +1,35 @@
+<form>
+    <div class="form-group">
+        <label for="tables" class="col-form-label">Select Table</label>
+        <ng-select 
+          [items]="tables" 
+          bindLabel="name" 
+          bindValue="id" 
+          placeholder="Select a table"
+          [(ngModel)]="orderService.selectedTableId"
+          [searchable]="true"
+          name="tables">
+
+            <!-- 👇 Custom label when showing selected value -->
+            <ng-template ng-label-tmp let-item="item">
+                {{ item.identifier }} ({{ item.no_of_seats }})
+            </ng-template>
+
+            <!-- 👇 Custom label in dropdown options -->
+            <ng-template ng-option-tmp let-item="item">
+                {{ item.identifier }} - Seats x {{ item.no_of_seats }}
+            </ng-template>
+          
+        </ng-select>
+    </div> 
+</form>
+
+<!-- 
+<div class="d-flex flex-row flex-wrap gap-2">
+    <div class="table-item-233" *ngFor="let item of tables">
+        <a class="nav-link d-flex align-items-center justify-content-center gap-2">
+            <i class="ft-table"></i>
+            <span> {{ item.name }} </span>
+          </a>
+    </div>
+</div> -->

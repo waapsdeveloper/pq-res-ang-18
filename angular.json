@@ -29,6 +29,7 @@
               "src/styles.scss",
               "src/assets/css/bootstrap.css",
               "src/assets/css/bootstrap-extended.css",
+              "node_modules/@ng-select/ng-select/themes/default.theme.css",
               "src/assets/css/components.css",
               "src/assets/css/colors.css"
             ],

@@ -1,25 +1,18 @@
-.tab-item {
+.table-item-233 {
+
+}
+.table-item-233 {
     cursor: pointer;
     // no text selection 
     user-select: none;
     border: 1px solid lightgray;
     border-radius: 0.35rem;    
 }
-.tab-item.active {
+.table-item-233.active {
     background-color: var(--red);
     color: #fff;
     font-weight: 600;
 }
-.tab-item:hover {
+.table-item-233:hover {
     background-color: #E7E9EC;
-}
-
-.total-card-fixed-footer {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    color: var(--red);
-    font-size: 3rem;
-    font-weight: 500;
-    
 }

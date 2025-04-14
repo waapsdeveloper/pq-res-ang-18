@@ -249,7 +249,7 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/forms@^18.0.0", "@angular/forms@^18.2.12", "@angular/forms@>=13.2.0":
+"@angular/forms@^18.0.0", "@angular/forms@^18.2.12", "@angular/forms@^19.0.0", "@angular/forms@>=13.2.0":
   version "18.2.12"
   resolved "https://registry.npmjs.org/@angular/forms/-/forms-18.2.12.tgz"
   integrity sha512-FsukBJEU6jfAmht7TrODTkct/o4iwCZvGozuThOp0tYUPD/E1rZZzuKjEyTnT5Azpfkf0Wqx1nmpz80cczELOQ==
@@ -1421,6 +1421,13 @@
   integrity sha512-hTbBtozJlpevF1RO6J2adCoXiAkMTPV3wmXIyK05dVha4VsKjHibgaL6YldToKoh6ElQnIYkPEIJHX9z5EtyMw==
   dependencies:
     tslib "^2.3.0"
+
+"@ng-select/ng-select@^14.5.6":
+  version "14.5.6"
+  resolved "https://registry.npmjs.org/@ng-select/ng-select/-/ng-select-14.5.6.tgz"
+  integrity sha512-yJD4wptyEJq3PV/50J5YwxSRsZhuNNzaFixRA96+Ke6JV8CbTKPyXqB1b5MeTYve1KDfWX9YLm4O2CfHvm13yg==
+  dependencies:
+    tslib "^2.3.1"
 
 "@ngtools/webpack@18.0.6":
   version "18.0.6"
@@ -6279,7 +6286,7 @@ tslib@^1.9.0:
   resolved "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
 
-tslib@^2, tslib@^2.0.0, tslib@^2.1.0, tslib@^2.3.0, tslib@^2.6.2, tslib@^2.6.3, tslib@2:
+tslib@^2, tslib@^2.0.0, tslib@^2.1.0, tslib@^2.3.0, tslib@^2.3.1, tslib@^2.6.2, tslib@^2.6.3, tslib@2:
   version "2.6.3"
   resolved "https://registry.npmjs.org/tslib/-/tslib-2.6.3.tgz"
   integrity sha512-xNvxJEOUiWPGhUuUdQgAJPKOOJfGnIyKySOc09XkKsgdUV/3E2zvwZYdejjmRgPCgcym1juLH3226yA7sEFJKQ==

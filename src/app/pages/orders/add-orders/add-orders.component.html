@@ -7,7 +7,7 @@
       </div>
     </div>
     <div class="col-md-4 col-12 mb-3">
-      <div class="d-flex flex-row justify-content-end align-items-center gap-3">
+      <!-- <div class="d-flex flex-row justify-content-end align-items-center gap-3">
         <div class="form-group mb-0">
           <input type="text" class="form-control" id="add-order-search-product" name="add-order-search-product" />
         </div>
@@ -15,7 +15,7 @@
           <i class="ft-search"></i>
           <span>Search</span>
         </button>
-      </div>
+      </div> -->
     </div>
   </div>
 
@@ -30,70 +30,11 @@
           (click)="setActiveTab(tab.name)">
           <a class="nav-link d-flex align-items-center justify-content-center gap-2">
             <i [class]="tab.icon"></i>
-            <span> {{ tab.name }} </span>
+            <span> {{ tab.title }} </span>
           </a>
         </div>
       </div>
 
-      <div class="" [class.d-none]="activeTabName !== 'order'">
-        <app-add-order-price-list></app-add-order-price-list>
-        <div class="card mt-0">
-          <div class="card-body">
-            <form>
-              <div class="form-group">
-                <label for="notes" class="col-form-label">Order Type</label>
-                <select class="select2 form-control" [(ngModel)]="orderService.orderType" name="orderType"
-                  (change)="onTypeChange($event)">
-                  <option value="" disabled selected>Select Order Type</option>
-                  <option value="drive-thru">Drive-Thru</option>
-                  <option value="dine-in">Dine-In</option>
-                  <option value="take-away">Take-Away</option>
-                  <option value="delivery">Delivery</option>
-                  <option value="curbside-pickup">Curbside Pickup</option>
-                  <option value="catering">Catering</option>
-                  <option value="reservation">Reservation</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="notes" class="col-form-label">Order Notes</label>
-                <textarea [(ngModel)]="orderService.order_notes" name="orderNotes" class="form-control sqaure form-control-sm" rows="3"
-                  placeholder="Add a note..."></textarea>
-              </div>
-              <div class="form-group">
-                <label for="code" class="col-form-label">Coupon Code</label>
-                <div class="input-group">
-                  <input type="text" [(ngModel)]="orderService.couponCode" name="couponCode" class="form-control sqaure form-control"
-                    placeholder="Enter Coupon" />
-                  <div class="btn btn-light input-group-append">
-                    Discount: ${{ orderService.discountAmount | number: '1.2-2' }}
-                  </div>
-                </div>
-              </div>
-              <!-- apply button -->
-              <div class="form-group mt-3">
-                <button type="button" class="btn btn-primary" (click)="orderService.applyCoupon()">
-                  Apply Coupon
-                </button>
-              </div>
-
-            </form>
-          </div>
-
-        </div>
-
-        <div class="card">
-          <div class="card-header">
-            <h5 class="card-title">Order Summary</h5>
-            <p class="card-text">Total Items: {{ orderService.selected_products?.length }}</p>
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">Total Cost</h5>
-            <p class="card-text">${{ orderService.totalCost | number: '1.2-2' }}</p>
-          </div>
-        </div>
-
-
-      </div>
       <div class="" [class.d-none]="activeTabName !== 'customer'">
 
         <!-- Chips Section -->
@@ -132,28 +73,93 @@
                 <input type="text" class="form-control sqaure form-control-sm" [(ngModel)]="orderService.customer_phone" name="customerPhone"
                   placeholder="Customer Phone" (input)="onInputChangePhone(orderService.customer_phone)" />
               </div>
+              <div class="form-group">
+                <label for="notes" class="col-form-label">Order Type</label>
+                <select class="select2 form-control" [(ngModel)]="orderService.orderType" name="orderType"
+                  (change)="onTypeChange($event)">
+                  <option value="" disabled selected>Select Order Type</option>
+                  <option value="drive-thru">Drive-Thru</option>
+                  <option value="dine-in">Dine-In</option>
+                  <option value="take-away">Take-Away</option>
+                  <option value="delivery">Delivery</option>
+                  <option value="curbside-pickup">Curbside Pickup</option>
+                  <option value="catering">Catering</option>
+                  <option value="reservation">Reservation</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="method" class="col-form-label">Payment Method</label>
+                <select class="select2 form-control" [(ngModel)]="orderService.paymentMethod" name="paymentMethod">
+                  <option value="" disabled selected>Select Payment</option>
+                  <option *ngFor="let method of orderService.paymentMethods" [value]="method.value">
+                    {{ method.label }}
+                  </option>
+                </select>
+              </div>
 
             </form>
           </div>
         </div>
 
+        <!-- select table  -->
+        <div class="card mt-2">
+          <div class="card-header">
+            <h5 class="card-title">Select Table</h5>
+          </div>
+          <div class="card-body">
+            <app-add-order-table></app-add-order-table>
+          </div>
+        </div>
+
       </div>
+      <div class="" [class.d-none]="activeTabName !== 'order'">
+        <app-add-order-price-list></app-add-order-price-list>
+        <div class="card mt-0">
+          <div class="card-body">
+            <form>
+              
+              <div class="form-group">
+                <label for="code" class="col-form-label">Coupon Code</label>
+                <div class="input-group">
+                  <input type="text" [(ngModel)]="orderService.couponCode" name="couponCode" class="form-control sqaure form-control"
+                    placeholder="Enter Coupon" />
+                  <div class="btn btn-light input-group-append">
+                    Discount: ${{ orderService.discountAmount | number: '1.2-2' }}
+                  </div>
+                </div>
+              </div>
+              <!-- apply button -->
+              <div class="form-group mt-3">
+                <button type="button" class="btn btn-primary" (click)="orderService.applyCoupon()">
+                  Apply Coupon
+                </button>
+              </div>
+
+            </form>
+          </div>
+
+        </div>
+
+        
+
+
+      </div>
+      
       <div class="" [class.d-none]="activeTabName !== 'payment'">
 
         <div class="card">
           <div class="card-header">
-            <h5 class="card-title">Payment Information</h5>
+            <h5 class="card-title">Notes to order</h5>
           </div>
           <div class="card-body">
+
             <div class="form-group">
-              <label for="method" class="col-form-label">Payment Method</label>
-              <select class="select2 form-control" [(ngModel)]="orderService.paymentMethod" name="paymentMethod">
-                <option value="" disabled selected>Select Payment</option>
-                <option *ngFor="let method of orderService.paymentMethods" [value]="method.value">
-                  {{ method.label }}
-                </option>
-              </select>
+              <label for="notes" class="col-form-label">Order Notes</label>
+              <textarea [(ngModel)]="orderService.order_notes" name="orderNotes" class="form-control sqaure form-control-sm" rows="3"
+                placeholder="Add a note..."></textarea>
             </div>
+
+            
           </div>
         </div>
         <div class="mt-2 d-flex flex-column align-items-start gap-2">
@@ -169,6 +175,14 @@
 
       </div>
 
+    </div>
+  </div>
+
+  <div class="total-card-fixed-footer">  
+    <div class="d-flex flex-row justify-content-end align-items-start gap-2">
+      <div>{{ orderService.selected_products?.length }}</div>
+      <div>X</div>
+      <div>${{ orderService.totalCost | number: '1.2-2' }}</div>      
     </div>
   </div>
 </div>

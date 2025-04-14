@@ -10,6 +10,7 @@ import { KtAppFormPageModule } from 'src/app/components/layouts/kt-app-form-page
 import { AddOrderCategoriesModule } from './add-order-categories/add-order-categories.module';
 import { AddOrderProductsModule } from './add-order-products/add-order-products.module';
 import { AddOrderPriceListModule } from './add-order-price-list/add-order-price-list.module';
+import { AddOrderTableModule } from './add-order-table/add-order-table.module';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { AddOrderPriceListModule } from './add-order-price-list/add-order-price-
     // order items modules
     AddOrderCategoriesModule,
     AddOrderProductsModule,
-    AddOrderPriceListModule
+    AddOrderPriceListModule,
+    AddOrderTableModule
   ]
 })
 export class AddOrdersModule { }

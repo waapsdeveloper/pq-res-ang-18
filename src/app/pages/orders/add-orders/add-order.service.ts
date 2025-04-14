@@ -15,6 +15,7 @@ export class AddOrderService {
   order_notes: string = '';
   total_price: number = 0;
   selectedCategory = null;
+  selectedTableId = -1;
   orderType = '';
   selected_products: any[] = [];
   paymentMethod: any;
@@ -237,6 +238,7 @@ export class AddOrderService {
       coupon_code: this.couponCode,
       payment_method: this.paymentMethod,
       order_type: this.orderType,
+      table_id: this.selectedTableId,
       total_price: this.totalCost
     };
     let coupon = {
@@ -301,6 +303,8 @@ export class AddOrderService {
 
   clearSelectedProducts() {
     this.selected_products = [];
+    this.selectedTableId = -1;
+    this.orderType = '';
     this.totalCost = 0;
     this.customer_name = '';
     this.customer_phone = '';
