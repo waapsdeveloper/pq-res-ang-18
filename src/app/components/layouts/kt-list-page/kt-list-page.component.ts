@@ -12,8 +12,10 @@ export class KtListPageComponent {
   @Input('showCreate') showCreate = true;
   @Input('title') title = ''
   @Input('addurl') addurl = ''
+  @Input ('showDeleteAll') showDeleteAll = false;
   @Output('onSearch') onSearch = new EventEmitter<any>();
   @Output('onFilter') onFilter = new EventEmitter<any>();
+  @Output('onDeleteAll') onDeleteAll = new EventEmitter<any>();
 
   search($event){
     let v = $event.target.value;

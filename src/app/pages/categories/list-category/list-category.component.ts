@@ -21,7 +21,7 @@ export class ListCategoryComponent extends ListBlade{
     this.setRestaurantsInForm();
   }
 
-
+  showDeleteAllButton = false;
   title = 'Categories';
   addurl = '/pages/categories/add'
   showEdit = false;

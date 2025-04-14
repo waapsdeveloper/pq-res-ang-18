@@ -20,6 +20,7 @@
           <a *ngIf="showCreate" [routerLink]="addurl" class="btn btn-sm fw-bold btn-primary d-flex align-items-center gap-2"><i
               class="ti ti-plus"></i> Create</a>
           <!--end::Add customer-->
+          <button *ngIf="showDeleteAll" type="button" class="btn btn-sm fw-bold btn-warning d-flex align-items-center gap-2" (click)="onDeleteAll.emit()"><i class="ti ti-trash"></i> Delete Selected</button>
         </div>
     </div>
   </div>
