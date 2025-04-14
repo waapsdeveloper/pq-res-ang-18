@@ -17,7 +17,7 @@ export class ListOrdersComponent extends ListBlade {
   title = 'Orders';
   addurl = '/pages/orders/add';
   showEdit: boolean = false;
-  columns: any[] = ['Order Id', 'Customer', 'Role', 'Phone No', 'Total Price', 'Final Price',  'Table No', 'Type', 'Status'];
+  columns: any[] = ['Order Id', 'Customer', 'Price', 'Table No', 'Type', 'Status'];
   statuses = ['pending', 'confirmed', 'preparing', 'ready_for_pickup', 'out_for_delivery', 'delivered', 'completed', 'cancelled'];
   selectedStatus = '';
   override model = {
@@ -47,7 +47,7 @@ export class ListOrdersComponent extends ListBlade {
           className: 'col-md-2 col-12'
         },
         {
-          key: 'Customer_name',
+          key: 'customer_name',
           type: 'input',
           props: {
             label: 'Customer Name',
@@ -57,32 +57,32 @@ export class ListOrdersComponent extends ListBlade {
           },
           className: 'col-md-2 col-12'
         },
-        {
-          key: 'phone',
-          type: 'input',
-          props: {
-            label: 'Phone',
-            placeholder: 'Enter phone number',
-            required: false,
-            type: 'tel',
-            pattern: '\\d{11}',
-            title: 'Enter a valid 10-digit phone number'
-          },
-          className: 'col-md-2 col-12'
-        },
-        {
-          key: 'total_price',
-          type: 'input',
-          props: {
-            label: 'Total Price',
-            placeholder: 'Enter total price',
-            required: false,
-            type: 'number',
-            min: 0,
-            step: 0.01 // For decimal prices
-          },
-          className: 'col-md-2 col-12'
-        },
+        // {
+        //   key: 'phone',
+        //   type: 'input',
+        //   props: {
+        //     label: 'Phone',
+        //     placeholder: 'Enter phone number',
+        //     required: false,
+        //     type: 'tel',
+        //     pattern: '\\d{11}',
+        //     title: 'Enter a valid 10-digit phone number'
+        //   },
+        //   className: 'col-md-2 col-12'
+        // },
+        // {
+        //   key: 'total_price',
+        //   type: 'input',
+        //   props: {
+        //     label: 'Total Price',
+        //     placeholder: 'Enter total price',
+        //     required: false,
+        //     type: 'number',
+        //     min: 0,
+        //     step: 0.01 // For decimal prices
+        //   },
+        //   className: 'col-md-2 col-12'
+        // },
         {
           key: 'table',
           type: 'input',

@@ -3,7 +3,7 @@
     <!--begin::Card header-->
     <!--begin::Card header-->
     <!--begin::Card body-->
-    <div class="card-body">
+    <div class="card-body row">
       <div class="d-flex flex-row justify-content-end mb-9">
         <div class="col-lg-3 d-flex align-items-center gap-3">
           <!-- Dropdown with col-3 -->
@@ -17,108 +17,99 @@
         </div>
       </div>
 
-      <!--begin::Row-->
-      <div class="row mb-7">
-        <!--begin::Label-->
-        <label class="col-lg-4 fw-normal text-muted">Customer Name</label>
-        <!--end::Label-->
-        <!--begin::Col-->
-        <div class="col-lg-8">
-          <span class="fw-medium fs-6 text-gray-800">{{ item?.customer }}</span>
+      <div class="col-md-6 col-12">
+        <!--begin::Row-->
+        <div class="row mb-7">
+          <!--begin::Label-->
+          <label class="col-lg-4 fw-normal text-muted">Customer Name</label>
+          <!--end::Label-->
+          <!--begin::Col-->
+          <div class="col-lg-8">
+            <span class="fw-medium fs-6 text-gray-800">{{ item?.customer }}</span>
+          </div>
+          <!--end::Col-->
         </div>
-        <!--end::Col-->
-      </div>
-      <!--end::Row-->
-      <!--begin::Input group-->
-      <div class="row mb-7">
-        <!--begin::Label-->
-        <label class="col-lg-4 fw-normal text-muted">Order Number</label>
-        <!--end::Label-->
-        <!--begin::Col-->
-        <div class="col-lg-8 fv-row">
-          <span class="fw-medium text-gray-800 fs-6">{{ item?.order_number }}</span>
+        <!--end::Row-->
+        <!--begin::Input group-->
+        <div class="row mb-7">
+          <!--begin::Label-->
+          <label class="col-lg-4 fw-normal text-muted">Order Number</label>
+          <!--end::Label-->
+          <!--begin::Col-->
+          <div class="col-lg-8 fv-row">
+            <span class="fw-medium text-gray-800 fs-6">{{ item?.order_number }}</span>
+          </div>
+          <!--end::Col-->
         </div>
-        <!--end::Col-->
-      </div>
-      <div class="row mb-7">
-        <!--begin::Label-->
-        <label class="col-lg-4 fw-normal text-muted">Payment Method</label>
-        <!--end::Label-->
-        <!--begin::Col-->
-        <div class="col-lg-8 fv-row">
-          <span class="fw-medium text-gray-800 fs-6">{{ item?.payment_method }}</span>
+        <div class="row mb-7">
+          <!--begin::Label-->
+          <label class="col-lg-4 fw-normal text-muted">Payment Method</label>
+          <!--end::Label-->
+          <!--begin::Col-->
+          <div class="col-lg-8 fv-row">
+            <span class="fw-medium text-gray-800 fs-6">{{ item?.payment_method }}</span>
+          </div>
+          <!--end::Col-->
         </div>
-        <!--end::Col-->
-      </div>
-      <div class="row mb-7">
-        <!--begin::Label-->
-        <label class="col-lg-4 fw-normal text-muted">Order Type</label>
-        <!--end::Label-->
-        <!--begin::Col-->
-        <div class="col-lg-8 fv-row">
-          <span class="fw-medium text-gray-800 fs-6">{{ item?.order_type }}</span>
+        <div class="row mb-7">
+          <!--begin::Label-->
+          <label class="col-lg-4 fw-normal text-muted">Order Type</label>
+          <!--end::Label-->
+          <!--begin::Col-->
+          <div class="col-lg-8 fv-row">
+            <span class="fw-medium text-gray-800 fs-6">{{ item?.order_type }}</span>
+          </div>
+          <!--end::Col-->
         </div>
-        <!--end::Col-->
-      </div>
-      <!--end::Input group-->
-      <!--begin::Input group-->
-      <div class="row mb-7">
-        <!--begin::Label-->
-        <label class="col-lg-4 fw-normal text-muted">
-          Contact Phone
-          <i
-            class="fas fa-exclamation-circle ms-1 fs-7"
-            data-bs-toggle="tooltip"
-            aria-label="Phone number must be active"
-            data-kt-initialized="1"
-          ></i>
-        </label>
-        <!--end::Label-->
-        <!--begin::Col-->
-        <div class="col-lg-8 d-flex align-items-center">
-          <span class="fw-medium fs-6 text-gray-800 me-2">{{item?.dial_code}} {{ item?.customer_phone }}</span>
+        <!--end::Input group-->
+        <!--begin::Input group-->
+        <div class="row mb-7">
+          <!--begin::Label-->
+          <label class="col-lg-4 fw-normal text-muted">
+            Contact Phone
+            <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
+              aria-label="Phone number must be active" data-kt-initialized="1"></i>
+          </label>
+          <!--end::Label-->
+          <!--begin::Col-->
+          <div class="col-lg-8 d-flex align-items-center">
+            <span class="fw-medium fs-6 text-gray-800 me-2">{{item?.dial_code}} {{ item?.customer_phone }}</span>
+          </div>
+          <!--end::Col-->
         </div>
-        <!--end::Col-->
-      </div>
-      <div class="row mb-7">
-        <!--begin::Label-->
-        <label class="col-lg-4 fw-normal text-muted">
-          Type
-          <i
-            class="fas fa-exclamation-circle ms-1 fs-7"
-            data-bs-toggle="tooltip"
-            aria-label="Phone number must be active"
-            data-kt-initialized="1"
-          ></i>
-        </label>
-        <!--end::Label-->
-        <!--begin::Col-->
-        <div class="col-lg-8 d-flex align-items-center">
-          <span class="fw-medium fs-6 text-gray-800 me-2">{{ item?.type }}</span>
+        <div class="row mb-7">
+          <!--begin::Label-->
+          <label class="col-lg-4 fw-normal text-muted">
+            Type
+            <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
+              aria-label="Phone number must be active" data-kt-initialized="1"></i>
+          </label>
+          <!--end::Label-->
+          <!--begin::Col-->
+          <div class="col-lg-8 d-flex align-items-center">
+            <span class="fw-medium fs-6 text-gray-800 me-2">{{ item?.type }}</span>
+          </div>
+          <!--end::Col-->
         </div>
-        <!--end::Col-->
-      </div>
 
-      <!--end::Input group-->
-      <div class="row mb-7">
-        <!--begin::Label-->
-        <label class="col-lg-4 fw-normal text-muted">Address</label>
-        <!--end::Label-->
-        <!--begin::Col-->
-        <div class="col-lg-8">
-          <span class="fw-medium fs-6 text-gray-800">{{ item?.delivery_address }}</span>
+        <!--end::Input group-->
+        <div class="row mb-7">
+          <!--begin::Label-->
+          <label class="col-lg-4 fw-normal text-muted">Address</label>
+          <!--end::Label-->
+          <!--begin::Col-->
+          <div class="col-lg-8">
+            <span class="fw-medium fs-6 text-gray-800">{{ item?.delivery_address }}</span>
+          </div>
+          <!--end::Col-->
         </div>
-        <!--end::Col-->
-      </div>
-      <div class="row mb-7">
-        <!--begin::Label-->
-        <label class="col-lg-4 fw-normal text-muted">Status</label>
-        <!--end::Label-->
-        <!--begin::Col-->
-        <div class="col-lg-8">
-          <span
-            class="badge fw-bold"
-            [ngClass]="{
+        <div class="row mb-7">
+          <!--begin::Label-->
+          <label class="col-lg-4 fw-normal text-muted">Status</label>
+          <!--end::Label-->
+          <!--begin::Col-->
+          <div class="col-lg-8">
+            <span class="badge fw-bold" [ngClass]="{
               'badge-pending': item?.status === 'Pending',
               'badge-confirmed': item?.status === 'Confirmed',
               'badge-preparing': item?.status === 'Preparing',
@@ -127,127 +118,125 @@
               'badge-delivered': item?.status === 'Delivered',
               'badge-completed': item?.status === 'Completed',
               'badge-cancelled': item?.status === 'Cancelled'
-            }"
-          >
-            {{ item?.status }}
-          </span>
+            }">
+              {{ item?.status }}
+            </span>
+          </div>
+          <!--end::Col-->
         </div>
-        <!--end::Col-->
+
+        <!--end::Input group-->
+        <div class="row mb-7">
+          <label class="col-lg-4 fw-normal text-muted">Total Price</label>
+          <div class="col-lg-8">
+            <span class="fw-medium fs-6 text-gray-800">${{ item?.total_price }}</span>
+          </div>
+        </div>
+        <div class="row mb-7">
+          <label class="col-lg-4 fw-normal text-muted">Coupon Code :</label>
+          <div class="col-lg-8">
+            <span class="fw-medium fs-6 text-gray-800">{{ item?.coupon_code }}</span>
+          </div>
+        </div>
+        <div class="row mb-7">
+          <label class="col-lg-4 fw-normal text-muted">Discounted Price</label>
+          <div class="col-lg-8">
+            <span class="fw-medium fs-6 text-gray-800">${{ item?.final_total }}</span>
+          </div>
+        </div>
+        <div class="row mb-7">
+          <label class="col-lg-4 fw-normal text-muted">Discount (if any)</label>
+          <div class="col-lg-8">
+            <span class="fw-medium fs-6 text-gray-800">${{ item?.discount_value }}</span>
+          </div>
+        </div>
+        <div class="row mb-7">
+          <label class="col-lg-4 fw-normal text-muted">Tax</label>
+          <div class="col-lg-8">
+            <span class="fw-medium fs-6 text-gray-800">${{ item?.tax }}</span>
+          </div>
+        </div>
+        <div class="row mb-7">
+          <label class="col-lg-4 fw-normal text-muted">Important Notes</label>
+          <div class="col-lg-8">
+            <span class="fw-medium fs-6 text-gray-800">{{ item?.notes }}</span>
+          </div>
+        </div>
+        <div class="row mb-7">
+          <label class="col-lg-4 fw-normal text-muted">Table No</label>
+          <div class="col-lg-8">
+            <span class="fw-medium fs-6 text-gray-800">{{ item?.table_no }}</span>
+          </div>
+        </div>
       </div>
 
-      <!--end::Input group-->
-      <div class="row mb-7">
-        <label class="col-lg-4 fw-normal text-muted">Total Price</label>
-        <div class="col-lg-8">
-          <span class="fw-medium fs-6 text-gray-800">${{ item?.total_price }}</span>
-        </div>
-      </div>
-      <div class="row mb-7">
-        <label class="col-lg-4 fw-normal text-muted">Coupon Code :</label>
-        <div class="col-lg-8">
-          <span class="fw-medium fs-6 text-gray-800">{{ item?.coupon_code }}</span>
-        </div>
-      </div>
-      <div class="row mb-7">
-        <label class="col-lg-4 fw-normal text-muted">Discounted Price</label>
-        <div class="col-lg-8">
-          <span class="fw-medium fs-6 text-gray-800">${{ item?.final_total }}</span>
-        </div>
-      </div>
-      <div class="row mb-7">
-        <label class="col-lg-4 fw-normal text-muted">Discount (if any)</label>
-        <div class="col-lg-8">
-          <span class="fw-medium fs-6 text-gray-800">${{ item?.discount_value }}</span>
-        </div>
-      </div>
-      <div class="row mb-7">
-        <label class="col-lg-4 fw-normal text-muted">Tax</label>
-        <div class="col-lg-8">
-          <span class="fw-medium fs-6 text-gray-800">${{ item?.tax }}</span>
-        </div>
-      </div>
-      <div class="row mb-7">
-        <label class="col-lg-4 fw-normal text-muted">Important Notes</label>
-        <div class="col-lg-8">
-          <span class="fw-medium fs-6 text-gray-800">{{ item?.notes }}</span>
-        </div>
-      </div>
-      <div class="row mb-7">
-        <label class="col-lg-4 fw-normal text-muted">Table No</label>
-        <div class="col-lg-8">
-          <span class="fw-medium fs-6 text-gray-800">{{ item?.table_no }}</span>
-        </div>
-      </div>
+      <div class="col-md-6 col-12">
+        <!--begin::Input group-->
+        <div class="row mb-7">
+          <div class="col-lg-12">
+            <table class="table table-bordered mb-4">
+              <thead>
+                <tr>
+                  <th class="fw-normal text-muted">Product Name</th>
+                  <th class="fw-normal text-muted">Variations</th>
 
-      <!--begin::Input group-->
-      <div class="row mb-7">
-        <div class="col-lg-12">
-          <table class="table table-bordered mb-4">
-            <thead>
-              <tr>
-                <th class="fw-normal text-muted">Product Name</th>
-                <th class="fw-normal text-muted">Variations</th>
+                  <th class="fw-normal text-muted">Product Quantity</th>
+                  <th class="fw-normal text-muted">Price</th>
+                  <th class="fw-normal text-muted">Total Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let product of item?.products">
+                  <td class="fw-medium fs-6 text-gray-800">{{ product?.product_name }}</td>
+                  <td class="">
+                    <ng-template #variation>
+                      <div class="row">
+                        <!-- Loop through Variations -->
+                        <div class="col-12" *ngFor="let vari of product?.variation">
+                          <!-- Display only if the Variation is Selected -->
+                          <div *ngFor="let variation of vari">
+                            <!-- Variation Type as Heading -->
+                            <div class="fw-bold fs-5">{{ variation.type }}</div>
 
-                <th class="fw-normal text-muted">Product Quantity</th>
-                <th class="fw-normal text-muted">Price</th>
-                <th class="fw-normal text-muted">Total Price</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let product of item?.products">
-                <td class="fw-medium fs-6 text-gray-800">{{ product?.product_name }}</td>
-                <td class="">
-                  <ng-template #variation>
-                    <div class="row">
-                      <!-- Loop through Variations -->
-                      <div class="col-12" *ngFor="let vari of product?.variation">
-                        <!-- Display only if the Variation is Selected -->
-                        <div *ngFor="let variation of vari">
-                          <!-- Variation Type as Heading -->
-                          <div class="fw-bold fs-5">{{ variation.type }}</div>
-
-                          <!-- Loop through Options
+                            <!-- Loop through Options
                            for the Current Variation -->
-                          <div *ngFor="let option of variation.options" class="ms-4">
-                            <div *ngIf="option.selected">
-                              <!-- Display Option Name, Description, and Price -->
-                              <span class="fw-semibold">{{ option.name }}</span>
-                              <br />
-                              <span class="text-muted">- {{ option.description }}</span>
-                              <span class="text-success">(${{ option.price }})</span>
+                            <div *ngFor="let option of variation.options" class="ms-4">
+                              <div *ngIf="option.selected">
+                                <!-- Display Option Name, Description, and Price -->
+                                <span class="fw-semibold">{{ option.name }}</span>
+                                <br />
+                                <span class="text-muted">- {{ option.description }}</span>
+                                <span class="text-success">(${{ option.price }})</span>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </ng-template>
+                    </ng-template>
 
-                  <ng-template #variationTitle>
-                    <div class="fw-bold fs-3">Variation Details</div>
-                  </ng-template>
+                    <ng-template #variationTitle>
+                      <div class="fw-bold fs-3">Variation Details</div>
+                    </ng-template>
 
-                  <button
-                    class="btn btn-sm"
-                    [ngbPopover]="variation"
-                    [popoverTitle]="variationTitle"
-                    triggers="manual"
-                    [autoClose]="'outside'"
-                    placement="top"
-                    #variationPopover="ngbPopover"
-                    (click)="closeAllPopovers(); variationPopover.open(); registerPopover(variationPopover)"
-                  >
-                    <i class="ti ti-versions" style="color: #000; font-size: 22px"></i>
-                  </button>
-                </td>
+                    <button class="btn btn-sm" [ngbPopover]="variation" [popoverTitle]="variationTitle"
+                      triggers="manual" [autoClose]="'outside'" placement="top" #variationPopover="ngbPopover"
+                      (click)="closeAllPopovers(); variationPopover.open(); registerPopover(variationPopover)">
+                      <i class="ti ti-versions" style="color: #000; font-size: 22px"></i>
+                    </button>
+                  </td>
 
-                <td class="fw-medium fs-6 text-gray-800">{{ product?.quantity }}</td>
-                <td class="fw-medium fs-6 text-gray-800">${{ product?.price }}</td>
-                <td class="fw-medium fs-6 text-gray-800">${{ product?.quantity * product?.price }}</td>
-              </tr>
-            </tbody>
-          </table>
+                  <td class="fw-medium fs-6 text-gray-800">{{ product?.quantity }}</td>
+                  <td class="fw-medium fs-6 text-gray-800">${{ product?.price }}</td>
+                  <td class="fw-medium fs-6 text-gray-800">${{ product?.quantity * product?.price }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
+
+
+
     </div>
     <!--end::Card body-->
   </div>
