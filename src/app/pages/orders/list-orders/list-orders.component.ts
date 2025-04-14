@@ -147,6 +147,8 @@ export class ListOrdersComponent extends ListBlade {
     }
   
     this.deleteAll($event);
+    this.showDeleteAllButton=false;
+    this.selectAll=false;
   }
   
   initialize() {
