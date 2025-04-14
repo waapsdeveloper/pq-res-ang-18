@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { EventsService } from 'src/app/services/events.service';
 import { UtilityService } from 'src/app/services/utility.service';
 
 @Component({
@@ -18,6 +19,7 @@ export class KtAppListPageTableComponent {
     setTimeout(() => {
       this.loading = false;
     }, 1700);
+    
   }
 
   @Input('columns') columns: any[] = [];
@@ -32,7 +34,11 @@ export class KtAppListPageTableComponent {
   @Output('changeSelectAll') changeSelectAll: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output('actionDeleteAll') actionDeleteAll: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(private utility: UtilityService) {}
+  constructor(private utility: UtilityService, private events: EventsService) {
+    this.events.subscribe('uncheck-select-all', () => {
+      this.selectAll = false
+    });
+  }
 
   getPages(): number[] {
     const start = this.visiblePageGroup * this.pageGroupSize + 1;
