@@ -1,4 +1,4 @@
-import { Component, Injector } from '@angular/core';
+import { ChangeDetectorRef, Component, Injector } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { ListBlade } from 'src/app/abstract/list-blade';
 import { NavService } from 'src/app/services/basic/nav.service';
@@ -7,6 +7,7 @@ import { UsersService } from 'src/app/services/users.service';
 import { UtilityService } from 'src/app/services/utility.service';
 import { RtableService } from '../../rtables/rtable.service';
 import { MessageService } from '../messages.service';
+import { EventsService } from 'src/app/services/events.service';
 
 @Component({
   selector: 'app-list-message',
@@ -72,22 +73,29 @@ export class ListMessageComponent extends ListBlade {
     private nav: NavService,
     private utility: UtilityService,
     private users: UsersService,
-    private network: NetworkService
+    private network: NetworkService,
+    private cdr: ChangeDetectorRef,
+    public events: EventsService
   ) {
     super(injector, crudService);
     this.initialize();
   }
 
-  async delete($event: any) {
+  async onDeleteAll($event: any) {
     const flag = await this.utility.presentConfirm('Delete', 'Cancel', 'Delete All Record', 'Are you sure you want to delete all?');
-  
+
     if (!flag) {
       return;
     }
-  
+
     this.deleteAll($event);
+    this.showDeleteAllButton = false;
+    this.events.publish('uncheck-select-all', {
+      selectAll: false
+    });
+    this.cdr.detectChanges();
   }
-  
+
   initialize() {
     this.crudService.getList('', 1);
     const u = this.users.getUser();

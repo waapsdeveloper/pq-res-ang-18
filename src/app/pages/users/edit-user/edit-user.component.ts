@@ -140,7 +140,7 @@ export class EditUserComponent implements OnInit {
           key: 'image',
           type: 'input',
           props: {
-            label: 'Image',
+            label: 'Profile Picture',
             placeholder: 'Enter image URL',
             type: 'file',
             accept: 'image/*',
