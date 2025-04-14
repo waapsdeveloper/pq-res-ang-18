@@ -15,7 +15,7 @@ export class AddOrderService {
   order_notes: string = '';
   total_price: number = 0;
   selectedCategory = null;
-  selectedTableId = -1;
+  selectedTableId = null;
   orderType = '';
   selected_products: any[] = [];
   paymentMethod: any;
