@@ -14,6 +14,7 @@ import { VariationsService } from '../variations.service';
   styleUrl: './list-variations.component.scss'
 })
 export class ListVariationsComponent extends ListBlade {
+  showDeleteAllButton = false;
   title = 'Variations';
   addurl = '/pages/variations/add';
   override selectAll: boolean = false;
@@ -78,8 +79,17 @@ export class ListVariationsComponent extends ListBlade {
     this.initialize();
   }
 
-   initialize() {
-     this.crudService.getList('', 1);
+  initialize() {
+    this.crudService.getList('', 1);
+  }
+  async delete($event: any) {
+    const flag = await this.utility.presentConfirm('Delete', 'Cancel', 'Delete All Record', 'Are you sure you want to delete all?');
+
+    if (!flag) {
+      return;
+    }
+
+    this.deleteAll($event);
   }
 
   editRow(index: number) {}

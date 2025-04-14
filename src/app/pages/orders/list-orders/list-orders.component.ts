@@ -14,6 +14,7 @@ import { OrderService } from '../orders.service';
   styleUrl: './list-orders.component.scss'
 })
 export class ListOrdersComponent extends ListBlade {
+  showDeleteAllButton =false;
   title = 'Orders';
   addurl = '/pages/orders/add';
   showEdit: boolean = false;
@@ -138,6 +139,18 @@ export class ListOrdersComponent extends ListBlade {
     this.initialize();
   }
 
+  async delete($event: any) {
+    const flag = await this.utility.presentConfirm('Delete', 'Cancel', 'Delete All Record', 'Are you sure you want to delete all?');
+  
+    if (!flag) {
+      return;
+    }
+  
+    this.deleteAll($event);
+    this.showDeleteAllButton=false;
+    this.selectAll=false;
+  }
+  
   initialize() {
     this.crudService.getList('', 1);
     const u = this.users.getUser();

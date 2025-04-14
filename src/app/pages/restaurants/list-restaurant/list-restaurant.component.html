@@ -1,4 +1,10 @@
-<app-kt-list-page [title]="'Branches'" [addurl]="'/pages/restaurants/add'" (onFilter)="toggleFilters()">
+<app-kt-list-page
+  [title]="'Branches'"
+  [addurl]="'/pages/restaurants/add'"
+  (onFilter)="toggleFilters()"
+  [showDeleteAll]="showDeleteAllButton"
+  (onDeleteAll)="delete($event)"
+>
   <form class="mt-3" [formGroup]="form" *ngIf="crudService.filters">
     <formly-form [form]="form" [fields]="fields" [model]="model" (modelChange)="debouncedSubmitFilters($event)"></formly-form>
   </form>
@@ -11,8 +17,7 @@
     [totalPages]="crudService.lastPage"
     (pageChange)="changePage($event)"
     [selectAll]="selectAll"
-    (changeSelectAll)="changeSelectAll($event)"
-    (actionDeleteAll)="deleteAll($event)"
+    (changeSelectAll)="changeSelectAll($event); showDeleteAllButton = $event"
   >
     <tr *ngFor="let item of crudService.list; let i = index">
       <td>
@@ -39,16 +44,17 @@
       </td>
       <td>
         <div class="d-flex">
-          <div class="badge fw-bold me-auto" 
-               [ngClass]="{
-                 'badge-active': item.status === 'Active',
-                 'badge-inactive': item.status === 'Inactive',
-               }">
+          <div
+            class="badge fw-bold me-auto"
+            [ngClass]="{
+              'badge-active': item.status === 'Active',
+              'badge-inactive': item.status === 'Inactive'
+            }"
+          >
             {{ item.status }}
           </div>
         </div>
       </td>
-      
 
       <!-- <ng-content></ng-content> -->
       <!--begin::Action=-->
@@ -56,7 +62,7 @@
         <div class="d-flex flex-row justify-content-start align-items-center gap-3">
           <ng-container *ngIf="item.is_active === '1'; else notDefault">
             <i
-             (click)="default()"
+              (click)="default()"
               class="ti ti-check"
               style="font-size: 20px; cursor: pointer; border: 1px solid #1b2068; color: #1b2068; padding: 4px; border-radius: 4px"
             ></i>

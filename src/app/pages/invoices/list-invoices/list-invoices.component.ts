@@ -18,7 +18,7 @@ export class ListInvoicesComponent  extends ListBlade{
   showEdit = false;
   title = 'Invoices';
   addurl = '/pages/invoices/add';
-
+  showDeleteAllButton = false;
 
  override model = {
     invoice_no: '',
@@ -72,6 +72,13 @@ export class ListInvoicesComponent  extends ListBlade{
     if (u.role_id == 1 || u.role_id == 2) {
       this.showEdit = true;
     }
+  }
+  async delete($event: any) {
+    const flag = await this.utility.presentConfirm('Delete', 'Cancel', 'Delete All Record', 'Are you sure you want to delete all?');
+    if (!flag) {
+      return;
+    }
+    this.deleteAll($event);
   }
 
 

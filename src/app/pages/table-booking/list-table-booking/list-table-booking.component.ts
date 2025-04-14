@@ -13,25 +13,17 @@ import { UtilityService } from 'src/app/services/utility.service';
   styleUrl: './list-table-booking.component.scss'
 })
 export class ListTableBookingComponent extends ListBlade {
+  showDeleteAllButton = false;
   title = 'Table-Booking';
-  addurl = '/pages/table-booking/add'
+  addurl = '/pages/table-booking/add';
 
-  columns: any[] = [
-    'Name',
-    'Role',
-    'Phone',
-    'Email',
-    'Booking Date',
-    'Booking Time',
-    'Seats',
-    'Status',
-  ]
+  columns: any[] = ['Name', 'Role', 'Phone', 'Email', 'Booking Date', 'Booking Time', 'Seats', 'Status'];
 
   override model = {
     name: '',
     booking_start: '',
     no_of_seats: '',
-    status: 'active',
+    status: 'active'
   };
 
   fields: FormlyFieldConfig[] = [
@@ -43,7 +35,7 @@ export class ListTableBookingComponent extends ListBlade {
           type: 'input',
           props: {
             label: 'Name',
-            placeholder: '',
+            placeholder: ''
           },
           className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
         },
@@ -52,7 +44,7 @@ export class ListTableBookingComponent extends ListBlade {
           type: 'input',
           props: {
             label: 'Booking Time',
-            placeholder: '',
+            placeholder: ''
           },
           className: 'col-md-4 col-12'
         },
@@ -67,30 +59,34 @@ export class ListTableBookingComponent extends ListBlade {
             ]
           },
           className: 'formly-select-wrapper-3232 col-md-4 col-12'
-        },
-
-      ],
-    },
+        }
+      ]
+    }
   ];
   constructor(
     injector: Injector,
     public override crudService: TableBookingService,
     private nav: NavService,
-    private utility: UtilityService,
+    private utility: UtilityService
   ) {
     super(injector, crudService);
     this.initialize();
+  }
+  async delete($event: any) {
+    const flag = await this.utility.presentConfirm('Delete', 'Cancel', 'Delete All Record', 'Are you sure you want to delete all?');
+
+    if (!flag) {
+      return;
+    }
+
+    this.deleteAll($event);
   }
 
   initialize() {
     this.crudService.getList('', 1);
   }
 
-
-
-  editRow(index: number) {
-
-  }
+  editRow(index: number) {}
 
   async deleteRow(index: number) {
     try {
@@ -104,7 +100,7 @@ export class ListTableBookingComponent extends ListBlade {
     let item = this.crudService.list[i];
     this.nav.push('/pages/table-booking/view/' + item.id);
   }
-  openEditDetails(i){
+  openEditDetails(i) {
     let item = this.crudService.list[i];
     this.nav.push('/pages/table-booking/edit/' + item.id);
   }
@@ -114,7 +110,4 @@ export class ListTableBookingComponent extends ListBlade {
     const max = 100;
     return Math.round(Math.random() * (max - min) + min); // Generates a random number between 50 and 100
   }
-
-
-
 }

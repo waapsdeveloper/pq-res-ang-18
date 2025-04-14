@@ -1,11 +1,13 @@
-<app-kt-list-page  [showCreate]="false" [title]="'Messages'" [addurl]="'/pages/messages/add'" (onFilter)="toggleFilters() ">
+<app-kt-list-page
+  [showCreate]="false"
+  [title]="'Messages'"
+  [addurl]="'/pages/messages/add'"
+  (onFilter)="toggleFilters()"
+  [showDeleteAll]="showDeleteAllButton"
+  (onDeleteAll)="delete($event)"
+>
   <form class="mt-3" [formGroup]="form" *ngIf="crudService.filters">
-    <formly-form 
-      [form]="form" 
-      [fields]="fields" 
-      [model]="model" 
-      (modelChange)="debouncedSubmitFilters($event)">
-    </formly-form>
+    <formly-form [form]="form" [fields]="fields" [model]="model" (modelChange)="debouncedSubmitFilters($event)"></formly-form>
   </form>
   <hr *ngIf="crudService.filters" />
 
@@ -16,14 +18,12 @@
     (pageChange)="changePage($event)"
     (pageChange)="changePage($event)"
     [selectAll]="selectAll"
-    (changeSelectAll)="changeSelectAll($event)"
-    (actionDeleteAll)="deleteAll($event)"
+    (changeSelectAll)="changeSelectAll($event); showDeleteAllButton = $event"
   >
     <tr *ngFor="let item of crudService.list; let i = index">
       <td>
         <div class="d-flex align-items-center">
           <!--begin::Thumbnail-->
-
 
           <!--end::Thumbnail-->
           <div class="">
@@ -39,14 +39,14 @@
       <td>
         <div class="d-flex">
           <div class="">
-            <a class="text-hover-primary fs-5 fw-bold mb-1">{{ item?.email}}</a>
+            <a class="text-hover-primary fs-5 fw-bold mb-1">{{ item?.email }}</a>
           </div>
         </div>
       </td>
       <td>
         <div class="d-flex">
           <div class="">
-            <a class="text-hover-primary fs-5 fw-bold mb-1">{{item?.phone}}</a>
+            <a class="text-hover-primary fs-5 fw-bold mb-1">{{ item?.phone }}</a>
           </div>
         </div>
       </td>
@@ -54,18 +54,17 @@
         <div class="d-flex">
           <div class="">
             <a class="text-hover-primary fs-5 fw-bold mb-1">
-              {{ item.message | slice:0:40 }}{{ item.message.length > 35 ? '...' : '' }}
+              {{ item.message | slice: 0 : 40 }}{{ item.message.length > 35 ? '...' : '' }}
             </a>
           </div>
         </div>
       </td>
 
-
       <!-- <ng-content></ng-content> -->
       <!--begin::Action=-->
       <td class="text-start">
         <div class="d-flex flex-row justify-content-start align-items-center gap-3">
-          <i class="ti ti-eye  view-icon" style="font-size: 20px; cursor: pointer" (click)="openDetails(i)"></i>
+          <i class="ti ti-eye view-icon" style="font-size: 20px; cursor: pointer" (click)="openDetails(i)"></i>
           <!-- <i class="edit-icon ti ti-edit" style="font-size: 24px; cursor: pointer" (click)="openEditDetails(i)"></i> -->
           <i *ngIf="showEdit" class="ti ti-trash trash-icon" style="font-size: 20px; cursor: pointer" (click)="deleteRow(i)"></i>
         </div>

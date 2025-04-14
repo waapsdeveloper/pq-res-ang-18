@@ -14,6 +14,7 @@ import { MessageService } from '../messages.service';
   styleUrl: './list-message.component.scss'
 })
 export class ListMessageComponent extends ListBlade {
+  showDeleteAllButton = false;
   columns: any[] = ['Name', 'Email', 'Phone', 'Message'];
   title = 'Tables';
   showEdit = false;
@@ -77,6 +78,16 @@ export class ListMessageComponent extends ListBlade {
     this.initialize();
   }
 
+  async delete($event: any) {
+    const flag = await this.utility.presentConfirm('Delete', 'Cancel', 'Delete All Record', 'Are you sure you want to delete all?');
+  
+    if (!flag) {
+      return;
+    }
+  
+    this.deleteAll($event);
+  }
+  
   initialize() {
     this.crudService.getList('', 1);
     const u = this.users.getUser();
