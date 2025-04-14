@@ -39,9 +39,16 @@
       </td>
       <td>
         <div class="d-flex">
-          <div class="badge badge-light-primary fw-bold me-auto">{{ item.status }}</div>
+          <div class="badge fw-bold me-auto" 
+               [ngClass]="{
+                 'badge-active': item.status === 'Active',
+                 'badge-inactive': item.status === 'Inactive',
+               }">
+            {{ item.status }}
+          </div>
         </div>
       </td>
+      
 
       <!-- <ng-content></ng-content> -->
       <!--begin::Action=-->

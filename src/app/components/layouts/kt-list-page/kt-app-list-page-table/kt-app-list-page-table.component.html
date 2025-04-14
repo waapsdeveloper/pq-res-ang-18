@@ -55,23 +55,34 @@
   </div>
 
   <!-- Pagination numbers -->
-  <div class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
-    <div class="dataTables_paginate paging_simple_numbers" id="users-list-datatable_paginate">
-      <ul class="pagination">
-        <li class="paginate_button page-item previous" [class.disabled]="currentPage === 1">
-          <a href="javascript:void(0)" class="page-link" (click)="currentPage > 1 && pageChange.emit(currentPage - 1)">Previous</a>
-        </li>
+  <div class="col-sm-12 col-md-7  d-flex justify-content-end">
+    <ul class="pagination mb-0">
+      <!-- Previous Page Button -->
+      <li class="paginate_button page-item previous" [class.disabled]="currentPage === 1">
+        <a href="javascript:void(0)" class="page-link" (click)="currentPage > 1 && pageChange.emit(-(-currentPage))">Previous</a>
+      </li>
 
-        <li *ngFor="let p of getPages()" class="paginate_button page-item" [class.active]="p === currentPage">
-          <a href="javascript:void(0)" class="page-link" (click)="pageChange.emit(p)">{{ p }}</a>
-        </li>
+      <!-- Ellipsis for Previous Group -->
+      <li *ngIf="visiblePageGroup > 0" class="paginate_button page-item">
+        <a href="javascript:void(0)" class="page-link" (click)="goToPrevPageGroup()">...</a>
+      </li>
 
-        <li class="paginate_button page-item next" [class.disabled]="currentPage === getPages().length">
-          <a href="javascript:void(0)" class="page-link" (click)="currentPage < getPages().length && pageChange.emit(currentPage + 1)">
-            Next
-          </a>
-        </li>
-      </ul>
-    </div>
+      <!-- Page Numbers -->
+      <li *ngFor="let p of getPages()" class="paginate_button page-item" [class.active]="p === currentPage">
+        <a href="javascript:void(0)" class="page-link" (click)="currentPage = p; pageChange.emit(p)">
+          {{ p }}
+        </a>
+      </li>
+
+      <!-- Ellipsis for Next Group -->
+      <li *ngIf="(visiblePageGroup + 1) * pageGroupSize < totalPages" class="paginate_button page-item">
+        <a href="javascript:void(0)" class="page-link" (click)="goToNextPageGroup()">...</a>
+      </li>
+
+      <!-- Next Page Button -->
+      <li class="paginate_button page-item next" [class.disabled]="currentPage === totalPages">
+        <a href="javascript:void(0)" class="page-link" (click)="currentPage < totalPages && pageChange.emit(+(+currentPage))">Next</a>
+      </li>
+    </ul>
   </div>
 </div>
