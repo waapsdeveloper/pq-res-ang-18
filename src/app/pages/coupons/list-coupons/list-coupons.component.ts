@@ -18,6 +18,7 @@ export class ListCouponsComponent extends ListBlade {
   title = 'Coupon';
   showEdit = false;
   addurl = '/pages/coupons/add';
+  showDeleteAllButton = false;
 
   override form = new FormGroup({});
   override model = {
@@ -152,6 +153,13 @@ export class ListCouponsComponent extends ListBlade {
     }
   }
 
+  async delete($event: any) {
+    const flag = await this.utility.presentConfirm('Delete', 'Cancel', 'Delete All Record', 'Are you sure you want to delete all?');
+    if (!flag) {
+      return;
+    }
+    this.deleteAll($event);
+  }
   editRow(index: number) {}
 
   async deleteRow(index: number) {

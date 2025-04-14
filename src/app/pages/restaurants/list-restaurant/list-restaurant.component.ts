@@ -15,6 +15,7 @@ import { RestaurantService } from '../restaurant.service';
   encapsulation: ViewEncapsulation.None
 })
 export class ListRestaurantComponent extends ListBlade {
+  showDeleteAllButton = false;
   title = 'Branches';
   addurl = '/pages/restaurants/add';
   override selectAll: boolean = false;
@@ -78,6 +79,15 @@ export class ListRestaurantComponent extends ListBlade {
     super(injector, crudService);
     this.initialize();
   }
+  async delete($event: any) {
+    const flag = await this.utility.presentConfirm('Delete', 'Cancel', 'Delete All Record', 'Are you sure you want to delete all?');
+
+    if (!flag) {
+      return;
+    }
+
+    this.deleteAll($event);
+  }
 
   initialize() {
     this.crudService.getList('', 1);
@@ -139,7 +149,7 @@ export class ListRestaurantComponent extends ListBlade {
     this.utility.presentSuccessToast('Default Restaurant Set Successfully!');
     this.crudService.getList('', 1);
   }
-  default(){
+  default() {
     this.utility.presentSuccessToast('Already Selected As Default Restaurant!');
   }
 }

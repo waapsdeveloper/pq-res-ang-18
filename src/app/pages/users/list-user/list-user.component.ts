@@ -13,6 +13,7 @@ import { UtilityService } from 'src/app/services/utility.service';
   styleUrl: './list-user.component.scss'
 })
 export class ListUserComponent extends ListBlade {
+  showDeleteAllButton =false;
   title = 'Users';
   addurl = '/pages/users/add';
 
@@ -140,6 +141,15 @@ export class ListUserComponent extends ListBlade {
     this.fields[0].fieldGroup[3].props.options = this.roles.map((role) => {
       return { value: role.id, label: role.name };
     });
+  }
+  async delete($event: any) {
+    const flag = await this.utility.presentConfirm('Delete', 'Cancel', 'Delete All Record', 'Are you sure you want to delete all?');
+  
+    if (!flag) {
+      return;
+    }
+  
+    this.deleteAll($event);
   }
   async setRoleInForm() {
     const res = await this.getRoles();

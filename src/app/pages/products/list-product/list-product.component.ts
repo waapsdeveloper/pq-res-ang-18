@@ -13,9 +13,10 @@ import { ActivatedRoute } from '@angular/router';
   selector: 'app-list-product',
   templateUrl: './list-product.component.html',
   styleUrl: './list-product.component.scss',
-  encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None
 })
 export class ListProductComponent extends ListBlade {
+  showDeleteAllButton = false;
   title = 'Products';
   showEdit = false;
   addurl = '/pages/products/add';
@@ -157,17 +158,23 @@ export class ListProductComponent extends ListBlade {
   ) {
     super(injector, crudService);
 
-
-
     this.initialize();
+  }
+  async delete($event: any) {
+    const flag = await this.utility.presentConfirm('Delete', 'Cancel', 'Delete All Record', 'Are you sure you want to delete all?');
+
+    if (!flag) {
+      return;
+    }
+
+    this.deleteAll($event);
   }
 
   initialize() {
-
     const params = this.nav.getQueryParams();
     console.log('ID from URL:', params);
 
-    if(params && params['category_id']){
+    if (params && params['category_id']) {
       this.category_id = params['category_id'];
       this.crudService.filters = params as any;
     }
@@ -180,7 +187,6 @@ export class ListProductComponent extends ListBlade {
   }
   ngOnInit(): void {
     this.setRestaurantsInForm();
-
   }
 
   async getRestaurants(): Promise<any[]> {

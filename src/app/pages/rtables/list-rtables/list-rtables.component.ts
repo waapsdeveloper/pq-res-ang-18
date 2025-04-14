@@ -14,7 +14,8 @@ import { UtilityService } from 'src/app/services/utility.service';
   styleUrl: './list-rtables.component.scss'
 })
 export class ListRtablesComponent extends ListBlade {
-  columns: any[] = ['Table No','Branch','No of seats','Floor', 'No of Orders', 'Status'];
+  showDeleteAllButton = false;
+  columns: any[] = ['Table No', 'Branch', 'No of seats', 'Floor', 'No of Orders', 'Status'];
   title = 'Tables';
   showEdit = false;
   addurl = '/pages/tables/add';
@@ -24,14 +25,13 @@ export class ListRtablesComponent extends ListBlade {
     noOfOrders: '',
     no_of_seats: '',
     floor: '',
-    location: '',
+    location: ''
   };
 
   fields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: 'row', // Bootstrap row
       fieldGroup: [
-
         {
           key: 'no_of_seats',
           type: 'input',
@@ -115,13 +115,21 @@ export class ListRtablesComponent extends ListBlade {
     private nav: NavService,
     private utility: UtilityService,
     private users: UsersService,
-    private network: NetworkService,
-
+    private network: NetworkService
   ) {
     super(injector, crudService);
     this.initialize();
   }
 
+  async delete($event: any) {
+    const flag = await this.utility.presentConfirm('Delete', 'Cancel', 'Delete All Record', 'Are you sure you want to delete all?');
+
+    if (!flag) {
+      return;
+    }
+
+    this.deleteAll($event);
+  }
   initialize() {
     this.crudService.getList('', 1);
     const u = this.users.getUser();
@@ -165,7 +173,6 @@ export class ListRtablesComponent extends ListBlade {
     }
   }
 
-
   editRow(index: number) {}
 
   async deleteRow(index: number) {
@@ -182,9 +189,8 @@ export class ListRtablesComponent extends ListBlade {
     let item = this.crudService.list[i];
     this.nav.push('/pages/tables/view/' + item.id);
   }
-  openEditDetails(i){
+  openEditDetails(i) {
     let item = this.crudService.list[i];
     this.nav.push('/pages/tables/edit/' + item.id);
   }
-
 }

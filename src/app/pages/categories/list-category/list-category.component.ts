@@ -8,33 +8,25 @@ import { ListBlade } from 'src/app/abstract/list-blade';
 import { UtilityService } from 'src/app/services/utility.service';
 import { CategoryService } from '../category.service';
 
-
 @Component({
   selector: 'app-list-category',
   templateUrl: './list-category.component.html',
   styleUrl: './list-category.component.scss'
 })
-export class ListCategoryComponent extends ListBlade{
-
-
+export class ListCategoryComponent extends ListBlade {
   ngOnInit(): void {
     this.setRestaurantsInForm();
   }
 
   showDeleteAllButton = false;
   title = 'Categories';
-  addurl = '/pages/categories/add'
+  addurl = '/pages/categories/add';
   showEdit = false;
-  columns: any[] = [
-    'Name',
-    'category',
-    'Menu',
-    'Status'
-  ]
+  columns: any[] = ['Name', 'category', 'Menu', 'Status'];
 
   override model = {
     name: '',
-    status: '',
+    status: ''
   };
 
   fields: FormlyFieldConfig[] = [
@@ -46,11 +38,11 @@ export class ListCategoryComponent extends ListBlade{
           type: 'input',
           props: {
             label: ' Category Name',
-            placeholder: '',
+            placeholder: ''
           },
           className: 'col-md-2 col-12'
         },
-        
+
         {
           key: 'status',
           type: 'select',
@@ -62,7 +54,7 @@ export class ListCategoryComponent extends ListBlade{
             ]
           },
           className: 'formly-select-wrapper-3232 col-md-2 col-12'
-        },
+        }
         // {
         //   key: 'description',
         //   type: 'textarea',
@@ -75,7 +67,6 @@ export class ListCategoryComponent extends ListBlade{
         //   },
         //   className: 'col-md-4 col-12'
         // },
-
 
         // {
         //   key: 'status',
@@ -90,9 +81,8 @@ export class ListCategoryComponent extends ListBlade{
         //   },
         //   className: 'col-md-4 col-12'
         // }
-
-      ],
-    },
+      ]
+    }
   ];
 
   constructor(
@@ -101,7 +91,7 @@ export class ListCategoryComponent extends ListBlade{
     private nav: NavService,
     private utility: UtilityService,
     private users: UsersService,
-    private network : NetworkService
+    private network: NetworkService
   ) {
     super(injector, crudService);
     this.initialize();
@@ -109,18 +99,21 @@ export class ListCategoryComponent extends ListBlade{
 
   initialize() {
     this.crudService.getList('', 1);
-    const u = this.users.getUser()
+    const u = this.users.getUser();
     if (u.role_id == 1 || u.role_id == 2) {
       this.showEdit = true;
-
     }
   }
 
-
-
-  editRow(index: number) {
-
+  async delete($event: any) {
+    const flag = await this.utility.presentConfirm('Delete', 'Cancel', 'Delete All Record', 'Are you sure you want to delete all?');
+    if (!flag) {
+      return;
+    }
+    this.deleteAll($event);
   }
+
+  editRow(index: number) {}
   async getRestaurants(): Promise<any[]> {
     let obj = {
       search: '',
@@ -155,7 +148,6 @@ export class ListCategoryComponent extends ListBlade{
     }
   }
 
-
   async deleteRow(index: number) {
     try {
       await this.crudService.deleteRow(index, this.utility);
@@ -171,18 +163,13 @@ export class ListCategoryComponent extends ListBlade{
     let item = this.crudService.list[i];
     this.nav.push('/pages/categories/view/' + item.id);
     console.log(item.image);
-
   }
-  openEditDetails(i){
+  openEditDetails(i) {
     let item = this.crudService.list[i];
     this.nav.push('/pages/categories/edit/' + item.id);
   }
 
-
-  viewMenu(item){
-    this.nav.push('/pages/products/list', {category_id: item.id});
+  viewMenu(item) {
+    this.nav.push('/pages/products/list', { category_id: item.id });
   }
-  
-
-
 }
