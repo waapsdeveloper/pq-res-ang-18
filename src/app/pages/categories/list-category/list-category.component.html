@@ -20,6 +20,12 @@
     [selectAll]="selectAll"
     (changeSelectAll)="changeSelectAll($event); showDeleteAllButton = $event"
   >
+    <!-- Show "No results found" when not loading and list is empty -->
+    <tr *ngIf="!crudService.loading && crudService.list.length === 0">
+      <td colspan="5" class="text-center">
+        No results found.
+      </td>
+    </tr>
     <!-- Hide rows when loading -->
     <tr [hidden]="!crudService.loading && crudService.list.length > 0" *ngFor="let item of crudService.list; let i = index">
       <td>
@@ -166,11 +172,6 @@
       </td>
     </tr>
 
-    <!-- Show "No results found" when not loading and list is empty -->
-    <tr *ngIf="!crudService.loading && crudService.list.length === 0">
-      <td colspan="5" class="text-center">
-        No results found.
-      </td>
-    </tr>
+    
   </app-kt-app-list-page-table>
 </app-kt-list-page>

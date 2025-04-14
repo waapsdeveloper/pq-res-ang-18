@@ -19,7 +19,14 @@
     [selectAll]="selectAll"
     (changeSelectAll)="changeSelectAll($event); showDeleteAllButton = $event"
   >
-    <tr *ngFor="let item of crudService.list; let i = index">
+    <!-- Show "No results found" when not loading and list is empty -->
+    <tr *ngIf="!crudService.loading && crudService.list.length === 0">
+      <td colspan="5" class="text-center">
+        No results found.
+      </td>
+    </tr>
+    <!-- Hide rows when loading -->
+    <tr [hidden]="!crudService.loading && crudService.list.length > 0" *ngFor="let item of crudService.list; let i = index">
       <td>
         <div class="d-flex">
           <div class="ms-4">
