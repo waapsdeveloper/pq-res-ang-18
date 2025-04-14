@@ -18,7 +18,7 @@ export class AddMessageComponent {
     floor: '',
     //  location: '',
     description: '',
-    status: ''
+    status: 'active'
   };
 
   fields: FormlyFieldConfig[] = [

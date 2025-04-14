@@ -16,7 +16,7 @@ export class AddCategoryComponent implements OnInit {
   model = {
     name: '',
     category_id: '',
-    status: '',
+    status: 'active',
     description: '',
     image: '',
     imageBase64: ''

@@ -19,7 +19,7 @@ export class AddTableBookingComponent implements OnInit {
     password: '',
     phone: '',
     role: '',
-    status: '',
+    status: 'active',
   };
 
   fields: FormlyFieldConfig[] = [

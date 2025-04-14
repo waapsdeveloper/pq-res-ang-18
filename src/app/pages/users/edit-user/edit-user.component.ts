@@ -54,7 +54,7 @@ export class EditUserComponent implements OnInit {
     country: '',
     image: '',
     imageBase64: '',
-    status: ''
+    status: 'active'
   };
 
   fields: FormlyFieldConfig[] = [

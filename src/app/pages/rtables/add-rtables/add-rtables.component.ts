@@ -20,7 +20,7 @@ export class AddRtablesComponent {
     floor: '',
     //  location: '',
     description: '',
-    status: ''
+    status: 'active'
   };
 
   fields: FormlyFieldConfig[] = [

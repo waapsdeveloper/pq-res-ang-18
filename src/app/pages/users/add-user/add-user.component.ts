@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, OnInit,ViewEncapsulation } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NetworkService } from 'src/app/services/network.service';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -11,22 +11,20 @@ import { UtilityService } from 'src/app/services/utility.service';
   encapsulation: ViewEncapsulation.None
 })
 export class AddUserComponent implements OnInit {
-
-
   form = new FormGroup({});
   model = {
     name: '',
     email: '',
     password: '',
     phone: '',
-    address:'',
+    address: '',
     role_id: '',
-    city:'',
-    state:'',
-    country:'',
+    city: '',
+    state: '',
+    country: '',
     image: '',
     imageBase64: '',
-    status: '',
+    status: 'active' // Set default value to "active"
   };
 
   fields: FormlyFieldConfig[] = [
@@ -107,6 +105,7 @@ export class AddUserComponent implements OnInit {
             label: 'Status',
             placeholder: 'Select status',
             required: true,
+            defaultValue: 'active', // Set default value to "active"
             options: [
               { value: 'active', label: 'Active' },
               { value: 'inactive', label: 'Inactive' }
@@ -156,7 +155,7 @@ export class AddUserComponent implements OnInit {
             change: (field, event) => this.onFileChange(field, event, 'imageBase64')
           },
           className: 'formly-image-wrapper-3232 col-md-6 col-12'
-        },
+        }
         // {
         //   key: 'restaurant_id',
         //   type: 'select',
@@ -169,18 +168,15 @@ export class AddUserComponent implements OnInit {
         //   },
         //   className: 'col-md-2 col-12' // 3 columns on md+, full width on small screens
         // },
-
       ]
     }
+  ];
 
-  ]
-
-
-
-
-  constructor(private nav: NavService, private network: NetworkService, private utility: UtilityService) {
-
-  }
+  constructor(
+    private nav: NavService,
+    private network: NetworkService,
+    private utility: UtilityService
+  ) {}
 
   ngOnInit(): void {
     this.setRoleInForm();
@@ -220,23 +216,18 @@ export class AddUserComponent implements OnInit {
     }
   }
 
-
   async setRoleInForm() {
     const res = await this.getRoles();
     console.log(res);
 
-    for(var i = 0; i < this.fields.length; i++){
-      for(var j = 0; j < this.fields[i].fieldGroup.length; j++) {
-
+    for (var i = 0; i < this.fields.length; i++) {
+      for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
         let fl = this.fields[i].fieldGroup[j];
-        if(fl.key == 'role_id'){
+        if (fl.key == 'role_id') {
           fl.props.options = res;
         }
       }
     }
-
-
-
   }
 
   // get roles array
@@ -245,21 +236,18 @@ export class AddUserComponent implements OnInit {
       search: '',
 
       restaurant_id: localStorage.getItem('restaurant_id') ? localStorage.getItem('restaurant_id') : -1
-
-    }
+    };
     const res = await this.network.getRoles(obj);
 
     if (res && res['data']) {
-
       let d = res['data'];
       let dm = d['data'];
-      return dm.map( r => {
+      return dm.map((r) => {
         return {
           value: r.id,
           label: r.name
-        }
+        };
       }) as any[];
-
     }
 
     return [];
@@ -283,7 +271,6 @@ export class AddUserComponent implements OnInit {
     }
   }
   async onSubmit(model) {
-
     if (this.form.invalid) {
       // Mark all fields as touched to trigger validation styles
       this.form.markAllAsTouched();
@@ -303,7 +290,7 @@ export class AddUserComponent implements OnInit {
       const res = await this.network.addUser(d);
       console.log(res);
       if (res) {
-        this.utility.presentSuccessToast('User Created Succesfully!')
+        this.utility.presentSuccessToast('User Created Succesfully!');
         this.nav.pop();
       }
     } else {
@@ -311,5 +298,4 @@ export class AddUserComponent implements OnInit {
       //alert('Please fill out all required fields correctly.');
     }
   }
-
 }

@@ -25,7 +25,7 @@ export class AddProductComponent {
     name: '',
     category_id: '',
     description: '',
-    status: '',
+    status: 'active',
     price: null,
     image: '',
     imageBase64: '',
