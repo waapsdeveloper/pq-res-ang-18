@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { NetworkService } from 'src/app/services/network.service';
 import { AddOrderService } from '../add-order.service';
 
@@ -9,11 +9,42 @@ import { AddOrderService } from '../add-order.service';
   styleUrl: './add-order-products.component.scss'
 })
 export class AddOrderProductsComponent {
-
-
+  columnClass: string = 'col-4'; // Default column class
+  buttonLabel = 'Add Product';
 
   constructor(public orderService: AddOrderService) {
-    this.initialize()
+    this.initialize();
+    this.updateColumnClass(window.innerWidth); // Initialize column class based on current screen size
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.updateColumnClass(event.target.innerWidth);
+  }
+
+  private updateColumnClass(width: number) {
+    if (width > 1600) {
+      this.columnClass = 'col-2';
+      this.buttonLabel = 'Select';
+    } else if (width > 1200) {
+      this.columnClass = 'col-2';
+      this.buttonLabel = 'Select';
+    } else if (width > 940) {
+      this.columnClass = 'col-3';
+      this.buttonLabel = 'Add Product';
+    } else if (width > 768) {
+      this.columnClass = 'col-4';
+      this.buttonLabel = 'Add Product';
+    } else if (width > 400) {
+      this.columnClass = 'col-6';
+      this.buttonLabel = 'Add Product';
+    } else if (width > 360) {
+      this.columnClass = 'col-12';
+      this.buttonLabel = 'Add Product';
+    } else {
+      this.columnClass = 'col-12';
+      this.buttonLabel = 'Add Product';
+    }
   }
 
   async initialize() {

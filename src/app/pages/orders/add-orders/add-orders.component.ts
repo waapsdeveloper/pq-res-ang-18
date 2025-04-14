@@ -28,8 +28,8 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   filteredSuggestions = [];
   showForm = false;
   tabs: any[] = [
-    { name: 'customer', title: 'Customer', icon: 'ft-user', active: false },
-    { name: 'order', title: 'Overview', icon: 'ft-layers', active: true },
+    { name: 'customer', title: 'Customer', icon: 'ft-user', active: true },
+    { name: 'order', title: 'Overview', icon: 'ft-layers', active: false },
     { name: 'payment', title: 'Notes', icon: 'ft-credit-card', active: false }
   ];
 
