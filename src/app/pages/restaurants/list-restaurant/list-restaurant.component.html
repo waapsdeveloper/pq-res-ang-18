@@ -26,7 +26,7 @@
       </td>
     </tr>
     <!-- Hide rows when loading -->
-    <tr [hidden]="!crudService.loading && crudService.list.length > 0" *ngFor="let item of crudService.list; let i = index">
+    <tr [hidden]="!(!crudService.loading && crudService.list.length > 0)" *ngFor="let item of crudService.list; let i = index">
       <td>
         <div class="d-flex align-items-center">
           <!--begin::Thumbnail-->
