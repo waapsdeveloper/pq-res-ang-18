@@ -9,13 +9,15 @@ import { UtilityService } from 'src/app/services/utility.service';
 })
 export class KtAppListPageTableComponent {
   role_id: number = 1;
-  loading = true; // Controls the loading state
+  loading = true;
+
+  pageGroupSize: number = 5;
+  visiblePageGroup: number = 0;
 
   ngOnInit(): void {
-    // Simulate a delay to load data
     setTimeout(() => {
-      this.loading = false; // Stops loader when data is ready
-    }, 1700); // Adjust time based on data fetch time
+      this.loading = false;
+    }, 1700);
   }
 
   @Input('columns') columns: any[] = [];
@@ -28,12 +30,33 @@ export class KtAppListPageTableComponent {
 
   @Output('pageChange') pageChange: EventEmitter<number> = new EventEmitter<number>();
   @Output('changeSelectAll') changeSelectAll: EventEmitter<boolean> = new EventEmitter<boolean>();
-
   @Output('actionDeleteAll') actionDeleteAll: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(private utility: UtilityService) {}
+
   getPages(): number[] {
-    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+    const start = this.visiblePageGroup * this.pageGroupSize + 1;
+    const end = Math.min(start + this.pageGroupSize - 1, this.totalPages);
+    const pages: number[] = [];
+
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+
+    return pages;
+  }
+
+  goToNextPageGroup() {
+    const maxGroup = Math.floor((this.totalPages - 1) / this.pageGroupSize);
+    if (this.visiblePageGroup < maxGroup) {
+      this.visiblePageGroup++;
+    }
+  }
+
+  goToPrevPageGroup() {
+    if (this.visiblePageGroup > 0) {
+      this.visiblePageGroup--;
+    }
   }
 
   updateSelectAll() {
