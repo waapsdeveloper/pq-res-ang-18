@@ -13,10 +13,9 @@
     (pageChange)="changePage($event)"
     [selectAll]="selectAll"
     (changeSelectAll)="changeSelectAll($event); showDeleteAllButton = $event"
-    
   >
-  <!-- (actionDeleteAll)="deleteAll($event)" -->
-    <tr *ngFor="let item of crudService.list; let i = index">
+    <!-- Hide rows when loading -->
+    <tr [hidden]="!crudService.loading && crudService.list.length > 0" *ngFor="let item of crudService.list; let i = index">
       <td>
         <div class="d-flex align-items-center">
           <!--begin::Thumbnail-->
@@ -90,6 +89,8 @@
       <!--end::Checkbox-->
       <!--end::Table row-->
     </tr>
+
+    <!-- Show loading skeleton when loading -->
     <tr *ngIf="crudService.loading">
       <!-- Thumbnail Column -->
       <td>
@@ -156,6 +157,13 @@
         <div class="form-check form-check-sm form-check-custom form-check-solid">
           <input class="form-check-input" type="checkbox" />
         </div>
+      </td>
+    </tr>
+
+    <!-- Show "No results found" when not loading and list is empty -->
+    <tr *ngIf="!crudService.loading && crudService.list.length === 0">
+      <td colspan="5" class="text-center">
+        No results found.
       </td>
     </tr>
   </app-kt-app-list-page-table>
