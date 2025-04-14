@@ -248,7 +248,8 @@ export class AddOrderService {
     console.log(res);
     const response = await this.network.updateCouponUsage(coupon);
     console.log(response);
-    this.selected_products = [];
+    this.resetFields();
+    this.clearSelectedProducts();
     return true;
   }
 

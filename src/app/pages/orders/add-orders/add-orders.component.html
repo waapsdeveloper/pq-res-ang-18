@@ -117,7 +117,7 @@
         <div class="card mt-0">
           <div class="card-body">
             <form>
-              
+
               <div class="form-group">
                 <label for="code" class="col-form-label">Coupon Code</label>
                 <div class="input-group">
@@ -140,11 +140,11 @@
 
         </div>
 
-        
+
 
 
       </div>
-      
+
       <div class="" [class.d-none]="activeTabName !== 'payment'">
 
         <div class="card">
@@ -159,7 +159,7 @@
                 placeholder="Add a note..."></textarea>
             </div>
 
-            
+
           </div>
         </div>
         <div class="mt-2 d-flex flex-column align-items-start gap-2">
@@ -178,11 +178,76 @@
     </div>
   </div>
 
-  <div class="total-card-fixed-footer">  
+  <div class="total-card-fixed-footer">
     <div class="d-flex flex-row justify-content-end align-items-start gap-2">
       <div>{{ orderService.selected_products?.length }}</div>
       <div>X</div>
-      <div>${{ orderService.totalCost | number: '1.2-2' }}</div>      
+      <div>${{ orderService.totalCost | number: '1.2-2' }}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Printable Slip Section -->
+<div id="print-section" style="font-family: Arial, sans-serif; font-size: 12px; width: 240px; margin: auto">
+  <div class="bill-slip">
+    <div class="bill-header" style="text-align: center; border-bottom: 1px dashed #000; padding-bottom: 8px">
+      <h2 style="margin: 0; font-size: 16px">{{ restaurant?.name }}</h2>
+      <p style="margin: 0">Address : {{ restaurant?.address }}</p>
+      <p style="margin: 0">Phone: {{ restaurant?.phone }}</p>
+    </div>
+
+    <div class="customer-info" style="padding: 8px 0; border-bottom: 1px dashed #000">
+      <p style="margin: 0">
+        <strong>Name:</strong>
+        {{ orderService?.customer_name }}
+      </p>
+      <p style="margin: 0">
+        <strong>Phone:</strong>
+        {{ orderService?.customer_phone }}
+      </p>
+      <p style="margin: 0">
+        <strong>Order Type:</strong>
+        {{ orderService?.orderType }}
+      </p>
+    </div>
+
+    <div class="order-details" style="padding: 8px 0; border-bottom: 1px dashed #000">
+      <p style="margin: 0"><strong>Order Details:</strong></p>
+      <table style="width: 100%; font-size: 12px; border-collapse: collapse">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Item</th>
+            <th>Price</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of orderService.selected_products; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>
+              {{ item?.name }} x {{ item?.quantity }}
+              <br />
+              <small *ngFor="let variation of item.variation">
+                <span *ngFor="let option of variation.options" [hidden]="!(option.selected == true)">
+                  {{ option?.selected }} {{ option?.name }} ({{ option.price | currency }})
+                  <br />
+                </span>
+              </small>
+            </td>
+            <td>{{ item.price | currency }}</td>
+            <td>{{ item.quantity * item.price | currency }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="bill-footer" style="padding: 8px 0; text-align: center">
+      <p style="margin: 0; font-size: 14px">
+        <strong>Total:</strong>
+        {{ orderService.totalCost | currency }}
+      </p>
+      <p style="margin: 0; font-style: italic">Thank you for your order!</p>
     </div>
   </div>
 </div>
