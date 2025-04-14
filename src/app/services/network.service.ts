@@ -257,6 +257,10 @@ export class NetworkService {
     return this.httpPutResponse(`order/update-status`, data, id, false, true);
   }
 
+  invoiceStatus(id, data) {
+    return this.httpPutResponse(`invoice/update-status`, data, id, false, true);
+  }
+
   addOrder(data) {
     return this.httpPostResponse('order', data, null, false, true);
   }

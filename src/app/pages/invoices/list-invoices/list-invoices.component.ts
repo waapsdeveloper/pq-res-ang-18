@@ -21,11 +21,8 @@ export class ListInvoicesComponent  extends ListBlade{
 
 
  override model = {
-    products: '',
-    quanity: '',
-    price: '',
-    total_price: '',
-    status: 'active',
+    invoice_no: '',
+    order_number: '',
   };
 
   fields: FormlyFieldConfig[] = [
@@ -33,11 +30,11 @@ export class ListInvoicesComponent  extends ListBlade{
       fieldGroupClassName: 'row', // Bootstrap row
       fieldGroup: [
         {
-          key: 'name',
+          key: 'invoice_no',
           type: 'input',
           props: {
-            label: 'Branch Name',
-            placeholder: 'Enter Branch name',
+            label: 'Invoice Number',
+            placeholder: 'Enter invoice number',
             required: true,
             minLength: 3
           },
@@ -45,11 +42,11 @@ export class ListInvoicesComponent  extends ListBlade{
         },
 
         {
-          key: 'address',
+          key: 'order_number',
           type: 'input',
           props: {
-            label: 'Address',
-            placeholder: 'Enter address',
+            label: 'Order Number',
+            placeholder: 'Enter order number',
             required: true
           },
           className: 'col-md-2 col-12'
