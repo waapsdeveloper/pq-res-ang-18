@@ -1,11 +1,6 @@
 <app-kt-list-page [title]="'Products'" [addurl]="'/pages/products/add'" (onFilter)="toggleFilters()">
   <form class="mt-3" [formGroup]="form" *ngIf="crudService.filters">
-    <formly-form 
-      [form]="form" 
-      [fields]="fields" 
-      [model]="model" 
-      (modelChange)="debouncedSubmitFilters($event)">
-    </formly-form>
+    <formly-form [form]="form" [fields]="fields" [model]="model" (modelChange)="debouncedSubmitFilters($event)"></formly-form>
   </form>
 
   <hr *ngIf="crudService.filters" />
@@ -31,14 +26,10 @@
           <!--end::Thumbnail-->
           <div class="ms-5">
             <!--begin::Title-->
-            <a
-              class="text-hover-primary fs-5 fw-bold"
-              data-kt-ecommerce-product-filter="product_name"
-              (click)="openDetails(i)"
-            >
+            <a class="text-hover-primary fs-5 fw-bold" data-kt-ecommerce-product-filter="product_name" (click)="openDetails(i)">
               {{ item.name }}
             </a>
-            <div class=" fs-7 fw-bold">{{ item.description }}</div>
+            <div class="fs-7 fw-bold">{{ item.description }}</div>
 
             <!--end::Title-->
           </div>
@@ -46,7 +37,7 @@
       </td>
       <td>
         <div class="d-flex">
-          <div class=" fs-7 fw-bold">{{ item.category ? item.category : '' }}</div>
+          <div class="fs-7 fw-bold">{{ item.category ? item.category : '' }}</div>
         </div>
       </td>
       <td>
@@ -74,7 +65,15 @@
       </td>
       <td>
         <div class="d-flex">
-          <div class="badge badge-light-primary fw-bold me-auto">{{ item.status }}</div>
+          <div
+            class="badge fw-bold me-auto"
+            [ngClass]="{
+              'badge-active': item.status === 'Active',
+              'badge-inactive': item.status === 'Inactive'
+            }"
+          >
+            {{ item.status }}
+          </div>
         </div>
       </td>
 
@@ -82,7 +81,7 @@
       <!--begin::Action=-->
       <td class="text-start">
         <div class="d-flex flex-row justify-content-start align-items-center gap-3">
-          <i class="ti ti-eye  view-icon" style="font-size: 20px" (click)="openDetails(i)"></i>
+          <i class="ti ti-eye view-icon" style="font-size: 20px" (click)="openDetails(i)"></i>
           <i *ngIf="showEdit" class="edit-icon ti ti-edit" style="font-size: 20px; cursor: pointer" (click)="EditOpenDetails(i)"></i>
           <i *ngIf="showEdit" class="ti ti-trash trash-icon" style="font-size: 20px" (click)="deleteRow(i)"></i>
         </div>
@@ -121,7 +120,7 @@
             <!-- Title Loader -->
             <ngx-skeleton-loader
               appearance="custom-content"
-              [theme]="{ width: '150px', height: '20px',background: 'rgba(0,0,0,0.2)' }"
+              [theme]="{ width: '150px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
               [animation]="true"
             ></ngx-skeleton-loader>
           </div>
@@ -133,7 +132,7 @@
         <div class="d-flex align-items-center">
           <ngx-skeleton-loader
             appearance="custom-content"
-            [theme]="{ width: '120px', height: '20px',background: 'rgba(0,0,0,0.2)' }"
+            [theme]="{ width: '120px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
             [animation]="true"
           ></ngx-skeleton-loader>
         </div>
@@ -143,32 +142,32 @@
       <td>
         <ngx-skeleton-loader
           appearance="custom-content"
-          [theme]="{ width: '100px', height: '20px', 'border-radius': '12px',background: 'rgba(0,0,0,0.2)' }"
+          [theme]="{ width: '100px', height: '20px', 'border-radius': '12px', background: 'rgba(0,0,0,0.2)' }"
         ></ngx-skeleton-loader>
       </td>
 
       <td>
         <ngx-skeleton-loader
           appearance="custom-content"
-          [theme]="{ width: '100px', height: '20px', 'border-radius': '12px',background: 'rgba(0,0,0,0.2)' }"
+          [theme]="{ width: '100px', height: '20px', 'border-radius': '12px', background: 'rgba(0,0,0,0.2)' }"
         ></ngx-skeleton-loader>
       </td>
       <td>
         <ngx-skeleton-loader
           appearance="custom-content"
-          [theme]="{ width: '100px', height: '20px', 'border-radius': '12px',background: 'rgba(0,0,0,0.2)' }"
+          [theme]="{ width: '100px', height: '20px', 'border-radius': '12px', background: 'rgba(0,0,0,0.2)' }"
         ></ngx-skeleton-loader>
       </td>
       <td>
         <ngx-skeleton-loader
           appearance="custom-content"
-          [theme]="{ width: '100px', height: '20px', 'border-radius': '12px',background: 'rgba(0,0,0,0.2)' }"
+          [theme]="{ width: '100px', height: '20px', 'border-radius': '12px', background: 'rgba(0,0,0,0.2)' }"
         ></ngx-skeleton-loader>
       </td>
       <td>
         <ngx-skeleton-loader
           appearance="custom-content"
-          [theme]="{ width: '100px', height: '20px', 'border-radius': '12px',background: 'rgba(0,0,0,0.2)' }"
+          [theme]="{ width: '100px', height: '20px', 'border-radius': '12px', background: 'rgba(0,0,0,0.2)' }"
         ></ngx-skeleton-loader>
       </td>
       <!-- Action Icons -->
@@ -177,7 +176,7 @@
           <ngx-skeleton-loader
             *ngFor="let _ of [1, 2, 3, 4]"
             appearance="custom-content"
-            [theme]="{ width: '24px', height: '24px' ,background: 'rgba(0,0,0,0.2)'}"
+            [theme]="{ width: '24px', height: '24px', background: 'rgba(0,0,0,0.2)' }"
           ></ngx-skeleton-loader>
         </div>
       </td>

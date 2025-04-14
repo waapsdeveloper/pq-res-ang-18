@@ -18,8 +18,8 @@ File: style.css
 
 // fonts
 .fade-in {
-	-webkit-animation: fade-in 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) 1s infinite alternate-reverse both;
-	        animation: fade-in 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) 1s infinite alternate-reverse both;
+  -webkit-animation: fade-in 2s cubic-bezier(0.39, 0.575, 0.565, 1) 1s infinite alternate-reverse both;
+  animation: fade-in 2s cubic-bezier(0.39, 0.575, 0.565, 1) 1s infinite alternate-reverse both;
 }
 
 /* ----------------------------------------------
@@ -34,7 +34,7 @@ File: style.css
  * animation fade-in
  * ----------------------------------------
  */
- @-webkit-keyframes fade-in {
+@-webkit-keyframes fade-in {
   0% {
     opacity: 0;
   }
@@ -52,7 +52,8 @@ File: style.css
 }
 
 // Custom global CSS classes
-.table th, .table td {
+.table th,
+.table td {
   padding: 16px 8px !important;
   vertical-align: middle !important;
 }
@@ -65,10 +66,7 @@ File: style.css
   position: unset !important;
 }
 
-
-
 .formly-select-wrapper-3232 {
-
   formly-wrapper-form-field > div {
     display: flex;
     flex-direction: column;
@@ -86,15 +84,16 @@ File: style.css
     color: #75787d;
     background-color: transparent;
     background-clip: padding-box;
-    border: 1px solid #E0E0E0;
+    border: 1px solid #e0e0e0;
     border-radius: 0.35rem;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition:
+      border-color 0.15s ease-in-out,
+      box-shadow 0.15s ease-in-out;
   }
 
   formly-wrapper-form-field > div > select.is-invalid {
     border: 1px solid red;
   }
-
 }
 
 .formly-image-wrapper-3232 {
@@ -115,8 +114,6 @@ File: style.css
 // .ng-invalid.ng-touched {
 //   border: 1px solid red;
 // }
-
-
 
 // flex classes like tailwind
 
@@ -220,7 +217,6 @@ File: style.css
   padding-right: 0.5rem;
 }
 
-
 .trash-icon {
   font-size: 20px; /* Smaller icon size */
   cursor: pointer;
@@ -229,8 +225,7 @@ File: style.css
   padding: 4px; /* Increased padding */
   border-radius: 4px;
   /* Add ti-trash icon */
-   
-} 
+}
 .edit-icon {
   font-size: 20px;
   cursor: pointer;
@@ -259,4 +254,13 @@ File: style.css
 
 .view-icon:hover {
   background-color: rgba(0, 0, 0, 0.05); /* Light gray hover */
+}
+.badge-active {
+  background-color: #28a745; /* Green for active status */
+  color: white;
+}
+
+.badge-inactive {
+  background-color: #a72121; /* Gray for inactive status */
+  color: white;
 }
