@@ -1,4 +1,4 @@
-import { Component, Injector } from '@angular/core';
+import { ChangeDetectorRef, Component, Injector } from '@angular/core';
 import { ListBlade } from 'src/app/abstract/list-blade';
 import { UtilityService } from 'src/app/services/utility.service';
 import { InvoiceService } from '../invoice.service';
@@ -7,22 +7,23 @@ import { NetworkService } from 'src/app/services/network.service';
 import { UsersService } from 'src/app/services/users.service';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { EventsService } from 'src/app/services/events.service';
 
 @Component({
   selector: 'app-list-invoices',
   templateUrl: './list-invoices.component.html',
-  styleUrls: ['./list-invoices.component.scss'],
+  styleUrls: ['./list-invoices.component.scss']
 })
-export class ListInvoicesComponent  extends ListBlade{
+export class ListInvoicesComponent extends ListBlade {
   columns: any[] = ['Invoice Number', 'Order Number', 'Date', 'Method', 'Total Price', 'Status'];
   showEdit = false;
   title = 'Invoices';
   addurl = '/pages/invoices/add';
   showDeleteAllButton = false;
 
- override model = {
+  override model = {
     invoice_no: '',
-    order_number: '',
+    order_number: ''
   };
 
   fields: FormlyFieldConfig[] = [
@@ -50,41 +51,46 @@ export class ListInvoicesComponent  extends ListBlade{
             required: true
           },
           className: 'col-md-2 col-12'
-        },
-
-      ],
-    },
+        }
+      ]
+    }
   ];
- constructor(
-     injector: Injector,
-     public override crudService: InvoiceService,
-     private nav: NavService,
-     private utility: UtilityService,
-     private users: UsersService
-   ) {
-     super(injector, crudService)
-     this.initialize();
-   }
+  constructor(
+    injector: Injector,
+    public override crudService: InvoiceService,
+    private nav: NavService,
+    private utility: UtilityService,
+    private users: UsersService,
+    private cdr: ChangeDetectorRef,
+    public events: EventsService
+  ) {
+    super(injector, crudService);
+    this.initialize();
+  }
 
   initialize() {
     this.crudService.getList('', 1);
-    const u = this.users.getUser()
+    const u = this.users.getUser();
     if (u.role_id == 1 || u.role_id == 2) {
       this.showEdit = true;
     }
   }
-  async delete($event: any) {
+  async onDeleteAll($event: any) {
     const flag = await this.utility.presentConfirm('Delete', 'Cancel', 'Delete All Record', 'Are you sure you want to delete all?');
+
     if (!flag) {
       return;
     }
+
     this.deleteAll($event);
+    this.showDeleteAllButton = false;
+    this.events.publish('uncheck-select-all', {
+      selectAll: false
+    });
+    this.cdr.detectChanges();
   }
 
-
-  editRow(index: number) {
-
-  }
+  editRow(index: number) {}
 
   async deleteRow(index: number) {
     try {
@@ -97,12 +103,8 @@ export class ListInvoicesComponent  extends ListBlade{
     }
   }
 
-
   openDetails(i) {
     let item = this.crudService.list[i];
     this.nav.push('/pages/invoices/view/' + item.id);
   }
-
-
-
 }

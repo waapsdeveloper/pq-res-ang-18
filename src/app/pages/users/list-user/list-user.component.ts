@@ -1,4 +1,4 @@
-import { Component, Injector } from '@angular/core';
+import { ChangeDetectorRef, Component, Injector } from '@angular/core';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { FormGroup } from '@angular/forms';
@@ -6,6 +6,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { ListBlade } from 'src/app/abstract/list-blade';
 import { UserService } from '../user.service';
 import { UtilityService } from 'src/app/services/utility.service';
+import { EventsService } from 'src/app/services/events.service';
 
 @Component({
   selector: 'app-list-user',
@@ -13,7 +14,7 @@ import { UtilityService } from 'src/app/services/utility.service';
   styleUrl: './list-user.component.scss'
 })
 export class ListUserComponent extends ListBlade {
-  showDeleteAllButton =false;
+  showDeleteAllButton = false;
   title = 'Users';
   addurl = '/pages/users/add';
 
@@ -109,8 +110,7 @@ export class ListUserComponent extends ListBlade {
             label: 'Status',
             options: [
               { value: 'active', label: 'Active' },
-              { value: 'inactive', label: 'Inactive' },
-
+              { value: 'inactive', label: 'Inactive' }
             ]
           },
           className: 'formly-select-wrapper-3232 col-md-2 col-12'
@@ -126,10 +126,26 @@ export class ListUserComponent extends ListBlade {
     public override crudService: UserService,
     private nav: NavService,
     private utility: UtilityService,
-    private network: NetworkService
+    private network: NetworkService,
+    private cdr: ChangeDetectorRef,
+    public events: EventsService
   ) {
     super(injector, crudService);
     this.initialize();
+  }
+  async onDeleteAll($event: any) {
+    const flag = await this.utility.presentConfirm('Delete', 'Cancel', 'Delete All Record', 'Are you sure you want to delete all?');
+
+    if (!flag) {
+      return;
+    }
+
+    this.deleteAll($event);
+    this.showDeleteAllButton = false;
+    this.events.publish('uncheck-select-all', {
+      selectAll: false
+    });
+    this.cdr.detectChanges();
   }
 
   async initialize() {
@@ -144,11 +160,11 @@ export class ListUserComponent extends ListBlade {
   }
   async delete($event: any) {
     const flag = await this.utility.presentConfirm('Delete', 'Cancel', 'Delete All Record', 'Are you sure you want to delete all?');
-  
+
     if (!flag) {
       return;
     }
-  
+
     this.deleteAll($event);
   }
   async setRoleInForm() {
@@ -200,7 +216,7 @@ export class ListUserComponent extends ListBlade {
   }
 
   openDetails(i) {
-    let item = this.crudService.list[i];;
+    let item = this.crudService.list[i];
     this.nav.push('/pages/users/view/' + item.id);
   }
   openEditDetails(i) {
@@ -208,7 +224,6 @@ export class ListUserComponent extends ListBlade {
     this.nav.push('/pages/users/edit/' + item.id);
     console.log(item.image);
   }
-
 
   getRandomNumberBetween50And100(): number {
     const min = 50;

@@ -1,4 +1,4 @@
-import { Component, Injector, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, Injector, ViewEncapsulation } from '@angular/core';
 
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { ListBlade } from 'src/app/abstract/list-blade';
@@ -7,6 +7,7 @@ import { GlobalRestaurantService } from 'src/app/services/global-restaurant.serv
 import { NetworkService } from 'src/app/services/network.service';
 import { UtilityService } from 'src/app/services/utility.service';
 import { RestaurantService } from '../restaurant.service';
+import { EventsService } from 'src/app/services/events.service';
 
 @Component({
   selector: 'app-list-restaurant',
@@ -74,12 +75,14 @@ export class ListRestaurantComponent extends ListBlade {
     public grService: GlobalRestaurantService,
     private nav: NavService,
     private utility: UtilityService,
-    private network: NetworkService
+    private network: NetworkService,
+    private cdr: ChangeDetectorRef,
+    public events: EventsService
   ) {
     super(injector, crudService);
     this.initialize();
   }
-  async delete($event: any) {
+  async onDeleteAll($event: any) {
     const flag = await this.utility.presentConfirm('Delete', 'Cancel', 'Delete All Record', 'Are you sure you want to delete all?');
 
     if (!flag) {
@@ -87,6 +90,11 @@ export class ListRestaurantComponent extends ListBlade {
     }
 
     this.deleteAll($event);
+    this.showDeleteAllButton = false;
+    this.events.publish('uncheck-select-all', {
+      selectAll: false
+    });
+    this.cdr.detectChanges();
   }
 
   initialize() {

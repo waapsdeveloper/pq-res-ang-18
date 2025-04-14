@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { ListBlade } from 'src/app/abstract/list-blade';
 import { NavService } from 'src/app/services/basic/nav.service';
@@ -7,6 +7,7 @@ import { UtilityService } from 'src/app/services/utility.service';
 import { RestaurantService } from '../../restaurants/restaurant.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { VariationsService } from '../variations.service';
+import { EventsService } from 'src/app/services/events.service';
 
 @Component({
   selector: 'app-list-variations',
@@ -73,7 +74,9 @@ export class ListVariationsComponent extends ListBlade {
     public grService: GlobalRestaurantService,
     private nav: NavService,
     private utility: UtilityService,
-    private network: NetworkService
+    private network: NetworkService,
+    private cdr: ChangeDetectorRef,
+    public events: EventsService
   ) {
     super(injector, crudService);
     this.initialize();
@@ -82,7 +85,7 @@ export class ListVariationsComponent extends ListBlade {
   initialize() {
     this.crudService.getList('', 1);
   }
-  async delete($event: any) {
+  async onDeleteAll($event: any) {
     const flag = await this.utility.presentConfirm('Delete', 'Cancel', 'Delete All Record', 'Are you sure you want to delete all?');
 
     if (!flag) {
@@ -90,6 +93,11 @@ export class ListVariationsComponent extends ListBlade {
     }
 
     this.deleteAll($event);
+    this.showDeleteAllButton = false;
+    this.events.publish('uncheck-select-all', {
+      selectAll: false
+    });
+    this.cdr.detectChanges();
   }
 
   editRow(index: number) {}

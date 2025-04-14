@@ -4,10 +4,11 @@ import { NetworkService } from 'src/app/services/network.service';
 import { UsersService } from 'src/app/services/users.service';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { Component, Injector, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, Injector, ViewEncapsulation } from '@angular/core';
 import { ListBlade } from 'src/app/abstract/list-blade';
 import { UtilityService } from 'src/app/services/utility.service';
 import { ActivatedRoute } from '@angular/router';
+import { EventsService } from 'src/app/services/events.service';
 
 @Component({
   selector: 'app-list-product',
@@ -154,13 +155,15 @@ export class ListProductComponent extends ListBlade {
     private utility: UtilityService,
     private users: UsersService,
     private network: NetworkService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef,
+    public events: EventsService
   ) {
     super(injector, crudService);
 
     this.initialize();
   }
-  async delete($event: any) {
+  async onDeleteAll($event: any) {
     const flag = await this.utility.presentConfirm('Delete', 'Cancel', 'Delete All Record', 'Are you sure you want to delete all?');
 
     if (!flag) {
@@ -168,6 +171,11 @@ export class ListProductComponent extends ListBlade {
     }
 
     this.deleteAll($event);
+    this.showDeleteAllButton = false;
+    this.events.publish('uncheck-select-all', {
+      selectAll: false
+    });
+    this.cdr.detectChanges();
   }
 
   initialize() {
