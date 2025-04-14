@@ -142,7 +142,7 @@ export class EditProductComponent implements OnInit, AfterViewInit {
           key: 'image',
           type: 'input',
           props: {
-            label: 'Image',
+            label: 'Product Image',
             placeholder: 'Enter image URL',
             type: 'file',
             accept: 'image/*',

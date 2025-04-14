@@ -63,7 +63,7 @@ export class AddCategoryComponent implements OnInit {
           key: 'image',
           type: 'input',
           props: {
-            label: 'Image',
+            label: 'Category Image',
             placeholder: 'Enter image URL',
             type: 'file',
             accept: 'image/*',

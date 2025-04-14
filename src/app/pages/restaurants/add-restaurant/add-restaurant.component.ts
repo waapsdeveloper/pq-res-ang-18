@@ -174,7 +174,7 @@ export class AddRestaurantComponent {
           key: 'logo',
           type: 'input',
           props: {
-            label: 'logo',
+            label: 'Restaurant Logo',
             placeholder: 'Enter image URL',
             type: 'file',
             accept: 'image/*',
