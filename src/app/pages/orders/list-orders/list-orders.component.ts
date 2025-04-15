@@ -103,11 +103,16 @@ export class ListOrdersComponent extends ListBlade {
           props: {
             label: 'Order Type',
             options: [
+              { label: 'Drive-Thru', value: 'drive-thru' },
               { label: 'Dine-In', value: 'dine-in' },
-              { label: 'Takeaway', value: 'takeaway' },
-              { label: 'Delivery', value: 'delivery' }
+              { label: 'Take-Away', value: 'take-away' },
+              { label: 'Delivery', value: 'delivery' },
+              { label: 'Curbside Pickup', value: 'curbside-pickup' },
+              { label: 'Catering', value: 'catering' },
+              { label: 'Reservation', value: 'reservation' }
             ],
-            required: false
+            required: false,
+            placeholder: 'Select Order Type'
           },
           className: 'formly-select-wrapper-3232 col-md-2 col-12'
         },
@@ -118,6 +123,11 @@ export class ListOrdersComponent extends ListBlade {
             label: 'Order Status',
             options: [
               { label: 'Pending', value: 'pending' },
+              { label: 'Confirmed', value: 'confirmed' },
+              { label: 'Preparing', value: 'preparing' },
+              { label: 'Ready for Pickup', value: 'ready_for_pickup' },
+              { label: 'Out for Delivery', value: 'out_for_delivery' },
+              { label: 'Delivered', value: 'delivered' },
               { label: 'Completed', value: 'completed' },
               { label: 'Cancelled', value: 'cancelled' }
             ],
