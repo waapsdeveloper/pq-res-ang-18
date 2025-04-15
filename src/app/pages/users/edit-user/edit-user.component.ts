@@ -45,7 +45,7 @@ export class EditUserComponent implements OnInit {
   model = {
     name: '',
     email: '',
-    password: '',
+    // password: '',
     phone: '',
     address: '',
     role_id: '',
@@ -84,18 +84,18 @@ export class EditUserComponent implements OnInit {
           },
           className: 'col-md-6 col-12'
         },
-        {
-          key: 'password',
-          type: 'input',
-          props: {
-            label: 'Password',
-            type: 'password',
-            placeholder: 'Enter password',
-            required: true,
-            minLength: 6
-          },
-          className: 'col-md-6 col-12'
-        },
+        // {
+        //   key: 'password',
+        //   type: 'input',
+        //   props: {
+        //     label: 'Password',
+        //     type: 'password',
+        //     placeholder: 'Enter password',
+        //     required: true,
+        //     minLength: 6
+        //   },
+        //   className: 'col-md-6 col-12'
+        // },
         {
           key: 'address',
           type: 'input',
@@ -235,7 +235,7 @@ export class EditUserComponent implements OnInit {
    this.model = {
     name: d.name || '',               // Matches `model`
     email: d.email || '',             // Matches `model`
-    password: d.password || '',       // Matches `model`
+    // password: d.password || '',       // Matches `model`
     phone: d.phone || '',             // Matches `model`
     address: d.address || '',         // Matches `model`
     role_id: d.role.id || '',               // Matches `model`
