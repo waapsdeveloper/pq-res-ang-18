@@ -172,7 +172,7 @@ export class EditRtablesComponent implements OnInit {
       floor: d.floor || '', // Matches `model`
       // location: d.location || '',           // Matches `model`
       description: d.description || '', // Matches `model`
-      status: d.status || '' // Matches `model`
+      status: (d.status || '').toLowerCase()// Matches `model`
     };
   }
 

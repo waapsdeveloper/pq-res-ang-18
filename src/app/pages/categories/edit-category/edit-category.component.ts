@@ -175,11 +175,11 @@ export class EditCategoryComponent implements OnInit {
   async ngAfterViewInit() {
     const res = await this.network.getCategoriesById(this.id);
     let d = Object.assign({}, res.category);
-    console.log(d);
+    console.log( d.category.name);
     this.model = {
       name: d.name || '',
-      category_id: d.category_id || '', // Included as it exists in `model`
-      status: d.status || '',
+      category_id: d.category.id || '', // Included as it exists in `model`
+      status: (d.status || '').toLowerCase(),
       description: d.description || '',
       image:'',
       imageBase64: d.imageBase64 || ''

@@ -1,4 +1,4 @@
-import { Component, OnInit ,ViewEncapsulation} from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -10,8 +10,7 @@ import { UtilityService } from 'src/app/services/utility.service';
   selector: 'app-edit-user',
   templateUrl: './edit-user.component.html',
   styleUrl: './edit-user.component.scss',
-    encapsulation: ViewEncapsulation.None
-
+  encapsulation: ViewEncapsulation.None
 })
 export class EditUserComponent implements OnInit {
   id;
@@ -24,22 +23,21 @@ export class EditUserComponent implements OnInit {
     private utility: UtilityService
   ) {}
 
-
   ngOnInit() {
     this.setRoleInForm();
     this.setRestaurantsInForm();
     // Access the parameter
     this.id = this.route.snapshot.paramMap.get('id');
     console.log('ID from URL:', this.id);
-    this.initialize();
+    // this.initialize();
   }
-  async initialize() {
-    const res = await this.network.getUsersById(this.id);
-    console.log(res);
-    this.model = res.user;
+  // async initialize() {
+  //   const res = await this.network.getUsersById(this.id);
+  //   console.log(res);
+  //   this.model = res.user;
 
-    // Fetch the data from the server
-  }
+  //   // Fetch the data from the server
+  // }
 
   form = new FormGroup({});
   model = {
@@ -54,7 +52,7 @@ export class EditUserComponent implements OnInit {
     country: '',
     image: '',
     imageBase64: '',
-    status: 'active'
+    status: ''
   };
 
   fields: FormlyFieldConfig[] = [
@@ -188,9 +186,7 @@ export class EditUserComponent implements OnInit {
         }
       ]
     }
-      ]
-
-
+  ];
 
   async getRestaurants(): Promise<any[]> {
     let obj = {
@@ -230,70 +226,58 @@ export class EditUserComponent implements OnInit {
   async ngAfterViewInit() {
     const res = await this.network.getUsersById(this.id);
     let d = Object.assign({}, res.user);
-    console.log(d);
-   // Dynamic model assignment
-   this.model = {
-    name: d.name || '',               // Matches `model`
-    email: d.email || '',             // Matches `model`
-    // password: d.password || '',       // Matches `model`
-    phone: d.phone || '',             // Matches `model`
-    address: d.address || '',         // Matches `model`
-    role_id: d.role.id || '',               // Matches `model`
-    city: d.city || '',               // Matches `model`
-    state: d.state || '',             // Matches `model`
-    country: d.country || '',         // Matches `model`
-    image: '',                        // Ensures `image` is an empty string
-    imageBase64: d.imageBase64 || '', // Matches `model`
-    status: d.status || '',
-  };
-
-
-
+    console.log(d.status, 'these are the result of the console ');
+    // Dynamic model assignment
+    this.model = {
+      name: d.name || '', // Matches `model`
+      email: d.email || '', // Matches `model`
+      // password: d.password || '',       // Matches `model`
+      phone: d.phone || '', // Matches `model`
+      address: d.address || '', // Matches `model`
+      role_id: d.role_id || '', // Matches `model`
+      status: (d.status || '').toLowerCase(),
+      city: d.city || '', // Matches `model`
+      state: d.state || '', // Matches `model`
+      country: d.country || '', // Matches `model`
+      image: '', // Ensures `image` is an empty string
+      imageBase64: d.imageBase64 || '' // Matches `model`
+    };
   }
-
-
 
   async setRoleInForm() {
     const res = await this.getRoles();
     console.log(res);
 
-    for(var i = 0; i < this.fields.length; i++){
-      for(var j = 0; j < this.fields[i].fieldGroup.length; j++) {
-
+    for (var i = 0; i < this.fields.length; i++) {
+      for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
         let fl = this.fields[i].fieldGroup[j];
-        if(fl.key == 'role_id'){
+        if (fl.key == 'role_id') {
           fl.props.options = res;
         }
       }
     }
-
-
-
   }
 
   // get roles array
   async getRoles(): Promise<any[]> {
     let obj = {
       search: ''
-    }
+    };
     const res = await this.network.getRoles(obj);
 
     if (res && res['data']) {
-
       let d = res['data'];
       let dm = d['data'];
-      return dm.map( r => {
+      return dm.map((r) => {
         return {
           value: r.id,
           label: r.name
-        }
+        };
       }) as any[];
-
     }
 
     return [];
   }
-
 
   onFileChange(field, event: Event, type: string = 'image') {
     const input = event.target as HTMLInputElement;
@@ -314,7 +298,6 @@ export class EditUserComponent implements OnInit {
     }
   }
   async onSubmit(model) {
-
     if (this.form.invalid) {
       // Mark all fields as touched to trigger validation styles
       this.form.markAllAsTouched();
@@ -334,7 +317,7 @@ export class EditUserComponent implements OnInit {
       const res = await this.network.updateUser(d, this.id);
       console.log(res);
       if (res) {
-        this.utility.presentSuccessToast('User Information Updated!')
+        this.utility.presentSuccessToast('User Information Updated!');
         this.nav.pop();
       }
     } else {

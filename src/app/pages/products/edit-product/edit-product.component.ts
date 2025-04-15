@@ -227,7 +227,7 @@ export class EditProductComponent implements OnInit, AfterViewInit {
       name: d.name || '',
       category_id: d.category_id || null,
       description: d.description || '',
-      status: d.status || '',
+      status: (d.status || '').toLowerCase(),
       price: d.price || null,
       image: '',
       imageBase64: d.imageBase64 || '',

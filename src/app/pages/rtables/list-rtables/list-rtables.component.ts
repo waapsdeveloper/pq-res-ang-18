@@ -16,7 +16,7 @@ import { EventsService } from 'src/app/services/events.service';
 })
 export class ListRtablesComponent extends ListBlade {
   showDeleteAllButton = false;
-  columns: any[] = ['Table No', 'Branch', 'No of seats', 'Floor', 'No of Orders', 'Status'];
+  columns: any[] = ['Table No','No of seats', 'Floor', 'No of Orders', 'Status'];
   title = 'Tables';
   showEdit = false;
   addurl = '/pages/tables/add';
