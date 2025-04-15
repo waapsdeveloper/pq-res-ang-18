@@ -206,7 +206,7 @@
                                 <span class="fw-semibold">{{ option.name }}</span>
                                 <br />
                                 <span class="text-muted">- {{ option.description }}</span>
-                                <span class="text-success">(${{ option.price }})</span>
+                                <span class="text-success">(${{ option.price | number:'1.2-2'  }})</span>
                               </div>
                             </div>
                           </div>
@@ -230,6 +230,13 @@
                   <td class="fw-medium fs-6 text-gray-800">${{ product?.quantity * product?.price }}</td>
                 </tr>
               </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="4" class="text-end fw-bold">Total Price:</td>
+                  <td class="fw-bold text-success">${{ item?.total_price | number:'1.2-2' }}</td>
+                </tr>
+              </tfoot>
+              
             </table>
           </div>
         </div>

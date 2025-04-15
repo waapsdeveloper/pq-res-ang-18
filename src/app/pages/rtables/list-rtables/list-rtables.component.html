@@ -22,18 +22,13 @@
   >
     <!-- Show "No results found" when not loading and list is empty -->
     <tr *ngIf="!crudService.loading && crudService.list.length === 0">
-      <td colspan="5" class="text-center">
-        No results found.
-      </td>
+      <td colspan="5" class="text-center">No results found.</td>
     </tr>
     <!-- Hide rows when loading -->
     <tr [hidden]="!(!crudService.loading && crudService.list.length > 0)" *ngFor="let item of crudService.list; let i = index">
       <td>
         <div class="d-flex align-items-center">
           <!--begin::Thumbnail-->
-          <a href="#" class="symbol symbol-50px">
-            <i class="ti ti-chef-hat" style="font-size: 20px; cursor: pointer"></i>
-          </a>
 
           <!--end::Thumbnail-->
           <div class="ms-5">
@@ -47,7 +42,7 @@
           </div>
         </div>
       </td>
-     
+
       <td>
         <div class="d-flex">
           <div class="ms-5">
