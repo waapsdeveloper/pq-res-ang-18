@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit,ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
@@ -15,7 +15,6 @@ import { UtilityService } from 'src/app/services/utility.service';
   templateUrl: './edit-product.component.html',
   styleUrl: './edit-product.component.scss',
   encapsulation: ViewEncapsulation.None
-
 })
 export class EditProductComponent implements OnInit, AfterViewInit {
   id;
@@ -146,7 +145,6 @@ export class EditProductComponent implements OnInit, AfterViewInit {
             placeholder: 'Enter image URL',
             type: 'file',
             accept: 'image/*',
-            required: true, // Ensure required is true
             change: (field, event) => this.onFileChange(field, event, 'imageBase64')
           },
           className: 'formly-image-wrapper-3232 col-12 col-lg-6'

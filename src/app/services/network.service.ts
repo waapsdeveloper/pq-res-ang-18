@@ -131,11 +131,11 @@ export class NetworkService {
   }
 
   getCategoriesById(id) {
-    return this.httpGetResponse(`category/${id}`, null, false, true);
+    return this.httpGetResponse(`category/${id}`, null, true, true);
   }
 
   addCategory(data) {
-    return this.httpPostResponse('category', data, null, false, true);
+    return this.httpPostResponse('category', data, null, true, true);
   }
 
   removeCategory(id) {
