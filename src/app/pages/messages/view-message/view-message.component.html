@@ -1,4 +1,4 @@
-<app-kt-list-detail-page [title]="'Messages'">
+<!-- <app-kt-list-detail-page [title]="'Messages'">
   <div class="card mb-5 mb-xl-10" id="kt_profile_details_view">
     <div class="card-body">
       <div class="row mb-7">
@@ -43,4 +43,101 @@
       </div>
     </div>
   </div>
-</app-kt-list-detail-page>
+</app-kt-list-detail-page> -->
+
+<div class="main-panel">
+  <div class="main-content">
+    <div class="content-overlay"></div>
+    <div class="content-wrapper">
+      <section class="users-view">
+        <!-- Media object section -->
+        <div class="row">
+          <div class="col-12 col-sm-7">
+            <div class="media d-flex align-items-center">
+              <a href="javascript:;">
+                <div *ngIf="item?.image; else userPlaceholder">
+                  <img [src]="item.image" alt="user avatar" class="users-avatar-shadow rounded" height="64" width="64" />
+                </div>
+                <ng-template #userPlaceholder>
+                  <div
+                    class="users-avatar-shadow rounded d-flex align-items-center justify-content-center"
+                    style="width: 64px; height: 64px; background-color: #f5f7fb"
+                  >
+                    <i class="ti ti-user" style="font-size: 2rem; color: #5e6e82"></i>
+                  </div>
+                </ng-template>
+              </a>
+              <div class="media-body ml-3">
+                <h4>
+                  <span class="users-view-name">{{ item?.name }}</span>
+                </h4>
+                <span>ID:</span>
+                <span class="users-view-id">{{ itemId }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card section -->
+        <div class="row">
+          <div class="col-12">
+            <div class="card mb-5 mb-xl-10">
+              <div class="card-content">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-12">
+                      <table class="table table-borderless">
+                        <tbody>
+                          <tr>
+                            <td style="padding: 0.5rem 0 !important; width: 30%" class="fw-semibold text-muted">User Name</td>
+                            <td style="padding: 0.5rem 0 !important">
+                              <span class="fw-bold fs-6 text-gray-800">{{ item?.name }}</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="fw-semibold text-muted">Email</td>
+                            <td>
+                              <span class="fw-semibold text-gray-800 fs-6">{{ item?.email }}</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="fw-semibold text-muted">Phone</td>
+                            <td>
+                              <span class="fw-semibold text-gray-800 fs-6">{{ item?.phone }}</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="fw-semibold text-muted">Message</td>
+                            <td>
+                              <span class="fw-semibold text-gray-800 fs-6">{{ item?.message }}</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="fw-semibold text-muted">Response</td>
+                            <td>
+                              <textarea
+                                class="form-control"
+                                rows="4"
+                                [(ngModel)]="responseMessage"
+                                placeholder="Write your response here..."
+                              ></textarea>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="row mt-4">
+                    <div class="col-12 d-flex justify-content-end">
+                      <button class="btn btn-primary" (click)="postResponse()">Post Response</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

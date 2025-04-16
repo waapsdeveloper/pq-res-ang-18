@@ -95,3 +95,21 @@
   background-color: #a72121; /* Gray for inactive status */
   color: white;
 }
+
+.badge-active {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 0.25rem 0.6rem;
+  border-radius: 0.25rem;
+}
+
+.badge-inactive {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 0.25rem 0.6rem;
+  border-radius: 0.25rem;
+}
+
+.bg-light {
+  background-color: #f8f9fa !important;
+}
