@@ -91,7 +91,6 @@
   </div>
 </app-kt-list-detail-page> -->
 
-
 <div class="main-panel">
   <!-- BEGIN : Main Content-->
   <div class="main-content">
@@ -103,13 +102,20 @@
           <div class="col-12 col-sm-7">
             <div class="media d-flex align-items-center">
               <a href="javascript:;">
-                <img
-                  [src]="{ 'background-image': 'url(' + item.image + ')' }"
-                  alt="user view avatar"
-                  class="users-avatar-shadow rounded"
-                  height="64"
-                  width="64"
-                />
+                <!-- Show image if available -->
+                <div *ngIf="item?.image; else userPlaceholder">
+                  <img [src]="item.image" alt="user avatar" class="users-avatar-shadow rounded" height="4rem" width="4rem" />
+                </div>
+
+                <!-- Tabler User placeholder -->
+                <ng-template #userPlaceholder>
+                  <div
+                    class="users-avatar-shadow rounded d-flex align-items-center justify-content-center"
+                    style="width: 4rem; height: 4rem; background-color: #f5f7fb"
+                  >
+                    <i class="ti ti-user" style="font-size: 2rem; color: #5e6e82"></i>
+                  </div>
+                </ng-template>
               </a>
               <div class="media-body ml-3">
                 <h4>
@@ -134,36 +140,36 @@
                       <table class="table table-borderless">
                         <tbody>
                           <tr>
-                            <td style="padding: 0 !important;">Email:</td>
-                            <td style="padding: 0 !important;">{{ item?.email }}</td>
+                            <td style="padding: 0.5rem 0 !important">Email:</td>
+                            <td style="padding: 0.5rem 0 !important">{{ item?.email }}</td>
                           </tr>
                           <tr>
-                            <td>Phone</td>
-                            <td>{{ item?.phone }}</td>
+                            <td style="padding: 0.5rem 0 !important">Phone</td>
+                            <td style="padding: 0.5rem 0 !important">{{ item?.phone }}</td>
                           </tr>
                           <tr>
-                            <td>Role:</td>
-                            <td>{{ item?.role }}</td>
+                            <td style="padding: 0.5rem 0 !important">Role:</td>
+                            <td style="padding: 0.5rem 0 !important">{{ item?.role }}</td>
                           </tr>
                           <tr>
-                            <td>Address:</td>
-                            <td>{{ item?.address }}</td>
+                            <td style="padding: 0.5rem 0 !important">Address:</td>
+                            <td style="padding: 0.5rem 0 !important">{{ item?.address }}</td>
                           </tr>
                           <tr>
-                            <td>City:</td>
-                            <td>{{ item?.city }}</td>
+                            <td style="padding: 0.5rem 0 !important">City:</td>
+                            <td style="padding: 0.5rem 0 !important">{{ item?.city }}</td>
                           </tr>
                           <tr>
-                            <td>Country</td>
-                            <td>{{ item?.country }}</td>
+                            <td style="padding: 0.5rem 0 !important">Country</td>
+                            <td style="padding: 0.5rem 0 !important">{{ item?.country }}</td>
                           </tr>
                           <tr>
-                            <td>State:</td>
-                            <td>{{ item?.state }}</td>
+                            <td style="padding: 0.5rem 0 !important">State:</td>
+                            <td style="padding: 0.5rem 0 !important">{{ item?.state }}</td>
                           </tr>
                           <tr>
-                            <td>Status:</td>
-                            <td>
+                            <td style="padding: 0.5rem 0 !important">Status:</td>
+                            <td style="padding: 0.5rem 0 !important">
                               <span
                                 class="badge fw-bold me-auto"
                                 [ngClass]="{

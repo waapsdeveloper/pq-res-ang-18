@@ -1,36 +1,19 @@
-<app-kt-list-detail-page [title]="'items'">
+<!-- <app-kt-list-detail-page [title]="'items'">
   <div class="card mb-5 mb-xl-10" id="kt_profile_details_view">
-    <!--begin::Card header-->
-    <!--begin::Card header-->
-    <!--begin::Card body-->
     <div class="card-body">
-      <!--begin::Row-->
       <div class="row mb-7">
-        <!--begin::Label-->
         <label class="col-lg-4 fw-normal text-muted">Customer Name</label>
-        <!--end::Label-->
-        <!--begin::Col-->
         <div class="col-lg-8">
-          <span class="fw-medium fs-6 text-gray-800">{{item?.customer.name}}</span>
+          <span class="fw-medium fs-6 text-gray-800">{{ item?.customer.name }}</span>
         </div>
-        <!--end::Col-->
       </div>
-      <!--end::Row-->
-      <!--begin::Input group-->
       <div class="row mb-7">
-        <!--begin::Label-->
         <label class="col-lg-4 fw-normal text-muted">Order Number</label>
-        <!--end::Label-->
-        <!--begin::Col-->
         <div class="col-lg-8 fv-row">
           <span class="fw-medium text-gray-800 fs-6">{{ item?.order_number }}</span>
         </div>
-        <!--end::Col-->
       </div>
-      <!--end::Input group-->
-      <!--begin::Input group-->
       <div class="row mb-7">
-        <!--begin::Label-->
         <label class="col-lg-4 fw-normal text-muted">
           Contact Phone
           <i
@@ -40,35 +23,22 @@
             data-kt-initialized="1"
           ></i>
         </label>
-        <!--end::Label-->
-        <!--begin::Col-->
         <div class="col-lg-8 d-flex align-items-center">
-          <span class="fw-medium text-gray-800 fs-6">{{item?.customer.phone}}</span>
+          <span class="fw-medium text-gray-800 fs-6">{{ item?.customer.phone }}</span>
         </div>
-        <!--end::Col-->
       </div>
-      <!--end::Input group-->
       <div class="row mb-7">
-        <!--begin::Label-->
         <label class="col-lg-4 fw-normal text-muted">item Number</label>
-        <!--end::Label-->
-        <!--begin::Col-->
         <div class="col-lg-8">
           <span class="fw-medium text-gray-800 fs-6">{{ item?.invoice_no }}</span>
         </div>
-        <!--end::Col-->
       </div>
       <div class="row mb-7">
-        <!--begin::Label-->
         <label class="col-lg-4 fw-normal text-muted">Invoice Date</label>
-        <!--end::Label-->
-        <!--begin::Col-->
         <div class="col-lg-8">
           <span class="fw-medium text-gray-800 fs-6">{{ item?.invoice_date }}</span>
         </div>
-        <!--end::Col-->
       </div>
-      <!--end::Input group-->
       <div class="row mb-7">
         <label class="col-lg-4 fw-normal text-muted">Total Price</label>
         <div class="col-lg-8">
@@ -117,7 +87,6 @@
           <span class="fw-medium text-gray-800 fs-6">{{ item?.status }}</span>
         </div>
       </div>
-      <!--begin::Input group-->
       <div class="row mb-7">
         <div class="col-lg-12">
           <table class="table table-bordered mb-4">
@@ -141,6 +110,151 @@
         </div>
       </div>
     </div>
-    <!--end::Card body-->
   </div>
-</app-kt-list-detail-page>
+</app-kt-list-detail-page> -->
+<div class="wrapper">
+  <div class="main-panel">
+    <!-- BEGIN : Main Content-->
+    <div class="main-content">
+      <div class="content-overlay"></div>
+      <div class="content-wrapper">
+        <section class="users-view">
+          <div class="row">
+            <div class="col-12 col-sm-7">
+              <div class="media d-flex align-items-center">
+                <a href="javascript:;">
+                  <!-- Show image if available -->
+                  <div *ngIf="item?.image; else iconPlaceholder">
+                    <img [src]="item.image" alt="user view avatar" class="users-avatar-shadow rounded" height="64" width="64" />
+                  </div>
+
+                  <!-- Tabler Icon placeholder -->
+                  <ng-template #iconPlaceholder>
+                    <div
+                      class="users-avatar-shadow rounded d-flex align-items-center justify-content-center"
+                      style="width: 64px; height: 64px; background-color: #f5f7fb"
+                    >
+                      <i class="ti ti-file-invoice" style="font-size: 2rem; color: #5e6e82"></i>
+                    </div>
+                  </ng-template>
+                </a>
+                <div class="media-body ml-3">
+                  <h4>
+                    <span class="users-view-name">{{ item?.invoice_no }}</span>
+                  </h4>
+                  <span>ID:</span>
+                  <span class="users-view-id">{{ itemId }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <!-- Card data starts -->
+              <div class="card">
+                <div class="card-content">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-12 col-xl-4">
+                        <table class="table table-borderless">
+                          <tbody>
+                            <tr>
+                              <td>Customer Name:</td>
+                              <td>{{ item?.customer.name }}</td>
+                            </tr>
+                            <tr>
+                              <td>Order Number:</td>
+                              <td class="users-view-latest-activity">{{ item?.order_number }}</td>
+                            </tr>
+                            <tr>
+                              <td>Customer Phone:</td>
+                              <td class="users-view-verified">{{ item?.customer.phone }}</td>
+                            </tr>
+                            <tr>
+                              <td>item Number:</td>
+                              <td class="users-view-role">{{ item?.invoice_no }}</td>
+                            </tr>
+                            <tr>
+                              <td>Invoice Date:</td>
+                              <td class="users-view-role">{{ item?.invoice_date }}</td>
+                            </tr>
+                            <tr>
+                              <td>Total Price:</td>
+                              <td class="users-view-role">${{ item?.total_price }}</td>
+                            </tr>
+                            <tr>
+                              <td>Discount</td>
+                              <td class="users-view-role">${{ item?.discount }}</td>
+                            </tr>
+                            <tr>
+                              <td>Tax:</td>
+                              <td class="users-view-role">${{ item?.tax }}</td>
+                            </tr>
+                            <tr>
+                              <td>Important Notes:</td>
+                              <td class="users-view-role">{{ item?.important_notes }}</td>
+                            </tr>
+                            <tr>
+                              <td>Table No:</td>
+                              <td class="users-view-role">{{ item?.table_no }}</td>
+                            </tr>
+                            <tr>
+                              <td>Payment Method:</td>
+                              <td class="users-view-role">{{ item?.payment_method }}</td>
+                            </tr>
+                            <tr>
+                              <td>Payment Status:</td>
+                              <td class="users-view-role">{{ item?.payment_status }}</td>
+                            </tr>
+                            <tr>
+                              <td>Status:</td>
+                              <td>
+                                <span
+                                  class="badge fw-bold me-auto"
+                                  [ngClass]="{
+                                    'badge-active': item.status === 'Active',
+                                    'badge-inactive': item.status === 'Inactive'
+                                  }"
+                                >
+                                  {{ item?.status }}
+                                </span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="col-12 col-xl-8 users-module">
+                        <div class="table-responsive">
+                          <h5>Product Details</h5>
+                          <table class="table table-bordered mb-4">
+                            <thead>
+                              <tr>
+                                <th class="fw-normal text-muted">Product Id</th>
+                                <th class="fw-normal text-muted">Product Quantity</th>
+                                <th class="fw-normal text-muted">Price</th>
+                                <th class="fw-normal text-muted">Total Price</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let product of item?.order_products">
+                                <td class="fw-medium fs-6 text-gray-800">{{ product?.id }}</td>
+                                <td class="fw-medium fs-6 text-gray-800">{{ product?.quantity }}</td>
+                                <td class="fw-medium fs-6 text-gray-800">${{ product?.price }}</td>
+                                <td class="fw-medium fs-6 text-gray-800">${{ product?.quantity * product?.price }}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Card data ends -->
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>

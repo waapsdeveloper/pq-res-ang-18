@@ -1,103 +1,145 @@
-<app-kt-list-detail-page [title]="'Restaurant Table'">
-  <!--begin::Card-->
+<!-- <app-kt-list-detail-page [title]="'Restaurant Table'">
   <div class="card card-flush pt-3 mb-5 mb-xl-10">
-    <!--begin::Card header-->
     <div class="row mb-5">
-      <!--begin::Col-->
       <div class="col-xl-3">
-        <div class="fs-6 fw-semibold mt-2 mb-3">TABLE QR CODE </div>
+        <div class="fs-6 fw-semibold mt-2 mb-3">TABLE QR CODE</div>
       </div>
-      <!--end::Col-->
-      <!--begin::Col-->
-      <div class="col-lg-8" style="margin-bottom:50px">
-        <!--begin::Image input-->
+      <div class="col-lg-8" style="margin-bottom: 50px">
         <div class="image-input image-input-outline" data-kt-image-input="true">
-          <!--begin::Preview existing avatar-->
-          <qr-code value="{{item?.qr_code}}"
-         size="300"
-         errorCorrectionLevel="M" />
-          <!--end::Preview existing avatar-->
-          <!--begin::Label-->
-
-          <!--end::Label-->
-          <!--begin::Cancel-->
-
-          <!--end::Remove-->
+          <qr-code value="{{ item?.qr_code }}" size="300" errorCorrectionLevel="M" />
         </div>
-        <!--end::Image input-->
-        <!--begin::Hint-->
-        <!--end::Hint-->
       </div>
-      <!--end::Col-->
     </div>
     <div class="card-header">
-      <!--begin::Card title-->
       <div class="card-title">
         <h2 class="fw-bold">Table Details</h2>
       </div>
-      <!--end::Card title-->
     </div>
-    <!--end::Card header-->
-    <!--begin::Card body-->
     <div class="card-body pt-3">
-      <!--begin::Section-->
       <div class="mb-10">
-        <!--begin::Details-->
         <div class="d-flex flex-wrap py-5">
-          <!--begin::Left Column-->
           <div class="flex-equal me-5">
-            <!--begin::Details Table-->
             <table class="table fs-6 fw-semibold gs-0 gy-2 gx-2 m-0">
-              <!--begin::Row-->
               <tr>
                 <td class="text-gray-400 min-w-175px w-175px">Table Name</td>
-                <td class="text-gray-800 min-w-200px">{{item?.name}}</td>
+                <td class="text-gray-800 min-w-200px">{{ item?.name }}</td>
               </tr>
-              <!--end::Row-->
-              <!--begin::Row-->
-              <!--end::Row-->
-              <!--begin::Row-->
               <tr>
                 <td class="text-gray-400">Description</td>
-                <td class="text-gray-800">{{item?.description}}</td>
+                <td class="text-gray-800">{{ item?.description }}</td>
               </tr>
-              <!--end::Row-->
-              <!--begin::Row-->
               <tr>
                 <td class="text-gray-400">Status</td>
-                <td class="text-gray-800">{{item?.status}}</td>
+                <td class="text-gray-800">{{ item?.status }}</td>
               </tr>
-              <!--end::Row-->
             </table>
-            <!--end::Details Table-->
           </div>
-          <!--end::Left Column-->
-          <!--begin::Right Column-->
           <div class="flex-equal">
-            <!--begin::Details Table-->
             <table class="table fs-6 fw-semibold gs-0 gy-2 gx-2 m-0">
-              <!--begin::Row-->
               <tr>
                 <td class="text-gray-400 min-w-175px w-175px">Floor</td>
-                <td class="text-gray-800 min-w-200px">{{item?.floor}}</td>
+                <td class="text-gray-800 min-w-200px">{{ item?.floor }}</td>
               </tr>
-              <!--end::Row-->
-              <!--begin::Row-->
               <tr>
                 <td class="text-gray-400">Number of Seats</td>
-                <td class="text-gray-800">{{item?.no_of_seats}}</td>
+                <td class="text-gray-800">{{ item?.no_of_seats }}</td>
               </tr>
-              <!--end::Row-->
             </table>
-            <!--end::Details Table-->
           </div>
-          <!--end::Right Column-->
         </div>
-        <!--end::Details-->
       </div>
-      <!--end::Section-->
     </div>
-    <!--end::Card body-->
   </div>
-  <!--end::Card-->
-</app-kt-list-detail-page>
+</app-kt-list-detail-page> -->
+<div class="main-panel">
+  <!-- BEGIN : Main Content-->
+  <div class="main-content">
+    <div class="content-overlay"></div>
+    <div class="content-wrapper">
+      <section class="users-view">
+        <!-- Media object starts -->
+        <div class="row align-items-center">
+          <!-- Left Side - User Info -->
+          <div class="col-12 col-sm-7">
+            <div class="media d-flex align-items-center">
+              <a href="javascript:;">
+                <div *ngIf="item?.image; else userPlaceholder">
+                  <img [src]="item.image" alt="user avatar" class="users-avatar-shadow rounded" height="4rem" width="4rem" />
+                </div>
+                <ng-template #userPlaceholder>
+                  <div
+                    class="users-avatar-shadow rounded d-flex align-items-center justify-content-center"
+                    style="width: 4rem; height: 4rem; background-color: #f5f7fb"
+                  >
+                    <i class="ti ti-user" style="font-size: 2rem; color: #5e6e82"></i>
+                  </div>
+                </ng-template>
+              </a>
+              <div class="media-body ml-3">
+                <h4>
+                  <span class="users-view-name">{{ item?.identifier }}</span>
+                </h4>
+                <span>ID:</span>
+                <span class="users-view-id">{{ itemId }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Media object ends -->
+
+        <div class="row">
+          <div class="col-12">
+            <!-- Card data starts -->
+            <div class="card">
+              <div class="card-content">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-6 col-xl-4">
+                      <div class="image-input image-input-outline p-0 m-0" data-kt-image-input="true">
+                        <qr-code [value]="item?.qr_code" [size]="300" errorCorrectionLevel="M"></qr-code>
+                      </div>
+                      <table class="table table-borderless">
+                        <tbody>
+                          <tr>
+                            <td style="padding: 0.5rem 0 !important">Description:</td>
+                            <td style="padding: 0.5rem 0 !important">{{ item?.description }}</td>
+                          </tr>
+                          <tr>
+                            <td style="padding: 0.5rem 0 !important">Identifier</td>
+                            <td style="padding: 0.5rem 0 !important">{{ item?.identifier }}</td>
+                          </tr>
+                          <tr>
+                            <td style="padding: 0.5rem 0 !important">Floor:</td>
+                            <td style="padding: 0.5rem 0 !important">{{ item?.floor }}</td>
+                          </tr>
+                          <tr>
+                            <td style="padding: 0.5rem 0 !important">No of Seats:</td>
+                            <td style="padding: 0.5rem 0 !important">{{ item?.no_of_seats }}</td>
+                          </tr>
+                          <tr>
+                            <td style="padding: 0.5rem 0 !important">Status:</td>
+                            <td style="padding: 0.5rem 0 !important">
+                              <span
+                                class="badge fw-bold me-auto"
+                                [ngClass]="{
+                                  'badge-active': item.status === 'Active',
+                                  'badge-inactive': item.status === 'Inactive'
+                                }"
+                              >
+                                {{ item?.status }}
+                              </span>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
