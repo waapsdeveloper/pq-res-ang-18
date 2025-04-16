@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, OnInit,ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, ViewChild, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NavService } from 'src/app/services/basic/nav.service';
@@ -54,8 +54,7 @@ export class AddCategoryComponent implements OnInit {
           props: {
             label: 'Category',
             placeholder: 'Select a parent category',
-            options: [],
-            required: true
+            options: []
           },
           className: 'formly-select-wrapper-3232 col-md-6 col-12'
         },
@@ -176,7 +175,6 @@ export class AddCategoryComponent implements OnInit {
   }
 
   async onSubmit(model) {
-
     if (this.form.invalid) {
       // Mark all fields as touched to trigger validation styles
       this.form.markAllAsTouched();

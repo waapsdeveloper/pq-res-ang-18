@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -80,8 +80,7 @@ export class EditCategoryComponent implements OnInit {
           props: {
             label: 'Category',
             placeholder: 'Select a parent category',
-            options: [],
-            required: true // Ensure required is true
+            options: []
           },
           className: 'formly-select-wrapper-3232 col-md-6 col-12'
         },
@@ -93,7 +92,6 @@ export class EditCategoryComponent implements OnInit {
             placeholder: 'Enter image URL',
             type: 'file',
             accept: 'image/*',
-            required: true, // Ensure required is true
             change: (field, event) => this.onFileChange(field, event, 'imageBase64')
           },
           className: 'formly-image-wrapper-3232 col-md-6 col-12'
@@ -175,14 +173,14 @@ export class EditCategoryComponent implements OnInit {
   async ngAfterViewInit() {
     const res = await this.network.getCategoriesById(this.id);
     let d = Object.assign({}, res.category);
-    console.log( d.category.name);
+    console.log(d.category.name);
     this.model = {
-      name: d.name || '',
-      category_id: d.category.id || '', // Included as it exists in `model`
-      status: (d.status || '').toLowerCase(),
-      description: d.description || '',
-      image:'',
-      imageBase64: d.imageBase64 || ''
+      name: d?.name || '',
+      category_id: d?.category.id || '', // Included as it exists in `model`
+      status: (d?.status || '').toLowerCase(),
+      description: d?.description || '',
+      image: '',
+      imageBase64: d?.imageBase64 || ''
     };
   }
 
@@ -218,7 +216,6 @@ export class EditCategoryComponent implements OnInit {
     }
   }
   async onSubmit(model) {
-
     if (this.form.invalid) {
       // Mark all fields as touched to trigger validation styles
       this.form.markAllAsTouched();
@@ -238,7 +235,7 @@ export class EditCategoryComponent implements OnInit {
       const res = await this.network.updateCategory(d, this.id);
       console.log(res);
       if (res) {
-        this.utility.presentSuccessToast('Category Updated!')
+        this.utility.presentSuccessToast('Category Updated!');
         this.nav.pop();
       }
     } else {
