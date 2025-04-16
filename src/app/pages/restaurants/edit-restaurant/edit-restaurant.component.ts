@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NavService } from 'src/app/services/basic/nav.service';
+import { GlobalRestaurantService } from 'src/app/services/global-restaurant.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { UtilityService } from 'src/app/services/utility.service';
 @Component({
@@ -70,7 +71,8 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private network: NetworkService,
     private nav: NavService,
-    private utility: UtilityService
+    private utility: UtilityService,
+    public grService: GlobalRestaurantService,
   ) {}
 
   ngOnInit() {
@@ -438,6 +440,15 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
 
       if (res) {
         this.utility.presentSuccessToast('Restaurant information Updated!');
+        let item = res;
+        this.grService.setRestaurant(item.id, item.name);
+
+        // Call API to set default restaurant
+        const data = {
+          is_active: 1
+        };
+
+        await this.network.setActiveRestaurant(data, item.id);
         this.nav.pop();
       }
     } else {

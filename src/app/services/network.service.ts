@@ -74,11 +74,11 @@ export class NetworkService {
   }
 
   addRestaurant(data) {
-    return this.httpPostResponse('restaurant', data, null, false, true);
+    return this.httpPostResponse('restaurant', data, null, true, true);
   }
 
   updateRestaurant(data, id) {
-    return this.httpPutResponse(`restaurant`, data, id, false, true);
+    return this.httpPutResponse(`restaurant`, data, id, true, true);
   }
 
   setActiveRestaurant(data: any, id) {
