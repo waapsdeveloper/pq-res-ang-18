@@ -91,7 +91,6 @@
   </div>
 </app-kt-list-detail-page> -->
 
-
 <div class="main-panel">
   <!-- BEGIN : Main Content-->
   <div class="main-content">
@@ -103,13 +102,7 @@
           <div class="col-12 col-sm-7">
             <div class="media d-flex align-items-center">
               <a href="javascript:;">
-                <img
-                  [src]="{ 'background-image': 'url(' + item.image + ')' }"
-                  alt="user view avatar"
-                  class="users-avatar-shadow rounded"
-                  height="64"
-                  width="64"
-                />
+                <img [src]="item?.image" alt="user view avatar" class="users-avatar-shadow rounded" height="64" width="64" />
               </a>
               <div class="media-body ml-3">
                 <h4>
@@ -134,36 +127,36 @@
                       <table class="table table-borderless">
                         <tbody>
                           <tr>
-                            <td style="padding: 0 !important;">Email:</td>
-                            <td style="padding: 0 !important;">{{ item?.email }}</td>
+                            <td style="padding: 0.5px 0px !important">Email:</td>
+                            <td style="padding: 0.5px 0px !important">{{ item?.email }}</td>
                           </tr>
                           <tr>
-                            <td>Phone</td>
-                            <td>{{ item?.phone }}</td>
+                            <td style="padding: 0.5px 0px !important">Phone</td>
+                            <td style="padding: 0.5px 0px !important">{{ item?.phone }}</td>
                           </tr>
                           <tr>
-                            <td>Role:</td>
-                            <td>{{ item?.role }}</td>
+                            <td style="padding: 0.5px 0px !important">Role:</td>
+                            <td style="padding: 0.5px 0px !important">{{ item?.role }}</td>
                           </tr>
                           <tr>
-                            <td>Address:</td>
-                            <td>{{ item?.address }}</td>
+                            <td style="padding: 0.5px 0px !important">Address:</td>
+                            <td style="padding: 0.5px 0px !important">{{ item?.address }}</td>
                           </tr>
                           <tr>
-                            <td>City:</td>
-                            <td>{{ item?.city }}</td>
+                            <td style="padding: 0.5px 0px !important">City:</td>
+                            <td style="padding: 0.5px 0px !important">{{ item?.city }}</td>
                           </tr>
                           <tr>
-                            <td>Country</td>
-                            <td>{{ item?.country }}</td>
+                            <td style="padding: 0.5px 0px !important">Country</td>
+                            <td style="padding: 0.5px 0px !important">{{ item?.country }}</td>
                           </tr>
                           <tr>
-                            <td>State:</td>
-                            <td>{{ item?.state }}</td>
+                            <td style="padding: 0.5px 0px !important">State:</td>
+                            <td style="padding: 0.5px 0px !important">{{ item?.state }}</td>
                           </tr>
                           <tr>
-                            <td>Status:</td>
-                            <td>
+                            <td style="padding: 0.5px 0px !important">Status:</td>
+                            <td style="padding: 0.5px 0px !important">
                               <span
                                 class="badge fw-bold me-auto"
                                 [ngClass]="{
