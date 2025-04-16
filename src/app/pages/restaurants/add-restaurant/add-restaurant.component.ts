@@ -2,6 +2,7 @@ import { Component, ViewChild, ElementRef, ViewEncapsulation } from '@angular/co
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NavService } from 'src/app/services/basic/nav.service';
+import { GlobalRestaurantService } from 'src/app/services/global-restaurant.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { UtilityService } from 'src/app/services/utility.service';
 
@@ -259,7 +260,8 @@ export class AddRestaurantComponent {
     private fb: FormBuilder,
     private network: NetworkService,
     private nav: NavService,
-    private utility: UtilityService
+    private utility: UtilityService,
+    public grService: GlobalRestaurantService,
   ) {}
 
   onFileChange(field, event: Event, type: string = 'image') {
@@ -341,7 +343,19 @@ export class AddRestaurantComponent {
       const res = await this.network.addRestaurant(d);
       console.log(res);
       if (res) {
+
         this.utility.presentSuccessToast('Restaurant added Successfully!');
+        let item = res;
+        this.grService.setRestaurant(item.id, item.name);
+
+        // Call API to set default restaurant
+        const data = {
+          is_active: 1
+        };
+
+        await this.network.setActiveRestaurant(data, item.id);
+
+
         this.nav.pop();
       }
     } else {
