@@ -1,26 +1,15 @@
-<app-kt-list-detail-page [title]="'Users'">
+<!-- <app-kt-list-detail-page [title]="'Users'">
   <div class="card mb-5 mb-xl-10" id="kt_profile_details_view">
-    <!--begin::Card body-->
     <div class="card-body">
-      <!--begin::Row-->
       <div class="col-xl-3">
         <div class="fs-6 fw-semibold mt-2 mb-3">Profile Photo</div>
       </div>
-      <!--end::Col-->
-      <!--begin::Col-->
-      <div class="col-lg-8" style="margin-bottom:50px">
-        <!--begin::Image input-->
+      <div class="col-lg-8" style="margin-bottom: 50px">
         <div class="image-input image-input-outline" data-kt-image-input="true">
-          <!--begin::Preview existing avatar-->
           <div
             class="image-input-wrapper w-125px h-125px bgi-position-center"
             [ngStyle]="{ 'background-image': 'url(' + item.image + ')' }"
           ></div>
-          <!--end::Preview existing avatar-->
-          <!--begin::Label-->
-
-          <!--end::Label-->
-          <!--begin::Cancel-->
           <span
             class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-white shadow"
             data-kt-image-input-action="cancel"
@@ -29,8 +18,6 @@
           >
             <i class="bi bi-x fs-2"></i>
           </span>
-          <!--end::Cancel-->
-          <!--begin::Remove-->
           <span
             class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-white shadow"
             data-kt-image-input-action="remove"
@@ -39,85 +26,166 @@
           >
             <i class="bi bi-x fs-2"></i>
           </span>
-          <!--end::Remove-->
         </div>
-        <!--end::Image input-->
-        <!--begin::Hint-->
-        <!--end::Hint-->
       </div>
       <div class="row mb-7">
-        <!--begin::Label-->
         <label class="col-lg-4 fw-semibold text-muted">User Name</label>
-        <!--end::Label-->
-        <!--begin::Col-->
         <div class="col-lg-8">
-          <span class="fw-bold fs-6 text-gray-800">{{item?.name}}</span>
+          <span class="fw-bold fs-6 text-gray-800">{{ item?.name }}</span>
         </div>
-        <!--end::Col-->
       </div>
-      <!--end::Row-->
-
-      <!--begin::Input group-->
       <div class="row mb-7">
         <label class="col-lg-4 fw-semibold text-muted">Email</label>
         <div class="col-lg-8">
-          <span class="fw-semibold text-gray-800 fs-6">{{item?.email}}</span>
+          <span class="fw-semibold text-gray-800 fs-6">{{ item?.email }}</span>
         </div>
       </div>
-      <!--end::Input group-->
-
       <div class="row mb-7">
         <label class="col-lg-4 fw-semibold text-muted">Phone</label>
         <div class="col-lg-8">
-          <span class="fw-semibold text-gray-800 fs-6">{{item?.phone}}</span>
+          <span class="fw-semibold text-gray-800 fs-6">{{ item?.phone }}</span>
         </div>
       </div>
 
       <div class="row mb-7">
         <label class="col-lg-4 fw-semibold text-muted">Role</label>
         <div class="col-lg-8">
-          <span class="fw-semibold text-gray-800 fs-6">{{item?.role}}</span>
+          <span class="fw-semibold text-gray-800 fs-6">{{ item?.role }}</span>
         </div>
       </div>
-
 
       <div class="row mb-7">
         <label class="col-lg-4 fw-semibold text-muted">Address</label>
         <div class="col-lg-8">
-          <span class="fw-semibold text-gray-800 fs-6">{{item?.address}}</span>
+          <span class="fw-semibold text-gray-800 fs-6">{{ item?.address }}</span>
         </div>
       </div>
 
       <div class="row mb-7">
         <label class="col-lg-4 fw-semibold text-muted">City</label>
         <div class="col-lg-8">
-          <span class="fw-semibold text-gray-800 fs-6">{{item?.city}}</span>
+          <span class="fw-semibold text-gray-800 fs-6">{{ item?.city }}</span>
         </div>
       </div>
 
       <div class="row mb-7">
         <label class="col-lg-4 fw-semibold text-muted">State</label>
         <div class="col-lg-8">
-          <span class="fw-semibold text-gray-800 fs-6">{{item?.state}}</span>
+          <span class="fw-semibold text-gray-800 fs-6">{{ item?.state }}</span>
         </div>
       </div>
 
       <div class="row mb-7">
         <label class="col-lg-4 fw-semibold text-muted">Country</label>
         <div class="col-lg-8">
-          <span class="fw-semibold text-gray-800 fs-6">{{item?.country}}</span>
+          <span class="fw-semibold text-gray-800 fs-6">{{ item?.country }}</span>
         </div>
       </div>
-
       <div class="row mb-7">
         <label class="col-lg-4 fw-semibold text-muted">Status</label>
         <div class="col-lg-8">
-          <span class="fw-bold fs-6 text-gray-800">{{item?.status}}</span>
+          <span class="fw-bold fs-6 text-gray-800">{{ item?.status }}</span>
         </div>
       </div>
-
-
     </div>
-    <!--end::Card body-->
   </div>
-</app-kt-list-detail-page>
+</app-kt-list-detail-page> -->
+
+
+<div class="main-panel">
+  <!-- BEGIN : Main Content-->
+  <div class="main-content">
+    <div class="content-overlay"></div>
+    <div class="content-wrapper">
+      <section class="users-view">
+        <!-- Media object starts -->
+        <div class="row">
+          <div class="col-12 col-sm-7">
+            <div class="media d-flex align-items-center">
+              <a href="javascript:;">
+                <img
+                  [src]="{ 'background-image': 'url(' + item.image + ')' }"
+                  alt="user view avatar"
+                  class="users-avatar-shadow rounded"
+                  height="64"
+                  width="64"
+                />
+              </a>
+              <div class="media-body ml-3">
+                <h4>
+                  <span class="users-view-name">{{ item?.name }}</span>
+                </h4>
+                <span>ID:</span>
+                <span class="users-view-id">{{ itemId }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Media object ends -->
+
+        <div class="row">
+          <div class="col-12">
+            <!-- Card data starts -->
+            <div class="card">
+              <div class="card-content">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-4 col-xl-4">
+                      <table class="table table-borderless">
+                        <tbody>
+                          <tr>
+                            <td style="padding: 0 !important;">Email:</td>
+                            <td style="padding: 0 !important;">{{ item?.email }}</td>
+                          </tr>
+                          <tr>
+                            <td>Phone</td>
+                            <td>{{ item?.phone }}</td>
+                          </tr>
+                          <tr>
+                            <td>Role:</td>
+                            <td>{{ item?.role }}</td>
+                          </tr>
+                          <tr>
+                            <td>Address:</td>
+                            <td>{{ item?.address }}</td>
+                          </tr>
+                          <tr>
+                            <td>City:</td>
+                            <td>{{ item?.city }}</td>
+                          </tr>
+                          <tr>
+                            <td>Country</td>
+                            <td>{{ item?.country }}</td>
+                          </tr>
+                          <tr>
+                            <td>State:</td>
+                            <td>{{ item?.state }}</td>
+                          </tr>
+                          <tr>
+                            <td>Status:</td>
+                            <td>
+                              <span
+                                class="badge fw-bold me-auto"
+                                [ngClass]="{
+                                  'badge-active': item.status === 'Active',
+                                  'badge-inactive': item.status === 'Inactive'
+                                }"
+                              >
+                                {{ item?.status }}
+                              </span>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Card data ends -->
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
