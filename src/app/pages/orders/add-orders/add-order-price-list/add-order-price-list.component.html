@@ -69,7 +69,12 @@
               </ng-template>
               <ng-template #noteContent>
                 <div class="p-0">
-                  <textarea class="form-control form-control-solid" [(ngModel)]="item.notes" rows="3" placeholder="Add a note..."></textarea>
+                  <textarea
+                    class="form-control form-control-solid"
+                    [(ngModel)]="item.notes"
+                    rows="3"
+                    placeholder="Add a note..."
+                  ></textarea>
                 </div>
               </ng-template>
 
@@ -78,7 +83,9 @@
                 <div class="d-flex justify-content-between align-items-start">
                   <h6 class="mb-0 fw-semibold">
                     <span class="text-dark">{{ item.name }}</span>
-                    <span class="text-muted" style="margin-left: 10px; cursor: pointer;"
+                    <span
+                      class="text-muted"
+                      style="margin-left: 10px; cursor: pointer"
                       [ngbPopover]="popContent"
                       [popoverTitle]="popTitle"
                       triggers="manual"
@@ -86,10 +93,10 @@
                       placement="top"
                       #quantityPopover="ngbPopover"
                       (click)="closeAllPopovers(); quantityPopover.open(); registerPopover(quantityPopover)"
-                    
-                    >({{ parseTwoDigitNumber(item.quantity) }})</span>
+                    >
+                      ({{ parseTwoDigitNumber(item.quantity) }})
+                    </span>
                   </h6>
-                  
                 </div>
                 <small class="text-muted d-block">
                   <!-- Qty • &nbsp; Price: ${{ calculateTotalPrice(item) }} -->
@@ -111,15 +118,18 @@
                   (click)="closeAllPopovers(); notePopover.open(); registerPopover(notePopover)"
                 >
                   <i class="ti ti-notes" style="font-size: 20px"></i>
-                </button> 
-                <button class="btn btn-sm btn-light text-primary" title="Edit" >
-                  <i class="ti ti-versions" style="font-size: 20px; cursor: pointer;"
+                </button>
+                <button class="btn btn-sm btn-light text-primary" title="Edit">
+                  <i
+                    class="ti ti-versions"
+                    style="font-size: 20px; cursor: pointer"
                     [ngbPopover]="variation"
                     triggers="manual"
                     [autoClose]="'outside'"
                     placement="top"
                     #variationPopover="ngbPopover"
-                    (click)="closeAllPopovers(); variationPopover.open(); registerPopover(variationPopover)"></i>
+                    (click)="closeAllPopovers(); variationPopover.open(); registerPopover(variationPopover)"
+                  ></i>
                 </button>
                 <button class="btn btn-sm btn-light text-danger" title="Delete" (click)="removeItem(item)">
                   <i class="ti ti-trash" style="font-size: 20px"></i>
