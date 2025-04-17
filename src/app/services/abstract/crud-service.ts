@@ -16,6 +16,8 @@ export abstract class BaseCrudService<T> {
 
   async getList(search: string = '', page: number = 1): Promise<any> {
 
+    // the amin get list api to call
+
     const obj = {
       search,
       page,
