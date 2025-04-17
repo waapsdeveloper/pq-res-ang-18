@@ -8,7 +8,8 @@
         </div>
       </div>
       <div class="card-body p-2">
-        <div clas="d-flex flex-column gap-3">
+        <!-- Added a container with a fixed height and scrollbar -->
+        <div class="d-flex flex-column gap-3 overflow-auto" style="max-height: 300px">
           <div class="card rounded-4 border-0 shadow-sm mb-2" *ngFor="let item of orderService.selected_products">
             <div class="card-body d-flex align-items-start p-1 gap-2">
               <!-- Image -->
