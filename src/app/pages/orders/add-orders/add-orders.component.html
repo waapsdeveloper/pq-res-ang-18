@@ -33,6 +33,32 @@
         </div>
       </div>
 
+      <div class="" [class.d-none]="activeTabName !== 'order'">
+        <app-add-order-price-list></app-add-order-price-list>
+        <div class="card mt-0">
+          <div class="card-body">
+            <form>
+              <div class="form-group">
+                <label for="code" class="col-form-label">Coupon Code</label>
+                <div class="input-group">
+                  <input
+                    type="text"
+                    [(ngModel)]="orderService.couponCode"
+                    name="couponCode"
+                    class="form-control sqaure form-control"
+                    placeholder="Enter Coupon"
+                  />
+                  <div class="btn btn-light input-group-append">Discount: ${{ orderService.discountAmount | number: '1.2-2' }}</div>
+                </div>
+              </div>
+              <!-- apply button -->
+              <div class="form-group mt-3">
+                <button type="button" class="btn btn-primary" (click)="orderService.applyCoupon()">Apply Coupon</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
       <div class="" [class.d-none]="activeTabName !== 'customer'">
         <!-- Chips Section -->
         <div class="mt-2">
@@ -118,32 +144,6 @@
           </div>
           <div class="card-body">
             <app-add-order-table></app-add-order-table>
-          </div>
-        </div>
-      </div>
-      <div class="" [class.d-none]="activeTabName !== 'order'">
-        <app-add-order-price-list></app-add-order-price-list>
-        <div class="card mt-0">
-          <div class="card-body">
-            <form>
-              <div class="form-group">
-                <label for="code" class="col-form-label">Coupon Code</label>
-                <div class="input-group">
-                  <input
-                    type="text"
-                    [(ngModel)]="orderService.couponCode"
-                    name="couponCode"
-                    class="form-control sqaure form-control"
-                    placeholder="Enter Coupon"
-                  />
-                  <div class="btn btn-light input-group-append">Discount: ${{ orderService.discountAmount | number: '1.2-2' }}</div>
-                </div>
-              </div>
-              <!-- apply button -->
-              <div class="form-group mt-3">
-                <button type="button" class="btn btn-primary" (click)="orderService.applyCoupon()">Apply Coupon</button>
-              </div>
-            </form>
           </div>
         </div>
       </div>

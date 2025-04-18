@@ -28,12 +28,12 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   filteredSuggestions = [];
   showForm = false;
   tabs: any[] = [
-    { name: 'customer', title: 'Customer', icon: 'ft-user', active: true },
-    { name: 'order', title: 'Overview', icon: 'ft-layers', active: false },
+    { name: 'order', title: 'Overview', icon: 'ft-layers', active: true },
+    { name: 'customer', title: 'Customer', icon: 'ft-user', active: false },
     { name: 'payment', title: 'Notes', icon: 'ft-credit-card', active: false }
   ];
 
-  activeTabName = 'customer';
+  activeTabName = 'order';
 
   toggleForm() {
     this.showForm = !this.showForm;
@@ -151,7 +151,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     console.log(this.filteredSuggestions);
   }
 
-  setActiveTab(name: string) {  
+  setActiveTab(name: string) {
     for (var i = 0; i < this.tabs.length; i++) {
       this.tabs[i]['active'] = this.tabs[i]['name'] == name;
     }
