@@ -1,253 +1,204 @@
 <div class="my-3">
   <div class="row">
-    <div class="col-md-8 col-12 mb-3">
-      <div class="d-flex flex-wrap justify-content-start align-items-center gap-3">
+    <!-- Main Content Section -->
+    <div class="col-md-9 col-12 mb-3">
+      <!-- <div class="section-header">
         <h3 class="mb-0">Add Orders</h3>
-        <app-add-order-categories></app-add-order-categories>
-      </div>
-    </div>
-    <div class="col-md-4 col-12 mb-3">
-      <!-- Search section commented out -->
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-8 col-12 mb-3">
-      <app-add-order-products></app-add-order-products>
-    </div>
-    <div class="col-md-4 col-12 mb-3">
-      <div class="d-flex flex-wrap justify-content-start align-items-center gap-2">
-        <div class="tab-item" *ngFor="let tab of tabs" [class.active]="tab.active == true" (click)="setActiveTab(tab.name)">
-          <a class="nav-link d-flex align-items-center justify-content-center gap-2">
-            <i [class]="tab.icon"></i>
-            <span>{{ tab.title }}</span>
-          </a>
+      </div> -->
+      <div class="section-body">
+        <div class="d-flex flex-wrap justify-content-start align-items-center gap-3">
+          <app-add-order-categories></app-add-order-categories>
+        </div>
+        <div class="mt-2">
+          <app-add-order-products></app-add-order-products>
         </div>
       </div>
+    </div>
 
-      <!-- Order Tab -->
-      <div [class.d-none]="activeTabName !== 'order'">
-        <app-add-order-price-list></app-add-order-price-list>
-        <div class="card mt-0">
-          <div class="card-body">
-            <form>
-              <div class="form-group">
-                <label for="code" class="col-form-label">Coupon Code</label>
-                <div class="input-group">
-                  <input
-                    type="text"
-                    [(ngModel)]="orderService.couponCode"
-                    name="couponCode"
-                    class="form-control sqaure form-control"
-                    placeholder="Enter Coupon"
-                  />
-                  <div class="btn btn-light input-group-append">Discount: ${{ orderService.discountAmount | number: '1.2-2' }}</div>
+    <!-- Sidebar Section -->
+    <div class="col-md-3 col-12 mb-3">
+      <div class="section-sidebar">
+        <div class="d-flex flex-wrap justify-content-start align-items-center gap-2">
+          <div class="tab-item" *ngFor="let tab of tabs" [class.active]="tab.active == true" (click)="setActiveTab(tab.name)">
+            <a class="nav-link d-flex align-items-center justify-content-center gap-2">
+              <i [class]="tab.icon"></i>
+              <span>{{ tab.title }}</span>
+            </a>
+          </div>
+        </div>
+        <!-- Order Tab -->
+        <div [class.d-none]="activeTabName !== 'order'">
+          <app-add-order-price-list></app-add-order-price-list>
+          <div class="card mt-0">
+            <div class="card-body">
+              <form>
+                <div class="form-group">
+                  <label for="code" class="col-form-label">Coupon Code</label>
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      [(ngModel)]="orderService.couponCode"
+                      name="couponCode"
+                      class="form-control sqaure form-control"
+                      placeholder="Enter Coupon"
+                    />
+                    <div class="btn btn-light input-group-append">Discount: ${{ orderService.discountAmount | number: '1.2-2' }}</div>
+                  </div>
                 </div>
-              </div>
-              <div class="form-group mt-3">
-                <button type="button" class="btn btn-primary" (click)="orderService.applyCoupon()">Apply Coupon</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-
-      <!-- Customer Tab -->
-      <div [class.d-none]="activeTabName !== 'customer'">
-        <div class="card">
-          <div class="card-header">
-            <h5 class="card-title">Customer Information</h5>
-          </div>
-          <div class="card-body">
-            <form>
-              <div class="form-group">
-                <label for="customer_name" class="col-form-label">Customer Name</label>
-                <ng-select
-                  [items]="filteredSuggestions"
-                  bindLabel="name"
-                  placeholder="Customer Name"
-                  [(ngModel)]="orderService.customer_name"
-                  name="customerName"
-                  [searchable]="true"
-                  [clearable]="true"
-                  (search)="onInputChange($event.term)"
-                  (change)="orderService.selectSuggestion($event)"
-                >
-                  <ng-template ng-label-tmp let-item="item">
-                    {{ item.name }}
-                  </ng-template>
-                  <ng-template ng-option-tmp let-item="item">{{ item.name }} - {{ item.phone }}</ng-template>
-                </ng-select>
-              </div>
-
-              <div class="form-group">
-                <label for="customer_phone" class="col-form-label">Customer Phone</label>
-                <ng-select
-                  [items]="filteredSuggestions"
-                  bindLabel="phone"
-                  placeholder="Customer Phone"
-                  [(ngModel)]="orderService.customer_phone"
-                  name="customerPhone"
-                  [searchable]="true"
-                  [clearable]="true"
-                  (search)="onInputChangePhone($event.term)"
-                  (change)="orderService.selectSuggestion($event)"
-                >
-                  <ng-template ng-label-tmp let-item="item">
-                    {{ item.phone }}
-                  </ng-template>
-                  <ng-template ng-option-tmp let-item="item">{{ item.phone }} - {{ item.name }}</ng-template>
-                </ng-select>
-              </div>
-
-              <div class="form-group">
-                <label for="notes" class="col-form-label">Order Type</label>
-                <select class="select2 form-control" [(ngModel)]="orderService.orderType" name="orderType" (change)="onTypeChange($event)">
-                  <option value="" disabled selected>Select Order Type</option>
-                  <option value="drive-thru">Drive-Thru</option>
-                  <option value="dine-in">Dine-In</option>
-                  <option value="take-away">Take-Away</option>
-                  <option value="delivery">Delivery</option>
-                  <option value="curbside-pickup">Curbside Pickup</option>
-                  <option value="catering">Catering</option>
-                  <option value="reservation">Reservation</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="method" class="col-form-label">Payment Method</label>
-                <select class="select2 form-control" [(ngModel)]="orderService.paymentMethod" name="paymentMethod">
-                  <option value="" disabled selected>Select Payment</option>
-                  <option *ngFor="let method of orderService.paymentMethods" [value]="method.value">
-                    {{ method.label }}
-                  </option>
-                </select>
-              </div>
-            </form>
-          </div>
-        </div>
-
-        <div class="card mt-2">
-          <div class="card-header">
-            <h5 class="card-title">Select Table</h5>
-          </div>
-          <div class="card-body">
-            <app-add-order-table></app-add-order-table>
-          </div>
-        </div>
-      </div>
-
-      <!-- Payment Tab -->
-      <div [class.d-none]="activeTabName !== 'payment'">
-        <div class="card">
-          <div class="card-header">
-            <h5 class="card-title">Notes to order</h5>
-          </div>
-          <div class="card-body">
-            <div class="form-group">
-              <label for="notes" class="col-form-label">Order Notes</label>
-              <textarea
-                [(ngModel)]="orderService.order_notes"
-                name="orderNotes"
-                class="form-control sqaure form-control-sm"
-                rows="3"
-                placeholder="Add a note..."
-              ></textarea>
+                <div class="form-group mt-3">
+                  <button type="button" class="btn btn-primary" (click)="orderService.applyCoupon()">Apply Coupon</button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="card mt-2">
-        <div class="card-header">
-          <h5 class="card-title">Order Summary</h5>
-        </div>
-        <div class="card-body">
-          <div class="mt-2 d-flex flex-column align-items-start gap-2">
-            <h5>Total Order</h5>
-            <h5 class="d-flex align-items-baseline">
-              <span class="fs-5 text-muted">$</span>
-              <span class="fs-3 fw-bold text-dark">{{ orderService.totalCost | number: '1.2-2' }}</span>
-            </h5>
-            <h5>Total Discount</h5>
-            <h5 class="d-flex align-items-baseline">
-              <span class="fs-5 text-muted">$</span>
-              <span class="fs-3 fw-bold text-dark">{{ orderService.discountAmount | number: '1.2-2' }}</span>
-            </h5>
-            <h5 class="d-flex align-items-baseline">Amount Payable</h5>
-            <h5>
-              <span class="fs-5 text-muted">$</span>
-              <span class="fs-3 fw-bold text-dark">{{ orderService.totalCost - orderService.discountAmount | number: '1.2-2' }}</span>
-            </h5>
-            <button *ngIf="orderService.selected_products?.length > 0" (click)="onSubmit($event)" class="btn btn-primary">
-              Place Order
-            </button>
+        <!-- Customer Tab -->
+        <div [class.d-none]="activeTabName !== 'customer'">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="card-title">Customer Information</h5>
+            </div>
+
+            <div class="card-body">
+              <form>
+                <!-- Moved Select Table up here -->
+
+                <!-- Customer Name & Phone -->
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="customer_name" class="col-form-label">Customer Name</label>
+                      <ng-select
+                        [items]="filteredSuggestions"
+                        bindLabel="name"
+                        placeholder="Customer Name"
+                        [(ngModel)]="tempCustomerName"
+                        name="customerName"
+                        [searchable]="true"
+                        [clearable]="true"
+                        [addTag]="true"
+                        (search)="onInputChange($event.term)"
+                        (change)="onCustomerNameSelected($event)"
+                      >
+                        <ng-template ng-label-tmp let-item="item">{{ item.name }}</ng-template>
+                        <ng-template ng-option-tmp let-item="item">{{ item.name }} - {{ item.phone }}</ng-template>
+                      </ng-select>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="customer_phone" class="col-form-label">Customer Phone</label>
+                      <ng-select
+                        [items]="filteredSuggestions"
+                        bindLabel="phone"
+                        placeholder="Customer Phone"
+                        [(ngModel)]="tempCustomerPhone"
+                        name="customerPhone"
+                        [searchable]="true"
+                        [clearable]="true"
+                        [addTag]="true"
+                        (search)="onInputChangePhone($event.term)"
+                        (change)="onCustomerPhoneSelected($event)"
+                      >
+                        <ng-template ng-label-tmp let-item="item">{{ item.phone }}</ng-template>
+                        <ng-template ng-option-tmp let-item="item">{{ item.phone }} - {{ item.name }}</ng-template>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <div class="">
+                  <app-add-order-table></app-add-order-table>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Printable Slip Section -->
-  <div id="print-section" class="print-section" style="font-family: Arial, sans-serif; font-size: 12px; width: 240px; margin: auto">
-    <div class="bill-slip">
-      <div class="bill-header" style="text-align: center; border-bottom: 1px dashed #000; padding-bottom: 8px">
-        <h2 style="margin: 0; font-size: 16px">{{ restaurant?.name }}</h2>
-        <p style="margin: 0">Address : {{ restaurant?.address }}</p>
-        <p style="margin: 0">Phone: {{ restaurant?.phone }}</p>
-      </div>
+        <!-- Payment Tab -->
+        <div [class.d-none]="activeTabName !== 'payment'">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="card-title">Notes to order</h5>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label for="notes" class="col-form-label">Order Notes</label>
+                <textarea
+                  [(ngModel)]="orderService.order_notes"
+                  name="orderNotes"
+                  class="form-control sqaure form-control-sm"
+                  rows="3"
+                  placeholder="Add a note..."
+                ></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card sticky-order-summary bg-white">
+          <div class="card-body">
+            <!-- Top Row: Order Type + Payment Method -->
+            <div class="row mb-3">
+              <!-- Order Type -->
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="orderType" class="col-form-label">Order Type</label>
+                  <select class="form-control" [(ngModel)]="orderService.orderType" name="orderType" (change)="onTypeChange($event)">
+                    <option value="" disabled selected>Select Order Type</option>
+                    <option value="drive-thru">Drive-Thru</option>
+                    <option value="dine-in">Dine-In</option>
+                    <option value="take-away">Take-Away</option>
+                    <option value="delivery">Delivery</option>
+                    <option value="curbside-pickup">Curbside Pickup</option>
+                    <option value="catering">Catering</option>
+                    <option value="reservation">Reservation</option>
+                  </select>
+                </div>
+              </div>
 
-      <div class="customer-info" style="padding: 8px 0; border-bottom: 1px dashed #000">
-        <p style="margin: 0">
-          <strong>Name:</strong>
-          {{ orderService?.customer_name }}
-        </p>
-        <p style="margin: 0">
-          <strong>Phone:</strong>
-          {{ orderService?.customer_phone }}
-        </p>
-        <p style="margin: 0">
-          <strong>Order Type:</strong>
-          {{ orderService?.orderType }}
-        </p>
-      </div>
+              <!-- Payment Method -->
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="paymentMethod" class="col-form-label">Payment Method</label>
+                  <select class="form-control" [(ngModel)]="orderService.paymentMethod" name="paymentMethod">
+                    <option value="" disabled selected>Select Payment</option>
+                    <option *ngFor="let method of orderService.paymentMethods" [value]="method.value">
+                      {{ method.label }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
 
-      <div class="order-details" style="padding: 8px 0; border-bottom: 1px dashed #000">
-        <p style="margin: 0"><strong>Order Details:</strong></p>
-        <table style="width: 100%; font-size: 12px; border-collapse: collapse">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Item</th>
-              <th>Price</th>
-              <th>Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of orderService.selected_products; let i = index">
-              <td>{{ i + 1 }}</td>
-              <td>
-                {{ item?.name }} x {{ item?.quantity }}
-                <br />
-                <small *ngFor="let variation of item.variation">
-                  <span *ngFor="let option of variation.options" [hidden]="!(option.selected == true)">
-                    {{ option?.selected }} {{ option?.name }} ({{ option.price | currency }})
-                    <br />
-                  </span>
-                </small>
-              </td>
-              <td>{{ item.price | currency }}</td>
-              <td>{{ item.quantity * item.price | currency }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+            <!-- Subtotal -->
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="fw-medium text-muted">Subtotal:</span>
+              <span class="fw-semibold">$ {{ orderService.totalCost | number: '1.2-2' }}</span>
+            </div>
 
-      <div class="bill-footer" style="padding: 8px 0; text-align: center">
-        <p style="margin: 0; font-size: 14px">
-          <strong>Total:</strong>
-          {{ orderService.totalCost | currency }}
-        </p>
-        <p style="margin: 0; font-style: italic">Thank you for your order!</p>
+            <!-- Discount -->
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="fw-medium text-muted">Discount:</span>
+              <span class="fw-semibold">$ {{ orderService.discountAmount | number: '1.2-2' }}</span>
+            </div>
+
+            <!-- Total -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <strong>Total:</strong>
+              <strong>$ {{ orderService.totalCost - orderService.discountAmount | number: '1.2-2' }}</strong>
+            </div>
+
+            <!-- Buttons -->
+            <div class="d-flex justify-content-end gap-2">
+              <button *ngIf="orderService.selected_products?.length > 0" class="btn btn-primary" (click)="onSubmit($event)">
+                Place Order
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Additional content for the sidebar can be added here -->
       </div>
     </div>
   </div>

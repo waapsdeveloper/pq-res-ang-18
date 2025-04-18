@@ -26,6 +26,8 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   ) {}
 
   restaurant;
+  tempCustomerName: any = null;
+  tempCustomerPhone: any = null;
   walkInCustomer = {
     id: 7,
     name: 'Walk-in Customer',
@@ -178,5 +180,57 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
 
   updateProductsBySelectedTab(item) {
     // this.orderService.updateProductsBySelectedTab(item);
+  }
+
+  onCustomerFieldChange() {
+    // Assign values to orderService when both fields are filled
+    if (this.tempCustomerName && this.tempCustomerPhone) {
+      this.orderService.customer_name = typeof this.tempCustomerName === 'string' ? this.tempCustomerName : this.tempCustomerName.name;
+      this.orderService.customer_phone = typeof this.tempCustomerPhone === 'string' ? this.tempCustomerPhone : this.tempCustomerPhone.phone;
+    }
+  }
+
+  onSuggestionSelected(selected: any) {
+    if (selected && typeof selected === 'object') {
+      // Populate both fields from API response
+      this.tempCustomerName = selected.name;
+      this.tempCustomerPhone = selected.phone;
+    } else {
+      // Handle manual input
+      this.checkAndAssignManualInputs();
+    }
+    this.onCustomerFieldChange();
+  }
+
+  onCustomerNameSelected(event: any) {
+    if (event && typeof event === 'object') {
+      // Autofill phone if selected from suggestions
+      this.tempCustomerName = event.name;
+      this.tempCustomerPhone = event?.phone ? event?.phone : this.tempCustomerPhone;
+    } else {
+      // Handle manual input
+      this.tempCustomerName = event;
+    }
+    this.onCustomerFieldChange();
+  }
+
+  onCustomerPhoneSelected(event: any) {
+    if (event && typeof event === 'object') {
+      // Autofill name if selected from suggestions
+      this.tempCustomerName = event?.name ? event?.name : this.tempCustomerName;
+      this.tempCustomerPhone = event.phone;
+    } else {
+      // Handle manual input
+      this.tempCustomerPhone = event;
+    }
+    // this.onCustomerFieldChange();
+  }
+
+  checkAndAssignManualInputs() {
+    // Assign manually typed values if both are strings
+    if (typeof this.tempCustomerName === 'string' && typeof this.tempCustomerPhone === 'string') {
+      this.orderService.customer_name = this.tempCustomerName;
+      this.orderService.customer_phone = this.tempCustomerPhone;
+    }
   }
 }
