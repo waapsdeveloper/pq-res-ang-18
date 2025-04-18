@@ -122,7 +122,8 @@
 .horizontal-menu .navbar-horizontal .main-menu-content .nav-link {
   padding: 0.5rem .75rem .45rem;
   font-weight: 500;
-  color: #342E49;
+  /* color: #342E49; */
+  color: var(--white);
 }
 
 .horizontal-menu .navbar-horizontal .main-menu-content .nav-link:not(.dropdown-toggle) {
@@ -139,12 +140,12 @@
 }
 
 .horizontal-menu .navbar-horizontal .main-menu-content>ul>li.active:not(.dropdown-submenu) {
-  background-color: var(--red);
+  background-color: var(--white);
   border-radius: 0.35rem;
 }
 
 .horizontal-menu .navbar-horizontal .main-menu-content>ul>li.active:not(.dropdown-submenu)>a {
-  color: var(--white); /* #7441DB; */
+  color: var(--red); /* #7441DB; */
 }
 
 .horizontal-menu .navbar-horizontal .main-menu-content>ul>li:hover:not(.active) {
@@ -255,8 +256,9 @@
 .navbar.header-navbar.navbar-horizontal {
   position: fixed;
   width: 100%;
-  background-color: #F7F7F8;
+  background-color: var(--red);
   top: 4rem;
+  color: #fff;
 }
 
 .horizontal-layout .logo-text {
