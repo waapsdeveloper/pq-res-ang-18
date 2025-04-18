@@ -16,134 +16,144 @@
     </div>
 
     <!-- Sidebar Section -->
-    <div class="col-md-3 col-12 mb-3">
-      <div class="section-sidebar">
-        <div class="d-flex flex-wrap justify-content-start align-items-center gap-2">
-          <div class="tab-item" *ngFor="let tab of tabs" [class.active]="tab.active == true" (click)="setActiveTab(tab.name)">
+    <!-- Sidebar Section -->
+    <div class="col-md-3 col-12 mb-3 d-flex flex-column" style="height: 100%">
+      <div class="sidebar-wrapper">
+        <!-- Tab Switcher -->
+        <div class="d-flex flex-wrap justify-content-start align-items-center gap-2 mb-2">
+          <div class="tab-item" *ngFor="let tab of tabs" [class.active]="tab.active" (click)="setActiveTab(tab.name)">
             <a class="nav-link d-flex align-items-center justify-content-center gap-2">
               <i [class]="tab.icon"></i>
               <span>{{ tab.title }}</span>
             </a>
           </div>
         </div>
-        <!-- Order Tab -->
-        <div [class.d-none]="activeTabName !== 'order'">
-          <app-add-order-price-list></app-add-order-price-list>
-          <div class="card mt-0">
-            <div class="card-body">
-              <form>
-                <div class="form-group">
-                  <label for="code" class="col-form-label">Coupon Code</label>
-                  <div class="input-group">
-                    <input
-                      type="text"
-                      [(ngModel)]="orderService.couponCode"
-                      name="couponCode"
-                      class="form-control sqaure form-control"
-                      placeholder="Enter Coupon"
-                    />
-                    <div class="btn btn-light input-group-append">Discount: ${{ orderService.discountAmount | number: '1.2-2' }}</div>
-                  </div>
-                </div>
-                <div class="form-group mt-3">
-                  <button type="button" class="btn btn-primary" (click)="orderService.applyCoupon()">Apply Coupon</button>
-                </div>
-              </form>
+
+        <!-- Scrollable Content -->
+        <div class="sidebar-content-scrollable">
+          <!-- Order Tab -->
+          <!-- Order Tab -->
+          <div [class.d-none]="activeTabName !== 'order'">
+            <div class="fixed-price-list">
+              <app-add-order-price-list></app-add-order-price-list>
             </div>
           </div>
-        </div>
 
-        <!-- Customer Tab -->
-        <div [class.d-none]="activeTabName !== 'customer'">
-          <div class="card">
-            <div class="card-header">
-              <h5 class="card-title">Customer Information</h5>
-            </div>
+          <!-- Customer Tab -->
+          <div [class.d-none]="activeTabName !== 'customer'">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="card-title">Customer Information</h5>
+              </div>
 
-            <div class="card-body">
-              <form>
-                <!-- Moved Select Table up here -->
+              <div class="card-body">
+                <form>
+                  <!-- Customer Fields -->
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="customer_name" class="col-form-label">Customer Name</label>
+                        <ng-select
+                          [items]="filteredSuggestions"
+                          bindLabel="name"
+                          placeholder="Customer Name"
+                          [(ngModel)]="tempCustomerName"
+                          name="customerName"
+                          [searchable]="true"
+                          [clearable]="true"
+                          [addTag]="true"
+                          (search)="onInputChange($event.term)"
+                          (change)="onCustomerNameSelected($event)"
+                        >
+                          <ng-template ng-label-tmp let-item="item">{{ item.name }}</ng-template>
+                          <ng-template ng-option-tmp let-item="item">{{ item.name }} - {{ item.phone }}</ng-template>
+                        </ng-select>
+                      </div>
+                    </div>
 
-                <!-- Customer Name & Phone -->
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="customer_name" class="col-form-label">Customer Name</label>
-                      <ng-select
-                        [items]="filteredSuggestions"
-                        bindLabel="name"
-                        placeholder="Customer Name"
-                        [(ngModel)]="tempCustomerName"
-                        name="customerName"
-                        [searchable]="true"
-                        [clearable]="true"
-                        [addTag]="true"
-                        (search)="onInputChange($event.term)"
-                        (change)="onCustomerNameSelected($event)"
-                      >
-                        <ng-template ng-label-tmp let-item="item">{{ item.name }}</ng-template>
-                        <ng-template ng-option-tmp let-item="item">{{ item.name }} - {{ item.phone }}</ng-template>
-                      </ng-select>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="customer_phone" class="col-form-label">Customer Phone</label>
+                        <ng-select
+                          [items]="filteredSuggestions"
+                          bindLabel="phone"
+                          placeholder="Customer Phone"
+                          [(ngModel)]="tempCustomerPhone"
+                          name="customerPhone"
+                          [searchable]="true"
+                          [clearable]="true"
+                          [addTag]="true"
+                          (search)="onInputChangePhone($event.term)"
+                          (change)="onCustomerPhoneSelected($event)"
+                        >
+                          <ng-template ng-label-tmp let-item="item">{{ item.phone }}</ng-template>
+                          <ng-template ng-option-tmp let-item="item">{{ item.phone }} - {{ item.name }}</ng-template>
+                        </ng-select>
+                      </div>
                     </div>
                   </div>
 
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="customer_phone" class="col-form-label">Customer Phone</label>
-                      <ng-select
-                        [items]="filteredSuggestions"
-                        bindLabel="phone"
-                        placeholder="Customer Phone"
-                        [(ngModel)]="tempCustomerPhone"
-                        name="customerPhone"
-                        [searchable]="true"
-                        [clearable]="true"
-                        [addTag]="true"
-                        (search)="onInputChangePhone($event.term)"
-                        (change)="onCustomerPhoneSelected($event)"
-                      >
-                        <ng-template ng-label-tmp let-item="item">{{ item.phone }}</ng-template>
-                        <ng-template ng-option-tmp let-item="item">{{ item.phone }} - {{ item.name }}</ng-template>
-                      </ng-select>
-                    </div>
-                  </div>
-                </div>
-                <div class="">
+                  <!-- Table Selection -->
                   <app-add-order-table></app-add-order-table>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- Payment Tab -->
-        <div [class.d-none]="activeTabName !== 'payment'">
-          <div class="card">
-            <div class="card-header">
-              <h5 class="card-title">Notes to order</h5>
+          <!-- Notes Tab (now includes Coupon) -->
+          <div [class.d-none]="activeTabName !== 'payment'" class="tab-content-scroll">
+            <div class="card mb-3">
+              <div class="card-header">
+                <h5 class="card-title">Order Notes</h5>
+              </div>
+              <div class="card-body">
+                <div class="form-group">
+                  <label for="notes" class="col-form-label">Order Notes</label>
+                  <textarea
+                    [(ngModel)]="orderService.order_notes"
+                    name="orderNotes"
+                    class="form-control sqaure form-control-sm"
+                    rows="3"
+                    placeholder="Add a note..."
+                  ></textarea>
+                </div>
+              </div>
             </div>
-            <div class="card-body">
-              <div class="form-group">
-                <label for="notes" class="col-form-label">Order Notes</label>
-                <textarea
-                  [(ngModel)]="orderService.order_notes"
-                  name="orderNotes"
-                  class="form-control sqaure form-control-sm"
-                  rows="3"
-                  placeholder="Add a note..."
-                ></textarea>
+
+            <!-- Coupon Section moved here -->
+            <div class="card">
+              <div class="card-body">
+                <form>
+                  <div class="form-group">
+                    <label for="code" class="col-form-label">Coupon Code</label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        [(ngModel)]="orderService.couponCode"
+                        name="couponCode"
+                        class="form-control sqaure form-control"
+                        placeholder="Enter Coupon"
+                      />
+                      <div class="btn btn-light input-group-append">Discount: ${{ orderService.discountAmount | number: '1.2-2' }}</div>
+                    </div>
+                  </div>
+                  <div class="form-group mt-3">
+                    <button type="button" class="btn btn-primary" (click)="orderService.applyCoupon()">Apply Coupon</button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
         </div>
-        <div class="card sticky-order-summary bg-white">
+
+        <!-- Sticky Order Summary -->
+        <div class="card sticky-order-summary bg-white mt-2">
           <div class="card-body">
-            <!-- Top Row: Order Type + Payment Method -->
+            <!-- Order Type + Payment Method -->
             <div class="row mb-3">
-              <!-- Order Type -->
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="orderType" class="col-form-label">Order Type</label>
+                  <label class="col-form-label">Order Type</label>
                   <select class="form-control" [(ngModel)]="orderService.orderType" name="orderType" (change)="onTypeChange($event)">
                     <option value="" disabled selected>Select Order Type</option>
                     <option value="drive-thru">Drive-Thru</option>
@@ -157,10 +167,9 @@
                 </div>
               </div>
 
-              <!-- Payment Method -->
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="paymentMethod" class="col-form-label">Payment Method</label>
+                  <label class="col-form-label">Payment Method</label>
                   <select class="form-control" [(ngModel)]="orderService.paymentMethod" name="paymentMethod">
                     <option value="" disabled selected>Select Payment</option>
                     <option *ngFor="let method of orderService.paymentMethods" [value]="method.value">
@@ -171,34 +180,30 @@
               </div>
             </div>
 
-            <!-- Subtotal -->
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <span class="fw-medium text-muted">Subtotal:</span>
+            <!-- Totals -->
+            <div class="d-flex justify-content-between mb-2">
+              <span class="text-muted">Subtotal:</span>
               <span class="fw-semibold">$ {{ orderService.totalCost | number: '1.2-2' }}</span>
             </div>
 
-            <!-- Discount -->
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <span class="fw-medium text-muted">Discount:</span>
+            <div class="d-flex justify-content-between mb-2">
+              <span class="text-muted">Discount:</span>
               <span class="fw-semibold">$ {{ orderService.discountAmount | number: '1.2-2' }}</span>
             </div>
 
-            <!-- Total -->
-            <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="d-flex justify-content-between mb-3">
               <strong>Total:</strong>
               <strong>$ {{ orderService.totalCost - orderService.discountAmount | number: '1.2-2' }}</strong>
             </div>
 
-            <!-- Buttons -->
-            <div class="d-flex justify-content-end gap-2">
+            <!-- Submit Button -->
+            <div class="d-flex justify-content-end">
               <button *ngIf="orderService.selected_products?.length > 0" class="btn btn-primary" (click)="onSubmit($event)">
                 Place Order
               </button>
             </div>
           </div>
         </div>
-
-        <!-- Additional content for the sidebar can be added here -->
       </div>
     </div>
   </div>
