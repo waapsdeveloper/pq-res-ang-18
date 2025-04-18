@@ -7,15 +7,7 @@
       </div>
     </div>
     <div class="col-md-4 col-12 mb-3">
-      <!-- <div class="d-flex flex-row justify-content-end align-items-center gap-3">
-        <div class="form-group mb-0">
-          <input type="text" class="form-control" id="add-order-search-product" name="add-order-search-product" />
-        </div>
-        <button class="btn" style="background-color: #e7e9ec">
-          <i class="ft-search"></i>
-          <span>Search</span>
-        </button>
-      </div> -->
+      <!-- Search section commented out -->
     </div>
   </div>
 
@@ -33,7 +25,8 @@
         </div>
       </div>
 
-      <div class="" [class.d-none]="activeTabName !== 'order'">
+      <!-- Order Tab -->
+      <div [class.d-none]="activeTabName !== 'order'">
         <app-add-order-price-list></app-add-order-price-list>
         <div class="card mt-0">
           <div class="card-body">
@@ -51,7 +44,6 @@
                   <div class="btn btn-light input-group-append">Discount: ${{ orderService.discountAmount | number: '1.2-2' }}</div>
                 </div>
               </div>
-              <!-- apply button -->
               <div class="form-group mt-3">
                 <button type="button" class="btn btn-primary" (click)="orderService.applyCoupon()">Apply Coupon</button>
               </div>
@@ -59,30 +51,9 @@
           </div>
         </div>
       </div>
-      <div class="" [class.d-none]="activeTabName !== 'customer'">
-        <!-- Chips Section -->
-        <div class="mt-2">
-          <div class="d-flex flex-wrap flex-row justify-content-start align-items-center gap-2">
-            <div class="badge bg-light text-dark d-flex p-2" (click)="makeWalkingCustomer()">
-              <div class="d-flex flex-column justify-content-start align-items-start">
-                <span class="fw-bold fs-7">Walk-in Customer</span>
-                <span class="text-muted fs-8">0000000000000</span>
-              </div>
-            </div>
 
-            <div
-              *ngFor="let item of filteredSuggestions"
-              class="badge bg-light text-dark d-flex p-2"
-              (click)="orderService.selectSuggestion(item)"
-            >
-              <div class="d-flex flex-column justify-content-start align-items-start">
-                <span class="fw-bold fs-7">{{ item.name }}</span>
-                <span class="text-muted fs-8">{{ item.phone }}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
+      <!-- Customer Tab -->
+      <div [class.d-none]="activeTabName !== 'customer'">
         <div class="card">
           <div class="card-header">
             <h5 class="card-title">Customer Information</h5>
@@ -91,26 +62,44 @@
             <form>
               <div class="form-group">
                 <label for="customer_name" class="col-form-label">Customer Name</label>
-                <input
-                  type="text"
-                  class="form-control sqaure form-control-sm"
+                <ng-select
+                  [items]="filteredSuggestions"
+                  bindLabel="name"
+                  placeholder="Customer Name"
                   [(ngModel)]="orderService.customer_name"
                   name="customerName"
-                  placeholder="Customer Name"
-                  (input)="onInputChange(orderService.customer_name)"
-                />
+                  [searchable]="true"
+                  [clearable]="true"
+                  (search)="onInputChange($event.term)"
+                  (change)="orderService.selectSuggestion($event)"
+                >
+                  <ng-template ng-label-tmp let-item="item">
+                    {{ item.name }}
+                  </ng-template>
+                  <ng-template ng-option-tmp let-item="item">{{ item.name }} - {{ item.phone }}</ng-template>
+                </ng-select>
               </div>
+
               <div class="form-group">
                 <label for="customer_phone" class="col-form-label">Customer Phone</label>
-                <input
-                  type="text"
-                  class="form-control sqaure form-control-sm"
+                <ng-select
+                  [items]="filteredSuggestions"
+                  bindLabel="phone"
+                  placeholder="Customer Phone"
                   [(ngModel)]="orderService.customer_phone"
                   name="customerPhone"
-                  placeholder="Customer Phone"
-                  (input)="onInputChangePhone(orderService.customer_phone)"
-                />
+                  [searchable]="true"
+                  [clearable]="true"
+                  (search)="onInputChangePhone($event.term)"
+                  (change)="orderService.selectSuggestion($event)"
+                >
+                  <ng-template ng-label-tmp let-item="item">
+                    {{ item.phone }}
+                  </ng-template>
+                  <ng-template ng-option-tmp let-item="item">{{ item.phone }} - {{ item.name }}</ng-template>
+                </ng-select>
               </div>
+
               <div class="form-group">
                 <label for="notes" class="col-form-label">Order Type</label>
                 <select class="select2 form-control" [(ngModel)]="orderService.orderType" name="orderType" (change)="onTypeChange($event)">
@@ -137,7 +126,6 @@
           </div>
         </div>
 
-        <!-- select table  -->
         <div class="card mt-2">
           <div class="card-header">
             <h5 class="card-title">Select Table</h5>
@@ -148,7 +136,8 @@
         </div>
       </div>
 
-      <div class="" [class.d-none]="activeTabName !== 'payment'">
+      <!-- Payment Tab -->
+      <div [class.d-none]="activeTabName !== 'payment'">
         <div class="card">
           <div class="card-header">
             <h5 class="card-title">Notes to order</h5>
@@ -167,6 +156,7 @@
           </div>
         </div>
       </div>
+
       <div class="card mt-2">
         <div class="card-header">
           <h5 class="card-title">Order Summary</h5>

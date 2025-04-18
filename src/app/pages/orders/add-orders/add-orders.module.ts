@@ -11,12 +11,10 @@ import { AddOrderCategoriesModule } from './add-order-categories/add-order-categ
 import { AddOrderProductsModule } from './add-order-products/add-order-products.module';
 import { AddOrderPriceListModule } from './add-order-price-list/add-order-price-list.module';
 import { AddOrderTableModule } from './add-order-table/add-order-table.module';
-
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
-  declarations: [
-    AddOrdersComponent
-  ],
+  declarations: [AddOrdersComponent],
   imports: [
     CommonModule,
     AddOrdersRoutingModule,
@@ -25,6 +23,7 @@ import { AddOrderTableModule } from './add-order-table/add-order-table.module';
     ReactiveFormsModule,
     FormlyBootstrapModule,
     KtAppFormPageModule,
+    NgSelectModule,
     // order items modules
     AddOrderCategoriesModule,
     AddOrderProductsModule,
@@ -32,4 +31,4 @@ import { AddOrderTableModule } from './add-order-table/add-order-table.module';
     AddOrderTableModule
   ]
 })
-export class AddOrdersModule { }
+export class AddOrdersModule {}

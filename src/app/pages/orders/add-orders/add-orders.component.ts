@@ -24,8 +24,17 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     public orderService: AddOrderService,
     private network: NetworkService
   ) {}
+
   restaurant;
-  filteredSuggestions = [];
+  walkInCustomer = {
+    id: 7,
+    name: 'Walk-in Customer',
+    email: 'david.wilson@example.com',
+    dial_code: null,
+    phone: '1234567890' // Updated phone number
+  };
+  filteredSuggestions = [this.walkInCustomer];
+
   showForm = false;
   tabs: any[] = [
     { name: 'order', title: 'Overview', icon: 'ft-layers', active: true },
@@ -38,6 +47,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   toggleForm() {
     this.showForm = !this.showForm;
   }
+
   ngOnInit(): void {
     this.orderService.showOrderHeader = false;
     this.getRestaurants();
@@ -57,6 +67,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       console.error('Order submission failed.');
     }
   }
+
   onTypeChange(event: any): void {
     console.log('Selected Type:', this.selectedType);
     // Perform additional logic here (like sending it to the backend)
@@ -74,6 +85,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     let v = $event.target.value;
     this.orderService.searchProducts(v);
   }
+
   printSlip() {
     const printContents = document.getElementById('print-section')?.innerHTML;
     const originalContents = document.body.innerHTML;
@@ -87,11 +99,11 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       console.error('Print section not found.');
     }
   }
+
   async getRestaurants(): Promise<void> {
     let obj = {
       search: '',
       perpage: 500,
-
       restaurant_id: localStorage.getItem('restaurant_id') ? localStorage.getItem('restaurant_id') : -1
     };
 
@@ -105,36 +117,41 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     this.restaurant = JSON.parse(this.restaurant);
     console.log('Restaurant:', this.restaurant);
   }
+
   makeWalkingCustomer() {
     this.orderService.makeWalkingCustomer();
   }
+
   onInputChange(data) {
     console.log('Input changed', data);
     this.fetchSuggestions(data);
   }
+
   async fetchSuggestions(query: any) {
     let v = query.trim();
     console.log(v);
+
     if (!v) {
-      this.filteredSuggestions = []; // Clear suggestions if input is empty
-      return;
+      this.filteredSuggestions = [this.walkInCustomer]; // Clear suggestions if input is empty
+    } else {
+      let obj = {
+        search: v
+      };
+
+      const res = await this.network.index('user', obj);
+      let array = res?.data?.data || [];
+      this.filteredSuggestions = [this.walkInCustomer, ...array]; // Extend API response with Walk-in Customer
     }
-
-    let obj = {
-      search: v
-    };
-
-    const res = await this.network.index('user', obj);
-    let array = res?.data?.data || [];
-    this.filteredSuggestions = array;
 
     console.log(this.filteredSuggestions);
   }
+
   onInputChangePhone(data) {
     console.log('Input changed', data);
     if (!data) return;
     this.fetchSuggestionsPhone(data);
   }
+
   async fetchSuggestionsPhone(query: any) {
     let temp = {
       phone: query
@@ -146,7 +163,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
 
     const res = await this.network.index('user', obj);
     let array = res?.data?.data || [];
-    this.filteredSuggestions = array;
+    this.filteredSuggestions = [this.walkInCustomer, ...array]; // Extend API response with Walk-in Customer
 
     console.log(this.filteredSuggestions);
   }
@@ -157,7 +174,6 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     }
     console.log('Selected tab:', this.tabs);
     this.activeTabName = name;
-    // this.updateProductsBySelectedTab(item);
   }
 
   updateProductsBySelectedTab(item) {
