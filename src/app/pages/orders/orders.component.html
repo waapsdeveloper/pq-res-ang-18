@@ -1,7 +1,9 @@
-<app-full-layout>
+<app-full-layout *ngIf="!isAddOrderRoute">
   <div class="main-body">
     <div class="page-wrapper">
       <router-outlet></router-outlet>
     </div>
   </div>
 </app-full-layout>
+
+<router-outlet *ngIf="isAddOrderRoute"></router-outlet>

@@ -1,5 +1,5 @@
 import { CouponsService } from './../../coupons/coupons.service';
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation, HostListener } from '@angular/core';
 import { AddOrderService } from './add-order.service';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
@@ -19,11 +19,27 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
   encapsulation: ViewEncapsulation.None
 })
 export class AddOrdersComponent implements OnInit, OnDestroy {
+  screenWidth: number;
+  screenHeight: number;
+
   constructor(
     public nav: NavService,
     public orderService: AddOrderService,
     private network: NetworkService
-  ) {}
+  ) {
+    this.updateScreenSize(); // Initialize screen size on component load
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event): void {
+    this.updateScreenSize();
+  }
+
+  private updateScreenSize(): void {
+    this.screenWidth = window.innerWidth;
+    this.screenHeight = window.innerHeight;
+    console.log(`Screen Width: ${this.screenWidth}, Screen Height: ${this.screenHeight}`);
+  }
 
   restaurant;
   tempCustomerName: any = null;

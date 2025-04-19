@@ -1,14 +1,19 @@
 .product-items-outer {
+  height: calc(100vh - 45px); /* Full height minus header/footer */
+  overflow-y: auto; /* Scrollable if content overflows */
   display: flex;
+  flex-wrap: wrap; /* Wrap items to next line */
   flex-direction: row;
-  flex-wrap: wrap;
-  gap: 12px; /* Increased gap for better spacing */
-  max-height: 100%;
+  justify-content: flex-start; /* Keep items aligned to the start */
+  align-items: flex-start; /* Align items to the start */
+  gap: 8px; /* Space between items */
+  align-content: flex-start; /* Ensure rows align to the start */
 }
 
 .single-product-item {
 
   border-radius: 8px; /* Smooth rounded corners */
+  width: 190px;
   .product-image-container {
     position: relative;
     background-position: center center;

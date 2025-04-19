@@ -1,3 +1,19 @@
+#add-order-wrapper-outer {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  padding: 20px;
+}
+
+
+
+
+
+
+
+
 .tab-item {
   cursor: pointer;
   // no text selection

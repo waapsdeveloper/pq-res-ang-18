@@ -1,7 +1,8 @@
 <!--begin::Products-->
-<div class="row">
-  <div class="" *ngFor="let product of orderService.products" [ngClass]="columnClass">
-    <div class="card single-product-item">
+<div class="row" class="product-items-outer" >
+  <!-- [ngClass]="columnClass" -->
+  <div class="single-product-item" *ngFor="let product of orderService.products" >
+    <div class="card ">
       <div class="card-body p-1 d-flex flex-column gap-2">
         <div class="product-image-container" [ngStyle]="{'background-image' : 'url(' + product.image + ')'}" >
           <div class="label-5346">
