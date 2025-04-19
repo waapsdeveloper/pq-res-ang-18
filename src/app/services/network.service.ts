@@ -262,7 +262,7 @@ export class NetworkService {
   }
 
   addOrder(data) {
-    return this.httpPostResponse('order', data, null, false, true);
+    return this.httpPostResponse('order', data, null, true, true);
   }
   removeOrder(id) {
     return this.httpDeleteResponse('order', id, false, true);
