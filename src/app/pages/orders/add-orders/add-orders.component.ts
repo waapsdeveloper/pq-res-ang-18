@@ -4,6 +4,7 @@ import { AddOrderService } from './add-order.service';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { UtilityService } from 'src/app/services/utility.service';
 
 @Component({
   selector: 'app-add-orders',
@@ -25,7 +26,8 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   constructor(
     public nav: NavService,
     public orderService: AddOrderService,
-    private network: NetworkService
+    private network: NetworkService,
+    private utilityService: UtilityService
   ) {
     this.updateScreenSize(); // Initialize screen size on component load
   }
@@ -78,9 +80,12 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   async onSubmit($event: Event) {
     $event.preventDefault(); // Prevent default form behavior
     const res = await this.orderService.submitOrder();
-    if (res) {
+    const flag = await this.utilityService.presentConfirm('Print Bill', 'Cancel', 'Order', 'Do you Want to print the bill?');
+
+    if (flag && res) {
       console.log('Order submitted successfully.');
       this.printSlip();
+      console.log('Bill should Print');
     } else {
       console.error('Order submission failed.');
     }
@@ -223,6 +228,8 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       // Autofill phone if selected from suggestions
       this.tempCustomerName = event.name;
       this.tempCustomerPhone = event?.phone ? event?.phone : this.tempCustomerPhone;
+      this.orderService.customer_name = this.tempCustomerName;
+      this.orderService.customer_phone = this.tempCustomerPhone;
     } else {
       // Handle manual input
       this.tempCustomerName = event;
@@ -235,6 +242,8 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       // Autofill name if selected from suggestions
       this.tempCustomerName = event?.name ? event?.name : this.tempCustomerName;
       this.tempCustomerPhone = event.phone;
+      this.orderService.customer_name = this.tempCustomerName;
+      this.orderService.customer_phone = this.tempCustomerPhone;
     } else {
       // Handle manual input
       this.tempCustomerPhone = event;

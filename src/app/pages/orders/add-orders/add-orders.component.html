@@ -205,3 +205,76 @@
     <!-- Sticky Order Summary -->
   </div>
 </div>
+
+<div id="print-section" class="print-section" style="font-family: Arial, sans-serif; font-size: 12px; width: 240px; margin: auto">
+  <div class="bill-slip">
+    <div class="bill-header" style="text-align: center; border-bottom: 1px dashed #000; padding-bottom: 8px">
+      <h2 style="margin: 0; font-size: 16px">Restaurant Name</h2>
+      <p style="margin: 0">123 Food Street, City, Country</p>
+      <p style="margin: 0">Phone: (123) 456-7890</p>
+    </div>
+
+    <div class="customer-info" style="padding: 8px 0; border-bottom: 1px dashed #000">
+      <p style="margin: 0">
+        <strong>Name:</strong>
+        {{ orderService.customer_name }}
+      </p>
+      <p style="margin: 0">
+        <strong>Phone:</strong>
+        {{ orderService.customer_phone }}
+      </p>
+      <p style="margin: 0">
+        <strong>Order Type:</strong>
+        {{ orderService.orderType }}
+      </p>
+    </div>
+
+    <div class="order-details" style="padding: 8px 0; border-bottom: 1px dashed #000">
+      <p style="margin: 0"><strong>Order Details:</strong></p>
+      <table style="width: 100%; font-size: 12px; border-collapse: collapse">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Item</th>
+            <th>Price</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of orderService.selected_products; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>
+              {{ item.name }} x {{ item.quantity }}
+              <br />
+              <small *ngFor="let variation of item.variation">
+                <span *ngFor="let option of variation.options" [hidden]="!(option.selected == true)">
+                  {{ option.selected }} {{ option.name }} ({{ option.price | currency }})
+                  <br />
+                </span>
+              </small>
+            </td>
+            <td>{{ item.price | currency }}</td>
+            <!-- <td>
+              <small *ngFor="let variation of item.variation">
+                <span *ngIf="variation.selected">
+                  <span *ngFor="let option of variation.options">
+                    {{ option.price | currency }}
+                  </span>
+                </span>
+              </small>
+            </td> -->
+            <td>{{ item.quantity * item.price | currency }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="bill-footer" style="padding: 8px 0; text-align: center">
+      <p style="margin: 0; font-size: 14px">
+        <strong>Total:</strong>
+        {{ orderService.totalCost | currency }}
+      </p>
+      <p style="margin: 0; font-style: italic">Thank you for your order!</p>
+    </div>
+  </div>
+</div>
