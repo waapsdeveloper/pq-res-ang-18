@@ -157,3 +157,23 @@
   z-index: 10; /* Ensure it stays above other elements */
   background-color: #fff; /* Optional: Add background to avoid transparency issues */
 }
+
+@media (max-width: 768px) {
+  #add-order-wrapper-outer {
+    flex-direction: column; /* Stack content vertically */
+  }
+
+  .bn-sidebar-right {
+    width: 100%; /* Make sidebar full width */
+    height: auto; /* Adjust height */
+  }
+
+  .sticky-order-summary {
+    position: static; /* Remove fixed positioning */
+    margin-top: 16px; /* Add spacing */
+  }
+
+  .sticky-top {
+    position: static; /* Remove sticky positioning */
+  }
+}
