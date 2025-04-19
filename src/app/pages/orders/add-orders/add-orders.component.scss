@@ -5,6 +5,15 @@
   width: 100%;
   overflow: hidden;
   padding: 20px;
+  gap: 8px;
+}
+
+.bn-sidebar-right {
+  height: 100%; 
+  width: 400px; 
+  position: sticky; 
+  top: 0;
+  flex-shrink: 0; /* Prevent the sidebar from shrinking */
 }
 
 
@@ -140,4 +149,18 @@
 
 .notes-coupon-group .form-group {
   margin-bottom: 1rem;
+}
+
+.sticky-top {
+  position: sticky;
+  top: 0;
+  z-index: 10; /* Ensure it stays above other elements */
+  background-color: #fff; /* Optional: Add background to avoid transparency issues */
+}
+
+.sticky-bottom {
+  position: sticky;
+  bottom: 0;
+  z-index: 10; /* Ensure it stays above other elements */
+  background-color: #fff; /* Optional: Add background to avoid transparency issues */
 }
