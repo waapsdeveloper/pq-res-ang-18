@@ -79,15 +79,33 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
 
   async onSubmit($event: Event) {
     $event.preventDefault(); // Prevent default form behavior
-    const res = await this.orderService.submitOrder();
-    const flag = await this.utilityService.presentConfirm('Print Bill', 'Cancel', 'Order', 'Do you Want to print the bill?');
 
-    if (flag && res) {
-      console.log('Order submitted successfully.');
-      this.printSlip();
-      console.log('Bill should Print');
+    // Show confirmation popup first
+    const flag = await this.utilityService.presentConfirm(
+      'Create Order and Print Bill',
+      'Just Create Order',
+      'Order creation',
+      'Do you Want to Create the Order?'
+    );
+
+    if (flag) {
+      // If user confirmed, submit the order
+      const res = await this.orderService.submitOrder();
+
+      if (res) {
+        this.printSlip();
+        console.log('Order submitted successfully. With Print Bill');
+        // Optional: Show success message
+        this.utilityService.presentSuccessToast('Order created successfully!');
+      } else {
+        console.log('Order submitted successfully.');
+      }
     } else {
-      console.error('Order submission failed.');
+      const res = await this.orderService.submitOrder();
+      console.log(res, 'Just Order Created');
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
     }
   }
 

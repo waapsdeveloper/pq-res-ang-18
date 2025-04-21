@@ -16,7 +16,7 @@ import { EventsService } from 'src/app/services/events.service';
 })
 export class ListRtablesComponent extends ListBlade {
   showDeleteAllButton = false;
-  columns: any[] = ['Table No','No of seats', 'Floor', 'No of Orders', 'Status'];
+  columns: any[] = ['Table No', 'No of seats', 'Floor', 'No of Orders', 'Status'];
   title = 'Tables';
   showEdit = false;
   addurl = '/pages/tables/add';
@@ -47,27 +47,21 @@ export class ListRtablesComponent extends ListBlade {
         },
         {
           key: 'floor',
-          type: 'input',
+          type: 'select',
           props: {
             label: 'Floor',
-            placeholder: 'Enter floor description',
+            placeholder: 'Select floor',
             required: true,
-            maxLength: 500 // Constraint for maximum length
+            options: [
+              { label: 'First Floor', value: 'First' },
+              { label: 'Second Floor', value: 'Second' },
+              { label: 'Third Floor', value: 'Third' },
+              { label: 'Fourth Floor', value: 'Fourth' },
+              { label: 'Fifth Floor', value: 'Fifth' }
+            ]
           },
-          className: 'col-md-4 col-12'
+          className: 'formly-select-wrapper-3232 col-md-3 col-12'
         },
-
-        {
-          key: 'location',
-          type: 'input',
-          props: {
-            label: 'Location',
-            placeholder: 'Near west wall',
-            required: true
-          },
-          className: 'col-md-4 col-12'
-        },
-
         {
           key: 'tableNo',
 
@@ -75,10 +69,10 @@ export class ListRtablesComponent extends ListBlade {
           props: {
             label: 'Table no',
             placeholder: 'Enter Table no',
-            required: true,
+
             minLength: 3
           },
-          className: 'col-md-4 col-12' // 3 columns on md+, full width on small screens
+          className: 'col-md-3 col-12' // 3 columns on md+, full width on small screens
         },
         {
           key: 'status',
@@ -88,21 +82,9 @@ export class ListRtablesComponent extends ListBlade {
             options: [
               { label: 'Active', value: 'active' },
               { label: 'Inactive', value: 'inactive' }
-            ],
-            required: true
+            ]
           },
           className: 'formly-select-wrapper-3232 col-md-3 col-12'
-        },
-
-        {
-          key: 'noOfOrders',
-          type: 'input',
-          props: {
-            label: 'Orders',
-            placeholder: 'Enter Orders',
-            required: true
-          },
-          className: 'col-md-4 col-12'
         }
       ]
     }

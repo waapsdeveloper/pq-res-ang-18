@@ -7,7 +7,7 @@
     <div class="section-body" style="padding: 8px">
       <div class="d-flex flex-wrap justify-content-start align-items-center gap-3">
         <app-add-order-categories></app-add-order-categories>
-        <div>{{ screenWidth }} x {{ screenHeight }}</div>
+        <!-- <div>{{ screenWidth }} x {{ screenHeight }}</div> -->
       </div>
       <div class="">
         <app-add-order-products></app-add-order-products>
@@ -193,8 +193,8 @@
           </div>
 
           <!-- Submit Button -->
-          <div class="d-flex justify-content-end">
-            <button *ngIf="orderService.selected_products?.length > 0" class="btn btn-primary" (click)="onSubmit($event)">
+          <div class="d-flex justify-content-end w-100">
+            <button *ngIf="orderService.selected_products?.length > 0" class="w-100 btn btn-primary" (click)="onSubmit($event)">
               Place Order
             </button>
           </div>

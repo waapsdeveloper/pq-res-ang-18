@@ -16,6 +16,7 @@ export class EditRtablesComponent implements OnInit {
 
   form = new FormGroup({});
   model = {
+    identifier: '',
     no_of_seats: '',
     floor: '',
     //location: '',
@@ -27,8 +28,6 @@ export class EditRtablesComponent implements OnInit {
     {
       fieldGroupClassName: 'row', // Bootstrap row
       fieldGroup: [
-
-
         {
           key: 'identifier',
           type: 'input',
@@ -54,14 +53,20 @@ export class EditRtablesComponent implements OnInit {
         },
         {
           key: 'floor',
-          type: 'input',
+          type: 'select',
           props: {
             label: 'Floor',
-            placeholder: 'Enter floor description',
+            placeholder: 'Select floor',
             required: true,
-            maxLength: 500 // Constraint for maximum length
+            options: [
+              { label: 'First Floor', value: 'First' },
+              { label: 'Second Floor', value: 'Second' },
+              { label: 'Third Floor', value: 'Third' },
+              { label: 'Fourth Floor', value: 'Fourth' },
+              { label: 'Fifth Floor', value: 'Fifth' }
+            ]
           },
-          className: 'col-md-6 col-12'
+          className: 'formly-select-wrapper-3232 col-md-6 col-12'
         },
 
         // {
@@ -168,16 +173,16 @@ export class EditRtablesComponent implements OnInit {
     console.log(d);
     // Dynamic model assignment
     this.model = {
+      identifier: d.identifier || '',
       no_of_seats: d.no_of_seats || '', // Matches `model`
       floor: d.floor || '', // Matches `model`
       // location: d.location || '',           // Matches `model`
       description: d.description || '', // Matches `model`
-      status: (d.status || '').toLowerCase()// Matches `model`
+      status: (d.status || '').toLowerCase() // Matches `model`
     };
   }
 
   async onSubmit(model) {
-
     if (this.form.invalid) {
       // Mark all fields as touched to trigger validation styles
       this.form.markAllAsTouched();

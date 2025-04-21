@@ -1,4 +1,4 @@
-import { Component,ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NavService } from 'src/app/services/basic/nav.service';
@@ -10,7 +10,6 @@ import { UtilityService } from 'src/app/services/utility.service';
   templateUrl: './add-rtables.component.html',
   styleUrl: './add-rtables.component.scss',
   encapsulation: ViewEncapsulation.None
-
 })
 export class AddRtablesComponent {
   form = new FormGroup({});
@@ -27,8 +26,6 @@ export class AddRtablesComponent {
     {
       fieldGroupClassName: 'row', // Bootstrap row
       fieldGroup: [
-
-
         {
           key: 'identifier',
           type: 'input',
@@ -54,14 +51,20 @@ export class AddRtablesComponent {
         },
         {
           key: 'floor',
-          type: 'input',
+          type: 'select',
           props: {
             label: 'Floor',
-            placeholder: 'Enter floor description',
+            placeholder: 'Select floor',
             required: true,
-            maxLength: 500 // Constraint for maximum length
+            options: [
+              { label: 'First Floor', value: 'First' },
+              { label: 'Second Floor', value: 'Second' },
+              { label: 'Third Floor', value: 'Third' },
+              { label: 'Fourth Floor', value: 'Fourth' },
+              { label: 'Fifth Floor', value: 'Fifth' }
+            ]
           },
-          className: 'col-md-6 col-12'
+          className: 'formly-select-wrapper-3232 col-md-6 col-12'
         },
 
         // {
@@ -184,7 +187,6 @@ export class AddRtablesComponent {
   }
 
   async onSubmit(model) {
-
     if (this.form.invalid) {
       // Mark all fields as touched to trigger validation styles
       this.form.markAllAsTouched();
