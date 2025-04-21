@@ -1,9 +1,8 @@
-import { Injector } from "@angular/core";
+import { Injector } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { UtilityService } from "../services/utility.service";
+import { UtilityService } from '../services/utility.service';
 
-export abstract class ListBlade{
-
+export abstract class ListBlade {
   search = '';
   page = 1;
   lastPage = -1;
@@ -17,9 +16,10 @@ export abstract class ListBlade{
   model;
   public debounceTimer: any;
 
-  constructor(injector: Injector, protected crudService: any) {
-
-  }
+  constructor(
+    injector: Injector,
+    protected crudService: any
+  ) {}
 
   changePerPage(event: any) {
     this.crudService.onChangePerPage(event.target.value);
@@ -41,7 +41,6 @@ export abstract class ListBlade{
     this.crudService.loadMore();
   }
 
-
   changeSelectAll($event) {
     this.crudService.onSelectedAll($event);
   }
@@ -56,12 +55,11 @@ export abstract class ListBlade{
     this.selectAll = count > 0;
   }
 
-
   debouncedSubmitFilters(model: any): void {
     clearTimeout(this.debounceTimer);
     this.debounceTimer = setTimeout(() => {
       this.submitFilters(model);
+      console.log(model);
     }, 700); // Adjust the delay to 500ms or 1000ms as needed
   }
-  
 }

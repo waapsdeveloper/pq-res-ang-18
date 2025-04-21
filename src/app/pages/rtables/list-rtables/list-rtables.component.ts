@@ -23,10 +23,8 @@ export class ListRtablesComponent extends ListBlade {
   override model = {
     tableNo: '',
     status: '',
-    noOfOrders: '',
     no_of_seats: '',
-    floor: '',
-    location: ''
+    floor: ''
   };
 
   fields: FormlyFieldConfig[] = [
