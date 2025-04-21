@@ -1,13 +1,9 @@
-<div id="add-order-wrapper-outer" class="">
+<div id="add-order-wrapper-outer" class="order-container">
   <!-- Main Content Section -->
-  <div class="p-0 m-0 products-section-outer">
-    <!-- <div class="section-header">
-        <h3 class="mb-0">Add Orders</h3>
-      </div> -->
+  <div class="products-section-outer">
     <div class="section-body" style="padding: 8px">
       <div class="d-flex flex-wrap justify-content-start align-items-center gap-3">
         <app-add-order-categories></app-add-order-categories>
-        <!-- <div>{{ screenWidth }} x {{ screenHeight }}</div> -->
       </div>
       <div class="my-2">
         <app-add-order-products></app-add-order-products>
@@ -16,8 +12,7 @@
   </div>
 
   <!-- Sidebar Section -->
-  <!-- Sidebar Section -->
-  <div class="bn-sidebar-right p-0 m-0 d-flex flex-column">
+  <div class="bn-sidebar-right">
     <!-- Tab Switcher -->
     <div class="d-flex flex-wrap justify-content-start align-items-center gap-2 sticky-top" style="padding: 8px">
       <div class="tab-item" *ngFor="let tab of tabs" [class.active]="tab.active" (click)="setActiveTab(tab.name)">
@@ -30,7 +25,6 @@
 
     <!-- Scrollable Content -->
     <div class="sidebar-content-scrollable full-height">
-      <!-- Order Tab -->
       <!-- Order Tab -->
       <div [class.d-none]="activeTabName !== 'order'" class="my-2">
         <div class="fixed-price-list">
@@ -254,15 +248,6 @@
               </small>
             </td>
             <td>{{ item.price | currency }}</td>
-            <!-- <td>
-              <small *ngFor="let variation of item.variation">
-                <span *ngIf="variation.selected">
-                  <span *ngFor="let option of variation.options">
-                    {{ option.price | currency }}
-                  </span>
-                </span>
-              </small>
-            </td> -->
             <td>{{ item.quantity * item.price | currency }}</td>
           </tr>
         </tbody>

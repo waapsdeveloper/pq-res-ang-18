@@ -1,48 +1,149 @@
+// Main Layout
 #add-order-wrapper-outer {
   display: flex;
   flex-direction: row;
-  height: 100%;
+  height: 100vh;
   width: 100%;
   overflow: hidden;
-  // padding: 20px;
-  gap: 8px;
+  gap: 1rem;
+  padding: 1rem;
 }
 
+// Products Section
 .products-section-outer {
-  min-width: calc(100% - 400px); /* Full width minus sidebar */
+  flex: 1;
+  background: #fff;
+  border-radius: 0.35rem;
+  overflow: hidden; // Changed from overflow-y: auto
+
+  .section-body {
+    height: 100%;
+
+    // Custom Scrollbar
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+  }
 }
 
+// Sidebar Section
 .bn-sidebar-right {
-  height: 100vh;
-  width: 600px;
-  // position: sticky;
-  // top: 0;
-  flex-shrink: 0; /* Prevent the sidebar from shrinking */
+  width: 400px;
+  height: 100%;
+  background: #fff;
+  border-radius: 0.35rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; // Hide scrollbar from sidebar
 }
 
+// Tab Navigation
 .tab-item {
   cursor: pointer;
-  // no text selection
   user-select: none;
   border: 1px solid lightgray;
   border-radius: 0.35rem;
-}
-.tab-item.active {
-  background-color: var(--red);
-  color: #fff;
-  font-weight: 600;
-}
-.tab-item:hover {
-  background-color: #e7e9ec;
+  transition: all 0.2s ease;
+
+  &.active {
+    background-color: var(--red);
+    color: #fff;
+    font-weight: 600;
+  }
+
+  &:hover:not(.active) {
+    background-color: #e7e9ec;
+  }
 }
 
-.total-card-fixed-footer {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  color: var(--red);
-  font-size: 3rem;
-  font-weight: 500;
+// Sidebar Content
+.sidebar-content-scrollable {
+  flex: 1;
+
+  // Hide scrollbar but keep functionality
+  -ms-overflow-style: none; // IE and Edge
+  scrollbar-width: none; // Firefox
+
+  &::-webkit-scrollbar {
+    display: none; // Chrome, Safari, Opera
+  }
+}
+
+// Sticky Elements
+.sticky-top {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: #fff;
+  padding: 1rem;
+}
+
+.sticky-bottom {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  background-color: #fff;
+  padding: 1rem;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+}
+
+// Print Styles
+@media print {
+  @page {
+    size: 58mm auto;
+    margin: 0;
+  }
+
+  #print-section {
+    width: 58mm;
+    padding: 10px;
+    margin: auto;
+  }
+
+  .non-printable {
+    display: none;
+  }
+}
+
+// Responsive Styles
+@media (max-width: 992px) {
+  #add-order-wrapper-outer {
+    flex-direction: column;
+    height: auto;
+    overflow: visible;
+  }
+
+  .products-section-outer {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .bn-sidebar-right {
+    width: 100%;
+    height: auto;
+    max-height: 80vh;
+  }
+
+  .sticky-bottom {
+    position: fixed;
+    width: 100%;
+    left: 0;
+  }
 }
 
 .bill-footer h3 {
@@ -55,30 +156,8 @@
   font-size: 1rem;
   color: #666;
 }
-
-/* Print Styles */
-@media print {
-  @page {
-    size: 58mm auto; /* Set custom width (58mm for thermal printers) */
-    margin: 0; /* Remove default margins */
-  }
-
-  body {
-    margin: 0;
-    padding: 0;
-  }
-
-  #print-section {
-    width: 58mm; /* Match the page size */
-    padding: 10px;
-    margin: auto;
-    border: none; /* Remove border in print */
-  }
-
-  /* Hide unnecessary elements during print */
-  .non-printable {
-    display: none;
-  }
+.non-printable {
+  display: none;
 }
 
 .print-section {
@@ -125,59 +204,4 @@
   font-size: 1.3rem;
   margin-bottom: 10px;
   color: #444;
-}
-
-.sidebar-wrapper {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.sidebar-content-scrollable {
-  flex-grow: 1;
-}
-
-.sticky-order-summary {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  z-index: 1000;
-}
-
-.notes-coupon-group .form-group {
-  margin-bottom: 1rem;
-}
-
-.sticky-top {
-  position: sticky;
-  top: 0;
-  z-index: 10; /* Ensure it stays above other elements */
-  background-color: #fff; /* Optional: Add background to avoid transparency issues */
-}
-
-.sticky-bottom {
-  position: sticky;
-  bottom: 0;
-  z-index: 10; /* Ensure it stays above other elements */
-  background-color: #fff; /* Optional: Add background to avoid transparency issues */
-}
-
-@media (max-width: 768px) {
-  #add-order-wrapper-outer {
-    flex-direction: column; /* Stack content vertically */
-  }
-
-  .bn-sidebar-right {
-    width: 100%; /* Make sidebar full width */
-    height: auto; /* Adjust height */
-  }
-
-  .sticky-order-summary {
-    position: static; /* Remove fixed positioning */
-    margin-top: 16px; /* Add spacing */
-  }
-
-  .sticky-top {
-    position: static; /* Remove sticky positioning */
-  }
 }

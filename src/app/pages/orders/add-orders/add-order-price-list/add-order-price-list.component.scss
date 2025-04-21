@@ -79,7 +79,26 @@
   max-height: 400px;
   overflow-y: auto;
 }
-::-webkit-scrollbar {
-  width: 6px; /* Vertical scrollbar width */
-  height: 6px; /* Horizontal scrollbar height */
+
+.card-body-scroll {
+  overflow-y: scroll;
+
+  // Custom Scrollbar
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
 }
