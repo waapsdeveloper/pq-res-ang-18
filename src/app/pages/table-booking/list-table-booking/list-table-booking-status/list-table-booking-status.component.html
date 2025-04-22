@@ -8,33 +8,15 @@
     <button class="btn btn-primary col-auto" (click)="updateStatus(item)">Update</button>
   </div> -->
 
-  <div class="d-flex align-items-center" ngbDropdown (click)="dropdown.toggle()" #dropdown="ngbDropdown">
-    <div
-      class="badge fw-bold me-auto position-relative d-flex align-items-center gap-2 "
-      style="cursor: pointer;"
-      [ngClass]="{
-        'badge-pending': item?.status === 'Pending' || item?.status === 'pending',
-        'badge-confirmed': item?.status === 'Confirmed' || item?.status === 'confirmed',
-        'badge-preparing': item?.status === 'Preparing' || item?.status === 'preparing',
-        'badge-ready-for-pickup': item?.status === 'Ready For Pickup' || item?.status === 'ready_for_pickup',
-        'badge-out-for-delivery': item?.status === 'Out For Delivery' || item?.status === 'out_for_delivery',
-        'badge-delivered': item?.status === 'Delivered' || item?.status === 'delivered',
-        'badge-completed': item?.status === 'Completed' || item?.status === 'completed',
-        'badge-cancelled': item?.status === 'Cancelled' || item?.status === 'cancelled'
-      }"
-    >
-      {{ item?.status | titlecase }}
-      <i class="bi bi-chevron-down ms-2 fs-12 text-dark" ngbDropdownToggle></i>
-    </div>
-  
-    <div ngbDropdownMenu>
-      <button
-        *ngFor="let status of statuses"
-        class="dropdown-item"
-        (click)="updateStatus(status, item)"
-      >
-        {{ status }}
-      </button>
-    </div>
+<div class="d-flex align-items-center" ngbDropdown (click)="dropdown.toggle()" #dropdown="ngbDropdown">
+  <div
+    class="badge fw-bold me-auto position-relative d-flex align-items-center gap-2"
+    style="cursor: pointer"
+    [ngClass]="{
+      'badge-active': item?.status === 'Active' || item?.status === 'active',
+      'badge-reserved': item?.status === 'Reserved' || item?.status === 'reserved'
+    }"
+  >
+    {{ item?.status | titlecase }}
   </div>
-  
+</div>

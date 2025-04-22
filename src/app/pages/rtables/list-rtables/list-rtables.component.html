@@ -67,7 +67,8 @@
           <div
             class="badge fw-bold me-auto"
             [ngClass]="{
-              'badge-active': item.status === 'Active',
+              'badge-active': item?.status === 'Active' || item?.status === 'active',
+              'badge-reserved': item?.status === 'Reserved' || item?.status === 'reserved',
               'badge-inactive': item.status === 'Inactive'
             }"
           >

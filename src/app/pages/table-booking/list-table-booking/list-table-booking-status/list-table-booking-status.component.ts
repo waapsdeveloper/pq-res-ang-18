@@ -9,7 +9,7 @@ import { UtilityService } from 'src/app/services/utility.service';
 })
 export class ListTableBookingStatusComponent {
   @Input() item: any;
-  statuses = ['pending', 'confirmed',  'completed', 'cancelled'];
+  statuses = ['reserved', 'active'];
   selectedStatus = '';
 
   constructor(
@@ -17,13 +17,13 @@ export class ListTableBookingStatusComponent {
     private utility: UtilityService
   ) {}
 
-  async updateStatus(status,item) {
+  async updateStatus(status, item) {
     let obj = {
       status: status
     };
-    console.log(obj , item);
+    console.log(obj, item);
 
-    await this.network.orderStatus(item.id, obj);
+    await this.network.tableBookingStatus(item.id, obj);
 
     this.utility.presentSuccessToast(`Order Status Updated to ${obj.status}`);
   }
