@@ -78,34 +78,67 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   }
 
   async onSubmit($event: Event) {
-    $event.preventDefault(); // Prevent default form behavior
+    $event.preventDefault();
 
-    // Show confirmation popup first
-    const flag = await this.utilityService.presentConfirm(
-      'Create Order and Print Bill',
-      'Just Create Order',
-      'Order creation',
-      'Do you Want to Create the Order?'
-    );
+    // Validate all required fields first
+    if (!this.orderService.selected_products?.length) {
+      this.utilityService.presentFailureToast('Please select at least one product');
+      return;
+    }
 
-    if (flag) {
-      // If user confirmed, submit the order
+    if (!this.orderService.customer_name?.trim()) {
+      this.utilityService.presentFailureToast('Please enter Customer Name');
+      return;
+    }
+
+    if (!this.orderService.customer_phone || !/^\d{10,15}$/.test(this.orderService.customer_phone)) {
+      this.utilityService.presentFailureToast('Please enter a valid Phone Number (10-15 digits)');
+      return;
+    }
+
+    if (!this.orderService.orderType?.trim()) {
+      this.utilityService.presentFailureToast('Please select an Order Type');
+      return;
+    }
+
+    if (!this.orderService.paymentMethod?.trim()) {
+      this.utilityService.presentFailureToast('Please select a Payment Method');
+      return;
+    }
+
+    try {
+      // Show confirmation popup only after all validations pass
+      const flag = await this.utilityService.presentConfirm(
+        'Create Order and Print Bill',
+        'Just Create Order',
+        'Order creation',
+        'Do you Want to Create the Order?'
+      );
+
+      // Submit order and handle response
       const res = await this.orderService.submitOrder();
-
-      if (res) {
-        this.printSlip();
-        console.log('Order submitted successfully. With Print Bill');
-        // Optional: Show success message
-        this.utilityService.presentSuccessToast('Order created successfully!');
-      } else {
-        console.log('Order submitted successfully.');
+      console.log('Order submission response:', res);
+      if (!res) {
+        return;
       }
-    } else {
-      const res = await this.orderService.submitOrder();
-      console.log(res, 'Just Order Created');
+
+      // Order submitted successfully - handle print or reload
+      if (flag) {
+        // Print bill flow
+        this.printSlip();
+        this.utilityService.presentSuccessToast('Order created and bill printed successfully!');
+      } else {
+        // Just create order flow
+        this.utilityService.presentSuccessToast('Order created successfully!');
+      }
+
+      // Reload page only after successful submission
       setTimeout(() => {
         window.location.reload();
-      }, 500);
+      }, 700);
+    } catch (error) {
+      console.error('Error submitting order:', error);
+      this.utilityService.presentFailureToast('Error creating order. Please try again.');
     }
   }
 

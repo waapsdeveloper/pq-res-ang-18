@@ -250,7 +250,7 @@ export class AddOrderService {
     console.log(response);
     // this.resetFields();
     // this.clearSelectedProducts();
-    return true;
+    return !res ? false : true;
   }
 
   resetFields() {
