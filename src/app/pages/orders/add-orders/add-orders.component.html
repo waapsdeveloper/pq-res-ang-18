@@ -85,9 +85,39 @@
                   </div>
                 </div>
               </div>
+              <!-- Order Type + Payment Method -->
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="col-form-label">Order Type</label>
+                    <select class="form-control" [(ngModel)]="orderService.orderType" name="orderType" (change)="onTypeChange($event)">
+                      <option value="" disabled selected>Order Type</option>
+                      <option value="drive-thru">Drive-Thru</option>
+                      <option value="dine-in">Dine-In</option>
+                      <option value="take-away">Take-Away</option>
+                      <option value="delivery">Delivery</option>
+                      <option value="curbside-pickup">Curbside Pickup</option>
+                      <option value="catering">Catering</option>
+                      <option value="reservation">Reservation</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="col-form-label">Payment Method</label>
+                    <select class="form-control" [(ngModel)]="orderService.paymentMethod" name="paymentMethod">
+                      <option value="" disabled selected>Payment Methods</option>
+                      <option *ngFor="let method of orderService.paymentMethods" [value]="method.value">
+                        {{ method.label }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
 
               <!-- Table Selection -->
-              <app-add-order-table></app-add-order-table>
+              <app-add-order-table *ngIf="orderService.orderType == 'dine-in'"></app-add-order-table>
             </form>
           </div>
         </div>
@@ -112,63 +142,44 @@
             </div>
           </div>
         </div>
-
-        <!-- Coupon Section moved here -->
-        <div class="card">
-          <div class="card-body">
-            <form>
-              <div class="form-group">
-                <label for="code" class="col-form-label">Coupon Code</label>
-                <div class="input-group">
-                  <input
-                    type="text"
-                    [(ngModel)]="orderService.couponCode"
-                    name="couponCode"
-                    class="form-control sqaure form-control"
-                    placeholder="Enter Coupon"
-                  />
-                  <div class="btn btn-light input-group-append">Discount: ${{ orderService.discountAmount | number: '1.2-2' }}</div>
-                </div>
-              </div>
-              <div class="form-group mt-3">
-                <button type="button" class="btn btn-primary" (click)="orderService.applyCoupon()">Apply Coupon</button>
-              </div>
-            </form>
-          </div>
-        </div>
       </div>
       <div class="card sticky-order-summary bg-white mt-2" style="position: sticky; bottom: 0; z-index: 10; box-shadow: unset">
         <div class="card-body">
-          <!-- Order Type + Payment Method -->
-          <div class="row mb-3">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label class="col-form-label">Order Type</label>
-                <select class="form-control" [(ngModel)]="orderService.orderType" name="orderType" (change)="onTypeChange($event)">
-                  <option value="" disabled selected>Select Order Type</option>
-                  <option value="drive-thru">Drive-Thru</option>
-                  <option value="dine-in">Dine-In</option>
-                  <option value="take-away">Take-Away</option>
-                  <option value="delivery">Delivery</option>
-                  <option value="curbside-pickup">Curbside Pickup</option>
-                  <option value="catering">Catering</option>
-                  <option value="reservation">Reservation</option>
-                </select>
+          <!-- Coupon Toggle Link -->
+          <!-- Coupon Toggle Link -->
+          <div class="mb-2">
+            <a
+              href="#"
+              (click)="showCoupon = !showCoupon; $event.preventDefault()"
+              class="text-primary text-decoration-underline small"
+              style="cursor: pointer"
+            >
+              {{ showCoupon ? 'Hide Coupon' : 'Have a coupon?' }}
+            </a>
+          </div>
+
+          <!-- Coupon Input Form -->
+          <form *ngIf="showCoupon">
+            <div class="form-group mb-2">
+              <label for="code" class="col-form-label small">Coupon Code</label>
+              <div class="input-group input-group-sm">
+                <input
+                  type="text"
+                  [(ngModel)]="orderService.couponCode"
+                  name="couponCode"
+                  class="form-control"
+                  placeholder="Enter Coupon"
+                />
+                <div class="input-group-append">
+                  <span class="input-group-text">Discount: ${{ orderService.discountAmount | number: '1.2-2' }}</span>
+                </div>
               </div>
             </div>
 
-            <div class="col-md-6">
-              <div class="form-group">
-                <label class="col-form-label">Payment Method</label>
-                <select class="form-control" [(ngModel)]="orderService.paymentMethod" name="paymentMethod">
-                  <option value="" disabled selected>Select Payment</option>
-                  <option *ngFor="let method of orderService.paymentMethods" [value]="method.value">
-                    {{ method.label }}
-                  </option>
-                </select>
-              </div>
+            <div class="form-group">
+              <button type="button" class="btn btn-sm btn-primary" (click)="orderService.applyCoupon()">Apply Coupon</button>
             </div>
-          </div>
+          </form>
 
           <!-- Totals -->
           <div class="d-flex justify-content-between mb-2">
@@ -185,7 +196,6 @@
             <strong>Total:</strong>
             <strong>$ {{ orderService.totalCost - orderService.discountAmount | number: '1.2-2' }}</strong>
           </div>
-
           <!-- Submit Button -->
           <div class="d-flex justify-content-end w-100">
             <button *ngIf="orderService.selected_products?.length > 0" class="w-100 btn btn-primary" (click)="onSubmit($event)">

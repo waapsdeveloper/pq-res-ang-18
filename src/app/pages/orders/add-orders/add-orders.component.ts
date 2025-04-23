@@ -22,6 +22,7 @@ import { UtilityService } from 'src/app/services/utility.service';
 export class AddOrdersComponent implements OnInit, OnDestroy {
   screenWidth: number;
   screenHeight: number;
+  showCoupon
 
   constructor(
     public nav: NavService,

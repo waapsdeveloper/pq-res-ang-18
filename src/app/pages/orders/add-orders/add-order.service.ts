@@ -18,12 +18,12 @@ export class AddOrderService {
   selectedTableId = null;
   orderType = '';
   selected_products: any[] = [];
-  paymentMethod: any;
+  paymentMethod: string = '';
   couponCode;
   discountAmount = 0;
   final_total = 0;
   paymentMethods: { label: string; value: string }[] = [
-    { label: 'Cash on Delivery', value: 'Cash on Delivery' },
+    { label: 'Cash on Delivery', value: 'cashondelivery' },
     { label: 'Apple Pay', value: 'applePay' },
     { label: 'Google Pay', value: 'googlePay' },
     { label: 'Credit/Debit Card', value: 'card' },
