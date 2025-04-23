@@ -11,8 +11,11 @@
         </div>
 
         <div class="d-flex flex-row justify-content-start align-items-center">
-          <p class="card-text text-left m-0" style="font-weight: bold">{{ product?.name }}</p>
+          <p class="card-text text-left m-0 text-truncate" style="max-width: 200px; font-weight: bold" title="{{ product?.name }}">
+            {{ product?.name }}
+          </p>
         </div>
+
         <button class="btn btn-primary" (click)="setSelectedToggle(product)" [disabled]="isProductSelected(product.id)">
           <!-- {{buttonLabel}} -->
           ${{ product?.price | number: '1.2-2' }}
