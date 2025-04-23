@@ -22,7 +22,7 @@ import { UtilityService } from 'src/app/services/utility.service';
 export class AddOrdersComponent implements OnInit, OnDestroy {
   screenWidth: number;
   screenHeight: number;
-  showCoupon
+  showCoupon;
 
   constructor(
     public nav: NavService,
@@ -47,6 +47,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   restaurant;
   tempCustomerName: any = null;
   tempCustomerPhone: any = null;
+  tempCustomerAddress: any = null;
   walkInCustomer = {
     id: 7,
     name: 'Walk-in Customer',
@@ -80,6 +81,18 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
 
   async onSubmit($event: Event) {
     $event.preventDefault();
+
+    // 1) Ask for confirmation up front
+    const confirmed = await this.utilityService.presentConfirm(
+      'Create Order',
+      'Cancel',
+      'Are you sure?',
+      'Do you really want to create this order?'
+    );
+    if (!confirmed) {
+      // User clicked “Cancel”
+      return;
+    }
 
     // Validate all required fields first
     if (!this.orderService.selected_products?.length) {
@@ -218,7 +231,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       this.filteredSuggestions = [this.walkInCustomer, ...array]; // Extend API response with Walk-in Customer
     }
 
-    console.log(this.filteredSuggestions);
+    console.log(this.filteredSuggestions, 'filtered suffe');
   }
 
   onInputChangePhone(data) {
@@ -266,6 +279,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   onSuggestionSelected(selected: any) {
     if (selected && typeof selected === 'object') {
       // Populate both fields from API response
+      console.log('Selected suggestion:', selected);
       this.tempCustomerName = selected.name;
       this.tempCustomerPhone = selected.phone;
     } else {
@@ -278,10 +292,14 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   onCustomerNameSelected(event: any) {
     if (event && typeof event === 'object') {
       // Autofill phone if selected from suggestions
+      console.log('Selected suggestion:', event);
       this.tempCustomerName = event.name;
       this.tempCustomerPhone = event?.phone ? event?.phone : this.tempCustomerPhone;
+      this.tempCustomerAddress = event?.address ? event?.address : this.tempCustomerAddress;
+
       this.orderService.customer_name = this.tempCustomerName;
       this.orderService.customer_phone = this.tempCustomerPhone;
+      this.orderService.customer_address = this.tempCustomerAddress;
     } else {
       // Handle manual input
       this.tempCustomerName = event;
@@ -294,13 +312,28 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       // Autofill name if selected from suggestions
       this.tempCustomerName = event?.name ? event?.name : this.tempCustomerName;
       this.tempCustomerPhone = event.phone;
+      this.tempCustomerAddress = event?.address ? event?.address : this.tempCustomerAddress;
+      this.orderService.customer_name = this.tempCustomerName;
+      this.orderService.customer_phone = this.tempCustomerPhone;
+      this.orderService.customer_address = this.tempCustomerAddress;
+    } else {
+      // Handle manual input
+      this.tempCustomerPhone = event;
+    }
+    // this.onCustomerFieldChange();
+  }
+  onInputChangeAddress(event: any) {}
+  onCustomerAddressSelected(event: any) {
+    if (event && typeof event === 'object') {
+      // Autofill name if selected from suggestions
+      this.tempCustomerName = event?.name ? event?.name : this.tempCustomerName;
+      this.tempCustomerPhone = event.phone;
       this.orderService.customer_name = this.tempCustomerName;
       this.orderService.customer_phone = this.tempCustomerPhone;
     } else {
       // Handle manual input
       this.tempCustomerPhone = event;
     }
-    // this.onCustomerFieldChange();
   }
 
   checkAndAssignManualInputs() {

@@ -17,6 +17,7 @@ export class AddOrderService {
   selectedCategory = null;
   selectedTableId = null;
   orderType = '';
+  customer_address: string = '';
   selected_products: any[] = [];
   paymentMethod: string = '';
   couponCode;
@@ -230,6 +231,7 @@ export class AddOrderService {
     let obj = {
       customer_name: this.customer_name,
       customer_phone: this.customer_phone,
+      customer_address: this.customer_address,
       products: prodObj,
       notes: this.order_notes,
       status: 'pending',
