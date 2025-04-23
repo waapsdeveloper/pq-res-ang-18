@@ -339,6 +339,6 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   }
 
   goBack(): void {
-    this.location.back();
+    this.nav.pop();
   }
 }
