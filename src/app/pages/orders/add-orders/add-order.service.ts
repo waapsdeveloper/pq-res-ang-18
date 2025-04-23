@@ -88,18 +88,29 @@ export class AddOrderService {
   async updateProductsBySelectedCategory(category) {
     let obj = {
       filters: JSON.stringify({
-        category_id: category.id
+        category_id: category.id === -1 ? null : category.id // Don't send category_id if -1
       }),
       perpage: 500,
-
       restaurant_id: localStorage.getItem('restaurant_id') ? localStorage.getItem('restaurant_id') : -1
     };
-    const res = await this.network.getProducts(obj);
 
-    if (res.data) {
-      let d = res.data.data;
-      console.log(d);
-      this.products = d;
+    try {
+      const res = await this.network.getProducts(obj);
+
+      if (!res || res.status === 400) {
+        this.products = [];
+        return false;
+      }
+
+      if (res.data) {
+        this.products = res.data.data;
+      }
+
+      return true;
+    } catch (error) {
+      console.error('Error fetching products:', error);
+      this.products = [];
+      return false;
     }
   }
 
@@ -231,7 +242,7 @@ export class AddOrderService {
     let obj = {
       customer_name: this.customer_name,
       customer_phone: this.customer_phone,
-      customer_address: this.customer_address,
+      delivery_address: this.customer_address,
       products: prodObj,
       notes: this.order_notes,
       status: 'pending',
@@ -248,6 +259,7 @@ export class AddOrderService {
     };
     const res = await this.network.addOrder(obj);
     console.log(res);
+    localStorage.setItem('order_id', res?.data?.order_number);
     const response = await this.network.updateCouponUsage(coupon);
     console.log(response);
     // this.resetFields();

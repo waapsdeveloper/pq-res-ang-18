@@ -102,21 +102,47 @@
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
 }
 
+@media screen {
+  #print-section {
+    width: calc(var(--receipt-width) * 3.78); /* mm→px @96dpi */
+    margin: 20px auto;
+    border: 1px solid #ccc;
+    background: #fff;
+  }
+}
+
 // Print Styles
 @media print {
+  /* 1) Set page size to the variable width */
   @page {
-    size: 58mm auto;
+    size: var(--receipt-width) auto;
     margin: 0;
   }
 
+  /* 2) Container forced to that width */
   #print-section {
-    width: 58mm;
-    padding: 10px;
-    margin: auto;
+    width: var(--receipt-width);
+    padding: 4mm 2mm; /* small padding inside the roll */
+    margin: 0 auto;
+    box-sizing: border-box;
   }
 
+  /* 3) Reset any non‑print elements */
   .non-printable {
-    display: none;
+    display: none !important;
+  }
+
+  /* 4) Make tables fluid within the width */
+  #print-section table {
+    width: 100% !important;
+    border-collapse: collapse;
+  }
+  #print-section th,
+  #print-section td {
+    word-wrap: break-word;
+    padding: 2px 0; /* tighter cell padding */
+    text-align: left;
+    font-size: 12px;
   }
 }
 
@@ -204,4 +230,91 @@
   font-size: 1.3rem;
   margin-bottom: 10px;
   color: #444;
+}
+
+// Receipt Preview Variables
+:root {
+  --receipt-width: 80mm; // Standard thermal paper width
+  --receipt-background: #fff;
+  --receipt-text: #000;
+}
+
+// Preview Container
+.receipt-preview {
+  background: #f0f0f0;
+  padding: 20px;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+// Receipt Preview Styles
+#print-section {
+  width: calc(var(--receipt-width));
+  background: var(--receipt-background);
+  padding: 8mm 4mm;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  font-family: 'Courier New', Courier, monospace; // Typical thermal printer font
+  font-size: 12px;
+  line-height: 1.2;
+  color: var(--receipt-text);
+
+  // Thermal paper effect
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0) 100%);
+  }
+
+  // Receipt content
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 8px 0;
+  }
+
+  th,
+  td {
+    padding: 4px 0;
+    text-align: left;
+    &:last-child {
+      text-align: right;
+    }
+  }
+
+  // Dotted line separator
+  .separator {
+    border-bottom: 1px dotted #000;
+    margin: 8px 0;
+  }
+
+  // Center align specific elements
+  .center-text {
+    text-align: center;
+  }
+}
+
+// Preview Toggle Button
+.preview-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  z-index: 1000;
+
+  &:hover {
+    background: #0056b3;
+  }
 }

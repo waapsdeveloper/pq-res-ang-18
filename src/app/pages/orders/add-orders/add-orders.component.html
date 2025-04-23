@@ -2,7 +2,16 @@
   <!-- Main Content Section -->
   <div class="products-section-outer">
     <div class="section-body" style="padding: 8px">
+      <!-- Back Button -->
+
+      <!-- Existing Categories Section -->
       <div class="d-flex flex-wrap justify-content-start align-items-center gap-3">
+        <div class="d-flex align-items-center">
+          <button class="btn btn-light d-flex align-items-center gap-2" (click)="goBack()">
+            <i class="ti ti-arrow-left"></i>
+            <span>Back</span>
+          </button>
+        </div>
         <app-add-order-categories></app-add-order-categories>
       </div>
       <div class="my-2">

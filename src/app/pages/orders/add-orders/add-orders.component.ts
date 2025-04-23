@@ -5,6 +5,7 @@ import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { UtilityService } from 'src/app/services/utility.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-add-orders',
@@ -28,7 +29,8 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     public nav: NavService,
     public orderService: AddOrderService,
     private network: NetworkService,
-    private utilityService: UtilityService
+    private utilityService: UtilityService,
+    private location: Location
   ) {
     this.updateScreenSize(); // Initialize screen size on component load
   }
@@ -82,74 +84,66 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   async onSubmit($event: Event) {
     $event.preventDefault();
 
-    // 1) Ask for confirmation up front
-    const confirmed = await this.utilityService.presentConfirm(
+    // 1) First confirmation: create the order
+    const createConfirmed = await this.utilityService.presentConfirm(
       'Create Order',
       'Cancel',
       'Are you sure?',
       'Do you really want to create this order?'
     );
-    if (!confirmed) {
-      // User clicked “Cancel”
-      return;
+    if (!createConfirmed) {
+      return; // user cancelled
     }
 
-    // Validate all required fields first
+    // 2) Run validations
     if (!this.orderService.selected_products?.length) {
       this.utilityService.presentFailureToast('Please select at least one product');
       return;
     }
-
     if (!this.orderService.customer_name?.trim()) {
       this.utilityService.presentFailureToast('Please enter Customer Name');
       return;
     }
-
     if (!this.orderService.customer_phone || !/^\d{10,15}$/.test(this.orderService.customer_phone)) {
       this.utilityService.presentFailureToast('Please enter a valid Phone Number (10-15 digits)');
       return;
     }
-
     if (!this.orderService.orderType?.trim()) {
       this.utilityService.presentFailureToast('Please select an Order Type');
       return;
     }
-
     if (!this.orderService.paymentMethod?.trim()) {
       this.utilityService.presentFailureToast('Please select a Payment Method');
       return;
     }
 
     try {
-      // Show confirmation popup only after all validations pass
-      const flag = await this.utilityService.presentConfirm(
-        'Create Order and Print Bill',
-        'Just Create Order',
-        'Order creation',
-        'Do you Want to Create the Order?'
-      );
-
-      // Submit order and handle response
+      // 3) Submit the order
       const res = await this.orderService.submitOrder();
       console.log('Order submission response:', res);
       if (!res) {
         return;
       }
 
-      // Order submitted successfully - handle print or reload
-      if (flag) {
-        // Print bill flow
+      let ord_id = localStorage.getItem('order_id');
+      // 4) Second confirmation: print the bill?
+      const printConfirmed = await this.utilityService.presentConfirm(
+        'Yes, Print',
+        'No, Thanks',
+        `${ord_id}!`,
+        `Order Created! Would you like to print the bill now?`
+      );
+
+      if (printConfirmed) {
         this.printSlip();
         this.utilityService.presentSuccessToast('Order created and bill printed successfully!');
       } else {
-        // Just create order flow
         this.utilityService.presentSuccessToast('Order created successfully!');
       }
 
-      // Reload page only after successful submission
-      setTimeout(() => {
-        window.location.reload();
-      }, 700);
+      // 5) Reload after a short delay
+      localStorage.removeItem('order_id');
+      setTimeout(() => window.location.reload(), 700);
     } catch (error) {
       console.error('Error submitting order:', error);
       this.utilityService.presentFailureToast('Error creating order. Please try again.');
@@ -342,5 +336,9 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       this.orderService.customer_name = this.tempCustomerName;
       this.orderService.customer_phone = this.tempCustomerPhone;
     }
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 }
