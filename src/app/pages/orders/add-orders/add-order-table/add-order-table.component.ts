@@ -11,9 +11,8 @@ import { AddOrderService } from '../add-order.service';
 export class AddOrderTableComponent {
 
   selectedTable: any = null;
-  
-  tables: any[] = [
-  ];
+
+  tables: any[] = [];
 
   @Output() selectedTableChange: EventEmitter<any> = new EventEmitter<any>();
 
@@ -36,9 +35,9 @@ export class AddOrderTableComponent {
     if (!d) {
       return;
     }
-    let tbs = d.data
-    this.tables = tbs;
-  }
-  
+    let tbs = d.data;
 
+    // Filter tables based on status
+    this.tables = tbs.filter((table: any) => table.status !== 'Reserved' && table.status !== 'reserved');
+  }
 }
