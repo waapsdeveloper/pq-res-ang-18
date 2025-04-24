@@ -77,4 +77,9 @@ export class ViewOrdersComponent implements OnInit {
 
     this.utility.presentSuccessToast(`Order Status Updated to ${obj.status}`);
   }
+  onStatusChange(event) {
+    console.log(event);
+    this.item.selectedStatus = event;
+    console.log('change', this.selectedStatus);
+  }
 }
