@@ -58,7 +58,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   tempCustomerPhone: any = null;
   tempCustomerAddress: any = null;
   walkInCustomer = {
-    id: 0,  // Special ID for walk-in customer
+    id: 0, // Special ID for walk-in customer
     name: 'Walk-in Customer',
     email: 'walk-in@example.com',
     phone: '0000000000',
@@ -90,17 +90,11 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     this.getRestaurants();
 
     // Setup debounced search
-    this.searchSubscription = this.searchSubject.pipe(
-      debounceTime(400),
-      distinctUntilChanged()
-    ).subscribe(async (query) => {
+    this.searchSubscription = this.searchSubject.pipe(debounceTime(400), distinctUntilChanged()).subscribe(async (query) => {
       await this.fetchSuggestions(query);
     });
 
-    this.phoneSearchSubscription = this.phoneSearchSubject.pipe(
-      debounceTime(400),
-      distinctUntilChanged()
-    ).subscribe(async (query) => {
+    this.phoneSearchSubscription = this.phoneSearchSubject.pipe(debounceTime(400), distinctUntilChanged()).subscribe(async (query) => {
       await this.fetchSuggestionsPhone(query);
     });
   }
@@ -122,11 +116,12 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
 
     // 1) First confirmation: create the order
     const createConfirmed = await this.utilityService.presentConfirm(
-      'Create Order',
-      'Cancel',
-      'Are you sure?',
-      'Do you really want to create this order?'
+      'Ready to Place Your Order?', // title
+      'Not Yet, Thanks', // cancel button
+      'Everything Looks Good?', // short question
+      'Hit “Place Order” to confirm and we’ll get started!' // detailed prompt
     );
+
     if (!createConfirmed) {
       return; // user cancelled
     }
@@ -177,9 +172,12 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
         this.utilityService.presentSuccessToast('Order created successfully!');
       }
 
-      // 5) Reload after a short delay
+      // 5) Clear the form fields and local storage regardless of print confirmation
       localStorage.removeItem('order_id');
-      setTimeout(() => window.location.reload(), 700);
+      this.tempCustomerAddress = '';
+      this.tempCustomerName = '';
+      this.tempCustomerPhone = '';
+      this.orderService.resetField();
     } catch (error) {
       console.error('Error submitting order:', error);
       this.utilityService.presentFailureToast('Error creating order. Please try again.');
@@ -205,17 +203,53 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   }
 
   printSlip() {
-    const printContents = document.getElementById('print-section')?.innerHTML;
-    const originalContents = document.body.innerHTML;
-
-    if (printContents) {
-      document.body.innerHTML = printContents;
-      window.print();
-      document.body.innerHTML = originalContents;
-      window.location.reload(); // Reload the page to restore the original view
-    } else {
+    const section = document.getElementById('print-section');
+    if (!section) {
       console.error('Print section not found.');
+      return;
     }
+
+    // 1. Grab the _rendered_ HTML (with actual names, prices, looped rows)
+    const html = section.innerHTML;
+
+    // 2. Open a new window
+    const printWindow = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+    if (!printWindow) {
+      console.error('Unable to open print window.');
+      return;
+    }
+
+    // 3. Write a minimal HTML document around that rendered content
+    printWindow.document.open();
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>Print Receipt</title>
+          <style>
+            /* bring in any print‑only styles here */
+            body { font-family: Arial, sans-serif; font-size: 12px; margin:0; padding: 8px; }
+            .bill-slip { border: 1px dashed #000; padding: 8px; }
+            .bill-header, .customer-info, .order-details, .bill-footer {
+              margin-bottom: 10px;
+            }
+            table { width: 100%; border-collapse: collapse; }
+            th, td { text-align: left; padding: 2px 4px; }
+            th { border-bottom: 1px solid #000; }
+          </style>
+        </head>
+        <body>
+          <div class="bill-slip">
+            ${html}
+          </div>
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
+
+    // 4. Print & close
+    printWindow.focus();
+    printWindow.print();
+    printWindow.close();
   }
 
   async getRestaurants(): Promise<void> {

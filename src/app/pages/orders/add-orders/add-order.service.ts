@@ -188,6 +188,21 @@ export class AddOrderService {
     this.paymentMethod = 'card';
   }
 
+  resetField() {
+    this.customer_name = '';
+    this.customer_phone = '';
+    this.order_notes = '';
+    this.selected_products = [];
+    this.selectedTableId = null;
+    this.orderType = '';
+    this.paymentMethod = '';
+    this.couponCode = '';
+    this.discountAmount = 0;
+    this.final_total = 0;
+    this.totalCost = 0;
+    this.customer_address = '';
+  }
+
   async submitOrder() {
     let prodObj = this.selected_products.map((item) => {
       //   item.price = this.totalCost;
