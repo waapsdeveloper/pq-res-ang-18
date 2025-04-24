@@ -35,16 +35,7 @@
             <!-- Right Side - Status Controls -->
             <div class="col-12 col-sm-5 mt-2 mt-sm-0">
               <div class="d-flex justify-content-sm-end gap-2">
-                <select
-                  class="form-select fw-medium fs-6 text-gray-800"
-                  [(ngModel)]="selectedStatus"
-                  (ngModelChange)="onStatusChange($event)"
-                >
-                  <option *ngFor="let status of statuses" [value]="status">
-                    {{ status | titlecase }}
-                  </option>
-                </select>
-                <button class="btn btn-primary col-auto" (click)="updateStatus(item)">Update</button>
+                <button class="btn btn-primary col-auto" (click)="openStatusDropdown(item)">Update Status</button>
               </div>
             </div>
           </div>

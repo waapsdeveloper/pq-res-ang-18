@@ -67,19 +67,47 @@ export class ViewOrdersComponent implements OnInit {
 
     console.log('Parsed products:', this.item);
   }
-  async updateStatus(item) {
+
+  async updateStatus(item: any, newStatus: string) { // Receive newStatus
     let obj = {
-      status: this.item.selectedStatus
+      status: newStatus // Use newStatus
     };
     console.log(obj);
 
-    await this.network.orderStatus(item.id, obj);
-
-    this.utility.presentSuccessToast(`Order Status Updated to ${obj.status}`);
+    try {
+      await this.network.orderStatus(item.id, obj);
+      this.utility.presentSuccessToast(`Order Status Updated to ${obj.status}`);
+      item.status = newStatus; // Update the item's status locally
+    } catch (error) {
+      console.error('Error updating status:', error);
+      this.utility.presentFailureToast('Failed to update order status.');
+    }
   }
+
   onStatusChange(event) {
     console.log(event);
     this.item.selectedStatus = event;
     console.log('change', this.selectedStatus);
+  }
+
+  openStatusDropdown(item: any) {
+    const options = this.statuses.map((status) => ({ value: status, label: this.titleCase(status) }));
+
+    this.utility.showCustomDropdown(
+      'Update Order Status',
+      'status-dropdown',
+      options,
+      item.status,
+      'Update Status',
+      (newStatus: string) => {
+        this.updateStatus(item, newStatus); // Pass both item and newStatus
+      }
+    );
+  }
+
+  titleCase(str: string): string {
+    return str.toLowerCase().split(' ').map(function (word) {
+      return (word.charAt(0).toUpperCase() + word.slice(1));
+    }).join(' ');
   }
 }

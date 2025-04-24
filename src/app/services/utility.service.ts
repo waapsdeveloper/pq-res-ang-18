@@ -3,13 +3,12 @@ import { LoadingService } from './basic/loading.service';
 import { AlertsService } from './basic/alerts.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class UtilityService {
-
   constructor(
     public loading: LoadingService,
-    public alerts: AlertsService,
+    public alerts: AlertsService
   ) {}
 
   showLoader(msg = '') {
@@ -53,8 +52,14 @@ export class UtilityService {
       (cancelClass = cancelClass)
     );
   }
-
-
-
-
+  showCustomDropdown(
+    title: string,
+    dropdownId: string,
+    options: { value: any; label: string }[],
+    selectedValue: any,
+    confirmButtonText: string,
+    updateValue: (newValue: any) => void
+  ): Promise<any> {
+    return this.alerts.showCustomDropdown(title, dropdownId, options, selectedValue, confirmButtonText, updateValue);
+  }
 }
