@@ -6,6 +6,8 @@ import { NetworkService } from 'src/app/services/network.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { UtilityService } from 'src/app/services/utility.service';
 import { Location } from '@angular/common';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-orders',
@@ -24,6 +26,11 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   screenWidth: number;
   screenHeight: number;
   showCoupon;
+
+  private searchSubject = new Subject<string>();
+  private phoneSearchSubject = new Subject<string>();
+  private searchSubscription: Subscription;
+  private phoneSearchSubscription: Subscription;
 
   constructor(
     public nav: NavService,
@@ -51,11 +58,17 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   tempCustomerPhone: any = null;
   tempCustomerAddress: any = null;
   walkInCustomer = {
-    id: 7,
+    id: 0,  // Special ID for walk-in customer
     name: 'Walk-in Customer',
-    email: 'david.wilson@example.com',
-    dial_code: null,
-    phone: '1234567890' // Updated phone number
+    email: 'walk-in@example.com',
+    phone: '0000000000',
+    role: 'Customer',
+    status: 'Active',
+    image: 'http://127.0.0.1:8000/storage/images/user/default-user.png',
+    address: 'In-Store Purchase',
+    city: '',
+    state: '',
+    country: ''
   };
   filteredSuggestions = [this.walkInCustomer];
 
@@ -75,10 +88,33 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.orderService.showOrderHeader = false;
     this.getRestaurants();
+
+    // Setup debounced search
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(400),
+      distinctUntilChanged()
+    ).subscribe(async (query) => {
+      await this.fetchSuggestions(query);
+    });
+
+    this.phoneSearchSubscription = this.phoneSearchSubject.pipe(
+      debounceTime(400),
+      distinctUntilChanged()
+    ).subscribe(async (query) => {
+      await this.fetchSuggestionsPhone(query);
+    });
   }
 
   ngOnDestroy(): void {
     this.orderService.showOrderHeader = true;
+    if (this.searchSubscription) {
+      this.searchSubscription.unsubscribe();
+    }
+    if (this.phoneSearchSubscription) {
+      this.phoneSearchSubscription.unsubscribe();
+    }
+    this.searchSubject.complete();
+    this.phoneSearchSubject.complete();
   }
 
   async onSubmit($event: Event) {
@@ -204,50 +240,45 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     this.orderService.makeWalkingCustomer();
   }
 
-  onInputChange(data) {
-    console.log('Input changed', data);
-    this.fetchSuggestions(data);
+  onInputChange(data: string) {
+    this.searchSubject.next(data);
   }
 
-  async fetchSuggestions(query: any) {
-    let v = query.trim();
-    console.log(v);
+  async fetchSuggestions(query: string) {
+    try {
+      const v = query?.trim();
 
-    if (!v) {
-      this.filteredSuggestions = [this.walkInCustomer]; // Clear suggestions if input is empty
-    } else {
-      let obj = {
-        search: v
-      };
+      if (!v) {
+        this.filteredSuggestions = [this.walkInCustomer];
+        return;
+      }
+
+      const obj = { search: v };
+      const res = await this.network.index('user', obj);
+      const array = res?.data?.data || [];
+      this.filteredSuggestions = [this.walkInCustomer, ...array];
+    } catch (error) {
+      console.error('Error fetching suggestions:', error);
+      this.filteredSuggestions = [this.walkInCustomer];
+    }
+  }
+
+  onInputChangePhone(data: string) {
+    this.phoneSearchSubject.next(data);
+  }
+
+  async fetchSuggestionsPhone(query: string) {
+    try {
+      const temp = { phone: query };
+      const obj = { filters: JSON.stringify(temp) };
 
       const res = await this.network.index('user', obj);
-      let array = res?.data?.data || [];
-      this.filteredSuggestions = [this.walkInCustomer, ...array]; // Extend API response with Walk-in Customer
+      const array = res?.data?.data || [];
+      this.filteredSuggestions = [this.walkInCustomer, ...array];
+    } catch (error) {
+      console.error('Error fetching phone suggestions:', error);
+      this.filteredSuggestions = [this.walkInCustomer];
     }
-
-    console.log(this.filteredSuggestions, 'filtered suffe');
-  }
-
-  onInputChangePhone(data) {
-    console.log('Input changed', data);
-    if (!data) return;
-    this.fetchSuggestionsPhone(data);
-  }
-
-  async fetchSuggestionsPhone(query: any) {
-    let temp = {
-      phone: query
-    };
-
-    let obj = {
-      filters: JSON.stringify(temp)
-    };
-
-    const res = await this.network.index('user', obj);
-    let array = res?.data?.data || [];
-    this.filteredSuggestions = [this.walkInCustomer, ...array]; // Extend API response with Walk-in Customer
-
-    console.log(this.filteredSuggestions);
   }
 
   setActiveTab(name: string) {
