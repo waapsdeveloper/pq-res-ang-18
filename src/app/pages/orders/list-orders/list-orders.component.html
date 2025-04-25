@@ -139,6 +139,19 @@
         </div>
       </td>
       <td>
+        <div class="d-flex">
+          <div
+            class="badge fw-bold me-auto"
+            [ngClass]="{
+              'badge-active': item.is_active === true,
+              'badge-inactive': item.is_active === false
+            }"
+          >
+            {{ item.is_active ? 'Active' : 'Inactive' }}
+          </div>
+        </div>
+      </td>
+      <td>
         <app-list-order-item-status [item]="item"></app-list-order-item-status>
       </td>
       <!-- <ng-content></ng-content> -->
@@ -146,8 +159,12 @@
       <td class="text-start">
         <div class="d-flex flex-row justify-content-start align-items-center gap-3">
           <i class="ti ti-eye view-icon" style="font-size: 20px; cursor: pointer" (click)="openDetails(i)"></i>
+          <i class="ti ti-printer printericon" style="font-size: 20px; cursor: pointer"></i>
+          
           <!-- <i *ngIf="showEdit" class="edit-icon ti ti-edit" style="font-size: 24px; cursor: pointer" (click)="openEditDetails(i)"></i> -->
+          
           <i *ngIf="showEdit" class="ti ti-trash trash-icon" style="font-size: 20px; cursor: pointer" (click)="deleteRow(i)"></i>
+          <i class="ti ti-dots-vertical"></i>
         </div>
       </td>
       <!--end::Action=-->

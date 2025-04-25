@@ -37,3 +37,21 @@
   background-color: #ffcdd2;
   color: red;
 }
+
+.badge-active {
+  background-color: #c8e6c9; /* Light green */
+  color: #388e3c; /* Dark green */
+}
+
+.badge-inactive {
+  background-color: #ffcdd2; /* Light red */
+  color: #d32f2f; /* Dark red */
+}
+
+.printericon {
+  color: #007bff; /* Bootstrap primary color */
+  background-color: #f0f8ff; /* Light background color */
+  border: 1px solid #007bff; /* Bootstrap primary color */
+  padding: 4px; /* Add some padding around the icon */
+  border-radius: 4px; /* Optional: Add a border radius for a rounded look */
+}

@@ -19,7 +19,20 @@ export class ListOrdersComponent extends ListBlade {
   title = 'Orders';
   addurl = '/pages/orders/add';
   showEdit: boolean = false;
-  columns: any[] = ['Order Id', 'Customer', 'Created at', 'Updated at', 'address', 'notes',  'Price', 'Discount','Table No', 'Type', 'Status'];
+  columns: any[] = [
+    'Order Id',
+    'Customer',
+    'Created at',
+    'Updated at',
+    'address',
+    'notes',
+    'Price',
+    'Discount',
+    'Table No',
+    'Type',
+    'Paid',
+    'Status'
+  ];
   statuses = ['pending', 'confirmed', 'preparing', 'ready_for_pickup', 'out_for_delivery', 'delivered', 'completed', 'cancelled'];
   selectedStatus = '';
   override model = {
