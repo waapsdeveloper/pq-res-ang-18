@@ -15,10 +15,14 @@ const routes: Routes = [
       },
       {
         path: 'list',
-        loadChildren: () => import('./list-orders/list-orders.module').then((m) => m.ListOrdersModule),
+        loadChildren: () => import('./list-orders/list-orders.module').then((m) => m.ListOrdersModule)
       },
       {
         path: 'add',
+        loadChildren: () => import('./add-orders/add-orders.module').then((m) => m.AddOrdersModule)
+      },
+      {
+        path: 'add/:id',
         loadChildren: () => import('./add-orders/add-orders.module').then((m) => m.AddOrdersModule)
       },
       {
@@ -37,4 +41,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class OrdersRoutingModule { }
+export class OrdersRoutingModule {}

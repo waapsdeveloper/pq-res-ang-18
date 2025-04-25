@@ -8,6 +8,7 @@ import { UtilityService } from 'src/app/services/utility.service';
 import { Location } from '@angular/common';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-add-orders',
@@ -26,7 +27,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   screenWidth: number;
   screenHeight: number;
   showCoupon;
-
+  itemId;
   private searchSubject = new Subject<string>();
   private phoneSearchSubject = new Subject<string>();
   private searchSubscription: Subscription;
@@ -37,7 +38,8 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     public orderService: AddOrderService,
     private network: NetworkService,
     private utilityService: UtilityService,
-    private location: Location
+    private location: Location,
+    private activatedRoute: ActivatedRoute
   ) {
     this.updateScreenSize(); // Initialize screen size on component load
   }
@@ -85,7 +87,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     this.showForm = !this.showForm;
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.orderService.showOrderHeader = false;
     this.getRestaurants();
 
@@ -97,6 +99,39 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     this.phoneSearchSubscription = this.phoneSearchSubject.pipe(debounceTime(400), distinctUntilChanged()).subscribe(async (query) => {
       await this.fetchSuggestionsPhone(query);
     });
+    const rew = await this.activatedRoute.snapshot.params;
+    this.itemId = rew['id'];
+    const res = await this.network.getOrdersById(this.itemId);
+    console.log(res);
+    if (res && res['order']) {
+      let dm = res['order'];
+      this.orderService.selected_products = dm['products'].map((product: any) => {
+        // Check and parse 'variation' if it's a JSON string
+        if (typeof product.variation === 'string' && product.variation.trim().startsWith('[')) {
+          product.variation = JSON.parse(product.variation);
+        }
+
+        // Check and parse 'meta_value' if it's a JSON string
+        if (typeof product.meta_value === 'string' && product.meta_value.trim().startsWith('[')) {
+          product.meta_value = JSON.parse(product.meta_value);
+        }
+
+        return product;
+      });
+
+      this.orderService.customer_name = dm['customer'];
+      this.orderService.customer_phone = dm['customer_phone'];
+      this.orderService.customer_address = dm['delivery_address'];
+      this.orderService.orderType = dm['order_type'];
+      this.orderService.order_notes = dm['notes'];
+      this.orderService.paymentMethod = dm['payment_method'];
+      this.orderService.selected_products = dm['products'];
+      // this.orderService.selectedTableId =
+      this.orderService.couponCode = dm['coupon_code'];
+      this.tempCustomerAddress = dm['delivery_address'];
+      this.tempCustomerName = dm['customer'];
+      this.tempCustomerPhone = dm['customer_phone'];
+    }
   }
 
   ngOnDestroy(): void {
@@ -109,6 +144,19 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     }
     this.searchSubject.complete();
     this.phoneSearchSubject.complete();
+    this.searchSubject.complete();
+    this.phoneSearchSubject.complete();
+    this.orderService.customer_name = null;
+    this.orderService.customer_phone = null;
+    this.orderService.customer_address = null;
+    this.orderService.orderType = null;
+    this.orderService.paymentMethod = null;
+    this.orderService.order_notes = null;
+    this.orderService.couponCode = null;
+    this.orderService.discountAmount = 0;
+    this.orderService.final_total = 0;
+    this.orderService.totalCost = 0;
+    this.orderService.selected_products = [];
   }
 
   async onSubmit($event: Event) {

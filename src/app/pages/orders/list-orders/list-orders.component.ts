@@ -291,8 +291,8 @@ export class ListOrdersComponent extends ListBlade {
     this.nav.push('/pages/orders/view/' + item.id);
   }
   openEditDetails(i) {
-    let item = this.list[i];
-    this.nav.push('/pages/orders/edit/' + item.id);
+    let item = this.crudService.list[i];
+    this.nav.push('/pages/orders/add/' + item.id);
   }
 
   onChangePerPage($event) {

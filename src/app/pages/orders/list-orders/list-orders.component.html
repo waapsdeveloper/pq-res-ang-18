@@ -228,7 +228,7 @@
             </div>
           </div>
 
-          <!-- <i *ngIf="showEdit" class="edit-icon ti ti-edit" style="font-size: 24px; cursor: pointer" (click)="openEditDetails(i)"></i> -->
+          <i class="edit-icon ti ti-edit" style="font-size: 24px; cursor: pointer" (click)="openEditDetails(i)"></i>
 
           <i *ngIf="showEdit" class="ti ti-trash trash-icon" style="font-size: 20px; cursor: pointer" (click)="deleteRow(i)"></i>
           <i class="ti ti-dots-vertical" (click)="ProductModal(item)"></i>
@@ -251,21 +251,69 @@
       <!--end::Table row-->
     </tr>
     <tr *ngIf="crudService.loading">
-      <!-- Thumbnail Column -->
+      <!-- Order Number Column -->
       <td>
         <div class="d-flex align-items-center">
           <div class="ms-5">
-            <!-- Title Loader -->
             <ngx-skeleton-loader
               appearance="custom-content"
-              [theme]="{ width: '150px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
+              [theme]="{ width: '120px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
               [animation]="true"
             ></ngx-skeleton-loader>
           </div>
         </div>
       </td>
 
-      <!-- Address Column -->
+      <!-- Customer Info Column -->
+      <td>
+        <div class="d-flex flex-column">
+          <ngx-skeleton-loader
+            appearance="custom-content"
+            [theme]="{ width: '100px', height: '16px', background: 'rgba(0,0,0,0.2)' }"
+            [animation]="true"
+          ></ngx-skeleton-loader>
+          <ngx-skeleton-loader
+            appearance="custom-content"
+            [theme]="{ width: '80px', height: '14px', background: 'rgba(0,0,0,0.2)' }"
+            [animation]="true"
+          ></ngx-skeleton-loader>
+        </div>
+      </td>
+
+      <!-- Created At Column -->
+      <td>
+        <div class="d-flex align-items-center">
+          <ngx-skeleton-loader
+            appearance="custom-content"
+            [theme]="{ width: '80px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
+            [animation]="true"
+          ></ngx-skeleton-loader>
+        </div>
+      </td>
+
+      <!-- Updated At Column -->
+      <td>
+        <div class="d-flex align-items-center">
+          <ngx-skeleton-loader
+            appearance="custom-content"
+            [theme]="{ width: '80px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
+            [animation]="true"
+          ></ngx-skeleton-loader>
+        </div>
+      </td>
+
+      <!-- Delivery Address Column -->
+      <td>
+        <div class="d-flex align-items-center">
+          <ngx-skeleton-loader
+            appearance="custom-content"
+            [theme]="{ width: '150px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
+            [animation]="true"
+          ></ngx-skeleton-loader>
+        </div>
+      </td>
+
+      <!-- Notes Column -->
       <td>
         <div class="d-flex align-items-center">
           <ngx-skeleton-loader
@@ -275,11 +323,67 @@
           ></ngx-skeleton-loader>
         </div>
       </td>
+
+      <!-- Total Price Column -->
       <td>
         <div class="d-flex align-items-center">
           <ngx-skeleton-loader
             appearance="custom-content"
-            [theme]="{ width: '120px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
+            [theme]="{ width: '60px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
+            [animation]="true"
+          ></ngx-skeleton-loader>
+        </div>
+      </td>
+      <!-- Final Total Price Column -->
+      <td>
+        <div class="d-flex align-items-center">
+          <ngx-skeleton-loader
+            appearance="custom-content"
+            [theme]="{ width: '60px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
+            [animation]="true"
+          ></ngx-skeleton-loader>
+        </div>
+      </td>
+
+      <!-- Discount Value Column -->
+      <td>
+        <div class="d-flex align-items-center">
+          <ngx-skeleton-loader
+            appearance="custom-content"
+            [theme]="{ width: '60px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
+            [animation]="true"
+          ></ngx-skeleton-loader>
+        </div>
+      </td>
+
+      <!-- Table Column -->
+      <td>
+        <div class="d-flex align-items-center">
+          <ngx-skeleton-loader
+            appearance="custom-content"
+            [theme]="{ width: '60px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
+            [animation]="true"
+          ></ngx-skeleton-loader>
+        </div>
+      </td>
+
+      <!-- Order Type Column -->
+      <td>
+        <div class="d-flex align-items-center">
+          <ngx-skeleton-loader
+            appearance="custom-content"
+            [theme]="{ width: '80px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
+            [animation]="true"
+          ></ngx-skeleton-loader>
+        </div>
+      </td>
+
+      <!-- Is Paid Column -->
+      <td>
+        <div class="d-flex align-items-center">
+          <ngx-skeleton-loader
+            appearance="custom-content"
+            [theme]="{ width: '60px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
             [animation]="true"
           ></ngx-skeleton-loader>
         </div>
@@ -292,29 +396,12 @@
           [theme]="{ width: '100px', height: '20px', 'border-radius': '12px', background: 'rgba(0,0,0,0.2)' }"
         ></ngx-skeleton-loader>
       </td>
-      <td>
-        <ngx-skeleton-loader
-          appearance="custom-content"
-          [theme]="{ width: '60px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
-        ></ngx-skeleton-loader>
-      </td>
-      <td>
-        <ngx-skeleton-loader
-          appearance="custom-content"
-          [theme]="{ width: '100px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
-        ></ngx-skeleton-loader>
-      </td>
-      <td>
-        <ngx-skeleton-loader
-          appearance="custom-content"
-          [theme]="{ width: '100px', height: '20px', 'border-radius': '12px', background: 'rgba(0,0,0,0.2)' }"
-        ></ngx-skeleton-loader>
-      </td>
+
       <!-- Action Icons -->
       <td class="text-end">
-        <div class="d-flex flex-row justify-content-end align-items-center gap-3">
+        <div class="d-flex flex-row justify-content-start align-items-center gap-3">
           <ngx-skeleton-loader
-            *ngFor="let _ of [1, 2]"
+            *ngFor="let _ of [1, 2, 3]"
             appearance="custom-content"
             [theme]="{ width: '24px', height: '24px', background: 'rgba(0,0,0,0.2)' }"
           ></ngx-skeleton-loader>
@@ -324,7 +411,7 @@
       <!-- Checkbox Column -->
       <td>
         <div class="form-check form-check-sm form-check-custom form-check-solid">
-          <input class="form-check-input" type="checkbox" />
+          <input class="form-check-input" type="checkbox" disabled />
         </div>
       </td>
     </tr>
