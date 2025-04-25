@@ -27,6 +27,7 @@ export class ListOrdersComponent extends ListBlade {
     'address',
     'notes',
     'Price',
+    'Discounted',
     'Discount',
     'Table No',
     'Type',
@@ -37,12 +38,16 @@ export class ListOrdersComponent extends ListBlade {
   selectedStatus = '';
   override model = {
     order_id: '',
-    Customer_name: '',
+    created_at: '',
+    started_from: '',
+    ended_at: '',
+    customer_name: '',
     phone: '',
     total_price: '',
     table: '',
     type: '',
-    status: ''
+    status: '',
+    is_paid: ''
   };
 
   fields: FormlyFieldConfig[] = [
@@ -61,6 +66,40 @@ export class ListOrdersComponent extends ListBlade {
           },
           className: 'col-md-2 col-12'
         },
+        {
+          key: 'created_at',
+          type: 'input',
+          props: {
+            label: 'Created At',
+            placeholder: 'Enter created at date',
+            required: false,
+            type: 'date' // Use type="date" for basic date input
+          },
+          className: 'col-md-2 col-12'
+        },
+        {
+          key: 'started_from',
+          type: 'input',
+          props: {
+            label: 'Started From',
+            placeholder: 'Enter started from date',
+            required: false,
+            type: 'date' // Use type="date" for basic date input
+          },
+          className: 'col-md-2 col-12'
+        },
+        {
+          key: 'ended_at',
+          type: 'input',
+          props: {
+            label: 'Ended At',
+            placeholder: 'Enter ended at date',
+            required: false,
+            type: 'date' // Use type="date" for basic date input
+          },
+          className: 'col-md-2 col-12'
+        },
+
         {
           key: 'customer_name',
           type: 'input',
@@ -104,9 +143,7 @@ export class ListOrdersComponent extends ListBlade {
           props: {
             label: 'Table Number',
             placeholder: 'Enter table number',
-            required: false,
-            type: 'number',
-            min: 0
+            required: false
           },
           className: 'col-md-2 col-12'
         },
@@ -145,6 +182,20 @@ export class ListOrdersComponent extends ListBlade {
               { label: 'Cancelled', value: 'cancelled' }
             ],
             required: false
+          },
+          className: 'formly-select-wrapper-3232 col-md-2 col-12'
+        },
+        {
+          key: 'is_paid',
+          type: 'select',
+          props: {
+            label: 'Is Paid',
+            options: [
+              { label: 'Paid', value: true },
+              { label: 'UnPaid', value: false }
+            ],
+            required: false,
+            placeholder: 'Select Payment Status'
           },
           className: 'formly-select-wrapper-3232 col-md-2 col-12'
         }
@@ -247,6 +298,56 @@ export class ListOrdersComponent extends ListBlade {
   onChangePerPage($event) {
     this.getList('', 1);
   }
+
+  printSlip() {
+    const section = document.getElementById('print-section');
+    if (!section) {
+      console.error('Print section not found.');
+      return;
+    }
+
+    // 1. Grab the _rendered_ HTML (with actual names, prices, looped rows)
+    const html = section.innerHTML;
+
+    // 2. Open a new window
+    const printWindow = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+    if (!printWindow) {
+      console.error('Unable to open print window.');
+      return;
+    }
+
+    // 3. Write a minimal HTML document around that rendered content
+    printWindow.document.open();
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>Print Receipt</title>
+          <style>
+            /* bring in any print‑only styles here */
+            body { font-family: Arial, sans-serif; font-size: 12px; margin:0; padding: 8px; }
+            .bill-slip { border: 1px dashed #000; padding: 8px; }
+            .bill-header, .customer-info, .order-details, .bill-footer {
+              margin-bottom: 10px;
+            }
+            table { width: 100%; border-collapse: collapse; }
+            th, td { text-align: left; padding: 2px 4px; }
+            th { border-bottom: 1px solid #000; }
+          </style>
+        </head>
+        <body>
+          <div class="bill-slip">
+            ${html}
+          </div>
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
+
+    // 4. Print & close
+    printWindow.focus();
+    printWindow.print();
+    printWindow.close();
+  }
   getOrderStatusClass(status: string): string {
     switch (status.toLowerCase()) {
       case 'ready':
@@ -276,5 +377,10 @@ export class ListOrdersComponent extends ListBlade {
     await this.network.orderStatus(item.id, obj);
 
     this.utility.presentSuccessToast(`Order Status Updated to ${obj.status}`);
+  }
+  ProductModal(item) {
+    this.utility.showProductSelectionTable('Select Products', item.products, 'Select', (productId: string) => {
+      console.log('Selected product ID:', productId);
+    });
   }
 }

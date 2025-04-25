@@ -62,4 +62,17 @@ export class UtilityService {
   ): Promise<any> {
     return this.alerts.showCustomDropdown(title, dropdownId, options, selectedValue, confirmButtonText, updateValue);
   }
+  showProductSelectionTable(
+    title: string,
+    products: {
+      product_id: string;
+      product_name: string;
+      product_price: string;
+      product_image: string;
+    }[],
+    confirmButtonText: string,
+    onSelect: (productId: string) => void
+  ): Promise<void> {
+    return this.alerts.showProductSelectionTable(title, products, confirmButtonText, onSelect);
+  }
 }

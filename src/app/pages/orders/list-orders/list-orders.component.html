@@ -33,12 +33,9 @@
         </div>
       </td>
       <td>
-        <div class="d-flex">
-          <div class="ms-4">
-            <a class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">
-              {{ item?.customer }}
-            </a>
-          </div>
+        <div class="d-flex flex-column">
+          <span class="fs-7 fw-bold text-hover-primary mb-0">{{ item?.customer }}</span>
+          <span class="fs-8 text-muted">{{ item?.customer_phone }}</span>
         </div>
       </td>
       <td>
@@ -54,7 +51,7 @@
         <div class="d-flex">
           <div class="ms-4">
             <a class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">
-              {{ item?.created_at | date: 'dd/MM/yyyy' }}
+              {{ item?.updated_at === null ? 'N/A' : (item?.updated_at | date: 'dd/MM/yyyy') }}
             </a>
           </div>
         </div>
@@ -66,15 +63,18 @@
               class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1"
               style="display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap"
             >
-              {{ item?.delivery_address }}
+              {{ item?.order_type === 'delivery' ? item?.delivery_address : 'N/A' }}
             </a>
           </div>
         </div>
       </td>
       <td>
-        <div class="d-flex">
+        <div class="ms-4 text-truncate" style="max-width: 150px">
           <div class="ms-4">
-            <a class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">
+            <a
+              class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1"
+              style="display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap"
+            >
               {{ item?.notes }}
             </a>
           </div>
@@ -120,10 +120,14 @@
         </div>
       </td>
       <td>
+        <div class="d-flex" class="ms-4">
+          <div class="fs-7 fw-bold">${{ item?.final_total }}</div>
+        </div>
+      </td>
+      <td>
         <div class="d-flex flex-row gap-2" class="ms-4">
           <div class="fs-7 fw-bold">
-            ${{ item?.final_total }}
-            <span class="badge badge-preparing fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{ item?.discount }}</span>
+            <span class="badge badge-preparing fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{ item?.discount_value }}</span>
           </div>
         </div>
       </td>
@@ -143,11 +147,11 @@
           <div
             class="badge fw-bold me-auto"
             [ngClass]="{
-              'badge-active': item.is_active === true,
-              'badge-inactive': item.is_active === false
+              'badge-active': item.is_paid === true,
+              'badge-inactive': item.is_paid === false
             }"
           >
-            {{ item.is_active ? 'Active' : 'Inactive' }}
+            {{ item.is_paid === true ? 'Paid' : 'UnPaid' }}
           </div>
         </div>
       </td>
@@ -159,12 +163,75 @@
       <td class="text-start">
         <div class="d-flex flex-row justify-content-start align-items-center gap-3">
           <i class="ti ti-eye view-icon" style="font-size: 20px; cursor: pointer" (click)="openDetails(i)"></i>
-          <i class="ti ti-printer printericon" style="font-size: 20px; cursor: pointer"></i>
-          
+          <i class="ti ti-printer printericon" style="font-size: 20px; cursor: pointer" (click)="printSlip()"></i>
+          <div id="print-section" class="print-section" style="font-family: Arial, sans-serif; font-size: 12px; width: 240px; margin: auto">
+            <div class="bill-slip">
+              <div class="bill-header" style="text-align: center; border-bottom: 1px dashed #000; padding-bottom: 8px">
+                <h2 style="margin: 0; font-size: 16px">{{ item?.restaurant.name }}</h2>
+                <p style="margin: 0">{{ item?.restaurant.address }}</p>
+                <p style="margin: 0">Phone: {{ item?.restaurant?.phone }}</p>
+              </div>
+
+              <div class="customer-info" style="padding: 8px 0; border-bottom: 1px dashed #000">
+                <p style="margin: 0">
+                  <strong>Name:</strong>
+                  {{ item?.customer }}
+                </p>
+                <p style="margin: 0">
+                  <strong>Phone:</strong>
+                  {{ item?.customer_phone }}
+                </p>
+                <p style="margin: 0">
+                  <strong>Order Type:</strong>
+                  {{ item?.order_type }}
+                </p>
+              </div>
+
+              <div class="order-details" style="padding: 8px 0; border-bottom: 1px dashed #000">
+                <p style="margin: 0"><strong>Order Details:</strong></p>
+                <table style="width: 100%; font-size: 12px; border-collapse: collapse">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Item</th>
+                      <th>Price</th>
+                      <th>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of item?.products; let i = index">
+                      <td>{{ i + 1 }}</td>
+                      <td>
+                        {{ item.product_name }} x {{ item.quantity }}
+                        <br />
+                        <!-- <small *ngFor="let variation of item.variation">
+                          <span *ngFor="let option of variation.options" [hidden]="!(option.selected == true)">
+                            {{ option.selected }} {{ option.name }} ({{ option.price | currency }})
+                            <br />
+                          </span>
+                        </small> -->
+                      </td>
+                      <td>{{ item.price | currency }}</td>
+                      <td>{{ item.quantity * item.price | currency }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="bill-footer" style="padding: 8px 0; text-align: center">
+                <p style="margin: 0; font-size: 14px">
+                  <strong>Total:</strong>
+                  {{ item?.total_price | currency }}
+                </p>
+                <p style="margin: 0; font-style: italic">Thank you for your order!</p>
+              </div>
+            </div>
+          </div>
+
           <!-- <i *ngIf="showEdit" class="edit-icon ti ti-edit" style="font-size: 24px; cursor: pointer" (click)="openEditDetails(i)"></i> -->
-          
+
           <i *ngIf="showEdit" class="ti ti-trash trash-icon" style="font-size: 20px; cursor: pointer" (click)="deleteRow(i)"></i>
-          <i class="ti ti-dots-vertical"></i>
+          <i class="ti ti-dots-vertical" (click)="ProductModal(item)"></i>
         </div>
       </td>
       <!--end::Action=-->

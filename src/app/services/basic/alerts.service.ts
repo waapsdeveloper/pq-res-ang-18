@@ -192,4 +192,63 @@ export class AlertsService {
 
     return null;
   }
+
+  async showProductSelectionTable(
+    title: string,
+    products: {
+      product_id: string;
+      product_name: string;
+      product_price: string;
+      product_image: string;
+    }[],
+    confirmButtonText: string,
+    onSelect: (productId: string) => void
+  ): Promise<void> {
+    const htmlTable = `
+      <div style="max-height: 400px; overflow-y: auto;">
+        <table style="width: 100%; border-collapse: collapse;">
+          <thead>
+            <tr style="text-align: left; border-bottom: 1px solid #ccc;">
+              <th style="padding: 0.5rem;">Image</th>
+              <th style="padding: 0.5rem;">Name</th>
+              <th style="padding: 0.5rem;">Price</th>
+              
+            </tr>
+          </thead>
+          <tbody>
+            ${products
+              .map(
+                (p) => `
+              <tr style="border-bottom: 1px solid #eee;">
+                <td style="padding: 0.5rem;">
+                  <img src="${p.product_image}" alt="${p.product_name}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 6px;" />
+                </td>
+                <td style="padding: 0.5rem;">${p.product_name}</td>
+                <td style="padding: 0.5rem;">$${p.product_price}</td>
+              </tr>
+            `
+              )
+              .join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+
+    await Swal.fire({
+      title,
+      html: htmlTable,
+      showConfirmButton: false,
+      showCancelButton: true,
+      didOpen: () => {
+        const buttons = Swal.getPopup()!.querySelectorAll<HTMLButtonElement>('.select-product-btn');
+        buttons.forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const productId = btn.dataset['id']!;
+            Swal.close();
+            onSelect(productId);
+          });
+        });
+      }
+    });
+  }
 }
