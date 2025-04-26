@@ -75,4 +75,8 @@ export class UtilityService {
   ): Promise<void> {
     return this.alerts.showProductSelectionTable(title, products, confirmButtonText, onSelect);
   }
+
+  showWarningMessage(message: string): Promise<void> {
+    return this.alerts.showWarningMessage(message);
+  }
 }

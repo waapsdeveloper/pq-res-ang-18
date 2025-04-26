@@ -28,6 +28,8 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   screenHeight: number;
   showCoupon;
   itemId;
+  restInfo;
+  restaurant;
   showEdit = false;
   private searchSubject = new Subject<string>();
   private phoneSearchSubject = new Subject<string>();
@@ -56,7 +58,6 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     console.log(`Screen Width: ${this.screenWidth}, Screen Height: ${this.screenHeight}`);
   }
 
-  restaurant;
   tempCustomerName: any = null;
   tempCustomerPhone: any = null;
   tempCustomerAddress: any = null;
@@ -90,8 +91,9 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.orderService.showOrderHeader = false;
-    this.getRestaurants();
-
+    let restaurant = this.getRestaurants();
+    this.restInfo = restaurant;
+    console.log(this.restInfo);
     // Setup debounced search
     this.searchSubscription = this.searchSubject.pipe(debounceTime(400), distinctUntilChanged()).subscribe(async (query) => {
       await this.fetchSuggestions(query);
@@ -118,8 +120,20 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
           product.meta_value = JSON.parse(product.meta_value);
         }
 
+        product['id'] = parseInt(product['product_id']);
+
         return product;
       });
+
+      console.log('Selected Products:', this.orderService.selected_products);
+
+      this.orderService.products.forEach((p: any) => {
+        console.log('Product:', p);
+        if (this.orderService.selected_products.some((sp: any) => Number(sp.id) === p.id)) {
+          p.selected = true;
+        }
+      });
+
       let obj = {
         name: dm['customer'],
         phone: dm['customer_phone']
@@ -134,21 +148,17 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       this.orderService.orderType = dm['order_type'];
       this.orderService.order_notes = dm['notes'];
       this.orderService.paymentMethod = dm['payment_method'];
-      this.orderService.selected_products = dm['products'];
       this.orderService.discountAmount = dm['discount_value'];
       this.orderService.final_total = dm['final_total'];
       this.orderService.totalCost = dm['total_price'];
       this.orderService.selectedTableId = dm['table_id'];
+      let order_number = dm['order_number'];
+      localStorage.setItem('order_id', order_number);
       this.orderService.couponCode = dm['coupon_code'];
       this.tempCustomerAddress = dm['delivery_address'];
       this.tempCustomerName = dm['customer'];
       this.tempCustomerPhone = dm['customer_phone'];
       // this.orderService.updateProductInSelectedProducts(this.orderService.selected_products);
-
-      for (var i = 0; i < this.orderService.selected_products.length; i++) {
-        this.orderService.selected_products[i]['selected'] = false;
-        this.orderService.updateProductInSelectedProducts(this.orderService.selected_products[i]);
-      }
 
       if (res) {
       }
@@ -166,6 +176,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     this.searchSubject.complete();
     this.phoneSearchSubject.complete();
     this.searchSubject.complete();
+    localStorage.removeItem('order_id');
     this.phoneSearchSubject.complete();
     this.orderService.customer_name = null;
     this.orderService.customer_phone = null;
@@ -184,12 +195,16 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   async onSubmit($event: Event) {
     $event.preventDefault();
 
-    // 1) First confirmation: create the order
+    const isEditMode = this.showEdit; // Determine if it's edit mode
+
+    // 1) First confirmation: create or update the order
+    const confirmMessage = isEditMode ? 'Ready to Update Your Order?' : 'Ready to Place Your Order?';
+    const confirmButton = isEditMode ? 'Update Order' : 'Place Order';
     const createConfirmed = await this.utilityService.presentConfirm(
-      'Ready to Place Your Order?', // title
+      confirmMessage, // title
       'Not Yet, Thanks', // cancel button
       'Everything Looks Good?', // short question
-      'Hit “Place Order” to confirm and we’ll get started!' // detailed prompt
+      `Hit “${confirmButton}” to confirm and we’ll get started!` // detailed prompt
     );
 
     if (!createConfirmed) {
@@ -222,12 +237,11 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       // 3) Submit the order
       let res;
       // 3) Submit the order
-      if (this.showEdit) {
+      if (isEditMode) {
         res = await this.orderService.updateOrder(this.itemId);
         console.log('Order update response:', res);
       } else {
         res = await this.orderService.submitOrder();
-        console.log('Order submission response:', res);
       }
       if (!res) {
         return;
@@ -239,14 +253,14 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
         'Yes, Print',
         'No, Thanks',
         `${ord_id}!`,
-        `Order Created! Would you like to print the bill now?`
+        `Order ${isEditMode ? 'Updated' : 'Created'}! Would you like to print the bill now?`
       );
 
       if (printConfirmed) {
         this.printSlip();
-        this.utilityService.presentSuccessToast('Order created and bill printed successfully!');
+        this.utilityService.presentSuccessToast(`Order ${isEditMode ? 'updated' : 'created'} and bill printed successfully!`);
       } else {
-        this.utilityService.presentSuccessToast('Order created successfully!');
+        this.utilityService.presentSuccessToast(`Order ${isEditMode ? 'updated' : 'created'} successfully!`);
       }
 
       // 5) Clear the form fields and local storage regardless of print confirmation

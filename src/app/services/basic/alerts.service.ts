@@ -251,4 +251,18 @@ export class AlertsService {
       }
     });
   }
+
+  async showWarningMessage(message: string): Promise<void> {
+    await Swal.fire({
+      icon: 'warning',
+      text: message,
+      showConfirmButton: false,
+      showCloseButton: true,
+      allowOutsideClick: false,
+      allowEscapeKey: true,
+      customClass: {
+        popup: 'swal2-border-radius'
+      }
+    });
+  }
 }

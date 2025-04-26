@@ -260,6 +260,10 @@ export class NetworkService {
   orderStatus(id, data) {
     return this.httpPutResponse(`order/update-status`, data, id, false, true);
   }
+  updateOrderPaymentStatus(id, data) {
+    return this.httpPutResponse(`order/update-payment-status`, data, id, false, true);
+  }
+
   tableBookingStatus(id, data) {
     return this.httpPutResponse(`table-booking/update-status`, data, id, false, true);
   }

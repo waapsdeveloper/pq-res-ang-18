@@ -22,12 +22,11 @@ export class ListOrdersComponent extends ListBlade {
   columns: any[] = [
     'Order Id',
     'Customer',
-    'Created at',
-    'Updated at',
+    'Created',
+    'Updated',
     'address',
     'notes',
-    'Price',
-    'Discounted',
+    'Total',
     'Discount',
     'Table No',
     'Type',
@@ -189,7 +188,7 @@ export class ListOrdersComponent extends ListBlade {
           key: 'is_paid',
           type: 'select',
           props: {
-            label: 'Is Paid',
+            label: 'Payment Status',
             options: [
               { label: 'Paid', value: true },
               { label: 'UnPaid', value: false }
@@ -214,6 +213,41 @@ export class ListOrdersComponent extends ListBlade {
   ) {
     super(injector, crudService);
     this.initialize();
+  }
+
+  async updatePaymentStatus(item) {
+    let items = this.crudService.list[item];
+    if (items && items.is_paid === true) {
+      await this.utility.showWarningMessage('Cannot update payment status as it is already paid.');
+      return;
+    }
+    let flag = await this.utility.presentConfirm(
+      'Update Payment Status',
+      'Cancel',
+      'Update Payment Status',
+      'Are you sure you want to update payment status?'
+    );
+    if (!flag) {
+      return;
+    }
+    let obj = {
+      is_paid: true
+    };
+    this.network.updateOrderPaymentStatus(items.id, obj);
+
+    // let obj = {
+    //   is_paid: this.selectedStatus
+    // };
+    // this.utility.showCustomDropdown(
+    //   'Update Order Status',
+    //   'status-dropdown',
+    //   options,
+    //   item.status,
+    //   'Update Status',
+    //   (newStatus: string) => {
+    //     this.updateStatus(newStatus, item);
+    //   }
+    // );
   }
 
   async onDeleteAll($event: any) {
@@ -290,9 +324,13 @@ export class ListOrdersComponent extends ListBlade {
     let item = this.crudService.list[i];
     this.nav.push('/pages/orders/view/' + item.id);
   }
-  openEditDetails(i) {
+  async openEditDetails(i) {
     let item = this.crudService.list[i];
-    this.nav.push('/pages/orders/add/' + item.id);
+    if (item && item.status === 'Pending') {
+      this.nav.push('/pages/orders/add/' + item.id);
+    } else {
+      await this.utility.showWarningMessage('You cannot edit this order as it is already in progress or completed.');
+    }
   }
 
   onChangePerPage($event) {

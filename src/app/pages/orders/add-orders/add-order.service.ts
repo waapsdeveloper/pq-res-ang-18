@@ -273,7 +273,7 @@ export class AddOrderService {
       code: this.couponCode
     };
     const res = await this.network.addOrder(obj);
-    console.log(res);
+    console.log(res.data);
     localStorage.setItem('order_id', res?.data?.order_number);
     const response = await this.network.updateCouponUsage(coupon);
     console.log(response);
