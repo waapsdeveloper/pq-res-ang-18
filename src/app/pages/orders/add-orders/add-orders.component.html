@@ -267,7 +267,7 @@
           <tr *ngFor="let item of orderService.selected_products; let i = index">
             <td>{{ i + 1 }}</td>
             <td>
-              {{ item.name }} x {{ item.quantity }}
+              {{ item?.product_name ? item?.product_name : item?.name }} x {{ item.quantity }}
               <br />
               <small *ngFor="let variation of item.variation">
                 <span *ngFor="let option of variation.options" [hidden]="!(option.selected == true)">
@@ -276,7 +276,7 @@
                 </span>
               </small>
             </td>
-            <td>{{ item.price | currency }}</td>
+            <td>{{ item?.product_price ? item?.product_price : (item?.price | currency) }}</td>
             <td>{{ item.quantity * item.price | currency }}</td>
           </tr>
         </tbody>

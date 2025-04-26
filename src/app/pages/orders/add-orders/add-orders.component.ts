@@ -28,6 +28,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   screenHeight: number;
   showCoupon;
   itemId;
+  showEdit = false;
   private searchSubject = new Subject<string>();
   private phoneSearchSubject = new Subject<string>();
   private searchSubscription: Subscription;
@@ -104,6 +105,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     const res = await this.network.getOrdersById(this.itemId);
     console.log(res);
     if (res && res['order']) {
+      this.showEdit = true;
       let dm = res['order'];
       this.orderService.selected_products = dm['products'].map((product: any) => {
         // Check and parse 'variation' if it's a JSON string
@@ -116,8 +118,17 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
           product.meta_value = JSON.parse(product.meta_value);
         }
 
+        console.log('product', product);
         return product;
       });
+      console.log('Selected Products:', this.orderService.selected_products);
+      let obj = {
+        name: dm['customer'],
+        phone: dm['customer_phone']
+      };
+      this.filteredSuggestions = [this.walkInCustomer, ...(Array.isArray(obj) ? obj : [obj])];
+      this.tempCustomerName = this.filteredSuggestions.find((x) => x.name == dm['customer'])?.name;
+      this.tempCustomerPhone = this.filteredSuggestions.find((x) => x.phone == dm['customer_phone'])?.phone;
 
       this.orderService.customer_name = dm['customer'];
       this.orderService.customer_phone = dm['customer_phone'];
@@ -126,11 +137,17 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       this.orderService.order_notes = dm['notes'];
       this.orderService.paymentMethod = dm['payment_method'];
       this.orderService.selected_products = dm['products'];
-      // this.orderService.selectedTableId =
+      this.orderService.discountAmount = dm['discount_value'];
+      this.orderService.final_total = dm['final_total'];
+      this.orderService.totalCost = dm['total_price'];
+      this.orderService.selectedTableId = dm['table_id'];
       this.orderService.couponCode = dm['coupon_code'];
       this.tempCustomerAddress = dm['delivery_address'];
       this.tempCustomerName = dm['customer'];
       this.tempCustomerPhone = dm['customer_phone'];
+
+      if (res) {
+      }
     }
   }
 
@@ -157,6 +174,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     this.orderService.final_total = 0;
     this.orderService.totalCost = 0;
     this.orderService.selected_products = [];
+    this.showEdit = false;
   }
 
   async onSubmit($event: Event) {
@@ -198,8 +216,15 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
 
     try {
       // 3) Submit the order
-      const res = await this.orderService.submitOrder();
-      console.log('Order submission response:', res);
+      let res;
+      // 3) Submit the order
+      if (this.showEdit) {
+        res = await this.orderService.updateOrder(this.itemId);
+        console.log('Order update response:', res);
+      } else {
+        res = await this.orderService.submitOrder();
+        console.log('Order submission response:', res);
+      }
       if (!res) {
         return;
       }

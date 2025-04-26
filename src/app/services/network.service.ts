@@ -253,6 +253,10 @@ export class NetworkService {
   getOrdersById(id) {
     return this.httpGetResponse(`order/${id}`, null, false, true);
   }
+
+  updateOrder(data, id) {
+    return this.httpPutResponse('order', data, id, false, true);
+  }
   orderStatus(id, data) {
     return this.httpPutResponse(`order/update-status`, data, id, false, true);
   }

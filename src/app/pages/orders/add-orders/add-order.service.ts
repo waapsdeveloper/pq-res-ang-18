@@ -282,6 +282,88 @@ export class AddOrderService {
     return !res ? false : true;
   }
 
+  async updateOrder(orderId: number) {
+    let prodObj = this.selected_products.map((item) => {
+      //   item.price = this.totalCost;
+      if (item.variation) {
+        item.variation.forEach((variation: any) => {
+          if (variation.options) {
+            variation.options.forEach((option: any) => {
+              if (option.selected) {
+                // Add variation option price to the product cost
+                item.price = Number(item.price) + Number(option.price);
+              }
+            });
+          }
+        });
+      }
+
+      return {
+        product_id: item.product_id || item.id,
+        quantity: item.quantity,
+        price: item.product_price || item.price,
+        notes: item.notes,
+        variation: item.variation
+      };
+
+      this.total_price += item.price;
+    });
+
+    if (prodObj.length == 0) {
+      return false;
+    }
+
+    console.log('order submitted');
+    if (!this.customer_name || this.customer_name.trim() === '') {
+      this.utilityService.presentFailureToast('Please enter Customer Name');
+      return false;
+    }
+
+    if (!this.customer_phone || !/^\d{10,15}$/.test(this.customer_phone)) {
+      this.utilityService.presentFailureToast('Please enter a valid Phone Number (10-15 digits)');
+      return false;
+    }
+
+    if (!this.orderType || this.orderType.trim() === '') {
+      this.utilityService.presentFailureToast('Please select an Order Type');
+      return false;
+    }
+
+    if (!this.paymentMethod || this.paymentMethod.trim() === '') {
+      this.utilityService.presentFailureToast('Please select a Payment Method');
+      return false;
+    }
+    let obj = {
+      customer_name: this.customer_name,
+      customer_phone: this.customer_phone,
+      delivery_address: this.customer_address,
+      products: prodObj,
+      notes: this.order_notes,
+      status: 'pending',
+      final_total: this.final_total,
+      discount_value: this.discountAmount,
+      coupon_code: this.couponCode,
+      payment_method: this.paymentMethod,
+      order_type: this.orderType,
+      table_id: this.selectedTableId,
+      total_price: this.totalCost
+    };
+    try {
+      const res = await this.network.updateOrder(obj, orderId);
+      console.log(res);
+      // localStorage.setItem('order_id', res?.data?.order_number);
+      // const response = await this.network.updateCouponUsage(coupon);
+      // console.log(response);
+      // this.resetFields();
+      // this.clearSelectedProducts();
+      return !res ? false : true;
+    } catch (error) {
+      console.error('Error updating order:', error);
+      this.utilityService.presentFailureToast('Error updating order. Please try again.');
+      return false;
+    }
+  }
+
   resetFields() {
     this.discountAmount = 0;
     this.final_total = 0;
