@@ -134,7 +134,7 @@ export class AddOrderService {
           console.log('JSON', json);
           p['variation'] = json;
         } else {
-          p['variation'] = []; // Set default value or handle appropriately
+          p['variation'] = []; // Set default valuef or handle appropriately
         }
 
         console.log(p);

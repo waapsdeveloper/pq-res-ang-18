@@ -49,23 +49,21 @@ export class AddOrderProductsComponent {
 
   async initialize() {
     this.orderService.searchProducts('');
-  }
 
+    setTimeout(() => {
+      console.log(this.orderService.selected_products);
+    }, 2000);
+  }
 
   setSelectedToggle(product) {
     product.selected = !product.selected;
     this.orderService.updateProductInSelectedProducts(product);
-
-
-
   }
-
 
   isProductSelected(productId: any): boolean {
     // Check if a product with the given ID exists in the selected_products array
-    return this.orderService.selected_products.some(product => product.id === productId);
-  console.log(productId);
-
+    return this.orderService.selected_products.some((product) => product.id === productId);
+    console.log(productId);
   }
   editNote(product: any, event: Event): void {
     event.stopPropagation(); // Prevent card click event
@@ -91,8 +89,7 @@ export class AddOrderProductsComponent {
     event.stopPropagation();
   }
 
-  selectedChange($event){
-
+  selectedChange($event) {
     let v = $event.target.value;
     console.log(v);
 
@@ -100,14 +97,12 @@ export class AddOrderProductsComponent {
       this.orderService.categories[i]['active'] = this.orderService.categories[i]['id'] == v;
     }
 
-    let item = this.orderService.categories.find(item => item.id == v);
+    let item = this.orderService.categories.find((item) => item.id == v);
     this.orderService.updateProductsBySelectedCategory(item);
   }
-
 
   searchProducts($event) {
     let v = $event.target.value;
     this.orderService.searchProducts(v);
   }
 }
-

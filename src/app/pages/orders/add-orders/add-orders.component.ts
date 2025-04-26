@@ -118,10 +118,8 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
           product.meta_value = JSON.parse(product.meta_value);
         }
 
-        console.log('product', product);
         return product;
       });
-      console.log('Selected Products:', this.orderService.selected_products);
       let obj = {
         name: dm['customer'],
         phone: dm['customer_phone']
@@ -145,6 +143,12 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       this.tempCustomerAddress = dm['delivery_address'];
       this.tempCustomerName = dm['customer'];
       this.tempCustomerPhone = dm['customer_phone'];
+      // this.orderService.updateProductInSelectedProducts(this.orderService.selected_products);
+
+      for (var i = 0; i < this.orderService.selected_products.length; i++) {
+        this.orderService.selected_products[i]['selected'] = false;
+        this.orderService.updateProductInSelectedProducts(this.orderService.selected_products[i]);
+      }
 
       if (res) {
       }
