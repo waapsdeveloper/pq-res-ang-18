@@ -85,17 +85,10 @@
                                 </span>
                               </td>
                             </tr>
-                            <tr>
-                              <td>Total Price:</td>
-                              <td>${{ item?.total_price }}</td>
-                            </tr>
+
                             <tr>
                               <td>Coupon Code:</td>
                               <td>{{ item?.coupon_code }}</td>
-                            </tr>
-                            <tr>
-                              <td>Discount:</td>
-                              <td>${{ item?.discount_value }}</td>
                             </tr>
                             <tr>
                               <td>Important Notes:</td>
@@ -178,7 +171,12 @@
                                 <td class="text-end fw-bold">
                                   Total:
                                   <br />
-                                  <span class="fw-normal text-success">${{ item?.final_price | number: '1.2-2' }}</span>
+                                  <span class="fw-normal text-success">
+                                    ${{
+                                      (item?.discount_value && item?.discount_value > 0 ? item?.final_total : item?.total_price)
+                                        | number: '1.2-2'
+                                    }}
+                                  </span>
                                 </td>
                               </tr>
                             </tfoot>
