@@ -25,6 +25,7 @@
     </tr>
     <!-- Hide rows when loading -->
     <tr [hidden]="!(!crudService.loading && crudService.list.length > 0)" *ngFor="let item of crudService.list; let i = index">
+      <!-- Order Id -->
       <td>
         <div class="d-flex">
           <div class="ms-4">
@@ -32,30 +33,42 @@
           </div>
         </div>
       </td>
+      <!-- Customer -->
       <td>
         <div class="d-flex flex-column">
           <span class="fs-7 fw-bold text-hover-primary mb-0">{{ item?.customer }}</span>
           <span class="fs-8 text-muted">{{ item?.customer_phone }}</span>
         </div>
       </td>
+      <!-- Type -->
       <td>
         <div class="d-flex">
-          <div class="ms-4">
-            <a class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">
-              {{ item?.created_at | date: 'dd/MM/yyyy' }}
-            </a>
+          <div class="fw-bold">{{ item?.order_type }}</div>
+        </div>
+      </td>
+      <!-- Subtotal -->
+      <td>
+        <div class="d-flex" class="ms-4">
+          <div class="fs-7 fw-bold">{{ item.final_total | currency: 'USD' : 'symbol' : '1.2-2' }}</div>
+        </div>
+      </td>
+      <!-- Discount -->
+      <td>
+        <div class="d-flex flex-row gap-2" class="ms-4">
+          <div class="fs-7 fw-bold">
+            <span class="badge badge-preparing fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">
+              {{ item.discount_value | currency: 'USD' : 'symbol' : '1.2-2' }}
+            </span>
           </div>
         </div>
       </td>
+      <!-- Total -->
       <td>
-        <div class="d-flex">
-          <div class="ms-4">
-            <a class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">
-              {{ item?.updated_at === null ? 'N/A' : (item?.updated_at | date: 'dd/MM/yyyy') }}
-            </a>
-          </div>
+        <div class="d-flex" class="ms-4">
+          <div class="fs-7 fw-bold">{{ item.total_price | currency: 'USD' : 'symbol' : '1.2-2' }}</div>
         </div>
       </td>
+      <!-- Address -->
       <td>
         <div class="d-flex">
           <div class="ms-4 text-truncate" style="max-width: 200px">
@@ -68,6 +81,7 @@
           </div>
         </div>
       </td>
+      <!-- Notes -->
       <td>
         <div class="ms-4 text-truncate" style="max-width: 150px">
           <div class="ms-4">
@@ -79,67 +93,14 @@
             </a>
           </div>
         </div>
-        <!-- <td>
-        <div class="d-flex">
-          <div class="ms-4">
-            <a class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">
-              <span class="badge badge-pill badge-primary">{{ item?.role }}</span>
-            </a>
-          </div>
-        </div>
       </td>
-
-      <td>
-        <div class="d-flex">
-          <div class="ms-4">
-            <a class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{ item?.customer_phone }}</a>
-          </div>
-        </div>
-      </td> -->
-
-        <!-- <td>
-        <div class="d-flex">
-          <div class="ms-4">
-            <a class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{ item?.customer }}</a>
-          </div>
-        </div>
-      </td> -->
-
-        <!-- <td>
-        <div *ngFor="let products of item.products" class="d-flex">
-          <div  class="ms-5">
-            <a class=" fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">${{products?.price }}   </a>
-          </div>
-        </div>
-      </td> -->
-      </td>
-
-      <td>
-        <div class="d-flex" class="ms-4">
-          <div class="fs-7 fw-bold">{{ item.total_price | currency: 'USD' : 'symbol' : '1.2-2' }}</div>
-        </div>
-      </td>
-
-      <td>
-        <div class="d-flex flex-row gap-2" class="ms-4">
-          <div class="fs-7 fw-bold">
-            <span class="badge badge-preparing fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">
-              {{ item.discount_value | currency: 'USD' : 'symbol' : '1.2-2' }}
-            </span>
-          </div>
-        </div>
-      </td>
-
+      <!-- Table No -->
       <td>
         <div class="d-flex">
           <div class="fw-bold">{{ item?.table }}</div>
         </div>
       </td>
-      <td>
-        <div class="d-flex">
-          <div class="fw-bold">{{ item?.order_type }}</div>
-        </div>
-      </td>
+      <!-- Paid -->
       <td>
         <div class="d-flex">
           <div
@@ -155,11 +116,31 @@
           </div>
         </div>
       </td>
+      <!-- Status -->
       <td>
         <app-list-order-item-status [item]="item"></app-list-order-item-status>
       </td>
-      <!-- <ng-content></ng-content> -->
-      <!--begin::Action=-->
+      <!-- Created -->
+      <td>
+        <div class="d-flex">
+          <div class="ms-4">
+            <a class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">
+              {{ item?.created_at | date: 'dd/MM/yyyy' }}
+            </a>
+          </div>
+        </div>
+      </td>
+      <!-- Updated -->
+      <td>
+        <div class="d-flex">
+          <div class="ms-4">
+            <a class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">
+              {{ item?.updated_at === null ? 'N/A' : (item?.updated_at | date: 'dd/MM/yyyy') }}
+            </a>
+          </div>
+        </div>
+      </td>
+      <!-- Action -->
       <td class="text-start">
         <div class="d-flex flex-row justify-content-start align-items-center gap-3">
           <i class="ti ti-eye view-icon" style="font-size: 20px; cursor: pointer" (click)="openDetails(i)"></i>
@@ -204,12 +185,6 @@
                       <td>
                         {{ item.product_name }} x {{ item.quantity }}
                         <br />
-                        <!-- <small *ngFor="let variation of item.variation">
-                          <span *ngFor="let option of variation.options" [hidden]="!(option.selected == true)">
-                            {{ option.selected }} {{ option.name }} ({{ option.price | currency }})
-                            <br />
-                          </span>
-                        </small> -->
                       </td>
                       <td>{{ item.price | currency }}</td>
                       <td>{{ item.quantity * item.price | currency }}</td>
@@ -234,8 +209,7 @@
           <i class="ti ti-dots-vertical" (click)="ProductModal(item)"></i>
         </div>
       </td>
-      <!--end::Action=-->
-      <!--begin::Checkbox-->
+      <!-- Checkbox -->
       <td>
         <div class="form-check form-check-sm form-check-custom form-check-solid">
           <input
@@ -247,11 +221,10 @@
           />
         </div>
       </td>
-      <!--end::Checkbox-->
-      <!--end::Table row-->
     </tr>
+    <!-- Skeleton Loader Row -->
     <tr *ngIf="crudService.loading">
-      <!-- Order Number Column -->
+      <!-- Order Id -->
       <td>
         <div class="d-flex align-items-center">
           <div class="ms-5">
@@ -263,8 +236,7 @@
           </div>
         </div>
       </td>
-
-      <!-- Customer Info Column -->
+      <!-- Customer -->
       <td>
         <div class="d-flex flex-column">
           <ngx-skeleton-loader
@@ -279,8 +251,7 @@
           ></ngx-skeleton-loader>
         </div>
       </td>
-
-      <!-- Created At Column -->
+      <!-- Type -->
       <td>
         <div class="d-flex align-items-center">
           <ngx-skeleton-loader
@@ -290,19 +261,37 @@
           ></ngx-skeleton-loader>
         </div>
       </td>
-
-      <!-- Updated At Column -->
+      <!-- Subtotal -->
       <td>
         <div class="d-flex align-items-center">
           <ngx-skeleton-loader
             appearance="custom-content"
-            [theme]="{ width: '80px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
+            [theme]="{ width: '60px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
             [animation]="true"
           ></ngx-skeleton-loader>
         </div>
       </td>
-
-      <!-- Delivery Address Column -->
+      <!-- Discount -->
+      <td>
+        <div class="d-flex align-items-center">
+          <ngx-skeleton-loader
+            appearance="custom-content"
+            [theme]="{ width: '60px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
+            [animation]="true"
+          ></ngx-skeleton-loader>
+        </div>
+      </td>
+      <!-- Total -->
+      <td>
+        <div class="d-flex align-items-center">
+          <ngx-skeleton-loader
+            appearance="custom-content"
+            [theme]="{ width: '60px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
+            [animation]="true"
+          ></ngx-skeleton-loader>
+        </div>
+      </td>
+      <!-- Address -->
       <td>
         <div class="d-flex align-items-center">
           <ngx-skeleton-loader
@@ -312,8 +301,7 @@
           ></ngx-skeleton-loader>
         </div>
       </td>
-
-      <!-- Notes Column -->
+      <!-- Notes -->
       <td>
         <div class="d-flex align-items-center">
           <ngx-skeleton-loader
@@ -323,8 +311,7 @@
           ></ngx-skeleton-loader>
         </div>
       </td>
-
-      <!-- Total Price Column -->
+      <!-- Table No -->
       <td>
         <div class="d-flex align-items-center">
           <ngx-skeleton-loader
@@ -334,7 +321,7 @@
           ></ngx-skeleton-loader>
         </div>
       </td>
-      <!-- Final Total Price Column -->
+      <!-- Paid -->
       <td>
         <div class="d-flex align-items-center">
           <ngx-skeleton-loader
@@ -344,30 +331,14 @@
           ></ngx-skeleton-loader>
         </div>
       </td>
-
-      <!-- Discount Value Column -->
+      <!-- Status -->
       <td>
-        <div class="d-flex align-items-center">
-          <ngx-skeleton-loader
-            appearance="custom-content"
-            [theme]="{ width: '60px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
-            [animation]="true"
-          ></ngx-skeleton-loader>
-        </div>
+        <ngx-skeleton-loader
+          appearance="custom-content"
+          [theme]="{ width: '100px', height: '20px', 'border-radius': '12px', background: 'rgba(0,0,0,0.2)' }"
+        ></ngx-skeleton-loader>
       </td>
-
-      <!-- Table Column -->
-      <td>
-        <div class="d-flex align-items-center">
-          <ngx-skeleton-loader
-            appearance="custom-content"
-            [theme]="{ width: '60px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
-            [animation]="true"
-          ></ngx-skeleton-loader>
-        </div>
-      </td>
-
-      <!-- Order Type Column -->
+      <!-- Created -->
       <td>
         <div class="d-flex align-items-center">
           <ngx-skeleton-loader
@@ -377,27 +348,17 @@
           ></ngx-skeleton-loader>
         </div>
       </td>
-
-      <!-- Is Paid Column -->
+      <!-- Updated -->
       <td>
         <div class="d-flex align-items-center">
           <ngx-skeleton-loader
             appearance="custom-content"
-            [theme]="{ width: '60px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
+            [theme]="{ width: '80px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
             [animation]="true"
           ></ngx-skeleton-loader>
         </div>
       </td>
-
-      <!-- Status Column -->
-      <td>
-        <ngx-skeleton-loader
-          appearance="custom-content"
-          [theme]="{ width: '100px', height: '20px', 'border-radius': '12px', background: 'rgba(0,0,0,0.2)' }"
-        ></ngx-skeleton-loader>
-      </td>
-
-      <!-- Action Icons -->
+      <!-- Action -->
       <td class="text-end">
         <div class="d-flex flex-row justify-content-start align-items-center gap-3">
           <ngx-skeleton-loader
@@ -407,8 +368,7 @@
           ></ngx-skeleton-loader>
         </div>
       </td>
-
-      <!-- Checkbox Column -->
+      <!-- Checkbox -->
       <td>
         <div class="form-check form-check-sm form-check-custom form-check-solid">
           <input class="form-check-input" type="checkbox" disabled />

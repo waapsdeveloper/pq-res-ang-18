@@ -20,9 +20,7 @@
   >
     <!-- Show "No results found" when not loading and list is empty -->
     <tr *ngIf="!crudService.loading && crudService.list.length === 0">
-      <td colspan="5" class="text-center">
-        No results found.
-      </td>
+      <td colspan="8" class="text-center">No results found.</td>
     </tr>
     <!-- Hide rows when loading -->
     <tr [hidden]="!(!crudService.loading && crudService.list.length > 0)" *ngFor="let item of crudService.list; let i = index">
@@ -142,7 +140,7 @@
       <td class="text-end">
         <div class="d-flex flex-row justify-content-end align-items-center gap-3">
           <ngx-skeleton-loader
-            *ngFor="let _ of [1, 2, 3, 4]"
+            *ngFor="let _ of [1, 2]"
             appearance="custom-content"
             [theme]="{ width: '24px', height: '24px', background: 'rgba(0,0,0,0.2)' }"
           ></ngx-skeleton-loader>

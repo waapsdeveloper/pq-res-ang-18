@@ -22,16 +22,17 @@ export class ListOrdersComponent extends ListBlade {
   columns: any[] = [
     'Order Id',
     'Customer',
-    'Created',
-    'Updated',
+    'Type',
+    'Subtotal',
+    'Discount',
+    'Total',
     'address',
     'notes',
-    'Total',
-    'Discount',
     'Table No',
-    'Type',
     'Paid',
-    'Status'
+    'Status',
+    'Created',
+    'Updated'
   ];
   statuses = ['pending', 'confirmed', 'preparing', 'ready_for_pickup', 'out_for_delivery', 'delivered', 'completed', 'cancelled'];
   selectedStatus = '';

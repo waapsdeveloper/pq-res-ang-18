@@ -22,9 +22,7 @@
   >
     <!-- Show "No results found" when not loading and list is empty -->
     <tr *ngIf="!crudService.loading && crudService.list.length === 0">
-      <td colspan="5" class="text-center">
-        No results found.
-      </td>
+      <td colspan="6" class="text-center">No results found.</td>
     </tr>
     <!-- Hide rows when loading -->
     <tr [hidden]="!(!crudService.loading && crudService.list.length > 0)" *ngFor="let item of crudService.list; let i = index">
@@ -141,23 +139,11 @@
           [theme]="{ width: '90px', height: '20px', 'border-radius': '7px', background: 'rgba(0,0,0,0.2)' }"
         ></ngx-skeleton-loader>
       </td>
-      <td>
-        <ngx-skeleton-loader
-          appearance="custom-content"
-          [theme]="{ width: '50px', height: '20px', 'border-radius': '7px', background: 'rgba(0,0,0,0.2)' }"
-        ></ngx-skeleton-loader>
-      </td>
-      <td>
-        <ngx-skeleton-loader
-          appearance="custom-content"
-          [theme]="{ width: '60px', height: '20px', 'border-radius': '7px', background: 'rgba(0,0,0,0.2)' }"
-        ></ngx-skeleton-loader>
-      </td>
       <!-- Action Icons -->
       <td class="text-end">
         <div class="d-flex flex-row justify-content-end align-items-center gap-3">
           <ngx-skeleton-loader
-            *ngFor="let _ of [1, 2, 3, 4]"
+            *ngFor="let _ of [1]"
             appearance="custom-content"
             [theme]="{ width: '24px', height: '24px', background: 'rgba(0,0,0,0.2)' }"
           ></ngx-skeleton-loader>

@@ -94,10 +94,6 @@
                               <td>{{ item?.coupon_code }}</td>
                             </tr>
                             <tr>
-                              <td>Discounted Price:</td>
-                              <td>${{ item?.final_total }}</td>
-                            </tr>
-                            <tr>
                               <td>Discount:</td>
                               <td>${{ item?.discount_value }}</td>
                             </tr>
@@ -169,8 +165,21 @@
                             </tbody>
                             <tfoot>
                               <tr>
-                                <td colspan="4" class="text-end fw-bold">Total Price:</td>
-                                <td class="fw-bold text-success">${{ item?.total_price | number: '1.2-2' }}</td>
+                                <td colspan="2" class="text-end fw-bold">
+                                  Subtotal:
+                                  <br />
+                                  <span class="fw-normal">${{ item?.total_price | number: '1.2-2' }}</span>
+                                </td>
+                                <td colspan="2" class="text-end fw-bold">
+                                  Discount:
+                                  <br />
+                                  <span class="fw-normal text-danger">- ${{ item?.discount_value | number: '1.2-2' }}</span>
+                                </td>
+                                <td class="text-end fw-bold">
+                                  Total:
+                                  <br />
+                                  <span class="fw-normal text-success">${{ item?.final_price | number: '1.2-2' }}</span>
+                                </td>
                               </tr>
                             </tfoot>
                           </table>
