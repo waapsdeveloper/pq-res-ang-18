@@ -10,13 +10,10 @@ import { KtListPageModule } from 'src/app/components/layouts/kt-list-page/kt-lis
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ListOrderItemStatusModule } from './list-order-item-status/list-order-item-status.module';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-
-
+import { ListOrderPaymentStatusModule } from './list-order-payment-status/list-order-payment-status.module';
 
 @NgModule({
-  declarations: [
-    ListOrdersComponent
-  ],
+  declarations: [ListOrdersComponent],
   imports: [
     CommonModule,
     ListOrdersRoutingModule,
@@ -28,10 +25,8 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
     FormlyBootstrapModule,
     NgxSkeletonLoaderModule,
     ListOrderItemStatusModule,
-    NgbDropdownModule
-
-
-  ],
-
+    NgbDropdownModule,
+    ListOrderPaymentStatusModule
+  ]
 })
-export class ListOrdersModule { }
+export class ListOrdersModule {}

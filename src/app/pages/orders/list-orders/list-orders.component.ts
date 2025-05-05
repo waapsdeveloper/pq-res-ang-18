@@ -26,8 +26,8 @@ export class ListOrdersComponent extends ListBlade {
     'Subtotal',
     'Discount',
     'Total',
-    'address',
-    'notes',
+    'Address',
+    'Notes',
     'Table No',
     'Paid',
     'Status',
@@ -214,41 +214,6 @@ export class ListOrdersComponent extends ListBlade {
   ) {
     super(injector, crudService);
     this.initialize();
-  }
-
-  async updatePaymentStatus(item) {
-    let items = this.crudService.list[item];
-    if (items && items.is_paid === true) {
-      await this.utility.showWarningMessage('Cannot update payment status as it is already paid.');
-      return;
-    }
-    let flag = await this.utility.presentConfirm(
-      'Update Payment Status',
-      'Cancel',
-      'Update Payment Status',
-      'Are you sure you want to update payment status?'
-    );
-    if (!flag) {
-      return;
-    }
-    let obj = {
-      is_paid: true
-    };
-    this.network.updateOrderPaymentStatus(items.id, obj);
-
-    // let obj = {
-    //   is_paid: this.selectedStatus
-    // };
-    // this.utility.showCustomDropdown(
-    //   'Update Order Status',
-    //   'status-dropdown',
-    //   options,
-    //   item.status,
-    //   'Update Status',
-    //   (newStatus: string) => {
-    //     this.updateStatus(newStatus, item);
-    //   }
-    // );
   }
 
   async onDeleteAll($event: any) {

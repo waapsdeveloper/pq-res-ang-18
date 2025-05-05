@@ -1,0 +1,13 @@
+<div class="d-flex">
+  <div
+    (click)="updatePaymentStatus()"
+    class="badge fw-bold me-auto"
+    style="cursor: pointer"
+    [ngClass]="{
+      'badge-active': item.is_paid === true,
+      'badge-inactive': item.is_paid === false
+    }"
+  >
+    {{ item.is_paid === true ? 'Paid' : 'UnPaid' }}
+  </div>
+</div>

@@ -38,16 +38,6 @@
   color: red;
 }
 
-.badge-active {
-  background-color: #c8e6c9; /* Light green */
-  color: #388e3c; /* Dark green */
-}
-
-.badge-inactive {
-  background-color: #ffcdd2; /* Light red */
-  color: #d32f2f; /* Dark red */
-}
-
 .printericon {
   color: #007bff; /* Bootstrap primary color */
   background-color: #f0f8ff; /* Light background color */
@@ -187,5 +177,50 @@
   // Center align specific elements
   .center-text {
     text-align: center;
+  }
+}
+
+// ...existing code...
+
+.badge-order-type {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: capitalize;
+
+  &.dine-in {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+  }
+
+  &.take-away {
+    background-color: #ede7f6;
+    color: #5e35b1;
+  }
+
+  &.delivery {
+    background-color: #e3f2fd;
+    color: #1565c0;
+  }
+
+  &.drive-thru {
+    background-color: #fff3e0;
+    color: #ef6c00;
+  }
+
+  &.curbside-pickup {
+    background-color: #f3e5f5;
+    color: #7b1fa2;
+  }
+
+  &.catering {
+    background-color: #e0f7fa;
+    color: #00838f;
+  }
+
+  &.reservation {
+    background-color: #fbe9e7;
+    color: #d84315;
   }
 }

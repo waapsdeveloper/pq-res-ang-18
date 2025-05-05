@@ -41,15 +41,18 @@
         </div>
       </td>
       <!-- Type -->
+      <!-- Replace the Type column content -->
       <td>
         <div class="d-flex">
-          <div class="fw-bold">{{ item?.order_type }}</div>
+          <div class="badge-order-type" [ngClass]="item?.order_type">
+            {{ item?.order_type | titlecase }}
+          </div>
         </div>
       </td>
       <!-- Subtotal -->
       <td>
         <div class="d-flex" class="ms-4">
-          <div class="fs-7 fw-bold">{{ item.final_total | currency: 'USD' : 'symbol' : '1.2-2' }}</div>
+          <div class="fs-7 fw-bold">{{ item.total_price | currency: 'USD' : 'symbol' : '1.2-2' }}</div>
         </div>
       </td>
       <!-- Discount -->
@@ -65,7 +68,9 @@
       <!-- Total -->
       <td>
         <div class="d-flex" class="ms-4">
-          <div class="fs-7 fw-bold">{{ item.total_price | currency: 'USD' : 'symbol' : '1.2-2' }}</div>
+          <div class="fs-7 fw-bold">
+            ${{ (item?.discount_value && item?.discount_value > 0 ? item?.final_total : item?.total_price) | number: '1.2-2' }}
+          </div>
         </div>
       </td>
       <!-- Address -->
@@ -76,7 +81,7 @@
               class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1"
               style="display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap"
             >
-              {{ item?.order_type === 'delivery' ? item?.delivery_address : 'N/A' }}
+              {{ item?.delivery_address }}
             </a>
           </div>
         </div>
@@ -103,19 +108,7 @@
       </td>
       <!-- Paid -->
       <td>
-        <div class="d-flex">
-          <div
-            (click)="updatePaymentStatus(i)"
-            class="badge fw-bold me-auto"
-            style="cursor: pointer"
-            [ngClass]="{
-              'badge-active': item.is_paid === true,
-              'badge-inactive': item.is_paid === false
-            }"
-          >
-            {{ item.is_paid === true ? 'Paid' : 'UnPaid' }}
-          </div>
-        </div>
+        <app-list-order-payment-status [item]="item"></app-list-order-payment-status>
       </td>
       <!-- Status -->
       <td>
@@ -125,9 +118,9 @@
       <td>
         <div class="d-flex">
           <div class="ms-4">
-            <a class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">
-              {{ item?.created_at | date: 'dd/MM/yyyy' }}
-            </a>
+            <span class="fs-7 fw-bold text-gray-800">
+              {{ item?.created_at | date: 'dd/MM/yyyy HH:mm:ss' }}
+            </span>
           </div>
         </div>
       </td>
@@ -135,9 +128,9 @@
       <td>
         <div class="d-flex">
           <div class="ms-4">
-            <a class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">
-              {{ item?.updated_at === null ? 'N/A' : (item?.updated_at | date: 'dd/MM/yyyy') }}
-            </a>
+            <span class="fs-7 fw-bold text-gray-800">
+              {{ item?.updated_at | date: 'dd/MM/yyyy HH:mm:ss' }}
+            </span>
           </div>
         </div>
       </td>

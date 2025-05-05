@@ -69,7 +69,6 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     role: 'Customer',
     status: 'Active',
     image: 'http://127.0.0.1:8000/storage/images/user/default-user.png',
-    address: 'In-Store Purchase',
     city: '',
     state: '',
     country: ''
