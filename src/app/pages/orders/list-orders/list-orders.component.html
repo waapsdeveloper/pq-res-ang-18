@@ -103,7 +103,7 @@
       <!-- Table No -->
       <td>
         <div class="d-flex">
-          <div class="fw-bold">{{ item?.table }}</div>
+          <div class="fw-bold" *ngIf="item?.table !== 'no booked'">{{ item?.table }}</div>
         </div>
       </td>
       <!-- Paid -->

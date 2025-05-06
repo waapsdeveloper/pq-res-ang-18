@@ -27,7 +27,7 @@
                     <span class="users-view-name">Order</span>
                   </h4>
                   <span>ID:</span>
-                  <span class="users-view-id">{{ itemId }}</span>
+                  <span class="users-view-id">{{ item?.order_number }}</span>
                 </div>
               </div>
             </div>
@@ -157,21 +157,35 @@
                               </tr>
                             </tbody>
                             <tfoot>
+                              <!-- Subtotal Row -->
                               <tr>
-                                <td colspan="2" class="text-end fw-bold">
-                                  Subtotal:
-                                  <br />
+                                <td colspan="2" class="text-end fw-bold">Subtotal:</td>
+                                <td colspan="3" class="text-end">
                                   <span class="fw-normal">${{ item?.total_price | number: '1.2-2' }}</span>
                                 </td>
-                                <td colspan="2" class="text-end fw-bold">
-                                  Discount:
-                                  <br />
+                              </tr>
+
+                              <!-- Discount Row -->
+                              <tr>
+                                <td colspan="2" class="text-end fw-bold">Discount:</td>
+                                <td colspan="3" class="text-end">
                                   <span class="fw-normal text-danger">- ${{ item?.discount_value | number: '1.2-2' }}</span>
                                 </td>
-                                <td class="text-end fw-bold">
-                                  Total:
-                                  <br />
-                                  <span class="fw-normal text-success">
+                              </tr>
+
+                              <!-- Tax Row -->
+                              <tr>
+                                <td colspan="2" class="text-end fw-bold">Tax:</td>
+                                <td colspan="3" class="text-end">
+                                  <span class="fw-normal">${{ item?.tax || '0.00' | number: '1.2-2' }}</span>
+                                </td>
+                              </tr>
+
+                              <!-- Total Row -->
+                              <tr class="border-top border-dark">
+                                <td colspan="2" class="text-end fw-bold">Total:</td>
+                                <td colspan="3" class="text-end">
+                                  <span class="fw-bold text-success">
                                     ${{
                                       (item?.discount_value && item?.discount_value > 0 ? item?.final_total : item?.total_price)
                                         | number: '1.2-2'

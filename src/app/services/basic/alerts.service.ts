@@ -2,6 +2,34 @@ import { StringsService } from './strings.service';
 import { Injectable } from '@angular/core';
 import Swal from 'sweetalert2';
 
+// Add these interfaces
+interface ProductVariationOption {
+  name: string;
+  description?: string;
+  price: number;
+  selected?: boolean;
+}
+
+interface ProductVariation {
+  type: string;
+  selected: boolean;
+  options: ProductVariationOption[];
+}
+
+interface Product {
+  product_id: string;
+  product_name: string;
+  product_price: string;
+  product_image: string;
+  quantity?: string;
+  price?: string;
+  variation?: string;
+  parsedVariations?: ProductVariation[];
+  meta_key?: string;
+  meta_value?: string;
+  meta_key_type?: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -195,36 +223,92 @@ export class AlertsService {
 
   async showProductSelectionTable(
     title: string,
-    products: {
-      product_id: string;
-      product_name: string;
-      product_price: string;
-      product_image: string;
-    }[],
+    products: Product[],
     confirmButtonText: string,
     onSelect: (productId: string) => void
   ): Promise<void> {
+    const renderVariations = (variations: ProductVariation[]) => {
+      if (!variations?.length) return 'No variations available';
+
+      return variations
+        .map((variation) => {
+          return variation.options
+            .map(
+              (option) => `
+              <div style="
+                padding: 8px;
+                border-bottom: 1px solid #eee;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                font-size: 12px;
+              ">
+                <span>${option.name}</span>
+                <span style="color: #2d397c; font-weight: 500;">$${option.price.toFixed(2)}</span>
+              </div>
+            `
+            )
+            .join('');
+        })
+        .join('');
+    };
+
     const htmlTable = `
       <div style="max-height: 400px; overflow-y: auto;">
-        <table style="width: 100%; border-collapse: collapse;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 13px; table-layout: fixed;">
           <thead>
-            <tr style="text-align: left; border-bottom: 1px solid #ccc;">
-              <th style="padding: 0.5rem;">Image</th>
-              <th style="padding: 0.5rem;">Name</th>
-              <th style="padding: 0.5rem;">Price</th>
-              
+            <tr style="text-align: left; border-bottom: 1px solid #ccc; background: #f8f9fa;">
+              <th style="padding: 12px 8px; width: 50px;">Image</th>
+              <th style="padding: 12px 8px; width: 35%;">Name</th>
+              <th style="padding: 12px 8px; width: 80px;">Price</th>
+              <th style="padding: 12px 8px; width: 60px;">Add-ons</th>
             </tr>
           </thead>
           <tbody>
             ${products
               .map(
-                (p) => `
+                (p, index) => `
               <tr style="border-bottom: 1px solid #eee;">
-                <td style="padding: 0.5rem;">
-                  <img src="${p.product_image}" alt="${p.product_name}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 6px;" />
+                <td style="padding: 8px; vertical-align: middle;">
+                  <img src="${p.product_image}" alt="${p.product_name}" 
+                       style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px;" />
                 </td>
-                <td style="padding: 0.5rem;">${p.product_name}</td>
-                <td style="padding: 0.5rem;">$${p.product_price}</td>
+                <td style="padding: 8px; vertical-align: middle;">
+                  <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500;">
+                    ${p.product_name}
+                  </div>
+                </td>
+                <td style="padding: 8px; vertical-align: middle;">
+                  <div style="white-space: nowrap; color: #2d397c; font-weight: 500;">
+                    $${p.product_price}
+                  </div>
+                </td>
+                <td style="padding: 8px; text-align: center; vertical-align: middle; position: relative;">
+                  ${
+                    p.parsedVariations?.length
+                      ? `
+                    <button class="variation-btn" 
+                      data-index="${index}"
+                      style="background: none; border: none; cursor: pointer; padding: 4px;">
+                      <i class="ti ti-versions" style="color: #2d397c; font-size: 18px;"></i>
+                    </button>
+                    <div class="variation-popover" id="popover-${index}" 
+                         style="display: none; position: absolute; background: white; 
+                                padding: 12px; border-radius: 8px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); 
+                                z-index: 1000; width: 220px; right: 0; margin-top: 4px;
+                                border: 1px solid #eee;">
+                      <div style="font-weight: 500; color: #2d397c; margin-bottom: 8px; 
+                                 padding-bottom: 8px; border-bottom: 1px solid #eee;">
+                        Add-ons
+                      </div>
+                      <div style="max-height: 200px; overflow-y: auto;">
+                        ${renderVariations(p.parsedVariations)}
+                      </div>
+                    </div>
+                  `
+                      : '<span style="color: #999;">-</span>'
+                  }
+                </td>
               </tr>
             `
               )
@@ -237,17 +321,65 @@ export class AlertsService {
     await Swal.fire({
       title,
       html: htmlTable,
+      width: '700px',
       showConfirmButton: false,
-      showCancelButton: true,
+      showCloseButton: true,
+      customClass: {
+        container: 'product-selection-modal',
+        popup: 'product-selection-popup'
+      },
       didOpen: () => {
-        const buttons = Swal.getPopup()!.querySelectorAll<HTMLButtonElement>('.select-product-btn');
-        buttons.forEach((btn) => {
-          btn.addEventListener('click', () => {
-            const productId = btn.dataset['id']!;
-            Swal.close();
-            onSelect(productId);
+        const popup = Swal.getPopup();
+        if (!popup) return;
+
+        let activePopover: HTMLElement | null = null;
+
+        // Close all popovers
+        const closeAllPopovers = () => {
+          popup.querySelectorAll('.variation-popover').forEach((popover: HTMLElement) => {
+            popover.style.display = 'none';
+          });
+          activePopover = null;
+        };
+
+        // Handle variation button clicks
+        popup.querySelectorAll('.variation-btn').forEach((btn: HTMLElement) => {
+          btn.addEventListener('click', (e: Event) => {
+            e.stopPropagation();
+            const index = btn.getAttribute('data-index');
+            const popover = popup.querySelector(`#popover-${index}`) as HTMLElement;
+
+            if (activePopover === popover) {
+              // If clicking the same button, close the popover
+              closeAllPopovers();
+            } else {
+              // Close other popovers and open this one
+              closeAllPopovers();
+              if (popover) {
+                popover.style.display = 'block';
+                activePopover = popover;
+              }
+            }
           });
         });
+
+        // Close popover when clicking outside
+        document.addEventListener('click', (e: Event) => {
+          if (!popup.contains(e.target as Node)) {
+            closeAllPopovers();
+          }
+        });
+
+        // Close popover when clicking on modal but outside the table
+        popup.addEventListener('click', (e: Event) => {
+          if (!(e.target as HTMLElement).closest('table')) {
+            closeAllPopovers();
+          }
+        });
+      },
+      willClose: () => {
+        // Clean up event listeners
+        document.removeEventListener('click', () => {});
       }
     });
   }

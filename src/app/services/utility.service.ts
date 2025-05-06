@@ -2,6 +2,27 @@ import { Injectable } from '@angular/core';
 import { LoadingService } from './basic/loading.service';
 import { AlertsService } from './basic/alerts.service';
 
+interface ProductVariationOption {
+  name: string;
+  description?: string;
+  price: number;
+}
+
+interface ProductVariation {
+  type: string;
+  selected: boolean;
+  options: ProductVariationOption[];
+}
+
+interface Product {
+  product_id: string;
+  product_name: string;
+  product_price: string;
+  product_image: string;
+  variation?: string;
+  parsedVariations?: ProductVariation[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -64,16 +85,17 @@ export class UtilityService {
   }
   showProductSelectionTable(
     title: string,
-    products: {
-      product_id: string;
-      product_name: string;
-      product_price: string;
-      product_image: string;
-    }[],
+    products: Product[],
     confirmButtonText: string,
     onSelect: (productId: string) => void
   ): Promise<void> {
-    return this.alerts.showProductSelectionTable(title, products, confirmButtonText, onSelect);
+    // Parse variations before sending to alerts service
+    const productsWithParsedVariations = products.map((product) => ({
+      ...product,
+      parsedVariations: product.variation ? JSON.parse(product.variation) : []
+    }));
+
+    return this.alerts.showProductSelectionTable(title, productsWithParsedVariations, confirmButtonText, onSelect);
   }
 
   showWarningMessage(message: string): Promise<void> {
