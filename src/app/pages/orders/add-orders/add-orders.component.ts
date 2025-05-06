@@ -496,4 +496,13 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   goBack(): void {
     this.nav.pop();
   }
+
+  applyCoupon() {
+    const res = this.orderService.applyCoupon().then((success: boolean) => {
+      if (success) {
+        this.orderService.isCouponApplied = true; // Lock the input and button
+      }
+    });
+    console.log('Coupon applied:', res);
+  }
 }

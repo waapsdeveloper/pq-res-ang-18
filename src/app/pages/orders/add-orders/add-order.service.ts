@@ -30,7 +30,9 @@ export class AddOrderService {
     { label: 'Credit/Debit Card', value: 'card' },
     { label: 'PayPal', value: 'paypal' }
   ];
+  s;
   totalCost = 0;
+  isCouponApplied: boolean = false;
 
   constructor(
     private network: NetworkService,
@@ -382,7 +384,7 @@ export class AddOrderService {
 
     if (!data) {
       console.warn('No coupon data available');
-      return;
+      return false;
     }
 
     let discountValue = data?.discount_value || 0;
@@ -396,14 +398,14 @@ export class AddOrderService {
       calculatedDiscount = discountValue;
     } else {
       console.warn('Invalid discount type');
-      return;
+      return false;
     }
 
     // Check if the discount exceeds 50% of the total cost
     if (calculatedDiscount > this.totalCost * 0.5) {
       console.error('Invalid coupon: Discount exceeds 50% of the total cost.');
       this.utilityService.presentFailureToast('Invalid coupon: Discount cannot exceed 50% of the total cost.'); // Display error message
-      return;
+      return false;
     }
 
     // Apply the validated discount
@@ -411,6 +413,7 @@ export class AddOrderService {
     this.final_total = Math.max(this.totalCost - this.discountAmount, 0);
 
     console.log('Final total after discount:', this.final_total);
+    return true;
   }
 
   clearSelectedProducts() {
