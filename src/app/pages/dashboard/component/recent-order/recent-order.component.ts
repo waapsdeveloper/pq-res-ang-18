@@ -8,38 +8,36 @@ import { UsersService } from 'src/app/services/users.service';
   templateUrl: './recent-order.component.html',
   styleUrl: './recent-order.component.scss'
 })
-export class RecentOrderComponent implements OnInit {
+export class RecentOrderComponent {
   title = 'Orders';
   addurl = '/pages/orders/add';
   search = '';
   page = 1;
   lastPage = -1;
   total = 0;
+  data;
   perpage = 10;
   list: any[] = [];
   showEdit: boolean = false;
 
-  async ngOnInit() {
-    // Fetch the data using the service method
-    const data = await this.network.getRecentOrder();
-    const orderArray = data.order;
+  // async ngOnInit() {
+  //   // Fetch the data using the service method
 
+  //   const orderArray = data.order;
 
-    // Map API response to customers array
-    this.customers = orderArray.map((order: any) => {
-
-      return {
-        orderId: order.order_number || 'N/A',
-        name: order.customer?.name || 'Walk in Customer',
-        phone: order.customer?.phone || 'N/A',
-        amount: parseFloat(order.total_price) || 0,
-        table: order.table_no || 'N/A',
-        type: order.type || 'N/A',
-        status: order.status || 'N/A'
-      };
-    });
-
-  }
+  //   // Map API response to customers array
+  //   this.customers = orderArray.map((order: any) => {
+  //     return {
+  //       orderId: order.order_number || 'N/A',
+  //       name: order.customer?.name || 'Walk in Customer',
+  //       phone: order.customer?.phone || 'N/A',
+  //       amount: parseFloat(order.total_price) || 0,
+  //       table: order.table_no || 'N/A',
+  //       type: order.type || 'N/A',
+  //       status: order.status || 'N/A'
+  //     };
+  //   });
+  // }
 
   columns: any[] = ['Order Id', 'Customer Name', 'Phone Number', 'Total Price', 'Table Number', 'Customer Type', 'Order Status'];
 
@@ -60,31 +58,6 @@ export class RecentOrderComponent implements OnInit {
     if (u.role_id == 1 || u.role_id == 2) {
       this.showEdit = true;
     }
-  }
-
-  async getList(search = '', page = 1): Promise<any> {
-    let obj = {
-      search: search,
-      page: page,
-      perpage: this.perpage
-    };
-
-    const res = await this.network.getOrders(obj);
-    if (res.data) {
-      let d = res.data;
-      this.page = d.current_page;
-      this.lastPage = d.last_page;
-      this.total = d.total;
-
-      //      if (this.page == 1) {
-      this.list = d.data;
-      console.log(this.list);
-      // } else {
-      //   this.list = [...this.list, ...d.data];
-      // }
-    }
-
-    return res;
   }
 
   editRow(index: number) {}
@@ -130,5 +103,29 @@ export class RecentOrderComponent implements OnInit {
 
   payBill(order: any): void {
     console.log('Paying bill for:', order);
+  }
+  async getList(search = '', page = 1): Promise<any> {
+    let obj = {
+      search: search,
+      page: page,
+      perpage: this.perpage
+    };
+
+    const res = await this.network.getOrders(obj);
+    if (res.data) {
+      let d = res.data;
+      this.page = d.current_page;
+      this.lastPage = d.last_page;
+      this.total = d.total;
+
+      //      if (this.page == 1) {
+      this.list = d.data;
+      console.log(this.list);
+      // } else {
+      //   this.list = [...this.list, ...d.data];
+      // }
+    }
+
+    return res;
   }
 }

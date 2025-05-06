@@ -1,0 +1,131 @@
+.badge-pending {
+  background-color: #ffecb3;
+  color: #ff9800;
+}
+
+.badge-confirmed {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.badge-preparing {
+  background-color: #ffe0b2;
+  color: #f57c00;
+}
+
+.badge-ready-for-pickup {
+  background-color: #d1c4e9;
+  color: #512da8;
+}
+
+.badge-out-for-delivery {
+  background-color: #bbdefb;
+  color: #1976d2;
+}
+
+.badge-delivered {
+  background-color: #c8e6c9;
+  color: #388e3c;
+}
+
+.badge-completed {
+  background-color: #dcedc8;
+  color: #4caf50;
+}
+
+.badge-cancelled {
+  background-color: #ffcdd2;
+  color: red;
+}
+
+.badge-order-type {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: capitalize;
+
+  &.dine-in {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+  }
+
+  &.take-away {
+    background-color: #ede7f6;
+    color: #5e35b1;
+  }
+
+  &.delivery {
+    background-color: #e3f2fd;
+    color: #1565c0;
+  }
+
+  &.drive-thru {
+    background-color: #fff3e0;
+    color: #ef6c00;
+  }
+
+  &.curbside-pickup {
+    background-color: #f3e5f5;
+    color: #7b1fa2;
+  }
+
+  &.catering {
+    background-color: #e0f7fa;
+    color: #00838f;
+  }
+
+  &.reservation {
+    background-color: #fbe9e7;
+    color: #d84315;
+  }
+}
+
+.badge-active {
+  background-color: #c8e6c9; /* Light green */
+  color: #388e3c; /* Dark green */
+}
+
+.badge-inactive {
+  background-color: #ffcdd2; /* Light red */
+  color: #d32f2f; /* Dark red */
+}
+.badge-pending {
+  background-color: #ffecb3;
+  color: #ff9800;
+}
+
+.badge-confirmed {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.badge-preparing {
+  background-color: #ffe0b2;
+  color: #f57c00;
+}
+
+.badge-ready-for-pickup {
+  background-color: #d1c4e9;
+  color: #512da8;
+}
+
+.badge-out-for-delivery {
+  background-color: #bbdefb;
+  color: #1976d2;
+}
+
+.badge-delivered {
+  background-color: #c8e6c9;
+  color: #388e3c;
+}
+
+.badge-completed {
+  background-color: #dcedc8;
+  color: #4caf50;
+}
+
+.badge-cancelled {
+  background-color: #ffcdd2;
+  color: red;
+}
