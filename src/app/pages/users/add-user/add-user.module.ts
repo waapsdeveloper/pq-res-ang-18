@@ -21,7 +21,11 @@ import { KtAppFormPageModule } from 'src/app/components/layouts/kt-app-form-page
         { name: 'maxLength', message: 'Max length is {{ requiredLength }}' },
         { name: 'pattern', message: 'Invalid input' },
         { name: 'email', message: 'Invalid email address' }
-      ]
+      ],
+      extras: {
+        showError: (field) => field.formControl && field.formControl.invalid && field.formControl.touched && field.formControl.dirty
+        // field.formControl.focused
+      }
     }),
     ReactiveFormsModule,
     FormlyBootstrapModule,

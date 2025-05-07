@@ -69,7 +69,9 @@ export class EditUserComponent implements OnInit {
             required: true,
             minLength: 3,
             maxLength: 50,
-            description: 'Name must be between 3 and 50 characters.'
+            validation: {
+              show: (field) => field.formControl && field.formControl.invalid && field.formControl.focused
+            }
           },
           validators: {
             minLength: {
@@ -91,7 +93,9 @@ export class EditUserComponent implements OnInit {
             placeholder: 'Enter email',
             required: true,
             type: 'email',
-            description: 'Enter a valid email address.'
+            validation: {
+              show: (field) => field.formControl && field.formControl.invalid && field.formControl.focused
+            }
           },
           validators: {
             email: {
@@ -110,7 +114,9 @@ export class EditUserComponent implements OnInit {
             placeholder: 'Enter address',
             required: false,
             maxLength: 100,
-            description: 'Address must not exceed 100 characters.'
+            validation: {
+              show: (field) => field.formControl && field.formControl.invalid && field.formControl.focused
+            }
           },
           validators: {
             maxLength: {
@@ -127,11 +133,18 @@ export class EditUserComponent implements OnInit {
             label: 'Phone Number',
             placeholder: 'XXX-XXX-XXXX',
             type: 'tel',
-            required: true,
-            pattern: /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/,
-            description: 'Enter a valid phone number in the format XXX-XXX-XXXX.'
+            required: false,
+            pattern: /^[0-9]{11}$/,
+            validation: {
+              show: (field) => field.formControl && field.formControl.invalid && field.formControl.focused
+            }
           },
-
+          validators: {
+            pattern: {
+              expression: (c: AbstractControl) => !c.value || /^[0-9]{11}$/.test(c.value),
+              message: 'Please enter a valid phone number (11 digits).'
+            }
+          },
           className: 'col-md-6 col-12'
         },
         {
@@ -142,7 +155,9 @@ export class EditUserComponent implements OnInit {
             placeholder: 'Select a role',
             required: true,
             options: [],
-            description: 'Please select a valid role.'
+            validation: {
+              show: (field) => field.formControl && field.formControl.invalid && field.formControl.focused
+            }
           },
           className: 'formly-select-wrapper-3232 col-md-6 col-12'
         },
@@ -158,7 +173,9 @@ export class EditUserComponent implements OnInit {
               { value: 'active', label: 'Active' },
               { value: 'inactive', label: 'Inactive' }
             ],
-            description: 'Select the user status.'
+            validation: {
+              show: (field) => field.formControl && field.formControl.invalid && field.formControl.focused
+            }
           },
           className: 'formly-select-wrapper-3232 col-md-6 col-12'
         },
@@ -170,7 +187,9 @@ export class EditUserComponent implements OnInit {
             placeholder: 'Enter city',
             required: false,
             maxLength: 50,
-            description: 'City name must not exceed 50 characters.'
+            validation: {
+              show: (field) => field.formControl && field.formControl.invalid && field.formControl.focused
+            }
           },
           validators: {
             maxLength: {
@@ -188,7 +207,9 @@ export class EditUserComponent implements OnInit {
             placeholder: 'Enter state',
             required: false,
             maxLength: 50,
-            description: 'State name must not exceed 50 characters.'
+            validation: {
+              show: (field) => field.formControl && field.formControl.invalid && field.formControl.focused
+            }
           },
           validators: {
             maxLength: {
@@ -206,7 +227,9 @@ export class EditUserComponent implements OnInit {
             placeholder: 'Enter country',
             required: false,
             maxLength: 50,
-            description: 'Country name must not exceed 50 characters.'
+            validation: {
+              show: (field) => field.formControl && field.formControl.invalid && field.formControl.focused
+            }
           },
           validators: {
             maxLength: {
@@ -225,7 +248,9 @@ export class EditUserComponent implements OnInit {
             type: 'file',
             accept: 'image/*',
             required: false,
-            description: 'Upload a valid image file.'
+            validation: {
+              show: (field) => field.formControl && field.formControl.invalid && field.formControl.focused
+            }
           },
           className: 'formly-image-wrapper-3232 col-md-6 col-12'
         }
