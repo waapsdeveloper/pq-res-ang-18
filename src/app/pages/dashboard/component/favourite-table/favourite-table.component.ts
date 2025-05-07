@@ -14,22 +14,15 @@ export class FavouriteTableComponent implements OnInit {
     const data = await this.network.getLatestTable();
 
     const d = data.tables;
-    console.log(d);
-    this.tables = d?.map((table) => ({
-      id: table.id,
-      name: table.name,
-      floor: table.floor,
-      no_of_seats: table.no_of_seats,
-      description: table.description,
-      status: table.status,
-      restaurant_name: table.restaurant_detail?.name,
-      restaurant_address: table.restaurant_detail?.address,
-      restaurant_phone: table.restaurant_detail?.phone,
-      restaurant_email: table.restaurant_detail?.email,
-      restaurant_website: table.restaurant_detail?.website,
-      restaurant_rating: table.restaurant_detail?.rating
-    }));
-
+    console.log(d, 'favourite table data');
+    if (d && typeof d === 'object') {
+      this.tables = Object.values(d).map((table: any) => ({
+        name: table.name,
+        floor: table.floor,
+        total_orders: table.total_orders,
+        total_amount: table.total_amount
+      }));
+    }
     console.log(this.tables);
   }
   getProgressBarBackground(status: string) {
@@ -52,5 +45,4 @@ export class FavouriteTableComponent implements OnInit {
     }
     return 'gray'; // Default case
   }
-
 }

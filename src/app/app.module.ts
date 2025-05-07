@@ -19,7 +19,7 @@ import { ConfigurationComponent } from './theme/layout/admin/configuration/confi
 import { GuestComponent } from './theme/layout/guest/guest.component';
 
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi   } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
@@ -48,10 +48,18 @@ import { NgxPubSubModule } from '@pscoped/ngx-pub-sub';
     BrowserAnimationsModule,
     SweetAlert2Module.forRoot(),
     ReactiveFormsModule,
-    FormlyModule.forRoot(),
+    FormlyModule.forRoot({
+      validationMessages: [
+        { name: 'required', message: 'This field is required' },
+        { name: 'minLength', message: 'Min length is {{ requiredLength }}' },
+        { name: 'maxLength', message: 'Max length is {{ requiredLength }}' },
+        { name: 'pattern', message: 'Invalid input' },
+        { name: 'email', message: 'Invalid email address' }
+      ]
+    }),
     FormlyBootstrapModule,
     NgApexchartsModule,
-    NgxPubSubModule,
+    NgxPubSubModule
   ],
   providers: [
     NavigationItem,
@@ -65,4 +73,4 @@ import { NgxPubSubModule } from '@pscoped/ngx-pub-sub';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

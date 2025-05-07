@@ -4,6 +4,7 @@ import { NetworkService } from 'src/app/services/network.service';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { UtilityService } from 'src/app/services/utility.service';
+import { AbstractControl } from '@angular/forms';
 @Component({
   selector: 'app-add-user',
   templateUrl: './add-user.component.html',
@@ -38,11 +39,22 @@ export class AddUserComponent implements OnInit {
             label: 'Name',
             placeholder: 'Enter user name',
             required: true,
-            minLength: 3
+            minLength: 3,
+            maxLength: 50,
+            description: 'Name must be between 3 and 50 characters.'
           },
-          className: 'col-md-6 col-12' // 3 columns on md+, full width on small screens
+          validators: {
+            minLength: {
+              expression: (c: AbstractControl) => c.value && c.value.length >= 3,
+              message: 'Name must be at least 3 characters long.'
+            },
+            maxLength: {
+              expression: (c: AbstractControl) => c.value && c.value.length <= 50,
+              message: 'Name must be no longer than 50 characters.'
+            }
+          },
+          className: 'col-md-6 col-12'
         },
-
         {
           key: 'email',
           type: 'input',
@@ -50,7 +62,14 @@ export class AddUserComponent implements OnInit {
             label: 'Email Address',
             placeholder: 'Enter email',
             required: true,
-            type: 'email'
+            type: 'email',
+            description: 'Enter a valid email address.'
+          },
+          validators: {
+            email: {
+              expression: (c: AbstractControl) => c.value && /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(c.value),
+              message: 'Please enter a valid email address.'
+            }
           },
           className: 'col-md-6 col-12'
         },
@@ -62,7 +81,14 @@ export class AddUserComponent implements OnInit {
             type: 'password',
             placeholder: 'Enter password',
             required: true,
-            minLength: 6
+            minLength: 8,
+            description: 'Password must be at least 8 characters long.'
+          },
+          validators: {
+            minLength: {
+              expression: (c: AbstractControl) => c.value && c.value.length >= 8,
+              message: 'Password must be at least 8 characters long.'
+            }
           },
           className: 'col-md-6 col-12'
         },
@@ -72,7 +98,15 @@ export class AddUserComponent implements OnInit {
           props: {
             label: 'Address Line',
             placeholder: 'Enter address',
-            required: true
+            required: false,
+            maxLength: 100,
+            description: 'Address must not exceed 100 characters.'
+          },
+          validators: {
+            maxLength: {
+              expression: (c: AbstractControl) => !c.value || c.value.length <= 100,
+              message: 'Address must be no longer than 100 characters.'
+            }
           },
           className: 'col-md-6 col-12'
         },
@@ -81,9 +115,17 @@ export class AddUserComponent implements OnInit {
           type: 'input',
           props: {
             label: 'Phone Number',
-            placeholder: 'XXX- XXX- XXXX',
+            placeholder: 'XXX-XXX-XXXX',
             type: 'tel',
-            required: true
+            required: false,
+            pattern: /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/,
+            description: 'Enter a valid phone number in the format XXX-XXX-XXXX.'
+          },
+          validators: {
+            pattern: {
+              expression: (c: AbstractControl) => !c.value || /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/.test(c.value),
+              message: 'Please enter a valid phone number in the format XXX-XXX-XXXX.'
+            }
           },
           className: 'col-md-6 col-12'
         },
@@ -94,7 +136,8 @@ export class AddUserComponent implements OnInit {
             label: 'Role',
             placeholder: 'Select a role',
             required: true,
-            options: []
+            options: [],
+            description: 'Please select a valid role.'
           },
           className: 'formly-select-wrapper-3232 col-md-6 col-12'
         },
@@ -104,12 +147,13 @@ export class AddUserComponent implements OnInit {
           props: {
             label: 'Status',
             placeholder: 'Select status',
-            required: true,
-            defaultValue: 'active', // Set default value to "active"
+            required: false,
+            defaultValue: 'active',
             options: [
               { value: 'active', label: 'Active' },
               { value: 'inactive', label: 'Inactive' }
-            ]
+            ],
+            description: 'Select the user status.'
           },
           className: 'formly-select-wrapper-3232 col-md-6 col-12'
         },
@@ -119,7 +163,15 @@ export class AddUserComponent implements OnInit {
           props: {
             label: 'City',
             placeholder: 'Enter city',
-            required: true
+            required: false,
+            maxLength: 50,
+            description: 'City name must not exceed 50 characters.'
+          },
+          validators: {
+            maxLength: {
+              expression: (c: AbstractControl) => !c.value || c.value.length <= 50,
+              message: 'City name must be no longer than 50 characters.'
+            }
           },
           className: 'col-md-6 col-12'
         },
@@ -129,7 +181,15 @@ export class AddUserComponent implements OnInit {
           props: {
             label: 'State',
             placeholder: 'Enter state',
-            required: true
+            required: false,
+            maxLength: 50,
+            description: 'State name must not exceed 50 characters.'
+          },
+          validators: {
+            maxLength: {
+              expression: (c: AbstractControl) => !c.value || c.value.length <= 50,
+              message: 'State name must be no longer than 50 characters.'
+            }
           },
           className: 'col-md-6 col-12'
         },
@@ -139,39 +199,34 @@ export class AddUserComponent implements OnInit {
           props: {
             label: 'Country',
             placeholder: 'Enter country',
-            required: true
+            required: false,
+            maxLength: 50,
+            description: 'Country name must not exceed 50 characters.'
           },
-          className: 'col-md-6 xcol-12'
+          validators: {
+            maxLength: {
+              expression: (c: AbstractControl) => !c.value || c.value.length <= 50,
+              message: 'Country name must be no longer than 50 characters.'
+            }
+          },
+          className: 'col-md-6 col-12'
         },
         {
           key: 'image',
           type: 'input',
           props: {
             label: 'Profile Picture',
-            placeholder: 'Enter image URL',
+            placeholder: 'Upload an image',
             type: 'file',
             accept: 'image/*',
-            required: true,
-            change: (field, event) => this.onFileChange(field, event, 'imageBase64')
+            required: false,
+            description: 'Upload a valid image file.'
           },
           className: 'formly-image-wrapper-3232 col-md-6 col-12'
         }
-        // {
-        //   key: 'restaurant_id',
-        //   type: 'select',
-        //   props: {
-        //     label: 'Branch Name',
-        //     placeholder: 'Enter Branch name',
-        //     options: [],
-        //     minLength: 3,
-        //     required:true,
-        //   },
-        //   className: 'col-md-2 col-12' // 3 columns on md+, full width on small screens
-        // },
       ]
     }
   ];
-
   constructor(
     private nav: NavService,
     private network: NetworkService,

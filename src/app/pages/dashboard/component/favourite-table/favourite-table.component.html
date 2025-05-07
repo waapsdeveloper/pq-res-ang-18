@@ -37,19 +37,14 @@
             </a>
           </td>
           <td class="px-0">
-            <div class="d-flex align-items-center">
-              <div class="progress h-6px w-100 me-2 bg-light-success">
-                <div
-                  class="progress-bar bg-success"
-                  role="progressbar"
-                  [style.width]="65 + '%'"
-                  [attr.aria-valuenow]="65"
-                  aria-valuemin="0"
-                  aria-valuemax="100"
-                ></div>
-              </div>
-              <span class="text-gray-400 fw-semibold">65%</span>
-            </div>
+            <a href="javascript:void(0);" class="text-gray-800 text-hover-primary fs-5 fw-bold">
+              {{ item?.total_orders }}
+            </a>
+          </td>
+          <td class="px-0">
+            <a href="javascript:void(0);" class="text-gray-800 text-hover-primary fs-5 fw-bold">
+              {{ item?.total_amount }}
+            </a>
           </td>
         </tr>
       </tbody>
