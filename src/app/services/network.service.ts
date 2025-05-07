@@ -43,6 +43,10 @@ export class NetworkService {
     return this.httpGetResponse('dashboard/latest-tables', null, false, true);
   }
 
+  getTopDashboardCard() {
+    return this.httpGetResponse('dashboard-top-cards', null, false, true);
+  }
+
   getTotalSales() {
     return this.httpGetResponse('dashboard/sales-summary', null, false, true);
   }

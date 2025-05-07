@@ -1,59 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { NetworkService } from 'src/app/services/network.service';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent {
-
+export class DashboardComponent implements OnInit {
   navCollapsed: boolean;
   navCollapsedMob = false;
-
-
-  ListGroup = [
-    {
-      name: 'Bajaj Finery',
-      profit: '10% Profit',
-      invest: '$1839.00',
-      bgColor: 'bg-light-success',
-      icon: 'ti ti-chevron-up',
-      color: 'text-success'
-    },
-    {
-      name: 'TTML',
-      profit: '10% Loss',
-      invest: '$100.00',
-      bgColor: 'bg-light-danger',
-      icon: 'ti ti-chevron-down',
-      color: 'text-danger'
-    },
-    {
-      name: 'Reliance',
-      profit: '10% Profit',
-      invest: '$200.00',
-      bgColor: 'bg-light-success',
-      icon: 'ti ti-chevron-up',
-      color: 'text-success'
-    },
-    {
-      name: 'ATGL',
-      profit: '10% Loss',
-      invest: '$189.00',
-      bgColor: 'bg-light-danger',
-      icon: 'ti ti-chevron-down',
-      color: 'text-danger'
-    },
-    {
-      name: 'Stolon',
-      profit: '10% Profit',
-      invest: '$210.00',
-      bgColor: 'bg-light-success',
-      icon: 'ti ti-chevron-up',
-      color: 'text-success',
-      space: 'pb-0'
-    }
-  ];
+  totalOrders = 0;
+  totalRevenue = 0;
 
   profileCard = [
     {
@@ -73,6 +30,16 @@ export class DashboardComponent {
     }
   ];
 
+  constructor(private network: NetworkService) {}
+
+  async ngOnInit() {
+    const res = await this.network.getTopDashboardCard();
+    if (res) {
+      this.totalOrders = res.total_orders;
+      this.totalRevenue = res.total_amount;
+      this.updateChart(res.graphs);
+    }
+  }
 
   navMobClick() {
     if (this.navCollapsedMob && !document.querySelector('app-navigation.coded-navbar')?.classList.contains('mob-open')) {
@@ -87,30 +54,33 @@ export class DashboardComponent {
       document.querySelector('app-navigation.pc-sidebar')?.classList.remove('navbar-collapsed');
     }
   }
-
-  public chartSeries1 = [
-    { name: 'Widget Line Chart', data: [80, 60, 70, 50, 60, 53, 71, 48, 65, 60] }
-  ];
-  public chartSeries2 = [
-    { name: 'Widget Line Chart', data: [80, 60, 70, 50, 60, 53, 71, 48, 65, 60] }
-  ];
-  public chartSeries3 = [
-    { name: 'Widget Line Chart', data: [45, 55, 51, 65, 50, 62, 58, 70, 48, 57] }
-  ];
-  public chartSeries4 = [
-    { name: 'Widget Line Chart', data: [70, 55, 90, 49, 65, 60, 78, 55, 80, 68] }
-  ];
-
+  public chartSeries1 = [{ name: 'Total Amount', data: [] }];
+  public chartSeries2 = [{ name: 'Total Orders', data: [] }];
   public chartOptions = {
     chart: {
       type: 'line',
-      height: 360,
+      height: 75,
       toolbar: {
-        show: false // Hides the menu to download SVG, PNG, etc.
+        show: false
+      },
+      zoom: {
+        enabled: false
+      },
+      dropShadow: {
+        enabled: true,
+        top: 1,
+        left: 1,
+        blur: 3,
+        opacity: 0.2
       }
     } as ApexChart,
+    stroke: {
+      curve: 'straight',
+      width: 2,
+      colors: ['#fff']
+    },
     xaxis: {
-      categories: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+      categories: [],
       axisBorder: {
         show: false
       },
@@ -122,17 +92,13 @@ export class DashboardComponent {
       }
     },
     yaxis: {
-      min: 40,
+      min: 0,
       labels: {
         show: false
       }
     },
     grid: {
       show: false
-    },
-    stroke: {
-      curve: 'smooth',
-      width: 2
     },
     tooltip: {
       enabled: true,
@@ -148,5 +114,44 @@ export class DashboardComponent {
       align: 'left'
     }
   };
+  updateChart(graphs: any) {
+    if (graphs && graphs.categories && graphs.series) {
+      const totalAmountSeries = graphs.series.find((s) => s.name === 'Total Amount');
+      const totalOrdersSeries = graphs.series.find((s) => s.name === 'Total Orders');
 
+      this.chartOptions = {
+        ...this.chartOptions,
+        xaxis: {
+          categories: graphs.categories,
+          axisBorder: {
+            show: false
+          },
+          axisTicks: {
+            show: false
+          },
+          labels: {
+            show: false
+          }
+        }
+      };
+
+      this.chartSeries1 = totalAmountSeries
+        ? [
+            {
+              name: 'Total Amount',
+              data: totalAmountSeries.data.map((value) => parseFloat(value))
+            }
+          ]
+        : [{ name: 'Total Amount', data: [] }];
+
+      this.chartSeries2 = totalOrdersSeries
+        ? [
+            {
+              name: 'Total Orders',
+              data: totalOrdersSeries.data.map((value) => parseFloat(value))
+            }
+          ]
+        : [{ name: 'Total Orders', data: [] }];
+    }
+  }
 }
