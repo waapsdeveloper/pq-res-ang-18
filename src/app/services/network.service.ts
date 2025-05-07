@@ -35,8 +35,9 @@ export class NetworkService {
   getMSellingProduct() {
     return this.httpGetResponse('dashboard/most-selling-products', null, false, true);
   }
-  getTopSellingProduct() {
-    return this.httpGetResponse('dashboard/top-selling-products', null, false, true);
+  getTopSellingProduct(params) {
+    const query = this.serialize(params); // Serialize the params into a query string
+    return this.httpGetResponse('dashboard/top-selling-products' + (query ? `?${query}` : ''), null, false, true);
   }
   getLatestTable() {
     return this.httpGetResponse('dashboard/latest-tables', null, false, true);

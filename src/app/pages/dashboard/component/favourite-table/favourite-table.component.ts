@@ -53,26 +53,4 @@ export class FavouriteTableComponent implements OnInit {
     return 'gray'; // Default case
   }
 
-  getProgressBarWidth(status: string) {
-    // You can define different widths based on the status or any other factor
-    if (status === 'active') {
-      return '65%'; // Example width for active
-    } else if (status === 'inactive') {
-      return '40%'; // Example width for inactive
-    } else if (status === 'busy') {
-      return '80%'; // Example width for busy
-    }
-    return '50%'; // Default case
-  }
-  getProgressPercentage(status: string) {
-    // Return percentage based on status
-    if (status === 'active') {
-      return 65;
-    } else if (status === 'inactive') {
-      return 40;
-    } else if (status === 'busy') {
-      return 80;
-    }
-    return 50; // Default case
-  }
 }

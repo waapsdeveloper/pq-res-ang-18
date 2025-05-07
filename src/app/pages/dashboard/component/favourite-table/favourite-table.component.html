@@ -3,9 +3,7 @@
   <!--begin::Header-->
   <div class="card-header border-0">
     <h4 class="card-title">
-      <span class="card-label fw-bold text-dark">Most Favourite Table </span>
-      
-      <span class="mt-1 fw-semibold fs-7"> Avg. 72% active usage</span>
+      <span class="card-label fw-bold text-dark">Most Favourite Table</span>
     </h4>
     <!--begin::Toolbar-->
     <!-- <div class="card-toolbar">
@@ -16,20 +14,20 @@
   <!--end::Header-->
   <!--begin::Body-->
   <div class="card-body">
-    <table class="table  ">
+    <table class="table">
       <thead>
         <tr>
           <th class="px-0">Table Name</th>
-          <th class="px-0" >Floor</th>
-          <th class="px-0" >Usage</th>
+          <th class="px-0">Floor</th>
+          <th class="px-0">No of Orders</th>
+          <th class="px-0">Total Amount</th>
         </tr>
       </thead>
       <tbody>
         <!-- Loop through the tables -->
         <tr *ngFor="let item of tables">
-
           <td class="px-0">
-            <a href="javascript:void(0);" class=" text-gray-800 text-hover-primary fs-5 fw-bold">
+            <a href="javascript:void(0);" class="text-gray-800 text-hover-primary fs-5 fw-bold">
               {{ item?.name }}
             </a>
           </td>
