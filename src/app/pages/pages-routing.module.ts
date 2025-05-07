@@ -73,6 +73,10 @@ const routes: Routes = [
     path: 'table-booking',
     loadChildren: () => import('./table-booking/table-booking.module').then((m) => m.TableBookingModule)
   },
+  {
+    path: 'branch-config',
+    loadChildren: () => import('./branch-config/branch-config.module').then((m) => m.BranchConfigModule)
+  }
 
   // {
   //   path: '',
@@ -107,4 +111,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class PagesRoutingModule { }
+export class PagesRoutingModule {}

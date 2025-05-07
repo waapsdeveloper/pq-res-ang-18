@@ -15,16 +15,15 @@ export const HROUTES: RouteInfo[] = [
     class: 'dropdown nav-item',
     isExternalLink: false,
     path: '/pages/users/list',
-     submenu: []
+    submenu: []
   },
   {
     title: 'Food',
     icon: 'ft-box',
     class: 'dropdown nav-item',
     isExternalLink: false,
-    path:'',
+    path: '',
     submenu: [
-     
       {
         path: '/pages/products/list',
         title: 'Menu',
@@ -48,7 +47,7 @@ export const HROUTES: RouteInfo[] = [
         class: 'dropdown-item',
         isExternalLink: false,
         submenu: []
-      },
+      }
     ]
   },
   {
@@ -56,7 +55,7 @@ export const HROUTES: RouteInfo[] = [
     icon: 'ft-calendar',
     class: 'dropdown nav-item',
     isExternalLink: false,
-    path:'',
+    path: '',
     submenu: [
       {
         path: '/pages/tables/list',
@@ -81,7 +80,7 @@ export const HROUTES: RouteInfo[] = [
     icon: 'ft-shopping-cart',
     class: 'dropdown nav-item',
     isExternalLink: false,
-    path:'',
+    path: '',
     submenu: [
       {
         path: '/pages/orders/list',
@@ -114,7 +113,7 @@ export const HROUTES: RouteInfo[] = [
     icon: 'ft-settings',
     class: 'dropdown nav-item',
     isExternalLink: false,
-    path:'',
+    path: '',
     submenu: [
       {
         path: '/pages/messages/list',
@@ -128,6 +127,14 @@ export const HROUTES: RouteInfo[] = [
         path: '/pages/coupons/list',
         title: 'Coupons',
         icon: 'ft-tag',
+        class: 'dropdown-item',
+        isExternalLink: false,
+        submenu: []
+      },
+      {
+        path: '/pages/branch-config/list',
+        title: 'Branch Config',
+        icon: 'ft-settings',
         class: 'dropdown-item',
         isExternalLink: false,
         submenu: []
