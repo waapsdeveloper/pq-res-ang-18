@@ -21,9 +21,7 @@
   >
     <!-- Show "No results found" when not loading and list is empty -->
     <tr *ngIf="!crudService.loading && crudService.list.length === 0">
-      <td colspan="5" class="text-center">
-        No results found.
-      </td>
+      <td colspan="5" class="text-center">No results found.</td>
     </tr>
     <!-- Hide rows when loading -->
     <tr [hidden]="!(!crudService.loading && crudService.list.length > 0)" *ngFor="let item of crudService.list; let i = index">
@@ -39,7 +37,6 @@
             <a (click)="openDetails(i)" class="text-hover-primary fs-5 fw-bold" data-kt-ecommerce-product-filter="product_name">
               {{ item.name }}
             </a>
-            <div class="fs-7 fw-bold">Total Orders:</div>
 
             <!--end::Title-->
           </div>
@@ -53,6 +50,11 @@
       <td>
         <div class="d-flex">
           <div class="fs-7 fw-bold">{{ item.phone }}</div>
+        </div>
+      </td>
+      <td>
+        <div class="d-flex">
+          <div class="fs-7 fw-bold">{{ item?.total_orders }}</div>
         </div>
       </td>
       <td>

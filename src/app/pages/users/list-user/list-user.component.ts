@@ -18,7 +18,7 @@ export class ListUserComponent extends ListBlade {
   title = 'Users';
   addurl = '/pages/users/add';
 
-  columns: any[] = ['Full Name', 'Email', 'Phone', 'Address', 'Role', 'Status'];
+  columns: any[] = ['Full Name', 'Email', 'Phone', 'Total Orders', 'Address', 'Role', 'Status'];
 
   actions: any[] = [
     {
