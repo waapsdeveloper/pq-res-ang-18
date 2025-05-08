@@ -84,6 +84,7 @@ export class EditBranchConfigComponent implements OnInit {
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
     console.log('ID from URL:', this.id);
+
     this.setBranchesInForm();
     this.setCurrenciesInForm();
     this.loadBranchConfig();
@@ -143,12 +144,18 @@ export class EditBranchConfigComponent implements OnInit {
   }
 
   async loadBranchConfig() {
-    // Load the branch config by id and patch the model
-    // Example: const id = ...get from route...
     const res = await this.network.getBranchConfigById(this.id);
-    if (res && res.data) {
-      this.model = { ...res.data };
-      this.form.patchValue(this.model);
+    if (res && res.data && res.data.branch_config) {
+      {
+        // Patch only the editable fields from branch_config
+        this.model = {
+          branch_id: res.data.branch_config.branch_id,
+          tax: res.data.branch_config.tax,
+          currency: res.data.branch_config.currency,
+          dial_code: '' // Set this if you have it in the response, otherwise leave blank or fetch by currency
+        };
+        this.form.patchValue(this.model);
+      }
     }
   }
 
@@ -161,11 +168,12 @@ export class EditBranchConfigComponent implements OnInit {
 
     if (this.form.valid) {
       let d = this.form.value;
-      // Example: const id = ...get from route...
       const res = await this.network.updateBranchConfig(d, this.id);
-      if (res) {
-        this.utility.presentSuccessToast('Branch configuration updated successfully!');
+      if (res && res.status === 200) {
+        this.utility.presentSuccessToast(res.message);
         this.nav.pop();
+      } else {
+        this.utility.presentFailureToast(res?.message || 'Failed to update branch configuration.');
       }
     } else {
       this.utility.presentFailureToast('Please fill out all required fields correctly.');

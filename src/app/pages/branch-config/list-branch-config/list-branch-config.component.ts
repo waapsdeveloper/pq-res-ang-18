@@ -35,8 +35,7 @@ export class ListBranchConfigComponent extends ListBlade {
           type: 'input',
           props: {
             label: 'Restaurant Name',
-            placeholder: 'Enter restaurant name',
-            required: true
+            placeholder: 'Enter restaurant name'
           },
           className: 'col-md-3 col-12'
         },
@@ -45,8 +44,7 @@ export class ListBranchConfigComponent extends ListBlade {
           type: 'input',
           props: {
             label: 'Currency',
-            placeholder: 'Enter currency (e.g. USD)',
-            required: true
+            placeholder: 'Enter currency (e.g. USD)'
           },
           className: 'col-md-3 col-12'
         },
@@ -55,8 +53,7 @@ export class ListBranchConfigComponent extends ListBlade {
           type: 'input',
           props: {
             label: 'Dial Code',
-            placeholder: 'Enter dial code (e.g. +1)',
-            required: true
+            placeholder: 'Enter dial code (e.g. +1)'
           },
           className: 'col-md-3 col-12'
         },
@@ -68,8 +65,7 @@ export class ListBranchConfigComponent extends ListBlade {
             placeholder: 'Enter tax percentage',
             type: 'number',
             min: 0,
-            max: 100,
-            required: true
+            max: 100
           },
           className: 'col-md-3 col-12'
         }
@@ -127,6 +123,7 @@ export class ListBranchConfigComponent extends ListBlade {
 
   openDetails(i) {
     let item = this.crudService.list[i];
+    console.log(item);
     this.nav.push('/pages/branch-config/view/' + item.id);
     console.log(item.image);
   }

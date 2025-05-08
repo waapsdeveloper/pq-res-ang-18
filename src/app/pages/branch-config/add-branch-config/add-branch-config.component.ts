@@ -12,8 +12,8 @@ import { UtilityService } from 'src/app/services/utility.service';
   encapsulation: ViewEncapsulation.None
 })
 export class AddBranchConfigComponent {
-  form = new FormGroup({});
-  model = {
+  form: FormGroup = new FormGroup({});
+  model: { branch_id: string; tax: string; currency: string; dial_code: string } = {
     branch_id: '',
     tax: '',
     currency: '',
@@ -51,8 +51,7 @@ export class AddBranchConfigComponent {
           type: 'input',
           props: {
             label: 'Dial Code',
-            placeholder: 'Enter dial code (e.g. +1)',
-            required: true
+            placeholder: 'Enter dial code (e.g. +1)'
           },
           className: 'col-md-6 col-12'
         },
@@ -64,14 +63,14 @@ export class AddBranchConfigComponent {
             placeholder: 'Enter tax percentage',
             type: 'number',
             min: 0,
-            max: 100,
-            required: true
+            max: 100
           },
           className: 'col-md-6 col-12'
         }
       ]
     }
   ];
+  allCurrencies: any[];
 
   constructor(
     private nav: NavService,
@@ -82,6 +81,14 @@ export class AddBranchConfigComponent {
   ngOnInit(): void {
     this.setBranchesInForm();
     this.setCurrenciesInForm();
+    this.form.valueChanges.subscribe((value) => {
+      if (value.currency) {
+        const selectedCurrency = this.allCurrencies.find((c) => c.value === value.currency);
+        if (selectedCurrency) {
+          this.form.get('dial_code').setValue(selectedCurrency.dial_code, { emitEvent: false });
+        }
+      }
+    });
   }
 
   async getBranches(): Promise<any[]> {
@@ -131,7 +138,7 @@ export class AddBranchConfigComponent {
 
   async setCurrenciesInForm() {
     const options = await this.getCurrencies();
-    console.log(options);
+    this.allCurrencies = options; // Store for dial code lookup
     for (let i = 0; i < this.fields.length; i++) {
       for (let j = 0; j < this.fields[i].fieldGroup.length; j++) {
         let fl = this.fields[i].fieldGroup[j];
@@ -141,7 +148,6 @@ export class AddBranchConfigComponent {
       }
     }
   }
-
   async onSubmit(model) {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
