@@ -119,6 +119,8 @@ export class NetworkService {
     return this.httpPutResponse('user', data, id, false, true);
   }
 
+  // Branch Config
+
   // removeUser(id) {
   //   return this.httpDeleteResponse('user', id, false, true);
   // }
@@ -126,6 +128,27 @@ export class NetworkService {
   getRoles(params) {
     const query = this.serialize(params);
     return this.httpGetResponse('role' + (query ? `?${query}` : ''), null, false, true);
+  }
+
+  getBranchConfigs(params) {
+    const query = this.serialize(params);
+    return this.httpGetResponse('branch-config' + (query ? `?${query}` : ''), null, false, true);
+  }
+
+  getBranchConfigById(id) {
+    return this.httpGetResponse(`branch-config/${id}`, null, false, true);
+  }
+
+  addBranchConfig(data) {
+    return this.httpPostResponse('branch-config', data, null, false, true);
+  }
+
+  updateBranchConfig(data, id) {
+    return this.httpPutResponse('branch-config', data, id, false, true);
+  }
+
+  removeBranchConfig(id) {
+    return this.httpDeleteResponse('branch-config', id, false, true);
   }
 
   // Categories
@@ -319,6 +342,13 @@ export class NetworkService {
   replyMessage(data, id) {
     return this.httpPutResponse('message/reply', data, id, false, true);
   }
+
+  // Currency
+  getCurrencies(params = {}) {
+    const query = this.serialize(params);
+    return this.httpGetResponse('currency' + (query ? `?${query}` : ''), null, false, true);
+  }
+
   // Function for POST method
   httpPostResponse(key: any, data: any, id = null, showloader = true, showError = true, contenttype = 'application/json') {
     console.log(localStorage.getItem('restaurant_id'));

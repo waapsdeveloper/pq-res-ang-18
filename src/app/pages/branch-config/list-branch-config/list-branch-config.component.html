@@ -1,1 +1,107 @@
-<p>list-branch-config works!</p>
+<app-kt-list-page
+  [title]="title"
+  [addurl]="'/pages/branch-config/add'"
+  (onFilter)="toggleFilters()"
+  [showDeleteAll]="showDeleteAllButton"
+  (onDeleteAll)="onDeleteAll($event)"
+>
+  <form class="mt-3" [formGroup]="form" *ngIf="crudService.filters">
+    <formly-form [form]="form" [fields]="fields" [model]="model" (modelChange)="debouncedSubmitFilters($event)"></formly-form>
+  </form>
+
+  <hr *ngIf="crudService.filters" />
+
+  <app-kt-app-list-page-table
+    [columns]="columns"
+    [currentPage]="crudService.page"
+    [totalPages]="crudService.lastPage"
+    (pageChange)="changePage($event)"
+    [selectAll]="selectAll"
+    (changeSelectAll)="changeSelectAll($event); showDeleteAllButton = $event"
+  >
+    <!-- Show "No results found" when not loading and list is empty -->
+    <tr *ngIf="!crudService.loading && crudService.list.length === 0">
+      <td colspan="4" class="text-center">No results found.</td>
+    </tr>
+    <!-- Table rows -->
+    <tr [hidden]="!(!crudService.loading && crudService.list.length > 0)" *ngFor="let item of crudService.list; let i = index">
+      <td>
+        <div class="d-flex align-items-center">
+          <div class="ms-2">
+            <a (click)="openDetails(i)" class="text-hover-primary fs-5 fw-bold" data-kt-ecommerce-product-filter="product_name">
+              {{ item?.name }}
+            </a>
+          </div>
+        </div>
+      </td>
+      <td>
+        <div class="d-flex">
+          <div class="ms-2">
+            <span class="fs-5 fw-bold mb-1">{{ item.currency }}</span>
+          </div>
+        </div>
+      </td>
+      <td>
+        <div class="d-flex">
+          <div class="ms-2">
+            <span class="fs-5 fw-bold mb-1">{{ item?.dial_code }}</span>
+          </div>
+        </div>
+      </td>
+      <td>
+        <div class="d-flex">
+          <span class="badge badge-info fw-bold me-auto">{{ item.tax }}</span>
+        </div>
+      </td>
+      <!-- Actions -->
+      <td class="text-start">
+        <div class="d-flex flex-row justify-content-start align-items-center gap-3">
+          <i class="ti ti-eye view-icon" style="font-size: 20px; cursor: pointer" (click)="openDetails(i)"></i>
+          <i class="edit-icon ti ti-edit" style="font-size: 20px; cursor: pointer" (click)="openEditDetails(i)"></i>
+          <i *ngIf="showEdit" class="ti ti-trash trash-icon" style="font-size: 20px; cursor: pointer" (click)="deleteRow(i)"></i>
+        </div>
+      </td>
+      <!-- Checkbox -->
+      <td>
+        <div class="form-check form-check-sm form-check-custom form-check-solid">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            [value]="item.selected"
+            [checked]="item.selected"
+            (change)="checkboxUpdate(i, $event)"
+          />
+        </div>
+      </td>
+    </tr>
+    <!-- Skeleton loader for loading state -->
+    <tr *ngIf="crudService.loading">
+      <td *ngFor="let col of columns">
+        <ngx-skeleton-loader
+          appearance="custom-content"
+          [theme]="{ width: '100%', height: '20px', background: 'rgba(0,0,0,0.2)' }"
+          [animation]="true"
+        ></ngx-skeleton-loader>
+      </td>
+      <!-- Actions Skeleton -->
+      <td class="text-end">
+        <div class="d-flex flex-row justify-content-end align-items-center gap-3">
+          <ngx-skeleton-loader
+            *ngFor="let _ of [1, 2, 3]"
+            appearance="custom-content"
+            [theme]="{ width: '24px', height: '24px', background: 'rgba(0,0,0,0.2)' }"
+          ></ngx-skeleton-loader>
+        </div>
+      </td>
+      <!-- Checkbox Skeleton -->
+      <td>
+        <div class="form-check form-check-sm form-check-custom form-check-solid">
+          <ngx-skeleton-loader
+            appearance="custom-content"
+            [theme]="{ width: '16px', height: '16px', background: 'rgba(0,0,0,0.2)' }"
+          ></ngx-skeleton-loader>
+        </div>
+      </td>
+    </tr>
+  </app-kt-app-list-page-table>
+</app-kt-list-page>

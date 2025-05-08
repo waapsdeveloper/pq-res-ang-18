@@ -5,6 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './branch-config.component.html',
   styleUrl: './branch-config.component.scss'
 })
-export class BranchConfigComponent {
-
-}
+export class BranchConfigComponent {}
