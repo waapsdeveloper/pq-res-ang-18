@@ -157,6 +157,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       this.tempCustomerAddress = dm['delivery_address'];
       this.tempCustomerName = dm['customer'];
       this.tempCustomerPhone = dm['customer_phone'];
+      this.orderService.taxAmount = dm['tax_amount'];
       // this.orderService.updateProductInSelectedProducts(this.orderService.selected_products);
 
       if (res) {

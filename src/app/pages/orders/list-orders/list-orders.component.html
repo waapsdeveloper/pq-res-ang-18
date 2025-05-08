@@ -55,6 +55,11 @@
           <div class="fs-7 fw-bold">{{ item.total_price | currency: 'USD' : 'symbol' : '1.2-2' }}</div>
         </div>
       </td>
+      <td>
+        <div class="d-flex" class="ms-4">
+          <div class="fs-7 fw-bold">{{ item.tax_amount | currency: 'USD' : 'symbol' : '1.2-2' }}</div>
+        </div>
+      </td>
       <!-- Discount -->
       <td>
         <div class="d-flex flex-row gap-2" class="ms-4">

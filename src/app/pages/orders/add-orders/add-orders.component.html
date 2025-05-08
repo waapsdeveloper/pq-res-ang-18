@@ -201,9 +201,16 @@
           <!-- Totals -->
           <div class="d-flex justify-content-between mb-2">
             <span class="text-muted">Subtotal:</span>
-            <span class="fw-semibold">$ {{ orderService.totalCost | number: '1.2-2' }}</span>
+            <span class="fw-semibold">$ {{ orderService.totalCost - orderService.taxAmount | number: '1.2-2' }}</span>
           </div>
-
+          <div class="d-flex justify-content-between mb-2">
+            <span class="text-muted">Tax:</span>
+            <span class="fw-semibold">{{ orderService.taxPercent | number: '1.2-2' }}%</span>
+          </div>
+          <div class="d-flex justify-content-between mb-2">
+            <span class="text-muted">Tax Amount:</span>
+            <span class="fw-semibold">$ {{ orderService.taxAmount | number: '1.2-2' }}</span>
+          </div>
           <div class="d-flex justify-content-between mb-2">
             <span class="text-muted">Discount:</span>
             <span class="fw-semibold">$ {{ orderService.discountAmount | number: '1.2-2' }}</span>

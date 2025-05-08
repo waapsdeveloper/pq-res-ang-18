@@ -24,6 +24,7 @@ export class ListOrdersComponent extends ListBlade {
     'Customer',
     'Type',
     'Subtotal',
+    'Tax',
     'Discount',
     'Total',
     'Address',

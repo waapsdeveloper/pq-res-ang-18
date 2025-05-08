@@ -23,6 +23,8 @@ export class AddOrderService {
   couponCode;
   discountAmount = 0;
   final_total = 0;
+  taxPercent: number = 0; // Global value for tax percentage
+  taxAmount: number = 0;
   paymentMethods: { label: string; value: string }[] = [
     { label: 'Cash on Delivery', value: 'cashondelivery' },
     { label: 'Apple Pay', value: 'applePay' },
@@ -68,7 +70,7 @@ export class AddOrderService {
     };
     const res = await this.network.getCategories(obj);
     // console.log(res)
-
+    this.setTaxPercentFromLocalStorage();
     if (res.data) {
       let d = res.data.data;
       console.log(d);
@@ -85,6 +87,12 @@ export class AddOrderService {
       this.selectedCategory = d[0];
       this.categories = d;
     }
+  }
+
+  setTaxPercentFromLocalStorage() {
+    const restaurant = JSON.parse(localStorage.getItem('restaurant') || '{}');
+    const tax = parseFloat(restaurant?.tax || '0');
+    this.taxPercent = isNaN(tax) ? 0 : tax;
   }
 
   async updateProductsBySelectedCategory(category) {
@@ -176,7 +184,8 @@ export class AddOrderService {
       return prev + productCost; // Add product cost to the total
     }, 0);
 
-    this.totalCost = cost; // Update the total cost
+    this.taxAmount = (cost * this.taxPercent) / 100;
+    this.totalCost = cost + this.taxAmount; // Update // Update the total cost
   }
   selectSuggestion(suggestion: any) {
     console.log(suggestion);
@@ -269,7 +278,9 @@ export class AddOrderService {
       payment_method: this.paymentMethod,
       order_type: this.orderType,
       table_id: this.selectedTableId,
-      total_price: this.totalCost
+      total_price: this.totalCost,
+      tax_percentage: this.taxPercent,
+      tax_amount: this.taxAmount
     };
     let coupon = {
       code: this.couponCode
@@ -348,7 +359,9 @@ export class AddOrderService {
       payment_method: this.paymentMethod,
       order_type: this.orderType,
       table_id: this.selectedTableId,
-      total_price: this.totalCost
+      total_price: this.totalCost,
+      tax_percentage: this.taxPercent,
+      tax_amount: this.taxAmount
     };
     try {
       const res = await this.network.updateOrder(obj, orderId);
