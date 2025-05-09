@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CurrencyService } from 'src/app/services/currency.service';
 import { NetworkService } from 'src/app/services/network.service';
 
 @Component({
@@ -9,7 +10,10 @@ import { NetworkService } from 'src/app/services/network.service';
 })
 export class FavouriteTableComponent implements OnInit {
   tables: any[] = [];
-  constructor(private network: NetworkService) {}
+  constructor(
+    private network: NetworkService,
+    public currencyService: CurrencyService
+  ) {}
   async ngOnInit() {
     const data = await this.network.getLatestTable();
 

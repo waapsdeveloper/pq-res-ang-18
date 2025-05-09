@@ -8,6 +8,7 @@ import { ListBlade } from 'src/app/abstract/list-blade';
 import { UtilityService } from 'src/app/services/utility.service';
 import { OrderService } from '../orders.service';
 import { EventsService } from 'src/app/services/events.service';
+import { CurrencyService } from 'src/app/services/currency.service';
 
 @Component({
   selector: 'app-list-orders',
@@ -211,7 +212,8 @@ export class ListOrdersComponent extends ListBlade {
     private users: UsersService,
     private network: NetworkService,
     private cdr: ChangeDetectorRef,
-    public events: EventsService
+    public events: EventsService,
+    public currencyService: CurrencyService
   ) {
     super(injector, crudService);
     this.initialize();

@@ -9,6 +9,7 @@ import { Location } from '@angular/common';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
+import { CurrencyService } from 'src/app/services/currency.service';
 
 @Component({
   selector: 'app-add-orders',
@@ -42,7 +43,8 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     private network: NetworkService,
     private utilityService: UtilityService,
     private location: Location,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    public currencyService: CurrencyService
   ) {
     this.updateScreenSize(); // Initialize screen size on component load
   }

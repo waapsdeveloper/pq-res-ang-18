@@ -84,7 +84,14 @@
                                 </span>
                               </td>
                             </tr>
-
+                            <tr>
+                              <td>Tax %:</td>
+                              <td>{{ item?.tax_percentage }}</td>
+                            </tr>
+                            <tr>
+                              <td>Tax Amount :</td>
+                              <td>{{ this.currencyService.currency_symbol }} {{ item?.tax_amount }}</td>
+                            </tr>
                             <tr>
                               <td>Coupon Code:</td>
                               <td>{{ item?.coupon_code }}</td>
@@ -127,7 +134,9 @@
                                               <span class="fw-semibold">{{ option.name }}</span>
                                               <br />
                                               <span class="text-muted">- {{ option.description }}</span>
-                                              <span class="text-success">(${{ option.price | number: '1.2-2' }})</span>
+                                              <span class="text-success">
+                                                ({{ this.currencyService.currency_symbol }} {{ option.price | number: '1.2-2' }})
+                                              </span>
                                             </div>
                                           </div>
                                         </div>
@@ -151,8 +160,8 @@
                                   </button>
                                 </td>
                                 <td>{{ product?.quantity }}</td>
-                                <td>${{ product?.price }}</td>
-                                <td>${{ product?.quantity * product?.price }}</td>
+                                <td>{{ this.currencyService.currency_symbol }} {{ product?.price }}</td>
+                                <td>{{ this.currencyService.currency_symbol }} {{ product?.quantity * product?.price }}</td>
                               </tr>
                             </tbody>
                             <tfoot>
@@ -160,7 +169,9 @@
                               <tr>
                                 <td colspan="2" class="text-end fw-bold">Subtotal:</td>
                                 <td colspan="3" class="text-end">
-                                  <span class="fw-normal">${{ item?.total_price | number: '1.2-2' }}</span>
+                                  <span class="fw-normal">
+                                    {{ this.currencyService.currency_symbol }} {{ item?.total_price | number: '1.2-2' }}
+                                  </span>
                                 </td>
                               </tr>
 
@@ -168,7 +179,9 @@
                               <tr>
                                 <td colspan="2" class="text-end fw-bold">Discount:</td>
                                 <td colspan="3" class="text-end">
-                                  <span class="fw-normal text-danger">- ${{ item?.discount_value | number: '1.2-2' }}</span>
+                                  <span class="fw-normal text-danger">
+                                    {{ this.currencyService.currency_symbol }} {{ item?.discount_value | number: '1.2-2' }}
+                                  </span>
                                 </td>
                               </tr>
 
@@ -176,7 +189,9 @@
                               <tr>
                                 <td colspan="2" class="text-end fw-bold">Tax:</td>
                                 <td colspan="3" class="text-end">
-                                  <span class="fw-normal">${{ item?.tax || '0.00' | number: '1.2-2' }}</span>
+                                  <span class="fw-normal">
+                                    {{ this.currencyService.currency_symbol }} {{ item?.tax || '0.00' | number: '1.2-2' }}
+                                  </span>
                                 </td>
                               </tr>
 
@@ -185,7 +200,8 @@
                                 <td colspan="2" class="text-end fw-bold">Total:</td>
                                 <td colspan="3" class="text-end">
                                   <span class="fw-bold text-success">
-                                    ${{
+                                    {{ this.currencyService.currency_symbol }}
+                                    {{
                                       (item?.discount_value && item?.discount_value > 0 ? item?.final_total : item?.total_price)
                                         | number: '1.2-2'
                                     }}

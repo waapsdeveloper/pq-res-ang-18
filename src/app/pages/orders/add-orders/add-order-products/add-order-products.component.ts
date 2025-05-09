@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Component, HostListener } from '@angular/core';
 import { NetworkService } from 'src/app/services/network.service';
 import { AddOrderService } from '../add-order.service';
+import { CurrencyService } from 'src/app/services/currency.service';
 
 @Component({
   selector: 'app-add-order-products',
@@ -12,7 +13,10 @@ export class AddOrderProductsComponent {
   columnClass: string = 'col-4'; // Default column class
   buttonLabel = 'Add Product';
 
-  constructor(public orderService: AddOrderService) {
+  constructor(
+    public orderService: AddOrderService,
+    public currencyService: CurrencyService
+  ) {
     this.initialize();
     this.updateColumnClass(window.innerWidth); // Initialize column class based on current screen size
   }

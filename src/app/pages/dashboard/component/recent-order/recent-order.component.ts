@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavService } from 'src/app/services/basic/nav.service';
+import { CurrencyService } from 'src/app/services/currency.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { UsersService } from 'src/app/services/users.service';
 
@@ -46,7 +47,8 @@ export class RecentOrderComponent {
   constructor(
     private nav: NavService,
     private network: NetworkService,
-    private users: UsersService
+    private users: UsersService,
+    public currencyService: CurrencyService
   ) {
     this.initialize();
   }

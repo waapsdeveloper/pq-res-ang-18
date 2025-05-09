@@ -440,5 +440,6 @@ export class AddOrderService {
     this.couponCode = '';
     this.discountAmount = 0;
     this.final_total = 0;
+    this.taxAmount = 0;
   }
 }

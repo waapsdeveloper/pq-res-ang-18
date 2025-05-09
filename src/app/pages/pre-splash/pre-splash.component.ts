@@ -27,6 +27,7 @@ export class PreSplashComponent {
       let R = defaults.active_restaurant;
       localStorage.setItem('restaurant', JSON.stringify(R));
       localStorage.setItem('restaurant_id', R.id);
+      localStorage.setItem('restaurant_currency', R.currency);
 
       setTimeout(() => {
         this.loading = false;
@@ -35,4 +36,3 @@ export class PreSplashComponent {
     }
   }
 }
-

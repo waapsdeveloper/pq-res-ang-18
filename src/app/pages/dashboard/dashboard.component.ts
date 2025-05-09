@@ -1,3 +1,4 @@
+import { CurrencyService } from './../../services/currency.service';
 import { Component, OnInit } from '@angular/core';
 import { NetworkService } from 'src/app/services/network.service';
 
@@ -30,7 +31,10 @@ export class DashboardComponent implements OnInit {
     }
   ];
 
-  constructor(private network: NetworkService) {}
+  constructor(
+    private network: NetworkService,
+    public currencyService: CurrencyService
+  ) {}
 
   async ngOnInit() {
     const res = await this.network.getTopDashboardCard();

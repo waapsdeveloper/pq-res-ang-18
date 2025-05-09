@@ -201,7 +201,9 @@
           <!-- Totals -->
           <div class="d-flex justify-content-between mb-2">
             <span class="text-muted">Subtotal:</span>
-            <span class="fw-semibold">$ {{ orderService.totalCost - orderService.taxAmount | number: '1.2-2' }}</span>
+            <span class="fw-semibold">
+              {{ this.currencyService.currency_symbol }} {{ orderService.totalCost - orderService.taxAmount | number: '1.2-2' }}
+            </span>
           </div>
           <div class="d-flex justify-content-between mb-2">
             <span class="text-muted">Tax:</span>
@@ -209,16 +211,18 @@
           </div>
           <div class="d-flex justify-content-between mb-2">
             <span class="text-muted">Tax Amount:</span>
-            <span class="fw-semibold">$ {{ orderService.taxAmount | number: '1.2-2' }}</span>
+            <span class="fw-semibold">{{ this.currencyService.currency_symbol }} {{ orderService.taxAmount | number: '1.2-2' }}</span>
           </div>
           <div class="d-flex justify-content-between mb-2">
             <span class="text-muted">Discount:</span>
-            <span class="fw-semibold">$ {{ orderService.discountAmount | number: '1.2-2' }}</span>
+            <span class="fw-semibold">{{ this.currencyService.currency_symbol }} {{ orderService.discountAmount | number: '1.2-2' }}</span>
           </div>
 
           <div class="d-flex justify-content-between mb-3">
             <strong>Total:</strong>
-            <strong>$ {{ orderService.totalCost - orderService.discountAmount | number: '1.2-2' }}</strong>
+            <strong>
+              {{ this.currencyService.currency_symbol }} {{ orderService.totalCost - orderService.discountAmount | number: '1.2-2' }}
+            </strong>
           </div>
           <!-- Submit Button -->
           <div class="d-flex justify-content-end w-100">
@@ -291,7 +295,7 @@
     <div class="bill-footer" style="padding: 8px 0; text-align: center">
       <p style="margin: 0; font-size: 14px">
         <strong>Total:</strong>
-        {{ orderService.totalCost | currency }}
+        {{ this.currencyService.currency_symbol }} {{ orderService.totalCost | currency }}
       </p>
       <p style="margin: 0; font-style: italic">Thank you for your order!</p>
     </div>

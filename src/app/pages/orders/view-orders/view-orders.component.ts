@@ -4,6 +4,7 @@ import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { UtilityService } from 'src/app/services/utility.service';
+import { CurrencyService } from 'src/app/services/currency.service';
 
 @Component({
   selector: 'app-view-orders',
@@ -21,7 +22,8 @@ export class ViewOrdersComponent implements OnInit {
     private nav: NavService,
     private network: NetworkService,
     public activatedRoute: ActivatedRoute,
-    public utility: UtilityService
+    public utility: UtilityService,
+    public currencyService: CurrencyService
   ) {
     this.initialize();
   }
@@ -68,7 +70,8 @@ export class ViewOrdersComponent implements OnInit {
     console.log('Parsed products:', this.item);
   }
 
-  async updateStatus(item: any, newStatus: string) { // Receive newStatus
+  async updateStatus(item: any, newStatus: string) {
+    // Receive newStatus
     let obj = {
       status: newStatus // Use newStatus
     };
@@ -106,8 +109,12 @@ export class ViewOrdersComponent implements OnInit {
   }
 
   titleCase(str: string): string {
-    return str.toLowerCase().split(' ').map(function (word) {
-      return (word.charAt(0).toUpperCase() + word.slice(1));
-    }).join(' ');
+    return str
+      .toLowerCase()
+      .split(' ')
+      .map(function (word) {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      })
+      .join(' ');
   }
 }
