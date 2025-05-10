@@ -12,7 +12,7 @@ import { UtilityService } from 'src/app/services/utility.service';
   styleUrl: './edit-branch-config.component.scss'
 })
 export class EditBranchConfigComponent implements OnInit {
-  form = new FormGroup({});
+  form: FormGroup<{ [key: string]: any }> = new FormGroup({});
   model = {
     branch_id: '',
     tax: '',
@@ -73,6 +73,7 @@ export class EditBranchConfigComponent implements OnInit {
     }
   ];
   id: any;
+  allCurrencies: any;
 
   constructor(
     private nav: NavService,
@@ -88,6 +89,15 @@ export class EditBranchConfigComponent implements OnInit {
     this.setBranchesInForm();
     this.setCurrenciesInForm();
     this.loadBranchConfig();
+
+    this.form.valueChanges.subscribe((value) => {
+      if (value['currency']) {
+        const selectedCurrency = this.allCurrencies.find((c) => c.value === value['currency']);
+        if (selectedCurrency) {
+          this.form.get('dial_code').setValue(selectedCurrency.dial_code, { emitEvent: false });
+        }
+      }
+    });
   }
 
   async getBranches(): Promise<any[]> {
@@ -121,6 +131,7 @@ export class EditBranchConfigComponent implements OnInit {
 
   async getCurrencies(): Promise<any[]> {
     const res = await this.network.getCurrencies();
+    console.log(res);
     if (res && res['data']) {
       return res['data'].map((c) => ({
         value: c.currency_code,
@@ -133,6 +144,7 @@ export class EditBranchConfigComponent implements OnInit {
 
   async setCurrenciesInForm() {
     const options = await this.getCurrencies();
+    this.allCurrencies = options; // Store for dial code lookup
     for (let i = 0; i < this.fields.length; i++) {
       for (let j = 0; j < this.fields[i].fieldGroup.length; j++) {
         let fl = this.fields[i].fieldGroup[j];
