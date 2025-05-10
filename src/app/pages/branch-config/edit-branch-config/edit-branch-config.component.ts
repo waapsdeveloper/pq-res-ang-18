@@ -152,7 +152,7 @@ export class EditBranchConfigComponent implements OnInit {
           branch_id: res.data.branch_config.branch_id,
           tax: res.data.branch_config.tax,
           currency: res.data.branch_config.currency,
-          dial_code: '' // Set this if you have it in the response, otherwise leave blank or fetch by currency
+          dial_code: res?.data.restaurant.dial_code // Set this if you have it in the response, otherwise leave blank or fetch by currency
         };
         this.form.patchValue(this.model);
       }

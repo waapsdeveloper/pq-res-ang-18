@@ -80,24 +80,24 @@ export const HROUTES: RouteInfo[] = [
     icon: 'ft-shopping-cart',
     class: 'dropdown nav-item',
     isExternalLink: false,
-    path: '',
+    path: '/pages/orders/list',
     submenu: [
-      {
-        path: '/pages/orders/list',
-        title: 'All Orders',
-        icon: 'ft-list',
-        class: 'dropdown-item',
-        isExternalLink: false,
-        submenu: []
-      },
-      {
-        path: '/pages/invoices/list',
-        title: 'Invoices',
-        icon: 'ft-file-text',
-        class: 'dropdown-item',
-        isExternalLink: false,
-        submenu: []
-      }
+      // {
+      //   path: '/pages/orders/list',
+      //   title: 'All Orders',
+      //   icon: 'ft-list',
+      //   class: 'dropdown-item',
+      //   isExternalLink: false,
+      //   submenu: []
+      // }
+      // {
+      //   path: '/pages/invoices/list',
+      //   title: 'Invoices',
+      //   icon: 'ft-file-text',
+      //   class: 'dropdown-item',
+      //   isExternalLink: false,
+      //   submenu: []
+      // }
     ]
   },
   {
@@ -132,7 +132,7 @@ export const HROUTES: RouteInfo[] = [
         submenu: []
       },
       {
-        path: '/pages/branch-config/list',
+        path: '',
         title: 'Branch Config',
         icon: 'ft-settings',
         class: 'dropdown-item',
