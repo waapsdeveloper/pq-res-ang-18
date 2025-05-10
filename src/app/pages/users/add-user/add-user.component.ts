@@ -42,7 +42,7 @@ export class AddUserComponent implements OnInit {
             minLength: 3,
             maxLength: 50,
             validation: {
-              show: (field) => field.formControl && field.formControl.invalid && field.formControl.focused
+              show: (field) => (field.formControl.touched || field.formControl.dirty) && field.formControl.invalid
             }
           },
           validators: {
@@ -53,6 +53,11 @@ export class AddUserComponent implements OnInit {
             maxLength: {
               expression: (c: AbstractControl) => c.value && c.value.length <= 50,
               message: 'Name must be no longer than 50 characters.'
+            }
+          },
+          validation: {
+            messages: {
+              required: 'This name  field is required.'
             }
           },
           className: 'col-md-6 col-12'
@@ -66,13 +71,18 @@ export class AddUserComponent implements OnInit {
             required: true,
             type: 'email',
             validation: {
-              show: (field) => field.formControl && field.formControl.invalid && field.formControl.focused
+              show: (field) => (field.formControl.touched || field.formControl.dirty) && field.formControl.invalid
             }
           },
           validators: {
             email: {
               expression: (c: AbstractControl) => c.value && /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(c.value),
               message: 'Please enter a valid email address.'
+            }
+          },
+          validation: {
+            messages: {
+              required: 'This field is required.'
             }
           },
           className: 'col-md-6 col-12'
@@ -87,13 +97,18 @@ export class AddUserComponent implements OnInit {
             required: true,
             minLength: 8,
             validation: {
-              show: (field) => field.formControl && field.formControl.invalid && field.formControl.focused
+              show: (field) => (field.formControl.touched || field.formControl.dirty) && field.formControl.invalid
             }
           },
           validators: {
             minLength: {
               expression: (c: AbstractControl) => c.value && c.value.length >= 8,
               message: 'Password must be at least 8 characters long.'
+            }
+          },
+          validation: {
+            messages: {
+              required: 'This password field is required.'
             }
           },
           className: 'col-md-6 col-12'
@@ -148,7 +163,12 @@ export class AddUserComponent implements OnInit {
             required: true,
             options: [],
             validation: {
-              show: (field) => field.formControl && field.formControl.invalid && field.formControl.focused
+              show: (field) => (field.formControl.touched || field.formControl.dirty) && field.formControl.invalid
+            }
+          },
+          validation: {
+            messages: {
+              required: 'role selection is required.'
             }
           },
           className: 'formly-select-wrapper-3232 col-md-6 col-12'
@@ -349,8 +369,14 @@ export class AddUserComponent implements OnInit {
   }
   async onSubmit(model) {
     if (this.form.invalid) {
-      // Mark all fields as touched to trigger validation styles
-      this.form.markAllAsTouched();
+      const requiredFields = ['name', 'email', 'password', 'role_id'];
+      requiredFields.forEach((field) => {
+        const control = this.form.get(field);
+        if (control && control.invalid) {
+          control.markAsTouched();
+          control.markAsDirty(); // Ensure the field is marked dirty
+        }
+      });
       this.utility.presentFailureToast('Please fill out all required fields correctly.');
       return;
     }
