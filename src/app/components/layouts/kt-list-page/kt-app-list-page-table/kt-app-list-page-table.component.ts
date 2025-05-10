@@ -14,12 +14,12 @@ export class KtAppListPageTableComponent {
 
   pageGroupSize: number = 5;
   visiblePageGroup: number = 0;
+  pageSize: number = 10;
 
   ngOnInit(): void {
     setTimeout(() => {
       this.loading = false;
     }, 1700);
-    
   }
 
   @Input('columns') columns: any[] = [];
@@ -33,11 +33,17 @@ export class KtAppListPageTableComponent {
   @Output('pageChange') pageChange: EventEmitter<number> = new EventEmitter<number>();
   @Output('changeSelectAll') changeSelectAll: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output('actionDeleteAll') actionDeleteAll: EventEmitter<any> = new EventEmitter<any>();
-
-  constructor(private utility: UtilityService, private events: EventsService) {
+  @Output('pageSize') onPageSizeChange: EventEmitter<any> = new EventEmitter<any>();
+  constructor(
+    private utility: UtilityService,
+    private events: EventsService
+  ) {
     this.events.subscribe('uncheck-select-all', () => {
-      this.selectAll = false
+      this.selectAll = false;
     });
+  }
+  onPageSizesChange(event: any): void {
+    this.onPageSizeChange.emit(this.pageSize); // Emit the selected page size
   }
 
   getPages(): number[] {

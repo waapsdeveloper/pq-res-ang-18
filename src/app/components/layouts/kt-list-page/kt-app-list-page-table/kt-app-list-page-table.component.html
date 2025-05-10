@@ -32,7 +32,12 @@
   <div class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start">
     <div class="dataTables_length" id="users-list-datatable_length">
       <label>
-        <select name="kt_table_length" class="table-wrapper-form-field-select-253">
+        <select
+          name="kt_table_length"
+          class="table-wrapper-form-field-select-253"
+          [(ngModel)]="pageSize"
+          (ngModelChange)="onPageSizesChange($event)"
+        >
           <option value="10">10</option>
           <option value="25">25</option>
           <option value="50">50</option>

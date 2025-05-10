@@ -305,7 +305,10 @@ export class ListOrdersComponent extends ListBlade {
   onChangePerPage($event) {
     this.getList('', 1);
   }
-
+  onPageSizeChange(event: any): void {
+    console.log('Page size changed in ListOrdersComponent:', event);
+    this.changePageSize(event); // Call the inherited method from ListBlade
+  }
   printSlip() {
     const section = document.getElementById('print-section');
     if (!section) {

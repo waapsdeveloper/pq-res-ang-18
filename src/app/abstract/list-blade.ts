@@ -7,7 +7,7 @@ export abstract class ListBlade {
   page = 1;
   lastPage = -1;
   total = 0;
-  perpage = 10;
+  perpage = 50;
   list: any[] = [];
   filters = false;
   selectAll: boolean = false;
@@ -48,7 +48,15 @@ export abstract class ListBlade {
   deleteAll($event: any) {
     this.crudService.deleteAll();
   }
-
+  changePageSize(event: any): void {
+    const pageSize = parseInt(event, 10);
+    console.log('Page size changed:', pageSize);
+    if (this.crudService.onPageSizeChange) {
+      this.crudService.onPageSizeChange(pageSize); // Call the service method
+    } else {
+      console.error('onPageSizeChange is not defined in the service.');
+    }
+  }
   checkboxUpdate(i, $event) {
     const isChecked = ($event.target as HTMLInputElement).checked;
     const count = this.crudService.onSelectedOne(i, isChecked);
