@@ -189,8 +189,13 @@
                   placeholder="Enter Coupon"
                   [disabled]="orderService.isCouponApplied"
                 />
-                <div class="input-group-append">
-                  <button *ngIf="!orderService.isCouponApplied" type="button" class="btn btn-sm btn-primary" (click)="applyCoupon()">
+                <div class="input-group-append apply-coupon-container" [class.coupon-applied]="orderService.isCouponApplied">
+                  <button
+                    type="button"
+                    class="btn btn-sm apply-coupon-btn"
+                    (click)="applyCoupon()"
+                    style="background-color: #e0301e; color: white"
+                  >
                     Apply
                   </button>
                 </div>

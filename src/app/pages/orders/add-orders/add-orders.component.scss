@@ -318,3 +318,22 @@
     background: #0056b3;
   }
 }
+
+// Apply Coupon Container
+.apply-coupon-container {
+  position: relative;
+
+  .apply-coupon-btn {
+    transition: opacity 0.3s ease;
+  }
+
+  &.coupon-applied .apply-coupon-btn {
+    opacity: 0; /* Hide the button when the coupon is applied */
+    pointer-events: none; /* Disable interaction */
+  }
+
+  &.coupon-applied:hover .apply-coupon-btn {
+    opacity: 1; /* Show the button on hover */
+    pointer-events: auto; /* Enable interaction */
+  }
+}
