@@ -153,8 +153,13 @@ export class ListRestaurantComponent extends ListBlade {
       is_active: 1
     };
 
-    await this.network.setActiveRestaurant(data, item.id);
+    const res = await this.network.setActiveRestaurant(data, item.id);
+    console.log(res);
+    const R = res.restaurant;
+    localStorage.setItem('restaurant', JSON.stringify(R));
+    localStorage.setItem('restaurant_id', R.id);
     this.utility.presentSuccessToast('Default Restaurant Set Successfully!');
+    localStorage.setItem('restaurant_currency', R.currency);
     this.crudService.getList('', 1);
   }
   default() {

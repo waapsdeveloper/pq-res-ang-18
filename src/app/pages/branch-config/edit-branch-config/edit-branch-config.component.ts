@@ -26,12 +26,12 @@ export class EditBranchConfigComponent implements OnInit {
       fieldGroup: [
         {
           key: 'branch_id',
-          type: 'select',
+          type: 'input',
           props: {
             label: 'Restaurant Name',
             placeholder: 'Select restaurant',
             required: true,
-            options: []
+            readonly: true
           },
           className: 'formly-select-wrapper-3232 col-md-6 col-12'
         },
@@ -74,6 +74,7 @@ export class EditBranchConfigComponent implements OnInit {
   ];
   id: any;
   allCurrencies: any;
+  data: any;
 
   constructor(
     private nav: NavService,
@@ -110,7 +111,7 @@ export class EditBranchConfigComponent implements OnInit {
       let d = res['data'];
       let dm = d['data'];
       return dm.map((r) => ({
-        value: r.id,
+        value: r.name,
         label: r.name
       })) as any[];
     }
@@ -156,17 +157,33 @@ export class EditBranchConfigComponent implements OnInit {
   }
 
   async loadBranchConfig() {
-    const res = await this.network.getBranchConfigById(this.id);
-    if (res && res.data && res.data.branch_config) {
-      {
+    try {
+      const res = await this.network.getBranchConfigById(this.id);
+      this.data = JSON.parse(localStorage.getItem('restaurant'));
+
+      if (res && res.data && res.data.branch_config) {
         // Patch only the editable fields from branch_config
         this.model = {
-          branch_id: res.data.branch_config.branch_id,
+          branch_id: res.data.branch_config.branch.name,
           tax: res.data.branch_config.tax,
           currency: res.data.branch_config.currency,
           dial_code: res?.data.restaurant.dial_code // Set this if you have it in the response, otherwise leave blank or fetch by currency
         };
         this.form.patchValue(this.model);
+      } else {
+        // Fallback in case of a failed response
+        if (this.data && this.data.name) {
+          this.model.branch_id = this.data.name;
+          this.form.patchValue({ branch_id: this.data.name });
+        }
+      }
+    } catch (error) {
+      console.error('Error loading branch config:', error);
+      // Fallback in case of an error
+      const data = JSON.parse(localStorage.getItem('restaurant'));
+      if (data && data.name) {
+        this.model.branch_id = data.name;
+        this.form.patchValue({ branch_id: data.name });
       }
     }
   }
@@ -180,12 +197,12 @@ export class EditBranchConfigComponent implements OnInit {
 
     if (this.form.valid) {
       let d = this.form.value;
+      d['branch_id'] = this.data.id;
       const res = await this.network.updateBranchConfig(d, this.id);
-      if (res && res.status === 200) {
-        this.utility.presentSuccessToast(res.message);
+      console.log('Response from updateBranchConfig:', res);
+      if (res) {
+        this.utility.presentSuccessToast('Branch configuration updated successfully.');
         this.nav.pop();
-      } else {
-        this.utility.presentFailureToast(res?.message || 'Failed to update branch configuration.');
       }
     } else {
       this.utility.presentFailureToast('Please fill out all required fields correctly.');
