@@ -76,8 +76,15 @@ const routes: Routes = [
   {
     path: 'branch-config',
     loadChildren: () => import('./branch-config/branch-config.module').then((m) => m.BranchConfigModule)
+  },
+  {
+    path: 'expense-categories',
+    loadChildren: () => import('./expense-categories/expense-categories.module').then((m) => m.ExpenseCategoriesModule)
+  },
+  {
+    path: 'expense',
+    loadChildren: () => import('./expense/expense.module').then((m) => m.ExpenseModule)
   }
-
   // {
   //   path: '',
   //   component: AdminComponent,
