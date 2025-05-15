@@ -6,7 +6,7 @@ import { ListExpenseComponent } from '../../expense/list-expense/list-expense.co
 const routes: Routes = [
   {
     path: '',
-    component: ListExpenseComponent,
+    component: ListExpenseCategoriesComponent,
     data: { breadcrumb: 'list' }
   }
 ];

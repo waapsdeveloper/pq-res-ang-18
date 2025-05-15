@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddExpenseComponent } from '../../expense/add-expense/add-expense.component';
+import { AddExpenseCategoriesComponent } from './add-expense-categories.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: AddExpenseComponent,
+    component: AddExpenseCategoriesComponent,
     data: { breadcrumb: 'add' }
   }
 ];

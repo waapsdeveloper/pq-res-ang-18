@@ -76,6 +76,31 @@ export const HROUTES: RouteInfo[] = [
     ]
   },
   {
+    title: 'Expenses',
+    icon: 'ti ti-calendar-dollar',
+    class: 'dropdown nav-item',
+    isExternalLink: false,
+    path: '',
+    submenu: [
+      {
+        path: '/pages/expense/list',
+        title: 'All Expenses',
+        icon: 'ti ti-device-mobile-dollar',
+        class: 'dropdown-item',
+        isExternalLink: false,
+        submenu: []
+      },
+      {
+        path: '/pages/expense-categories/list',
+        title: 'Expense Categories',
+        icon: 'ti ti-device-mobile-dollar',
+        class: 'dropdown-item',
+        isExternalLink: false,
+        submenu: []
+      }
+    ]
+  },
+  {
     title: 'Orders',
     icon: 'ft-shopping-cart',
     class: 'dropdown nav-item',
