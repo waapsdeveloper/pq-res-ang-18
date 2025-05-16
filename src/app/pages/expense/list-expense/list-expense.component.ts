@@ -73,11 +73,11 @@ export class ListExpenseComponent extends ListBlade {
           props: {
             label: 'Type',
             placeholder: 'Select type',
+            required: true,
             options: [
-              { label: 'Active', value: 'active' },
-              { label: 'Inactive', value: 'inactive' }
-            ],
-            required: false
+              { value: 'recurring', label: 'Recurring' },
+              { value: 'one-time', label: 'One-time' }
+            ]
           },
           className: 'formly-select-wrapper-3232 col-md-2 col-12'
         },
@@ -109,6 +109,8 @@ export class ListExpenseComponent extends ListBlade {
       ]
     }
   ];
+  currency: string;
+  totalAmount: any;
   constructor(
     injector: Injector,
     public override crudService: ExprenseService,
@@ -122,8 +124,17 @@ export class ListExpenseComponent extends ListBlade {
   ) {
     super(injector, crudService);
     this.initialize();
+    this.setCategoryInForm();
+    this.currency = this.currencyService.currency_symbol;
   }
 
+  get expenseTitle(): string {
+    const amount = Array.isArray(this.crudService.list)
+      ? this.crudService.list.reduce((sum, item) => sum + (Number(item.amount) || 0), 0)
+      : 0;
+    this.totalAmount = amount;
+    return `Expense`;
+  }
   async onDeleteAll($event: any) {
     const flag = await this.utility.presentConfirm('Delete', 'Cancel', 'Delete All Record', 'Are you sure you want to delete all?');
 
@@ -144,6 +155,41 @@ export class ListExpenseComponent extends ListBlade {
     const u = this.users.getUser();
     if (u.role_id == 1 || u.role_id == 2) {
       this.showEdit = true;
+    }
+  }
+  async getExpenseCategory(): Promise<any[]> {
+    let obj = {
+      search: '',
+      perpage: 500,
+
+      restaurant_id: localStorage.getItem('restaurant_id') ? localStorage.getItem('restaurant_id') : -1
+    };
+    const res = await this.network.getExpenseCategories(obj);
+
+    if (res && res['data']) {
+      let d = res['data'];
+      let dm = d['data'];
+      return dm.map((r) => {
+        return {
+          value: r.category_name,
+          label: r.category_name
+        };
+      }) as any[];
+    }
+
+    return [];
+  }
+  async setCategoryInForm() {
+    const res = await this.getExpenseCategory();
+    console.log(res);
+
+    for (var i = 0; i < this.fields.length; i++) {
+      for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
+        let fl = this.fields[i].fieldGroup[j];
+        if (fl.key == 'category') {
+          fl.props.options = res;
+        }
+      }
     }
   }
 

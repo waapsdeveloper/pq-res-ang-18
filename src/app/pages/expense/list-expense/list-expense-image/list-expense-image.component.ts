@@ -21,4 +21,7 @@ export class ListExpenseImageComponent {
     private cdr: ChangeDetectorRef,
     public events: EventsService
   ) {}
+  openImageModal() {
+    this.utility.showImagePopup('Expense', this.item.image);
+  }
 }

@@ -73,6 +73,10 @@ export class UtilityService {
       (cancelClass = cancelClass)
     );
   }
+  showImagePopup(title: string, imageUrl: string): Promise<void> {
+    return this.alerts.showImagePopup(title, imageUrl);
+  }
+
   showCustomDropdown(
     title: string,
     dropdownId: string,

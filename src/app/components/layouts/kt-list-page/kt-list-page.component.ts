@@ -8,21 +8,22 @@ import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angu
   encapsulation: ViewEncapsulation.None // Ensure styles are not scoped
 })
 export class KtListPageComponent {
-
   @Input('showCreate') showCreate = true;
-  @Input('title') title = ''
-  @Input('addurl') addurl = ''
-  @Input ('showDeleteAll') showDeleteAll = false;
+  @Input('title') title = '';
+  @Input('addurl') addurl = '';
+  @Input('titleHighlightPart') titleHighlightPart: string = '';
+
+  @Input('showDeleteAll') showDeleteAll = false;
   @Output('onSearch') onSearch = new EventEmitter<any>();
   @Output('onFilter') onFilter = new EventEmitter<any>();
   @Output('onDeleteAll') onDeleteAll = new EventEmitter<any>();
 
-  search($event){
+  search($event) {
     let v = $event.target.value;
     this.onSearch.emit(v);
   }
 
-  filter($event){
+  filter($event) {
     this.onFilter.emit();
   }
 }

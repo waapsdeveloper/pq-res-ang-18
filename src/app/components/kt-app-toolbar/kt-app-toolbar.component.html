@@ -4,7 +4,10 @@
     <!--begin::Page title-->
     <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
       <!--begin::Title-->
-      <h1 class="content-header d-flex flex-column justify-content-center my-0">{{title}}</h1>
+      <h1 class="content-header d-flex align-items-center my-0">
+        {{ title }}
+        <span style="color: red">{{ titleHighlightPart }}</span>
+      </h1>
       <!--end::Title-->
       <app-kt-app-toolbar-breadcrumb></app-kt-app-toolbar-breadcrumb>
     </div>

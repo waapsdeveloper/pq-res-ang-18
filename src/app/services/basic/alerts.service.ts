@@ -397,4 +397,26 @@ export class AlertsService {
       }
     });
   }
+  async showImagePopup(title: string, imageUrl: string): Promise<void> {
+    await Swal.fire({
+      title: `<div style="margin-bottom: 1rem; font-size: 1.25rem; font-weight: 600;">${title}</div>`,
+      html: `
+        <div style="display: flex; justify-content: center; align-items: center;">
+          <img 
+            src="${imageUrl}" 
+            alt="Image" 
+            style="width: 350px; height: 350px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 16px rgba(0,0,0,0.08);" 
+          />
+        </div>
+      `,
+      showCloseButton: true,
+      showConfirmButton: false,
+      customClass: {
+        popup: 'custom-image-popup'
+      },
+      background: '#fff',
+      width: '400px',
+      padding: '1.5rem'
+    });
+  }
 }

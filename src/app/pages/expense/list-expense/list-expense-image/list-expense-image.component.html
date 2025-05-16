@@ -1,4 +1,10 @@
-<img *ngIf="item?.image; else placeholderImg" [src]="item.image" alt="Image" style="max-width: 40px; max-height: 40px" />
+<img
+  *ngIf="item?.image; else placeholderImg"
+  [src]="item.image"
+  alt="Image"
+  style="max-width: 40px; max-height: 40px; cursor: pointer"
+  (click)="openImageModal()"
+/>
 <ng-template #placeholderImg>
   <img src="assets/img/placeholder.png" alt="No Image" style="max-width: 40px; max-height: 40px; opacity: 0.5" />
 </ng-template>

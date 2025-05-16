@@ -6,6 +6,6 @@ import { Component, Input } from '@angular/core';
   styleUrl: './kt-app-toolbar.component.scss'
 })
 export class KtAppToolbarComponent {
-
-  @Input('title') title: string = 'Page'
+  @Input('title') title: string = 'Page';
+  @Input('titleHighlightPart') titleHighlightPart: string = '';
 }

@@ -1,5 +1,6 @@
 <app-kt-list-page
-  [title]="'Expense'"
+  [title]="expenseTitle"
+  [titleHighlightPart]="'(' + currency + ' ' + totalAmount + ')'"
   [addurl]="'/pages/expense/add'"
   (onFilter)="toggleFilters()"
   [showDeleteAll]="showDeleteAllButton"

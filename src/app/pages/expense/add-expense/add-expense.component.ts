@@ -160,6 +160,19 @@ export class AddExpenseComponent {
 
     return [];
   }
+  async setCategoryInForm() {
+    const res = await this.getExpenseCategory();
+    console.log(res);
+
+    for (var i = 0; i < this.fields.length; i++) {
+      for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
+        let fl = this.fields[i].fieldGroup[j];
+        if (fl.key == 'expense_category_id') {
+          fl.props.options = res;
+        }
+      }
+    }
+  }
   onFileChange(field, event: Event, type: string = 'image') {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
@@ -174,19 +187,7 @@ export class AddExpenseComponent {
       reader.readAsDataURL(file); // Convert file to base64
     }
   }
-  async setCategoryInForm() {
-    const res = await this.getExpenseCategory();
-    console.log(res);
 
-    for (var i = 0; i < this.fields.length; i++) {
-      for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
-        let fl = this.fields[i].fieldGroup[j];
-        if (fl.key == 'expense_category_id') {
-          fl.props.options = res;
-        }
-      }
-    }
-  }
   async setRoleInForm() {
     const res = await this.getRoles();
     console.log(res);
