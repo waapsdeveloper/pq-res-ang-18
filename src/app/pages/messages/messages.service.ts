@@ -3,7 +3,7 @@ import { BaseCrudService } from 'src/app/services/abstract/crud-service';
 import { NetworkService } from 'src/app/services/network.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class MessageService extends BaseCrudService<any> {
   constructor(private network: NetworkService) {
@@ -19,4 +19,10 @@ export class MessageService extends BaseCrudService<any> {
     return this.network.destroy('message', id);
   }
 
+  protected async onPageSizeChange(pageSize: number): Promise<any> {
+    console.log('Page size changed to:', pageSize);
+    // Update the perpage value and fetch data accordingly
+    this.perpage = pageSize;
+    this.getList(); // Call the method to fetch the updated list
+  }
 }

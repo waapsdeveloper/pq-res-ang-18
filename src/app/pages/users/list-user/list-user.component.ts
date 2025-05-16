@@ -58,6 +58,11 @@ export class ListUserComponent extends ListBlade {
     status: null
   };
 
+  onPageSizeChange(event: any): void {
+    console.log('Page size changed in ListOrdersComponent:', event);
+    this.changePageSize(event); // Call the inherited method from ListBlade
+  }
+
   fields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: 'row', // Bootstrap row

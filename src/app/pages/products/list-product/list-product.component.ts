@@ -163,6 +163,11 @@ export class ListProductComponent extends ListBlade {
 
     this.initialize();
   }
+
+  onPageSizeChange(event: any): void {
+    console.log('Page size changed in ListOrdersComponent:', event);
+    this.changePageSize(event); // Call the inherited method from ListBlade
+  }
   async onDeleteAll($event: any) {
     const flag = await this.utility.presentConfirm('Delete', 'Cancel', 'Delete All Record', 'Are you sure you want to delete all?');
 

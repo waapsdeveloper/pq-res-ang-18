@@ -100,6 +100,10 @@ export class ListCategoryComponent extends ListBlade {
     this.initialize();
   }
 
+  onPageSizeChange(event: any): void {
+    console.log('Page size changed in ListOrdersComponent:', event);
+    this.changePageSize(event); // Call the inherited method from ListBlade
+  }
   initialize() {
     this.crudService.getList('', 1);
     const u = this.users.getUser();

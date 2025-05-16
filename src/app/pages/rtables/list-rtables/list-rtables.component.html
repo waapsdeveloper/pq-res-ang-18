@@ -18,6 +18,7 @@
     (pageChange)="changePage($event)"
     (pageChange)="changePage($event)"
     [selectAll]="selectAll"
+    (pageSize)="changePageSize($event)"
     (changeSelectAll)="changeSelectAll($event); showDeleteAllButton = $event"
   >
     <!-- Show "No results found" when not loading and list is empty -->

@@ -5,8 +5,8 @@ import { NetworkService } from 'src/app/services/network.service';
 @Injectable({
   providedIn: 'root'
 })
-export class CouponsService  extends BaseCrudService<any>{
- constructor(private network: NetworkService) {
+export class CouponsService extends BaseCrudService<any> {
+  constructor(private network: NetworkService) {
     super();
   }
 
@@ -17,4 +17,11 @@ export class CouponsService  extends BaseCrudService<any>{
 
   protected async deleteItemById(id: any): Promise<any> {
     return this.network.destroy('coupon', id);
-  }}
+  }
+  protected async onPageSizeChange(pageSize: number): Promise<any> {
+    console.log('Page size changed to:', pageSize);
+    // Update the perpage value and fetch data accordingly
+    this.perpage = pageSize;
+    this.getList(); // Call the method to fetch the updated list
+  }
+}

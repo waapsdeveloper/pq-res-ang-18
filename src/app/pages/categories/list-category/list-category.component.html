@@ -17,6 +17,7 @@
     [currentPage]="crudService.page"
     [totalPages]="crudService.lastPage"
     (pageChange)="changePage($event)"
+    (pageSize)="changePageSize($event)"
     [selectAll]="selectAll"
     (changeSelectAll)="changeSelectAll($event); showDeleteAllButton = $event"
   >

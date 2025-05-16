@@ -15,6 +15,7 @@
     [columns]="columns"
     [currentPage]="crudService.page"
     [totalPages]="crudService.lastPage"
+    (pageSize)="changePageSize($event)"
     (pageChange)="changePage($event)"
     (pageChange)="changePage($event)"
     [selectAll]="selectAll"

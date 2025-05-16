@@ -16,14 +16,13 @@
     [currentPage]="crudService.page"
     [totalPages]="crudService.lastPage"
     (pageChange)="changePage($event)"
+    (pageSize)="changePageSize($event)"
     [selectAll]="selectAll"
     (changeSelectAll)="changeSelectAll($event); showDeleteAllButton = $event"
   >
     <!-- Show "No results found" when not loading and list is empty -->
     <tr *ngIf="!crudService.loading && crudService.list.length === 0">
-      <td colspan="8" class="text-center">
-        No results found.
-      </td>
+      <td colspan="8" class="text-center">No results found.</td>
     </tr>
     <!-- Hide rows when loading -->
     <tr [hidden]="!(!crudService.loading && crudService.list.length > 0)" *ngFor="let item of crudService.list; let i = index">
