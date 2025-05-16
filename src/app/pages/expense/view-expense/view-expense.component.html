@@ -1,1 +1,105 @@
-<p>view-expense works!</p>
+<div class="main-panel">
+  <!-- BEGIN : Main Content-->
+  <div class="main-content">
+    <div class="content-overlay"></div>
+    <div class="content-wrapper">
+      <section class="users-view">
+        <!-- Media object starts -->
+        <div class="row align-items-center">
+          <!-- Left Side - Expense Info -->
+          <div class="col-12 col-sm-7">
+            <div class="media d-flex align-items-center">
+              <a href="javascript:;">
+                <div *ngIf="item?.image; else userPlaceholder">
+                  <img [src]="item.image" alt="expense image" class="users-avatar-shadow rounded" height="4rem" width="4rem" />
+                </div>
+                <ng-template #userPlaceholder>
+                  <div
+                    class="users-avatar-shadow rounded d-flex align-items-center justify-content-center"
+                    style="width: 4rem; height: 4rem; background-color: #f5f7fb"
+                  >
+                    <i class="ti ti-file-invoice" style="font-size: 2rem; color: #5e6e82"></i>
+                  </div>
+                </ng-template>
+              </a>
+              <div class="media-body ml-3">
+                <h4>
+                  <span class="users-view-name">{{ item?.name }}</span>
+                </h4>
+                <span>ID:</span>
+                <span class="users-view-id">{{ item?.id }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Media object ends -->
+
+        <div class="row">
+          <div class="col-12">
+            <!-- Card data starts -->
+            <div class="card">
+              <div class="card-content">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-6 col-xl-4">
+                      <table class="table table-borderless">
+                        <tbody>
+                          <tr>
+                            <td style="padding: 0.5rem 0 !important">Name:</td>
+                            <td style="padding: 0.5rem 0 !important">{{ item?.name }}</td>
+                          </tr>
+                          <tr>
+                            <td style="padding: 0.5rem 0 !important">Description:</td>
+                            <td style="padding: 0.5rem 0 !important">{{ item?.description }}</td>
+                          </tr>
+                          <tr>
+                            <td style="padding: 0.5rem 0 !important">Category:</td>
+                            <td style="padding: 0.5rem 0 !important">{{ item?.category?.name }}</td>
+                          </tr>
+                          <tr>
+                            <td style="padding: 0.5rem 0 !important">Amount:</td>
+                            <td style="padding: 0.5rem 0 !important">
+                              {{ item?.category.restaurant?.currency }} {{ item?.amount | number: '1.2-2' }}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td style="padding: 0.5rem 0 !important">Type:</td>
+                            <td style="padding: 0.5rem 0 !important">
+                              <span class="badge" [ngClass]="item?.type === 'recurring' ? 'badge-recurring' : 'badge-one-time'">
+                                {{ item?.type | titlecase }}
+                              </span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td style="padding: 0.5rem 0 !important">Status:</td>
+                            <td style="padding: 0.5rem 0 !important">
+                              <span class="badge" [ngClass]="item?.status === 'paid' ? 'bg-success' : 'bg-warning'">
+                                {{ item?.status | titlecase }}
+                              </span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td style="padding: 0.5rem 0 !important">Date:</td>
+                            <td style="padding: 0.5rem 0 !important">{{ item?.date | date: 'dd/MM/yyyy' }}</td>
+                          </tr>
+                          <tr>
+                            <td style="padding: 0.5rem 0 !important">Created At:</td>
+                            <td style="padding: 0.5rem 0 !important">{{ item?.created_at | date: 'dd/MM/yyyy, HH:mm:ss' }}</td>
+                          </tr>
+                          <tr>
+                            <td style="padding: 0.5rem 0 !important">Updated At:</td>
+                            <td style="padding: 0.5rem 0 !important">{{ item?.updated_at | date: 'dd/MM/yyyy, HH:mm:ss' }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

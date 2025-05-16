@@ -1,1 +1,14 @@
-<p>edit-expense works!</p>
+<app-kt-app-form-page [title]="'Create  Expense '">
+  <div class="card">
+    <div class="card-content">
+      <div class="card-body">
+        <form [formGroup]="form">
+          <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
+          <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-warning btn-123" (click)="onSubmit(model)">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</app-kt-app-form-page>

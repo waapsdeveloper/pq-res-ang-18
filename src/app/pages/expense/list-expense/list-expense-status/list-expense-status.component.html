@@ -1,0 +1,11 @@
+<div class="d-flex" (click)="onStatusClick(item)">
+  <div
+    class="badge fw-bold me-auto"
+    [ngClass]="{
+      'badge-active': item?.status === 'paid' || item?.status === 'Paid',
+      'badge-inactive': item?.status === 'unpaid' || item?.status === 'UnPaid'
+    }"
+  >
+    {{ item.status }}
+  </div>
+</div>

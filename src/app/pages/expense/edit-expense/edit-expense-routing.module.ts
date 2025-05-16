@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ViewExpenseCategoriesComponent } from '../../expense-categories/view-expense-categories/view-expense-categories.component';
-import { EditExpenseCategoriesComponent } from '../../expense-categories/edit-expense-categories/edit-expense-categories.component';
+import { EditExpenseComponent } from './edit-expense.component';
 const routes: Routes = [
   {
     path: '',
-    component: EditExpenseCategoriesComponent,
+    component: EditExpenseComponent,
     data: { breadcrumb: 'edit' }
   }
 ];

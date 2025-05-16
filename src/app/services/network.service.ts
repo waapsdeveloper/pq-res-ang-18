@@ -372,6 +372,37 @@ export class NetworkService {
     return this.httpDeleteResponse('expense-category', id, false, true);
   }
 
+  // Expense API
+
+  getExpenses(params = {}) {
+    const query = this.serialize(params);
+    return this.httpGetResponse('expense' + (query ? `?${query}` : ''), null, false, true);
+  }
+
+  getExpenseById(id: any) {
+    return this.httpGetResponse(`expense/${id}`, null, false, true);
+  }
+
+  addExpense(data: any) {
+    return this.httpPostResponse('expense', data, null, false, true);
+  }
+
+  updateExpense(id: any, data: any) {
+    return this.httpPutResponse('expense', data, id, false, true);
+  }
+
+  removeExpense(id: any) {
+    return this.httpDeleteResponse('expense', id, false, true);
+  }
+
+  updateExpenseStatus(id: any, data: any) {
+    return this.httpPutResponse('expense/update-status', data, id, false, true);
+  }
+
+  updateExpenseType(id: any, data: any) {
+    return this.httpPutResponse('expense/update-type', data, id, false, true);
+  }
+
   // Function for POST method
   httpPostResponse(key: any, data: any, id = null, showloader = true, showError = true, contenttype = 'application/json') {
     console.log(localStorage.getItem('restaurant_id'));

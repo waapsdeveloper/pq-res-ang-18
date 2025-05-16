@@ -1,0 +1,18 @@
+.badge-recurring {
+  background-color: #4caf50 !important; // Green
+  color: #fff !important;
+}
+
+.badge-one-time {
+  background-color: #2196f3 !important; // Blue
+  color: #fff !important;
+}
+.badge-active {
+  background-color: #c8e6fa; /* Light blue background */
+  color: #0277bd; /* Deep blue text */
+}
+
+.badge-inactive {
+  background-color: #a72121; /* Gray for inactive status */
+  color: white;
+}

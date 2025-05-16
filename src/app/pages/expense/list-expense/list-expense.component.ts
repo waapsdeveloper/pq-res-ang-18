@@ -8,6 +8,7 @@ import { NetworkService } from 'src/app/services/network.service';
 import { UsersService } from 'src/app/services/users.service';
 import { UtilityService } from 'src/app/services/utility.service';
 import { ExpenseCategoriesService } from '../../expense-categories/expense-categories.service';
+import { ExprenseService } from '../expense.service';
 
 @Component({
   selector: 'app-list-expense',
@@ -17,10 +18,10 @@ import { ExpenseCategoriesService } from '../../expense-categories/expense-categ
 })
 export class ListExpenseComponent extends ListBlade {
   showDeleteAllButton = false;
-  title = 'Orders';
-  addurl = '/pages/orders/add';
+  title = 'Expense';
+  addurl = '/pages/expense/add';
   showEdit: boolean = false;
-  columns: any[] = ['Image', 'Name', 'Description', 'Status', 'Created', 'Updated'];
+  columns: any[] = ['Name', 'Description', 'Category', 'Amount', 'Type', 'Status', 'Created ', ' Updated', 'Image'];
   override model = {
     expense: '',
     started_from: '',
@@ -110,7 +111,7 @@ export class ListExpenseComponent extends ListBlade {
   ];
   constructor(
     injector: Injector,
-    public override crudService: ExpenseCategoriesService,
+    public override crudService: ExprenseService,
     private nav: NavService,
     private utility: UtilityService,
     private users: UsersService,
@@ -195,12 +196,12 @@ export class ListExpenseComponent extends ListBlade {
 
   openDetails(i) {
     let item = this.crudService.list[i];
-    this.nav.push('/pages/expense-categories/view/' + item.id);
+    this.nav.push('/pages/expense/view/' + item.id);
   }
   async openEditDetails(i) {
     let item = this.crudService.list[i];
     if (item) {
-      this.nav.push('/pages/expense-categories/edit/' + item.id);
+      this.nav.push('/pages/expense/edit/' + item.id);
     }
   }
 
