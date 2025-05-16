@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ListExpenseCategoriesComponent } from '../../expense-categories/list-expense-categories/list-expense-categories.component';
+import { ListExpenseComponent } from './list-expense.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: ListExpenseCategoriesComponent,
+    component: ListExpenseComponent,
     data: { breadcrumb: 'list' }
   }
 ];

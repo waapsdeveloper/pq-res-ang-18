@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Injector } from '@angular/core';
+import { ChangeDetectorRef, Component, Injector, ViewEncapsulation } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { ListBlade } from 'src/app/abstract/list-blade';
 import { NavService } from 'src/app/services/basic/nav.service';
@@ -13,7 +13,8 @@ import { ExpenseCategoriesService } from '../expense-categories.service';
 @Component({
   selector: 'app-list-expense-categories',
   templateUrl: './list-expense-categories.component.html',
-  styleUrl: './list-expense-categories.component.scss'
+  styleUrl: './list-expense-categories.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class ListExpenseCategoriesComponent extends ListBlade {
   showDeleteAllButton = false;
@@ -22,12 +23,7 @@ export class ListExpenseCategoriesComponent extends ListBlade {
   showEdit: boolean = false;
   columns: any[] = ['Image', 'Name', 'Description', 'Status', 'Created', 'Updated'];
   override model = {
-    expense: '',
-    started_from: '',
-    ended_at: '',
-    type: '',
-    status: '',
-    category: ''
+    expense_name: ''
   };
 
   fields: FormlyFieldConfig[] = [
@@ -35,75 +31,14 @@ export class ListExpenseCategoriesComponent extends ListBlade {
       fieldGroupClassName: 'row',
       fieldGroup: [
         {
-          key: 'expense',
+          key: 'expense_name',
           type: 'input',
           props: {
             label: 'Expense Name',
             placeholder: 'Enter expense name',
             required: false
           },
-          className: 'col-md-2 col-12'
-        },
-        {
-          key: 'started_from',
-          type: 'input',
-          props: {
-            label: 'Expense Start Date',
-            placeholder: 'Select start date',
-            type: 'date',
-            required: false
-          },
-          className: 'col-md-2 col-12'
-        },
-        {
-          key: 'ended_at',
-          type: 'input',
-          props: {
-            label: 'Expense Ended Date',
-            placeholder: 'Select end date',
-            type: 'date',
-            required: false
-          },
-          className: 'col-md-2 col-12'
-        },
-        {
-          key: 'type',
-          type: 'select',
-          props: {
-            label: 'Type',
-            placeholder: 'Select type',
-            options: [
-              { label: 'Active', value: 'active' },
-              { label: 'Inactive', value: 'inactive' }
-            ],
-            required: false
-          },
-          className: 'col-md-2 col-12'
-        },
-        {
-          key: 'status',
-          type: 'select',
-          props: {
-            label: 'Status',
-            placeholder: 'Select status',
-            options: [
-              { label: 'Paid', value: 'paid' },
-              { label: 'Unpaid', value: 'unpaid' }
-            ],
-            required: false
-          },
-          className: 'col-md-2 col-12'
-        },
-        {
-          key: 'category',
-          type: 'select',
-          props: {
-            label: 'Category',
-            placeholder: 'Select category',
-            options: [],
-            required: false
-          },
-          className: 'col-md-2 col-12'
+          className: 'formly-select-wrapper-3232 col-md-2 col-12'
         }
       ]
     }

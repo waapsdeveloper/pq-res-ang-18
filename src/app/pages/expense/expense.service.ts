@@ -18,4 +18,10 @@ export class ExprenseService extends BaseCrudService<any> {
   protected async deleteItemById(id: any): Promise<any> {
     return this.network.destroy('expense', id);
   }
+  protected async onPageSizeChange(pageSize: number): Promise<any> {
+    console.log('Page size changed to:', pageSize);
+    // Update the perpage value and fetch data accordingly
+    this.perpage = pageSize;
+    this.getList(); // Call the method to fetch the updated list
+  }
 }
