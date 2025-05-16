@@ -73,7 +73,7 @@ export class ListExpenseComponent extends ListBlade {
           props: {
             label: 'Type',
             placeholder: 'Select type',
-            required: true,
+            required: false,
             options: [
               { value: 'recurring', label: 'Recurring' },
               { value: 'one-time', label: 'One-time' }
