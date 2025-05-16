@@ -349,6 +349,29 @@ export class NetworkService {
     return this.httpGetResponse('currency' + (query ? `?${query}` : ''), null, false, true);
   }
 
+  // Expense Categories API
+
+  getExpenseCategories(params = {}) {
+    const query = this.serialize(params);
+    return this.httpGetResponse('expense-category' + (query ? `?${query}` : ''), null, false, true);
+  }
+
+  getExpenseCategoryById(id: any) {
+    return this.httpGetResponse(`expense-category/${id}`, null, false, true);
+  }
+
+  addExpenseCategory(data: any) {
+    return this.httpPostResponse('expense-category', data, null, false, true);
+  }
+
+  updateExpenseCategory(id: any, data: any) {
+    return this.httpPutResponse('expense-category', data, id, false, true);
+  }
+
+  removeExpenseCategory(id: any) {
+    return this.httpDeleteResponse('expense-category', id, false, true);
+  }
+
   // Function for POST method
   httpPostResponse(key: any, data: any, id = null, showloader = true, showError = true, contenttype = 'application/json') {
     console.log(localStorage.getItem('restaurant_id'));

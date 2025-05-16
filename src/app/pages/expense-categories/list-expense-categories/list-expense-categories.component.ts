@@ -20,7 +20,7 @@ export class ListExpenseCategoriesComponent extends ListBlade {
   title = 'Orders';
   addurl = '/pages/orders/add';
   showEdit: boolean = false;
-  columns: any[] = ['Name', 'Description', 'Category', 'Amount', 'Type', 'Status', 'Created', 'Updated', 'Image'];
+  columns: any[] = ['Image', 'Name', 'Description', 'Status', 'Created', 'Updated'];
   override model = {
     expense: '',
     started_from: '',
@@ -195,14 +195,12 @@ export class ListExpenseCategoriesComponent extends ListBlade {
 
   openDetails(i) {
     let item = this.crudService.list[i];
-    this.nav.push('/pages/orders/view/' + item.id);
+    this.nav.push('/pages/expense-categories/view/' + item.id);
   }
   async openEditDetails(i) {
     let item = this.crudService.list[i];
-    if (item && item.status === 'Pending') {
-      this.nav.push('/pages/orders/add/' + item.id);
-    } else {
-      await this.utility.showWarningMessage('You cannot edit this order as it is already in progress or completed.');
+    if (item) {
+      this.nav.push('/pages/expense-categories/edit/' + item.id);
     }
   }
 

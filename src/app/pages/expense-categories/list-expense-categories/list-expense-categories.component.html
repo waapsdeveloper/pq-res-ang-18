@@ -24,65 +24,110 @@
     <tr *ngIf="!crudService.loading && crudService.list.length === 0">
       <td colspan="9" class="text-center">No results found.</td>
     </tr>
-    <!-- Hide rows when loading -->
+    <!-- Data Rows -->
     <tr [hidden]="!(!crudService.loading && crudService.list.length > 0)" *ngFor="let item of crudService.list; let i = index">
+      <!-- Image -->
+      <td>
+        <img *ngIf="item?.image; else placeholderImg" [src]="item.image" alt="Image" style="max-width: 40px; max-height: 40px" />
+        <ng-template #placeholderImg>
+          <img src="assets/img/placeholder.png" alt="No Image" style="max-width: 40px; max-height: 40px; opacity: 0.5" />
+        </ng-template>
+      </td>
       <!-- Name -->
       <td>
-        <div class="fw-bold">{{ item?.name }}</div>
+        <div class="d-flex">
+          <div class="ms-4">
+            <a (click)="openDetails(i)" class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{ item?.category_name }}</a>
+          </div>
+        </div>
       </td>
       <!-- Description -->
       <td>
-        <div>{{ item?.description }}</div>
+        <div class="d-flex">
+          <div class="ms-4">
+            <span>{{ item?.description }}</span>
+          </div>
+        </div>
       </td>
-      <!-- Category -->
+
+      <!-- Type (Status as Active/Inactive) -->
       <td>
-        <div>{{ item?.category_name || item?.category }}</div>
+        <div class="d-flex">
+          <div
+            class="badge fw-bold me-auto"
+            [ngClass]="{
+              'badge-active': item?.status === 'Active' || item?.status === 'active',
+              'badge-inactive': item?.status === 'Inactive' || item?.status === 'inactive'
+            }"
+          >
+            {{ item.status }}
+          </div>
+        </div>
       </td>
-      <!-- Amount -->
-      <td>
-        <div>{{ item?.amount | number: '1.2-2' }}</div>
-      </td>
-      <!-- Type -->
-      <td>
-        <span class="badge" [ngClass]="item?.type === 'active' ? 'bg-success' : 'bg-secondary'">
-          {{ item?.type | titlecase }}
-        </span>
-      </td>
-      <!-- Status -->
-      <td>
-        <span class="badge" [ngClass]="item?.status === 'paid' ? 'bg-success' : 'bg-warning'">
-          {{ item?.status | titlecase }}
-        </span>
-      </td>
+      <!-- Status (Show Paid/Unpaid if you have such a field, else repeat status or leave blank) -->
+
       <!-- Created -->
       <td>
-        <div>{{ item?.created | date: 'dd/MM/yyyy' }}</div>
+        <div class="d-flex">
+          <div class="ms-4">
+            <span class="fs-7 fw-bold text-gray-800">
+              {{ item?.created_at | date: 'dd/MM/yyyy HH:mm:ss' }}
+            </span>
+          </div>
+        </div>
       </td>
       <!-- Updated -->
       <td>
-        <div>{{ item?.updated | date: 'dd/MM/yyyy' }}</div>
-      </td>
-      <!-- Image -->
-      <td>
-        <img *ngIf="item?.image" [src]="item.image" alt="Image" style="max-width: 40px; max-height: 40px" />
-      </td>
-      <!-- Actions (optional, if you want to keep them) -->
-      <!--
-      <td class="text-start">
-        <div class="d-flex flex-row justify-content-start align-items-center gap-3">
-          <i class="ti ti-eye view-icon" style="font-size: 20px; cursor: pointer" (click)="openDetails(i)"></i>
-          <i class="edit-icon ti ti-edit" style="font-size: 24px; cursor: pointer" (click)="openEditDetails(i)"></i>
-          <i *ngIf="showEdit" class="ti ti-trash trash-icon" style="font-size: 20px; cursor: pointer" (click)="deleteRow(i)"></i>
+        <div class="d-flex">
+          <div class="ms-4">
+            <span class="fs-7 fw-bold text-gray-800">
+              {{ item?.updated_at | date: 'dd/MM/yyyy HH:mm:ss' }}
+            </span>
+          </div>
         </div>
       </td>
-      -->
+
+      <!--begin::Action=-->
+      <td class="text-start">
+        <div class="d-flex flex-row justify-content-start align-items-center gap-3">
+          <i class="ti ti-eye view-icon" style="font-size: 20px" (click)="openDetails(i)"></i>
+          <i *ngIf="showEdit" class="edit-icon ti ti-edit" style="font-size: 20px; cursor: pointer" (click)="openEditDetails(i)"></i>
+          <i *ngIf="showEdit" class="ti ti-trash trash-icon" style="font-size: 20px" (click)="deleteRow(i)"></i>
+        </div>
+      </td>
+      <!--end::Action=-->
     </tr>
     <!-- Skeleton Loader Row -->
     <tr *ngIf="crudService.loading">
-      <td colspan="9">
+      <td *ngFor="let col of columns; let i = index">
         <ngx-skeleton-loader
-          appearance="custom-content"
-          [theme]="{ width: '100%', height: '40px', background: 'rgba(0,0,0,0.1)' }"
+          appearance="line"
+          [theme]="{
+            width: '100%',
+            height: '32px',
+            'border-radius': '4px',
+            'margin-bottom': '0'
+          }"
+          [animation]="true"
+        ></ngx-skeleton-loader>
+      </td>
+      <!-- For the Action column (if not included in columns array) -->
+      <td>
+        <ngx-skeleton-loader
+          appearance="circle"
+          [theme]="{
+            width: '32px',
+            height: '32px',
+            'margin-right': '8px'
+          }"
+          [animation]="true"
+        ></ngx-skeleton-loader>
+        <ngx-skeleton-loader
+          appearance="circle"
+          [theme]="{
+            width: '32px',
+            height: '32px'
+          }"
           [animation]="true"
         ></ngx-skeleton-loader>
       </td>

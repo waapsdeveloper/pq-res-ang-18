@@ -32,7 +32,7 @@ export class AddExpenseCategoriesComponent {
           key: 'category_name',
           type: 'input',
           props: {
-            label: 'Category Name',
+            label: 'Expense Category Name',
             placeholder: 'Enter category name',
             required: true
           },
@@ -83,13 +83,16 @@ export class AddExpenseCategoriesComponent {
         },
         {
           key: 'image',
-          type: 'file',
+          type: 'input',
           props: {
-            label: 'Image',
-            placeholder: 'Upload image',
-            required: false
+            label: 'Category Image',
+            placeholder: 'Enter image URL',
+            type: 'file',
+            accept: 'image/*',
+            change: (field, event) => this.onFileChange(field, event, 'imageBase64'),
+            required: true // Ensure required is true
           },
-          className: ' formly-image-wrapper-3232 col-12'
+          className: 'formly-image-wrapper-3232 col-md-3 col-12'
         },
         {
           key: 'status',
@@ -139,6 +142,20 @@ export class AddExpenseCategoriesComponent {
     }
 
     return [];
+  }
+  onFileChange(field, event: Event, type: string = 'image') {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64String = reader.result as string;
+        console.log(base64String);
+
+        this.model[type] = base64String; // Update the model
+      };
+      reader.readAsDataURL(file); // Convert file to base64
+    }
   }
   async setRestaurantsInForm() {
     const res = await this.getRestaurants();
@@ -202,7 +219,8 @@ export class AddExpenseCategoriesComponent {
       // alert('Restaurant added successfully!');
 
       let d = this.form.value;
-      const res = await this.network.addTable(d);
+      d['image'] = this.model['imageBase64'];
+      const res = await this.network.addExpenseCategory(d);
       console.log(res);
       if (res) {
         this.utility.presentSuccessToast('Table added Succesfully!');

@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ViewExpenseComponent } from '../../expense/view-expense/view-expense.component';
+import { ViewExpenseCategoriesComponent } from './view-expense-categories.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: ViewExpenseComponent,
+    component: ViewExpenseCategoriesComponent,
     data: { breadcrumb: 'view' }
   }
 ];
