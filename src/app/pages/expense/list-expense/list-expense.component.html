@@ -68,10 +68,7 @@
       </td>
       <!-- Image -->
       <td>
-        <img *ngIf="item?.image; else placeholderImg" [src]="item.image" alt="Image" style="max-width: 40px; max-height: 40px" />
-        <ng-template #placeholderImg>
-          <img src="assets/img/placeholder.png" alt="No Image" style="max-width: 40px; max-height: 40px; opacity: 0.5" />
-        </ng-template>
+        <app-list-expense-image [item]="item"></app-list-expense-image>
       </td>
       <!-- Action -->
       <td class="text-start">
