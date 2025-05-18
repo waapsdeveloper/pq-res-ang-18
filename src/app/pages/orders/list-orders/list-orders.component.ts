@@ -20,6 +20,11 @@ export class ListOrdersComponent extends ListBlade {
   title = 'Orders';
   addurl = '/pages/orders/add';
   showEdit: boolean = false;
+  taxAmount: number = 0;
+  discountAmount: number = 0;
+  subTotal: number = 0;
+  totalAmount: number = 0;
+
   columns: any[] = [
     'Order Id',
     'Customer',
@@ -204,6 +209,7 @@ export class ListOrdersComponent extends ListBlade {
       ]
     }
   ];
+  currency: string;
   constructor(
     injector: Injector,
     public override crudService: OrderService,
@@ -234,8 +240,22 @@ export class ListOrdersComponent extends ListBlade {
     this.cdr.detectChanges();
   }
 
-  initialize() {
+  async initialize() {
+    this.currency = this.currencyService.currency_symbol;
+    let obj = {
+      search: ' '
+    };
+    const res = await this.network.getOrders(obj);
+    console.log(res);
+
+    if (res) {
+      this.taxAmount = res.total_tax.toFixed(2);
+      this.discountAmount = res.total_discount.toFixed(2);
+      this.subTotal = res.total_price.toFixed(2);
+      this.totalAmount = res.total_final_total.toFixed(2);
+    }
     this.crudService.getList('', 1);
+
     const u = this.users.getUser();
     if (u.role_id == 1 || u.role_id == 2) {
       this.showEdit = true;
@@ -266,7 +286,11 @@ export class ListOrdersComponent extends ListBlade {
 
     return res;
   }
+  get orderTitleHighlightPart(): string {
+    // If your API attaches these totals to the list object, adjust as needed
 
+    return `(Tax: ${this.currency} ${this.taxAmount} | Discount: ${this.currency} ${this.discountAmount} | Subtotal: ${this.currency} ${this.subTotal} | Total: ${this.currency} ${this.totalAmount})`;
+  }
   editRow(index: number) {}
 
   async deleteRow(index: number) {
@@ -389,6 +413,7 @@ export class ListOrdersComponent extends ListBlade {
     this.utility.presentSuccessToast(`Order Status Updated to ${obj.status}`);
   }
   ProductModal(item) {
+    console.log(this.crudService.list);
     this.utility.showProductSelectionTable('Select Products', item.products, 'Select', (productId: string) => {
       console.log('Selected product ID:', productId);
     });

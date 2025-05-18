@@ -441,5 +441,6 @@ export class AddOrderService {
     this.discountAmount = 0;
     this.final_total = 0;
     this.taxAmount = 0;
+    this.isCouponApplied = false;
   }
 }

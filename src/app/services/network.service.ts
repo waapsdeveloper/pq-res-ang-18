@@ -278,6 +278,9 @@ export class NetworkService {
     return this.httpGetResponse('order' + (query ? `?${query}` : ''), null, false, true);
   }
 
+  getOrderTotals() {
+    return this.httpGetResponse('order/totals', null, false, true);
+  }
   getOrdersById(id) {
     return this.httpGetResponse(`order/${id}`, null, false, true);
   }

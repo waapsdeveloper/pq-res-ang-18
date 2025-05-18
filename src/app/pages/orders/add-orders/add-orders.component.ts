@@ -192,6 +192,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     this.orderService.totalCost = 0;
     this.orderService.selected_products = [];
     this.showEdit = false;
+    this.orderService.isCouponApplied = false;
   }
 
   async onSubmit($event: Event) {
