@@ -1,3 +1,4 @@
+import { CurrencyService } from 'src/app/services/currency.service';
 import { Component } from '@angular/core';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
@@ -12,7 +13,8 @@ export class PreSplashComponent {
 
   constructor(
     private nav: NavService,
-    private network: NetworkService
+    private network: NetworkService,
+    private currency: CurrencyService
   ) {}
 
   ngOnInit(): void {
@@ -27,8 +29,8 @@ export class PreSplashComponent {
       let R = defaults.active_restaurant;
       localStorage.setItem('restaurant', JSON.stringify(R));
       localStorage.setItem('restaurant_id', R.id);
-      localStorage.setItem('restaurant_currency', R.currency);
-
+      this.currency.setTax(R.tax);
+      this.currency.setCurrency(R.currency);
       setTimeout(() => {
         this.loading = false;
         this.nav.push('/pages/dashboard');

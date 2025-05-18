@@ -1,5 +1,6 @@
 import { UtilityService } from './../../../services/utility.service';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
+import { CurrencyService } from 'src/app/services/currency.service';
 import { NetworkService } from 'src/app/services/network.service';
 
 @Injectable({
@@ -38,7 +39,8 @@ export class AddOrderService {
 
   constructor(
     private network: NetworkService,
-    private utilityService: UtilityService
+    private utilityService: UtilityService,
+    private currencyService: CurrencyService
   ) {
     this.initialize();
   }
@@ -68,9 +70,10 @@ export class AddOrderService {
 
       restaurant_id: localStorage.getItem('restaurant_id') ? localStorage.getItem('restaurant_id') : -1
     };
+
     const res = await this.network.getCategories(obj);
     // console.log(res)
-    this.setTaxPercentFromLocalStorage();
+
     if (res.data) {
       let d = res.data.data;
       console.log(d);
@@ -87,12 +90,6 @@ export class AddOrderService {
       this.selectedCategory = d[0];
       this.categories = d;
     }
-  }
-
-  setTaxPercentFromLocalStorage() {
-    const restaurant = JSON.parse(localStorage.getItem('restaurant') || '{}');
-    const tax = parseFloat(restaurant?.tax || '0');
-    this.taxPercent = isNaN(tax) ? 0 : tax;
   }
 
   async updateProductsBySelectedCategory(category) {

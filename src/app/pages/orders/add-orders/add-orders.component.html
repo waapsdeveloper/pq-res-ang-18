@@ -246,23 +246,23 @@
 <div id="print-section" class="print-section" style="font-family: Arial, sans-serif; font-size: 12px; width: 240px; margin: auto">
   <div class="bill-slip">
     <div class="bill-header" style="text-align: center; border-bottom: 1px dashed #000; padding-bottom: 8px">
-      <h2 style="margin: 0; font-size: 16px">{{ restaurant.name }}</h2>
-      <p style="margin: 0">{{ restaurant.address }}</p>
-      <p style="margin: 0">{{ restaurant.phone }}</p>
+      <h2 style="margin: 0; font-size: 16px">{{ restaurant?.name }}</h2>
+      <p style="margin: 0">{{ restaurant?.address }}</p>
+      <p style="margin: 0">{{ restaurant?.phone }}</p>
     </div>
 
     <div class="customer-info" style="padding: 8px 0; border-bottom: 1px dashed #000">
       <p style="margin: 0">
         <strong>Name:</strong>
-        {{ orderService.customer_name }}
+        {{ orderService?.customer_name }}
       </p>
       <p style="margin: 0">
         <strong>Phone:</strong>
-        {{ orderService.customer_phone }}
+        {{ orderService?.customer_phone }}
       </p>
       <p style="margin: 0">
         <strong>Order Type:</strong>
-        {{ orderService.orderType }}
+        {{ orderService?.orderType }}
       </p>
     </div>
 

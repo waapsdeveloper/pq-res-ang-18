@@ -202,7 +202,7 @@ export class EditBranchConfigComponent implements OnInit {
       console.log('Response from updateBranchConfig:', res);
       if (res) {
         this.utility.presentSuccessToast('Branch configuration updated successfully.');
-        this.nav.pop();
+        this.nav.push('');
       }
     } else {
       this.utility.presentFailureToast('Please fill out all required fields correctly.');

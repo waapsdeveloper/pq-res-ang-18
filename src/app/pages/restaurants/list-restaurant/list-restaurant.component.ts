@@ -8,6 +8,7 @@ import { NetworkService } from 'src/app/services/network.service';
 import { UtilityService } from 'src/app/services/utility.service';
 import { RestaurantService } from '../restaurant.service';
 import { EventsService } from 'src/app/services/events.service';
+import { CurrencyService } from 'src/app/services/currency.service';
 
 @Component({
   selector: 'app-list-restaurant',
@@ -77,6 +78,7 @@ export class ListRestaurantComponent extends ListBlade {
     private utility: UtilityService,
     private network: NetworkService,
     private cdr: ChangeDetectorRef,
+    public currencyService: CurrencyService,
     public events: EventsService
   ) {
     super(injector, crudService);
@@ -158,8 +160,9 @@ export class ListRestaurantComponent extends ListBlade {
     const R = res.restaurant;
     localStorage.setItem('restaurant', JSON.stringify(R));
     localStorage.setItem('restaurant_id', R.id);
+    this.currencyService.setCurrency(R.currency);
+    this.currencyService.setTax(R.tax);
     this.utility.presentSuccessToast('Default Restaurant Set Successfully!');
-    localStorage.setItem('restaurant_currency', R.currency);
     this.crudService.getList('', 1);
   }
   default() {
