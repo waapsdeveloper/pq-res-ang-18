@@ -1,3 +1,4 @@
+import { CurrencyService } from 'src/app/services/currency.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -80,7 +81,8 @@ export class EditBranchConfigComponent implements OnInit {
     private nav: NavService,
     private network: NetworkService,
     private utility: UtilityService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private currencyService: CurrencyService
   ) {}
 
   ngOnInit(): void {
@@ -199,10 +201,16 @@ export class EditBranchConfigComponent implements OnInit {
       let d = this.form.value;
       d['branch_id'] = this.data.id;
       const res = await this.network.updateBranchConfig(d, this.id);
-      console.log('Response from updateBranchConfig:', res);
+      console.log('Response from updateBranchConfig:', res.data);
       if (res) {
+        const data = res.data;
+        const R = data.restaurant;
+        localStorage.setItem('restaurant', JSON.stringify(R));
+        localStorage.setItem('restaurant_id', R.id);
+        this.currencyService.setCurrency(data.branch_config.currency);
+        this.currencyService.setTax(data.branch_config.tax);
+        data.branch_config.currency;
         this.utility.presentSuccessToast('Branch configuration updated successfully.');
-        this.nav.push('');
       }
     } else {
       this.utility.presentFailureToast('Please fill out all required fields correctly.');
