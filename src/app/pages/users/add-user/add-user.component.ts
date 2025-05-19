@@ -17,7 +17,10 @@ export class AddUserComponent implements OnInit {
     name: '',
     email: '',
     password: '',
-    phone: '',
+    phone: {
+      countryCode: '',
+      number: ''
+    },
     address: '',
     role_id: '',
     city: '',
@@ -135,24 +138,29 @@ export class AddUserComponent implements OnInit {
         },
         {
           key: 'phone',
-          type: 'input',
-          props: {
-            label: 'Phone Number',
-            placeholder: 'XXX-XXX-XXXX',
-            type: 'tel',
-            required: false,
-            pattern: /^[0-9]{11}$/,
-            validation: {
-              show: (field) => field.formControl && field.formControl.invalid && field.formControl.focused
+          type: 'phone-input',
+          fieldGroup: [
+            {
+              key: 'countryCode',
+              type: 'select',
+              templateOptions: {
+                label: 'Country Code',
+                required: true,
+                options: []
+              }
+            },
+            {
+              key: 'number',
+              type: 'input',
+              templateOptions: {
+                label: 'Phone Number',
+                required: true,
+                placeholder: 'e.g. 3123456789',
+                type: 'tel'
+              }
             }
-          },
-          validators: {
-            pattern: {
-              expression: (c: AbstractControl) => !c.value || /^[0-9]{11}$/.test(c.value),
-              message: 'Please enter a valid phone number (11 digits).'
-            }
-          },
-          className: 'col-md-6 col-12'
+          ],
+          className: 'formly-select-wrapper-3232 col-md-6 col-12'
         },
         {
           key: 'role_id',
@@ -278,7 +286,9 @@ export class AddUserComponent implements OnInit {
   ngOnInit(): void {
     this.setRoleInForm();
     this.setRestaurantsInForm();
+    this.setCountryCodesInForm();
   }
+
   async getRestaurants(): Promise<any[]> {
     let obj = {
       search: '',
@@ -349,6 +359,38 @@ export class AddUserComponent implements OnInit {
 
     return [];
   }
+
+  async getCountryCodes(): Promise<any[]> {
+    const res = await this.network.getCurrencies();
+    if (res && res['data']) {
+      return res['data'].map((c) => ({
+        label: `${c.dial_code} - ${c.country}`,
+        value: c.dial_code
+      }));
+    }
+    return [];
+  }
+
+  async setCountryCodesInForm() {
+    const options = await this.getCountryCodes();
+    for (let i = 0; i < this.fields.length; i++) {
+      for (let j = 0; j < this.fields[i].fieldGroup.length; j++) {
+        let fl = this.fields[i].fieldGroup[j];
+        if (fl.key === 'phone') {
+          // Find the countryCode field inside phone fieldGroup
+          if (fl.fieldGroup) {
+            for (let k = 0; k < fl.fieldGroup.length; k++) {
+              let phoneField = fl.fieldGroup[k];
+              if (phoneField.key === 'countryCode') {
+                phoneField.templateOptions.options = options;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
   onFileChange(field, event: Event, type: string = 'image') {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
@@ -367,7 +409,11 @@ export class AddUserComponent implements OnInit {
       reader.readAsDataURL(file); // Convert file to base64
     }
   }
+  onModelChange(model) {
+    console.log(this.form.value); // { countryCode: '...', number: '...' }
+  }
   async onSubmit(model) {
+    console.log('model', model);
     if (this.form.invalid) {
       const requiredFields = ['name', 'email', 'password', 'role_id'];
       requiredFields.forEach((field) => {

@@ -33,7 +33,7 @@ export class CurrencyService {
     console.log('Setting tax:', tax);
     ('');
     this.tax_value = tax;
-    localStorage.setItem('restaurant_tax', tax.toString());
+    localStorage.setItem('restaurant_tax', tax?.toString());
   }
 
   getTaxFromLocalStorage(): number {
