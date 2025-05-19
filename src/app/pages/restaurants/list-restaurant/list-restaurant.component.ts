@@ -30,6 +30,13 @@ export class ListRestaurantComponent extends ListBlade {
     status: 'active'
   };
 
+  resetFilters() {
+    this.model = {
+      name: '',
+      address: '',
+      status: 'active'
+    };
+  }
   fields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: 'row', // Bootstrap row
