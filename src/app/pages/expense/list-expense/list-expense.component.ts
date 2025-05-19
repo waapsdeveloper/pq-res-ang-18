@@ -264,4 +264,14 @@ export class ListExpenseComponent extends ListBlade {
       console.log('Selected product ID:', productId);
     });
   }
+  resetFilters() {
+    this.model = {
+      expense: '',
+      started_from: '',
+      ended_at: '',
+      type: '',
+      status: '',
+      category: ''
+    };
+  }
 }

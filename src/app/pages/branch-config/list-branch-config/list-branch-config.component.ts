@@ -131,4 +131,18 @@ export class ListBranchConfigComponent extends ListBlade {
     let item = this.crudService.list[i];
     this.nav.push('/pages/branch-config/edit/' + item.id);
   }
+  resetFilters() {
+    this.form.reset(); // Reset the form controls
+    // Optionally reset the model as well
+    this.model = {
+      restaurant_name: '',
+      currency: '',
+      dial_code: '',
+      tax: ''
+    };
+    // Re-apply the reset model to the form
+    this.form.patchValue(this.model);
+    // Optionally, trigger the filter logic if needed
+    this.debouncedSubmitFilters(this.model);
+  }
 }

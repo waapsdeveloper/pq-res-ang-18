@@ -25,6 +25,13 @@ export class ListMessageComponent extends ListBlade {
     email: '',
     phone: ''
   };
+  resetFilters() {
+    this.model = {
+      name: '',
+      email: '',
+      phone: ''
+    };
+  }
 
   fields: FormlyFieldConfig[] = [
     {

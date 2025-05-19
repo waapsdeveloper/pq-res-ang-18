@@ -191,4 +191,15 @@ export class ListCouponsComponent extends ListBlade {
     let item = this.crudService.list[i];
     this.nav.push('/pages/coupons/edit/' + item.id);
   }
+  resetFilters() {
+    this.model = {
+      code: '',
+      discount: '',
+      discount_type: '',
+      usage_limit: '',
+      usage_count: '',
+      expires_at: '',
+      is_active: ''
+    };
+  }
 }

@@ -211,6 +211,7 @@ export class EditBranchConfigComponent implements OnInit {
         this.currencyService.setTax(data.branch_config.tax);
         data.branch_config.currency;
         this.utility.presentSuccessToast('Branch configuration updated successfully.');
+        this.nav.pop();
       }
     } else {
       this.utility.presentFailureToast('Please fill out all required fields correctly.');

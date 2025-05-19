@@ -25,6 +25,11 @@ export class ListExpenseCategoriesComponent extends ListBlade {
   override model = {
     expense_name: ''
   };
+  resetFilters() {
+    this.model = {
+      expense_name: ''
+    };
+  }
 
   fields: FormlyFieldConfig[] = [
     {

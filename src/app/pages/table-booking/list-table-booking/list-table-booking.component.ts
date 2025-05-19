@@ -26,6 +26,14 @@ export class ListTableBookingComponent extends ListBlade {
     no_of_seats: '',
     status: 'active'
   };
+  resetFilters() {
+    this.model = {
+      name: '',
+      booking_start: '',
+      no_of_seats: '',
+      status: 'active'
+    };
+  }
 
   fields: FormlyFieldConfig[] = [
     {

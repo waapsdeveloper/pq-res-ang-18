@@ -32,6 +32,19 @@ export class ListProductComponent extends ListBlade {
     discount: null,
     notes: ''
   };
+  resetFilters() {
+    this.model = {
+      name: '',
+      category: '',
+      restaurant_id: null,
+      description: '',
+      status: '',
+      price: null,
+      image: null,
+      discount: null,
+      notes: ''
+    };
+  }
 
   fields: FormlyFieldConfig[] = [
     {

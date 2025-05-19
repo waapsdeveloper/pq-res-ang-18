@@ -182,4 +182,15 @@ export class ListRtablesComponent extends ListBlade {
     let item = this.crudService.list[i];
     this.nav.push('/pages/tables/edit/' + item.id);
   }
+  resetFilters() {
+    this.form.reset(); // Reset form controls
+    this.model = {
+      tableNo: '',
+      status: '',
+      no_of_seats: '',
+      floor: ''
+    }; // Clear the model (or set to default values if needed)
+    this.form.patchValue(this.model);
+    this.debouncedSubmitFilters(this.model); // Optionally re-apply the filter logic
+  }
 }

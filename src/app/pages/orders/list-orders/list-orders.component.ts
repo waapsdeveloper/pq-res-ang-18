@@ -56,6 +56,21 @@ export class ListOrdersComponent extends ListBlade {
     status: '',
     is_paid: ''
   };
+  resetFilters() {
+    this.model = {
+      order_id: '',
+      created_at: '',
+      started_from: '',
+      ended_at: '',
+      customer_name: '',
+      phone: '',
+      total_price: '',
+      table: '',
+      type: '',
+      status: '',
+      is_paid: ''
+    };
+  }
 
   fields: FormlyFieldConfig[] = [
     {

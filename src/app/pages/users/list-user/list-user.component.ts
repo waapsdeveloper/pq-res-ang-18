@@ -57,6 +57,15 @@ export class ListUserComponent extends ListBlade {
     role_id: '',
     status: null
   };
+  resetFilters() {
+    this.model = {
+      name: '',
+      email: '',
+      phone: '',
+      role_id: '',
+      status: null
+    };
+  }
 
   onPageSizeChange(event: any): void {
     console.log('Page size changed in ListOrdersComponent:', event);

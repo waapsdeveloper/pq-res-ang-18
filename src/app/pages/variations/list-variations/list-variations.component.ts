@@ -27,6 +27,13 @@ export class ListVariationsComponent extends ListBlade {
     address: '',
     status: 'active'
   };
+  resetFilters() {
+    this.model = {
+      name: '',
+      address: '',
+      status: 'active'
+    };
+  }
 
   fields: FormlyFieldConfig[] = [
     {
