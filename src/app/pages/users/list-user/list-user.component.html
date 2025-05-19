@@ -51,7 +51,10 @@
       </td>
       <td>
         <div class="d-flex">
-          <div class="fs-7 fw-bold">{{ item.phone }}</div>
+          <div class="fs-7 fw-bold">
+            <span class="me-1" *ngIf="item.dial_code">({{ item.dial_code }})</span>
+            {{ item.phone }}
+          </div>
         </div>
       </td>
       <td>

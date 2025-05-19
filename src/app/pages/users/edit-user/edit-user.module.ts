@@ -7,7 +7,8 @@ import { KtAppFormPageModule } from '../../../components/layouts/kt-app-form-pag
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyModule } from '@ngx-formly/core';
-
+import { FormlyTypesModule } from 'src/app/shared/formly-types/formly-types.module';
+import { PhoneInputComponent } from 'src/app/shared/formly-types/phone-input/phone-input.type';
 @NgModule({
   declarations: [EditUserComponent],
   imports: [
@@ -28,6 +29,7 @@ import { FormlyModule } from '@ngx-formly/core';
         // field.formControl.focused
       }
     }),
+    FormlyTypesModule,
     ReactiveFormsModule,
     FormlyBootstrapModule
   ]

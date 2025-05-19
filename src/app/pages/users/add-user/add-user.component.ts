@@ -139,6 +139,9 @@ export class AddUserComponent implements OnInit {
         {
           key: 'phone',
           type: 'phone-input',
+          props: {
+            label: 'Phone Number'
+          },
           fieldGroup: [
             {
               key: 'countryCode',
