@@ -9,6 +9,7 @@ import { ListBlade } from 'src/app/abstract/list-blade';
 import { UtilityService } from 'src/app/services/utility.service';
 import { ActivatedRoute } from '@angular/router';
 import { EventsService } from 'src/app/services/events.service';
+import { CurrencyService } from 'src/app/services/currency.service';
 
 @Component({
   selector: 'app-list-product',
@@ -170,7 +171,8 @@ export class ListProductComponent extends ListBlade {
     private network: NetworkService,
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
-    public events: EventsService
+    public events: EventsService,
+    public currencyService: CurrencyService
   ) {
     super(injector, crudService);
 

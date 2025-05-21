@@ -54,7 +54,7 @@
       </td>
       <td>
         <div class="d-flex">
-          <div class="badge badge-secondary fw-bold me-auto">${{ item.price }}</div>
+          <div class="badge badge-secondary fw-bold me-auto">{{ this.currencyService.currency_symbol }} {{ item.price }}</div>
         </div>
       </td>
 
@@ -72,7 +72,7 @@
       </td>
       <td>
         <div class="d-flex">
-          <a class="badge badge-success fw-bold me-auto">${{ item.price }}</a>
+          <a class="badge badge-success fw-bold me-auto">{{ this.currencyService.currency_symbol }} {{ item.discount }}</a>
         </div>
       </td>
       <td>
