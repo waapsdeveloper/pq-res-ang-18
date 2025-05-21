@@ -67,7 +67,7 @@ import { NgxPubSubModule } from '@pscoped/ngx-pub-sub';
     { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true },
     provideNgSimpleState({
       enableDevTool: isDevMode(),
-      enableLocalStorage: true,
+      // enableLocalStorage: true,
       persistentStorage: 'local'
     })
   ],
