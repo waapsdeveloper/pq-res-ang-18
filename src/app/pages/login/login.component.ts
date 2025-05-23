@@ -10,63 +10,56 @@ import { UtilityService } from 'src/app/services/utility.service';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent implements OnInit {
-
   showLoader = false;
 
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private network: NetworkService, private users: UsersService, private nav: NavService,public utility:UtilityService) {
-
+  constructor(
+    private fb: FormBuilder,
+    private network: NetworkService,
+    private users: UsersService,
+    private nav: NavService,
+    public utility: UtilityService
+  ) {
     this.loginForm = this.fb.group({
-      email: ['superadmin@email.com', [Validators.required, Validators.email]],
-      password: ['admin123$', [Validators.required, Validators.minLength(6)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
       rememberMe: [true]
     });
-
   }
+  // superadmin@email.com
+  // admin123$
 
   ngOnInit(): void {
     this.initialize();
   }
 
-  initialize(){
-
-  }
+  initialize() {}
 
   async onSubmit() {
-
     if (this.loginForm.valid) {
-
       this.showLoader = true;
       console.log('Form Submitted:', this.loginForm.value);
 
       let d = this.loginForm.value;
       let formdata = {
         email: d.email,
-        password: d.password,
+        password: d.password
       };
       const res = (await this.network.loginViaEmail(d)) as any;
 
-      if(res){
-       console.log(res)
+      if (res) {
+        console.log(res);
         if (res.user) {
           localStorage.setItem('token', res.token);
           await this.users.setUser(res.user);
           this.nav.push('pages/pre-splash');
         }
-
       }
 
       this.showLoader = false;
-
-
-
     } else {
       console.error('Form is invalid');
-      
     }
   }
-
-
-
 }
