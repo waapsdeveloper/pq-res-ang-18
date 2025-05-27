@@ -3,6 +3,7 @@ import { Component, HostListener } from '@angular/core';
 import { NetworkService } from 'src/app/services/network.service';
 import { AddOrderService } from '../add-order.service';
 import { CurrencyService } from 'src/app/services/currency.service';
+import { GlobalDataService } from 'src/app/services/global-data.service';
 
 @Component({
   selector: 'app-add-order-products',
@@ -12,13 +13,24 @@ import { CurrencyService } from 'src/app/services/currency.service';
 export class AddOrderProductsComponent {
   columnClass: string = 'col-4'; // Default column class
   buttonLabel = 'Add Product';
-
+  currency = 'USD';
+  currencySymbol = '$';
   constructor(
     public orderService: AddOrderService,
-    public currencyService: CurrencyService
+    public currencyService: CurrencyService,
+    private globalData: GlobalDataService
   ) {
     this.initialize();
     this.updateColumnClass(window.innerWidth); // Initialize column class based on current screen size
+    this.globalData.getCurrency().subscribe((currency) => {
+      this.currency = currency;
+      console.log('Currency updated:', this.currency);
+    });
+
+    this.globalData.getCurrencySymbol().subscribe((symbol) => {
+      this.currencySymbol = symbol;
+      console.log('Currency Symbol updated:', this.currencySymbol);
+    });
   }
 
   @HostListener('window:resize', ['$event'])

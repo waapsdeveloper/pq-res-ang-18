@@ -9,6 +9,7 @@ import { UtilityService } from 'src/app/services/utility.service';
 import { OrderService } from '../orders.service';
 import { EventsService } from 'src/app/services/events.service';
 import { CurrencyService } from 'src/app/services/currency.service';
+import { GlobalDataService } from 'src/app/services/global-data.service';
 
 @Component({
   selector: 'app-list-orders',
@@ -24,6 +25,8 @@ export class ListOrdersComponent extends ListBlade {
   discountAmount: number = 0;
   subTotal: number = 0;
   totalAmount: number = 0;
+  currency = 'USD';
+  currencySymbol = '$';
 
   columns: any[] = [
     'Order Id',
@@ -224,7 +227,6 @@ export class ListOrdersComponent extends ListBlade {
       ]
     }
   ];
-  currency: string;
   constructor(
     injector: Injector,
     public override crudService: OrderService,
@@ -234,10 +236,20 @@ export class ListOrdersComponent extends ListBlade {
     private network: NetworkService,
     private cdr: ChangeDetectorRef,
     public events: EventsService,
-    public currencyService: CurrencyService
+    public currencyService: CurrencyService,
+    private globalData: GlobalDataService
   ) {
     super(injector, crudService);
     this.initialize();
+    this.globalData.getCurrency().subscribe((currency) => {
+      this.currency = currency;
+      console.log('Currency updated:', this.currency);
+    });
+
+    this.globalData.getCurrencySymbol().subscribe((symbol) => {
+      this.currencySymbol = symbol;
+      console.log('Currency Symbol updated:', this.currencySymbol);
+    });
   }
 
   async onDeleteAll($event: any) {
@@ -304,7 +316,7 @@ export class ListOrdersComponent extends ListBlade {
   get orderTitleHighlightPart(): string {
     // If your API attaches these totals to the list object, adjust as needed
 
-    return `(Tax: ${this.currency} ${this.taxAmount} | Discount: ${this.currency} ${this.discountAmount} | Subtotal: ${this.currency} ${this.subTotal} | Total: ${this.currency} ${this.totalAmount})`;
+    return `(Tax: ${this.currencySymbol} ${this.taxAmount} | Discount: ${this.currencySymbol} ${this.discountAmount} | Subtotal: ${this.currencySymbol} ${this.subTotal} | Total: ${this.currencySymbol} ${this.totalAmount})`;
   }
   editRow(index: number) {}
 

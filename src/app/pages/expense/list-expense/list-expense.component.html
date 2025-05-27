@@ -1,6 +1,6 @@
 <app-kt-list-page
   [title]="expenseTitle"
-  [titleHighlightPart]="'(' + currency + ' ' + totalAmount + ')'"
+  [titleHighlightPart]="'(' + currencySymbol + ' ' + totalAmount + ')'"
   [addurl]="'/pages/expense/add'"
   (onFilter)="toggleFilters()"
   [showDeleteAll]="showDeleteAllButton"
@@ -42,7 +42,7 @@
       </td>
       <!-- Amount -->
       <td>
-        <div>{{ item?.category.restaurant?.currency }} {{ item?.amount | number: '1.2-2' }}</div>
+        <div>{{ this.currencySymbol + ' ' }}{{ item?.amount | number: '1.2-2' }}</div>
       </td>
       <!-- Type -->
       <td>

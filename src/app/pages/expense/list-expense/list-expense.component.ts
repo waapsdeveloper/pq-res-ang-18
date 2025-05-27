@@ -9,6 +9,7 @@ import { UsersService } from 'src/app/services/users.service';
 import { UtilityService } from 'src/app/services/utility.service';
 import { ExpenseCategoriesService } from '../../expense-categories/expense-categories.service';
 import { ExprenseService } from '../expense.service';
+import { GlobalDataService } from 'src/app/services/global-data.service';
 
 @Component({
   selector: 'app-list-expense',
@@ -20,6 +21,8 @@ export class ListExpenseComponent extends ListBlade {
   showDeleteAllButton = false;
   title = 'Expense';
   addurl = '/pages/expense/add';
+  currency = 'USD';
+  currencySymbol = '$';
   showEdit: boolean = false;
   columns: any[] = ['Name', 'Description', 'Category', 'Amount', 'Type', 'Status', 'Created ', ' Updated', 'Image'];
   override model = {
@@ -109,7 +112,6 @@ export class ListExpenseComponent extends ListBlade {
       ]
     }
   ];
-  currency: string;
   totalAmount: any;
   constructor(
     injector: Injector,
@@ -120,12 +122,21 @@ export class ListExpenseComponent extends ListBlade {
     private network: NetworkService,
     private cdr: ChangeDetectorRef,
     public events: EventsService,
-    public currencyService: CurrencyService
+    public currencyService: CurrencyService,
+    private globalData: GlobalDataService
   ) {
     super(injector, crudService);
     this.initialize();
     this.setCategoryInForm();
-    this.currency = this.currencyService.currency_symbol;
+    this.globalData.getCurrency().subscribe((currency) => {
+      this.currency = currency;
+      console.log('Currency updated:', this.currency);
+    });
+
+    this.globalData.getCurrencySymbol().subscribe((symbol) => {
+      this.currencySymbol = symbol;
+      console.log('Currency Symbol updated:', this.currencySymbol);
+    });
   }
 
   get expenseTitle(): string {

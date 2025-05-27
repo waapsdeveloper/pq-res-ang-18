@@ -55,12 +55,12 @@
       <!-- Subtotal -->
       <td>
         <div class="d-flex" class="ms-4">
-          <div class="fs-7 fw-bold">{{ this.currencyService.currency_symbol }} {{ item.total_price | number: '1.2-2' }}</div>
+          <div class="fs-7 fw-bold">{{ this.currencySymbol + '' }} {{ item.total_price | number: '1.2-2' }}</div>
         </div>
       </td>
       <td>
         <div class="d-flex" class="ms-4" *ngIf="item?.tax_amount">
-          <div class="fs-7 fw-bold">{{ this.currencyService.currency_symbol }} {{ item.tax_amount | number: '1.2-2' }}</div>
+          <div class="fs-7 fw-bold">{{ this.currencySymbol + '' }} {{ item.tax_amount | number: '1.2-2' }}</div>
         </div>
       </td>
       <!-- Discount -->
@@ -68,7 +68,7 @@
         <div class="d-flex flex-row gap-2" class="ms-4">
           <div class="fs-7 fw-bold">
             <span class="badge badge-preparing fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">
-              {{ this.currencyService.currency_symbol }} {{ item.discount_value | number: '1.2-2' }}
+              {{ this.currencySymbol + '' }}{{ item.discount_value | number: '1.2-2' }}
             </span>
           </div>
         </div>
@@ -77,7 +77,7 @@
       <td>
         <div class="d-flex" class="ms-4">
           <div class="fs-7 fw-bold">
-            {{ this.currencyService.currency_symbol }}
+            {{ this.currencySymbol + '' }}
             {{ (item?.discount_value && item?.discount_value > 0 ? item?.final_total : item?.total_price) | number: '1.2-2' }}
           </div>
         </div>

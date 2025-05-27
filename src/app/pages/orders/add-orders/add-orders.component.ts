@@ -10,6 +10,7 @@ import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { CurrencyService } from 'src/app/services/currency.service';
+import { GlobalDataService } from 'src/app/services/global-data.service';
 
 @Component({
   selector: 'app-add-orders',
@@ -31,6 +32,8 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   itemId;
   restInfo;
   restaurant;
+  currency = 'USD';
+  currencySymbol = '$';
   showEdit = false;
   private searchSubject = new Subject<string>();
   private phoneSearchSubject = new Subject<string>();
@@ -44,8 +47,18 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     private utilityService: UtilityService,
     private location: Location,
     private activatedRoute: ActivatedRoute,
-    public currencyService: CurrencyService
+    public currencyService: CurrencyService,
+    private globalData: GlobalDataService
   ) {
+    this.globalData.getCurrency().subscribe((currency) => {
+      this.currency = currency;
+      console.log('Currency updated:', this.currency);
+    });
+
+    this.globalData.getCurrencySymbol().subscribe((symbol) => {
+      this.currencySymbol = symbol;
+      console.log('Currency Symbol updated:', this.currencySymbol);
+    });
     this.updateScreenSize(); // Initialize screen size on component load
   }
 

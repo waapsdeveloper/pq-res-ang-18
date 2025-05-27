@@ -3,6 +3,7 @@ import { AddOrderService } from '../add-order.service';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { NetworkService } from 'src/app/services/network.service';
+import { GlobalDataService } from 'src/app/services/global-data.service';
 
 @Component({
   selector: 'app-add-order-price-list',
@@ -10,11 +11,24 @@ import { NetworkService } from 'src/app/services/network.service';
   styleUrl: './add-order-price-list.component.scss'
 })
 export class AddOrderPriceListComponent implements OnInit {
+  currency = 'USD';
+  currencySymbol = '$';
   constructor(
     public orderService: AddOrderService,
     public nav: NavService,
-    private network: NetworkService
-  ) {}
+    private network: NetworkService,
+    private globalData: GlobalDataService
+  ) {
+    this.globalData.getCurrency().subscribe((currency) => {
+      this.currency = currency;
+      console.log('Currency updated:', this.currency);
+    });
+
+    this.globalData.getCurrencySymbol().subscribe((symbol) => {
+      this.currencySymbol = symbol;
+      console.log('Currency Symbol updated:', this.currencySymbol);
+    });
+  }
   async ngOnInit() {}
 
   editNote(item: any): void {
@@ -41,7 +55,7 @@ export class AddOrderPriceListComponent implements OnInit {
     this.orderService.totalOfProductCost();
   }
 
-  changeVariationSelection($event){
+  changeVariationSelection($event) {
     this.orderService.totalOfProductCost();
   }
 
@@ -69,7 +83,7 @@ export class AddOrderPriceListComponent implements OnInit {
         if (variation.options) {
           variation.options.forEach((option: any) => {
             if (option.selected) {
-              totalPrice +=  parseFloat(option.price); // Add the price of selected options
+              totalPrice += parseFloat(option.price); // Add the price of selected options
             }
           });
         }

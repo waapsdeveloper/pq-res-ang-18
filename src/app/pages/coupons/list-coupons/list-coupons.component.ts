@@ -8,6 +8,7 @@ import { UtilityService } from 'src/app/services/utility.service';
 import { FormGroup } from '@angular/forms';
 import { CouponsService } from '../coupons.service';
 import { EventsService } from 'src/app/services/events.service';
+import { GlobalDataService } from 'src/app/services/global-data.service';
 
 @Component({
   selector: 'app-list-coupons',
@@ -20,6 +21,8 @@ export class ListCouponsComponent extends ListBlade {
   showEdit = false;
   addurl = '/pages/coupons/add';
   showDeleteAllButton = false;
+  currency = 'USD';
+  currencySymbol = '$';
 
   override form = new FormGroup({});
   override model = {
@@ -142,10 +145,20 @@ export class ListCouponsComponent extends ListBlade {
     private users: UsersService,
     private network: NetworkService,
     private cdr: ChangeDetectorRef,
-    public events: EventsService
+    public events: EventsService,
+    private globalData: GlobalDataService
   ) {
     super(injector, crudService);
     this.initialize();
+    this.globalData.getCurrency().subscribe((currency) => {
+      this.currency = currency;
+      console.log('Currency updated:', this.currency);
+    });
+
+    this.globalData.getCurrencySymbol().subscribe((symbol) => {
+      this.currencySymbol = symbol;
+      console.log('Currency Symbol updated:', this.currencySymbol);
+    });
   }
 
   initialize() {

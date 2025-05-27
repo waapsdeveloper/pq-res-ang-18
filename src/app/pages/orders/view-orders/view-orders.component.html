@@ -90,7 +90,7 @@
                             </tr>
                             <tr>
                               <td>Tax Amount :</td>
-                              <td>{{ this.currencyService.currency_symbol }} {{ item?.tax_amount }}</td>
+                              <td>{{ this.currencySymbol }} {{ item?.tax_amount }}</td>
                             </tr>
                             <tr>
                               <td>Coupon Code:</td>
@@ -135,7 +135,7 @@
                                               <br />
                                               <span class="text-muted">- {{ option.description }}</span>
                                               <span class="text-success">
-                                                ({{ this.currencyService.currency_symbol }} {{ option.price | number: '1.2-2' }})
+                                                {{ this.currencySymbol }} {{ option.price | number: '1.2-2' }})
                                               </span>
                                             </div>
                                           </div>
@@ -160,8 +160,8 @@
                                   </button>
                                 </td>
                                 <td>{{ product?.quantity }}</td>
-                                <td>{{ this.currencyService.currency_symbol }} {{ product?.price }}</td>
-                                <td>{{ this.currencyService.currency_symbol }} {{ product?.quantity * product?.price }}</td>
+                                <td>{{ this.currencySymbol }} {{ product?.price }}</td>
+                                <td>{{ this.currencySymbol }} {{ product?.quantity * product?.price }}</td>
                               </tr>
                             </tbody>
                             <tfoot>
@@ -169,9 +169,7 @@
                               <tr>
                                 <td colspan="2" class="text-end fw-bold">Subtotal:</td>
                                 <td colspan="3" class="text-end">
-                                  <span class="fw-normal">
-                                    {{ this.currencyService.currency_symbol }} {{ item?.total_price | number: '1.2-2' }}
-                                  </span>
+                                  <span class="fw-normal">({{ this.currencySymbol }} {{ item?.total_price | number: '1.2-2' }}</span>
                                 </td>
                               </tr>
 
@@ -180,7 +178,7 @@
                                 <td colspan="2" class="text-end fw-bold">Discount:</td>
                                 <td colspan="3" class="text-end">
                                   <span class="fw-normal text-danger">
-                                    {{ this.currencyService.currency_symbol }} {{ item?.discount_value | number: '1.2-2' }}
+                                    {{ this.currencySymbol }} {{ item?.discount_value | number: '1.2-2' }}
                                   </span>
                                 </td>
                               </tr>
@@ -189,9 +187,7 @@
                               <tr>
                                 <td colspan="2" class="text-end fw-bold">Tax:</td>
                                 <td colspan="3" class="text-end">
-                                  <span class="fw-normal">
-                                    {{ this.currencyService.currency_symbol }} {{ item?.tax || '0.00' | number: '1.2-2' }}
-                                  </span>
+                                  <span class="fw-normal">{{ this.currencySymbol }} {{ item?.tax || '0.00' | number: '1.2-2' }}</span>
                                 </td>
                               </tr>
 
@@ -200,7 +196,7 @@
                                 <td colspan="2" class="text-end fw-bold">Total:</td>
                                 <td colspan="3" class="text-end">
                                   <span class="fw-bold text-success">
-                                    {{ this.currencyService.currency_symbol }}
+                                    {{ this.currencySymbol }}
                                     {{
                                       (item?.discount_value && item?.discount_value > 0 ? item?.final_total : item?.total_price)
                                         | number: '1.2-2'

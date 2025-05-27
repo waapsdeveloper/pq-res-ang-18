@@ -1,6 +1,7 @@
 import { UtilityService } from './../../../services/utility.service';
 import { Injectable, OnInit } from '@angular/core';
 import { CurrencyService } from 'src/app/services/currency.service';
+import { GlobalDataService } from 'src/app/services/global-data.service';
 import { NetworkService } from 'src/app/services/network.service';
 
 @Injectable({
@@ -10,6 +11,7 @@ export class AddOrderService {
   showOrderHeader = true;
 
   categories: any[] = [];
+
   products: any[] = [];
   customer_name: string = '';
   customer_phone: string = '';
@@ -40,9 +42,14 @@ export class AddOrderService {
   constructor(
     private network: NetworkService,
     private utilityService: UtilityService,
-    private currencyService: CurrencyService
+    private currencyService: CurrencyService,
+    private globalData: GlobalDataService
   ) {
     this.initialize();
+    this.globalData.getTaxPercentage().subscribe((taxPercentage) => {
+      this.taxPercent = taxPercentage;
+      console.log('Tax Percentage updated:', this.taxPercent);
+    });
   }
 
   async searchProducts(search) {

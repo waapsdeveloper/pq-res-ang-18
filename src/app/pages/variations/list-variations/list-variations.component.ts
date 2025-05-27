@@ -8,6 +8,7 @@ import { RestaurantService } from '../../restaurants/restaurant.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { VariationsService } from '../variations.service';
 import { EventsService } from 'src/app/services/events.service';
+import { GlobalDataService } from 'src/app/services/global-data.service';
 
 @Component({
   selector: 'app-list-variations',
@@ -19,7 +20,8 @@ export class ListVariationsComponent extends ListBlade {
   title = 'Variations';
   addurl = '/pages/variations/add';
   override selectAll: boolean = false;
-
+  currency = 'USD';
+  currencySymbol = '$';
   columns: any[] = ['Name', 'Description', 'Options'];
 
   override model = {
@@ -83,10 +85,20 @@ export class ListVariationsComponent extends ListBlade {
     private utility: UtilityService,
     private network: NetworkService,
     private cdr: ChangeDetectorRef,
-    public events: EventsService
+    public events: EventsService,
+    private globalData: GlobalDataService
   ) {
     super(injector, crudService);
     this.initialize();
+    this.globalData.getCurrency().subscribe((currency) => {
+      this.currency = currency;
+      console.log('Currency updated:', this.currency);
+    });
+
+    this.globalData.getCurrencySymbol().subscribe((symbol) => {
+      this.currencySymbol = symbol;
+      console.log('Currency Symbol updated:', this.currencySymbol);
+    });
   }
 
   initialize() {

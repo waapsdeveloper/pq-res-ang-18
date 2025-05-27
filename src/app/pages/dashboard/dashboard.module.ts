@@ -23,14 +23,11 @@ import { FavouriteTableModule } from './component/favourite-table/favourite-tabl
 import { SalesChartModule } from './component/sales-chart/sales-chart.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 @NgModule({
-  declarations: [DashboardComponent, RecentOrderComponent, ],
+  declarations: [DashboardComponent, RecentOrderComponent],
   imports: [
     CommonModule,
     DashboardRoutingModule,
     SharedModule,
-
-
-
 
     // APEX CHART
     ApexSalesChartModule,
@@ -48,9 +45,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     OrderStatusComponent,
     FavouriteTableModule,
     SalesChartModule,
-    NgApexchartsModule,
-
-
+    NgApexchartsModule
   ]
 })
 export class DashboardModule {}

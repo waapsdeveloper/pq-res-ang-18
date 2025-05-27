@@ -7,12 +7,12 @@ export interface GlobalDataState {
   restaurant_id: number;
   currency: string;
   currency_symbol: string;
+  tax_percentage: number;
 }
 @Injectable({
   providedIn: 'root'
 })
 export class GlobalDataService extends NgSimpleStateBaseRxjsStore<GlobalDataState> {
-
   private restaurantId: string | null = null;
   private currency: string | null = null;
   private currencySymbol: string | null = null;
@@ -29,7 +29,8 @@ export class GlobalDataService extends NgSimpleStateBaseRxjsStore<GlobalDataStat
     return {
       restaurant_id: 0,
       currency: 'USD',
-      currency_symbol: '$'
+      currency_symbol: '$',
+      tax_percentage: 0
     };
   }
 
@@ -38,7 +39,7 @@ export class GlobalDataService extends NgSimpleStateBaseRxjsStore<GlobalDataStat
     this.setState((state) => ({ restaurant_id: id }));
   }
 
-  getRestaurantId(): Observable<any>{
+  getRestaurantId(): Observable<any> {
     return this.selectState((state) => state.restaurant_id);
   }
 
@@ -59,12 +60,18 @@ export class GlobalDataService extends NgSimpleStateBaseRxjsStore<GlobalDataStat
   getCurrencySymbol(): Observable<any> {
     return this.selectState((state) => state.currency_symbol);
   }
+  setTaxPercentage(tax: number): void {
+    this.setState((state) => ({ tax_percentage: tax }));
+  }
+  getTaxPercentage(): Observable<any> {
+    return this.selectState((state) => state.tax_percentage);
+  }
 
-  getDefaultRestaurant(){
+  getDefaultRestaurant() {
     return new Promise(async (resolve, reject) => {
       const defaults = await this.network.getDefaultRestaurantId();
 
-      console.log("defualts", defaults)
+      console.log('defualts', defaults);
 
       if (defaults && defaults.active_restaurant) {
         let R = defaults.active_restaurant;
@@ -80,8 +87,8 @@ export class GlobalDataService extends NgSimpleStateBaseRxjsStore<GlobalDataStat
           localStorage.setItem('restaurant_config', JSON.stringify(config.data));
           this.setCurrency(config.data.currency);
           this.setCurrencySymbol(config.data.currency_symbol);
+          this.setTaxPercentage(config.data.tax);
         }
-
 
         resolve(R);
       } else {
@@ -89,9 +96,4 @@ export class GlobalDataService extends NgSimpleStateBaseRxjsStore<GlobalDataStat
       }
     });
   }
-
-
-  
-
-
 }

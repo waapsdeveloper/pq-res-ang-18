@@ -18,7 +18,7 @@
 
         <button class="btn btn-primary" (click)="setSelectedToggle(product)" [disabled]="isProductSelected(product.id)">
           <!-- {{buttonLabel}} -->
-          {{ this.currencyService.currency_symbol }} {{ product?.price | number: '1.2-2' }}
+          {{ this.currencySymbol }} {{ product?.price | number: '1.2-2' }}
         </button>
       </div>
     </div>

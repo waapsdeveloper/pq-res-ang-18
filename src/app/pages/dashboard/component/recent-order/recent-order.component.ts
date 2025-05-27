@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { CurrencyService } from 'src/app/services/currency.service';
+import { GlobalDataService } from 'src/app/services/global-data.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { UsersService } from 'src/app/services/users.service';
 
@@ -20,6 +21,8 @@ export class RecentOrderComponent {
   perpage = 10;
   list: any[] = [];
   showEdit: boolean = false;
+  currency = 'USD';
+  currencySymbol = '$';
 
   // async ngOnInit() {
   //   // Fetch the data using the service method
@@ -48,9 +51,19 @@ export class RecentOrderComponent {
     private nav: NavService,
     private network: NetworkService,
     private users: UsersService,
-    public currencyService: CurrencyService
+    public currencyService: CurrencyService,
+    private globalData: GlobalDataService
   ) {
     this.initialize();
+    this.globalData.getCurrency().subscribe((currency) => {
+      this.currency = currency;
+      console.log('Currency updated:', this.currency);
+    });
+
+    this.globalData.getCurrencySymbol().subscribe((symbol) => {
+      this.currencySymbol = symbol;
+      console.log('Currency Symbol updated:', this.currencySymbol);
+    });
   }
 
   initialize() {
