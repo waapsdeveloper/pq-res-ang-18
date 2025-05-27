@@ -27,8 +27,11 @@ export class PreSplashComponent {
     console.log(defaults);
     if (defaults && defaults.active_restaurant) {
       let R = defaults.active_restaurant;
+
       localStorage.setItem('restaurant', JSON.stringify(R));
       localStorage.setItem('restaurant_id', R.id);
+      this.currency.setRestaurantId(R.id);
+
       this.currency.setTax(R.tax);
       this.currency.setCurrency(R.currency);
       setTimeout(() => {

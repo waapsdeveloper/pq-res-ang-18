@@ -1,32 +1,68 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { NetworkService } from './network.service';
+import { NgSimpleStateBaseRxjsStore, NgSimpleStateStoreConfig } from 'ng-simple-state';
+import { Observable } from 'rxjs';
 
+export interface CurrencyData {
+  restaurant_id: number;
+  currency: string;
+  currency_symbol: string;
+}
 @Injectable({
   providedIn: 'root'
 })
-export class CurrencyService {
-  currency_symbol = '$';
+export class CurrencyService extends NgSimpleStateBaseRxjsStore<CurrencyData> {
+  private restaurantId: string | null = null;
+  private currency: string | null = null;
+  private currencySymbol: string | null = null;
   tax_value: number = 0;
+  currency_symbol: string = '$';
 
-  constructor() {
+  constructor(private network: NetworkService) {
+    super();
     // Initialize from local storage on service creation
-    this.getCurrencyFromLocalStorage();
     this.getTaxFromLocalStorage();
   }
 
-  setCurrency(currency: string): void {
-    this.currency_symbol = currency;
-    localStorage.setItem('restaurant_currency', currency);
+  protected storeConfig(): NgSimpleStateStoreConfig {
+    return {
+      storeName: 'CurrencyData'
+    };
+  }
+  protected initialState(): CurrencyData {
+    return {
+      restaurant_id: 0,
+      currency: 'USD',
+      currency_symbol: '$'
+    };
   }
 
-  getCurrencyFromLocalStorage(): string {
-    const currency = localStorage.getItem('restaurant_currency');
-    if (currency) {
-      this.currency_symbol = currency;
-    } else {
-      this.currency_symbol = '$'; // Default value
-    }
-    return this.currency_symbol;
+  setRestaurantId(id: number): void {
+    this.restaurantId = id.toString();
+    this.setState((state) => ({ restaurant_id: id }));
+  }
+
+  getRestaurantId(): Observable<any> {
+    return this.selectState((state) => state.restaurant_id);
+  }
+
+  setCurrency(currency: string): void {
+    this.currency = currency;
+    this.setState((state) => ({ currency }));
+  }
+
+  getCurrency(): Observable<any> {
+    return this.selectState((state) => state.currency);
+  }
+
+  setCurrencySymbol(symbol: string): void {
+    this.currencySymbol = symbol;
+    this.setState((state) => ({ currency_symbol: symbol }));
+  }
+
+  getCurrencySymbol(): Observable<any> {
+    return this.selectState((state) => state.currency_symbol);
   }
 
   setTax(tax: number): void {
