@@ -89,7 +89,7 @@ export class EditBranchConfigComponent implements OnInit {
     this.id = this.route.snapshot.paramMap.get('id');
     console.log('ID from URL:', this.id);
 
-    this.setBranchesInForm();
+    // this.setBranchesInForm();
     this.setCurrenciesInForm();
     this.loadBranchConfig();
 
