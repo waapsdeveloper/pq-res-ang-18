@@ -147,7 +147,7 @@ export class ListRestaurantComponent extends ListBlade {
     let config = res.data.branch_config;
 
     // Proceed with configuration if id is not null
-    this.nav.push('//pages/branch-config/edit/' + config.id);
+    this.nav.push('/pages/branch-config/edit/' + config.id);
   }
 
   openDetails(i) {
