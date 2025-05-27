@@ -86,10 +86,20 @@ export class EditBranchConfigComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.id = this.route.snapshot.paramMap.get('id');
-    console.log('ID from URL:', this.id);
+    // this.id = this.route.snapshot.paramMap.get('id');
+    // console.log('ID from URL:', this.id);
 
-    this.setBranchesInForm();
+    this.id = localStorage.getItem('restaurant_id');
+    if (!this.id) {
+      this.utility.presentFailureToast('Something went wrong. Please try again later.');
+      this.nav.pop();
+      return;
+    }
+
+
+
+
+    // this.setBranchesInForm();
     this.setCurrenciesInForm();
     this.loadBranchConfig();
 

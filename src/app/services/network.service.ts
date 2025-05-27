@@ -136,7 +136,9 @@ export class NetworkService {
   }
 
   getBranchConfigById(id) {
-    return this.httpGetResponse(`branch-config/${id}`, null, false, true);
+
+    return this.httpGetResponse(`branch-config/get-config-by-branch-id/${id}`, null, false, true);
+    // return this.httpGetResponse(`branch-config/${id}`, null, false, true);
   }
 
   addBranchConfig(data) {

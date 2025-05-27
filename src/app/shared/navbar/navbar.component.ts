@@ -80,9 +80,9 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   async ngOnInit() {
-    this.globalRestaurantService.getRestaurantName().subscribe((name) => {
-      this.restaurantName = name;
-    });
+    const name = await this.globalRestaurantService.getRestaurantNamePromise()
+    this.restaurantName = name;
+
     console.log('Restaurant Name:', this.restaurantName);
 
     this.listItems = [];

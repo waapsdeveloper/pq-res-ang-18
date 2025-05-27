@@ -59,4 +59,15 @@ export class GlobalRestaurantService extends NgSimpleStateBaseRxjsStore<GlobalRe
   getRestaurantName(): Observable<string> {
     return this.selectState( state => state.name );
   }
+
+  getRestaurantNamePromise(): Promise<string> {
+
+    return new Promise((resolve) => {
+      this.getRestaurantName().subscribe(name => {
+        resolve(name);
+      });
+    });
+  }
+
+
 }

@@ -342,10 +342,10 @@ export class AddRestaurantComponent {
 
       const res = await this.network.addRestaurant(d);
       console.log(res);
-      if (res) {
+      if (res && res.restaurant) {
 
         this.utility.presentSuccessToast('Restaurant added Successfully!');
-        let item = res;
+        let item = res.restaurant;
         this.grService.setRestaurant(item.id, item.name);
 
         // Call API to set default restaurant

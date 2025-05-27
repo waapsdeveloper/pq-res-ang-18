@@ -48,8 +48,18 @@ export class LoginComponent implements OnInit {
       };
       const res = (await this.network.loginViaEmail(d)) as any;
 
+
+
       if (res) {
         console.log(res);
+
+        if(res == 400){
+          this.utility.presentFailureToast(res.message.error);
+          this.showLoader = false;
+          return;
+        }
+
+
         if (res.user) {
           localStorage.setItem('token', res.token);
           await this.users.setUser(res.user);
