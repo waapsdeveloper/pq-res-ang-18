@@ -1,4 +1,3 @@
-import { CurrencyService } from 'src/app/services/currency.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -82,14 +81,12 @@ export class EditBranchConfigComponent implements OnInit {
     private network: NetworkService,
     private utility: UtilityService,
     private route: ActivatedRoute,
-    private currencyService: CurrencyService
   ) {}
 
   ngOnInit(): void {
-    // this.id = this.route.snapshot.paramMap.get('id');
+    this.id = this.route.snapshot.paramMap.get('id');
     // console.log('ID from URL:', this.id);
 
-    this.id = localStorage.getItem('restaurant_id');
     if (!this.id) {
       this.utility.presentFailureToast('Something went wrong. Please try again later.');
       this.nav.pop();
@@ -213,13 +210,6 @@ export class EditBranchConfigComponent implements OnInit {
       const res = await this.network.updateBranchConfig(d, this.id);
       console.log('Response from updateBranchConfig:', res.data);
       if (res) {
-        const data = res.data;
-        const R = data.restaurant;
-        localStorage.setItem('restaurant', JSON.stringify(R));
-        localStorage.setItem('restaurant_id', R.id);
-        this.currencyService.setCurrency(data.branch_config.currency);
-        this.currencyService.setTax(data.branch_config.tax);
-        data.branch_config.currency;
         this.utility.presentSuccessToast('Branch configuration updated successfully.');
         this.nav.pop();
       }

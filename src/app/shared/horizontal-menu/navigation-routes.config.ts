@@ -156,14 +156,14 @@ export const HROUTES: RouteInfo[] = [
         isExternalLink: false,
         submenu: []
       },
-      {
-        path: '',
-        title: 'Branch Config',
-        icon: 'ft-settings',
-        class: 'dropdown-item',
-        isExternalLink: false,
-        submenu: []
-      }
+      // {
+      //   path: '',
+      //   title: 'Branch Config',
+      //   icon: 'ft-settings',
+      //   class: 'dropdown-item',
+      //   isExternalLink: false,
+      //   submenu: []
+      // }
     ]
   }
 ];

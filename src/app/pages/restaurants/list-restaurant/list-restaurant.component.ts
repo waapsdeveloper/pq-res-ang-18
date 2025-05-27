@@ -132,6 +132,26 @@ export class ListRestaurantComponent extends ListBlade {
     }
   }
 
+  async configRow(i) {
+    const item = this.crudService.list[i];
+    console.log('Configuring item:', item);
+
+
+    // call network to get branch config
+    const res = await this.network.getBranchConfigById(item.id);
+    console.log('Branch Config Response:', res);
+    if (!res || !res.data || !res.data.branch_config) {
+      this.utility.presentFailureToast('Branch configuration not found for this restaurant.');
+      return; // Exit if branch config is not found
+    }
+
+    let config = res.data.branch_config;
+
+    // Proceed with configuration if id is not null
+    this.nav.push('//pages/branch-config/edit/' + config.id);
+
+  }
+
   openDetails(i) {
     let item = this.crudService.list[i];
     this.nav.push('/pages/restaurants/view/' + item.id);
