@@ -167,7 +167,7 @@ export class EditBranchConfigComponent implements OnInit {
 
   async loadBranchConfig() {
     try {
-      const res = await this.network.getBranchConfigById(this.id);
+      const res = await this.network.getBranchConfig(this.id);
       this.data = JSON.parse(localStorage.getItem('restaurant'));
 
       if (res && res.data && res.data.branch_config) {
@@ -209,7 +209,11 @@ export class EditBranchConfigComponent implements OnInit {
       d['branch_id'] = this.data.id;
       const res = await this.network.updateBranchConfig(d, this.id);
       console.log('Response from updateBranchConfig:', res.data);
-      if (res) {
+      if (res && res.data) {
+
+
+
+
         this.utility.presentSuccessToast('Branch configuration updated successfully.');
         this.nav.pop();
       }

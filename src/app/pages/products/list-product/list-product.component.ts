@@ -10,6 +10,7 @@ import { UtilityService } from 'src/app/services/utility.service';
 import { ActivatedRoute } from '@angular/router';
 import { EventsService } from 'src/app/services/events.service';
 import { CurrencyService } from 'src/app/services/currency.service';
+import { GlobalDataService } from 'src/app/services/global-data.service';
 
 @Component({
   selector: 'app-list-product',
@@ -22,6 +23,10 @@ export class ListProductComponent extends ListBlade {
   title = 'Products';
   showEdit = false;
   addurl = '/pages/products/add';
+
+  currency = 'USD';
+  currencySymbol = '$';
+
   override model = {
     name: '',
     category: '',
@@ -172,11 +177,24 @@ export class ListProductComponent extends ListBlade {
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
     public events: EventsService,
-    public currencyService: CurrencyService
+    public currencyService: CurrencyService,
+    private globalData: GlobalDataService
   ) {
     super(injector, crudService);
 
     this.initialize();
+
+    this.globalData.getCurrency().subscribe((currency) => { 
+      this.currency = currency;
+      console.log('Currency updated:', this.currency);
+    });
+
+    this.globalData.getCurrencySymbol().subscribe((symbol) => { 
+      this.currencySymbol = symbol;
+      console.log('Currency Symbol updated:', this.currencySymbol);
+    });
+
+
   }
 
   onPageSizeChange(event: any): void {

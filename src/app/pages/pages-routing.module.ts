@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { DsDataResolver } from '../resolvers/ds-data.service';
 import { AdminComponent } from '../theme/layout/admin/admin.component';
 
 const routes: Routes = [
@@ -18,7 +19,10 @@ const routes: Routes = [
   },
   {
     path: 'dashboard',
-    loadChildren: () => import('./dashboard/dashboard.module').then((m) => m.DashboardModule)
+    loadChildren: () => import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+    resolve: {
+      dsdata: DsDataResolver
+    }
   },
   {
     path: 'login',
@@ -34,7 +38,10 @@ const routes: Routes = [
   },
   {
     path: 'restaurants',
-    loadChildren: () => import('./restaurants/restaurants.module').then((m) => m.RestaurantsModule)
+    loadChildren: () => import('./restaurants/restaurants.module').then((m) => m.RestaurantsModule),
+    resolve: {
+      dsdata: DsDataResolver
+    }
   },
   {
     path: 'coupons',
@@ -50,11 +57,17 @@ const routes: Routes = [
   },
   {
     path: 'products',
-    loadChildren: () => import('./products/products.module').then((m) => m.ProductsModule)
+    loadChildren: () => import('./products/products.module').then((m) => m.ProductsModule),
+    resolve: {
+      dsdata: DsDataResolver
+    }
   },
   {
     path: 'variations',
-    loadChildren: () => import('./variations/variations.module').then((m) => m.VariationsModule)
+    loadChildren: () => import('./variations/variations.module').then((m) => m.VariationsModule),
+    resolve: {
+      dsdata: DsDataResolver
+    }
   },
   {
     path: 'tables',
@@ -62,12 +75,18 @@ const routes: Routes = [
   },
   {
     path: 'orders',
-    loadChildren: () => import('./orders/orders.module').then((m) => m.OrdersModule)
+    loadChildren: () => import('./orders/orders.module').then((m) => m.OrdersModule),
+    resolve: {
+      dsdata: DsDataResolver
+    }
   },
 
   {
     path: 'invoices',
-    loadChildren: () => import('./invoices/invoices.module').then((m) => m.InvoicesModule)
+    loadChildren: () => import('./invoices/invoices.module').then((m) => m.InvoicesModule),
+    resolve: {
+      dsdata: DsDataResolver
+    }
   },
   {
     path: 'table-booking',
@@ -79,11 +98,17 @@ const routes: Routes = [
   },
   {
     path: 'expense-categories',
-    loadChildren: () => import('./expense-categories/expense-categories.module').then((m) => m.ExpenseCategoriesModule)
+    loadChildren: () => import('./expense-categories/expense-categories.module').then((m) => m.ExpenseCategoriesModule),
+    resolve: {
+      dsdata: DsDataResolver
+    }
   },
   {
     path: 'expense',
-    loadChildren: () => import('./expense/expense.module').then((m) => m.ExpenseModule)
+    loadChildren: () => import('./expense/expense.module').then((m) => m.ExpenseModule),
+    resolve: {
+      dsdata: DsDataResolver
+    }
   }
   // {
   //   path: '',

@@ -139,12 +139,12 @@ export class ListRestaurantComponent extends ListBlade {
     // call network to get branch config
     const res = await this.network.getBranchConfigById(item.id);
     console.log('Branch Config Response:', res);
-    if (!res || !res.data || !res.data.branch_config) {
+    if (!res || !res.data) {
       this.utility.presentFailureToast('Branch configuration not found for this restaurant.');
       return; // Exit if branch config is not found
     }
 
-    let config = res.data.branch_config;
+    let config = res.data;
 
     // Proceed with configuration if id is not null
     this.nav.push('/pages/branch-config/edit/' + config.id);

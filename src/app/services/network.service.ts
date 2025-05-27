@@ -8,6 +8,7 @@ import { UtilityService } from './utility.service';
   providedIn: 'root'
 })
 export class NetworkService {
+  
   getUserById(itemId: any) {
     throw new Error('Method not implemented.');
   }
@@ -93,6 +94,15 @@ export class NetworkService {
     return this.httpGetResponse('restaurant/active', null, false, true);
   }
 
+  getRestaurantConfigById(id: any) {
+    return this.httpGetResponse(
+      'branch-config/get-config-by-branch-id',
+      id,
+      false,
+      false
+    );
+  }
+
   // removeRestaurant(id) {
   //   return this.httpDeleteResponse('restaurant', id, false, true);
   // }
@@ -136,9 +146,11 @@ export class NetworkService {
   }
 
   getBranchConfigById(id) {
-
     return this.httpGetResponse(`branch-config/get-config-by-branch-id/${id}`, null, false, true);
-    // return this.httpGetResponse(`branch-config/${id}`, null, false, true);
+  }
+
+  getBranchConfig(id) {    
+    return this.httpGetResponse(`branch-config/${id}`, null, false, true);
   }
 
   addBranchConfig(data) {
