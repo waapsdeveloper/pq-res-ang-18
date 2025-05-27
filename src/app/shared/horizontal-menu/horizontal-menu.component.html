@@ -80,7 +80,7 @@
               appTopMenuAnchorToggle
               *ngIf="menuSubItem.submenu.length === 0 && !menuSubItem.isExternalLink"
               [ngClass]="'dropdown-item d-flex align-items-center'"
-              [routerLink]="menuSubItem.title === 'Branch Config' ? ['/pages/branch-config/edit', restaurantId] : [menuSubItem.path]"
+              [routerLink]="menuSubItem.title === 'Branch Config' ? ['/pages/branch-config'] : [menuSubItem.path]"
             >
               <i [ngClass]="[menuSubItem.icon]"></i>
               <span>{{ menuSubItem.title }}</span>
