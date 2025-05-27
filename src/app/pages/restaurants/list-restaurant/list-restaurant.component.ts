@@ -136,7 +136,6 @@ export class ListRestaurantComponent extends ListBlade {
     const item = this.crudService.list[i];
     console.log('Configuring item:', item);
 
-
     // call network to get branch config
     const res = await this.network.getBranchConfigById(item.id);
     console.log('Branch Config Response:', res);
@@ -149,7 +148,6 @@ export class ListRestaurantComponent extends ListBlade {
 
     // Proceed with configuration if id is not null
     this.nav.push('//pages/branch-config/edit/' + config.id);
-
   }
 
   openDetails(i) {
