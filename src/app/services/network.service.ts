@@ -8,7 +8,6 @@ import { UtilityService } from './utility.service';
   providedIn: 'root'
 })
 export class NetworkService {
-  
   getUserById(itemId: any) {
     throw new Error('Method not implemented.');
   }
@@ -95,12 +94,7 @@ export class NetworkService {
   }
 
   getRestaurantConfigById(id: any) {
-    return this.httpGetResponse(
-      'branch-config/get-config-by-branch-id',
-      id,
-      false,
-      false
-    );
+    return this.httpGetResponse('branch-config/get-config-by-branch-id', id, false, false);
   }
 
   // removeRestaurant(id) {
@@ -135,9 +129,30 @@ export class NetworkService {
   //   return this.httpDeleteResponse('user', id, false, true);
   // }
 
-  getRoles(params) {
+  getRoles(params = {}) {
     const query = this.serialize(params);
     return this.httpGetResponse('role' + (query ? `?${query}` : ''), null, false, true);
+  }
+
+  getRoleById(id: any) {
+    return this.httpGetResponse(`role/${id}`, null, false, true);
+  }
+
+  addRole(data: any) {
+    return this.httpPostResponse('role', data, null, false, true);
+  }
+
+  updateRole(data: any, id: any) {
+    return this.httpPutResponse('role', data, id, false, true);
+  }
+
+  removeRole(id: any) {
+    return this.httpDeleteResponse('role', id, false, true);
+  }
+
+  bulkDeleteRoles(params = {}) {
+    const query = this.serialize(params);
+    return this.httpGetResponse('role/bulk-delete' + (query ? `?${query}` : ''), null, false, true);
   }
 
   getBranchConfigs(params) {
@@ -149,7 +164,7 @@ export class NetworkService {
     return this.httpGetResponse(`branch-config/get-config-by-branch-id/${id}`, null, false, true);
   }
 
-  getBranchConfig(id) {    
+  getBranchConfig(id) {
     return this.httpGetResponse(`branch-config/${id}`, null, false, true);
   }
 

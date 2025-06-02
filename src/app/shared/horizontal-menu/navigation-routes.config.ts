@@ -14,8 +14,25 @@ export const HROUTES: RouteInfo[] = [
     icon: 'ft-users',
     class: 'dropdown nav-item',
     isExternalLink: false,
-    path: '/pages/users/list',
-    submenu: []
+    path: '',
+    submenu: [
+      {
+        path: '/pages/users/list',
+        title: 'Users',
+        icon: 'ft-user',
+        class: 'dropdown-item',
+        isExternalLink: false,
+        submenu: []
+      },
+      {
+        path: '/pages/roles/list',
+        title: 'Roles',
+        icon: 'ft-shield', // Changed to a more suitable icon for roles
+        class: 'dropdown-item',
+        isExternalLink: false,
+        submenu: []
+      }
+    ]
   },
   {
     title: 'Food',
@@ -155,7 +172,7 @@ export const HROUTES: RouteInfo[] = [
         class: 'dropdown-item',
         isExternalLink: false,
         submenu: []
-      },
+      }
       // {
       //   path: '',
       //   title: 'Branch Config',

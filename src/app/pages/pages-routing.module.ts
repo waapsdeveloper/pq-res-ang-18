@@ -109,6 +109,13 @@ const routes: Routes = [
     resolve: {
       dsdata: DsDataResolver
     }
+  },
+  {
+    path: 'roles',
+    loadChildren: () => import('./roles/roles.module').then((m) => m.RolesModule),
+    resolve: {
+      dsdata: DsDataResolver
+    }
   }
   // {
   //   path: '',
