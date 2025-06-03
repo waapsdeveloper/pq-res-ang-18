@@ -168,40 +168,48 @@
                               <!-- Subtotal Row -->
                               <tr>
                                 <td colspan="2" class="text-end fw-bold">Subtotal:</td>
-                                <td colspan="3" class="text-end">
-                                  <span class="fw-normal">({{ this.currencySymbol }} {{ item?.total_price | number: '1.2-2' }}</span>
+                                <td colspan="3">
+                                  <div class="d-flex justify-content-end">
+                                    <span class="fw-normal">{{ this.currencySymbol }} {{ item?.total_price | number: '1.2-2' }}</span>
+                                  </div>
                                 </td>
                               </tr>
 
                               <!-- Discount Row -->
                               <tr>
                                 <td colspan="2" class="text-end fw-bold">Discount:</td>
-                                <td colspan="3" class="text-end">
-                                  <span class="fw-normal text-danger">
-                                    {{ this.currencySymbol }} {{ item?.discount_value | number: '1.2-2' }}
-                                  </span>
+                                <td colspan="3">
+                                  <div class="d-flex justify-content-end">
+                                    <span class="fw-normal text-danger">
+                                      {{ this.currencySymbol }} {{ item?.discount_value | number: '1.2-2' }}
+                                    </span>
+                                  </div>
                                 </td>
                               </tr>
 
                               <!-- Tax Row -->
                               <tr>
                                 <td colspan="2" class="text-end fw-bold">Tax:</td>
-                                <td colspan="3" class="text-end">
-                                  <span class="fw-normal">{{ this.currencySymbol }} {{ item?.tax || '0.00' | number: '1.2-2' }}</span>
+                                <td colspan="3">
+                                  <div class="d-flex justify-content-end">
+                                    <span class="fw-normal">{{ this.currencySymbol }} {{ item?.tax || '0.00' | number: '1.2-2' }}</span>
+                                  </div>
                                 </td>
                               </tr>
 
                               <!-- Total Row -->
                               <tr class="border-top border-dark">
                                 <td colspan="2" class="text-end fw-bold">Total:</td>
-                                <td colspan="3" class="text-end">
-                                  <span class="fw-bold text-success">
-                                    {{ this.currencySymbol }}
-                                    {{
-                                      (item?.discount_value && item?.discount_value > 0 ? item?.final_total : item?.total_price)
-                                        | number: '1.2-2'
-                                    }}
-                                  </span>
+                                <td colspan="3">
+                                  <div class="d-flex justify-content-end">
+                                    <span class="fw-bold text-success">
+                                      {{ this.currencySymbol }}
+                                      {{
+                                        (item?.discount_value && item?.discount_value > 0 ? item?.final_total : item?.total_price)
+                                          | number: '1.2-2'
+                                      }}
+                                    </span>
+                                  </div>
                                 </td>
                               </tr>
                             </tfoot>
