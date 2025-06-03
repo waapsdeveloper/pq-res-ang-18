@@ -9,17 +9,17 @@ const routes: Routes = [
     path: '',
     redirectTo: 'splash',
     pathMatch: 'full',
-    resolve: { permissions: permissionsResolver }
+    // resolve: { permissions: permissionsResolver }
   },
   {
     path: 'splash',
     loadChildren: () => import('./splash/splash.module').then((m) => m.SplashModule),
-    resolve: { permissions: permissionsResolver }
+    // resolve: { permissions: permissionsResolver }
   },
   {
     path: 'pre-splash',
     loadChildren: () => import('./pre-splash/pre-splash.module').then((m) => m.PreSplashModule),
-    resolve: { permissions: permissionsResolver }
+    // resolve: { permissions: permissionsResolver }
   },
   {
     path: 'dashboard',

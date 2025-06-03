@@ -28,6 +28,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 
 import { provideNgSimpleState } from 'ng-simple-state';
 import { NgxPubSubModule } from '@pscoped/ngx-pub-sub';
+import { PermissionService } from './services/permission.service';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,9 @@ import { NgxPubSubModule } from '@pscoped/ngx-pub-sub';
       enableDevTool: isDevMode(),
       // enableLocalStorage: true,
       persistentStorage: 'local'
-    })
+    }),
+    PermissionService
+
   ],
   bootstrap: [AppComponent]
 })

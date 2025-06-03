@@ -2,13 +2,13 @@ import { inject } from '@angular/core';
 import { CanActivateFn } from '@angular/router';
 import { PermissionService } from '../services/permission.service';
 
-export const permissionGuard: CanActivateFn = (route, state) => {
+export const permissionGuard: CanActivateFn = async (route, state) => {
 
   const permissionService = inject(PermissionService);
 
-  console.log('Permission Guard:', permissionService.permissionInstance);
+  const permissions = await permissionService.getPermissions();
 
-  const permissions = permissionService.permissionInstance;
+  console.log('Permission Guard:', permissions);
 
   const d = route.data as any;  
 

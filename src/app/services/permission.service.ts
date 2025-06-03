@@ -11,6 +11,12 @@ export class PermissionService {
   constructor(private network: NetworkService) { }
 
   async getPermissions(): Promise<any> {
+
+    if(this.permissionInstance) {
+      console.log('Returning cached permissions:', this.permissionInstance);
+      return this.permissionInstance; // Return cached permissions if available
+    }
+
     try {
       this.network.getUserPermissions().then((res: any) => {
         console.log('Fetched Permissions:', res);
@@ -31,5 +37,11 @@ export class PermissionService {
     }
   }
 
+   hasPermission(key: string): boolean {
+    console.log('Checking add permission for entity:', key);
+    const permissions = this.permissionInstance as any[] || []; // implement this as needed
+    console.log('Current permissions:', permissions);
+    return permissions.some((permission: any) => permission.slug === key);
+  }
 
 }
