@@ -17,7 +17,7 @@ const routes: Routes = [
       {
         path: 'list',
         loadChildren: () => import('./list-restaurant/list-restaurant.module').then((m) => m.ListRestaurantModule),
-        data: { entity: 'branch', action: 'view' },
+        data: { entity: 'branch', action: 'list' },
         canActivate: [permissionGuard]
       },
       {

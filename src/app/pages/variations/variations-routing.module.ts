@@ -17,7 +17,7 @@ const routes: Routes = [
       {
         path: 'list',
         loadChildren: () => import('./list-variations/list-variations.module').then((m) => m.ListVariationsModule),
-        data: { entity: 'variation', action: 'view' },
+        data: { entity: 'variation', action: 'list' },
         canActivate: [permissionGuard]
       },
       {

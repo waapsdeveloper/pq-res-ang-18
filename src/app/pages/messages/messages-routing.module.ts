@@ -17,7 +17,7 @@ const routes: Routes = [
       {
         path: 'list',
         loadChildren: () => import('./list-message/list-message.module').then((m) => m.ListMessageModule),
-        data: { entity: 'message', action: 'view' },
+        data: { entity: 'message', action: 'list' },
         canActivate: [permissionGuard]
       },
       {

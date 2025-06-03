@@ -18,7 +18,7 @@ const routes: Routes = [
       {
         path: 'list',
         loadChildren: () => import('./list-coupons/list-coupons.module').then((m) => m.ListCouponsModule),
-        data: { entity: 'coupon', action: 'view' },
+        data: { entity: 'coupon', action: 'list' },
         canActivate: [permissionGuard]
       },
       {

@@ -18,7 +18,7 @@ const routes: Routes = [
       {
         path: 'list',
         loadChildren: () => import('./list-table-booking/list-table-booking.module').then((m) => m.ListTableBookingModule),
-        data: { entity: 'table_booking', action: 'view' },
+        data: { entity: 'table_booking', action: 'list' },
         canActivate: [permissionGuard]
       },
       {

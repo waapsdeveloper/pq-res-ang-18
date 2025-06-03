@@ -17,7 +17,7 @@ const routes: Routes = [
       {
         path: 'list',
         loadChildren: () => import('./list-rtables/list-rtables.module').then((m) => m.ListRtablesModule),
-        data: { entity: 'table', action: 'view' },
+        data: { entity: 'table', action: 'list' },
         canActivate: [permissionGuard]
       },
       {

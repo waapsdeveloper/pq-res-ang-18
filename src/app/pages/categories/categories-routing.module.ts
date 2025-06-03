@@ -17,7 +17,7 @@ const routes: Routes = [
       {
         path: 'list',
         loadChildren: () => import('./list-category/list-category.module').then((m) => m.ListCategoryModule),
-        data: { entity: 'category', action: 'view' },
+        data: { entity: 'category', action: 'list' },
         canActivate: [permissionGuard]
       },
       {

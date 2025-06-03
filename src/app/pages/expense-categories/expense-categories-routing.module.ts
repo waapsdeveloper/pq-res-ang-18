@@ -17,7 +17,7 @@ const routes: Routes = [
       {
         path: 'list',
         loadChildren: () => import('./list-expense-categories/list-expense-categories.module').then((m) => m.ListExpenseCategoriesModule),
-        data: { entity: 'expense_category', action: 'view' },
+        data: { entity: 'expense_category', action: 'list' },
         canActivate: [permissionGuard]
       },
       {
