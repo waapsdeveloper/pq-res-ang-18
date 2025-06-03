@@ -10,6 +10,8 @@ import { OrderService } from '../orders.service';
 import { EventsService } from 'src/app/services/events.service';
 import { CurrencyService } from 'src/app/services/currency.service';
 import { GlobalDataService } from 'src/app/services/global-data.service';
+import { ActivatedRoute } from '@angular/router';
+import { PermissionService } from 'src/app/services/permission.service';
 
 @Component({
   selector: 'app-list-orders',
@@ -18,6 +20,7 @@ import { GlobalDataService } from 'src/app/services/global-data.service';
 })
 export class ListOrdersComponent extends ListBlade {
   showDeleteAllButton = false;
+  canDelete;
   title = 'Orders';
   addurl = '/pages/orders/add';
   showEdit: boolean = false;
@@ -237,7 +240,9 @@ export class ListOrdersComponent extends ListBlade {
     private cdr: ChangeDetectorRef,
     public events: EventsService,
     public currencyService: CurrencyService,
-    private globalData: GlobalDataService
+    private globalData: GlobalDataService,
+    private route: ActivatedRoute,
+    private permissionService: PermissionService
   ) {
     super(injector, crudService);
     this.initialize();
@@ -250,6 +255,7 @@ export class ListOrdersComponent extends ListBlade {
       this.currencySymbol = symbol;
       console.log('Currency Symbol updated:', this.currencySymbol);
     });
+    this.canDelete = this.permissionService.hasPermission('order' + '.delete');
   }
 
   async onDeleteAll($event: any) {
@@ -321,10 +327,13 @@ export class ListOrdersComponent extends ListBlade {
   editRow(index: number) {}
 
   async deleteRow(index: number) {
+    if (!this.canDelete) {
+      alert('You do not have permission to delete.');
+      return;
+    }
     try {
       await this.crudService.deleteRow(index, this.utility);
       this.utility.presentSuccessToast('Deleted Sucessfully!');
-
       console.log('Row deleted successfully');
     } catch (error) {
       console.error('Error deleting row:', error);

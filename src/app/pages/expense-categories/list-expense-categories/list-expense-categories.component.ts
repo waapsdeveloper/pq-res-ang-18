@@ -9,6 +9,8 @@ import { UsersService } from 'src/app/services/users.service';
 import { UtilityService } from 'src/app/services/utility.service';
 import { OrderService } from '../../orders/orders.service';
 import { ExpenseCategoriesService } from '../expense-categories.service';
+import { ActivatedRoute } from '@angular/router';
+import { PermissionService } from 'src/app/services/permission.service';
 
 @Component({
   selector: 'app-list-expense-categories',
@@ -18,6 +20,7 @@ import { ExpenseCategoriesService } from '../expense-categories.service';
 })
 export class ListExpenseCategoriesComponent extends ListBlade {
   showDeleteAllButton = false;
+  canDelete;
   title = 'Orders';
   addurl = '/pages/orders/add';
   showEdit: boolean = false;
@@ -57,10 +60,13 @@ export class ListExpenseCategoriesComponent extends ListBlade {
     private network: NetworkService,
     private cdr: ChangeDetectorRef,
     public events: EventsService,
-    public currencyService: CurrencyService
+    public currencyService: CurrencyService,
+    private route: ActivatedRoute,
+    private permissionService: PermissionService
   ) {
     super(injector, crudService);
     this.initialize();
+    this.canDelete = this.permissionService.hasPermission('expense_category' + '.delete');
   }
 
   async onDeleteAll($event: any) {
@@ -114,10 +120,13 @@ export class ListExpenseCategoriesComponent extends ListBlade {
   editRow(index: number) {}
 
   async deleteRow(index: number) {
+    if (!this.canDelete) {
+      alert('You do not have permission to delete.');
+      return;
+    }
     try {
       await this.crudService.deleteRow(index, this.utility);
       this.utility.presentSuccessToast('Deleted Sucessfully!');
-
       console.log('Row deleted successfully');
     } catch (error) {
       console.error('Error deleting row:', error);

@@ -11,6 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 import { EventsService } from 'src/app/services/events.service';
 import { CurrencyService } from 'src/app/services/currency.service';
 import { GlobalDataService } from 'src/app/services/global-data.service';
+import { PermissionService } from 'src/app/services/permission.service';
 
 @Component({
   selector: 'app-list-product',
@@ -23,6 +24,7 @@ export class ListProductComponent extends ListBlade {
   title = 'Products';
   showEdit = false;
   addurl = '/pages/products/add';
+  canDelete;
 
   currency = 'USD';
   currencySymbol = '$';
@@ -178,23 +180,23 @@ export class ListProductComponent extends ListBlade {
     private cdr: ChangeDetectorRef,
     public events: EventsService,
     public currencyService: CurrencyService,
-    private globalData: GlobalDataService
+    private globalData: GlobalDataService,
+    private permissionService: PermissionService
   ) {
     super(injector, crudService);
 
     this.initialize();
+    this.canDelete = this.permissionService.hasPermission('product' + '.delete');
 
-    this.globalData.getCurrency().subscribe((currency) => { 
+    this.globalData.getCurrency().subscribe((currency) => {
       this.currency = currency;
       console.log('Currency updated:', this.currency);
     });
 
-    this.globalData.getCurrencySymbol().subscribe((symbol) => { 
+    this.globalData.getCurrencySymbol().subscribe((symbol) => {
       this.currencySymbol = symbol;
       console.log('Currency Symbol updated:', this.currencySymbol);
     });
-
-
   }
 
   onPageSizeChange(event: any): void {
@@ -272,10 +274,13 @@ export class ListProductComponent extends ListBlade {
   editRow(index: number) {}
 
   async deleteRow(index: number) {
+    if (!this.canDelete) {
+      alert('You do not have permission to delete.');
+      return;
+    }
     try {
       await this.crudService.deleteRow(index, this.utility);
       this.utility.presentSuccessToast('Deleted Sucessfully!');
-
       console.log('Row deleted successfully');
     } catch (error) {
       console.error('Error deleting row:', error);

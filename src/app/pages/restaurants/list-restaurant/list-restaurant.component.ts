@@ -9,6 +9,8 @@ import { UtilityService } from 'src/app/services/utility.service';
 import { RestaurantService } from '../restaurant.service';
 import { EventsService } from 'src/app/services/events.service';
 import { CurrencyService } from 'src/app/services/currency.service';
+import { ActivatedRoute } from '@angular/router';
+import { PermissionService } from 'src/app/services/permission.service';
 
 @Component({
   selector: 'app-list-restaurant',
@@ -18,6 +20,7 @@ import { CurrencyService } from 'src/app/services/currency.service';
 })
 export class ListRestaurantComponent extends ListBlade {
   showDeleteAllButton = false;
+  canDelete;
   title = 'Branches';
   addurl = '/pages/restaurants/add';
   override selectAll: boolean = false;
@@ -86,10 +89,13 @@ export class ListRestaurantComponent extends ListBlade {
     private network: NetworkService,
     private cdr: ChangeDetectorRef,
     public currencyService: CurrencyService,
-    public events: EventsService
+    public events: EventsService,
+    private route: ActivatedRoute,
+    private permissionService: PermissionService
   ) {
     super(injector, crudService);
     this.initialize();
+    this.canDelete = this.permissionService.hasPermission('branch' + '.delete');
   }
   async onDeleteAll($event: any) {
     const flag = await this.utility.presentConfirm('Delete', 'Cancel', 'Delete All Record', 'Are you sure you want to delete all?');
@@ -113,19 +119,13 @@ export class ListRestaurantComponent extends ListBlade {
   editRow(index: number) {}
 
   async deleteRow(index: number) {
+    if (!this.canDelete) {
+      alert('You do not have permission to delete.');
+      return;
+    }
     try {
-      const item = this.crudService.list[index];
-
-      // Check if the item id is null
-      if (item.id === 1 || item.id === undefined) {
-        console.log('Item cannot be deleted because id is null or undefined.');
-        return; // Exit the function without attempting to delete
-      }
-
-      // Proceed with deletion if id is not null
       await this.crudService.deleteRow(index, this.utility);
       this.utility.presentSuccessToast('Deleted Sucessfully!');
-
       console.log('Row deleted successfully');
     } catch (error) {
       console.error('Error deleting row:', error);

@@ -8,6 +8,8 @@ import { UsersService } from 'src/app/services/users.service';
 import { UtilityService } from 'src/app/services/utility.service';
 import { RtableService } from '../../rtables/rtable.service';
 import { RoleService } from '../role.service';
+import { ActivatedRoute } from '@angular/router';
+import { PermissionService } from 'src/app/services/permission.service';
 
 @Component({
   selector: 'app-list-roles',
@@ -17,6 +19,7 @@ import { RoleService } from '../role.service';
 })
 export class ListRolesComponent extends ListBlade {
   showDeleteAllButton = false;
+  canDelete;
   columns: any[] = ['Name', 'Slugs'];
   title = 'Roles';
   showEdit = false;
@@ -64,10 +67,13 @@ export class ListRolesComponent extends ListBlade {
     private users: UsersService,
     private network: NetworkService,
     private cdr: ChangeDetectorRef,
-    public events: EventsService
+    public events: EventsService,
+    private route: ActivatedRoute,
+    private permissionService: PermissionService
   ) {
     super(injector, crudService);
     this.initialize();
+    this.canDelete = this.permissionService.hasPermission('role' + '.delete');
   }
 
   async onDeleteAll($event: any) {
@@ -131,6 +137,10 @@ export class ListRolesComponent extends ListBlade {
   editRow(index: number) {}
 
   async deleteRow(index: number) {
+    if (!this.canDelete) {
+      alert('You do not have permission to delete.');
+      return;
+    }
     try {
       await this.crudService.deleteRow(index, this.utility);
       this.utility.presentSuccessToast('Deleted Sucessfully!');

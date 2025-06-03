@@ -7,6 +7,8 @@ import { ListBlade } from 'src/app/abstract/list-blade';
 import { UserService } from '../user.service';
 import { UtilityService } from 'src/app/services/utility.service';
 import { EventsService } from 'src/app/services/events.service';
+import { ActivatedRoute } from '@angular/router';
+import { PermissionService } from 'src/app/services/permission.service';
 
 @Component({
   selector: 'app-list-user',
@@ -17,6 +19,7 @@ export class ListUserComponent extends ListBlade {
   showDeleteAllButton = false;
   title = 'Users';
   addurl = '/pages/users/add';
+  canDelete;
 
   columns: any[] = ['Full Name', 'Email', 'Phone', 'Total Orders', 'Address', 'Role', 'Status'];
 
@@ -142,10 +145,13 @@ export class ListUserComponent extends ListBlade {
     private utility: UtilityService,
     private network: NetworkService,
     private cdr: ChangeDetectorRef,
-    public events: EventsService
+    public events: EventsService,
+    private route: ActivatedRoute,
+    private permissionService: PermissionService
   ) {
     super(injector, crudService);
     this.initialize();
+    this.canDelete = this.permissionService.hasPermission('user' + '.delete');
   }
   async onDeleteAll($event: any) {
     const flag = await this.utility.presentConfirm('Delete', 'Cancel', 'Delete All Record', 'Are you sure you want to delete all?');
@@ -219,10 +225,13 @@ export class ListUserComponent extends ListBlade {
   editRow(index: number) {}
 
   async deleteRow(index: number) {
+    if (!this.canDelete) {
+      alert('You do not have permission to delete users.');
+      return;
+    }
     try {
       await this.crudService.deleteRow(index, this.utility);
       this.utility.presentSuccessToast('Deleted Sucessfully!');
-
       console.log('Row deleted successfully');
     } catch (error) {
       console.error('Error deleting row:', error);

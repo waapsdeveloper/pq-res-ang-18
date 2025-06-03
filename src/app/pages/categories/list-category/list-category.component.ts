@@ -8,6 +8,8 @@ import { ListBlade } from 'src/app/abstract/list-blade';
 import { UtilityService } from 'src/app/services/utility.service';
 import { CategoryService } from '../category.service';
 import { EventsService } from 'src/app/services/events.service';
+import { ActivatedRoute } from '@angular/router';
+import { PermissionService } from 'src/app/services/permission.service';
 
 @Component({
   selector: 'app-list-category',
@@ -15,6 +17,7 @@ import { EventsService } from 'src/app/services/events.service';
   styleUrl: './list-category.component.scss'
 })
 export class ListCategoryComponent extends ListBlade {
+  canDelete;
   ngOnInit(): void {
     this.setRestaurantsInForm();
   }
@@ -94,10 +97,13 @@ export class ListCategoryComponent extends ListBlade {
     private users: UsersService,
     private network: NetworkService,
     private cdr: ChangeDetectorRef,
-    public events: EventsService
+    public events: EventsService,
+    private permissionService: PermissionService,
+    private route: ActivatedRoute
   ) {
     super(injector, crudService);
     this.initialize();
+    this.canDelete = this.permissionService.hasPermission('category' + '.delete');
   }
 
   onPageSizeChange(event: any): void {
@@ -163,10 +169,13 @@ export class ListCategoryComponent extends ListBlade {
   }
 
   async deleteRow(index: number) {
+    if (!this.canDelete) {
+      alert('You do not have permission to delete.');
+      return;
+    }
     try {
       await this.crudService.deleteRow(index, this.utility);
       this.utility.presentSuccessToast('Deleted Sucessfully!');
-
       console.log('Row deleted successfully');
     } catch (error) {
       console.error('Error deleting row:', error);
