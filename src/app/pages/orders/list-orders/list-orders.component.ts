@@ -21,6 +21,8 @@ import { PermissionService } from 'src/app/services/permission.service';
 export class ListOrdersComponent extends ListBlade {
   showDeleteAllButton = false;
   canDelete;
+  paymentStatus;
+  orderStatus;
   title = 'Orders';
   addurl = '/pages/orders/add';
   showEdit: boolean = false;
@@ -256,6 +258,8 @@ export class ListOrdersComponent extends ListBlade {
       console.log('Currency Symbol updated:', this.currencySymbol);
     });
     this.canDelete = this.permissionService.hasPermission('order' + '.delete');
+    this.paymentStatus = this.permissionService.hasPermission('order' + '.payment_status');
+    this.orderStatus = this.permissionService.hasPermission('order' + '.order_status');
   }
 
   async onDeleteAll($event: any) {
@@ -439,6 +443,10 @@ export class ListOrdersComponent extends ListBlade {
     console.log('Paying bill for:', order);
   }
   async updateStatus(item) {
+    if (!this.orderStatus) {
+      alert('You do not have permission to update order status.');
+      return;
+    }
     let obj = {
       status: this.selectedStatus
     };

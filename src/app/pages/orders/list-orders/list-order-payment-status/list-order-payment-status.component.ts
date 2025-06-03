@@ -5,6 +5,9 @@ import { NetworkService } from 'src/app/services/network.service';
 import { UsersService } from 'src/app/services/users.service';
 import { UtilityService } from 'src/app/services/utility.service';
 import { OrderService } from '../../orders.service';
+import Action from 'pusher-js/types/src/core/connection/protocol/action';
+import { ActivatedRoute } from '@angular/router';
+import { PermissionService } from 'src/app/services/permission.service';
 
 @Component({
   selector: 'app-list-order-payment-status',
@@ -13,6 +16,7 @@ import { OrderService } from '../../orders.service';
 })
 export class ListOrderPaymentStatusComponent {
   @Input() item: any;
+  paymentStatus;
   constructor(
     injector: Injector,
     private nav: NavService,
@@ -20,10 +24,18 @@ export class ListOrderPaymentStatusComponent {
     private users: UsersService,
     private network: NetworkService,
     private cdr: ChangeDetectorRef,
-    public events: EventsService
-  ) {}
+    public events: EventsService,
+    private route: ActivatedRoute,
+    private permissionService: PermissionService
+  ) {
+    this.paymentStatus = this.permissionService.hasPermission('order' + '.payment_status');
+  }
 
   async updatePaymentStatus() {
+    if (!this.paymentStatus) {
+      alert('You do not have permission to update the payment status.');
+      return;
+    }
     // Check if item exists and is already paid
     if (this.item && this.item.is_paid === true) {
       await this.utility.showWarningMessage('Cannot update payment status as it is already paid.');
