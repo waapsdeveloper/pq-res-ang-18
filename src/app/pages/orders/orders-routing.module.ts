@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { OrdersComponent } from './orders.component';
+import { permissionGuard } from '../../guards/permission.guard';
 
 const routes: Routes = [
   {
@@ -15,23 +16,33 @@ const routes: Routes = [
       },
       {
         path: 'list',
-        loadChildren: () => import('./list-orders/list-orders.module').then((m) => m.ListOrdersModule)
+        loadChildren: () => import('./list-orders/list-orders.module').then((m) => m.ListOrdersModule),
+        data: { entity: 'order', action: 'view' },
+        canActivate: [permissionGuard]
       },
       {
         path: 'add',
-        loadChildren: () => import('./add-orders/add-orders.module').then((m) => m.AddOrdersModule)
+        loadChildren: () => import('./add-orders/add-orders.module').then((m) => m.AddOrdersModule),
+        data: { entity: 'order', action: 'add' },
+        canActivate: [permissionGuard]
       },
       {
         path: 'add/:id',
-        loadChildren: () => import('./add-orders/add-orders.module').then((m) => m.AddOrdersModule)
+        loadChildren: () => import('./add-orders/add-orders.module').then((m) => m.AddOrdersModule),
+        data: { entity: 'order', action: 'add' },
+        canActivate: [permissionGuard]
       },
       {
         path: 'view/:id',
-        loadChildren: () => import('./view-orders/view-orders.module').then((m) => m.ViewOrdersModule)
+        loadChildren: () => import('./view-orders/view-orders.module').then((m) => m.ViewOrdersModule),
+        data: { entity: 'order', action: 'view' },
+        canActivate: [permissionGuard]
       },
       {
         path: 'edit/:id',
-        loadChildren: () => import('./edit-order/edit-order.module').then((m) => m.EditOrderModule)
+        loadChildren: () => import('./edit-order/edit-order.module').then((m) => m.EditOrderModule),
+        data: { entity: 'order', action: 'edit' },
+        canActivate: [permissionGuard]
       }
     ]
   }

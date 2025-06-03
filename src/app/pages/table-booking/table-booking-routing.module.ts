@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TableBookingComponent } from './table-booking.component';
-import { TableBookingModule } from './table-booking.module';
+import { permissionGuard } from '../../guards/permission.guard';
+
 const routes: Routes = [
   {
     path: '',
@@ -16,15 +17,21 @@ const routes: Routes = [
       },
       {
         path: 'list',
-        loadChildren: () => import('./list-table-booking/list-table-booking.module').then((m) => m.ListTableBookingModule)
+        loadChildren: () => import('./list-table-booking/list-table-booking.module').then((m) => m.ListTableBookingModule),
+        data: { entity: 'table_booking', action: 'view' },
+        canActivate: [permissionGuard]
       },
       {
         path: 'add',
-        loadChildren: () => import('./add-table-booking/add-table-booking.module').then((m) => m.AddTableBookingModule)
+        loadChildren: () => import('./add-table-booking/add-table-booking.module').then((m) => m.AddTableBookingModule),
+        data: { entity: 'table_booking', action: 'add' },
+        canActivate: [permissionGuard]
       },
       {
         path: 'view/:id',
-        loadChildren: () => import('./view-table-booking/view-table-booking.module').then((m) => m.ViewTableBookingModule)
+        loadChildren: () => import('./view-table-booking/view-table-booking.module').then((m) => m.ViewTableBookingModule),
+        data: { entity: 'table_booking', action: 'view' },
+        canActivate: [permissionGuard]
       }
     ]
   }

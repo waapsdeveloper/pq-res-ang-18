@@ -8,6 +8,7 @@ import { UtilityService } from './utility.service';
   providedIn: 'root'
 })
 export class NetworkService {
+  
   getUserById(itemId: any) {
     throw new Error('Method not implemented.');
   }
@@ -17,6 +18,10 @@ export class NetworkService {
     public utility: UtilityService,
     public restService: GlobalRestaurantService
   ) {}
+
+  getUserPermissions() {
+    return this.httpGetResponse('auth-user/permissions', null, false, true);
+  }
 
   //Dashboard APi
 
