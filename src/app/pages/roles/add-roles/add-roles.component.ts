@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
+import { PermissionService } from 'src/app/services/permission.service';
 import { UtilityService } from 'src/app/services/utility.service';
 
 @Component({
@@ -15,7 +16,8 @@ export class AddRolesComponent {
   constructor(
     private nav: NavService,
     private network: NetworkService,
-    private utility: UtilityService
+    private utility: UtilityService,
+    private permissionService: PermissionService
   ) {}
 
   title = 'Add Role';
@@ -26,20 +28,7 @@ export class AddRolesComponent {
     permissions: {}
   };
 
-  permissions = [
-    { entity: 'user', operations: ['add', 'update', 'delete', 'list', 'filter'] },
-    { entity: 'product', operations: ['add', 'update', 'delete', 'list', 'filter'] },
-    { entity: 'category', operations: ['add', 'update', 'delete', 'list', 'filter'] },
-    { entity: 'variation', operations: ['add', 'update', 'delete', 'list', 'filter'] },
-    { entity: 'table', operations: ['add', 'update', 'delete', 'list', 'filter'] },
-    { entity: 'table_booking', operations: ['add', 'update', 'delete', 'list', 'filter'] },
-    { entity: 'expense_category', operations: ['add', 'update', 'delete', 'list', 'filter'] },
-    { entity: 'expense', operations: ['add', 'update', 'delete', 'list', 'filter', 'status', 'payment_status_update'] },
-    { entity: 'coupon', operations: ['add', 'update', 'delete', 'list', 'filter'] },
-    { entity: 'message', operations: ['add', 'update', 'delete', 'list', 'filter'] },
-    { entity: 'order', operations: ['add', 'update', 'delete', 'list', 'filter', 'payment_status', 'order_status', 'menu'] },
-    { entity: 'branch', operations: ['add', 'update', 'delete', 'list', 'filter', 'set_default', 'config_button'] },
-  ];
+  permissions = this.permissionService.genericPermissions
   getPermissionsFields(): FormlyFieldConfig {
     return {
       fieldGroupClassName: 'row',
