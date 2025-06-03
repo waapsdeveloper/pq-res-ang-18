@@ -17,7 +17,7 @@ const routes: Routes = [
       {
         path: 'list',
         loadChildren: () => import('./list-roles/list-roles.module').then((m) => m.ListRolesModule),
-        data: { entity: 'role', action: 'view' },
+        data: { entity: 'role', action: 'list' },
         canActivate: [permissionGuard]
       },
       {
