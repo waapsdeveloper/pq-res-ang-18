@@ -24,11 +24,13 @@ export class KtListPageComponent {
   @Input('action') action: string = '';
   @Input('canCreate') canCreate = false;
   @Input('canFilter') canFilter = false;
+  @Input('canDelete') canDelete = false;
 
   constructor(private permissionService: PermissionService, private route: ActivatedRoute) {
     this.entity = this.route.snapshot.data['entity'] || ''; // <-- Get entity from route data
     this.canCreate = this.permissionService.hasPermission(this.entity + '.add');
     this.canFilter = this.permissionService.hasPermission(this.entity + '.filter');
+    this.canDelete = this.permissionService.hasPermission(this.entity + '.delete');
   }
 
   search($event) {

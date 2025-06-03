@@ -27,6 +27,7 @@ export const permissionGuard: CanActivateFn = async (route, state) => {
 
   if (!hasPermission) {
     console.warn(`Missing permission for: ${requiredSlug}`);
+    alert(`You do not have permission to perform this action: ${action} on ${entity}`);
   }
 
   return hasPermission;
