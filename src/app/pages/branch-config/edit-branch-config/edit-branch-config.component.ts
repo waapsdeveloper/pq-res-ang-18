@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NavService } from 'src/app/services/basic/nav.service';
+import { GlobalDataService } from 'src/app/services/global-data.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { UtilityService } from 'src/app/services/utility.service';
 
@@ -81,6 +82,7 @@ export class EditBranchConfigComponent implements OnInit {
     private network: NetworkService,
     private utility: UtilityService,
     private route: ActivatedRoute,
+    private globaldata: GlobalDataService
   ) {}
 
   ngOnInit(): void {
@@ -92,9 +94,6 @@ export class EditBranchConfigComponent implements OnInit {
       this.nav.pop();
       return;
     }
-
-
-
 
     // this.setBranchesInForm();
     this.setCurrenciesInForm();
@@ -210,15 +209,14 @@ export class EditBranchConfigComponent implements OnInit {
       const res = await this.network.updateBranchConfig(d, this.id);
       console.log('Response from updateBranchConfig:', res.data);
       if (res && res.data) {
-
-
-
-
         this.utility.presentSuccessToast('Branch configuration updated successfully.');
         this.nav.pop();
       }
     } else {
       this.utility.presentFailureToast('Please fill out all required fields correctly.');
     }
+    setTimeout(() => {
+      this.globaldata.getDefaultRestaurant();
+    }, 700);
   }
 }
