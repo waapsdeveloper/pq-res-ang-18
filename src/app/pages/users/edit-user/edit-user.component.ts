@@ -352,14 +352,15 @@ export class EditUserComponent implements OnInit {
     const res = await this.network.getUsersById(this.id);
     let d = Object.assign({}, res.user);
     console.log(d.status, 'these are the result of the console ');
+    await this.setCountryCodesInForm();
     // Dynamic model assignment
     this.model = {
       name: d.name || '', // Matches `model`
       email: d.email || '', // Matches `model`
       // password: d.password || '',       // Matches `model`
       phone: {
-        countryCode: d.dial_code || '', // Matches `model`
-        number: d.phone || '' // Matches `model`
+        countryCode: d?.dial_code, // Matches `model`
+        number: d?.phone || '' // Matches `model`
       },
       src_img: d.image,
       address: d.address || '', // Matches `model`
