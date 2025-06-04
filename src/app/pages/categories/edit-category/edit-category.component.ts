@@ -45,7 +45,8 @@ export class EditCategoryComponent implements OnInit {
     status: '',
     description: '',
     image: '',
-    imageBase64: ''
+    imageBase64: '',
+    src_img: ''
   };
 
   fields: FormlyFieldConfig[] = [
@@ -179,7 +180,8 @@ export class EditCategoryComponent implements OnInit {
       category_id: d?.id || '', // Included as it exists in `model`
       status: (d?.status || '').toLowerCase(),
       description: d?.description || '',
-      image: '',
+      image: d.image,
+      src_img: d?.image || '',
       imageBase64: d?.imageBase64 || ''
     };
   }
@@ -207,6 +209,7 @@ export class EditCategoryComponent implements OnInit {
         console.log(base64String);
 
         this.model[type] = base64String; // Update the model
+        this.model['src_img'] = base64String;
         // this.fields[0].fieldGroup[6].props['value'] = base64String; // Update the field value
         // this.fields[0].fieldGroup[6].formControl.setValue(base64String); // Update the form control value
 

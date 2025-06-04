@@ -23,7 +23,8 @@ export class EditExpenseComponent implements OnInit {
     status: 'unpaid',
     description: '',
     image: '',
-    imageBase64: ''
+    imageBase64: '',
+    src_img: ''
   };
 
   fields: FormlyFieldConfig[] = [
@@ -190,6 +191,7 @@ export class EditExpenseComponent implements OnInit {
           status: res.expense.status || 'unpaid',
           description: res.expense.description || '',
           image: res.expense.image || '',
+          src_img: res.expense.image || '', //
           imageBase64: ''
         };
         this.form.patchValue(this.model);
@@ -208,6 +210,7 @@ export class EditExpenseComponent implements OnInit {
       reader.onload = () => {
         const base64String = reader.result as string;
         this.model[type] = base64String;
+        this.model['src_img'] = base64String; // Store
       };
       reader.readAsDataURL(file);
     }

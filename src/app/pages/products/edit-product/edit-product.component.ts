@@ -73,7 +73,8 @@ export class EditProductComponent implements OnInit, AfterViewInit {
     notes: '',
     sizes: '',
     spicy: '',
-    type: ''
+    type: '',
+    src_img: ''
   };
 
   fields: FormlyFieldConfig[] = [
@@ -227,13 +228,14 @@ export class EditProductComponent implements OnInit, AfterViewInit {
       description: d.description || '',
       status: (d.status || '').toLowerCase(),
       price: d.price || null,
-      image: '',
+      image: d.image,
       imageBase64: d.imageBase64 || '',
       discount: d.discount || null,
       notes: d.notes || '',
       sizes: d.sizes || '',
       spicy: d.spicy || '',
-      type: d.type || ''
+      type: d.type || '',
+      src_img: d.image || ''
     };
   }
 
@@ -343,6 +345,7 @@ export class EditProductComponent implements OnInit, AfterViewInit {
         console.log(base64String);
 
         this.model[type] = base64String; // Update the model
+        this.model['src_img'] = base64String; // Update the
         // this.fields[0].fieldGroup[6].props['value'] = base64String; // Update the field value
         // this.fields[0].fieldGroup[6].formControl.setValue(base64String); // Update the form control value
 

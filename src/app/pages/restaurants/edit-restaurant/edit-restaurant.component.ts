@@ -21,6 +21,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     imageBase64: '',
     faviconBase64: '',
     logo: '',
+    src_img: '',
     logoBase64: '',
     address: '',
     phone: '8957985674',
@@ -72,7 +73,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     private network: NetworkService,
     private nav: NavService,
     private utility: UtilityService,
-    public grService: GlobalRestaurantService,
+    public grService: GlobalRestaurantService
   ) {}
 
   ngOnInit() {
@@ -127,6 +128,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
       faviconBase64: d.faviconBase64 || '',
       description: d.description || '',
       logo: '',
+      src_img: d.logo || '', //
       logoBase64: d.logoBase64 || '',
       address: d.address || '',
       phone: d.phone || '',
@@ -352,6 +354,8 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
         console.log(base64String);
 
         this.model[type] = base64String; // Update the model
+        this.model['src_img'] = base64String; // Update the model
+
         // this.fields[0].fieldGroup[6].props['value'] = base64String; // Update the field value
         // this.fields[0].fieldGroup[6].formControl.setValue(base64String); // Update the form control value
 
