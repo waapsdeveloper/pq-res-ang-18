@@ -15,7 +15,7 @@ export class DsDataResolver implements Resolve<any> {
 
   async resolve(): Promise<Observable<any>> {
     // If no restaurant_id, or data needs refresh, fetch and store it
-    const res = await this.globalData.getDefaultRestaurant();
+    const res = await this.globalData.getStateRestaurantPromise();
     // const permissions = await this.network.getUserPermissions();
 
     return of({

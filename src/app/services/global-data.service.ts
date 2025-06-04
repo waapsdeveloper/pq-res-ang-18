@@ -77,6 +77,25 @@ export class GlobalDataService extends NgSimpleStateBaseRxjsStore<GlobalDataStat
     return this.selectState((state) => state.tax_percentage);
   }
 
+  getStateRestaurantPromise(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const subscription = this.selectState((state) => state).subscribe({
+        next: (id) => {
+          if (id) {
+            resolve(id);
+          } else {
+            reject('No restaurant ID found in state');
+          }
+          subscription.unsubscribe(); // Cleanup to avoid memory leaks
+        },
+        error: (error) => {
+          reject(error);
+          subscription.unsubscribe(); // Cleanup on error
+        }
+      });
+    });
+  }
+
   getDefaultRestaurant() {
     return new Promise(async (resolve, reject) => {
       const defaults = await this.network.getDefaultRestaurantId();
@@ -90,7 +109,6 @@ export class GlobalDataService extends NgSimpleStateBaseRxjsStore<GlobalDataStat
         localStorage.setItem('restaurant_id', R.id);
         this.setRestaurantId(R.id);
         this.setRestaurantName(R.name);
-
 
         const config = await this.network.getRestaurantConfigById(R.id);
         console.log('branch_config', config);
