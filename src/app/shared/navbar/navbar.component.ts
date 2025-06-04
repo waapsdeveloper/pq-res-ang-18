@@ -78,7 +78,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       this.hideSidebar = !isShow;
     });
 
-
     this.globalRestaurantService.getRestaurantName().subscribe((name) => {
       this.restaurantName = name;
       console.log('Restaurant Name:', this.restaurantName);
@@ -89,8 +88,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   async ngOnInit() {
-    
-    
     this.listItems = [];
 
     if (this.innerWidth < 1200) {
@@ -267,5 +264,23 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       return '1 day ago'; // Or more specific date/time format
     }
+  }
+
+  logout() {
+    // Clear all data from local storage
+    localStorage.clear();
+
+    // Optionally clear session storage as well
+    sessionStorage.clear();
+
+    // Reset/clear any relevant services if needed
+    this.notifcationService.notifications = [];
+
+    // Optionally reset config or user data
+    this.user = null;
+    this.config = {};
+
+    // Navigate to login page
+    this.router.navigate(['/pages/login']);
   }
 }
