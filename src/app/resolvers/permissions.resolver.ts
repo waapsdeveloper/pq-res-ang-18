@@ -7,7 +7,7 @@ export const permissionsResolver: ResolveFn<any> = async (route, state) => {
   const perm = inject(PermissionService);
   const userService = inject(UsersService);
 
-  const user = await userService.getLoginUserFromApi();
+  const user = await userService.getUser();
   if (!user) {
     console.warn('No user found, cannot fetch permissions');
     return null; // or handle as needed

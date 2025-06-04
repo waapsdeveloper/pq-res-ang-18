@@ -137,16 +137,13 @@ export class ListRestaurantComponent extends ListBlade {
       return;
     }
 
-
-
-
-    // try {
-    //   await this.crudService.deleteRow(index, this.utility);
-    //   this.utility.presentSuccessToast('Deleted Sucessfully!');
-    //   console.log('Row deleted successfully');
-    // } catch (error) {
-    //   console.error('Error deleting row:', error);
-    // }
+    try {
+      await this.crudService.deleteRow(index, this.utility);
+      this.utility.presentSuccessToast('Deleted Sucessfully!');
+      console.log('Row deleted successfully');
+    } catch (error) {
+      console.error('Error deleting row:', error);
+    }
   }
 
   async configRow(i) {
