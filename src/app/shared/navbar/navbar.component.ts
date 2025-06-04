@@ -77,14 +77,20 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.layoutSub = layoutService.toggleSidebar$.subscribe((isShow) => {
       this.hideSidebar = !isShow;
     });
+
+
+    this.globalRestaurantService.getRestaurantName().subscribe((name) => {
+      this.restaurantName = name;
+      console.log('Restaurant Name:', this.restaurantName);
+
+      this.restaurantName = name;
+      console.log('Restaurant Name from Service:', this.restaurantName);
+    });
   }
 
   async ngOnInit() {
-    const name = await this.globalRestaurantService.getRestaurantNamePromise()
-    this.restaurantName = name;
-
-    console.log('Restaurant Name:', this.restaurantName);
-
+    
+    
     this.listItems = [];
 
     if (this.innerWidth < 1200) {

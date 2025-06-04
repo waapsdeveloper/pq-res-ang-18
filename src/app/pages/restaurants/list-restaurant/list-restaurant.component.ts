@@ -128,13 +128,25 @@ export class ListRestaurantComponent extends ListBlade {
       alert('You do not have permission to delete.');
       return;
     }
-    try {
-      await this.crudService.deleteRow(index, this.utility);
-      this.utility.presentSuccessToast('Deleted Sucessfully!');
-      console.log('Row deleted successfully');
-    } catch (error) {
-      console.error('Error deleting row:', error);
+
+    let item = this.crudService.list[index];
+    let a = parseInt(item.is_active, 10);
+    console.log('Deleting item:', item, a);
+    if( a === 1 ) {
+      this.utility.presentFailureToast('You cannot delete an active restaurant.');
+      return;
     }
+
+
+
+
+    // try {
+    //   await this.crudService.deleteRow(index, this.utility);
+    //   this.utility.presentSuccessToast('Deleted Sucessfully!');
+    //   console.log('Row deleted successfully');
+    // } catch (error) {
+    //   console.error('Error deleting row:', error);
+    // }
   }
 
   async configRow(i) {
