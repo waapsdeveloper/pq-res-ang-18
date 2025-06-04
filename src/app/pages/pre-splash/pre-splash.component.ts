@@ -2,6 +2,7 @@ import { CurrencyService } from 'src/app/services/currency.service';
 import { Component } from '@angular/core';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
+import { GlobalDataService } from 'src/app/services/global-data.service';
 
 @Component({
   selector: 'app-pre-splash',
@@ -14,30 +15,21 @@ export class PreSplashComponent {
   constructor(
     private nav: NavService,
     private network: NetworkService,
-    private currency: CurrencyService
+    private currency: CurrencyService,
+    private globalData: GlobalDataService
   ) {}
 
   ngOnInit(): void {
+    this.globalData.getDefaultRestaurant();
     this.initialize();
   }
 
   async initialize() {
     this.loading = true;
-    const defaults = await this.network.getDefaultRestaurantId();
-    console.log(defaults);
-    if (defaults && defaults.active_restaurant) {
-      let R = defaults.active_restaurant;
 
-      localStorage.setItem('restaurant', JSON.stringify(R));
-      localStorage.setItem('restaurant_id', R.id);
-      this.currency.setRestaurantId(R.id);
-
-      this.currency.setTax(R.tax);
-      this.currency.setCurrency(R.currency);
-      setTimeout(() => {
-        this.loading = false;
-        this.nav.push('/pages/dashboard');
-      }, 3000);
-    }
+    setTimeout(() => {
+      this.loading = false;
+      this.nav.push('/pages/dashboard');
+    }, 3000);
   }
 }

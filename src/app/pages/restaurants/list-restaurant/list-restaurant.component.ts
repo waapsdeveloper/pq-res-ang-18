@@ -11,6 +11,7 @@ import { EventsService } from 'src/app/services/events.service';
 import { CurrencyService } from 'src/app/services/currency.service';
 import { ActivatedRoute } from '@angular/router';
 import { PermissionService } from 'src/app/services/permission.service';
+import { GlobalDataService } from 'src/app/services/global-data.service';
 
 @Component({
   selector: 'app-list-restaurant',
@@ -93,6 +94,7 @@ export class ListRestaurantComponent extends ListBlade {
     private cdr: ChangeDetectorRef,
     public currencyService: CurrencyService,
     public events: EventsService,
+    public globaldata: GlobalDataService,
     private route: ActivatedRoute,
     private permissionService: PermissionService
   ) {
@@ -132,7 +134,7 @@ export class ListRestaurantComponent extends ListBlade {
     let item = this.crudService.list[index];
     let a = parseInt(item.is_active, 10);
     console.log('Deleting item:', item, a);
-    if( a === 1 ) {
+    if (a === 1) {
       this.utility.presentFailureToast('You cannot delete an active restaurant.');
       return;
     }
@@ -196,11 +198,7 @@ export class ListRestaurantComponent extends ListBlade {
 
     const res = await this.network.setActiveRestaurant(data, item.id);
     console.log(res);
-    const R = res.restaurant;
-    localStorage.setItem('restaurant', JSON.stringify(R));
-    localStorage.setItem('restaurant_id', R.id);
-    this.currencyService.setCurrency(R.currency);
-    this.currencyService.setTax(R.tax);
+    this.globaldata.getDefaultRestaurant();
     this.utility.presentSuccessToast('Default Restaurant Set Successfully!');
     this.crudService.getList('', 1);
   }
