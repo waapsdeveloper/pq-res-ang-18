@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { NetworkService } from './network.service';
+import { UsersService } from './users.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PermissionService {
-
   genericPermissions: any[] = [
     { entity: 'user', operations: ['add', 'edit', 'delete', 'list', 'filter'] },
     { entity: 'product', operations: ['add', 'edit', 'delete', 'list', 'filter'] },
@@ -18,45 +18,53 @@ export class PermissionService {
     { entity: 'coupon', operations: ['add', 'edit', 'delete', 'list', 'filter'] },
     { entity: 'message', operations: ['add', 'edit', 'delete', 'list', 'filter'] },
     { entity: 'order', operations: ['add', 'edit', 'delete', 'list', 'filter', 'payment_status', 'order_status', 'menu'] },
-    { entity: 'branch', operations: ['add', 'edit', 'delete', 'list', 'filter', 'set_default', 'config_button'] },
+    { entity: 'branch', operations: ['add', 'edit', 'delete', 'list', 'filter', 'set_default', 'config_button'] }
   ];
 
   permissionInstance: any;
+  user;
 
-  constructor(private network: NetworkService) { }
+  constructor(
+    private network: NetworkService,
+    private users: UsersService
+  ) {}
 
   async getPermissions(): Promise<any> {
+    console.log('Fetching permissions for user:', this.users.getUser());
 
-    if(this.permissionInstance) {
+    this.user = this.users.getUser();
+
+    if (!this.user) {
+      console.warn('No user found, returning empty permissions');
+      return null;
+    }
+
+    if (this.permissionInstance) {
       console.log('Returning cached permissions:', this.permissionInstance);
-      return this.permissionInstance; // Return cached permissions if available
+      return this.permissionInstance;
     }
 
     try {
-      this.network.getUserPermissions().then((res: any) => {
-        console.log('Fetched Permissions:', res);
-        this.permissionInstance = res['permissions']; // Store the permissions instance
+      const res = await this.network.getUserPermissions();
+
+      if (res && res.permissions) {
+        this.permissionInstance = res.permissions;
+        console.log('Fetched and cached permissions:', this.permissionInstance);
         return this.permissionInstance;
-      }).catch((error: any) => {
-        console.error('Error fetching permissions:', error);
-        return null;  
-      });
-      
-    
-    
-    
-    
+      } else {
+        console.warn('Permissions response is invalid:', res);
+        return null;
+      }
     } catch (error) {
       console.error('Error fetching permissions:', error);
       return null;
     }
   }
 
-   hasPermission(key: string): boolean {
+  hasPermission(key: string): boolean {
     console.log('Checking add permission for entity:', key);
-    const permissions = this.permissionInstance as any[] || []; // implement this as needed
+    const permissions = (this.permissionInstance as any[]) || []; // implement this as needed
     console.log('Current permissions:', permissions);
     return permissions.some((permission: any) => permission.slug === key);
   }
-
 }
