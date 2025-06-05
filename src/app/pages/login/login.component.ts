@@ -48,17 +48,19 @@ export class LoginComponent implements OnInit {
       };
       const res = (await this.network.loginViaEmail(d)) as any;
 
-
-
       if (res) {
         console.log(res);
 
-        if(res == 400){
-          this.utility.presentFailureToast(res.message.error);
+        if (res == 400) {
+          this.utility.presentFailureToast('Invalid email or password');
           this.showLoader = false;
           return;
         }
-
+        if (res == 403) {
+          this.utility.presentFailureToast('Your account is not allowed to login');
+          this.showLoader = false;
+          return;
+        }
 
         if (res.user) {
           localStorage.setItem('token', res.token);

@@ -8,7 +8,6 @@ import { UtilityService } from './utility.service';
   providedIn: 'root'
 })
 export class NetworkService {
-  
   getUserById(itemId: any) {
     throw new Error('Method not implemented.');
   }
