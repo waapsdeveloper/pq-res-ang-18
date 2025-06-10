@@ -4,6 +4,7 @@ import { LayoutService } from '../services/layout.service';
 import { ConfigService } from '../services/config.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { PermissionService } from 'src/app/services/permission.service';
 
 @Component({
   selector: 'app-horizontal-menu',
@@ -20,11 +21,14 @@ export class HorizontalMenuComponent implements OnInit, AfterViewInit, OnDestroy
   layoutSub: Subscription;
   restaurantId: string;
 
+  permissionsObject: any = null;
+
   constructor(
     private layoutService: LayoutService,
     private configService: ConfigService,
     private cdr: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private permissionService: PermissionService
   ) {
     this.config = this.configService.templateConf;
   }
@@ -42,6 +46,66 @@ export class HorizontalMenuComponent implements OnInit, AfterViewInit, OnDestroy
       this.loadLayout();
       this.cdr.markForCheck();
     });
+
+    this.permissionService.getPermissionState().subscribe((permissions) => {
+      console.log('Permissions from service:', permissions);
+      if (permissions) {
+        this.permissionsObject = permissions;
+      } else {
+        this.permissionService.getPermissions().then((permissions) => {
+          this.permissionsObject = permissions;
+        });
+      }
+    });
+  }
+
+  removeItemsWhichAreNotInPermission(permissions: any[], menuitems: any[]): any[] {
+
+    let finals = [];
+
+    if (!permissions) {
+      return menuitems;
+    }
+
+    let c = [...menuitems];
+    for (let i = 0; i < c.length; i++) {
+      const item = c[i];
+
+      if (item.submenu && item.submenu.length > 0) {
+        item.submenu = this.removesubItemsWhichAreNotInPermission(permissions, item.submenu);
+      } else {
+        let exist = this.permissionService.hasPermission(item.permissionSlug);
+        if(exist){
+          finals.push(item)
+        }
+      }
+
+    }
+
+
+
+    return []
+
+  }
+
+  removesubItemsWhichAreNotInPermission(permissions: any[], menuitems: any[]): any[] {
+
+    if (!permissions) {
+      return menuitems;
+    }
+
+    let c = [...menuitems];
+    for (let i = 0; i < c.length; i++) {
+      const item = c[i];
+
+      if (!permissions.includes(item.path)) {
+        c.splice(i, 1);
+        i--;
+      }
+    }
+
+    return c;
+
   }
 
   loadLayout() {

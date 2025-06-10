@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { NetworkService } from './network.service';
 import { UsersService } from './users.service';
-
+import { NgSimpleStateBaseRxjsStore, NgSimpleStateStoreConfig } from 'ng-simple-state';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class PermissionService {
+export class PermissionService extends NgSimpleStateBaseRxjsStore<any> {
+
   genericPermissions: any[] = [
     { entity: 'user', operations: ['add', 'edit', 'delete', 'list', 'filter'] },
     { entity: 'product', operations: ['add', 'edit', 'delete', 'list', 'filter'] },
@@ -27,7 +29,29 @@ export class PermissionService {
   constructor(
     private network: NetworkService,
     private users: UsersService
-  ) {}
+  ) {
+    super();
+  }
+
+  protected storeConfig(): NgSimpleStateStoreConfig {
+    return {
+      storeName: 'GlobalPermissionState'
+    };
+  }
+  protected initialState(): any {
+    return {};
+  }
+
+  setPermissionState(obj: any): void {
+    this.setState((state) => ({
+      ...state,
+      ...obj
+    }));
+  }
+
+  getPermissionState(): Observable<any> {
+    return this.selectState((state) => state);
+  }
 
   async getPermissions(): Promise<any> {
     console.log('Fetching permissions for user:', this.users.getUser());
