@@ -23,6 +23,7 @@ import { LayoutService } from 'src/app/shared/services/layout.service';
 import { ConfigService } from 'src/app/shared/services/config.service';
 import { NotificationsService } from 'src/app/services/notifications.service';
 import { GlobalRestaurantService } from 'src/app/services/global-restaurant.service';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-navbar',
@@ -69,7 +70,8 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     private configService: ConfigService,
     private cdr: ChangeDetectorRef,
     public notifcationService: NotificationsService,
-    private globalRestaurantService: GlobalRestaurantService
+    private globalRestaurantService: GlobalRestaurantService,
+    private userService: UsersService
   ) {
     this.config = this.configService.templateConf;
     this.innerWidth = window.innerWidth;
@@ -105,6 +107,12 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       this.loadLayout();
       this.cdr.markForCheck();
     });
+
+    const user = this.userService.getUser();
+    if (user) {
+      this.user = user;
+      console.log('User from Service:', this.user);
+    }
   }
 
   ngOnDestroy() {

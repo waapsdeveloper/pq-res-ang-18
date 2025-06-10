@@ -172,4 +172,19 @@ export class EditRolesComponent implements AfterViewInit, OnInit {
   private toTitleCase(str: string): string {
     return str.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
   }
+
+
+  selectAllPermissions() {
+    this.permissions.forEach((perm) => {
+      if (!this.model.permissions[perm.entity]) {
+        this.model.permissions[perm.entity] = [];
+      }
+      perm.operations.forEach((op) => {
+        const value = `${perm.entity}.${op}`;
+        if (!this.model.permissions[perm.entity].includes(value)) {
+          this.model.permissions[perm.entity].push(value);
+        }
+      });
+    });
+  }
 }

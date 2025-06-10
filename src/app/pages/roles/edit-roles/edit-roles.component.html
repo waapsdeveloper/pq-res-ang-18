@@ -6,8 +6,9 @@
           <!-- Standard Formly Fields -->
           <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
 
+          <button type="button" style="background: red" class="btn btn-sm btn-secondary mb-3" (click)="selectAllPermissions()">Select All Permissions</button>
           <!-- Manual Permissions Checkboxes -->
-          <div class="row mt-4" formGroupName="permissions">
+          <div class="row" formGroupName="permissions">
             <div class="col-12 mb-3" *ngFor="let perm of permissions">
               <label class="fw-bold mb-2 d-block">{{ perm.entity.replace('_', ' ') | titlecase }}</label>
               <div class="d-flex flex-wrap gap-2">

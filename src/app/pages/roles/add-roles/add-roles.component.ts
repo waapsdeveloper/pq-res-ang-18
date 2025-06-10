@@ -13,6 +13,12 @@ import { UtilityService } from 'src/app/services/utility.service';
 })
 export class AddRolesComponent {
   form = new FormGroup({});
+  model = {
+    name: '',
+    slug: '',
+    permissions: {}
+  };
+
   constructor(
     private nav: NavService,
     private network: NetworkService,
@@ -22,31 +28,8 @@ export class AddRolesComponent {
 
   title = 'Add Role';
   addurl = '/pages/roles/list';
-  model = {
-    name: '',
-    slug: '',
-    permissions: {}
-  };
 
-  permissions = this.permissionService.genericPermissions
-  getPermissionsFields(): FormlyFieldConfig {
-    return {
-      fieldGroupClassName: 'row',
-      templateOptions: { label: 'Permissions' },
-      fieldGroup: this.permissions.map((perm) => ({
-        key: `permissions.${perm.entity}`,
-        type: 'multicheckbox',
-        props: {
-          label: perm.entity.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase()),
-          options: perm.operations.map(op => ({
-            value: op,
-            label: op.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
-          }))
-        },
-        className: 'col-12 mb-2'
-      }))
-    };
-  }
+  permissions = this.permissionService.genericPermissions;
 
   fields: FormlyFieldConfig[] = [
     {
@@ -73,33 +56,84 @@ export class AddRolesComponent {
           className: 'col-md-6 col-12'
         }
       ]
-    },
-    this.getPermissionsFields()
+    }
+    // Removed permissions Formly field, handled manually in template
   ];
+
+  onCheckboxChange(event: Event, entity: string) {
+    const checkbox = event.target as HTMLInputElement;
+    const value = checkbox.value;
+
+    if (!this.model.permissions[entity]) {
+      this.model.permissions[entity] = [];
+    }
+
+    if (checkbox.checked) {
+      if (!this.model.permissions[entity].includes(value)) {
+        this.model.permissions[entity].push(value);
+      }
+    } else {
+      this.model.permissions[entity] = this.model.permissions[entity].filter((v) => v !== value);
+    }
+  }
+
+  stripEntityFromPermissions(model: { permissions: Record<string, string[]> }) {
+    const strippedPermissions: Record<string, string[]> = {};
+
+    for (const entity in model.permissions) {
+      if (Object.prototype.hasOwnProperty.call(model.permissions, entity)) {
+        strippedPermissions[entity] = model.permissions[entity].map((perm) => {
+          // Remove "entity." prefix if present
+          if (perm.startsWith(entity + '.')) {
+            return perm.substring(entity.length + 1);
+          }
+          return perm;
+        });
+      }
+    }
+
+    return strippedPermissions;
+  }
+
   async onSubmit(model) {
     if (this.form.invalid) {
-      // Mark all fields as touched to trigger validation styles
       this.form.markAllAsTouched();
       this.utility.presentFailureToast('Please fill out all required fields correctly.');
       return;
     }
 
-    console.log(model);
-    console.log('Form Submitted', this.form.valid);
-    if (this.form.valid) {
-      // alert('Restaurant added successfully!');
+    const cleanedPermissions = this.stripEntityFromPermissions(model);
+    const m = this.model;
+    m.permissions = cleanedPermissions;
 
-      let d = this.form.value;
-      const res = await this.network.addRole(d);
-      console.log(res);
-      if (res) {
-        this.utility.presentSuccessToast('Role added Succesfully!');
-
-        this.nav.pop();
-      }
+    const res = await this.network.addRole(m);
+    if (res) {
+      this.utility.presentSuccessToast('Role added Succesfully!');
+      this.nav.pop();
     } else {
-      this.utility.presentFailureToast('Please fill out all required fields correctly.');
-      //alert('Please fill out all required fields correctly.');
+      this.utility.presentFailureToast('Failed to add role.');
     }
+  }
+
+  returnLabel(op: string): string {
+    return this.toTitleCase(op.replace(/_/g, ' '));
+  }
+
+  private toTitleCase(str: string): string {
+    return str.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
+  }
+
+  selectAllPermissions() {
+    this.permissions.forEach((perm) => {
+      if (!this.model.permissions[perm.entity]) {
+        this.model.permissions[perm.entity] = [];
+      }
+      perm.operations.forEach((op) => {
+        const value = `${perm.entity}.${op}`;
+        if (!this.model.permissions[perm.entity].includes(value)) {
+          this.model.permissions[perm.entity].push(value);
+        }
+      });
+    });
   }
 }
