@@ -36,17 +36,18 @@ export class HorizontalMenuComponent implements OnInit, AfterViewInit, OnDestroy
 
   async ngOnInit() {
     this.restaurantId = localStorage.getItem('restaurant_id');
-    this.menuItems = await this.pmenuService.getMenu();
+    
 
     
     
   }
 
   ngAfterViewInit() {
-    this.layoutSub = this.configService.templateConf$.subscribe((templateConf) => {
+    this.layoutSub = this.configService.templateConf$.subscribe(async (templateConf) => {
       if (templateConf) {
         this.config = templateConf;
       }
+      this.menuItems = await this.pmenuService.getMenu();
       this.loadLayout();
       this.cdr.markForCheck();
     });
