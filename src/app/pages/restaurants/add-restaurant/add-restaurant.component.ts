@@ -15,7 +15,7 @@ import { UtilityService } from 'src/app/services/utility.service';
 export class AddRestaurantComponent {
   form = new FormGroup({});
   model = {
-    name: 'Restaurant one',
+    name: '',
     copyright_text: '',
     // image: '',
     imageBase64: '',
@@ -24,8 +24,8 @@ export class AddRestaurantComponent {
     logo: '',
     logoBase64: '',
     address: '',
-    phone: '8957985674',
-    email: 'restaurant1@mail.com',
+    phone: '',
+    email: '',
     website: '',
     schedule: {
       monday_day: 'Monday',
@@ -261,7 +261,7 @@ export class AddRestaurantComponent {
     private network: NetworkService,
     private nav: NavService,
     private utility: UtilityService,
-    public grService: GlobalRestaurantService,
+    public grService: GlobalRestaurantService
   ) {}
 
   onFileChange(field, event: Event, type: string = 'image') {
@@ -343,7 +343,6 @@ export class AddRestaurantComponent {
       const res = await this.network.addRestaurant(d);
       console.log(res);
       if (res && res.restaurant) {
-
         this.utility.presentSuccessToast('Restaurant added Successfully!');
         let item = res.restaurant;
         this.grService.setRestaurant(item.id, item.name);
@@ -354,7 +353,6 @@ export class AddRestaurantComponent {
         };
 
         await this.network.setActiveRestaurant(data, item.id);
-
 
         this.nav.pop();
       }

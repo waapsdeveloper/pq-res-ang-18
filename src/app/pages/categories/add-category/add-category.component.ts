@@ -54,7 +54,7 @@ export class AddCategoryComponent implements OnInit {
           props: {
             label: 'Category',
             placeholder: 'Select a parent category',
-            options: []
+            options: [{ value: '', label: 'Select a parent category' }]
           },
           className: 'formly-select-wrapper-3232 col-md-6 col-12'
         },

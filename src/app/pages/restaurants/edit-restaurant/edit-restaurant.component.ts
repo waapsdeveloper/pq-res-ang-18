@@ -175,7 +175,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
       // If `d.timings` is empty, this code will not iterate over it, and the default times/statuses will be applied.
 
       rating: d.rating || Math.floor(Math.random() * 6),
-      status: d.status || ''
+      status: (d?.status || '').toLowerCase()
     };
 
     console.log(d.timings[0].start_time);

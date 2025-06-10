@@ -172,17 +172,18 @@ export class EditCategoryComponent implements OnInit {
     return [];
   }
   async ngAfterViewInit() {
+    await this.setCategoriesInForm();
     const res = await this.network.getCategoriesById(this.id);
     let d = Object.assign({}, res.category);
     console.log(d);
     this.model = {
       name: d?.name || '',
-      category_id: d?.id || '', // Included as it exists in `model`
-      status: (d?.status || '').toLowerCase(),
+      category_id: d?.category?.id || '', // Use parent_id if available
+      status: (d?.status || 'active').toLowerCase(), // Default to 'active'
       description: d?.description || '',
-      image: d.image,
+      image: '', // Always empty for file input
       src_img: d?.image || '',
-      imageBase64: d?.imageBase64 || ''
+      imageBase64: ''
     };
   }
 
