@@ -8,8 +8,7 @@ export const permissionsResolver: ResolveFn<any> = async (route, state) => {
   const userService = inject(UsersService);
 
   const user = await userService.getUser();
-  if (!user) {
-    console.warn('No user found, cannot fetch permissions');
+  if (!user) {    
     return null; // or handle as needed
   }
 
@@ -17,7 +16,5 @@ export const permissionsResolver: ResolveFn<any> = async (route, state) => {
 
 
   const res = await perm.getPermissions();
-  console.log('Permissions Resolver:', res);
-  // Example: fetch permissions (can be a real API call)
   return res; // make sure this returns an observable or promise
 };

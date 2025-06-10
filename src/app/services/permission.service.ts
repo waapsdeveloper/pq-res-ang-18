@@ -54,17 +54,12 @@ export class PermissionService extends NgSimpleStateBaseRxjsStore<any> {
   }
 
   async getPermissions(): Promise<any> {
-    console.log('Fetching permissions for user:', this.users.getUser());
-
     this.user = this.users.getUser();
-
     if (!this.user) {
-      console.warn('No user found, returning empty permissions');
       return null;
     }
 
     if (this.permissionInstance) {
-      console.log('Returning cached permissions:', this.permissionInstance);
       return this.permissionInstance;
     }
 
@@ -72,23 +67,18 @@ export class PermissionService extends NgSimpleStateBaseRxjsStore<any> {
       const res = await this.network.getUserPermissions();
 
       if (res && res.permissions) {
-        this.permissionInstance = res.permissions;
-        console.log('Fetched and cached permissions:', this.permissionInstance);
+        this.permissionInstance = res.permissions;        
         return this.permissionInstance;
       } else {
-        console.warn('Permissions response is invalid:', res);
         return null;
       }
     } catch (error) {
-      console.error('Error fetching permissions:', error);
       return null;
     }
   }
 
   hasPermission(key: string): boolean {
-    console.log('Checking add permission for entity:', key);
     const permissions = (this.permissionInstance as any[]) || []; // implement this as needed
-    console.log('Current permissions:', permissions);
     return permissions.some((permission: any) => permission.slug === key);
   }
 }
