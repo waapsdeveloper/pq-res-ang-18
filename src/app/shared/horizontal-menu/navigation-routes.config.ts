@@ -7,7 +7,8 @@ export const HROUTES: RouteInfo[] = [
     icon: 'ft-home',
     class: 'dropdown nav-item',
     isExternalLink: false,
-    submenu: []
+    submenu: [],
+    permissionSlug: 'dashboard.view'
   },
   {
     title: 'Users',
@@ -15,6 +16,7 @@ export const HROUTES: RouteInfo[] = [
     class: 'dropdown nav-item',
     isExternalLink: false,
     path: '',
+    permissionSlug: 'users.view',
     submenu: [
       {
         path: '/pages/users/list',
@@ -22,7 +24,8 @@ export const HROUTES: RouteInfo[] = [
         icon: 'ft-user',
         class: 'dropdown-item',
         isExternalLink: false,
-        submenu: []
+        submenu: [],
+        permissionSlug: 'users.view'
       },
       {
         path: '/pages/roles/list',
@@ -30,7 +33,8 @@ export const HROUTES: RouteInfo[] = [
         icon: 'ft-shield', // Changed to a more suitable icon for roles
         class: 'dropdown-item',
         isExternalLink: false,
-        submenu: []
+        submenu: [],
+        permissionSlug: 'roles.view'
       }
     ]
   },
@@ -40,6 +44,7 @@ export const HROUTES: RouteInfo[] = [
     class: 'dropdown nav-item',
     isExternalLink: false,
     path: '',
+    permissionSlug: 'product.list',
     submenu: [
       {
         path: '/pages/products/list',
@@ -47,7 +52,8 @@ export const HROUTES: RouteInfo[] = [
         icon: 'ft-grid',
         class: 'dropdown-item',
         isExternalLink: false,
-        submenu: []
+        submenu: [],
+        permissionSlug: 'product.list'
       },
       {
         path: '/pages/categories/list',
@@ -55,7 +61,8 @@ export const HROUTES: RouteInfo[] = [
         icon: 'ft-layers',
         class: 'dropdown-item',
         isExternalLink: false,
-        submenu: []
+        submenu: [],
+        permissionSlug: 'categories.view'
       },
       {
         path: '/pages/variations/list',
@@ -63,7 +70,8 @@ export const HROUTES: RouteInfo[] = [
         icon: 'ft-repeat',
         class: 'dropdown-item',
         isExternalLink: false,
-        submenu: []
+        submenu: [],
+        permissionSlug: 'variations.view' // Uncomment if variations are implemented
       }
     ]
   },
@@ -73,6 +81,7 @@ export const HROUTES: RouteInfo[] = [
     class: 'dropdown nav-item',
     isExternalLink: false,
     path: '',
+    permissionSlug: 'booking.view',
     submenu: [
       {
         path: '/pages/tables/list',
@@ -80,7 +89,8 @@ export const HROUTES: RouteInfo[] = [
         icon: 'ft-list',
         class: 'dropdown-item',
         isExternalLink: false,
-        submenu: []
+        submenu: [],
+        permissionSlug: 'tables.view'
       },
       {
         path: '/pages/table-booking/list',
@@ -88,7 +98,8 @@ export const HROUTES: RouteInfo[] = [
         icon: 'ft-calendar',
         class: 'dropdown-item',
         isExternalLink: false,
-        submenu: []
+        submenu: [],
+        permissionSlug: 'table-booking.view'
       }
     ]
   },
@@ -98,6 +109,7 @@ export const HROUTES: RouteInfo[] = [
     class: 'dropdown nav-item',
     isExternalLink: false,
     path: '',
+    permissionSlug: 'expenses.view',
     submenu: [
       {
         path: '/pages/expense/list',
@@ -105,7 +117,8 @@ export const HROUTES: RouteInfo[] = [
         icon: 'ti ti-device-mobile-dollar',
         class: 'dropdown-item',
         isExternalLink: false,
-        submenu: []
+        submenu: [],
+        permissionSlug: 'expenses.view'
       },
       {
         path: '/pages/expense-categories/list',
@@ -113,7 +126,8 @@ export const HROUTES: RouteInfo[] = [
         icon: 'ti ti-device-mobile-dollar',
         class: 'dropdown-item',
         isExternalLink: false,
-        submenu: []
+        submenu: [],
+        permissionSlug: 'expense-categories.view'
       }
     ]
   },
@@ -123,6 +137,7 @@ export const HROUTES: RouteInfo[] = [
     class: 'dropdown nav-item',
     isExternalLink: false,
     path: '/pages/orders/list',
+    permissionSlug: 'order.list',
     submenu: [
       // {
       //   path: '/pages/orders/list',
@@ -148,7 +163,8 @@ export const HROUTES: RouteInfo[] = [
     icon: 'ft-map-pin',
     class: 'dropdown nav-item',
     isExternalLink: false,
-    submenu: []
+    submenu: [],
+    permissionSlug: 'branch.view'
   },
   {
     title: 'Settings',
@@ -156,6 +172,7 @@ export const HROUTES: RouteInfo[] = [
     class: 'dropdown nav-item',
     isExternalLink: false,
     path: '',
+    permissionSlug: 'settings.view',
     submenu: [
       {
         path: '/pages/messages/list',
@@ -163,7 +180,8 @@ export const HROUTES: RouteInfo[] = [
         icon: 'ft-message-circle',
         class: 'dropdown-item',
         isExternalLink: false,
-        submenu: []
+        submenu: [],
+        permissionSlug: 'messages.view'
       },
       {
         path: '/pages/coupons/list',
@@ -171,7 +189,8 @@ export const HROUTES: RouteInfo[] = [
         icon: 'ft-tag',
         class: 'dropdown-item',
         isExternalLink: false,
-        submenu: []
+        submenu: [],
+        permissionSlug: 'coupons.view'
       }
       // {
       //   path: '',

@@ -51,9 +51,11 @@ export class HorizontalMenuComponent implements OnInit, AfterViewInit, OnDestroy
       console.log('Permissions from service:', permissions);
       if (permissions) {
         this.permissionsObject = permissions;
+        this.menuItems = this.removeItemsWhichAreNotInPermission(permissions, this.menuItems);
       } else {
         this.permissionService.getPermissions().then((permissions) => {
           this.permissionsObject = permissions;
+          this.menuItems = this.removeItemsWhichAreNotInPermission(permissions, this.menuItems);
         });
       }
     });
@@ -72,11 +74,34 @@ export class HorizontalMenuComponent implements OnInit, AfterViewInit, OnDestroy
       const item = c[i];
 
       if (item.submenu && item.submenu.length > 0) {
-        item.submenu = this.removesubItemsWhichAreNotInPermission(permissions, item.submenu);
+
+        let existw = this.permissionService.hasPermission(item.permissionSlug);
+        if(existw){
+
+          item.submenu = this.removesubItemsWhichAreNotInPermission(permissions, item.submenu);
+
+          if (!finals.some(existingItem => existingItem.path === item.path)) {
+              finals.push(item);
+          }
+          
+        }
+
+
+
+
+
+
+        
+
+
       } else {
         let exist = this.permissionService.hasPermission(item.permissionSlug);
+        console.log('Permission check for item:', item.permissionSlug, 'Exists:', exist);
         if(exist){
-          finals.push(item)
+          
+          if (!finals.some(existingItem => existingItem.path === item.path)) {
+              finals.push(item);
+          }
         }
       }
 
@@ -84,11 +109,13 @@ export class HorizontalMenuComponent implements OnInit, AfterViewInit, OnDestroy
 
 
 
-    return []
+    return finals;
 
   }
 
   removesubItemsWhichAreNotInPermission(permissions: any[], menuitems: any[]): any[] {
+
+    let finals = [];
 
     if (!permissions) {
       return menuitems;
@@ -98,13 +125,17 @@ export class HorizontalMenuComponent implements OnInit, AfterViewInit, OnDestroy
     for (let i = 0; i < c.length; i++) {
       const item = c[i];
 
-      if (!permissions.includes(item.path)) {
-        c.splice(i, 1);
-        i--;
+      let exist = this.permissionService.hasPermission(item.permissionSlug);
+      console.log('Permission check for subitem:', item.permissionSlug, 'Exists:', exist);
+      if(exist){
+        if (!finals.some(existingItem => existingItem.path === item.path)) {
+          finals.push(item);
+        }
       }
+
     }
 
-    return c;
+    return finals;
 
   }
 
