@@ -16,7 +16,7 @@ export const HROUTES: RouteInfo[] = [
     class: 'dropdown nav-item',
     isExternalLink: false,
     path: '',
-    permissionSlug: 'users.view',
+    permissionSlug: 'user.list',
     submenu: [
       {
         path: '/pages/users/list',
@@ -25,7 +25,7 @@ export const HROUTES: RouteInfo[] = [
         class: 'dropdown-item',
         isExternalLink: false,
         submenu: [],
-        permissionSlug: 'users.view'
+        permissionSlug: 'user.list'
       },
       {
         path: '/pages/roles/list',
@@ -34,7 +34,7 @@ export const HROUTES: RouteInfo[] = [
         class: 'dropdown-item',
         isExternalLink: false,
         submenu: [],
-        permissionSlug: 'roles.view'
+        permissionSlug: 'role.list'
       }
     ]
   },
@@ -62,7 +62,7 @@ export const HROUTES: RouteInfo[] = [
         class: 'dropdown-item',
         isExternalLink: false,
         submenu: [],
-        permissionSlug: 'categories.view'
+        permissionSlug: 'category.list'
       },
       {
         path: '/pages/variations/list',
@@ -71,7 +71,7 @@ export const HROUTES: RouteInfo[] = [
         class: 'dropdown-item',
         isExternalLink: false,
         submenu: [],
-        permissionSlug: 'variations.view' // Uncomment if variations are implemented
+        permissionSlug: 'variation.list' // Uncomment if variations are implemented
       }
     ]
   },
@@ -81,7 +81,7 @@ export const HROUTES: RouteInfo[] = [
     class: 'dropdown nav-item',
     isExternalLink: false,
     path: '',
-    permissionSlug: 'booking.view',
+    permissionSlug: 'table.list',
     submenu: [
       {
         path: '/pages/tables/list',
@@ -90,7 +90,7 @@ export const HROUTES: RouteInfo[] = [
         class: 'dropdown-item',
         isExternalLink: false,
         submenu: [],
-        permissionSlug: 'tables.view'
+        permissionSlug: 'table.list'
       },
       {
         path: '/pages/table-booking/list',
@@ -99,7 +99,7 @@ export const HROUTES: RouteInfo[] = [
         class: 'dropdown-item',
         isExternalLink: false,
         submenu: [],
-        permissionSlug: 'table-booking.view'
+        permissionSlug: 'table-booking.list'
       }
     ]
   },
@@ -109,7 +109,7 @@ export const HROUTES: RouteInfo[] = [
     class: 'dropdown nav-item',
     isExternalLink: false,
     path: '',
-    permissionSlug: 'expenses.view',
+    permissionSlug: 'expense.list',
     submenu: [
       {
         path: '/pages/expense/list',
@@ -118,7 +118,7 @@ export const HROUTES: RouteInfo[] = [
         class: 'dropdown-item',
         isExternalLink: false,
         submenu: [],
-        permissionSlug: 'expenses.view'
+        permissionSlug: 'expense.list'
       },
       {
         path: '/pages/expense-categories/list',
@@ -127,7 +127,7 @@ export const HROUTES: RouteInfo[] = [
         class: 'dropdown-item',
         isExternalLink: false,
         submenu: [],
-        permissionSlug: 'expense-categories.view'
+        permissionSlug: 'expense-category.list'
       }
     ]
   },
@@ -164,7 +164,7 @@ export const HROUTES: RouteInfo[] = [
     class: 'dropdown nav-item',
     isExternalLink: false,
     submenu: [],
-    permissionSlug: 'branch.view'
+    permissionSlug: 'branch.list'
   },
   {
     title: 'Settings',
@@ -172,7 +172,7 @@ export const HROUTES: RouteInfo[] = [
     class: 'dropdown nav-item',
     isExternalLink: false,
     path: '',
-    permissionSlug: 'settings.view',
+    permissionSlug: 'setting.list',
     submenu: [
       {
         path: '/pages/messages/list',
@@ -181,7 +181,7 @@ export const HROUTES: RouteInfo[] = [
         class: 'dropdown-item',
         isExternalLink: false,
         submenu: [],
-        permissionSlug: 'messages.view'
+        permissionSlug: 'message.list'
       },
       {
         path: '/pages/coupons/list',
@@ -190,7 +190,7 @@ export const HROUTES: RouteInfo[] = [
         class: 'dropdown-item',
         isExternalLink: false,
         submenu: [],
-        permissionSlug: 'coupons.view'
+        permissionSlug: 'coupon.list'
       }
       // {
       //   path: '',
