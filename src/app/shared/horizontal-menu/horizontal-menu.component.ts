@@ -36,16 +36,6 @@ export class HorizontalMenuComponent implements OnInit, AfterViewInit, OnDestroy
   ngOnInit() {
     this.restaurantId = localStorage.getItem('restaurant_id');
     this.menuItems = HROUTES;
-  }
-
-  ngAfterViewInit() {
-    this.layoutSub = this.configService.templateConf$.subscribe((templateConf) => {
-      if (templateConf) {
-        this.config = templateConf;
-      }
-      this.loadLayout();
-      this.cdr.markForCheck();
-    });
 
     this.permissionService.getPermissionState().subscribe((permissions) => {
       console.log('Permissions from service:', permissions);
@@ -59,6 +49,19 @@ export class HorizontalMenuComponent implements OnInit, AfterViewInit, OnDestroy
         });
       }
     });
+    
+  }
+
+  ngAfterViewInit() {
+    this.layoutSub = this.configService.templateConf$.subscribe((templateConf) => {
+      if (templateConf) {
+        this.config = templateConf;
+      }
+      this.loadLayout();
+      this.cdr.markForCheck();
+    });
+
+    
   }
 
   removeItemsWhichAreNotInPermission(permissions: any[], menuitems: any[]): any[] {
