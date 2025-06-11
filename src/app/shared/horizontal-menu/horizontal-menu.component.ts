@@ -1,10 +1,11 @@
 import { Component, OnInit, ChangeDetectorRef, AfterViewInit, OnDestroy } from '@angular/core';
-import { HROUTES } from './navigation-routes.config';
+
 import { LayoutService } from '../services/layout.service';
 import { ConfigService } from '../services/config.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { PermissionService } from 'src/app/services/permission.service';
+import { PmenuService } from 'src/app/services/pmenu.service';
 
 @Component({
   selector: 'app-horizontal-menu',
@@ -21,42 +22,32 @@ export class HorizontalMenuComponent implements OnInit, AfterViewInit, OnDestroy
   layoutSub: Subscription;
   restaurantId: string;
 
-  permissionsObject: any = null;
+  
 
   constructor(
     private layoutService: LayoutService,
     private configService: ConfigService,
     private cdr: ChangeDetectorRef,
     private router: Router,
-    private permissionService: PermissionService
+    private pmenuService: PmenuService,
   ) {
     this.config = this.configService.templateConf;
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.restaurantId = localStorage.getItem('restaurant_id');
-    this.menuItems = HROUTES;
+    
 
-    this.permissionService.getPermissionState().subscribe((permissions) => {
-      console.log('Permissions from service:', permissions);
-      if (permissions) {
-        this.permissionsObject = permissions;
-        this.menuItems = this.removeItemsWhichAreNotInPermission(permissions, this.menuItems);
-      } else {
-        this.permissionService.getPermissions().then((permissions) => {
-          this.permissionsObject = permissions;
-          this.menuItems = this.removeItemsWhichAreNotInPermission(permissions, this.menuItems);
-        });
-      }
-    });
+    
     
   }
 
   ngAfterViewInit() {
-    this.layoutSub = this.configService.templateConf$.subscribe((templateConf) => {
+    this.layoutSub = this.configService.templateConf$.subscribe(async (templateConf) => {
       if (templateConf) {
         this.config = templateConf;
       }
+      this.menuItems = await this.pmenuService.getMenu();
       this.loadLayout();
       this.cdr.markForCheck();
     });
@@ -64,83 +55,6 @@ export class HorizontalMenuComponent implements OnInit, AfterViewInit, OnDestroy
     
   }
 
-  removeItemsWhichAreNotInPermission(permissions: any[], menuitems: any[]): any[] {
-
-    let finals = [];
-
-    if (!permissions) {
-      return menuitems;
-    }
-
-    let c = [...menuitems];
-    for (let i = 0; i < c.length; i++) {
-      const item = c[i];
-
-      if (item.submenu && item.submenu.length > 0) {
-
-        let existw = this.permissionService.hasPermission(item.permissionSlug);
-        if(existw){
-
-          item.submenu = this.removesubItemsWhichAreNotInPermission(permissions, item.submenu);
-
-          if (!finals.some(existingItem => existingItem.path === item.path)) {
-              finals.push(item);
-          }
-          
-        }
-
-
-
-
-
-
-        
-
-
-      } else {
-        let exist = this.permissionService.hasPermission(item.permissionSlug);
-        console.log('Permission check for item:', item.permissionSlug, 'Exists:', exist);
-        if(exist){
-          
-          if (!finals.some(existingItem => existingItem.path === item.path)) {
-              finals.push(item);
-          }
-        }
-      }
-
-    }
-
-
-
-    return finals;
-
-  }
-
-  removesubItemsWhichAreNotInPermission(permissions: any[], menuitems: any[]): any[] {
-
-    let finals = [];
-
-    if (!permissions) {
-      return menuitems;
-    }
-
-    let c = [...menuitems];
-    for (let i = 0; i < c.length; i++) {
-      const item = c[i];
-
-      let exist = this.permissionService.hasPermission(item.permissionSlug);
-      console.log('Permission check for subitem:', item.permissionSlug, 'Exists:', exist);
-      if(exist){
-        if (!finals.some(existingItem => existingItem.path === item.path)) {
-          finals.push(item);
-        }
-      }
-
-    }
-
-    return finals;
-
-  }
 
   loadLayout() {
     if (this.config.layout.menuPosition && this.config.layout.menuPosition.toString().trim() != '') {

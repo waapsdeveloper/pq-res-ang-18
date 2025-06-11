@@ -99,7 +99,7 @@ export const HROUTES: RouteInfo[] = [
         class: 'dropdown-item',
         isExternalLink: false,
         submenu: [],
-        permissionSlug: 'table-booking.list'
+        permissionSlug: 'table_booking.list'
       }
     ]
   },
@@ -127,7 +127,7 @@ export const HROUTES: RouteInfo[] = [
         class: 'dropdown-item',
         isExternalLink: false,
         submenu: [],
-        permissionSlug: 'expense-category.list'
+        permissionSlug: 'expense_category.list'
       }
     ]
   },
