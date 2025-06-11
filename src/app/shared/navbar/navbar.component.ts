@@ -25,6 +25,7 @@ import { NotificationsService } from 'src/app/services/notifications.service';
 import { GlobalRestaurantService } from 'src/app/services/global-restaurant.service';
 import { UsersService } from 'src/app/services/users.service';
 import { PermissionService } from 'src/app/services/permission.service';
+import { NavService } from 'src/app/services/basic/nav.service';
 
 @Component({
   selector: 'app-navbar',
@@ -73,7 +74,8 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     public notifcationService: NotificationsService,
     private globalRestaurantService: GlobalRestaurantService,
     private userService: UsersService,
-    public permissionService: PermissionService
+    public permissionService: PermissionService,
+    private nav: NavService
   ) {
     this.config = this.configService.templateConf;
     this.innerWidth = window.innerWidth;
@@ -292,6 +294,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.config = {};
 
     // Navigate to login page
-    this.router.navigate(['/pages/login']);
+    this.nav.push('/pages/login');
   }
 }
