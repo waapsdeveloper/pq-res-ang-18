@@ -21,6 +21,8 @@ import { PermissionService } from 'src/app/services/permission.service';
 export class ListExpenseCategoriesComponent extends ListBlade {
   showDeleteAllButton = false;
   canDelete;
+  canView;
+  canEdit;
   title = 'Orders';
   addurl = '/pages/orders/add';
   showEdit: boolean = false;
@@ -67,6 +69,8 @@ export class ListExpenseCategoriesComponent extends ListBlade {
     super(injector, crudService);
     this.initialize();
     this.canDelete = this.permissionService.hasPermission('expense_category' + '.delete');
+    this.canView = this.permissionService.hasPermission('expense_category' + '.view');
+    this.canEdit = this.permissionService.hasPermission('expense_category' + '.edit');
   }
 
   async onDeleteAll($event: any) {

@@ -52,9 +52,24 @@
       <!--begin::Action=-->
       <td class="text-start">
         <div class="d-flex flex-row justify-content-start align-items-center gap-3">
-          <i class="ti ti-eye view-icon" style="font-size: 20px; cursor: pointer" (click)="openDetails(i)"></i>
-          <i class="edit-icon ti ti-edit" style="font-size: 20px; cursor: pointer" (click)="editOpenDetails(i)"></i>
-          <i class="ti ti-trash trash-icon" style="font-size: 20px; cursor: pointer" (click)="deleteRow(i)"></i>
+          <i
+            class="ti ti-eye view-icon"
+            style="font-size: 20px; cursor: pointer"
+            (click)="openDetails(i)"
+            *ngIf="canView"
+          ></i>
+          <i
+            class="edit-icon ti ti-edit"
+            style="font-size: 20px; cursor: pointer"
+            (click)="editOpenDetails(i)"
+            *ngIf="canEdit"
+          ></i>
+          <i
+            class="ti ti-trash trash-icon"
+            style="font-size: 20px; cursor: pointer"
+            (click)="deleteRow(i)"
+            *ngIf="canDelete"
+          ></i>
         </div>
       </td>
       <!--end::Action=-->

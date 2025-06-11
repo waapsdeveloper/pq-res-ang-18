@@ -25,7 +25,8 @@ export class ListProductComponent extends ListBlade {
   showEdit = false;
   addurl = '/pages/products/add';
   canDelete;
-
+  canView;
+  canEdit;
   currency = 'USD';
   currencySymbol = '$';
 
@@ -187,7 +188,8 @@ export class ListProductComponent extends ListBlade {
 
     this.initialize();
     this.canDelete = this.permissionService.hasPermission('product' + '.delete');
-
+    this.canView = this.permissionService.hasPermission('product.view');
+    this.canEdit = this.permissionService.hasPermission('product.edit');
     this.globalData.getCurrency().subscribe((currency) => {
       this.currency = currency;
       console.log('Currency updated:', this.currency);

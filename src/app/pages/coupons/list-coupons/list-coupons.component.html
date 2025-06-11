@@ -86,8 +86,8 @@
       <td class="text-start">
         <div class="d-flex flex-row justify-content-start align-items-center gap-4">
           <!-- <i class="ti ti-eye view-icon" style="font-size: 24px; cursor: pointer" (click)="openDetails(i)"></i> -->
-          <i class="ti ti-edit edit-icon" style="font-size: 24px; cursor: pointer" (click)="openEditDetails(i)"></i>
-          <i class="ti ti-trash trash-icon" style="font-size: 24px; cursor: pointer" (click)="deleteRow(i)"></i>
+          <i class="ti ti-edit edit-icon" style="font-size: 24px; cursor: pointer" *ngIf="canEdit" (click)="openEditDetails(i)"></i>
+          <i class="ti ti-trash trash-icon" style="font-size: 24px; cursor: pointer" *ngIf="canDelete" (click)="deleteRow(i)"></i>
         </div>
       </td>
 

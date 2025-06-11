@@ -18,6 +18,8 @@ import { PermissionService } from 'src/app/services/permission.service';
 })
 export class ListCategoryComponent extends ListBlade {
   canDelete;
+  canView;
+  canEdit;
   ngOnInit(): void {
     this.setRestaurantsInForm();
   }
@@ -104,6 +106,8 @@ export class ListCategoryComponent extends ListBlade {
     super(injector, crudService);
     this.initialize();
     this.canDelete = this.permissionService.hasPermission('category' + '.delete');
+    this.canView = this.permissionService.hasPermission('category.view');
+    this.canEdit = this.permissionService.hasPermission('category.edit');
   }
 
   onPageSizeChange(event: any): void {

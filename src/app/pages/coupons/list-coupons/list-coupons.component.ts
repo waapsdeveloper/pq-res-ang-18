@@ -26,6 +26,8 @@ export class ListCouponsComponent extends ListBlade {
   currency = 'USD';
   currencySymbol = '$';
   canDelete;
+  canView;
+  canEdit;
 
   override form = new FormGroup({});
   override model = {
@@ -165,6 +167,8 @@ export class ListCouponsComponent extends ListBlade {
       console.log('Currency Symbol updated:', this.currencySymbol);
     });
     this.canDelete = this.permissionService.hasPermission('coupon' + '.delete');
+    this.canView = this.permissionService.hasPermission('coupon' + '.view');
+    this.canEdit = this.permissionService.hasPermission('coupon' + '.edit');
   }
 
   initialize() {

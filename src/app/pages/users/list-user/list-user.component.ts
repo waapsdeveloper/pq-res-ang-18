@@ -20,6 +20,8 @@ export class ListUserComponent extends ListBlade {
   title = 'Users';
   addurl = '/pages/users/add';
   canDelete;
+  canView;
+  canEdit;
 
   columns: any[] = ['Full Name', 'Email', 'Phone', 'Total Orders', 'Address', 'Role', 'Status'];
 
@@ -152,6 +154,8 @@ export class ListUserComponent extends ListBlade {
     super(injector, crudService);
     this.initialize();
     this.canDelete = this.permissionService.hasPermission('user' + '.delete');
+    this.canView = this.permissionService.hasPermission('user.view');
+    this.canEdit = this.permissionService.hasPermission('user.edit');
   }
   async onDeleteAll($event: any) {
     const flag = await this.utility.presentConfirm('Delete', 'Cancel', 'Delete All Record', 'Are you sure you want to delete all?');

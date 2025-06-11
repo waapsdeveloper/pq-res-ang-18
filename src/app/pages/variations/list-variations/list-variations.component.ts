@@ -20,6 +20,8 @@ import { PermissionService } from 'src/app/services/permission.service';
 export class ListVariationsComponent extends ListBlade {
   showDeleteAllButton = false;
   canDelete;
+  canView;
+  canEdit;
   title = 'Variations';
   addurl = '/pages/variations/add';
   override selectAll: boolean = false;
@@ -105,6 +107,8 @@ export class ListVariationsComponent extends ListBlade {
       console.log('Currency Symbol updated:', this.currencySymbol);
     });
     this.canDelete = this.permissionService.hasPermission('variation' + '.delete');
+    this.canView = this.permissionService.hasPermission('variation.view');
+    this.canEdit = this.permissionService.hasPermission('variation.edit');
   }
 
   initialize() {

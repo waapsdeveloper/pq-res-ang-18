@@ -19,6 +19,8 @@ import { PermissionService } from 'src/app/services/permission.service';
 export class ListMessageComponent extends ListBlade {
   showDeleteAllButton = false;
   canDelete;
+  canView;
+  canEdit;
   columns: any[] = ['Name', 'Email', 'Phone', 'Message'];
   title = 'Tables';
   showEdit = false;
@@ -92,6 +94,8 @@ export class ListMessageComponent extends ListBlade {
     super(injector, crudService);
     this.initialize();
     this.canDelete = this.permissionService.hasPermission('message' + '.delete');
+    this.canView = this.permissionService.hasPermission('message' + '.view');
+    this.canEdit = this.permissionService.hasPermission('message' + '.edit');
   }
 
   async onDeleteAll($event: any) {

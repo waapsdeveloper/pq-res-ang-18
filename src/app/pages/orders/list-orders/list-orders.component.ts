@@ -64,6 +64,8 @@ export class ListOrdersComponent extends ListBlade {
     status: '',
     is_paid: ''
   };
+  canView: boolean;
+  canEdit: boolean;
   resetFilters() {
     this.model = {
       order_id: '',
@@ -258,6 +260,8 @@ export class ListOrdersComponent extends ListBlade {
       console.log('Currency Symbol updated:', this.currencySymbol);
     });
     this.canDelete = this.permissionService.hasPermission('order' + '.delete');
+    this.canView = this.permissionService.hasPermission('order' + '.view');
+    this.canEdit = this.permissionService.hasPermission('order' + '.edit');
     this.paymentStatus = this.permissionService.hasPermission('order' + '.payment_status');
     this.orderStatus = this.permissionService.hasPermission('order' + '.order_status');
   }

@@ -22,6 +22,10 @@ import { PermissionService } from 'src/app/services/permission.service';
 export class ListExpenseComponent extends ListBlade {
   showDeleteAllButton = false;
   canDelete;
+  canEdit;
+  canView;
+  canChangeStatus;
+  canPaymentStatus;
   title = 'Expense';
   addurl = '/pages/expense/add';
   currency = 'USD';
@@ -133,6 +137,10 @@ export class ListExpenseComponent extends ListBlade {
     super(injector, crudService);
     this.initialize();
     this.canDelete = this.permissionService.hasPermission('expense' + '.delete');
+    this.canView = this.permissionService.hasPermission('expense' + '.view');
+    this.canEdit = this.permissionService.hasPermission('expense' + '.edit');
+    this.canChangeStatus = this.permissionService.hasPermission('expense' + '.status');
+    this.canPaymentStatus = this.permissionService.hasPermission('expense' + '.payment_status_update');
 
     this.setCategoryInForm();
     this.globalData.getCurrency().subscribe((currency) => {

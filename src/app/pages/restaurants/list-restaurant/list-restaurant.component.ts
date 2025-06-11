@@ -25,6 +25,7 @@ export class ListRestaurantComponent extends ListBlade {
   configButton;
   canEdit;
   canDelete;
+  canView;
   title = 'Branches';
   addurl = '/pages/restaurants/add';
   override selectAll: boolean = false;
@@ -103,6 +104,8 @@ export class ListRestaurantComponent extends ListBlade {
     this.canDelete = this.permissionService.hasPermission('branch' + '.delete');
     this.configButton = this.permissionService.hasPermission('branch' + '.set_default');
     this.setDefaultButton = this.permissionService.hasPermission('branch' + '.config_button');
+    this.canEdit = this.permissionService.hasPermission('branch' + '.edit');
+    this.canView = this.permissionService.hasPermission('branch' + '.view');
   }
   async onDeleteAll($event: any) {
     const flag = await this.utility.presentConfirm('Delete', 'Cancel', 'Delete All Record', 'Are you sure you want to delete all?');

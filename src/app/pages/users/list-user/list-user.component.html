@@ -80,6 +80,8 @@
               'badge-active': item.status === 'Active',
               'badge-inactive': item.status === 'Inactive'
             }"
+
+            
           >
             {{ item.status }}
           </div>
@@ -94,13 +96,24 @@
           <i class="bi bi-pencil"></i>
         </a> -->
         <div class="d-flex flex-row justify-content-start align-items-center gap-3">
-          <i class="ti ti-eye view-icon" style="font-size: 20px; cursor: pointer" (click)="openDetails(i)"></i>
-          <i class="edit-icon ti ti-edit" style="font-size: 20px; cursor: pointer" (click)="openEditDetails(i)"></i>
-          <!-- <i
-            class="ti ti-clock-off"
-            style="font-size: 20px; cursor: pointer; border: 1px solid #4caf50; color: #4caf50; padding: 4px; border-radius: 4px"
-          ></i> -->
-          <i class="ti ti-trash trash-icon" style="font-size: 20px; cursor: pointer" (click)="deleteRow(i)"></i>
+          <i
+            class="ti ti-eye view-icon"
+            style="font-size: 20px; cursor: pointer"
+            (click)="openDetails(i)"
+            *ngIf="canView"
+          ></i>
+          <i
+            class="edit-icon ti ti-edit"
+            style="font-size: 20px; cursor: pointer"
+            (click)="openEditDetails(i)"
+            *ngIf="canEdit"
+          ></i>
+          <i
+            class="ti ti-trash trash-icon"
+            style="font-size: 20px; cursor: pointer"
+            (click)="deleteRow(i)"
+            *ngIf="canDelete"
+          ></i>
         </div>
       </td>
       <!--end::Action=-->

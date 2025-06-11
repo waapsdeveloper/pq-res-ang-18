@@ -19,6 +19,8 @@ import { PermissionService } from 'src/app/services/permission.service';
 export class ListRtablesComponent extends ListBlade {
   showDeleteAllButton = false;
   canDelete;
+  canEdit;
+  canView;
   columns: any[] = ['Table No', 'No of seats', 'Floor', 'No of Orders', 'Status'];
   title = 'Tables';
   showEdit = false;
@@ -108,6 +110,8 @@ export class ListRtablesComponent extends ListBlade {
     super(injector, crudService);
     this.initialize();
     this.canDelete = this.permissionService.hasPermission('table' + '.delete');
+    this.canEdit = this.permissionService.hasPermission('table' + '.edit');
+    this.canView = this.permissionService.hasPermission('table' + '.view');
   }
 
   async onDeleteAll($event: any) {

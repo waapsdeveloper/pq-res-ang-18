@@ -18,6 +18,8 @@ import { PermissionService } from 'src/app/services/permission.service';
 export class ListTableBookingComponent extends ListBlade {
   showDeleteAllButton = false;
   canDelete;
+  canView;
+  canEdit;
   title = 'Table-Booking';
   addurl = '/pages/table-booking/add';
 
@@ -88,6 +90,8 @@ export class ListTableBookingComponent extends ListBlade {
     super(injector, crudService);
     this.initialize();
     this.canDelete = this.permissionService.hasPermission('table_booking' + '.delete');
+    this.canView = this.permissionService.hasPermission('table_booking' + '.view');
+    this.canEdit = this.permissionService.hasPermission('table_booking' + '.edit');
   }
   async onDeleteAll($event: any) {
     const flag = await this.utility.presentConfirm('Delete', 'Cancel', 'Delete All Record', 'Are you sure you want to delete all?');

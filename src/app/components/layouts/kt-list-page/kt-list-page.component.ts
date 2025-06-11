@@ -26,7 +26,10 @@ export class KtListPageComponent {
   @Input('canFilter') canFilter = false;
   @Input('canDelete') canDelete = false;
 
-  constructor(private permissionService: PermissionService, private route: ActivatedRoute) {
+  constructor(
+    public permissionService: PermissionService,
+    private route: ActivatedRoute
+  ) {
     this.entity = this.route.snapshot.data['entity'] || ''; // <-- Get entity from route data
     this.canCreate = this.permissionService.hasPermission(this.entity + '.add');
     this.canFilter = this.permissionService.hasPermission(this.entity + '.filter');

@@ -146,7 +146,7 @@
       <!-- Action -->
       <td class="text-start">
         <div class="d-flex flex-row justify-content-start align-items-center gap-3">
-          <i class="ti ti-eye view-icon" style="font-size: 20px; cursor: pointer" (click)="openDetails(i)"></i>
+          <i class="ti ti-eye view-icon" style="font-size: 20px; cursor: pointer" *ngIf="canView" (click)="openDetails(i)"></i>
           <i class="ti ti-printer printericon" style="font-size: 20px; cursor: pointer" (click)="printSlip()"></i>
           <div id="print-section" class="print-section" style="font-family: Arial, sans-serif; font-size: 12px; width: 240px; margin: auto">
             <div class="bill-slip">
@@ -206,9 +206,14 @@
             </div>
           </div>
 
-          <i class="edit-icon ti ti-edit" style="font-size: 24px; cursor: pointer" (click)="openEditDetails(i)"></i>
+          <i class="edit-icon ti ti-edit" style="font-size: 24px; cursor: pointer" *ngIf="canEdit" (click)="openEditDetails(i)"></i>
 
-          <i *ngIf="showEdit" class="ti ti-trash trash-icon" style="font-size: 20px; cursor: pointer" (click)="deleteRow(i)"></i>
+          <i
+            *ngIf="showEdit && canDelete"
+            class="ti ti-trash trash-icon"
+            style="font-size: 20px; cursor: pointer"
+            (click)="deleteRow(i)"
+          ></i>
           <i class="ti ti-dots-vertical" (click)="ProductModal(item)"></i>
         </div>
       </td>

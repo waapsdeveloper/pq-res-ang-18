@@ -72,6 +72,7 @@
               (click)="default()"
               class="ti ti-check"
               style="font-size: 20px; cursor: pointer; border: 1px solid #1b2068; color: #1b2068; padding: 4px; border-radius: 4px"
+              *ngIf="setDefaultButton"
             ></i>
           </ng-container>
           <ng-template #notDefault>
@@ -82,10 +83,30 @@
               *ngIf="setDefaultButton"
             ></i>
           </ng-template>
-          <i class="ti ti-eye view-icon" style="font-size: 20px; cursor: pointer" (click)="openDetails(i)"></i>
-          <i class="edit-icon ti ti-edit" style="font-size: 20px; cursor: pointer" (click)="editOpenDetails(i)"></i>
-          <i class="ti ti-trash trash-icon" style="font-size: 20px; cursor: pointer" (click)="deleteRow(i)"></i>
-          <i class="ti ti-archive archive-icon" style="font-size: 20px; cursor: pointer" *ngIf="configButton" (click)="configRow(i)"></i>
+          <i
+            class="ti ti-eye view-icon"
+            style="font-size: 20px; cursor: pointer"
+            (click)="openDetails(i)"
+            *ngIf="canView"
+          ></i>
+          <i
+            class="edit-icon ti ti-edit"
+            style="font-size: 20px; cursor: pointer"
+            (click)="editOpenDetails(i)"
+            *ngIf="canEdit"
+          ></i>
+          <i
+            class="ti ti-trash trash-icon"
+            style="font-size: 20px; cursor: pointer"
+            (click)="deleteRow(i)"
+            *ngIf="canDelete"
+          ></i>
+          <i
+            class="ti ti-archive archive-icon"
+            style="font-size: 20px; cursor: pointer"
+            *ngIf="configButton"
+            (click)="configRow(i)"
+          ></i>
         </div>
       </td>
       <!--end::Action=-->
