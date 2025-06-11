@@ -279,21 +279,17 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   logout() {
-    // Clear all data from local storage
-
     localStorage.clear();
-
-    // Optionally clear session storage as well
     sessionStorage.clear();
     this.permissionService.resetPermissions();
-    // Reset/clear any relevant services if needed
     this.notifcationService.notifications = [];
-
-    // Optionally reset config or user data
     this.user = null;
     this.config = {};
 
-    // Navigate to login page
-    this.nav.push('/pages/login');
+    // Use Angular Router
+    // this.router.navigate(['/']);
+
+    // Or, for a full reload:
+    window.location.href = '/';
   }
 }
