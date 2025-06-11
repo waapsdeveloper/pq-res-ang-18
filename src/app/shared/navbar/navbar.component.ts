@@ -24,6 +24,7 @@ import { ConfigService } from 'src/app/shared/services/config.service';
 import { NotificationsService } from 'src/app/services/notifications.service';
 import { GlobalRestaurantService } from 'src/app/services/global-restaurant.service';
 import { UsersService } from 'src/app/services/users.service';
+import { PermissionService } from 'src/app/services/permission.service';
 
 @Component({
   selector: 'app-navbar',
@@ -71,7 +72,8 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     public notifcationService: NotificationsService,
     private globalRestaurantService: GlobalRestaurantService,
-    private userService: UsersService
+    private userService: UsersService,
+    public permissionService: PermissionService
   ) {
     this.config = this.configService.templateConf;
     this.innerWidth = window.innerWidth;
@@ -276,11 +278,12 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   logout() {
     // Clear all data from local storage
+
     localStorage.clear();
 
     // Optionally clear session storage as well
     sessionStorage.clear();
-
+    this.permissionService.resetPermissions();
     // Reset/clear any relevant services if needed
     this.notifcationService.notifications = [];
 

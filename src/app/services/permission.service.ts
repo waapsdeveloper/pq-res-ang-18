@@ -7,7 +7,6 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PermissionService extends NgSimpleStateBaseRxjsStore<any> {
-
   genericPermissions: any[] = [
     { entity: 'user', operations: ['add', 'edit', 'delete', 'list', 'filter'] },
     { entity: 'product', operations: ['add', 'edit', 'delete', 'list', 'filter'] },
@@ -67,7 +66,7 @@ export class PermissionService extends NgSimpleStateBaseRxjsStore<any> {
       const res = await this.network.getUserPermissions();
 
       if (res && res.permissions) {
-        this.permissionInstance = res.permissions;        
+        this.permissionInstance = res.permissions;
         return this.permissionInstance;
       } else {
         return null;
@@ -80,5 +79,11 @@ export class PermissionService extends NgSimpleStateBaseRxjsStore<any> {
   hasPermission(key: string): boolean {
     const permissions = (this.permissionInstance as any[]) || []; // implement this as needed
     return permissions.some((permission: any) => permission.slug === key);
+  }
+
+  resetPermissions(): void {
+    this.permissionInstance = null;
+    this.user = null;
+    this.setState((state) => ({})); // Clear the NgSimpleState store as well
   }
 }
