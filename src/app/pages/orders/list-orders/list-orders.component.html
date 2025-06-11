@@ -54,33 +54,28 @@
       </td>
       <!-- Subtotal -->
       <td>
-        <div class="d-flex" class="ms-4">
-          <div class="fs-7 fw-bold">{{ this.currencySymbol + '' }} {{ item.total_price | number: '1.2-2' }}</div>
-        </div>
+        <span class="fw-bold" style="font-size: 15px; white-space: nowrap">
+          {{ currencySymbol }}{{ item.total_price | number: '1.2-2' }}
+        </span>
       </td>
-      <td>
-        <div class="d-flex" class="ms-4" *ngIf="item?.tax_amount">
-          <div class="fs-7 fw-bold">{{ this.currencySymbol + '' }} {{ item.tax_amount | number: '1.2-2' }}</div>
-        </div>
+      <!-- Tax -->
+      <td *ngIf="item?.tax_amount">
+        <span class="fw-bold" style="font-size: 15px; white-space: nowrap">
+          {{ currencySymbol }}{{ item.tax_amount | number: '1.2-2' }}
+        </span>
       </td>
       <!-- Discount -->
       <td>
-        <div class="d-flex flex-row gap-2" class="ms-4">
-          <div class="fs-7 fw-bold">
-            <span class="badge badge-preparing fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">
-              {{ this.currencySymbol + '' }}{{ item.discount_value | number: '1.2-2' }}
-            </span>
-          </div>
-        </div>
+        <span class="badge badge-preparing fw-bold" style="font-size: 15px; white-space: nowrap">
+          {{ currencySymbol }}{{ item.discount_value | number: '1.2-2' }}
+        </span>
       </td>
       <!-- Total -->
       <td>
-        <div class="d-flex" class="ms-4">
-          <div class="fs-7 fw-bold">
-            {{ this.currencySymbol + '' }}
-            {{ (item?.discount_value && item?.discount_value > 0 ? item?.final_total : item?.total_price) | number: '1.2-2' }}
-          </div>
-        </div>
+        <span class="fw-bold" style="font-size: 15px; white-space: nowrap">
+          {{ currencySymbol
+          }}{{ (item?.discount_value && item?.discount_value > 0 ? item?.final_total : item?.total_price) | number: '1.2-2' }}
+        </span>
       </td>
       <!-- Address -->
       <td>
@@ -148,7 +143,7 @@
         <div class="d-flex flex-row justify-content-start align-items-center gap-3">
           <i class="ti ti-eye view-icon" style="font-size: 20px; cursor: pointer" *ngIf="canView" (click)="openDetails(i)"></i>
           <i class="ti ti-printer printericon" style="font-size: 20px; cursor: pointer" (click)="printSlip()"></i>
-          <div id="print-section" class="print-section" style="font-family: Arial, sans-serif; font-size: 12px; width: 240px; margin: auto">
+          <div id="print-section" class="print-section" style="font-family: Arial, sans-serif; font-size: 15px; width: 240px; margin: auto">
             <div class="bill-slip">
               <div class="bill-header" style="text-align: center; border-bottom: 1px dashed #000; padding-bottom: 8px">
                 <h2 style="margin: 0; font-size: 16px">{{ item?.restaurant.name }}</h2>
@@ -173,7 +168,7 @@
 
               <div class="order-details" style="padding: 8px 0; border-bottom: 1px dashed #000">
                 <p style="margin: 0"><strong>Order Details:</strong></p>
-                <table style="width: 100%; font-size: 12px; border-collapse: collapse">
+                <table style="width: 100%; font-size: 15px; border-collapse: collapse">
                   <thead>
                     <tr>
                       <th>#</th>
