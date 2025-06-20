@@ -123,7 +123,7 @@ export class DashboardComponent implements OnInit {
       theme: 'dark',
       y: {
         formatter: (val: number) => {
-          return '$' + val;
+          return this.currencySymbol + val;
         }
       }
     },
