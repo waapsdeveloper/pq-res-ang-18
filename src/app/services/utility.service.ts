@@ -94,10 +94,29 @@ export class UtilityService {
     onSelect: (productId: string) => void
   ): Promise<void> {
     // Parse variations before sending to alerts service
-    const productsWithParsedVariations = products.map((product) => ({
-      ...product,
-      parsedVariations: product.variation ? JSON.parse(product.variation) : []
-    }));
+    const productsWithParsedVariations = products.map((product) => {
+      if (product.parsedVariations) {
+        // Already parsed, return as is
+        return product;
+      }
+      let parsedVariations: ProductVariation[] = [];
+      if (product.variation) {
+        try {
+          const parsed = JSON.parse(product.variation);
+          // Ensure it's an array and has expected structure
+          if (Array.isArray(parsed)) {
+            parsedVariations = parsed;
+          }
+        } catch (e) {
+          // Optionally log error or handle as needed
+          parsedVariations = [];
+        }
+      }
+      return {
+        ...product,
+        parsedVariations
+      };
+    });
 
     return this.alerts.showProductSelectionTable(title, productsWithParsedVariations, confirmButtonText, onSelect);
   }

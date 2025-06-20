@@ -461,7 +461,7 @@ export class ListOrdersComponent extends ListBlade {
     this.utility.presentSuccessToast(`Order Status Updated to ${obj.status}`);
   }
   ProductModal(item) {
-    console.log(this.crudService.list);
+    console.log('Selected item:', item);
     this.utility.showProductSelectionTable('Select Products', item.products, 'Select', (productId: string) => {
       console.log('Selected product ID:', productId);
     });
