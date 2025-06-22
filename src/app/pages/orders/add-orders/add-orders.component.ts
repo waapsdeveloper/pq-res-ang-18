@@ -104,7 +104,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    this.orderService.taxPercent = await this.currencyService.getTaxFromLocalStorage();
+    // this.orderService.taxPercent = await this.currencyService.getTaxFromLocalStorage();
     this.orderService.showOrderHeader = false;
     let restaurant = await this.getRestaurants();
     this.restInfo = restaurant;

@@ -4,6 +4,7 @@ import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { GlobalDataService } from 'src/app/services/global-data.service';
 import { PmenuService } from 'src/app/services/pmenu.service';
+import { PermissionService } from 'src/app/services/permission.service';
 
 @Component({
   selector: 'app-pre-splash',
@@ -12,13 +13,16 @@ import { PmenuService } from 'src/app/services/pmenu.service';
 })
 export class PreSplashComponent {
   loading = false;
+  dashboardPath: boolean;
+  routepath;
 
   constructor(
     private nav: NavService,
     private network: NetworkService,
     private currency: CurrencyService,
     private globalData: GlobalDataService,
-    private pmenuService: PmenuService,
+    private permissionService: PermissionService,
+    private pmenuService: PmenuService
   ) {}
 
   ngOnInit(): void {
@@ -26,14 +30,20 @@ export class PreSplashComponent {
   }
 
   async initialize() {
-
     this.loading = true;
-    this.globalData.getDefaultRestaurant();    
+    this.globalData.getDefaultRestaurant();
     await this.pmenuService.setDynamicMenu();
+
+    console.log('Dynamic menu set:', this.pmenuService);
+    this.dashboardPath = this.permissionService.hasPermission('dashboard' + '.view');
 
     setTimeout(() => {
       this.loading = false;
-      this.nav.push('/pages/dashboard');
+      if (this.dashboardPath) {
+        this.routepath = '/dashboard';
+      } else {
+        this.routepath = this.pmenuService.pmenuItems[0].submenu[0].path;
+      }
     }, 3000);
   }
 }

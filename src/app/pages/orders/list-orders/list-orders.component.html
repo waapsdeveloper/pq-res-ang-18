@@ -64,6 +64,9 @@
           {{ currencySymbol }}{{ item.tax_amount | number: '1.2-2' }}
         </span>
       </td>
+      <td *ngIf="!item?.tax_amount">
+        <span class="fw-bold" style="font-size: 15px; white-space: nowrap">{{ currencySymbol }}{{ '0.00' | number: '1.2-2' }}</span>
+      </td>
       <!-- Discount -->
       <td>
         <span class="badge badge-preparing fw-bold" style="font-size: 15px; white-space: nowrap">
