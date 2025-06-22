@@ -31,19 +31,23 @@ export class PreSplashComponent {
 
   async initialize() {
     this.loading = true;
-    this.globalData.getDefaultRestaurant();
+    await this.globalData.getDefaultRestaurant();
     await this.pmenuService.setDynamicMenu();
 
     console.log('Dynamic menu set:', this.pmenuService);
     this.dashboardPath = this.permissionService.hasPermission('dashboard' + '.view');
+    console.log('Dashboard path exists:', this.dashboardPath);
 
-    setTimeout(() => {
+    // setTimeout(() => {
       this.loading = false;
       if (this.dashboardPath) {
-        this.routepath = '/dashboard';
+        this.routepath = 'pages/dashboard';
       } else {
         this.routepath = this.pmenuService.pmenuItems[0].submenu[0].path;
       }
-    }, 3000);
+
+      console.log('Route path:', this.routepath);
+      this.nav.push(this.routepath);
+    // }, 3000);
   }
 }
