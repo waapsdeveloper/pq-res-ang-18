@@ -24,10 +24,10 @@ export class AddOrderService {
   selected_products: any[] = [];
   paymentMethod: string = '';
   couponCode;
-  discountAmount = 0;
-  final_total = 0;
+  discountAmount = 0; // set by coupon, else 0
+  final_total = 0; // calculated
   taxPercent: number = 0; // Global value for tax percentage
-  taxAmount: number = 0;
+  taxAmount: number = 0; // calculated
   paymentMethods: { label: string; value: string }[] = [
     { label: 'Cash on Delivery', value: 'cashondelivery' },
     { label: 'Apple Pay', value: 'applePay' },
@@ -38,6 +38,7 @@ export class AddOrderService {
   s;
   totalCost = 0;
   isCouponApplied: boolean = false;
+  subtotal = 0; // sum of products and options
 
   constructor(
     private network: NetworkService,
@@ -168,28 +169,23 @@ export class AddOrderService {
   }
   async totalOfProductCost() {
     let cost = this.selected_products.reduce((prev, next) => {
-      // Calculate base product cost
       let productCost = next.quantity * next.price;
-
-      // Check if variations exist and calculate the cost of selected variations
       if (next.variation) {
         next.variation.forEach((variation: any) => {
           if (variation.options) {
             variation.options.forEach((option: any) => {
               if (option.selected) {
-                // Add variation option price to the product cost
                 productCost += option.price;
               }
             });
           }
         });
       }
-
-      return prev + productCost; // Add product cost to the total
+      return prev + productCost;
     }, 0);
 
-    this.taxAmount = (cost * this.taxPercent) / 100;
-    this.totalCost = cost + this.taxAmount; // Update // Update the total cost
+    this.subtotal = cost;
+    this.recalculateTotals();
   }
   selectSuggestion(suggestion: any) {
     console.log(suggestion);
@@ -388,48 +384,39 @@ export class AddOrderService {
     this.final_total = 0;
   }
   async applyCoupon() {
-    this.resetFields();
-    let obj = {
-      code: this.couponCode
-    };
-
+    this.discountAmount = 0;
+    let obj = { code: this.couponCode };
     const res = await this.network.getAvailableCoupon(obj);
-    console.log(res?.coupon);
-
     const data = res?.coupon;
-    console.log(data);
 
     if (!data) {
-      console.warn('No coupon data available');
+      this.utilityService.presentFailureToast('No coupon data available');
+      this.recalculateTotals();
       return false;
     }
 
     let discountValue = data?.discount_value || 0;
-    let calculatedDiscount = 0; // To store the calculated discount before applying it
+    let calculatedDiscount = 0;
 
     if (data?.discount_type === 'percentage') {
-      // Calculate discount as a percentage
-      calculatedDiscount = (this.totalCost * discountValue) / 100;
+      calculatedDiscount = (this.subtotal * discountValue) / 100;
     } else if (data?.discount_type === 'fixed') {
-      // Directly assign the fixed discount amount
       calculatedDiscount = discountValue;
     } else {
-      console.warn('Invalid discount type');
+      this.utilityService.presentFailureToast('Invalid discount type');
+      this.recalculateTotals();
       return false;
     }
 
-    // Check if the discount exceeds 50% of the total cost
-    if (calculatedDiscount > this.totalCost * 0.5) {
-      console.error('Invalid coupon: Discount exceeds 50% of the total cost.');
-      this.utilityService.presentFailureToast('Invalid coupon: Discount cannot exceed 50% of the total cost.'); // Display error message
+    if (calculatedDiscount > this.subtotal * 0.5) {
+      this.utilityService.presentFailureToast('Invalid coupon: Discount cannot exceed 50% of the subtotal.');
+      this.discountAmount = 0;
+      this.recalculateTotals();
       return false;
     }
 
-    // Apply the validated discount
     this.discountAmount = calculatedDiscount;
-    this.final_total = Math.max(this.totalCost - this.discountAmount, 0);
-
-    console.log('Final total after discount:', this.final_total);
+    this.recalculateTotals();
     return true;
   }
 
@@ -446,5 +433,13 @@ export class AddOrderService {
     this.final_total = 0;
     this.taxAmount = 0;
     this.isCouponApplied = false;
+  }
+
+  recalculateTotals() {
+    // Subtotal is already set
+    const discount = this.discountAmount || 0;
+    const discountedSubtotal = Math.max(this.subtotal - discount, 0);
+    this.taxAmount = (discountedSubtotal * this.taxPercent) / 100;
+    this.final_total = discountedSubtotal + this.taxAmount;
   }
 }
