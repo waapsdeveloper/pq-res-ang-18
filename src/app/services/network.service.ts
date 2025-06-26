@@ -121,10 +121,10 @@ export class NetworkService {
   }
 
   addUser(data) {
-    return this.httpPostResponse('user', data, null, false, true);
+    return this.httpPostResponse('user', data, null, true, true);
   }
   updateUser(data, id) {
-    return this.httpPutResponse('user', data, id, false, true);
+    return this.httpPutResponse('user', data, id, true, true);
   }
 
   // Branch Config
@@ -203,7 +203,7 @@ export class NetworkService {
     return this.httpDeleteResponse('category', id, false, true);
   }
   updateCategory(data, id) {
-    return this.httpPutResponse('category', data, id, false, true);
+    return this.httpPutResponse('category', data, id, true, true);
   }
 
   // Products
@@ -420,11 +420,11 @@ export class NetworkService {
   }
 
   addExpense(data: any) {
-    return this.httpPostResponse('expense', data, null, false, true);
+    return this.httpPostResponse('expense', data, null, true, true);
   }
 
   updateExpense(id: any, data: any) {
-    return this.httpPutResponse('expense', data, id, false, true);
+    return this.httpPutResponse('expense', data, id, true, true);
   }
 
   removeExpense(id: any) {
