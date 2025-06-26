@@ -75,6 +75,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     private globalRestaurantService: GlobalRestaurantService,
     private userService: UsersService,
     public permissionService: PermissionService,
+  
     private nav: NavService
   ) {
     this.config = this.configService.templateConf;
@@ -85,9 +86,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     this.globalRestaurantService.getRestaurantName().subscribe((name) => {
-      this.restaurantName = name;
-      console.log('Restaurant Name:', this.restaurantName);
-
       this.restaurantName = name;
       console.log('Restaurant Name from Service:', this.restaurantName);
     });
