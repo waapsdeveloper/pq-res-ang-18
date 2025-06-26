@@ -68,6 +68,9 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     status: 'active'
   };
 
+  // Sidebar navigation
+  activeSection: 'general' | 'timing' | 'order' = 'general';
+
   constructor(
     private route: ActivatedRoute,
     private network: NetworkService,
@@ -181,9 +184,10 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     console.log(d.timings[0].start_time);
   }
 
-  fields: FormlyFieldConfig[] = [
+  // Split Formly fields for each section
+  generalFields: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: 'row', // Bootstrap row
+      fieldGroupClassName: 'row',
       fieldGroup: [
         {
           key: 'name',
@@ -194,7 +198,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
             required: true,
             minLength: 3
           },
-          className: 'col-md-6 col-12' // 3 columns on md+, full width on small screens
+          className: 'col-md-6 col-12'
         },
         {
           key: 'address',
@@ -228,32 +232,11 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
           className: 'col-md-6 col-12'
         },
         {
-          key: 'website',
-          type: 'input',
-          props: {
-            label: 'Website',
-            placeholder: 'Enter website URL',
-            pattern: /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/,
-            required: true
-          },
-          className: 'col-md-6 col-12'
-        },
-        {
           key: 'copyright_text',
           type: 'textarea',
           props: {
             label: 'Copyright text',
             placeholder: 'Enter copy right text',
-            required: true
-          },
-          className: 'col-md-6 col-12'
-        },
-        {
-          key: 'description',
-          type: 'textarea',
-          props: {
-            label: 'Description',
-            placeholder: 'Enter description',
             required: true
           },
           className: 'col-md-6 col-12'
@@ -272,39 +255,52 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
           className: 'formly-image-wrapper-3232 col-md-6 col-12'
         },
         {
-          key: 'status',
-          type: 'select',
+          key: 'favicon',
+          type: 'input',
           props: {
-            label: 'Status',
-            options: [
-              { value: 'active', label: 'Active' },
-              { value: 'inactive', label: 'Inactive' }
-            ],
+            label: 'Favicon',
+            placeholder: 'Enter favicon URL',
+            type: 'file',
+            accept: 'image/*',
+            change: (field, event) => this.onFileChange(field, event, 'faviconBase64'),
+            required: false
+          },
+          className: 'formly-image-wrapper-3232 col-md-6 col-12'
+        },
+        {
+          key: 'website',
+          type: 'input',
+          props: {
+            label: 'Website',
+            placeholder: 'Enter website URL',
+            pattern: /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/,
             required: true
           },
-          className: 'formly-select-wrapper-3232 col-md-6 col-12'
+          className: 'col-md-6 col-12'
         }
       ]
-    },
+    }
+  ];
+
+  timingFields: FormlyFieldConfig[] = [
     {
       key: 'schedule',
-      fieldGroupClassName: 'row', // Bootstrap row
+      fieldGroupClassName: 'row',
       fieldGroup: [
         ...['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day) => ({
           fieldGroupClassName: 'row col-12',
           fieldGroup: [
             {
-              key: `${day.toLowerCase()}_day`, // Unique key for each day
+              key: `${day.toLowerCase()}_day`,
               type: 'input',
               props: {
                 label: 'Day',
                 value: `${day}`,
-                readonly: true, // Static day name
+                readonly: true,
                 required: true
               },
               className: 'col-md-3 col-12'
             },
-
             {
               key: `${day.toLowerCase()}_start_time`,
               type: 'input',
@@ -340,6 +336,59 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
             }
           ]
         }))
+      ]
+    }
+  ];
+
+  orderFields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: 'row',
+      fieldGroup: [
+        {
+          key: 'branch_id',
+          type: 'input',
+          props: {
+            label: 'Restaurant Name',
+            placeholder: 'Select restaurant',
+            required: true,
+            readonly: true
+          },
+          className: 'formly-select-wrapper-3232 col-md-6 col-12'
+        },
+        {
+          key: 'currency',
+          type: 'select',
+          props: {
+            label: 'Currency',
+            placeholder: 'Select currency',
+            required: true,
+            options: []
+          },
+          className: 'formly-select-wrapper-3232 col-md-6 col-12'
+        },
+        {
+          key: 'dial_code',
+          type: 'input',
+          props: {
+            label: 'Dial Code',
+            placeholder: 'Enter dial code (e.g. +1)',
+            required: true
+          },
+          className: 'col-md-6 col-12'
+        },
+        {
+          key: 'tax',
+          type: 'input',
+          props: {
+            label: 'Tax (%)',
+            placeholder: 'Enter tax percentage',
+            type: 'number',
+            min: 0,
+            max: 100,
+            required: true
+          },
+          className: 'col-md-6 col-12'
+        }
       ]
     }
   ];

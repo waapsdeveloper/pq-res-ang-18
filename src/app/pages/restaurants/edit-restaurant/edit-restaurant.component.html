@@ -17,16 +17,65 @@
     </div>
   </div>
   <!-- Media object ends -->
+  <div class="edit-layout">
+    <div class="row">
+      <!-- Sidebar (Left) -->
+      <div class="col-12 col-md-3 border-end pe-0">
+        <nav class="sidebar h-100">
+          <ul class="nav flex-column py-4 ps-2">
+            <!-- Added padding start -->
+            <li
+              class="nav-item mb-2 py-2 border-bottom"
+              [class.fw-bold]="activeSection === 'general'"
+              [class.text-primary]="activeSection === 'general'"
+              [class.active]="activeSection === 'general'"
+              (click)="activeSection = 'general'"
+              style="cursor: pointer; font-size: 1.1rem"
+            >
+              General
+            </li>
+            <li
+              class="nav-item mb-2 py-2 border-bottom"
+              [class.fw-bold]="activeSection === 'timing'"
+              [class.text-primary]="activeSection === 'timing'"
+              [class.active]="activeSection === 'timing'"
+              (click)="activeSection = 'timing'"
+              style="cursor: pointer; font-size: 1.1rem"
+            >
+              Timing
+            </li>
+            <li
+              class="nav-item mb-2 py-2 border-bottom"
+              [class.fw-bold]="activeSection === 'order'"
+              [class.text-primary]="activeSection === 'order'"
+              [class.active]="activeSection === 'order'"
+              (click)="activeSection = 'order'"
+              style="cursor: pointer; font-size: 1.1rem"
+            >
+              Order
+            </li>
+          </ul>
+        </nav>
+      </div>
 
-  <div class="card">
-    <div class="card-content">
-      <div class="card-body">
-        <form [formGroup]="form">
-          <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
-          <div class="d-flex justify-content-end">
-            <button type="submit" class="btn btn-warning btn-123" (click)="onSubmit(model)">Submit</button>
-          </div>
-        </form>
+      <!-- Content (Right) -->
+      <div class="col-12 col-md-9 ps-md-4 pt-4 pt-md-0">
+        <ng-container [ngSwitch]="activeSection">
+          <ng-template [ngSwitchCase]="'general'">
+            <form [formGroup]="form">
+              <formly-form [form]="form" [fields]="generalFields" [model]="model"></formly-form>
+              <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-warning btn-123" (click)="onSubmit(model)">Submit</button>
+              </div>
+            </form>
+          </ng-template>
+          <ng-template [ngSwitchCase]="'timing'">
+            <formly-form [fields]="timingFields" [model]="model"></formly-form>
+          </ng-template>
+          <ng-template [ngSwitchCase]="'order'">
+            <formly-form [fields]="orderFields" [model]="model"></formly-form>
+          </ng-template>
+        </ng-container>
       </div>
     </div>
   </div>
