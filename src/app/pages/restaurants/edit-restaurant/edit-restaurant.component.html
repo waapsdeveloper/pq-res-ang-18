@@ -23,7 +23,6 @@
       <div class="col-12 col-md-3 border-end pe-0">
         <nav class="sidebar h-100">
           <ul class="nav flex-column py-4 ps-2">
-            <!-- Added padding start -->
             <li
               class="nav-item mb-2 py-2 border-bottom"
               [class.fw-bold]="activeSection === 'general'"
@@ -60,22 +59,28 @@
 
       <!-- Content (Right) -->
       <div class="col-12 col-md-9 ps-md-4 pt-4 pt-md-0">
-        <ng-container [ngSwitch]="activeSection">
-          <ng-template [ngSwitchCase]="'general'">
-            <form [formGroup]="form">
+        <form [formGroup]="form">
+          <ng-container [ngSwitch]="activeSection">
+            <ng-template [ngSwitchCase]="'general'">
               <formly-form [form]="form" [fields]="generalFields" [model]="model"></formly-form>
-              <div class="d-flex justify-content-end">
-                <button type="submit" class="btn btn-warning btn-123" (click)="onSubmit(model)">Submit</button>
+              <div class="d-flex justify-content-end mt-3">
+                <button type="button" class="btn btn-warning btn-123" (click)="submitGeneral()">Update General Info</button>
               </div>
-            </form>
-          </ng-template>
-          <ng-template [ngSwitchCase]="'timing'">
-            <formly-form [fields]="timingFields" [model]="model"></formly-form>
-          </ng-template>
-          <ng-template [ngSwitchCase]="'order'">
-            <formly-form [fields]="orderFields" [model]="model"></formly-form>
-          </ng-template>
-        </ng-container>
+            </ng-template>
+            <ng-template [ngSwitchCase]="'timing'">
+              <formly-form [form]="form" [fields]="timingFields" [model]="model"></formly-form>
+              <div class="d-flex justify-content-end mt-3">
+                <button type="button" class="btn btn-warning btn-123" (click)="submitTiming()">Update Timing</button>
+              </div>
+            </ng-template>
+            <ng-template [ngSwitchCase]="'order'">
+              <formly-form [form]="form" [fields]="orderFields" [model]="model"></formly-form>
+              <div class="d-flex justify-content-end mt-3">
+                <button type="button" class="btn btn-warning btn-123" (click)="submitOrder()">Update Branch Config</button>
+              </div>
+            </ng-template>
+          </ng-container>
+        </form>
       </div>
     </div>
   </div>

@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NavService } from 'src/app/services/basic/nav.service';
+import { GlobalDataService } from 'src/app/services/global-data.service';
 import { GlobalRestaurantService } from 'src/app/services/global-restaurant.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { UtilityService } from 'src/app/services/utility.service';
@@ -14,7 +15,7 @@ import { UtilityService } from 'src/app/services/utility.service';
 })
 export class EditRestaurantComponent implements OnInit, AfterViewInit {
   id;
-  form = new FormGroup({});
+  form: FormGroup = new FormGroup({});
   model = {
     name: '',
     copyright_text: '',
@@ -65,8 +66,17 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     },
     description: '',
     rating: Math.floor(Math.random() * 6),
-    status: 'active'
+    status: 'active',
+    // Branch config properties
+    branch_id: '',
+    tax: '',
+    currency: '',
+    dial_code: ''
   };
+
+  // Branch config properties for orders tab
+  allCurrencies: any;
+  data: any;
 
   // Sidebar navigation
   activeSection: 'general' | 'timing' | 'order' = 'general';
@@ -76,7 +86,8 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     private network: NetworkService,
     private nav: NavService,
     private utility: UtilityService,
-    public grService: GlobalRestaurantService
+    public grService: GlobalRestaurantService,
+    private globaldata: GlobalDataService
   ) {}
 
   ngOnInit() {
@@ -84,6 +95,23 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     this.id = this.route.snapshot.paramMap.get('id');
     console.log('ID from URL:', this.id);
     this.initialize();
+
+    // Initialize branch config functionality for orders tab
+    this.setCurrenciesInForm();
+    this.loadBranchConfig();
+
+    // Handle currency change for dial code
+    this.form.valueChanges.subscribe((value: any) => {
+      if (value && value['currency']) {
+        const selectedCurrency = this.allCurrencies?.find((c: any) => c.value === value['currency']);
+        if (selectedCurrency) {
+          const dialCodeControl = this.form.get('dial_code');
+          if (dialCodeControl) {
+            (dialCodeControl as import('@angular/forms').FormControl).setValue(selectedCurrency.dial_code, { emitEvent: false });
+          }
+        }
+      }
+    });
   }
 
   async initialize() {
@@ -178,10 +206,12 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
       // If `d.timings` is empty, this code will not iterate over it, and the default times/statuses will be applied.
 
       rating: d.rating || Math.floor(Math.random() * 6),
-      status: (d?.status || '').toLowerCase()
+      status: (d?.status || '').toLowerCase(),
+      branch_id: '',
+      tax: '',
+      currency: '',
+      dial_code: ''
     };
-
-    console.log(d.timings[0].start_time);
   }
 
   // Split Formly fields for each section
@@ -237,7 +267,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
           props: {
             label: 'Copyright text',
             placeholder: 'Enter copy right text',
-            required: true
+            required: false
           },
           className: 'col-md-6 col-12'
         },
@@ -250,7 +280,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
             type: 'file',
             accept: 'image/*',
             change: (field, event) => this.onFileChange(field, event, 'logoBase64'),
-            required: true
+            required: false
           },
           className: 'formly-image-wrapper-3232 col-md-6 col-12'
         },
@@ -345,17 +375,6 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
       fieldGroupClassName: 'row',
       fieldGroup: [
         {
-          key: 'branch_id',
-          type: 'input',
-          props: {
-            label: 'Restaurant Name',
-            placeholder: 'Select restaurant',
-            required: true,
-            readonly: true
-          },
-          className: 'formly-select-wrapper-3232 col-md-6 col-12'
-        },
-        {
           key: 'currency',
           type: 'select',
           props: {
@@ -423,90 +442,265 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     });
   }
 
-  async onSubmit(model) {
-    if (this.form.invalid) {
-      // Mark all fields as touched to trigger validation styles
-      this.form.markAllAsTouched();
-      this.utility.presentFailureToast('Please fill out all required fields correctly.');
+  async submitGeneral() {
+    // Validate general fields
+    const generalFields = ['name', 'address', 'phone', 'email', 'copyright_text', 'website'];
+    const missingFields = [];
+
+    for (const field of generalFields) {
+      const value = this.model[field];
+      if (!value || value.trim() === '') {
+        missingFields.push(field.replace('_', ' ').replace(/\b\w/g, (l) => l.toUpperCase()));
+      }
+    }
+
+    if (missingFields.length > 0) {
+      this.utility.presentFailureToast(`Please fill in the following required fields: ${missingFields.join(', ')}`);
       return;
     }
 
-    console.log(model);
-    console.log('Form Submitted', this.form.value);
-    if (this.form.valid) {
-      // alert('Restaurant added successfully!');
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(this.model.email)) {
+      this.utility.presentFailureToast('Please enter a valid email address');
+      return;
+    }
 
-      let d = Object.assign({}, this.form.value);
+    // Validate website format
+    const websiteRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/;
+    if (this.model.website && !websiteRegex.test(this.model.website)) {
+      this.utility.presentFailureToast('Please enter a valid website URL');
+      return;
+    }
 
-      d['image'] = this.model.imageBase64;
-      d['favicon'] = this.model.faviconBase64;
-      d['logo'] = this.model.logoBase64;
-      d['schedule'] = [
-        {
-          day: 'Monday',
-          start_time: this.model.schedule.monday_start_time || '0:00',
-          end_time: this.model.schedule.monday_end_time || '10:00',
-          status: this.model.schedule.monday_status || 'inactive'
-        },
-        {
-          day: 'Tuesday',
-          start_time: this.model.schedule.tuesday_start_time || '0:00',
-          end_time: this.model.schedule.tuesday_end_time || '10:00',
-          status: this.model.schedule.tuesday_status || 'inactive'
-        },
-        {
-          day: 'Wednesday',
-          start_time: this.model.schedule.wednesday_start_time || '0:00',
-          end_time: this.model.schedule.wednesday_end_time || '10:00',
-          status: this.model.schedule.wednesday_status || 'inactive'
-        },
-        {
-          day: 'Thursday',
-          start_time: this.model.schedule.thursday_start_time || '0:00',
-          end_time: this.model.schedule.thursday_end_time || '10:00',
-          status: this.model.schedule.thursday_status || 'inactive'
-        },
-        {
-          day: 'Friday',
-          start_time: this.model.schedule.friday_start_time || '10:00',
-          end_time: this.model.schedule.friday_end_time || '10:00',
-          status: this.model.schedule.friday_status || 'inactive'
-        },
-        {
-          day: 'Saturday',
-          start_time: this.model.schedule.saturday_start_time || '0:00',
-          end_time: this.model.schedule.saturday_end_time || '10:00',
-          status: this.model.schedule.saturday_status || 'inactive'
-        },
-        {
-          day: 'Sunday',
-          start_time: this.model.schedule.sunday_start_time || '0:00',
-          end_time: this.model.schedule.sunday_end_time || '10:00',
-          status: this.model.schedule.sunday_status || 'inactive'
+    // Submit general info
+    await this.submitRestaurantData();
+  }
+
+  async submitTiming() {
+    // Validate timing fields
+    const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+    const missingFields = [];
+
+    for (const day of days) {
+      const startTime = this.model.schedule[`${day}_start_time`];
+      const endTime = this.model.schedule[`${day}_end_time`];
+      const status = this.model.schedule[`${day}_status`];
+
+      if (!startTime || !endTime || !status) {
+        missingFields.push(day.charAt(0).toUpperCase() + day.slice(1));
+      }
+    }
+
+    if (missingFields.length > 0) {
+      this.utility.presentFailureToast(`Please fill in timing for the following days: ${missingFields.join(', ')}`);
+      return;
+    }
+
+    // Validate time format and logic
+    for (const day of days) {
+      const startTime = this.model.schedule[`${day}_start_time`];
+      const endTime = this.model.schedule[`${day}_end_time`];
+
+      if (startTime >= endTime) {
+        this.utility.presentFailureToast(`${day.charAt(0).toUpperCase() + day.slice(1)}: End time must be after start time`);
+        return;
+      }
+    }
+
+    // Submit timing data
+    await this.submitRestaurantData();
+  }
+
+  async submitOrder() {
+    // Validate order fields
+    const orderFields = ['currency', 'dial_code', 'tax'];
+    const missingFields = [];
+
+    for (const field of orderFields) {
+      const value = this.model[field];
+      if (!value || value.toString().trim() === '') {
+        missingFields.push(field.replace('_', ' ').replace(/\b\w/g, (l) => l.toUpperCase()));
+      }
+    }
+
+    if (missingFields.length > 0) {
+      this.utility.presentFailureToast(`Please fill in the following required fields: ${missingFields.join(', ')}`);
+      return;
+    }
+
+    // Validate tax percentage
+    const tax = parseFloat(this.model.tax);
+    if (isNaN(tax) || tax < 0 || tax > 100) {
+      this.utility.presentFailureToast('Tax percentage must be between 0 and 100');
+      return;
+    }
+
+    // Submit order/branch config data
+    try {
+      let d = {
+        currency: this.model.currency,
+        dial_code: this.model.dial_code,
+        tax: this.model.tax,
+        branch_id: this.data.id
+      };
+
+      const res = await this.network.updateBranchConfig(d, this.id);
+      console.log('Response from updateBranchConfig:', res);
+
+      if (res && res.data) {
+        this.utility.presentSuccessToast('Branch configuration updated successfully.');
+        this.nav.pop();
+      } else {
+        this.utility.presentFailureToast('Failed to update branch configuration.');
+      }
+    } catch (error) {
+      console.error('Error updating branch config:', error);
+      this.utility.presentFailureToast('An error occurred while updating branch configuration.');
+    }
+
+    setTimeout(() => {
+      this.globaldata.getDefaultRestaurant();
+    }, 700);
+  }
+
+  async submitRestaurantData() {
+    console.log('Submitting restaurant data:', this.model);
+
+    let d: any = {};
+
+    // Copy all model properties except schedule
+    Object.keys(this.model).forEach((key) => {
+      if (key !== 'schedule') {
+        d[key] = this.model[key];
+      }
+    });
+
+    d['image'] = this.model.imageBase64;
+    d['favicon'] = this.model.faviconBase64;
+    d['logo'] = this.model.logoBase64;
+    d['schedule'] = [
+      {
+        day: 'Monday',
+        start_time: this.model.schedule.monday_start_time || '0:00',
+        end_time: this.model.schedule.monday_end_time || '10:00',
+        status: this.model.schedule.monday_status || 'inactive'
+      },
+      {
+        day: 'Tuesday',
+        start_time: this.model.schedule.tuesday_start_time || '0:00',
+        end_time: this.model.schedule.tuesday_end_time || '10:00',
+        status: this.model.schedule.tuesday_status || 'inactive'
+      },
+      {
+        day: 'Wednesday',
+        start_time: this.model.schedule.wednesday_start_time || '0:00',
+        end_time: this.model.schedule.wednesday_end_time || '10:00',
+        status: this.model.schedule.wednesday_status || 'inactive'
+      },
+      {
+        day: 'Thursday',
+        start_time: this.model.schedule.thursday_start_time || '0:00',
+        end_time: this.model.schedule.thursday_end_time || '10:00',
+        status: this.model.schedule.thursday_status || 'inactive'
+      },
+      {
+        day: 'Friday',
+        start_time: this.model.schedule.friday_start_time || '10:00',
+        end_time: this.model.schedule.friday_end_time || '10:00',
+        status: this.model.schedule.friday_status || 'inactive'
+      },
+      {
+        day: 'Saturday',
+        start_time: this.model.schedule.saturday_start_time || '0:00',
+        end_time: this.model.schedule.saturday_end_time || '10:00',
+        status: this.model.schedule.saturday_status || 'inactive'
+      },
+      {
+        day: 'Sunday',
+        start_time: this.model.schedule.sunday_start_time || '0:00',
+        end_time: this.model.schedule.sunday_end_time || '10:00',
+        status: this.model.schedule.sunday_status || 'inactive'
+      }
+    ];
+
+    console.log(d);
+
+    const res = await this.network.updateRestaurant(d, this.id);
+    console.log(res);
+
+    if (res) {
+      this.utility.presentSuccessToast('Restaurant information updated successfully!');
+      let item = res;
+      this.grService.setRestaurant(item.id, item.name);
+
+      // Call API to set default restaurant
+      const data = {
+        is_active: 1
+      };
+
+      await this.network.setActiveRestaurant(data, item.id);
+      this.nav.pop();
+    }
+  }
+
+  async getCurrencies(): Promise<any[]> {
+    const res = await this.network.getCurrencies();
+    console.log(res);
+    if (res && res['data']) {
+      return res['data'].map((c) => ({
+        value: c.currency_code,
+        label: `${c.flag} ${c.currency_code} - ${c.currency_name}`,
+        dial_code: c.dial_code
+      }));
+    }
+    return [];
+  }
+
+  async setCurrenciesInForm() {
+    const options = await this.getCurrencies();
+    this.allCurrencies = options; // Store for dial code lookup
+    for (let i = 0; i < this.orderFields.length; i++) {
+      for (let j = 0; j < this.orderFields[i].fieldGroup.length; j++) {
+        let fl = this.orderFields[i].fieldGroup[j];
+        if (fl.key === 'currency') {
+          fl.props.options = options;
         }
-      ];
+      }
+    }
+  }
 
-      console.log(d);
+  async loadBranchConfig() {
+    try {
+      const res = await this.network.getBranchConfig(this.id);
+      this.data = JSON.parse(localStorage.getItem('restaurant'));
 
-      const res = await this.network.updateRestaurant(d, this.id);
-      console.log(res);
-
-      if (res) {
-        this.utility.presentSuccessToast('Restaurant information Updated!');
-        let item = res;
-        this.grService.setRestaurant(item.id, item.name);
-
-        // Call API to set default restaurant
-        const data = {
-          is_active: 1
+      if (res && res.data && res.data.branch_config) {
+        // Patch only the editable fields from branch_config
+        const branchConfigModel = {
+          tax: res.data.branch_config.tax,
+          currency: res.data.branch_config.currency,
+          dial_code: res?.data.restaurant.dial_code // Set this if you have it in the response, otherwise leave blank or fetch by currency
         };
 
-        await this.network.setActiveRestaurant(data, item.id);
-        this.nav.pop();
+        // Update the model with branch config data
+        this.model['tax'] = branchConfigModel.tax;
+        this.model['currency'] = branchConfigModel.currency;
+        this.model['dial_code'] = branchConfigModel.dial_code;
+        this.form.patchValue(branchConfigModel);
+      } else {
+        // Fallback in case of a failed response
+        if (this.data && this.data.name) {
+          this.model['branch_id'] = this.data.name;
+        }
       }
-    } else {
-      this.utility.presentFailureToast('Please fill out all required fields correctly.');
-      //alert('Please fill out all required fields correctly.');
+    } catch (error) {
+      console.error('Error loading branch config:', error);
+      // Fallback in case of an error
+      const data = JSON.parse(localStorage.getItem('restaurant'));
+      if (data && data.name) {
+        this.model['branch_id'] = data.name;
+      }
     }
   }
 }
