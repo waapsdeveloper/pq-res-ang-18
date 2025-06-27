@@ -65,18 +65,21 @@
               <form [formGroup]="form">
                 <ng-container [ngSwitch]="activeSection">
                   <ng-template [ngSwitchCase]="'general'">
+                    <h3>General</h3>
                     <formly-form [form]="form" [fields]="generalFields" [model]="model"></formly-form>
                     <div class="d-flex justify-content-end mt-3">
                       <button type="button" class="btn btn-warning btn-123" (click)="submitGeneral()">Update General Info</button>
                     </div>
                   </ng-template>
                   <ng-template [ngSwitchCase]="'timing'">
+                    <h3>Timing</h3>
                     <formly-form [form]="form" [fields]="timingFields" [model]="model"></formly-form>
                     <div class="d-flex justify-content-end mt-3">
                       <button type="button" class="btn btn-warning btn-123" (click)="submitTiming()">Update Timing</button>
                     </div>
                   </ng-template>
                   <ng-template [ngSwitchCase]="'order'">
+                    <h3>Order</h3>
                     <formly-form [form]="form" [fields]="orderFields" [model]="model"></formly-form>
                     <div class="d-flex justify-content-end mt-3">
                       <button type="button" class="btn btn-warning btn-123" (click)="submitOrder()">Update Branch Config</button>
