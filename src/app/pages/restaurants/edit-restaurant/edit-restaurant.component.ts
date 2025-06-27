@@ -71,7 +71,9 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     branch_id: '',
     tax: '',
     currency: '',
-    dial_code: ''
+    dial_code: '',
+    // Meta data properties
+    home_page_title: ''
   };
 
   // Branch config properties for orders tab
@@ -209,7 +211,8 @@ await    this.setCurrenciesInForm();
       branch_id: '',
       tax: '',
       currency: '',
-      dial_code: ''
+      dial_code: '',
+      home_page_title: d.meta?.home_page_title || ''
     };
   }
 
@@ -304,6 +307,16 @@ await    this.setCurrenciesInForm();
             placeholder: 'Enter website URL',
             pattern: /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/,
             required: true
+          },
+          className: 'col-md-6 col-12'
+        },
+        {
+          key: 'home_page_title',
+          type: 'input',
+          props: {
+            label: 'Home Page Title',
+            placeholder: 'Enter home page title for SEO',
+            required: false
           },
           className: 'col-md-6 col-12'
         }
@@ -622,6 +635,13 @@ await    this.setCurrenciesInForm();
         status: this.model.schedule.sunday_status || 'inactive'
       }
     ];
+
+    // Add meta data to the request
+    if (this.model.home_page_title) {
+      d['meta'] = {
+        home_page_title: this.model.home_page_title
+      };
+    }
 
     console.log(d);
 
