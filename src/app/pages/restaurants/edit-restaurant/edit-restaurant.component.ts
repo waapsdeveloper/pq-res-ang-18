@@ -92,15 +92,15 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     private globaldata: GlobalDataService
   ) {}
 
-async  ngOnInit() {
+  async ngOnInit() {
     // Access the parameter
     this.id = this.route.snapshot.paramMap.get('id');
     console.log('ID from URL:', this.id);
     this.initialize();
 
     // Initialize branch config functionality for orders tab
-await    this.setCurrenciesInForm();
- await   this.loadBranchConfig();
+    await this.setCurrenciesInForm();
+    await this.loadBranchConfig();
 
     // Handle currency change for dial code
     this.form.valueChanges.subscribe((value: any) => {
@@ -151,7 +151,6 @@ await    this.setCurrenciesInForm();
     console.log(res);
 
     let d = Object.assign({}, res.restaurant);
-
 
     this.model = {
       name: d.name || '',
@@ -214,6 +213,17 @@ await    this.setCurrenciesInForm();
       dial_code: '',
       home_page_title: d.meta?.home_page_title || ''
     };
+
+    // Set home_page_title from meta array if present
+    if (Array.isArray(d.meta)) {
+      const homePageTitleMeta = d.meta.find((m: any) => m.key === 'home_page_title');
+      this.model.home_page_title = homePageTitleMeta ? homePageTitleMeta.value : '';
+    } else if (d.meta?.home_page_title) {
+      // fallback for object structure
+      this.model.home_page_title = d.meta.home_page_title;
+    } else {
+      this.model.home_page_title = '';
+    }
   }
 
   // Split Formly fields for each section
@@ -638,9 +648,12 @@ await    this.setCurrenciesInForm();
 
     // Add meta data to the request
     if (this.model.home_page_title) {
-      d['meta'] = {
-        home_page_title: this.model.home_page_title
-      };
+      d['meta'] = [
+        {
+          key: 'home_page_title',
+          value: this.model.home_page_title
+        }
+      ];
     }
 
     console.log(d);
