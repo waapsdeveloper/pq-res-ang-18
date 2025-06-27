@@ -167,39 +167,39 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
       website: d.website || '',
       schedule: {
         monday_day: 'Monday',
-        monday_start_time: d.timings && d.timings.length > 0 && d.timings[0].start_time ? d.timings[0].start_time : '09:00',
-        monday_end_time: d.timings && d.timings.length > 0 && d.timings[0].end_time ? d.timings[0].end_time : '17:00',
-        monday_status: d.timings && d.timings.length > 0 && d.timings[0].status ? d.timings[0].status : 'inactive',
+        monday_start_time: d.schedule && d.schedule.length > 0 && d.schedule[0].start_time ? d.schedule[0].start_time : '09:00',
+        monday_end_time: d.schedule && d.schedule.length > 0 && d.schedule[0].end_time ? d.schedule[0].end_time : '17:00',
+        monday_status: d.schedule && d.schedule.length > 0 && d.schedule[0].status ? d.schedule[0].status.toLowerCase() : 'inactive',
 
         tuesday_day: 'Tuesday',
-        tuesday_start_time: d.timings && d.timings.length > 1 && d.timings[1].start_time ? d.timings[1].start_time : '09:00',
-        tuesday_end_time: d.timings && d.timings.length > 1 && d.timings[1].end_time ? d.timings[1].end_time : '17:00',
-        tuesday_status: d.timings && d.timings.length > 1 && d.timings[1].status ? d.timings[1].status : 'inactive',
+        tuesday_start_time: d.schedule && d.schedule.length > 1 && d.schedule[1].start_time ? d.schedule[1].start_time : '09:00',
+        tuesday_end_time: d.schedule && d.schedule.length > 1 && d.schedule[1].end_time ? d.schedule[1].end_time : '17:00',
+        tuesday_status: d.schedule && d.schedule.length > 1 && d.schedule[1].status ? d.schedule[1].status.toLowerCase() : 'inactive',
 
         wednesday_day: 'Wednesday',
-        wednesday_start_time: d.timings && d.timings.length > 2 && d.timings[2].start_time ? d.timings[2].start_time : '09:00',
-        wednesday_end_time: d.timings && d.timings.length > 2 && d.timings[2].end_time ? d.timings[2].end_time : '17:00',
-        wednesday_status: d.timings && d.timings.length > 2 && d.timings[2].status ? d.timings[2].status : 'inactive',
+        wednesday_start_time: d.schedule && d.schedule.length > 2 && d.schedule[2].start_time ? d.schedule[2].start_time : '09:00',
+        wednesday_end_time: d.schedule && d.schedule.length > 2 && d.schedule[2].end_time ? d.schedule[2].end_time : '17:00',
+        wednesday_status: d.schedule && d.schedule.length > 2 && d.schedule[2].status ? d.schedule[2].status.toLowerCase() : 'inactive',
 
         thursday_day: 'Thursday',
-        thursday_start_time: d.timings && d.timings.length > 3 && d.timings[3].start_time ? d.timings[3].start_time : '09:00',
-        thursday_end_time: d.timings && d.timings.length > 3 && d.timings[3].end_time ? d.timings[3].end_time : '17:00',
-        thursday_status: d.timings && d.timings.length > 3 && d.timings[3].status ? d.timings[3].status : 'inactive',
+        thursday_start_time: d.schedule && d.schedule.length > 3 && d.schedule[3].start_time ? d.schedule[3].start_time : '09:00',
+        thursday_end_time: d.schedule && d.schedule.length > 3 && d.schedule[3].end_time ? d.schedule[3].end_time : '17:00',
+        thursday_status: d.schedule && d.schedule.length > 3 && d.schedule[3].status ? d.schedule[3].status.toLowerCase() : 'inactive',
 
         friday_day: 'Friday',
-        friday_start_time: d.timings && d.timings.length > 4 && d.timings[4].start_time ? d.timings[4].start_time : '09:00',
-        friday_end_time: d.timings && d.timings.length > 4 && d.timings[4].end_time ? d.timings[4].end_time : '20:00',
-        friday_status: d.timings && d.timings.length > 4 && d.timings[4].status ? d.timings[4].status : 'inactive',
+        friday_start_time: d.schedule && d.schedule.length > 4 && d.schedule[4].start_time ? d.schedule[4].start_time : '09:00',
+        friday_end_time: d.schedule && d.schedule.length > 4 && d.schedule[4].end_time ? d.schedule[4].end_time : '20:00',
+        friday_status: d.schedule && d.schedule.length > 4 && d.schedule[4].status ? d.schedule[4].status.toLowerCase() : 'inactive',
 
         saturday_day: 'Saturday',
-        saturday_start_time: d.timings && d.timings.length > 5 && d.timings[5].start_time ? d.timings[5].start_time : '09:00',
-        saturday_end_time: d.timings && d.timings.length > 5 && d.timings[5].end_time ? d.timings[5].end_time : '18:00',
-        saturday_status: d.timings && d.timings.length > 5 && d.timings[5].status ? d.timings[5].status : 'inactive',
+        saturday_start_time: d.schedule && d.schedule.length > 5 && d.schedule[5].start_time ? d.schedule[5].start_time : '09:00',
+        saturday_end_time: d.schedule && d.schedule.length > 5 && d.schedule[5].end_time ? d.schedule[5].end_time : '18:00',
+        saturday_status: d.schedule && d.schedule.length > 5 && d.schedule[5].status ? d.schedule[5].status.toLowerCase() : 'inactive',
 
         sunday_day: 'Sunday',
-        sunday_start_time: d.timings && d.timings.length > 6 && d.timings[6].start_time ? d.timings[6].start_time : '09:00',
-        sunday_end_time: d.timings && d.timings.length > 6 && d.timings[6].end_time ? d.timings[6].end_time : '16:00',
-        sunday_status: d.timings && d.timings.length > 6 && d.timings[6].status ? d.timings[6].status : 'inactive'
+        sunday_start_time: d.schedule && d.schedule.length > 6 && d.schedule[6].start_time ? d.schedule[6].start_time : '09:00',
+        sunday_end_time: d.schedule && d.schedule.length > 6 && d.schedule[6].end_time ? d.schedule[6].end_time : '16:00',
+        sunday_status: d.schedule && d.schedule.length > 6 && d.schedule[6].status ? d.schedule[6].status.toLowerCase() : 'inactive'
       },
 
       // Now, posting this `schedule` to your model.
