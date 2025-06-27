@@ -90,15 +90,15 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     private globaldata: GlobalDataService
   ) {}
 
-  ngOnInit() {
+async  ngOnInit() {
     // Access the parameter
     this.id = this.route.snapshot.paramMap.get('id');
     console.log('ID from URL:', this.id);
     this.initialize();
 
     // Initialize branch config functionality for orders tab
-    this.setCurrenciesInForm();
-    this.loadBranchConfig();
+await    this.setCurrenciesInForm();
+ await   this.loadBranchConfig();
 
     // Handle currency change for dial code
     this.form.valueChanges.subscribe((value: any) => {
@@ -150,7 +150,6 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
 
     let d = Object.assign({}, res.restaurant);
 
-    console.log(d);
 
     this.model = {
       name: d.name || '',
@@ -646,7 +645,6 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
 
   async getCurrencies(): Promise<any[]> {
     const res = await this.network.getCurrencies();
-    console.log(res);
     if (res && res['data']) {
       return res['data'].map((c) => ({
         value: c.currency_code,
