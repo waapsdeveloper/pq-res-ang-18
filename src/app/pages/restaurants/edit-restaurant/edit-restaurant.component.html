@@ -4,7 +4,7 @@
     <div class="col-12 col-sm-7">
       <div class="media d-flex align-items-center">
         <a href="javascript:;">
-          <img [src]="model?.src_img" alt="user view avatar" class="users-avatar-shadow rounded" height="64" width="64" />
+          <img [src]="model?.src_img" alt="user view avatar" class="users-avatar-shadow rounded" height="64" />
         </a>
         <div class="media-body ml-3">
           <h4>
@@ -18,11 +18,11 @@
   </div>
   <!-- Media object ends -->
   <div class="edit-layout">
-    <div class="row">
+    <div class="row flex-nowrap">
       <!-- Sidebar (Left) -->
-      <div class="col-12 col-md-3 border-end pe-0">
+      <div class="sidebar-fixed border-end pe-0">
         <nav class="sidebar h-100">
-          <ul class="nav flex-column py-4 ps-2">
+          <ul class="nav flex-column ps-2" style="min-width: 150px;">
             <li
               class="nav-item mb-2 py-2 border-bottom"
               [class.fw-bold]="activeSection === 'general'"
@@ -58,28 +58,28 @@
       </div>
 
       <!-- Content (Right) -->
-      <div class="col-12 col-md-9 ps-md-4 pt-4 pt-md-0">
-        <div class="card">
+      <div class="flex-grow-1">
+        <div class="card mt-0">
           <div class="card-content">
             <div class="card-body">
               <form [formGroup]="form">
                 <ng-container [ngSwitch]="activeSection">
                   <ng-template [ngSwitchCase]="'general'">
-                    <h3>General</h3>
+                    <h3 class="section-heading">General Information</h3>
                     <formly-form [form]="form" [fields]="generalFields" [model]="model"></formly-form>
                     <div class="d-flex justify-content-end mt-3">
                       <button type="button" class="btn btn-warning btn-123" (click)="submitGeneral()">Update General Info</button>
                     </div>
                   </ng-template>
                   <ng-template [ngSwitchCase]="'timing'">
-                    <h3>Timing</h3>
+                    <h3 class="section-heading">Branch Timing</h3>
                     <formly-form [form]="form" [fields]="timingFields" [model]="model"></formly-form>
                     <div class="d-flex justify-content-end mt-3">
                       <button type="button" class="btn btn-warning btn-123" (click)="submitTiming()">Update Timing</button>
                     </div>
                   </ng-template>
                   <ng-template [ngSwitchCase]="'order'">
-                    <h3>Order</h3>
+                    <h3 class="section-heading">Order Configuration</h3>
                     <formly-form [form]="form" [fields]="orderFields" [model]="model"></formly-form>
                     <div class="d-flex justify-content-end mt-3">
                       <button type="button" class="btn btn-warning btn-123" (click)="submitOrder()">Update Branch Config</button>
