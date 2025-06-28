@@ -326,7 +326,8 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
           props: {
             label: 'Home Page Title',
             placeholder: 'Enter home page title for SEO',
-            required: false
+            required: false,
+            maxLength: 60
           },
           className: 'col-md-6 col-12'
         }
