@@ -92,18 +92,7 @@ export class EditCategoryComponent implements OnInit {
           },
           className: 'formly-select-wrapper-3232 col-md-6 col-12'
         },
-        {
-          key: 'image',
-          type: 'input',
-          props: {
-            label: 'Category Image',
-            placeholder: 'Enter image URL',
-            type: 'file',
-            accept: 'image/*',
-            change: (field, event) => this.onFileChange(field, event)
-          },
-          className: 'formly-image-wrapper-3232 col-md-6 col-12'
-        },
+        
         {
           key: 'status',
           type: 'select',
@@ -116,7 +105,19 @@ export class EditCategoryComponent implements OnInit {
             required: true // Ensure required is true
           },
           className: 'formly-select-wrapper-3232 col-md-6 col-12'
-        }
+        },
+        {
+          key: 'image',
+          type: 'input',
+          props: {
+            label: 'Category Image',
+            placeholder: 'Enter image URL',
+            type: 'file',
+            accept: 'image/*',
+            change: (field, event) => this.onFileChange(field, event)
+          },
+          className: 'formly-image-wrapper-3232 col-md-6 col-12'
+        },
       ]
     }
   ];

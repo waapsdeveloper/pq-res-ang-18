@@ -66,6 +66,20 @@ export class AddCategoryComponent implements OnInit {
           },
           className: 'formly-select-wrapper-3232 col-md-6 col-12'
         },
+        
+        {
+          key: 'status',
+          type: 'select',
+          props: {
+            label: 'Status',
+            options: [
+              { value: 'active', label: 'Active' },
+              { value: 'inactive', label: 'Inactive' }
+            ],
+            required: true
+          },
+          className: 'formly-select-wrapper-3232 col-md-6 col-12'
+        },
         {
           key: 'image',
           type: 'input',
@@ -79,19 +93,6 @@ export class AddCategoryComponent implements OnInit {
           },
           className: 'formly-image-wrapper-3232 col-md-6 col-12'
         },
-        {
-          key: 'status',
-          type: 'select',
-          props: {
-            label: 'Status',
-            options: [
-              { value: 'active', label: 'Active' },
-              { value: 'inactive', label: 'Inactive' }
-            ],
-            required: true
-          },
-          className: 'formly-select-wrapper-3232 col-md-6 col-12'
-        }
       ]
     }
   ];
