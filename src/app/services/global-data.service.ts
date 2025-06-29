@@ -9,6 +9,8 @@ export interface GlobalDataState {
   currency_symbol: string;
   tax_percentage: number;
   restaurant_name?: string; // Optional field for restaurant name
+  delivery_charges?: number; //
+  tips?: number; //
 }
 @Injectable({
   providedIn: 'root'
@@ -76,6 +78,18 @@ export class GlobalDataService extends NgSimpleStateBaseRxjsStore<GlobalDataStat
   getTaxPercentage(): Observable<any> {
     return this.selectState((state) => state.tax_percentage);
   }
+  getDeliveryCharges(): Observable<any> {
+    return this.selectState((state) => state.delivery_charges);
+  }
+  setDeliveryCharges(deliveryCharges: number): void {
+    this.setState((state) => ({ delivery_charges: deliveryCharges }));
+  }
+  getTips(): Observable<any> {
+    return this.selectState((state) => state.tips);
+  }
+  setTips(tips: number): void {
+    this.setState((state) => ({ tips }));
+  }
 
   getStateRestaurantPromise(): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -118,6 +132,8 @@ export class GlobalDataService extends NgSimpleStateBaseRxjsStore<GlobalDataStat
           this.setCurrency(config.data.currency);
           this.setCurrencySymbol(config.data.currency_symbol);
           this.setTaxPercentage(config.data.tax);
+          this.setDeliveryCharges(config.data.delivery_charges);
+          this.setTips(config.data.tips);
         }
 
         resolve(R);

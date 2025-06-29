@@ -72,6 +72,8 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     tax: '',
     currency: '',
     dial_code: '',
+    tips: '',
+    delivery_charges: '',
     // Meta data properties
     home_page_title: ''
   };
@@ -165,6 +167,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
       phone: d.phone || '',
       email: d.email || '',
       website: d.website || '',
+
       schedule: {
         monday_day: 'Monday',
         monday_start_time: d.schedule && d.schedule.length > 0 && d.schedule[0].start_time ? d.schedule[0].start_time : '09:00',
@@ -211,6 +214,8 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
       tax: '',
       currency: '',
       dial_code: '',
+      tips: '',
+      delivery_charges: '',
       home_page_title: d.meta?.home_page_title || ''
     };
 
@@ -430,6 +435,32 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
             required: true
           },
           className: 'col-md-6 col-12'
+        },
+        {
+          key: 'tips',
+          type: 'input',
+          props: {
+            label: 'Tips (%)',
+            placeholder: 'Enter tips percentage',
+            type: 'number',
+            min: 0,
+            max: 100,
+            required: true
+          },
+          className: 'col-md-6 col-12'
+        },
+        {
+          key: 'delivery_charges',
+          type: 'input',
+          props: {
+            label: 'Delivery Charges',
+            placeholder: 'Enter delivery charges',
+            type: 'number',
+            min: 0,
+            max: 100,
+            required: true
+          },
+          className: 'col-md-6 col-12'
         }
       ]
     }
@@ -565,7 +596,9 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
         currency: this.model.currency,
         dial_code: this.model.dial_code,
         tax: this.model.tax,
-        branch_id: this.data.id
+        branch_id: this.data.id,
+        tips: this.model.tips,
+        delivery_charges: this.model.delivery_charges
       };
 
       const res = await this.network.updateBranchConfig(d, this.id);
@@ -711,6 +744,8 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
         // Patch only the editable fields from branch_config
         const branchConfigModel = {
           tax: res.data.branch_config.tax,
+          tips: res.data.branch_config.tips,
+          delivery_charges: res.data.branch_config.delivery_charges,
           currency: res.data.branch_config.currency,
           dial_code: res?.data.restaurant.dial_code // Set this if you have it in the response, otherwise leave blank or fetch by currency
         };
@@ -719,6 +754,8 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
         this.model['tax'] = branchConfigModel.tax;
         this.model['currency'] = branchConfigModel.currency;
         this.model['dial_code'] = branchConfigModel.dial_code;
+        this.model['tips'] = branchConfigModel.tips;
+        this.model['delivery_charges'] = branchConfigModel.delivery_charges;
         this.form.patchValue(branchConfigModel);
       } else {
         // Fallback in case of a failed response
