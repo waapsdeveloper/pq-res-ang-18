@@ -76,7 +76,7 @@ export class EditProductComponent implements OnInit, AfterViewInit {
     price: null,
     image: '',
     imageBase64: '',
-    discount: null,
+    discount: 0,
     notes: '',
     sizes: '',
     spicy: '',
@@ -246,13 +246,16 @@ export class EditProductComponent implements OnInit, AfterViewInit {
       price: d.price || null,
       image: d.image,
       imageBase64: d.imageBase64 || '',
-      discount: d.discount || null,
+      discount: d.discount !== undefined && d.discount !== null && d.discount !== '' ? Number(d.discount) : null,
       notes: d.notes || '',
       sizes: d.sizes || '',
       spicy: d.spicy || '',
       type: d.type || '',
       src_img: d.image || ''
     };
+
+    // Force Formly form to update with new model values
+    this.form.patchValue(this.model);
   }
 
   async getRestaurants(): Promise<any[]> {
