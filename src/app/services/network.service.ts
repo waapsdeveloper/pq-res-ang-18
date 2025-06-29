@@ -206,6 +206,16 @@ export class NetworkService {
     return this.httpPutResponse('category', data, id, true, true);
   }
 
+  uploadCategoryImage(imageFile: File, categoryId?: string) {
+    const formData = new FormData();
+    formData.append('image', imageFile);
+    
+    // If categoryId is provided, use it in the URL, otherwise use a placeholder for new categories
+    const url = categoryId ? `category/${categoryId}/upload-image` : 'category/0/upload-image';
+    
+    return this.httpPostResponse(url, formData, null, true, true, 'multipart/form-data');
+  }
+
   // Products
 
   getProducts(params) {

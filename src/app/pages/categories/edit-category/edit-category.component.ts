@@ -15,6 +15,13 @@ import { UtilityService } from 'src/app/services/utility.service';
 export class EditCategoryComponent implements OnInit {
   id;
 
+  // File size limit - 1MB
+  readonly MAX_FILE_SIZE = 1 * 1024 * 1024; // 1MB in bytes
+
+  // File validation variables
+  selectedFile: File | null = null;
+  fileError: string = '';
+
   constructor(
     private route: ActivatedRoute,
     private network: NetworkService,
@@ -93,7 +100,7 @@ export class EditCategoryComponent implements OnInit {
             placeholder: 'Enter image URL',
             type: 'file',
             accept: 'image/*',
-            change: (field, event) => this.onFileChange(field, event, 'imageBase64')
+            change: (field, event) => this.onFileChange(field, event)
           },
           className: 'formly-image-wrapper-3232 col-md-6 col-12'
         },
@@ -200,25 +207,51 @@ export class EditCategoryComponent implements OnInit {
       }
     }
   }
-  onFileChange(field, event: Event, type: string = 'image') {
+  onFileChange(field, event: Event) {
     const input = event.target as HTMLInputElement;
+    this.fileError = ''; // Clear previous errors
+    this.selectedFile = null; // Reset selected file
+
     if (input.files && input.files[0]) {
       const file = input.files[0];
-      const reader = new FileReader();
-      reader.onload = () => {
-        const base64String = reader.result as string;
-        console.log(base64String);
+      
+      // Check file size
+      if (file.size > this.MAX_FILE_SIZE) {
+        this.fileError = `File size must be less than ${this.MAX_FILE_SIZE / (1024 * 1024)}MB`;
+        input.value = ''; // Clear the input
+        return;
+      }
 
-        this.model[type] = base64String; // Update the model
-        this.model['src_img'] = base64String;
-        // this.fields[0].fieldGroup[6].props['value'] = base64String; // Update the field value
-        // this.fields[0].fieldGroup[6].formControl.setValue(base64String); // Update the form control value
+      // Store the file object
+      this.selectedFile = file;
+      this.model.image = file.name; // Display filename in form
 
-        // field.formControl.setValue(base64String); // Update the form control value
-      };
-      reader.readAsDataURL(file); // Convert file to base64
+      console.log('File selected:', file.name, 'Size:', file.size, 'Type:', file.type);
+
+      // Upload the image immediately
+      this.uploadImage(file);
     }
   }
+
+  async uploadImage(file: File) {
+    try {
+      const res = await this.network.uploadCategoryImage(file, this.id);
+      console.log(res);
+      if (res) {
+        // Store the uploaded image URL
+        this.model.src_img = res.full_url;
+        this.utility.presentSuccessToast('Image uploaded successfully!');
+      } else {
+        this.fileError = 'Failed to upload image';
+        this.utility.presentFailureToast('Failed to upload image');
+      }
+    } catch (error) {
+      this.fileError = 'Error uploading image';
+      this.utility.presentFailureToast('Error uploading image');
+      console.error('Upload error:', error);
+    }
+  }
+
   async onSubmit(model) {
     if (this.form.invalid) {
       // Mark all fields as touched to trigger validation styles
@@ -234,7 +267,8 @@ export class EditCategoryComponent implements OnInit {
 
       let d = Object.assign({}, this.form.value);
 
-      d['image'] = this.model.imageBase64;
+      // Use the uploaded image URL if available, otherwise use existing image
+      d['image'] = this.model.src_img || this.model.imageBase64;
 
       const res = await this.network.updateCategory(d, this.id);
       console.log(res);

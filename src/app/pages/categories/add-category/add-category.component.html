@@ -4,6 +4,12 @@
       <div class="card-body">
         <form [formGroup]="form">
           <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
+          
+          <!-- File error display -->
+          <div *ngIf="fileError" class="alert alert-danger mt-2">
+            {{ fileError }}
+          </div>
+          
           <div class="d-flex justify-content-end">
             <button type="submit" class="btn btn-warning btn-123" (click)="onSubmit(model)">Submit</button>
           </div>
