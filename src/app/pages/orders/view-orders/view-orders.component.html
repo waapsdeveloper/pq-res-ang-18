@@ -196,6 +196,28 @@
                                   </div>
                                 </td>
                               </tr>
+                              <!-- Tax Row -->
+                              <tr *ngIf="item?.order_type === 'dine-in'">
+                                <td colspan="2" class="text-end fw-bold">Tips ( {{ item?.tips || '0.00' | number: '1.2-2' }})%</td>
+                                <td colspan="3">
+                                  <div class="d-flex justify-content-end">
+                                    <span class="fw-normal">
+                                      {{ this.currencySymbol }} {{ item?.tips_amount || '0.00' | number: '1.2-2' }}
+                                    </span>
+                                  </div>
+                                </td>
+                              </tr>
+                              <!-- Delivery_charges  Row -->
+                              <tr *ngIf="item?.order_type === 'delivery'">
+                                <td colspan="2" class="text-end fw-bold">Delivery_charges:</td>
+                                <td colspan="3">
+                                  <div class="d-flex justify-content-end">
+                                    <span class="fw-normal">
+                                      {{ this.currencySymbol }} {{ item?.delivery_charges || '0.00' | number: '1.2-2' }}
+                                    </span>
+                                  </div>
+                                </td>
+                              </tr>
 
                               <!-- Total Row -->
                               <tr class="border-top border-dark">
