@@ -342,6 +342,7 @@ export class EditProductComponent implements OnInit, AfterViewInit {
       // alert('Restaurant added successfully!');
 
       let d = Object.assign({}, this.form.value);
+      d['discount'] = d['discount'] !== undefined && d['discount'] !== null && d['discount'] !== '' ? Number(d['discount']) : 0;
 
       // Use the uploaded image URL if available, otherwise use existing image
       d['image'] = this.model.src_img || this.model.imageBase64;
