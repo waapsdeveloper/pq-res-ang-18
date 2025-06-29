@@ -304,7 +304,7 @@ export class AddProductComponent {
       console.log(res);
       if (res) {
         // Store the uploaded image URL (use relative path, not full URL)
-        this.model.src_img = res.image_url;
+        this.model.src_img = res.full_url;
         this.utility.presentSuccessToast('Image uploaded successfully!');
       } else {
         this.fileError = 'Failed to upload image';
