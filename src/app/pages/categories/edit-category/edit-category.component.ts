@@ -92,18 +92,7 @@ export class EditCategoryComponent implements OnInit {
           },
           className: 'formly-select-wrapper-3232 col-md-6 col-12'
         },
-        {
-          key: 'image',
-          type: 'input',
-          props: {
-            label: 'Category Image',
-            placeholder: 'Enter image URL',
-            type: 'file',
-            accept: 'image/*',
-            change: (field, event) => this.onFileChange(field, event)
-          },
-          className: 'formly-image-wrapper-3232 col-md-6 col-12'
-        },
+        
         {
           key: 'status',
           type: 'select',
@@ -116,7 +105,19 @@ export class EditCategoryComponent implements OnInit {
             required: true // Ensure required is true
           },
           className: 'formly-select-wrapper-3232 col-md-6 col-12'
-        }
+        },
+        {
+          key: 'image',
+          type: 'input',
+          props: {
+            label: 'Category Image',
+            placeholder: 'Enter image URL',
+            type: 'file',
+            accept: 'image/*',
+            change: (field, event) => this.onFileChange(field, event)
+          },
+          className: 'formly-image-wrapper-3232 col-md-6 col-12'
+        },
       ]
     }
   ];
@@ -239,7 +240,7 @@ export class EditCategoryComponent implements OnInit {
       console.log(res);
       if (res) {
         // Store the uploaded image URL (use relative path, not full URL)
-        this.model.src_img = res.image_url;
+        this.model.src_img = res.full_url;
         this.utility.presentSuccessToast('Image uploaded successfully!');
       } else {
         this.fileError = 'Failed to upload image';

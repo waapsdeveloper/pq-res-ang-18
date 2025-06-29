@@ -178,8 +178,7 @@ export class ListCategoryComponent extends ListBlade {
       return;
     }
     try {
-      await this.crudService.deleteRow(index, this.utility);
-      this.utility.presentSuccessToast('Deleted Sucessfully!');
+      await this.crudService.deleteRow(index, this.utility);      
       console.log('Row deleted successfully');
     } catch (error) {
       console.error('Error deleting row:', error);
