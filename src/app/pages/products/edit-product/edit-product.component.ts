@@ -24,7 +24,7 @@ export class EditProductComponent implements OnInit, AfterViewInit {
   addAttributeInput = '';
 
   // File size limit - 1MB
-  readonly MAX_FILE_SIZE = 1 * 1024 * 1024; // 1MB in bytes
+  readonly MAX_FILE_SIZE = 3 * 1024 * 1024; // 1MB in bytes
 
   // File validation variables
   selectedFile: File | null = null;
@@ -171,7 +171,7 @@ export class EditProductComponent implements OnInit, AfterViewInit {
           type: 'input',
           props: {
             label: 'Discount',
-            required: true,
+            required: false,
             placeholder: 'Set a discount',
             type: 'number'
           },
@@ -366,7 +366,7 @@ export class EditProductComponent implements OnInit, AfterViewInit {
 
     if (input.files && input.files[0]) {
       const file = input.files[0];
-      
+
       // Check file size
       if (file.size > this.MAX_FILE_SIZE) {
         this.fileError = `File size must be less than ${this.MAX_FILE_SIZE / (1024 * 1024)}MB`;

@@ -31,36 +31,50 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     schedule: {
       monday_day: 'Monday',
       monday_start_time: '09:00',
+      monday_break_start: '11:00',
+      monday_break_end: '12:00',
       monday_end_time: '17:00',
       monday_status: 'active',
 
       tuesday_day: 'Tuesday',
       tuesday_start_time: '09:00',
+      tuesday_break_start: '11:00',
+      tuesday_break_end: '12:00',
       tuesday_end_time: '17:00',
       tuesday_status: 'active',
 
       wednesday_day: 'Wednesday',
       wednesday_start_time: '09:00',
+      wednesday_break_start: '11:00',
+      wednesday_break_end: '12:00',
       wednesday_end_time: '17:00',
       wednesday_status: 'active',
 
       thursday_day: 'Thursday',
       thursday_start_time: '09:00',
+      thursday_break_start: '11:00',
+      thursday_break_end: '12:00',
       thursday_end_time: '17:00',
       thursday_status: 'active',
 
       friday_day: 'Friday',
       friday_start_time: '10:00',
+      friday_break_start: '12:00',
+      friday_break_end: '13:00',
       friday_end_time: '20:00',
       friday_status: 'active',
 
       saturday_day: 'Saturday',
       saturday_start_time: '10:00',
+      saturday_break_start: '12:00',
+      saturday_break_end: '13:00',
       saturday_end_time: '18:00',
       saturday_status: 'inactive',
 
       sunday_day: 'Sunday',
       sunday_start_time: '10:00',
+      sunday_break_start: '12:00',
+      sunday_break_end: '13:00',
       sunday_end_time: '16:00',
       sunday_status: 'inactive'
     },
@@ -171,36 +185,50 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
       schedule: {
         monday_day: 'Monday',
         monday_start_time: d.schedule && d.schedule.length > 0 && d.schedule[0].start_time ? d.schedule[0].start_time : '09:00',
+        monday_break_start: d.schedule && d.schedule.length > 0 && d.schedule[0].break_start ? d.schedule[0].break_start : '11:00',
+        monday_break_end: d.schedule && d.schedule.length > 0 && d.schedule[0].break_end ? d.schedule[0].break_end : '12:00',
         monday_end_time: d.schedule && d.schedule.length > 0 && d.schedule[0].end_time ? d.schedule[0].end_time : '17:00',
         monday_status: d.schedule && d.schedule.length > 0 && d.schedule[0].status ? d.schedule[0].status.toLowerCase() : 'inactive',
 
         tuesday_day: 'Tuesday',
         tuesday_start_time: d.schedule && d.schedule.length > 1 && d.schedule[1].start_time ? d.schedule[1].start_time : '09:00',
+        tuesday_break_start: d.schedule && d.schedule.length > 1 && d.schedule[1].break_start ? d.schedule[1].break_start : '11:00',
+        tuesday_break_end: d.schedule && d.schedule.length > 1 && d.schedule[1].break_end ? d.schedule[1].break_end : '12:00',
         tuesday_end_time: d.schedule && d.schedule.length > 1 && d.schedule[1].end_time ? d.schedule[1].end_time : '17:00',
         tuesday_status: d.schedule && d.schedule.length > 1 && d.schedule[1].status ? d.schedule[1].status.toLowerCase() : 'inactive',
 
         wednesday_day: 'Wednesday',
         wednesday_start_time: d.schedule && d.schedule.length > 2 && d.schedule[2].start_time ? d.schedule[2].start_time : '09:00',
+        wednesday_break_start: d.schedule && d.schedule.length > 2 && d.schedule[2].break_start ? d.schedule[2].break_start : '11:00',
+        wednesday_break_end: d.schedule && d.schedule.length > 2 && d.schedule[2].break_end ? d.schedule[2].break_end : '12:00',
         wednesday_end_time: d.schedule && d.schedule.length > 2 && d.schedule[2].end_time ? d.schedule[2].end_time : '17:00',
         wednesday_status: d.schedule && d.schedule.length > 2 && d.schedule[2].status ? d.schedule[2].status.toLowerCase() : 'inactive',
 
         thursday_day: 'Thursday',
         thursday_start_time: d.schedule && d.schedule.length > 3 && d.schedule[3].start_time ? d.schedule[3].start_time : '09:00',
+        thursday_break_start: d.schedule && d.schedule.length > 3 && d.schedule[3].break_start ? d.schedule[3].break_start : '11:00',
+        thursday_break_end: d.schedule && d.schedule.length > 3 && d.schedule[3].break_end ? d.schedule[3].break_end : '12:00',
         thursday_end_time: d.schedule && d.schedule.length > 3 && d.schedule[3].end_time ? d.schedule[3].end_time : '17:00',
         thursday_status: d.schedule && d.schedule.length > 3 && d.schedule[3].status ? d.schedule[3].status.toLowerCase() : 'inactive',
 
         friday_day: 'Friday',
         friday_start_time: d.schedule && d.schedule.length > 4 && d.schedule[4].start_time ? d.schedule[4].start_time : '09:00',
+        friday_break_start: d.schedule && d.schedule.length > 4 && d.schedule[4].break_start ? d.schedule[4].break_start : '12:00',
+        friday_break_end: d.schedule && d.schedule.length > 4 && d.schedule[4].break_end ? d.schedule[4].break_end : '13:00',
         friday_end_time: d.schedule && d.schedule.length > 4 && d.schedule[4].end_time ? d.schedule[4].end_time : '20:00',
         friday_status: d.schedule && d.schedule.length > 4 && d.schedule[4].status ? d.schedule[4].status.toLowerCase() : 'inactive',
 
         saturday_day: 'Saturday',
         saturday_start_time: d.schedule && d.schedule.length > 5 && d.schedule[5].start_time ? d.schedule[5].start_time : '09:00',
+        saturday_break_start: d.schedule && d.schedule.length > 5 && d.schedule[5].break_start ? d.schedule[5].break_start : '12:00',
+        saturday_break_end: d.schedule && d.schedule.length > 5 && d.schedule[5].break_end ? d.schedule[5].break_end : '13:00',
         saturday_end_time: d.schedule && d.schedule.length > 5 && d.schedule[5].end_time ? d.schedule[5].end_time : '18:00',
         saturday_status: d.schedule && d.schedule.length > 5 && d.schedule[5].status ? d.schedule[5].status.toLowerCase() : 'inactive',
 
         sunday_day: 'Sunday',
         sunday_start_time: d.schedule && d.schedule.length > 6 && d.schedule[6].start_time ? d.schedule[6].start_time : '09:00',
+        sunday_break_start: d.schedule && d.schedule.length > 6 && d.schedule[6].break_start ? d.schedule[6].break_start : '12:00',
+        sunday_break_end: d.schedule && d.schedule.length > 6 && d.schedule[6].break_end ? d.schedule[6].break_end : '13:00',
         sunday_end_time: d.schedule && d.schedule.length > 6 && d.schedule[6].end_time ? d.schedule[6].end_time : '16:00',
         sunday_status: d.schedule && d.schedule.length > 6 && d.schedule[6].status ? d.schedule[6].status.toLowerCase() : 'inactive'
       },
@@ -357,7 +385,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
                 readonly: true,
                 required: true
               },
-              className: 'col-md-3 col-12'
+              className: 'col-md-2 col-12'
             },
             {
               key: `${day.toLowerCase()}_start_time`,
@@ -367,7 +395,27 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
                 type: 'time',
                 required: true
               },
-              className: 'col-md-3 col-12'
+              className: 'col-md-2 col-12'
+            },
+            {
+              key: `${day.toLowerCase()}_break_start`,
+              type: 'input',
+              props: {
+                label: 'Break Start Time',
+                type: 'time',
+                required: false
+              },
+              className: 'col-md-2 col-12'
+            },
+            {
+              key: `${day.toLowerCase()}_break_end`,
+              type: 'input',
+              props: {
+                label: 'Break End Time',
+                type: 'time',
+                required: false
+              },
+              className: 'col-md-2 col-12'
             },
             {
               key: `${day.toLowerCase()}_end_time`,
@@ -377,7 +425,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
                 type: 'time',
                 required: true
               },
-              className: 'col-md-3 col-12'
+              className: 'col-md-2 col-12'
             },
             {
               key: `${day.toLowerCase()}_status`,
@@ -390,7 +438,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
                 ],
                 required: true
               },
-              className: 'formly-select-wrapper-3232 col-md-3 col-12'
+              className: 'formly-select-wrapper-3232 col-md-2 col-12'
             }
           ]
         }))

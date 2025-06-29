@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild ,ViewEncapsulation} from '@angular/core';
+import { Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -12,7 +12,6 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
   templateUrl: './add-product.component.html',
   styleUrl: './add-product.component.scss',
   encapsulation: ViewEncapsulation.None
-
 })
 export class AddProductComponent {
   form = new FormGroup({});
@@ -22,7 +21,7 @@ export class AddProductComponent {
   addAttributeInput = '';
 
   // File size limit - 1MB
-  readonly MAX_FILE_SIZE = 1 * 1024 * 1024; // 1MB in bytes
+  readonly MAX_FILE_SIZE = 3 * 1024 * 1024; // 1MB in bytes
 
   // File validation variables
   selectedFile: File | null = null;
@@ -56,9 +55,9 @@ export class AddProductComponent {
             validation: {
               messages: {
                 required: 'Product name is required',
-                minlength: 'Product name must be at least 3 characters long',
-              },
-            },
+                minlength: 'Product name must be at least 3 characters long'
+              }
+            }
           },
           className: 'col-12 col-lg-6'
         },
@@ -70,7 +69,7 @@ export class AddProductComponent {
             required: true,
             multiple: false,
             placeholder: 'Select a category',
-            options: [],
+            options: []
           },
           className: 'formly-select-wrapper-3232 col-12 col-lg-6'
         },
@@ -95,7 +94,7 @@ export class AddProductComponent {
             options: [
               { value: 'active', label: 'Active' },
               { value: 'inactive', label: 'Inactive' }
-            ],
+            ]
           },
           className: 'formly-select-wrapper-3232 col-12 col-lg-6'
         },
@@ -106,7 +105,7 @@ export class AddProductComponent {
             label: 'Price',
             required: true,
             placeholder: 'Set a regular price',
-            type: 'number',
+            type: 'number'
           },
           className: 'col-12 col-lg-6'
         },
@@ -128,9 +127,9 @@ export class AddProductComponent {
           type: 'input',
           props: {
             label: 'Discount',
-            required: true,
+            required: false,
             placeholder: 'Set a discount',
-            type: 'number',
+            type: 'number'
           },
           className: 'col-12 col-lg-6'
         }
@@ -258,13 +257,13 @@ export class AddProductComponent {
 
       const res = await this.network.addProduct(d);
       console.log(res);
-      
+
       if (res && res.item) {
         // Product created successfully, now upload image if selected
         if (this.selectedFile) {
           await this.uploadImage(this.selectedFile, res.item.id);
         }
-        
+
         this.utility.presentSuccessToast('Product Created Successfully!');
         this.nav.pop();
       } else {
@@ -280,7 +279,7 @@ export class AddProductComponent {
 
     if (input.files && input.files[0]) {
       const file = input.files[0];
-      
+
       // Check file size
       if (file.size > this.MAX_FILE_SIZE) {
         this.fileError = `File size must be less than ${this.MAX_FILE_SIZE / (1024 * 1024)}MB`;
