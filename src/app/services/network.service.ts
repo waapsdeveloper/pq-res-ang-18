@@ -216,6 +216,16 @@ export class NetworkService {
     return this.httpPostResponse(url, formData, null, true, true, 'multipart/form-data');
   }
 
+  uploadProductImage(imageFile: File, productId?: string) {
+    const formData = new FormData();
+    formData.append('image', imageFile);
+    
+    // If productId is provided, use it in the URL, otherwise use a placeholder for new products
+    const url = productId ? `product/${productId}/upload-image` : 'product/0/upload-image';
+    
+    return this.httpPostResponse(url, formData, null, true, true, 'multipart/form-data');
+  }
+
   // Products
 
   getProducts(params) {

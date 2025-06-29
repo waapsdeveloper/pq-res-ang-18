@@ -4,6 +4,11 @@
       <div class="card-body">
         <form [formGroup]="form">
           <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
+          
+          <!-- File error display -->
+          <div *ngIf="fileError" class="alert alert-danger mt-2">
+            {{ fileError }}
+          </div>
         </form>
         <hr />
         <div class="row">
