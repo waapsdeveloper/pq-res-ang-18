@@ -32,7 +32,8 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () => import('./login/login.module').then((m) => m.LoginModule),
-    resolve: { permissions: permissionsResolver }
+    resolve: {  }
+    // permissions: permissionsResolver
   },
   {
     path: 'register',
