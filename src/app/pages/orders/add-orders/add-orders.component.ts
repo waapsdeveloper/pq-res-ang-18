@@ -34,6 +34,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   restaurant;
   currency = 'USD';
   currencySymbol = '$';
+
   showEdit = false;
   private searchSubject = new Subject<string>();
   private phoneSearchSubject = new Subject<string>();
@@ -58,6 +59,12 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     this.globalData.getCurrencySymbol().subscribe((symbol) => {
       this.currencySymbol = symbol;
       console.log('Currency Symbol updated:', this.currencySymbol);
+    });
+    this.globalData.getTips().subscribe((tips) => {
+      this.orderService.tips = tips;
+    });
+    this.globalData.getDeliveryCharges().subscribe((symbol) => {
+      this.orderService.deliveryCharges = symbol;
     });
     this.updateScreenSize(); // Initialize screen size on component load
   }
@@ -174,6 +181,10 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       this.tempCustomerName = dm['customer'];
       this.tempCustomerPhone = dm['customer_phone'];
       this.orderService.taxAmount = dm['tax_amount'];
+      this.orderService.tips = dm['tips'];
+      this.orderService.tipsAmount = dm['tips_amount'];
+      this.orderService.deliveryCharges = dm['delivery_charges'];
+
       // this.orderService.updateProductInSelectedProducts(this.orderService.selected_products);
 
       if (res) {
@@ -294,6 +305,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
 
   onTypeChange(event: any): void {
     console.log('Selected Type:', this.selectedType);
+    this.orderService.recalculateTotals();
     // Perform additional logic here (like sending it to the backend)
   }
 

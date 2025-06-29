@@ -20,6 +20,9 @@ export class AddOrderService {
   selectedCategory = null;
   selectedTableId = null;
   orderType = '';
+  deliveryCharges;
+  tips;
+  tipsAmount;
   customer_address: string = '';
   selected_products: any[] = [];
   paymentMethod: string = '';
@@ -280,7 +283,10 @@ export class AddOrderService {
       table_id: this.selectedTableId,
       total_price: this.totalCost,
       tax_percentage: this.taxPercent,
-      tax_amount: this.taxAmount
+      tax_amount: this.taxAmount,
+      tips: this.tips,
+      tips_amount: this.tipsAmount,
+      delivery_charges: this.deliveryCharges
     };
     let coupon = {
       code: this.couponCode
@@ -361,7 +367,10 @@ export class AddOrderService {
       table_id: this.selectedTableId,
       total_price: this.totalCost,
       tax_percentage: this.taxPercent,
-      tax_amount: this.taxAmount
+      tax_amount: this.taxAmount,
+      tips: this.tips,
+      tips_amount: this.tipsAmount,
+      delivery_charges: this.deliveryCharges
     };
     try {
       const res = await this.network.updateOrder(obj, orderId);
@@ -440,6 +449,22 @@ export class AddOrderService {
     const discount = this.discountAmount || 0;
     const discountedSubtotal = Math.max(this.subtotal - discount, 0);
     this.taxAmount = (discountedSubtotal * this.taxPercent) / 100;
-    this.final_total = discountedSubtotal + this.taxAmount;
+    let total = discountedSubtotal + this.taxAmount;
+
+    // Calculate tips as a percentage if orderType is dine-in
+    this.tipsAmount = 0;
+    if (this.orderType === 'dine-in' && this.tips) {
+      // Ensure tips is a number and treat as percentage
+      const tipsPercent = Number(this.tips) || 0;
+      this.tipsAmount = ((discountedSubtotal + this.taxAmount) * tipsPercent) / 100;
+      total += this.tipsAmount;
+    }
+
+    // Add delivery charges if orderType is delivery
+    if (this.orderType === 'delivery' && this.deliveryCharges) {
+      total += Number(this.deliveryCharges) || 0;
+    }
+
+    this.final_total = total;
   }
 }
