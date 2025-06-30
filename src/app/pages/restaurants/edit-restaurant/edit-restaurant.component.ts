@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NavService } from 'src/app/services/basic/nav.service';
@@ -30,53 +30,74 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     website: '',
     schedule: {
       monday_day: 'Monday',
+      monday_day_type: 'week_days',
       monday_start_time: '09:00',
-      monday_break_start: '11:00',
-      monday_break_end: '12:00',
       monday_end_time: '17:00',
       monday_status: 'active',
+      monday_24h: false,
+      monday_open: true,
+      monday_off_day: false,
+      monday_break_times: [],
 
       tuesday_day: 'Tuesday',
+      tuesday_day_type: 'week_days',
       tuesday_start_time: '09:00',
-      tuesday_break_start: '11:00',
-      tuesday_break_end: '12:00',
       tuesday_end_time: '17:00',
       tuesday_status: 'active',
+      tuesday_24h: false,
+      tuesday_open: true,
+      tuesday_off_day: false,
+      tuesday_break_times: [],
 
       wednesday_day: 'Wednesday',
+      wednesday_day_type: 'week_days',
       wednesday_start_time: '09:00',
-      wednesday_break_start: '11:00',
-      wednesday_break_end: '12:00',
       wednesday_end_time: '17:00',
       wednesday_status: 'active',
+      wednesday_24h: false,
+      wednesday_open: true,
+      wednesday_off_day: false,
+      wednesday_break_times: [],
 
       thursday_day: 'Thursday',
+      thursday_day_type: 'week_days',
       thursday_start_time: '09:00',
-      thursday_break_start: '11:00',
-      thursday_break_end: '12:00',
       thursday_end_time: '17:00',
       thursday_status: 'active',
+      thursday_24h: false,
+      thursday_open: true,
+      thursday_off_day: false,
+      thursday_break_times: [],
 
       friday_day: 'Friday',
+      friday_day_type: 'week_days',
       friday_start_time: '10:00',
-      friday_break_start: '12:00',
-      friday_break_end: '13:00',
       friday_end_time: '20:00',
       friday_status: 'active',
+      friday_24h: false,
+      friday_open: true,
+      friday_off_day: false,
+      friday_break_times: [],
 
       saturday_day: 'Saturday',
+      saturday_day_type: 'Weekends',
       saturday_start_time: '10:00',
-      saturday_break_start: '12:00',
-      saturday_break_end: '13:00',
       saturday_end_time: '18:00',
       saturday_status: 'inactive',
+      saturday_24h: false,
+      saturday_open: false,
+      saturday_off_day: true,
+      saturday_break_times: [],
 
       sunday_day: 'Sunday',
+      sunday_day_type: 'Weekends',
       sunday_start_time: '10:00',
-      sunday_break_start: '12:00',
-      sunday_break_end: '13:00',
       sunday_end_time: '16:00',
-      sunday_status: 'inactive'
+      sunday_status: 'inactive',
+      sunday_24h: false,
+      sunday_open: false,
+      sunday_off_day: true,
+      sunday_break_times: []
     },
     description: '',
     rating: Math.floor(Math.random() * 6),
@@ -92,12 +113,35 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     home_page_title: ''
   };
 
+  // Store timings as JSON array for easy manipulation
+  timingsJson: Array<{
+    day: string;
+    day_type: string;
+    start_time: string;
+    end_time: string;
+    status: string;
+    is_24h: boolean;
+    is_open: boolean;
+    is_off_day: boolean;
+    break_times: Array<{ start: string; end: string }>;
+  }> = [];
+
   // Branch config properties for orders tab
   allCurrencies: any;
   data: any;
 
   // Sidebar navigation
   activeSection: 'general' | 'timing' | 'order' = 'general';
+
+  // Global timing controls
+  globalStartTime: string = '09:00';
+  globalEndTime: string = '17:00';
+  globalDayType: string = 'week_days';
+  globalBreakStart: string = '12:00';
+  globalBreakEnd: string = '13:00';
+  globalBreakTimes: Array<{ start: string; end: string }> = [];
+  global24h: boolean = false;
+  globalOffDay: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -112,11 +156,18 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     // Access the parameter
     this.id = this.route.snapshot.paramMap.get('id');
     console.log('ID from URL:', this.id);
+    
+    // Initialize form with all required controls
+    this.initializeForm();
+    
     this.initialize();
 
     // Initialize branch config functionality for orders tab
     await this.setCurrenciesInForm();
     await this.loadBranchConfig();
+
+    // Populate timing fields from JSON data
+    this.populateTimingFieldsFromJson();
 
     // Handle currency change for dial code
     this.form.valueChanges.subscribe((value: any) => {
@@ -129,35 +180,76 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
           }
         }
       }
+      
+      // Sync schedule changes to timingsJson
+      if (value && value['schedule']) {
+        this.syncScheduleToTimingsJson();
+      }
     });
   }
 
+  // Initialize form with all required controls
+  initializeForm() {
+    const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+    
+    // Create the form with all controls (flat structure)
+    const formControls = {
+      name: new FormControl(this.model.name || ''),
+      address: new FormControl(this.model.address || ''),
+      phone: new FormControl(this.model.phone || ''),
+      email: new FormControl(this.model.email || ''),
+      website: new FormControl(this.model.website || ''),
+      copyright_text: new FormControl(this.model.copyright_text || ''),
+      logo: new FormControl(this.model.logo || ''),
+      home_page_title: new FormControl(this.model.home_page_title || ''),
+      description: new FormControl(this.model.description || ''),
+      status: new FormControl(this.model.status || 'active'),
+      currency: new FormControl(this.model.currency || ''),
+      dial_code: new FormControl(this.model.dial_code || ''),
+      tax: new FormControl(this.model.tax || ''),
+      tips: new FormControl(this.model.tips || ''),
+      delivery_charges: new FormControl(this.model.delivery_charges || '')
+    };
+    
+    // Add schedule controls directly to the form (not nested)
+    days.forEach(day => {
+      formControls[`${day}_day`] = new FormControl(this.model.schedule[`${day}_day`] || day.charAt(0).toUpperCase() + day.slice(1));
+      formControls[`${day}_start_time`] = new FormControl(this.model.schedule[`${day}_start_time`] || '09:00');
+      formControls[`${day}_end_time`] = new FormControl(this.model.schedule[`${day}_end_time`] || '17:00');
+      formControls[`${day}_status`] = new FormControl(this.model.schedule[`${day}_status`] || 'active');
+    });
+    
+    this.form = new FormGroup(formControls);
+  }
+
   async initialize() {
-    // this.model.copyright_text = d.copyright_text || '';
-    // this.model.image = d.image || '';
-    // this.model.favicon = d.favicon || '';
-    // this.model.logo = d.logo || '';
-    // this.model.address = d.address || '';
-    // this.model.phone = d.phone || '';
-    // this.model.email = d.email || '';
-    // this.model.website = d.website || '';
-    // this.model.description = d.description || '';
-    // this.model.rating = d.rating !== undefined ? d.rating : Math.floor(Math.random() * 6);
-    // this.model.status = d.status || 'active';
-    // // Map default timings if provided
-    // if (d.timings && Array.isArray(d.timings) && d.timings.length > 0) {
-    //   d.timings.forEach((timing) => {
-    //     const day = timing.day.toLowerCase();
-    //     this.model.schedule[`${day}_day`] = timing.day || '';
-    //     this.model.schedule[`${day}_start_time`] = timing.start_time || '09:00';
-    //     this.model.schedule[`${day}_end_time`] = timing.end_time || '17:00';
-    //     this.model.schedule[`${day}_status`] = timing.status || 'inactive';
-    //   });
-    // }
-    // .get('restaurant/'+this.id).subscribe((response: any) => {
-    //   console.log('Response:', response);
-    //   this.model = response.data;
-    // });
+    // Load restaurant data from API
+    try {
+      const response = await this.network.getRestaurantById(this.id);
+      if (response && response.data) {
+        const restaurantData = response.data;
+
+        // Update model with API data
+        this.model.name = restaurantData.name || '';
+        this.model.address = restaurantData.address || '';
+        this.model.phone = restaurantData.phone || '';
+        this.model.email = restaurantData.email || '';
+        this.model.website = restaurantData.website || '';
+        this.model.description = restaurantData.description || '';
+        this.model.status = restaurantData.status || 'active';
+        this.model.src_img = restaurantData.image || '';
+        this.model.logo = restaurantData.logo || '';
+        this.model.copyright_text = restaurantData.copyright_text || '';
+        this.model.home_page_title = restaurantData.home_page_title || '';
+
+        // Load schedule data if available
+        if (restaurantData.schedule && Array.isArray(restaurantData.schedule)) {
+          this.updateScheduleFromApi(restaurantData.schedule);
+        }
+      }
+    } catch (error) {
+      console.error('Error loading restaurant data:', error);
+    }
   }
 
   async ngAfterViewInit() {
@@ -184,53 +276,74 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
 
       schedule: {
         monday_day: 'Monday',
+        monday_day_type: 'week_days',
         monday_start_time: d.schedule && d.schedule.length > 0 && d.schedule[0].start_time ? d.schedule[0].start_time : '09:00',
-        monday_break_start: d.schedule && d.schedule.length > 0 && d.schedule[0].break_start ? d.schedule[0].break_start : '11:00',
-        monday_break_end: d.schedule && d.schedule.length > 0 && d.schedule[0].break_end ? d.schedule[0].break_end : '12:00',
         monday_end_time: d.schedule && d.schedule.length > 0 && d.schedule[0].end_time ? d.schedule[0].end_time : '17:00',
         monday_status: d.schedule && d.schedule.length > 0 && d.schedule[0].status ? d.schedule[0].status.toLowerCase() : 'inactive',
+        monday_24h: false,
+        monday_open: true,
+        monday_off_day: false,
+        monday_break_times: [],
 
         tuesday_day: 'Tuesday',
+        tuesday_day_type: 'week_days',
         tuesday_start_time: d.schedule && d.schedule.length > 1 && d.schedule[1].start_time ? d.schedule[1].start_time : '09:00',
-        tuesday_break_start: d.schedule && d.schedule.length > 1 && d.schedule[1].break_start ? d.schedule[1].break_start : '11:00',
-        tuesday_break_end: d.schedule && d.schedule.length > 1 && d.schedule[1].break_end ? d.schedule[1].break_end : '12:00',
         tuesday_end_time: d.schedule && d.schedule.length > 1 && d.schedule[1].end_time ? d.schedule[1].end_time : '17:00',
         tuesday_status: d.schedule && d.schedule.length > 1 && d.schedule[1].status ? d.schedule[1].status.toLowerCase() : 'inactive',
+        tuesday_24h: false,
+        tuesday_open: true,
+        tuesday_off_day: false,
+        tuesday_break_times: [],
 
         wednesday_day: 'Wednesday',
+        wednesday_day_type: 'week_days',
         wednesday_start_time: d.schedule && d.schedule.length > 2 && d.schedule[2].start_time ? d.schedule[2].start_time : '09:00',
-        wednesday_break_start: d.schedule && d.schedule.length > 2 && d.schedule[2].break_start ? d.schedule[2].break_start : '11:00',
-        wednesday_break_end: d.schedule && d.schedule.length > 2 && d.schedule[2].break_end ? d.schedule[2].break_end : '12:00',
         wednesday_end_time: d.schedule && d.schedule.length > 2 && d.schedule[2].end_time ? d.schedule[2].end_time : '17:00',
         wednesday_status: d.schedule && d.schedule.length > 2 && d.schedule[2].status ? d.schedule[2].status.toLowerCase() : 'inactive',
+        wednesday_24h: false,
+        wednesday_open: true,
+        wednesday_off_day: false,
+        wednesday_break_times: [],
 
         thursday_day: 'Thursday',
+        thursday_day_type: 'week_days',
         thursday_start_time: d.schedule && d.schedule.length > 3 && d.schedule[3].start_time ? d.schedule[3].start_time : '09:00',
-        thursday_break_start: d.schedule && d.schedule.length > 3 && d.schedule[3].break_start ? d.schedule[3].break_start : '11:00',
-        thursday_break_end: d.schedule && d.schedule.length > 3 && d.schedule[3].break_end ? d.schedule[3].break_end : '12:00',
         thursday_end_time: d.schedule && d.schedule.length > 3 && d.schedule[3].end_time ? d.schedule[3].end_time : '17:00',
         thursday_status: d.schedule && d.schedule.length > 3 && d.schedule[3].status ? d.schedule[3].status.toLowerCase() : 'inactive',
+        thursday_24h: false,
+        thursday_open: true,
+        thursday_off_day: false,
+        thursday_break_times: [],
 
         friday_day: 'Friday',
+        friday_day_type: 'week_days',
         friday_start_time: d.schedule && d.schedule.length > 4 && d.schedule[4].start_time ? d.schedule[4].start_time : '09:00',
-        friday_break_start: d.schedule && d.schedule.length > 4 && d.schedule[4].break_start ? d.schedule[4].break_start : '12:00',
-        friday_break_end: d.schedule && d.schedule.length > 4 && d.schedule[4].break_end ? d.schedule[4].break_end : '13:00',
         friday_end_time: d.schedule && d.schedule.length > 4 && d.schedule[4].end_time ? d.schedule[4].end_time : '20:00',
         friday_status: d.schedule && d.schedule.length > 4 && d.schedule[4].status ? d.schedule[4].status.toLowerCase() : 'inactive',
+        friday_24h: false,
+        friday_open: true,
+        friday_off_day: false,
+        friday_break_times: [],
 
         saturday_day: 'Saturday',
+        saturday_day_type: 'weekend',
         saturday_start_time: d.schedule && d.schedule.length > 5 && d.schedule[5].start_time ? d.schedule[5].start_time : '09:00',
-        saturday_break_start: d.schedule && d.schedule.length > 5 && d.schedule[5].break_start ? d.schedule[5].break_start : '12:00',
-        saturday_break_end: d.schedule && d.schedule.length > 5 && d.schedule[5].break_end ? d.schedule[5].break_end : '13:00',
         saturday_end_time: d.schedule && d.schedule.length > 5 && d.schedule[5].end_time ? d.schedule[5].end_time : '18:00',
         saturday_status: d.schedule && d.schedule.length > 5 && d.schedule[5].status ? d.schedule[5].status.toLowerCase() : 'inactive',
+        saturday_24h: false,
+        saturday_open: false,
+        saturday_off_day: true,
+        saturday_break_times: [],
 
         sunday_day: 'Sunday',
+        sunday_day_type: 'weekend',
         sunday_start_time: d.schedule && d.schedule.length > 6 && d.schedule[6].start_time ? d.schedule[6].start_time : '09:00',
-        sunday_break_start: d.schedule && d.schedule.length > 6 && d.schedule[6].break_start ? d.schedule[6].break_start : '12:00',
-        sunday_break_end: d.schedule && d.schedule.length > 6 && d.schedule[6].break_end ? d.schedule[6].break_end : '13:00',
         sunday_end_time: d.schedule && d.schedule.length > 6 && d.schedule[6].end_time ? d.schedule[6].end_time : '16:00',
-        sunday_status: d.schedule && d.schedule.length > 6 && d.schedule[6].status ? d.schedule[6].status.toLowerCase() : 'inactive'
+        sunday_status: d.schedule && d.schedule.length > 6 && d.schedule[6].status ? d.schedule[6].status.toLowerCase() : 'inactive',
+        sunday_24h: false,
+        sunday_open: false,
+        sunday_off_day: true,
+        sunday_break_times: []
       },
 
       // Now, posting this `schedule` to your model.
@@ -257,6 +370,54 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     } else {
       this.model.home_page_title = '';
     }
+
+    // Initialize timingsJson array from schedule
+    this.syncScheduleToTimingsJson();
+  }
+
+  // Sync schedule object to timingsJson array
+  syncScheduleToTimingsJson() {
+    const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+    this.timingsJson = days.map((day) => ({
+      day: this.model.schedule[`${day}_day`],
+      day_type: this.model.schedule[`${day}_day_type`],
+      start_time: this.model.schedule[`${day}_start_time`],
+      end_time: this.model.schedule[`${day}_end_time`],
+      status: this.model.schedule[`${day}_status`],
+      is_24h: this.model.schedule[`${day}_24h`],
+      is_open: this.model.schedule[`${day}_open`],
+      is_off_day: this.model.schedule[`${day}_off_day`],
+      break_times: this.model.schedule[`${day}_break_times`] || []
+    }));
+  }
+
+  // Sync timingsJson array back to schedule object
+  syncTimingsJsonToSchedule() {
+    this.timingsJson.forEach((timing) => {
+      const day = timing.day.toLowerCase();
+      this.model.schedule[`${day}_day`] = timing.day;
+      this.model.schedule[`${day}_day_type`] = timing.day_type;
+      this.model.schedule[`${day}_start_time`] = timing.start_time;
+      this.model.schedule[`${day}_end_time`] = timing.end_time;
+      this.model.schedule[`${day}_status`] = timing.status;
+      this.model.schedule[`${day}_24h`] = timing.is_24h;
+      this.model.schedule[`${day}_open`] = timing.is_open;
+      this.model.schedule[`${day}_off_day`] = timing.is_off_day;
+      this.model.schedule[`${day}_break_times`] = timing.break_times;
+    });
+  }
+
+  // Get timings as JSON string
+  getTimingsAsJson(): string {
+    return JSON.stringify(this.timingsJson, null, 2);
+  }
+
+  // View JSON data for debugging
+  viewJsonData() {
+    const jsonData = this.getTimingsAsJson();
+    console.log('Timings JSON Data:', jsonData);
+    console.log('Timings Array:', this.timingsJson);
+    this.utility.presentSuccessToast('JSON data logged to console. Check browser console for details.');
   }
 
   // Split Formly fields for each section
@@ -398,26 +559,6 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
               className: 'col-md-2 col-12'
             },
             {
-              key: `${day.toLowerCase()}_break_start`,
-              type: 'input',
-              props: {
-                label: 'Break Start Time',
-                type: 'time',
-                required: false
-              },
-              className: 'col-md-2 col-12'
-            },
-            {
-              key: `${day.toLowerCase()}_break_end`,
-              type: 'input',
-              props: {
-                label: 'Break End Time',
-                type: 'time',
-                required: false
-              },
-              className: 'col-md-2 col-12'
-            },
-            {
               key: `${day.toLowerCase()}_end_time`,
               type: 'input',
               props: {
@@ -535,13 +676,52 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     }
   }
   updateScheduleFromApi(apiData) {
-    // Update the schedule field directly in the model
-    apiData.timings.forEach((timing) => {
-      const dayKey = timing.day.toLowerCase(); // "monday", "tuesday", etc.
-      this.model.schedule[`${dayKey}_start_time`] = timing.start_time;
-      this.model.schedule[`${dayKey}_end_time`] = timing.end_time;
-      this.model.schedule[`${dayKey}_status`] = timing.status;
-    });
+    // Handle both old format (timings array) and new format (schedule array)
+    if (Array.isArray(apiData)) {
+      // New format: direct array of schedule objects
+      apiData.forEach((timing) => {
+        const dayKey = timing.day.toLowerCase();
+
+        // Update model schedule
+        this.model.schedule[`${dayKey}_day`] = timing.day;
+        this.model.schedule[`${dayKey}_start_time`] = timing.start_time || '09:00';
+        this.model.schedule[`${dayKey}_end_time`] = timing.end_time || '17:00';
+        this.model.schedule[`${dayKey}_day_type`] = timing.day_type || 'week_days';
+        this.model.schedule[`${dayKey}_status`] = timing.status || 'active';
+        this.model.schedule[`${dayKey}_24h`] = timing.is_24h || false;
+        this.model.schedule[`${dayKey}_open`] = timing.is_open !== undefined ? timing.is_open : true;
+        this.model.schedule[`${dayKey}_break_times`] = timing.break_times || [];
+
+        // Update form controls
+        const startControl = this.form.get(`${dayKey}_start_time`);
+        const endControl = this.form.get(`${dayKey}_end_time`);
+        const statusControl = this.form.get(`${dayKey}_status`);
+        
+        if (startControl) startControl.setValue(timing.start_time || '09:00');
+        if (endControl) endControl.setValue(timing.end_time || '17:00');
+        if (statusControl) statusControl.setValue(timing.status || 'active');
+      });
+
+      // Update global controls based on first day
+      if (apiData.length > 0) {
+        const firstDay = apiData[0];
+        this.globalStartTime = firstDay.start_time || '09:00';
+        this.globalEndTime = firstDay.end_time || '17:00';
+        this.globalDayType = firstDay.day_type || 'week_days';
+        this.globalBreakTimes = [...(firstDay.break_times || [])];
+      }
+    } else if (apiData.timings && Array.isArray(apiData.timings)) {
+      // Old format: timings array inside object
+      apiData.timings.forEach((timing) => {
+        const dayKey = timing.day.toLowerCase();
+        this.model.schedule[`${dayKey}_start_time`] = timing.start_time;
+        this.model.schedule[`${dayKey}_end_time`] = timing.end_time;
+        this.model.schedule[`${dayKey}_status`] = timing.status;
+      });
+    }
+
+    // Sync to timingsJson
+    this.syncScheduleToTimingsJson();
   }
 
   async submitGeneral() {
@@ -580,6 +760,9 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
   }
 
   async submitTiming() {
+    // Sync form values to model before validation
+    this.syncScheduleToTimingsJson();
+
     // Validate timing fields
     const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
     const missingFields = [];
@@ -609,6 +792,9 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
         return;
       }
     }
+
+    // Log the timings JSON for debugging
+    console.log('Timings JSON:', this.timingsJson);
 
     // Submit timing data
     await this.submitRestaurantData();
@@ -670,6 +856,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
 
   async submitRestaurantData() {
     console.log('Submitting restaurant data:', this.model);
+    console.log('Timings JSON:', this.timingsJson);
 
     let d: any = {};
 
@@ -683,50 +870,9 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     d['image'] = this.model.imageBase64;
     d['favicon'] = this.model.faviconBase64;
     d['logo'] = this.model.logoBase64;
-    d['schedule'] = [
-      {
-        day: 'Monday',
-        start_time: this.model.schedule.monday_start_time || '0:00',
-        end_time: this.model.schedule.monday_end_time || '10:00',
-        status: this.model.schedule.monday_status || 'inactive'
-      },
-      {
-        day: 'Tuesday',
-        start_time: this.model.schedule.tuesday_start_time || '0:00',
-        end_time: this.model.schedule.tuesday_end_time || '10:00',
-        status: this.model.schedule.tuesday_status || 'inactive'
-      },
-      {
-        day: 'Wednesday',
-        start_time: this.model.schedule.wednesday_start_time || '0:00',
-        end_time: this.model.schedule.wednesday_end_time || '10:00',
-        status: this.model.schedule.wednesday_status || 'inactive'
-      },
-      {
-        day: 'Thursday',
-        start_time: this.model.schedule.thursday_start_time || '0:00',
-        end_time: this.model.schedule.thursday_end_time || '10:00',
-        status: this.model.schedule.thursday_status || 'inactive'
-      },
-      {
-        day: 'Friday',
-        start_time: this.model.schedule.friday_start_time || '10:00',
-        end_time: this.model.schedule.friday_end_time || '10:00',
-        status: this.model.schedule.friday_status || 'inactive'
-      },
-      {
-        day: 'Saturday',
-        start_time: this.model.schedule.saturday_start_time || '0:00',
-        end_time: this.model.schedule.saturday_end_time || '10:00',
-        status: this.model.schedule.saturday_status || 'inactive'
-      },
-      {
-        day: 'Sunday',
-        start_time: this.model.schedule.sunday_start_time || '0:00',
-        end_time: this.model.schedule.sunday_end_time || '10:00',
-        status: this.model.schedule.sunday_status || 'inactive'
-      }
-    ];
+
+    // Use timingsJson array instead of schedule object
+    d['schedule'] = this.timingsJson;
 
     // Add meta data to the request
     if (this.model.home_page_title) {
@@ -738,7 +884,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
       ];
     }
 
-    console.log(d);
+    console.log('Final data to submit:', d);
 
     const res = await this.network.updateRestaurant(d, this.id);
     console.log(res);
@@ -786,38 +932,273 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
   async loadBranchConfig() {
     try {
       const res = await this.network.getBranchConfig(this.id);
-      this.data = JSON.parse(localStorage.getItem('restaurant'));
+      console.log('Branch config response:', res);
 
-      if (res && res.data && res.data.branch_config) {
-        // Patch only the editable fields from branch_config
-        const branchConfigModel = {
-          tax: res.data.branch_config.tax,
-          tips: res.data.branch_config.tips,
-          delivery_charges: res.data.branch_config.delivery_charges,
-          currency: res.data.branch_config.currency,
-          dial_code: res?.data.restaurant.dial_code // Set this if you have it in the response, otherwise leave blank or fetch by currency
-        };
-
-        // Update the model with branch config data
-        this.model['tax'] = branchConfigModel.tax;
-        this.model['currency'] = branchConfigModel.currency;
-        this.model['dial_code'] = branchConfigModel.dial_code;
-        this.model['tips'] = branchConfigModel.tips;
-        this.model['delivery_charges'] = branchConfigModel.delivery_charges;
-        this.form.patchValue(branchConfigModel);
-      } else {
-        // Fallback in case of a failed response
-        if (this.data && this.data.name) {
-          this.model['branch_id'] = this.data.name;
-        }
+      if (res && res.data) {
+        this.data = res.data;
+        this.model.currency = res.data.currency || '';
+        this.model.dial_code = res.data.dial_code || '';
+        this.model.tax = res.data.tax || '';
+        this.model.tips = res.data.tips || '';
+        this.model.delivery_charges = res.data.delivery_charges || '';
       }
     } catch (error) {
       console.error('Error loading branch config:', error);
-      // Fallback in case of an error
-      const data = JSON.parse(localStorage.getItem('restaurant'));
-      if (data && data.name) {
-        this.model['branch_id'] = data.name;
-      }
     }
+  }
+
+  // Global timing control methods
+  set24Hours() {
+    this.globalStartTime = '00:00';
+    this.globalEndTime = '23:59';
+
+    // Automatically apply 24h settings to all days
+    const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+
+    days.forEach((day) => {
+      this.model.schedule[`${day}_start_time`] = '00:00';
+      this.model.schedule[`${day}_end_time`] = '23:59';
+      this.model.schedule[`${day}_24h`] = true;
+      this.model.schedule[`${day}_open`] = true;
+    });
+
+    // Update form controls
+    days.forEach((day) => {
+      const startControl = this.form.get(`${day}_start_time`);
+      const endControl = this.form.get(`${day}_end_time`);
+      
+      if (startControl) startControl.setValue('00:00');
+      if (endControl) endControl.setValue('23:59');
+    });
+
+    // Sync to timingsJson
+    this.syncScheduleToTimingsJson();
+
+    this.utility.presentSuccessToast('24h settings applied to all days!');
+  }
+
+  // Force refresh break times display
+  refreshBreakTimesDisplay() {
+    // Force change detection by creating new array references
+    const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+    days.forEach(day => {
+      if (this.model.schedule[`${day}_break_times`]) {
+        this.model.schedule[`${day}_break_times`] = [...this.model.schedule[`${day}_break_times`]];
+      }
+    });
+  }
+
+  applyToAllDays() {
+    // Determine which days to apply settings to based on global day type
+    let targetDays: string[] = [];
+    
+    if (this.globalDayType === 'week_days') {
+      targetDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
+    } else if (this.globalDayType === 'weekends') {
+      targetDays = ['saturday', 'sunday'];
+    }
+    
+    console.log('Applying to days:', targetDays);
+    console.log('Global break times:', this.globalBreakTimes);
+    
+    targetDays.forEach((day) => {
+      // Apply basic timing settings
+      this.model.schedule[`${day}_start_time`] = this.globalStartTime;
+      this.model.schedule[`${day}_end_time`] = this.globalEndTime;
+      this.model.schedule[`${day}_day_type`] = this.globalDayType;
+      
+      // Apply break times from global settings - create a deep copy to avoid reference issues
+      this.model.schedule[`${day}_break_times`] = this.globalBreakTimes.map(breakTime => ({
+        start: breakTime.start,
+        end: breakTime.end
+      }));
+      
+      console.log(`Applied break times to ${day}:`, this.model.schedule[`${day}_break_times`]);
+      
+      // Apply 24h and open settings based on global controls
+      // If global time is 24h, set 24h to true for all days
+      if (this.global24h) {
+        this.model.schedule[`${day}_24h`] = true;
+        this.model.schedule[`${day}_open`] = true;
+        this.model.schedule[`${day}_off_day`] = false;
+      } else if (this.globalOffDay) {
+        this.model.schedule[`${day}_24h`] = false;
+        this.model.schedule[`${day}_open`] = false;
+        this.model.schedule[`${day}_off_day`] = true;
+      } else {
+        this.model.schedule[`${day}_24h`] = false;
+        this.model.schedule[`${day}_open`] = true;
+        this.model.schedule[`${day}_off_day`] = false;
+      }
+    });
+
+    // Update form controls with actual values
+    targetDays.forEach((day) => {
+      const startControl = this.form.get(`${day}_start_time`);
+      const endControl = this.form.get(`${day}_end_time`);
+      const dayTypeControl = this.form.get(`${day}_day_type`);
+      const statusControl = this.form.get(`${day}_status`);
+      
+      if (startControl) startControl.setValue(this.globalStartTime);
+      if (endControl) endControl.setValue(this.globalEndTime);
+      if (dayTypeControl) dayTypeControl.setValue(this.globalDayType);
+      if (statusControl) statusControl.setValue('active'); // Set all to active by default
+    });
+    console.log('Global settings applied to:', this.model.schedule);
+
+    // Sync to timingsJson
+    this.syncScheduleToTimingsJson();
+
+    // Force refresh break times display
+    this.refreshBreakTimesDisplay();
+
+    const dayTypeText = this.globalDayType === 'week_days' ? 'Week Days (Monday-Friday)' : 'Weekends (Saturday-Sunday)';
+    this.utility.presentSuccessToast(`Settings applied to ${dayTypeText} successfully!`);
+  }
+
+  // Break time management methods
+  addGlobalBreak() {
+    if (this.globalBreakStart && this.globalBreakEnd) {
+      this.globalBreakTimes.push({
+        start: this.globalBreakStart,
+        end: this.globalBreakEnd
+      });
+      
+      // Reset the input fields
+      this.globalBreakStart = '12:00';
+      this.globalBreakEnd = '13:00';
+      
+      // Force change detection to update the UI
+      this.syncScheduleToTimingsJson();
+    }
+  }
+
+  removeGlobalBreak(index: number) {
+    this.globalBreakTimes.splice(index, 1);
+    // Force change detection to update the UI
+    this.syncScheduleToTimingsJson();
+  }
+
+  toggle24h(day: string) {
+    this.model.schedule[`${day}_24h`] = !this.model.schedule[`${day}_24h`];
+    if (this.model.schedule[`${day}_24h`]) {
+      this.model.schedule[`${day}_start_time`] = '00:00';
+      this.model.schedule[`${day}_end_time`] = '23:59';
+    }
+
+    // Sync to timingsJson
+    this.syncScheduleToTimingsJson();
+  }
+
+  toggleOpen(day: string) {
+    this.model.schedule[`${day}_open`] = !this.model.schedule[`${day}_open`];
+
+    // Sync to timingsJson
+    this.syncScheduleToTimingsJson();
+  }
+
+  toggleOffDay(day: string) {
+    this.model.schedule[`${day}_off_day`] = !this.model.schedule[`${day}_off_day`];
+    
+    // If off day is enabled, disable open and 24h
+    if (this.model.schedule[`${day}_off_day`]) {
+      this.model.schedule[`${day}_open`] = false;
+      this.model.schedule[`${day}_24h`] = false;
+    }
+
+    // Sync to timingsJson
+    this.syncScheduleToTimingsJson();
+  }
+
+  toggleGlobal24h() {
+    this.global24h = !this.global24h;
+    
+    if (this.global24h) {
+      this.globalStartTime = '00:00';
+      this.globalEndTime = '23:59';
+    }
+  }
+
+  toggleGlobalOffDay() {
+    this.globalOffDay = !this.globalOffDay;
+  }
+
+  getBreakTimes(day: string): Array<{ start: string; end: string }> {
+    return this.model.schedule[`${day}_break_times`] || [];
+  }
+
+  addBreakTime(day: string) {
+    if (!this.model.schedule[`${day}_break_times`]) {
+      this.model.schedule[`${day}_break_times`] = [];
+    }
+    this.model.schedule[`${day}_break_times`].push({
+      start: '12:00',
+      end: '13:00'
+    });
+
+    // Sync to timingsJson
+    this.syncScheduleToTimingsJson();
+  }
+
+  removeBreakTime(day: string, index: number) {
+    this.model.schedule[`${day}_break_times`].splice(index, 1);
+
+    // Sync to timingsJson
+    this.syncScheduleToTimingsJson();
+  }
+
+  updateBreakTime(day: string, index: number, breakTime: { start: string; end: string }) {
+    this.model.schedule[`${day}_break_times`][index] = breakTime;
+
+    // Sync to timingsJson
+    this.syncScheduleToTimingsJson();
+  }
+
+  // New method to populate timing fields from JSON data
+  populateTimingFieldsFromJson() {
+    const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+    
+    days.forEach((day) => {
+      // Set start time
+      const startTime = this.model.schedule[`${day}_start_time`] || '09:00';
+      const startControl = this.form.get(`${day}_start_time`);
+      if (startControl) {
+        startControl.setValue(startTime);
+      }
+      
+      // Set end time
+      const endTime = this.model.schedule[`${day}_end_time`] || '17:00';
+      const endControl = this.form.get(`${day}_end_time`);
+      if (endControl) {
+        endControl.setValue(endTime);
+      }
+      
+      // Set 24h toggle
+      const is24h = this.model.schedule[`${day}_24h`] || false;
+      this.model.schedule[`${day}_24h`] = is24h;
+      
+      // Set open toggle
+      const isOpen = this.model.schedule[`${day}_open`] || true;
+      this.model.schedule[`${day}_open`] = isOpen;
+      
+      // Set off day toggle
+      const isOffDay = this.model.schedule[`${day}_off_day`] || false;
+      this.model.schedule[`${day}_off_day`] = isOffDay;
+      
+      // Set break times
+      const breakTimes = this.model.schedule[`${day}_break_times`] || [];
+      this.model.schedule[`${day}_break_times`] = [...breakTimes];
+    });
+    
+    // Set global controls based on first day (monday) or default values
+    this.globalStartTime = this.model.schedule.monday_start_time || '09:00';
+    this.globalEndTime = this.model.schedule.monday_end_time || '17:00';
+    this.globalDayType = this.model.schedule.monday_day_type || 'week_days';
+    this.globalBreakTimes = [...(this.model.schedule.monday_break_times || [])];
+    this.global24h = this.model.schedule.monday_24h || false;
+    this.globalOffDay = this.model.schedule.monday_off_day || false;
+    
+    // Sync to timingsJson
+    this.syncScheduleToTimingsJson();
   }
 }
