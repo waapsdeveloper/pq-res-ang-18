@@ -133,6 +133,27 @@ export class TimingSettingsComponent {
         return;
       }
     }
+    // Build payload for backend
+    const payload = {
+      global: {
+        start_time: this.globalStartTime,
+        end_time: this.globalEndTime,
+        day_type: this.globalDayType,
+        is_24h: this.global24h,
+        break_times: this.globalBreakTimes
+      },
+      days: days.map(day => ({
+        day: this.schedule[`${day}_day`],
+        start_time: this.schedule[`${day}_start_time`],
+        end_time: this.schedule[`${day}_end_time`],
+        status: this.schedule[`${day}_status`],
+        is_24h: this.schedule[`${day}_24h`],
+        is_open: this.schedule[`${day}_open`],
+        is_off_day: this.schedule[`${day}_off_day`],
+        break_times: this.schedule[`${day}_break_times`] || []
+      }))
+    };
+    console.log('Timing payload:', payload);
     // Submit timing info via new API call
     this.utility.presentSuccessToast('Timing info updated (local only)!');
   }
