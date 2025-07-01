@@ -563,4 +563,9 @@ export class NetworkService {
   updateTimingSettings(data, id) {
     return this.httpPutResponse('restaurant-timing/config', data, id, true, true);
   }
+  getTimingData(restaurantId?: any) {
+    const params = restaurantId ? { restaurant_id: restaurantId } : {};
+    const query = this.serialize(params);
+    return this.httpGetResponse('restaurant-timing/data' + (query ? `?${query}` : ''), null, false, true);
+  }
 }

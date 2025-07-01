@@ -91,6 +91,48 @@ export class TimingSettingsComponent {
     private utility: UtilityService
   ) {
     this.syncScheduleToTimingsJson();
+    this.loadTimingData();
+  }
+
+  async loadTimingData() {
+    try {
+      const response = await this.network.getTimingData();
+      if (response && response.timing) {
+        this.populateFormWithData(response.timing);
+      }
+    } catch (error) {
+      console.error('Failed to load timing data:', error);
+      // Don't show error toast as this might be first time setup
+    }
+  }
+
+  populateFormWithData(timingData: any) {
+    // Populate global settings
+    if (timingData.global) {
+      this.globalStartTime = timingData.global.start_time || '09:00';
+      this.globalEndTime = timingData.global.end_time || '17:00';
+      this.globalDayType = timingData.global.day_type || 'week_days';
+      this.global24h = timingData.global.is_24h || false;
+      this.globalBreakTimes = timingData.global.break_times || [];
+    }
+
+    // Populate days settings
+    if (timingData.days && Array.isArray(timingData.days)) {
+      timingData.days.forEach((dayData: any) => {
+        const dayKey = dayData.day.toLowerCase();
+        this.schedule[`${dayKey}_day`] = dayData.day;
+        this.schedule[`${dayKey}_start_time`] = dayData.start_time || '09:00';
+        this.schedule[`${dayKey}_end_time`] = dayData.end_time || '17:00';
+        this.schedule[`${dayKey}_status`] = dayData.status || 'active';
+        this.schedule[`${dayKey}_24h`] = dayData.is_24h || false;
+        this.schedule[`${dayKey}_open`] = dayData.is_open || true;
+        this.schedule[`${dayKey}_off_day`] = dayData.is_off_day || false;
+        this.schedule[`${dayKey}_break_times`] = dayData.break_times || [];
+      });
+    }
+
+    // Sync the data to timingsJson
+    this.syncScheduleToTimingsJson();
   }
 
   syncScheduleToTimingsJson() {
