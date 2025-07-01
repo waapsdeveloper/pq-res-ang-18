@@ -104,15 +104,20 @@
           <h5 class="mb-0">{{ day }}</h5>
           <div class="d-flex gap-3">
             <label class="custom-switch mb-0">
-              <input type="checkbox" [checked]="schedule[day.toLowerCase() + '_24h']" (change)="toggle24h(day.toLowerCase())">
+              <input type="checkbox" [checked]="schedule[day.toLowerCase() + '_24h']" (change)="toggle24h(day.toLowerCase())" [disabled]="schedule[day.toLowerCase() + '_off_day']">
               <span class="custom-slider"></span>
             </label>
             <span class="custom-switch-label">24h</span>
+            <label class="custom-switch mb-0">
+              <input type="checkbox" [checked]="schedule[day.toLowerCase() + '_off_day']" (change)="toggleOffDay(day.toLowerCase())">
+              <span class="custom-slider"></span>
+            </label>
+            <span class="custom-switch-label">Off Day</span>
           </div>
         </div>
         <div
           class="card-body"
-          [class.disabled]="schedule[day.toLowerCase() + '_24h'] || !schedule[day.toLowerCase() + '_open']"
+          [class.disabled]="schedule[day.toLowerCase() + '_24h'] || !schedule[day.toLowerCase() + '_open'] || schedule[day.toLowerCase() + '_off_day']"
         >
           <div class="row">
             <div class="col-md-6">
@@ -121,7 +126,7 @@
                 type="time"
                 class="form-control"
                 [(ngModel)]="schedule[day.toLowerCase() + '_start_time']"
-                [disabled]="schedule[day.toLowerCase() + '_24h'] || !schedule[day.toLowerCase() + '_open']"
+                [disabled]="schedule[day.toLowerCase() + '_24h'] || !schedule[day.toLowerCase() + '_open'] || schedule[day.toLowerCase() + '_off_day']"
               />
             </div>
             <div class="col-md-6">
@@ -130,7 +135,7 @@
                 type="time"
                 class="form-control"
                 [(ngModel)]="schedule[day.toLowerCase() + '_end_time']"
-                [disabled]="schedule[day.toLowerCase() + '_24h'] || !schedule[day.toLowerCase() + '_open']"
+                [disabled]="schedule[day.toLowerCase() + '_24h'] || !schedule[day.toLowerCase() + '_open'] || schedule[day.toLowerCase() + '_off_day']"
               />
             </div>
           </div>
@@ -148,7 +153,7 @@
                 type="button"
                 class="btn btn-sm btn-outline-primary"
                 (click)="addBreakTime(day.toLowerCase())"
-                [disabled]="schedule[day.toLowerCase() + '_24h'] || !schedule[day.toLowerCase() + '_open']"
+                [disabled]="schedule[day.toLowerCase() + '_24h'] || !schedule[day.toLowerCase() + '_open'] || schedule[day.toLowerCase() + '_off_day']"
               >
                 <i data-feather="plus"></i>
                 Add Break
@@ -163,6 +168,7 @@
                     [(ngModel)]="break.start"
                     [ngModelOptions]="{ standalone: true }"
                     (change)="updateBreakTime(day.toLowerCase(), j, break)"
+                    [disabled]="schedule[day.toLowerCase() + '_24h'] || !schedule[day.toLowerCase() + '_open'] || schedule[day.toLowerCase() + '_off_day']"
                   />
                 </div>
                 <div class="col-5">
@@ -172,6 +178,7 @@
                     [(ngModel)]="break.end"
                     [ngModelOptions]="{ standalone: true }"
                     (change)="updateBreakTime(day.toLowerCase(), j, break)"
+                    [disabled]="schedule[day.toLowerCase() + '_24h'] || !schedule[day.toLowerCase() + '_open'] || schedule[day.toLowerCase() + '_off_day']"
                   />
                 </div>
                 <div class="col-2 d-flex align-items-end">
@@ -179,6 +186,7 @@
                     type="button"
                     class="btn btn-sm btn-outline-danger"
                     (click)="removeBreakTime(day.toLowerCase(), j)"
+                    [disabled]="schedule[day.toLowerCase() + '_24h'] || !schedule[day.toLowerCase() + '_open'] || schedule[day.toLowerCase() + '_off_day']"
                   >
                     <i data-feather="x"></i>
                   </button>

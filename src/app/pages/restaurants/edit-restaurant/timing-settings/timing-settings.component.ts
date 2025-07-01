@@ -229,6 +229,11 @@ export class TimingSettingsComponent {
     if (this.schedule[`${day}_off_day`]) {
       this.schedule[`${day}_open`] = false;
       this.schedule[`${day}_24h`] = false;
+    } else {
+      this.schedule[`${day}_open`] = true;
+      this.schedule[`${day}_24h`] = false;
+      this.schedule[`${day}_start_time`] = this.globalStartTime;
+      this.schedule[`${day}_end_time`] = this.globalEndTime;
     }
   }
 
