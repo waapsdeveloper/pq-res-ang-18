@@ -65,219 +65,47 @@
               <form [formGroup]="form">
                 <ng-container [ngSwitch]="activeSection">
                   <ng-template [ngSwitchCase]="'general'">
-                    <h3 class="section-heading">General Information</h3>
-                    <formly-form [form]="form" [fields]="generalFields" [model]="model"></formly-form>
-                    <div class="d-flex justify-content-end mt-3">
-                      <button type="button" class="btn btn-warning btn-123" (click)="submitGeneral()">Update General Info</button>
-                    </div>
+                    <app-general-settings
+                      [form]="form"
+                      [generalFields]="generalFields"
+                      [model]="model"
+                      [restaurantId]="id"
+                    ></app-general-settings>
                   </ng-template>
                   <ng-template [ngSwitchCase]="'timing'">
-                    <h3 class="section-heading">Branch Timing</h3>
-
-                    <!-- Global Timing Controls -->
-                    <div class="global-timing-controls mb-4">
-                      <div class="row">
-                        <div class="col-md-3">
-                          <label class="form-label">Start Time</label>
-                          <input type="time" class="form-control" [(ngModel)]="globalStartTime" [ngModelOptions]="{ standalone: true }" />
-                        </div>
-                        <div class="col-md-3">
-                          <label class="form-label">End Time</label>
-                          <input type="time" class="form-control" [(ngModel)]="globalEndTime" [ngModelOptions]="{ standalone: true }" />
-                        </div>
-                        <div class="col-md-3">
-                          <label class="form-label">Day Type</label>
-                          <select class="form-control" [(ngModel)]="globalDayType" [ngModelOptions]="{ standalone: true }">
-                            <option value="week_days">Week Days (Monday-Friday)</option>
-                            <option value="weekends">Weekends (Saturday-Sunday)</option>
-                          </select>
-                        </div>
-                        <div class="col-md-3 d-flex align-items-end">
-                          <label class="custom-switch mb-0 me-2">
-                            <input type="checkbox" [(ngModel)]="global24h" [ngModelOptions]="{standalone: true}" (change)="toggleGlobal24h()">
-                            <span class="custom-slider"></span>
-                          </label>
-                          <span class="custom-switch-label">24h</span>
-                          <div class="btn-group ms-2" role="group">
-                            <button type="button" class="btn btn-outline-success" (click)="applyToAllDays()">Apply to All Days</button>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <!-- Global Toggle Controls -->
-                      <div class="row mt-3">
-                        <div class="col-md-3">
-                          <label class="form-label">Off Day</label>
-                          <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" 
-                                   [(ngModel)]="globalOffDay" 
-                                   [ngModelOptions]="{standalone: true}"
-                                   (change)="toggleGlobalOffDay()">
-                            <label class="form-check-label">{{ globalOffDay ? 'ON' : 'OFF' }}</label>
-                          </div>
-                        </div>
-                      </div>
-
-                      <!-- Break Time Controls -->
-                      <div class="row mt-3">
-                        <div class="col-md-3">
-                          <label class="form-label">Break Start Time</label>
-                          <input type="time" class="form-control" [(ngModel)]="globalBreakStart" [ngModelOptions]="{ standalone: true }" />
-                        </div>
-                        <div class="col-md-3">
-                          <label class="form-label">Break End Time</label>
-                          <input type="time" class="form-control" [(ngModel)]="globalBreakEnd" [ngModelOptions]="{ standalone: true }" />
-                        </div>
-                        <div class="col-md-3 d-flex align-items-end">
-                          <button type="button" class="btn btn-outline-primary" (click)="addGlobalBreak()">
-                            <i class="fas fa-plus"></i>
-                            Add Break
-                          </button>
-                        </div>
-                      </div>
-
-                      <!-- Global Break Times List -->
-                      <div class="row mt-2" *ngIf="globalBreakTimes.length > 0">
-                        <div class="col-12">
-                          <div class="break-times-list">
-                            <label class="form-label">Global Break Times:</label>
-                            <div class="break-time-item" *ngFor="let break of globalBreakTimes; let i = index">
-                              <span>{{ break.start }} - {{ break.end }}</span>
-                              <button type="button" class="btn btn-sm btn-outline-danger" (click)="removeGlobalBreak(i)">
-                                <i class="fas fa-times"></i>
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- Individual Day Timings - 2 cards per row -->
-                    <div class="day-timings">
-                      <div class="row">
-                        <div
-                          class="col-md-6 mb-3"
-                          *ngFor="let day of ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']; let i = index"
-                        >
-                          <div class="timing-card">
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                              <h5 class="mb-0">{{ day }}</h5>
-                              <div class="d-flex gap-3">
-                                <label class="custom-switch mb-0">
-                                  <input type="checkbox" [checked]="model.schedule[day.toLowerCase() + '_24h']" (change)="toggle24h(day.toLowerCase())">
-                                  <span class="custom-slider"></span>
-                                </label>
-                                <span class="custom-switch-label">24h</span>
-                                <label class="custom-switch mb-0">
-                                  <input type="checkbox" [checked]="model.schedule[day.toLowerCase() + '_off_day']" (change)="toggleOffDay(day.toLowerCase())">
-                                  <span class="custom-slider"></span>
-                                </label>
-                                <span class="custom-switch-label">Off Day</span>
-                              </div>
-                            </div>
-                            <div
-                              class="card-body"
-                              [class.disabled]="model.schedule[day.toLowerCase() + '_24h'] || !model.schedule[day.toLowerCase() + '_open']"
-                            >
-                              <div class="row">
-                                <div class="col-md-6">
-                                  <label class="form-label">Start Time</label>
-                                  <input
-                                    type="time"
-                                    class="form-control"
-                                    [formControlName]="day.toLowerCase() + '_start_time'"
-                                    [disabled]="model.schedule[day.toLowerCase() + '_24h'] || !model.schedule[day.toLowerCase() + '_open']"
-                                  />
-                                </div>
-                                <div class="col-md-6">
-                                  <label class="form-label">End Time</label>
-                                  <input
-                                    type="time"
-                                    class="form-control"
-                                    [formControlName]="day.toLowerCase() + '_end_time'"
-                                    [disabled]="model.schedule[day.toLowerCase() + '_24h'] || !model.schedule[day.toLowerCase() + '_open']"
-                                  />
-                                </div>
-                              </div>
-                              
-                              <!-- Day Toggles -->
-                              <div class="row mt-3">
-                                <div class="col-md-4">
-                                  <div class="form-check form-switch">
-                                    <input
-                                      class="form-check-input"
-                                      type="checkbox"
-                                      [checked]="model.schedule[day.toLowerCase() + '_open']"
-                                      (change)="toggleOpen(day.toLowerCase())"
-                                    />
-                                    <label class="form-check-label">Open</label>
-                                  </div>
-                                </div>
-                              </div>
-
-                              <!-- Break Times for this day -->
-                              <div class="break-times-section mt-3">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                  <label class="form-label mb-0">Break Times</label>
-                                  <button
-                                    type="button"
-                                    class="btn btn-sm btn-outline-primary"
-                                    (click)="addBreakTime(day.toLowerCase())"
-                                    [disabled]="model.schedule[day.toLowerCase() + '_24h'] || !model.schedule[day.toLowerCase() + '_open']"
-                                  >
-                                    <i class="fas fa-plus"></i>
-                                    Add Break
-                                  </button>
-                                </div>
-
-                                <div class="break-time-item" *ngFor="let break of getBreakTimes(day.toLowerCase()); let j = index">
-                                  <div class="row">
-                                    <div class="col-5">
-                                      <input
-                                        type="time"
-                                        class="form-control form-control-sm"
-                                        [(ngModel)]="break.start"
-                                        [ngModelOptions]="{ standalone: true }"
-                                        (change)="updateBreakTime(day.toLowerCase(), j, break)"
-                                      />
-                                    </div>
-                                    <div class="col-5">
-                                      <input
-                                        type="time"
-                                        class="form-control form-control-sm"
-                                        [(ngModel)]="break.end"
-                                        [ngModelOptions]="{ standalone: true }"
-                                        (change)="updateBreakTime(day.toLowerCase(), j, break)"
-                                      />
-                                    </div>
-                                    <div class="col-2">
-                                      <button
-                                        type="button"
-                                        class="btn btn-sm btn-outline-danger"
-                                        (click)="removeBreakTime(day.toLowerCase(), j)"
-                                      >
-                                        <i class="fas fa-times"></i>
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="d-flex justify-content-end mt-3">
-                      <button type="button" class="btn btn-danger btn-123" (click)="submitTiming()">Update Timing</button>
-                    </div>
+                    <app-timing-settings
+                      [globalStartTime]="globalStartTime"
+                      [globalEndTime]="globalEndTime"
+                      [globalDayType]="globalDayType"
+                      [global24h]="global24h"
+                      [globalOffDay]="globalOffDay"
+                      [globalBreakStart]="globalBreakStart"
+                      [globalBreakEnd]="globalBreakEnd"
+                      [globalBreakTimes]="globalBreakTimes"
+                      [model]="model"
+                      [timingsJson]="timingsJson"
+                      [restaurantId]="id"
+                      [toggleGlobal24h]="toggleGlobal24h.bind(this)"
+                      [toggleGlobalOffDay]="toggleGlobalOffDay.bind(this)"
+                      [applyToAllDays]="applyToAllDays.bind(this)"
+                      [addGlobalBreak]="addGlobalBreak.bind(this)"
+                      [removeGlobalBreak]="removeGlobalBreak.bind(this)"
+                      [toggle24h]="toggle24h.bind(this)"
+                      [toggleOffDay]="toggleOffDay.bind(this)"
+                      [toggleOpen]="toggleOpen.bind(this)"
+                      [addBreakTime]="addBreakTime.bind(this)"
+                      [removeBreakTime]="removeBreakTime.bind(this)"
+                      [updateBreakTime]="updateBreakTime.bind(this)"
+                      [getBreakTimes]="getBreakTimes.bind(this)"
+                    ></app-timing-settings>
                   </ng-template>
                   <ng-template [ngSwitchCase]="'order'">
-                    <h3 class="section-heading">Order Configuration</h3>
-                    <formly-form [form]="form" [fields]="orderFields" [model]="model"></formly-form>
-                    <div class="d-flex justify-content-end mt-3">
-                      <button type="button" class="btn btn-warning btn-123" (click)="submitOrder()">Update Branch Config</button>
-                    </div>
+                    <app-order-settings
+                      [form]="form"
+                      [orderFields]="orderFields"
+                      [model]="model"
+                      (submitOrderEvent)="submitOrder()"
+                    ></app-order-settings>
                   </ng-template>
                 </ng-container>
               </form>

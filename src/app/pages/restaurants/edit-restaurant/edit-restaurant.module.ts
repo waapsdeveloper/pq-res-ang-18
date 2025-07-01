@@ -8,9 +8,12 @@ import { KtAppToolbarModule } from 'src/app/components/kt-app-toolbar/kt-app-too
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { KtAppFormPageModule } from 'src/app/components/layouts/kt-app-form-page/kt-app-form-page.module';
+import { GeneralSettingsComponent } from './general-settings/general-settings.component';
+import { TimingSettingsComponent } from './timing-settings/timing-settings.component';
+import { OrderSettingsComponent } from './order-settings/order-settings.component';
 
 @NgModule({
-  declarations: [EditRestaurantComponent],
+  declarations: [EditRestaurantComponent, GeneralSettingsComponent, TimingSettingsComponent, OrderSettingsComponent],
   imports: [
     CommonModule,
     EditRestaurantRoutingModule,

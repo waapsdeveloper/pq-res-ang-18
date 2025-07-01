@@ -242,8 +242,27 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
         this.model.copyright_text = restaurantData.copyright_text || '';
         this.model.home_page_title = restaurantData.home_page_title || '';
 
-        // Load schedule data if available
-        if (restaurantData.schedule && Array.isArray(restaurantData.schedule)) {
+        // --- Load timings from meta if present ---
+        let timingsLoaded = false;
+        if (restaurantData.meta) {
+          let timingsMeta = null;
+          if (Array.isArray(restaurantData.meta)) {
+            timingsMeta = restaurantData.meta.find((m: any) => m.key === 'branch_timings');
+          } else if (restaurantData.meta.branch_timings) {
+            timingsMeta = { value: restaurantData.meta.branch_timings };
+          }
+          if (timingsMeta && timingsMeta.value) {
+            try {
+              const timings = JSON.parse(timingsMeta.value);
+              this.updateScheduleFromApi(timings);
+              timingsLoaded = true;
+            } catch (e) {
+              console.error('Failed to parse timings from meta:', e);
+            }
+          }
+        }
+        // --- Fallback: Load schedule data if available and not loaded from meta ---
+        if (!timingsLoaded && restaurantData.schedule && Array.isArray(restaurantData.schedule)) {
           this.updateScheduleFromApi(restaurantData.schedule);
         }
       }
@@ -875,14 +894,18 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     d['schedule'] = this.timingsJson;
 
     // Add meta data to the request
+    d['meta'] = [];
     if (this.model.home_page_title) {
-      d['meta'] = [
-        {
-          key: 'home_page_title',
-          value: this.model.home_page_title
-        }
-      ];
+      d['meta'].push({
+        key: 'home_page_title',
+        value: this.model.home_page_title
+      });
     }
+    // --- Always save timingsJson as JSON string in meta ---
+    d['meta'].push({
+      key: 'branch_timings',
+      value: JSON.stringify(this.timingsJson)
+    });
 
     console.log('Final data to submit:', d);
 
