@@ -374,9 +374,11 @@ export class NetworkService {
   readNotification(id) {
     return this.httpPostResponse(`notifications/mark-as-read/${id}`, null, false, true);
   }
-  serialize = (obj: any) => {
+  serialize = (obj: any, skipRestaurantId: boolean = false) => {
     console.log(localStorage.getItem('restaurant_id'));
-    obj['restaurant_id'] = localStorage.getItem('restaurant_id') ? localStorage.getItem('restaurant_id') : -1;
+    if (!skipRestaurantId) {
+      obj['restaurant_id'] = localStorage.getItem('restaurant_id') ? localStorage.getItem('restaurant_id') : -1;
+    }
 
     const str: any[] = [];
     for (const p in obj) {
@@ -565,7 +567,7 @@ export class NetworkService {
   }
   getTimingData(restaurantId?: any) {
     const params = restaurantId ? { restaurant_id: restaurantId } : {};
-    const query = this.serialize(params);
+    const query = this.serialize(params, true); // Skip adding restaurant_id from localStorage
     return this.httpGetResponse('restaurant-timing/data' + (query ? `?${query}` : ''), null, false, true);
   }
 }

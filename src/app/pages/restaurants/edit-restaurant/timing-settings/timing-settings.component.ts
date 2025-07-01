@@ -98,12 +98,11 @@ export class TimingSettingsComponent {
   }
 
   getRestaurantIdFromParams() {
-    this.route.queryParams.subscribe(params => {
-      this.restaurantId = params['restaurant_id'] || null;
-      console.log('Restaurant ID from query params:', this.restaurantId);
-      // Load timing data after getting restaurant ID
-      this.loadTimingData();
-    });
+    const params = this.route.snapshot.params;
+    this.restaurantId = params['id'] || null;
+    console.log('Restaurant ID from URL params:', this.restaurantId);
+    // Load timing data after getting restaurant ID
+    this.loadTimingData();
   }
 
   async loadTimingData() {
