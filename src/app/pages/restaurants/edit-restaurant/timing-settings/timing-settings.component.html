@@ -25,25 +25,12 @@
         <span class="custom-slider ms-2"></span>
         <label class="form-label ms-2 mb-0">24h</label>
       </div>
-      <div class="custom-switch d-flex align-items-center">
-        <input type="checkbox" [(ngModel)]="globalOffDay" [ngModelOptions]="{standalone: true}" (change)="toggleGlobalOffDay()">
-        <span class="custom-slider ms-2"></span>
-        <label class="form-label ms-2 mb-0">Off Day</label>
-      </div>
     </div>
   </div>
   
   <!-- Global Toggle Controls -->
   <div class="row mt-3">
     <div class="col-md-3">
-      <label class="form-label">Off Day</label>
-      <div class="form-check form-switch">
-        <input class="form-check-input" type="checkbox" 
-               [(ngModel)]="globalOffDay" 
-               [ngModelOptions]="{standalone: true}"
-               (change)="toggleGlobalOffDay()">
-        <label class="form-check-label">{{ globalOffDay ? 'ON' : 'OFF' }}</label>
-      </div>
     </div>
   </div>
 
@@ -111,11 +98,6 @@
               <span class="custom-slider"></span>
             </label>
             <span class="custom-switch-label">24h</span>
-            <label class="custom-switch mb-0">
-              <input type="checkbox" [checked]="schedule[day.toLowerCase() + '_off_day']" (change)="toggleOffDay(day.toLowerCase())">
-              <span class="custom-slider"></span>
-            </label>
-            <span class="custom-switch-label">Off Day</span>
           </div>
         </div>
         <div
@@ -145,15 +127,7 @@
           <!-- Day Toggles -->
           <div class="row mt-3">
             <div class="col-md-4">
-              <div class="form-check form-switch">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  [checked]="schedule[day.toLowerCase() + '_open']"
-                  (change)="toggleOpen(day.toLowerCase())"
-                />
-                <label class="form-check-label">Open</label>
-              </div>
+              <!-- Removed the Open day toggle switch here -->
             </div>
           </div>
           <!-- Break Times for this day -->

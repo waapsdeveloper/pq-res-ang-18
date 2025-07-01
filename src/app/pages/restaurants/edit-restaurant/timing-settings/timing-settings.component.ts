@@ -172,11 +172,25 @@ export class TimingSettingsComponent {
   }
 
   toggleGlobal24h() {
-    this.global24h = !this.global24h;
-    if (this.global24h) {
-      this.globalStartTime = '00:00';
-      this.globalEndTime = '23:59';
+    console.log('it is not being toggle')
+    let targetDays: string[] = [];
+    if (this.globalDayType === 'week_days') {
+      targetDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
+    } else if (this.globalDayType === 'weekends') {
+      targetDays = ['saturday', 'sunday'];
+    } else if (this.globalDayType === 'all') {
+      targetDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
     }
+    targetDays.forEach(day => {
+      this.schedule[`${day}_24h`] = this.global24h;
+      if (this.global24h) {
+        this.schedule[`${day}_start_time`] = '00:00';
+        this.schedule[`${day}_end_time`] = '23:59';
+      } else {
+        this.schedule[`${day}_start_time`] = this.globalStartTime;
+        this.schedule[`${day}_end_time`] = this.globalEndTime;
+      }
+    });
   }
 
   toggleGlobalOffDay() {
@@ -197,6 +211,7 @@ export class TimingSettingsComponent {
       this.schedule[`${day}_start_time`] = '00:00';
       this.schedule[`${day}_end_time`] = '23:59';
     }
+    this.syncGlobal24hWithDays();
   }
 
   toggleOffDay(day: string) {
@@ -205,10 +220,6 @@ export class TimingSettingsComponent {
       this.schedule[`${day}_open`] = false;
       this.schedule[`${day}_24h`] = false;
     }
-  }
-
-  toggleOpen(day: string) {
-    this.schedule[`${day}_open`] = !this.schedule[`${day}_open`];
   }
 
   addBreakTime(day: string) {
@@ -224,5 +235,17 @@ export class TimingSettingsComponent {
 
   updateBreakTime(day: string, index: number, breakTime: { start: string; end: string }) {
     this.schedule[`${day}_break_times`][index] = breakTime;
+  }
+
+  syncGlobal24hWithDays() {
+    let targetDays: string[] = [];
+    if (this.globalDayType === 'week_days') {
+      targetDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
+    } else if (this.globalDayType === 'weekends') {
+      targetDays = ['saturday', 'sunday'];
+    } else if (this.globalDayType === 'all') {
+      targetDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+    }
+    this.global24h = targetDays.every(day => this.schedule[`${day}_24h`]);
   }
 }
