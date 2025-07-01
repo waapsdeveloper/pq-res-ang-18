@@ -562,9 +562,10 @@ export class NetworkService {
   addTimingSettings(data, restaurantId?: any) {
     // Add restaurant_id to the data payload instead of using localStorage
     if (restaurantId) {
-      data.restaurant_id = restaurantId;
+      data['restaurant_id'] = restaurantId;
     }
-    return this.httpPostResponse('restaurant-timing/config', data, null, true, true);
+    // Use httpResponse directly to avoid automatic localStorage restaurant_id addition
+    return this.httpResponse('post', 'restaurant-timing/config', data, null, true, true);
   }
   updateTimingSettings(data, id) {
     return this.httpPutResponse('restaurant-timing/config', data, id, true, true);
@@ -572,6 +573,6 @@ export class NetworkService {
   getTimingData(restaurantId?: any) {
     const params = restaurantId ? { restaurant_id: restaurantId } : {};
     const query = this.serialize(params, true); // Skip adding restaurant_id from localStorage
-    return this.httpGetResponse('restaurant-timing/data' + (query ? `?${query}` : ''), null, false, true);
+    return this.httpGetResponse('restaurant-timing/data' + (query ? `?${query}` : ''), null, true, true);
   }
 }

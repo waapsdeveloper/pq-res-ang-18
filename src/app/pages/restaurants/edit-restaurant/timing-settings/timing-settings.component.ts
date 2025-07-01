@@ -219,12 +219,6 @@ export class TimingSettingsComponent {
   }
 
   applyToAllDays() {
-
-
-    
-
-
-
     let targetDays: string[] = [];
     if (this.globalDayType === 'week_days') {
       targetDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
@@ -255,6 +249,17 @@ export class TimingSettingsComponent {
       this.schedule[`${day}_day_type`] = this.globalDayType;
       this.schedule[`${day}_break_times`] = this.globalBreakTimes.map(breakTime => ({ ...breakTime }));
     });
+
+    // Update global time settings to match the applied settings
+    if (this.global24h) {
+      this.globalStartTime = '00:00';
+      this.globalEndTime = '23:59';
+    } else if (this.globalOffDay) {
+      // Keep current global times for off day scenario
+    } else {
+      // Global times are already set correctly for normal operation
+    }
+
     this.syncScheduleToTimingsJson();
     if (this.utility && typeof this.utility.presentSuccessToast === 'function') {
       const dayTypeText = this.globalDayType === 'week_days' ? 'Week Days (Monday-Friday)' : this.globalDayType === 'weekends' ? 'Weekends (Saturday-Sunday)' : 'All Days';
