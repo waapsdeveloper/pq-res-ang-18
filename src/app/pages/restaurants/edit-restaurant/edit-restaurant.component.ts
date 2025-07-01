@@ -15,6 +15,7 @@ import { UtilityService } from 'src/app/services/utility.service';
 })
 export class EditRestaurantComponent implements OnInit, AfterViewInit {
   id;
+  restaurantId: string | null = null;
   form: FormGroup = new FormGroup({});
   model = {
     name: '',
@@ -153,9 +154,13 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
   ) {}
 
   async ngOnInit() {
-    // Access the parameter
+  
+    
+    
+    // Access the parameter from URL path (keeping for backward compatibility)
     this.id = this.route.snapshot.paramMap.get('id');
-    console.log('ID from URL:', this.id);
+    console.log('ID from URL path:', this.id);
+    
     
     // Initialize form with all required controls
     this.initializeForm();

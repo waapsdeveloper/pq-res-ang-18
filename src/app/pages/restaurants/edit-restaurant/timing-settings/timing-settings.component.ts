@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NetworkService } from 'src/app/services/network.service';
 import { UtilityService } from 'src/app/services/utility.service';
@@ -18,7 +18,21 @@ export class TimingSettingsComponent {
   globalOffDay: boolean = false;
   globalBreakStart: string = '12:00';
   globalBreakEnd: string = '13:00';
-  restaurantId: string | null = null;
+  
+  private _restaurantId: any
+
+  @Input()
+  get restaurantId(): any {
+    return this._restaurantId;
+  }
+  
+  set restaurantId(value: any) {
+    this._restaurantId = value;
+    console.log('Restaurant ID set in timing-settings:', this._restaurantId);
+    if (value) {
+      this.loadTimingData(value);
+    }
+  }
 
   schedule: any = {
     monday_day: 'Monday',
@@ -94,20 +108,11 @@ export class TimingSettingsComponent {
     private route: ActivatedRoute
   ) {
     this.syncScheduleToTimingsJson();
-    this.getRestaurantIdFromParams();
   }
 
-  getRestaurantIdFromParams() {
-    const params = this.route.snapshot.params;
-    this.restaurantId = params['id'] || null;
-    console.log('Restaurant ID from URL params:', this.restaurantId);
-    // Load timing data after getting restaurant ID
-    this.loadTimingData();
-  }
-
-  async loadTimingData() {
+  async loadTimingData(value) {
     try {
-      const response = await this.network.getTimingData(this.restaurantId);
+      const response = await this.network.getTimingData(value);
       if (response && response.timing) {
         this.populateFormWithData(response.timing);
       }
@@ -209,7 +214,7 @@ export class TimingSettingsComponent {
     const wrappedPayload = { timing: payload };
     console.log('Timing wrapped payload:', wrappedPayload);
     // Submit timing info via new API call
-    const res = await this.network.addTimingSettings(wrappedPayload);
+    const res = await this.network.addTimingSettings(wrappedPayload, this._restaurantId);
     console.log(res)
   }
 

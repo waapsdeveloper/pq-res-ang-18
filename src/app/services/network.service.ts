@@ -559,7 +559,11 @@ export class NetworkService {
   }
 
   // Timing Settings
-  addTimingSettings(data) {
+  addTimingSettings(data, restaurantId?: any) {
+    // Add restaurant_id to the data payload instead of using localStorage
+    if (restaurantId) {
+      data.restaurant_id = restaurantId;
+    }
     return this.httpPostResponse('restaurant-timing/config', data, null, true, true);
   }
   updateTimingSettings(data, id) {

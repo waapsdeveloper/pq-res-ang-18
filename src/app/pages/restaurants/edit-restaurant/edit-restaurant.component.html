@@ -73,7 +73,7 @@
                     ></app-general-settings>
                   </ng-template>
                   <ng-template [ngSwitchCase]="'timing'">
-                    <app-timing-settings></app-timing-settings>
+                    <app-timing-settings [restaurantId]="id"></app-timing-settings>
                   </ng-template>
                   <ng-template [ngSwitchCase]="'order'">
                     <app-order-settings
