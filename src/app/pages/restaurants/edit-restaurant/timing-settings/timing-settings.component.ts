@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { NetworkService } from 'src/app/services/network.service';
 import { UtilityService } from 'src/app/services/utility.service';
 
@@ -17,6 +18,7 @@ export class TimingSettingsComponent {
   globalOffDay: boolean = false;
   globalBreakStart: string = '12:00';
   globalBreakEnd: string = '13:00';
+  restaurantId: string | null = null;
 
   schedule: any = {
     monday_day: 'Monday',
@@ -88,15 +90,25 @@ export class TimingSettingsComponent {
 
   constructor(
     private network: NetworkService,
-    private utility: UtilityService
+    private utility: UtilityService,
+    private route: ActivatedRoute
   ) {
     this.syncScheduleToTimingsJson();
-    this.loadTimingData();
+    this.getRestaurantIdFromParams();
+  }
+
+  getRestaurantIdFromParams() {
+    this.route.queryParams.subscribe(params => {
+      this.restaurantId = params['restaurant_id'] || null;
+      console.log('Restaurant ID from query params:', this.restaurantId);
+      // Load timing data after getting restaurant ID
+      this.loadTimingData();
+    });
   }
 
   async loadTimingData() {
     try {
-      const response = await this.network.getTimingData();
+      const response = await this.network.getTimingData(this.restaurantId);
       if (response && response.timing) {
         this.populateFormWithData(response.timing);
       }
