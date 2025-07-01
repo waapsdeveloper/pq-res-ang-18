@@ -20,11 +20,21 @@
       </select>
     </div>
     <div class="col-md-3 d-flex align-items-end gap-3">
-      <div class="custom-switch d-flex align-items-center me-3">
-        <input type="checkbox" [(ngModel)]="global24h" [ngModelOptions]="{standalone: true}" (change)="toggleGlobal24h()">
+      <div class="d-flex gap-3">
+        <label class="custom-switch mb-0">
+          <input type="checkbox" 
+          [(ngModel)]="global24h" 
+          (change)="toggleGlobal24h()"
+          >
+          <span class="custom-slider"></span>
+        </label>
+        <span class="custom-switch-label">24h</span>
+      </div>
+      <!-- <div class="custom-switch d-flex align-items-center me-3">
+        <input type="checkbox"  >
         <span class="custom-slider ms-2"></span>
         <label class="form-label ms-2 mb-0">24h</label>
-      </div>
+      </div> -->
     </div>
   </div>
   
