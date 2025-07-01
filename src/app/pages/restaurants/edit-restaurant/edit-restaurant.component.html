@@ -73,31 +73,7 @@
                     ></app-general-settings>
                   </ng-template>
                   <ng-template [ngSwitchCase]="'timing'">
-                    <app-timing-settings
-                      [globalStartTime]="globalStartTime"
-                      [globalEndTime]="globalEndTime"
-                      [globalDayType]="globalDayType"
-                      [global24h]="global24h"
-                      [globalOffDay]="globalOffDay"
-                      [globalBreakStart]="globalBreakStart"
-                      [globalBreakEnd]="globalBreakEnd"
-                      [globalBreakTimes]="globalBreakTimes"
-                      [model]="model"
-                      [timingsJson]="timingsJson"
-                      [restaurantId]="id"
-                      [toggleGlobal24h]="toggleGlobal24h.bind(this)"
-                      [toggleGlobalOffDay]="toggleGlobalOffDay.bind(this)"
-                      [applyToAllDays]="applyToAllDays.bind(this)"
-                      [addGlobalBreak]="addGlobalBreak.bind(this)"
-                      [removeGlobalBreak]="removeGlobalBreak.bind(this)"
-                      [toggle24h]="toggle24h.bind(this)"
-                      [toggleOffDay]="toggleOffDay.bind(this)"
-                      [toggleOpen]="toggleOpen.bind(this)"
-                      [addBreakTime]="addBreakTime.bind(this)"
-                      [removeBreakTime]="removeBreakTime.bind(this)"
-                      [updateBreakTime]="updateBreakTime.bind(this)"
-                      [getBreakTimes]="getBreakTimes.bind(this)"
-                    ></app-timing-settings>
+                    <app-timing-settings></app-timing-settings>
                   </ng-template>
                   <ng-template [ngSwitchCase]="'order'">
                     <app-order-settings
