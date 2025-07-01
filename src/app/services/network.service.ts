@@ -552,11 +552,15 @@ export class NetworkService {
     return this.httpPutResponse('restaurant/general-settings', data, id, true, true);
   }
 
-  updateTimingSettings(data, id) {
-    return this.httpPutResponse('restaurant/timing-settings', data, id, true, true);
-  }
-
   updateOrderSettings(data, id) {
     return this.httpPutResponse('restaurant/order-settings', data, id, true, true);
+  }
+
+  // Timing Settings
+  addTimingSettings(data) {
+    return this.httpPostResponse('restaurant-timing/config', data, null, true, true);
+  }
+  updateTimingSettings(data, id) {
+    return this.httpPutResponse('restaurant-timing/config', data, id, true, true);
   }
 }

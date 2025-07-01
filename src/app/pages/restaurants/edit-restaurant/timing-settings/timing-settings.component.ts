@@ -153,9 +153,11 @@ export class TimingSettingsComponent {
         break_times: this.schedule[`${day}_break_times`] || []
       }))
     };
-    console.log('Timing payload:', payload);
+    const wrappedPayload = { timing: payload };
+    console.log('Timing wrapped payload:', wrappedPayload);
     // Submit timing info via new API call
-    this.utility.presentSuccessToast('Timing info updated (local only)!');
+    const res = await this.network.addTimingSettings(wrappedPayload);
+    console.log(res)
   }
 
   applyToAllDays() {
