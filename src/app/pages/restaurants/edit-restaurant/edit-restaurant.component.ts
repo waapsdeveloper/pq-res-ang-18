@@ -111,7 +111,10 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     tips: '',
     delivery_charges: '',
     // Meta data properties
-    home_page_title: ''
+    home_page_title: '',
+    enableTax: true,
+    enableTips: true,
+    enableDeliveryCharges: true
   };
 
   // Store timings as JSON array for easy manipulation
@@ -129,6 +132,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
 
   // Branch config properties for orders tab
   allCurrencies: any;
+  allCountries: any[] = [];
   data: any;
 
   // Sidebar navigation
@@ -170,6 +174,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     // Initialize branch config functionality for orders tab
     await this.setCurrenciesInForm();
     await this.loadBranchConfig();
+    await this.loadCountries();
 
     // Populate timing fields from JSON data
     this.populateTimingFieldsFromJson();
@@ -193,6 +198,31 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     });
   }
 
+  async loadCountries() {
+    const res = await this.network.getCurrencies();
+    // Sample country data - you can replace this with API call
+    if (res && res['data']) {
+      this.allCountries = res['data'];
+      const countryOptions = res['data'].map((c) => ({
+        value: c.country,
+        label: `${c.flag} ${c.country}`,
+        dial_code: c.dial_code
+      }));
+      
+      // Update the country dropdown options in orderFields
+      for (let i = 0; i < this.orderFields.length; i++) {
+        for (let j = 0; j < this.orderFields[i].fieldGroup.length; j++) {
+          let fl = this.orderFields[i].fieldGroup[j];
+          if (fl.key === 'country') {
+            fl.props.options = countryOptions;
+          }
+        }
+      }
+    } else {
+      this.allCountries = [];
+    }
+  }
+
   // Initialize form with all required controls
   initializeForm() {
     const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
@@ -213,7 +243,10 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
       dial_code: new FormControl(this.model.dial_code || ''),
       tax: new FormControl(this.model.tax || ''),
       tips: new FormControl(this.model.tips || ''),
-      delivery_charges: new FormControl(this.model.delivery_charges || '')
+      delivery_charges: new FormControl(this.model.delivery_charges || ''),
+      enableTax: new FormControl(this.model.enableTax || true),
+      enableTips: new FormControl(this.model.enableTips || true),
+      enableDeliveryCharges: new FormControl(this.model.enableDeliveryCharges || true)
     };
     
     // Add schedule controls directly to the form (not nested)
@@ -381,7 +414,10 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
       dial_code: '',
       tips: '',
       delivery_charges: '',
-      home_page_title: d.meta?.home_page_title || ''
+      home_page_title: d.meta?.home_page_title || '',
+      enableTax: true,
+      enableTips: true,
+      enableDeliveryCharges: true
     };
 
     // Set home_page_title from meta array if present
@@ -606,17 +642,59 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     {
       fieldGroupClassName: 'row',
       fieldGroup: [
+        // Enable Tax checkbox
         {
-          key: 'currency',
+          key: 'enableTax',
+          type: 'checkbox',
+          props: { label: 'Enable Tax' },
+          defaultValue: true,
+          className: 'col-md-6 col-12'
+        },
+        // Enable Delivery Charges checkbox
+        {
+          key: 'enableDeliveryCharges',
+          type: 'checkbox',
+          props: { label: 'Enable Delivery Charges' },
+          defaultValue: true,
+          className: 'col-md-6 col-12'
+        },
+        // Country dropdown
+        {
+          key: 'country',
           type: 'select',
           props: {
-            label: 'Currency',
-            placeholder: 'Select currency',
+            label: 'Country',
+            placeholder: 'Select country',
             required: true,
             options: []
           },
-          className: 'formly-select-wrapper-3232 col-md-6 col-12'
+          className: 'formly-select-wrapper-3232 col-md-6 col-12',
+          hooks: {
+            onInit: (field) => {
+              field.formControl.valueChanges.subscribe(val => {
+                if (val && this.allCountries) {
+                  const selected = this.allCountries.find(c => c.country === val);
+                  if (selected) {
+                    // Update dial_code
+                    this.model.dial_code = selected.dial_code;
+                    const dialCodeControl = field.form.get('dial_code');
+                    if (dialCodeControl) {
+                      dialCodeControl.setValue(selected.dial_code, { emitEvent: false });
+                    }
+                    
+                    // Update currency
+                    this.model.currency = selected.currency_code;
+                    const currencyControl = field.form.get('currency');
+                    if (currencyControl) {
+                      currencyControl.setValue(selected.currency_code, { emitEvent: false });
+                    }
+                  }
+                }
+              });
+            }
+          }
         },
+        // Dial code field
         {
           key: 'dial_code',
           type: 'input',
@@ -627,6 +705,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
           },
           className: 'col-md-6 col-12'
         },
+        // Tax field  
         {
           key: 'tax',
           type: 'input',
@@ -638,21 +717,12 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
             max: 100,
             required: true
           },
-          className: 'col-md-6 col-12'
+          className: 'col-md-6 col-12',
+          expressionProperties: {
+            'templateOptions.disabled': '!model.enableTax'
+          }
         },
-        {
-          key: 'tips',
-          type: 'input',
-          props: {
-            label: 'Tips (%)',
-            placeholder: 'Enter tips percentage',
-            type: 'number',
-            min: 0,
-            max: 100,
-            required: true
-          },
-          className: 'col-md-6 col-12'
-        },
+        // Delivery Charges field
         {
           key: 'delivery_charges',
           type: 'input',
@@ -664,7 +734,21 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
             max: 100,
             required: true
           },
-          className: 'col-md-6 col-12'
+          className: 'col-md-6 col-12',
+          expressionProperties: {
+            'templateOptions.disabled': '!model.enableDeliveryCharges'
+          }
+        },
+        {
+          key: 'currency',
+          type: 'select',
+          props: {
+            label: 'Currency',
+            placeholder: 'Select currency',
+            required: true,
+            options: []
+          },
+          className: 'formly-select-wrapper-3232 col-md-6 col-12'
         }
       ]
     }
@@ -927,6 +1011,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
 
   async getCurrencies(): Promise<any[]> {
     const res = await this.network.getCurrencies();
+    console.log(res, 'Currencies')
     if (res && res['data']) {
       return res['data'].map((c) => ({
         value: c.currency_code,
