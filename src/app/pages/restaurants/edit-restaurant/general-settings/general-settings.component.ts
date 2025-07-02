@@ -44,9 +44,13 @@ export class GeneralSettingsComponent {
       this.utility.presentFailureToast('Please enter a valid website URL');
       return;
     }
+    // Assign image, favicon, and logo values from base64 if present
+    this.model.image = this.model.imageBase64 || this.model.image;
+    this.model.favicon = this.model.faviconBase64 || this.model.favicon;
+    this.model.logo = this.model.logoBase64 || this.model.logo;
     // Submit general info via new API call
     try {
-      const res = await this.network.updateGeneralSettings(this.model, this.restaurantId);
+      const res = await this.network.updateRestaurant(this.model, this.restaurantId);
       if (res) {
         this.utility.presentSuccessToast('General info updated!');
       } else {

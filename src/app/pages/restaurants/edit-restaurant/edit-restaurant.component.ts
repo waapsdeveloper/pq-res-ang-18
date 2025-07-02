@@ -461,16 +461,6 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
           className: 'col-md-6 col-12'
         },
         {
-          key: 'address',
-          type: 'input',
-          props: {
-            label: 'Address',
-            placeholder: 'Enter address',
-            required: true
-          },
-          className: 'col-md-6 col-12'
-        },
-        {
           key: 'phone',
           type: 'input',
           props: {
@@ -492,12 +482,34 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
           className: 'col-md-6 col-12'
         },
         {
+          key: 'address',
+          type: 'input',
+          props: {
+            label: 'Address',
+            placeholder: 'Enter address',
+            required: true
+          },
+          className: 'col-md-6 col-12'
+        },
+        {
           key: 'copyright_text',
           type: 'textarea',
           props: {
             label: 'Copyright text',
-            placeholder: 'Enter copy right text',
+            placeholder: 'Enter copyright footer text',
             required: false
+          },
+          className: 'col-md-6 col-12'
+        },
+       
+        {
+          key: 'home_page_title',
+          type: 'input',
+          props: {
+            label: 'Home Page Title',
+            placeholder: 'Enter home page title for SEO',
+            required: false,
+            maxLength: 60
           },
           className: 'col-md-6 col-12'
         },
@@ -527,28 +539,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
           },
           className: 'formly-image-wrapper-3232 col-md-6 col-12'
         },
-        {
-          key: 'website',
-          type: 'input',
-          props: {
-            label: 'Website',
-            placeholder: 'Enter website URL',
-            pattern: /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/,
-            required: true
-          },
-          className: 'col-md-6 col-12'
-        },
-        {
-          key: 'home_page_title',
-          type: 'input',
-          props: {
-            label: 'Home Page Title',
-            placeholder: 'Enter home page title for SEO',
-            required: false,
-            maxLength: 60
-          },
-          className: 'col-md-6 col-12'
-        }
+      
       ]
     }
   ];
@@ -894,6 +885,8 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     d['image'] = this.model.imageBase64;
     d['favicon'] = this.model.faviconBase64;
     d['logo'] = this.model.logoBase64;
+
+  
 
     // Use timingsJson array instead of schedule object
     d['schedule'] = this.timingsJson;
