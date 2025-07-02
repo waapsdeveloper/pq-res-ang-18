@@ -158,17 +158,13 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
   ) {}
 
   async ngOnInit() {
-  
-    
-    
     // Access the parameter from URL path (keeping for backward compatibility)
     this.id = this.route.snapshot.paramMap.get('id');
     console.log('ID from URL path:', this.id);
-    
-    
+
     // Initialize form with all required controls
     this.initializeForm();
-    
+
     this.initialize();
 
     // Initialize branch config functionality for orders tab
@@ -180,22 +176,22 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     this.populateTimingFieldsFromJson();
 
     // Handle currency change for dial code
-    this.form.valueChanges.subscribe((value: any) => {
-      if (value && value['currency']) {
-        const selectedCurrency = this.allCurrencies?.find((c: any) => c.value === value['currency']);
-        if (selectedCurrency) {
-          const dialCodeControl = this.form.get('dial_code');
-          if (dialCodeControl) {
-            (dialCodeControl as import('@angular/forms').FormControl).setValue(selectedCurrency.dial_code, { emitEvent: false });
-          }
-        }
-      }
-      
-      // Sync schedule changes to timingsJson
-      if (value && value['schedule']) {
-        this.syncScheduleToTimingsJson();
-      }
-    });
+    // this.form.valueChanges.subscribe((value: any) => {
+    //   if (value && value['currency']) {
+    //     const selectedCurrency = this.allCurrencies?.find((c: any) => c.value === value['currency']);
+    //     if (selectedCurrency) {
+    //       const dialCodeControl = this.form.get('dial_code');
+    //       if (dialCodeControl) {
+    //         (dialCodeControl as import('@angular/forms').FormControl).setValue(selectedCurrency.dial_code, { emitEvent: false });
+    //       }
+    //     }
+    //   }
+
+    //   // Sync schedule changes to timingsJson
+    //   if (value && value['schedule']) {
+    //     this.syncScheduleToTimingsJson();
+    //   }
+    // });
   }
 
   async loadCountries() {
@@ -208,7 +204,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
         label: `${c.flag} ${c.country}`,
         dial_code: c.dial_code
       }));
-      
+
       // Update the country dropdown options in orderFields
       for (let i = 0; i < this.orderFields.length; i++) {
         for (let j = 0; j < this.orderFields[i].fieldGroup.length; j++) {
@@ -226,7 +222,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
   // Initialize form with all required controls
   initializeForm() {
     const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-    
+
     // Create the form with all controls (flat structure)
     const formControls = {
       name: new FormControl(this.model.name || ''),
@@ -242,21 +238,19 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
       currency: new FormControl(this.model.currency || ''),
       dial_code: new FormControl(this.model.dial_code || ''),
       tax: new FormControl(this.model.tax || ''),
-      tips: new FormControl(this.model.tips || ''),
       delivery_charges: new FormControl(this.model.delivery_charges || ''),
       enableTax: new FormControl(this.model.enableTax || true),
-      enableTips: new FormControl(this.model.enableTips || true),
       enableDeliveryCharges: new FormControl(this.model.enableDeliveryCharges || true)
     };
-    
+
     // Add schedule controls directly to the form (not nested)
-    days.forEach(day => {
+    days.forEach((day) => {
       formControls[`${day}_day`] = new FormControl(this.model.schedule[`${day}_day`] || day.charAt(0).toUpperCase() + day.slice(1));
       formControls[`${day}_start_time`] = new FormControl(this.model.schedule[`${day}_start_time`] || '09:00');
       formControls[`${day}_end_time`] = new FormControl(this.model.schedule[`${day}_end_time`] || '17:00');
       formControls[`${day}_status`] = new FormControl(this.model.schedule[`${day}_status`] || 'active');
     });
-    
+
     this.form = new FormGroup(formControls);
   }
 
@@ -537,7 +531,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
           },
           className: 'col-md-6 col-12'
         },
-       
+
         {
           key: 'home_page_title',
           type: 'input',
@@ -574,8 +568,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
             required: false
           },
           className: 'formly-image-wrapper-3232 col-md-6 col-12'
-        },
-      
+        }
       ]
     }
   ];
@@ -671,24 +664,46 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
           className: 'formly-select-wrapper-3232 col-md-6 col-12',
           hooks: {
             onInit: (field) => {
-              field.formControl.valueChanges.subscribe(val => {
+              field.formControl.valueChanges.subscribe((val) => {
                 if (val && this.allCountries) {
-                  const selected = this.allCountries.find(c => c.country === val);
+                  const selected = this.allCountries.find((c) => c.country === val);
                   if (selected) {
-                    // Update dial_code
+                    // Update both dial_code and currency when country changes
                     this.model.dial_code = selected.dial_code;
+                    this.model.currency = selected.currency_code;
+
                     const dialCodeControl = field.form.get('dial_code');
+                    const currencyControl = field.form.get('currency');
+
                     if (dialCodeControl) {
                       dialCodeControl.setValue(selected.dial_code, { emitEvent: false });
                     }
-                    
-                    // Update currency
-                    this.model.currency = selected.currency_code;
-                    const currencyControl = field.form.get('currency');
                     if (currencyControl) {
                       currencyControl.setValue(selected.currency_code, { emitEvent: false });
                     }
                   }
+                }
+              });
+            }
+          }
+        },
+        // Currency dropdown
+        {
+          key: 'currency',
+          type: 'select',
+          props: {
+            label: 'Currency',
+            placeholder: 'Select currency',
+            required: true,
+            options: []
+          },
+          className: 'formly-select-wrapper-3232 col-md-6 col-12',
+          hooks: {
+            onInit: (field) => {
+              field.formControl.valueChanges.subscribe((val) => {
+                if (val) {
+                  // Only update currency, don't change dial_code
+                  this.model.currency = val;
                 }
               });
             }
@@ -705,7 +720,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
           },
           className: 'col-md-6 col-12'
         },
-        // Tax field  
+        // Tax field
         {
           key: 'tax',
           type: 'input',
@@ -738,17 +753,6 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
           expressionProperties: {
             'templateOptions.disabled': '!model.enableDeliveryCharges'
           }
-        },
-        {
-          key: 'currency',
-          type: 'select',
-          props: {
-            label: 'Currency',
-            placeholder: 'Select currency',
-            required: true,
-            options: []
-          },
-          className: 'formly-select-wrapper-3232 col-md-6 col-12'
         }
       ]
     }
@@ -795,7 +799,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
         const startControl = this.form.get(`${dayKey}_start_time`);
         const endControl = this.form.get(`${dayKey}_end_time`);
         const statusControl = this.form.get(`${dayKey}_status`);
-        
+
         if (startControl) startControl.setValue(timing.start_time || '09:00');
         if (endControl) endControl.setValue(timing.end_time || '17:00');
         if (statusControl) statusControl.setValue(timing.status || 'active');
@@ -930,7 +934,6 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
         dial_code: this.model.dial_code,
         tax: this.model.tax,
         branch_id: this.data.id,
-        tips: this.model.tips,
         delivery_charges: this.model.delivery_charges
       };
 
@@ -969,8 +972,6 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     d['image'] = this.model.imageBase64;
     d['favicon'] = this.model.faviconBase64;
     d['logo'] = this.model.logoBase64;
-
-  
 
     // Use timingsJson array instead of schedule object
     d['schedule'] = this.timingsJson;
@@ -1011,7 +1012,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
 
   async getCurrencies(): Promise<any[]> {
     const res = await this.network.getCurrencies();
-    console.log(res, 'Currencies')
+    console.log(res, 'Currencies');
     if (res && res['data']) {
       return res['data'].map((c) => ({
         value: c.currency_code,
@@ -1038,15 +1039,24 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
   async loadBranchConfig() {
     try {
       const res = await this.network.getBranchConfig(this.id);
-      console.log('Branch config response:', res);
+      this.data = JSON.parse(localStorage.getItem('restaurant'));
 
-      if (res && res.data) {
-        this.data = res.data;
-        this.model.currency = res.data.currency || '';
-        this.model.dial_code = res.data.dial_code || '';
-        this.model.tax = res.data.tax || '';
-        this.model.tips = res.data.tips || '';
-        this.model.delivery_charges = res.data.delivery_charges || '';
+      if (res && res.data && res.data.branch_config) {
+        // Patch only the editable fields from branch_config
+        const branchConfigModel = {
+          tax: res.data.branch_config.tax,
+          tips: res.data.branch_config.tips,
+          delivery_charges: res.data.branch_config.delivery_charges,
+          currency: res.data.branch_config.currency,
+          dial_code: res?.data.restaurant.dial_code // Set this if you have it in the response, otherwise leave blank or fetch by currency
+        };
+
+        // Update the model with branch config data
+        this.model['tax'] = branchConfigModel.tax;
+        this.model['currency'] = branchConfigModel.currency;
+        this.model['dial_code'] = branchConfigModel.dial_code;
+        this.model['tips'] = branchConfigModel.tips;
+        this.model['delivery_charges'] = branchConfigModel.delivery_charges;
       }
     } catch (error) {
       console.error('Error loading branch config:', error);
@@ -1072,7 +1082,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     days.forEach((day) => {
       const startControl = this.form.get(`${day}_start_time`);
       const endControl = this.form.get(`${day}_end_time`);
-      
+
       if (startControl) startControl.setValue('00:00');
       if (endControl) endControl.setValue('23:59');
     });
@@ -1087,7 +1097,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
   refreshBreakTimesDisplay() {
     // Force change detection by creating new array references
     const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-    days.forEach(day => {
+    days.forEach((day) => {
       if (this.model.schedule[`${day}_break_times`]) {
         this.model.schedule[`${day}_break_times`] = [...this.model.schedule[`${day}_break_times`]];
       }
@@ -1097,30 +1107,30 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
   applyToAllDays() {
     // Determine which days to apply settings to based on global day type
     let targetDays: string[] = [];
-    
+
     if (this.globalDayType === 'week_days') {
       targetDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
     } else if (this.globalDayType === 'weekends') {
       targetDays = ['saturday', 'sunday'];
     }
-    
+
     console.log('Applying to days:', targetDays);
     console.log('Global break times:', this.globalBreakTimes);
-    
+
     targetDays.forEach((day) => {
       // Apply basic timing settings
       this.model.schedule[`${day}_start_time`] = this.globalStartTime;
       this.model.schedule[`${day}_end_time`] = this.globalEndTime;
       this.model.schedule[`${day}_day_type`] = this.globalDayType;
-      
+
       // Apply break times from global settings - create a deep copy to avoid reference issues
-      this.model.schedule[`${day}_break_times`] = this.globalBreakTimes.map(breakTime => ({
+      this.model.schedule[`${day}_break_times`] = this.globalBreakTimes.map((breakTime) => ({
         start: breakTime.start,
         end: breakTime.end
       }));
-      
+
       console.log(`Applied break times to ${day}:`, this.model.schedule[`${day}_break_times`]);
-      
+
       // Apply 24h and open settings based on global controls
       // If global time is 24h, set 24h to true for all days
       if (this.global24h) {
@@ -1144,7 +1154,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
       const endControl = this.form.get(`${day}_end_time`);
       const dayTypeControl = this.form.get(`${day}_day_type`);
       const statusControl = this.form.get(`${day}_status`);
-      
+
       if (startControl) startControl.setValue(this.globalStartTime);
       if (endControl) endControl.setValue(this.globalEndTime);
       if (dayTypeControl) dayTypeControl.setValue(this.globalDayType);
@@ -1169,11 +1179,11 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
         start: this.globalBreakStart,
         end: this.globalBreakEnd
       });
-      
+
       // Reset the input fields
       this.globalBreakStart = '12:00';
       this.globalBreakEnd = '13:00';
-      
+
       // Force change detection to update the UI
       this.syncScheduleToTimingsJson();
     }
@@ -1205,7 +1215,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
 
   toggleOffDay(day: string) {
     this.model.schedule[`${day}_off_day`] = !this.model.schedule[`${day}_off_day`];
-    
+
     // If off day is enabled, disable open and 24h
     if (this.model.schedule[`${day}_off_day`]) {
       this.model.schedule[`${day}_open`] = false;
@@ -1218,7 +1228,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
 
   toggleGlobal24h() {
     this.global24h = !this.global24h;
-    
+
     if (this.global24h) {
       this.globalStartTime = '00:00';
       this.globalEndTime = '23:59';
@@ -1263,7 +1273,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
   // New method to populate timing fields from JSON data
   populateTimingFieldsFromJson() {
     const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-    
+
     days.forEach((day) => {
       // Set start time
       const startTime = this.model.schedule[`${day}_start_time`] || '09:00';
@@ -1271,31 +1281,31 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
       if (startControl) {
         startControl.setValue(startTime);
       }
-      
+
       // Set end time
       const endTime = this.model.schedule[`${day}_end_time`] || '17:00';
       const endControl = this.form.get(`${day}_end_time`);
       if (endControl) {
         endControl.setValue(endTime);
       }
-      
+
       // Set 24h toggle
       const is24h = this.model.schedule[`${day}_24h`] || false;
       this.model.schedule[`${day}_24h`] = is24h;
-      
+
       // Set open toggle
       const isOpen = this.model.schedule[`${day}_open`] || true;
       this.model.schedule[`${day}_open`] = isOpen;
-      
+
       // Set off day toggle
       const isOffDay = this.model.schedule[`${day}_off_day`] || false;
       this.model.schedule[`${day}_off_day`] = isOffDay;
-      
+
       // Set break times
       const breakTimes = this.model.schedule[`${day}_break_times`] || [];
       this.model.schedule[`${day}_break_times`] = [...breakTimes];
     });
-    
+
     // Set global controls based on first day (monday) or default values
     this.globalStartTime = this.model.schedule.monday_start_time || '09:00';
     this.globalEndTime = this.model.schedule.monday_end_time || '17:00';
@@ -1303,7 +1313,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     this.globalBreakTimes = [...(this.model.schedule.monday_break_times || [])];
     this.global24h = this.model.schedule.monday_24h || false;
     this.globalOffDay = this.model.schedule.monday_off_day || false;
-    
+
     // Sync to timingsJson
     this.syncScheduleToTimingsJson();
   }

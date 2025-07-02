@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NetworkService } from 'src/app/services/network.service';
 import { UtilityService } from 'src/app/services/utility.service';
 
@@ -35,16 +35,8 @@ export class OrderSettingsComponent {
     // Validate tax percentage if enabled
     if (this.model.enableTax) {
       const tax = parseFloat(this.model.tax);
-      if (isNaN(tax) || tax < 0 || tax > 100) {
-        this.utility.presentFailureToast('Tax percentage must be between 0 and 100');
-        return;
-      }
-    }
-    // Validate tips percentage if enabled
-    if (this.model.enableTips) {
-      const tips = parseFloat(this.model.tips);
-      if (isNaN(tips) || tips < 0 || tips > 100) {
-        this.utility.presentFailureToast('Tips percentage must be between 0 and 100');
+      if (isNaN(tax) || tax < 0 || tax > 50) {
+        this.utility.presentFailureToast('Tax percentage must be between 0 and 50');
         return;
       }
     }
@@ -56,16 +48,24 @@ export class OrderSettingsComponent {
         return;
       }
     }
-    // Build meta array for enabled fields
-    const meta = [];
-    if (this.model.enableTax) meta.push({ key: 'tax', value: this.model.tax });
-    if (this.model.enableTips) meta.push({ key: 'tips', value: this.model.tips });
-    if (this.model.enableDeliveryCharges) meta.push({ key: 'delivery_charges', value: this.model.delivery_charges });
-    // Add meta to model for API
-    this.model.meta = meta;
+
+    // Create filtered payload with only required fields
+    const payload = {
+      name: this.model.name,
+      country: this.model.country,
+      branch_id: this.restaurantId,
+      tax: this.model.tax,
+      currency: this.model.currency,
+      enableDeliveryCharges: this.model.enableDeliveryCharges,
+      enableTax: this.model.enableTax,
+      dial_code: this.model.dial_code,
+      delivery_charges: this.model.delivery_charges
+    };
+    console.log(payload, 'payload');
+
     // Submit order/branch config data via new API call
     try {
-      const res = await this.network.updateOrderSettings(this.model, this.restaurantId);
+      const res = await this.network.updateBranchConfig(payload, this.restaurantId);
       if (res) {
         this.utility.presentSuccessToast('Order/branch config updated!');
       } else {
