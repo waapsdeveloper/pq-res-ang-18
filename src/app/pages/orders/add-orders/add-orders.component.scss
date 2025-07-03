@@ -337,3 +337,22 @@
     pointer-events: auto; /* Enable interaction */
   }
 }
+
+// Apply Tips Container
+.apply-tips-container {
+  position: relative;
+
+  .apply-tips-btn {
+    transition: opacity 0.3s ease;
+  }
+
+  &.tips-applied .apply-tips-btn {
+    opacity: 0; /* Hide the button when the tips is applied */
+    pointer-events: none; /* Disable interaction */
+  }
+
+  &.tips-applied:hover .apply-tips-btn {
+    opacity: 1; /* Show the button on hover */
+    pointer-events: auto; /* Enable interaction */
+  }
+}

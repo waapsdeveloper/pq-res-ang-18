@@ -21,8 +21,8 @@ export class AddOrderService {
   selectedTableId = null;
   orderType = '';
   deliveryCharges;
-  tips;
-  tipsAmount;
+  tips=0;
+  tipsAmount=0;
   customer_address: string = '';
   selected_products: any[] = [];
   paymentMethod: string = '';
@@ -451,12 +451,11 @@ export class AddOrderService {
     this.taxAmount = (discountedSubtotal * this.taxPercent) / 100;
     let total = discountedSubtotal + this.taxAmount;
 
-    // Calculate tips as a percentage if orderType is dine-in
+    // Calculate tips as a fixed amount if orderType is dine-in
     this.tipsAmount = 0;
-    if (this.orderType === 'dine-in' && this.tips) {
-      // Ensure tips is a number and treat as percentage
-      const tipsPercent = Number(this.tips) || 0;
-      this.tipsAmount = ((discountedSubtotal + this.taxAmount) * tipsPercent) / 100;
+    if (this.tips) {
+      // Treat tips as a fixed amount
+      this.tipsAmount = Number(this.tips) || 0;
       total += this.tipsAmount;
     }
 

@@ -74,11 +74,17 @@
           {{ currencySymbol }}{{ item.discount_value | number: '1.2-2' }}
         </span>
       </td>
+        <!-- Tips -->
+        <td>
+          <span class="badge badge-ready-for-pickup fw-bold" style="font-size: 15px; white-space: nowrap">
+            {{ currencySymbol }}{{ item.tips | number: '1.2-2' }}
+          </span>
+        </td>
       <!-- Total -->
       <td>
         <span class="fw-bold" style="font-size: 15px; white-space: nowrap">
           {{ currencySymbol
-          }}{{ (item?.discount_value && item?.discount_value > 0 ? item?.final_total : item?.total_price) | number: '1.2-2' }}
+          }}{{  item?.final_total | number: '1.2-2' }}
         </span>
       </td>
       <!-- Address -->

@@ -40,6 +40,7 @@ export class ListOrdersComponent extends ListBlade {
     'Subtotal',
     'Tax',
     'Discount',
+    'Tips',
     'Total',
     'Address',
     'Notes',

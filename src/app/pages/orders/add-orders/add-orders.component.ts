@@ -41,6 +41,8 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   private searchSubscription: Subscription;
   private phoneSearchSubscription: Subscription;
 
+  showTips = false;
+
   constructor(
     public nav: NavService,
     public orderService: AddOrderService,
@@ -232,7 +234,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       confirmMessage, // title
       'Not Yet, Thanks', // cancel button
       'Everything Looks Good?', // short question
-      `Hit “${confirmButton}” to confirm and we’ll get started!` // detailed prompt
+      `Hit "${confirmButton}" to confirm and we'll get started!` // detailed prompt
     );
 
     if (!createConfirmed) {
@@ -346,7 +348,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
         <head>
           <title>Print Receipt</title>
           <style>
-            /* bring in any print‑only styles here */
+            /* bring in any print-only styles here */
             body { font-family: Arial, sans-serif; font-size: 12px; margin:0; padding: 8px; }
             .bill-slip { border: 1px dashed #000; padding: 8px; }
             .bill-header, .customer-info, .order-details, .bill-footer {
@@ -534,5 +536,23 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       }
     });
     console.log('Coupon applied:', res);
+  }
+
+  applyTips() {
+    const tipsValue = Number(this.orderService.tips);
+    
+    if (tipsValue < 0) {
+      this.utilityService.presentFailureToast('Tips amount cannot be negative');
+      return;
+    }
+    
+    if (isNaN(tipsValue)) {
+      this.utilityService.presentFailureToast('Please enter a valid tips amount');
+      return;
+    }
+    
+    this.orderService.tips = tipsValue;
+    this.orderService.recalculateTotals();
+    this.utilityService.presentSuccessToast('Tips applied successfully');
   }
 }
