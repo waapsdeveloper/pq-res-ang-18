@@ -1048,6 +1048,9 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
           tips: res.data.branch_config.tips,
           delivery_charges: res.data.branch_config.delivery_charges,
           currency: res.data.branch_config.currency,
+          enableTax: res.data.branch_config.enableTax,
+          enableDeliveryCharges: res.data.branch_config.enableDeliveryCharges,
+          country: res.data.branch_config.country,
           dial_code: res?.data.restaurant.dial_code // Set this if you have it in the response, otherwise leave blank or fetch by currency
         };
 
@@ -1057,6 +1060,9 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
         this.model['dial_code'] = branchConfigModel.dial_code;
         this.model['tips'] = branchConfigModel.tips;
         this.model['delivery_charges'] = branchConfigModel.delivery_charges;
+        this.model['enableTax'] = branchConfigModel.enableTax;
+        this.model['enableDeliveryCharges'] = branchConfigModel.enableDeliveryCharges;
+        this.model['country'] = branchConfigModel.country;
       }
     } catch (error) {
       console.error('Error loading branch config:', error);
