@@ -21,8 +21,8 @@ export class AddOrderService {
   selectedTableId = null;
   orderType = '';
   deliveryCharges;
-  tips=0;
-  tipsAmount=0;
+  tips = 0;
+  tipsAmount = 0;
   customer_address: string = '';
   selected_products: any[] = [];
   paymentMethod: string = '';
@@ -442,6 +442,8 @@ export class AddOrderService {
     this.final_total = 0;
     this.taxAmount = 0;
     this.isCouponApplied = false;
+    this.tips = 0;
+    this.tipsAmount = 0;
   }
 
   recalculateTotals() {

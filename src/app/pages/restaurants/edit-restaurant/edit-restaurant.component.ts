@@ -746,7 +746,6 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
             placeholder: 'Enter delivery charges',
             type: 'number',
             min: 0,
-            max: 100,
             required: true
           },
           className: 'col-md-6 col-12',

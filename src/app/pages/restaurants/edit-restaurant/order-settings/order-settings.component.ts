@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { GlobalDataService } from 'src/app/services/global-data.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { UtilityService } from 'src/app/services/utility.service';
 
@@ -15,7 +16,8 @@ export class OrderSettingsComponent {
 
   constructor(
     private network: NetworkService,
-    private utility: UtilityService
+    private utility: UtilityService,
+    private globalData: GlobalDataService
   ) {}
 
   async submitOrder() {
@@ -68,6 +70,8 @@ export class OrderSettingsComponent {
       const res = await this.network.updateBranchConfig(payload, this.restaurantId);
       if (res) {
         this.utility.presentSuccessToast('Order/branch config updated!');
+        // Only update global if localStorage id matches restaurantId
+        await this.globalData.getDefaultRestaurant();
       } else {
         this.utility.presentFailureToast('Failed to update order/branch config.');
       }

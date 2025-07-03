@@ -74,17 +74,19 @@
           {{ currencySymbol }}{{ item.discount_value | number: '1.2-2' }}
         </span>
       </td>
-        <!-- Tips -->
-        <td>
-          <span class="badge badge-ready-for-pickup fw-bold" style="font-size: 15px; white-space: nowrap">
-            {{ currencySymbol }}{{ item.tips | number: '1.2-2' }}
-          </span>
-        </td>
+      <!-- Tips -->
+      <td>
+        <span *ngIf="item?.tips" class="badge badge-ready-for-pickup fw-bold" style="font-size: 15px; white-space: nowrap">
+          {{ currencySymbol }}{{ item.tips | number: '1.2-2' }}
+        </span>
+        <span *ngIf="!item?.tips" class="badge badge-ready-for-pickup fw-bold" style="font-size: 15px; white-space: nowrap">
+          {{ currencySymbol }}{{ 0.0 | number: '1.2-2' }}
+        </span>
+      </td>
       <!-- Total -->
       <td>
         <span class="fw-bold" style="font-size: 15px; white-space: nowrap">
-          {{ currencySymbol
-          }}{{  item?.final_total | number: '1.2-2' }}
+          {{ currencySymbol }}{{ item?.final_total | number: '1.2-2' }}
         </span>
       </td>
       <!-- Address -->
