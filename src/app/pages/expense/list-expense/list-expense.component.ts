@@ -288,7 +288,7 @@ export class ListExpenseComponent extends ListBlade {
   }
 
   ProductModal(item) {
-    this.utility.showProductSelectionTable('Select Products', item.products, 'Select', (productId: string) => {
+    this.utility.showProductSelectionTable('Select Products', this.currency, item.products, 'Select', (productId: string) => {
       console.log('Selected product ID:', productId);
     });
   }

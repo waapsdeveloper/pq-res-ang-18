@@ -223,6 +223,7 @@ export class AlertsService {
 
   async showProductSelectionTable(
     title: string,
+    currencySymbol: string,
     products: Product[],
     confirmButtonText: string,
     onSelect: (productId: string) => void
@@ -244,7 +245,7 @@ export class AlertsService {
                 font-size: 12px;
               ">
                 <span>${option.name}</span>
-                <span style="color: #2d397c; font-weight: 500;">$${option.price.toFixed(2)}</span>
+                <span style="color: #2d397c; font-weight: 500;">${currencySymbol}${option.price.toFixed(2)}</span>
               </div>
             `
             )
@@ -280,7 +281,7 @@ export class AlertsService {
                 </td>
                 <td style="padding: 8px; vertical-align: middle;">
                   <div style="white-space: nowrap; color: #2d397c; font-weight: 500;">
-                    $${p.product_price}
+                 ${currencySymbol}   ${p.product_price}
                   </div>
                 </td>
                 <td style="padding: 8px; text-align: center; vertical-align: middle; position: relative;">

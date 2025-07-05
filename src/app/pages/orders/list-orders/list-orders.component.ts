@@ -463,7 +463,7 @@ export class ListOrdersComponent extends ListBlade {
   }
   ProductModal(item) {
     console.log('Selected item:', item);
-    this.utility.showProductSelectionTable('Select Products', item.products, 'Select', (productId: string) => {
+    this.utility.showProductSelectionTable('Select Products', this.currency, item.products, 'Select', (productId: string) => {
       console.log('Selected product ID:', productId);
     });
   }

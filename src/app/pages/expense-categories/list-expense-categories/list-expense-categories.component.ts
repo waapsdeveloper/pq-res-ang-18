@@ -11,6 +11,7 @@ import { OrderService } from '../../orders/orders.service';
 import { ExpenseCategoriesService } from '../expense-categories.service';
 import { ActivatedRoute } from '@angular/router';
 import { PermissionService } from 'src/app/services/permission.service';
+import { GlobalDataService } from 'src/app/services/global-data.service';
 
 @Component({
   selector: 'app-list-expense-categories',
@@ -22,6 +23,7 @@ export class ListExpenseCategoriesComponent extends ListBlade {
   showDeleteAllButton = false;
   canDelete;
   canView;
+  currency;
   canEdit;
   title = 'Orders';
   addurl = '/pages/orders/add';
@@ -64,9 +66,14 @@ export class ListExpenseCategoriesComponent extends ListBlade {
     public events: EventsService,
     public currencyService: CurrencyService,
     private route: ActivatedRoute,
-    private permissionService: PermissionService
+    private permissionService: PermissionService,
+    public globalData: GlobalDataService
   ) {
     super(injector, crudService);
+    this.globalData.getCurrency().subscribe((currency) => {
+      this.currency = currency;
+      console.log('Currency updated:', this.currency);
+    });
     this.initialize();
     this.canDelete = this.permissionService.hasPermission('expense_category' + '.delete');
     this.canView = this.permissionService.hasPermission('expense_category' + '.view');
@@ -231,7 +238,7 @@ export class ListExpenseCategoriesComponent extends ListBlade {
   }
 
   ProductModal(item) {
-    this.utility.showProductSelectionTable('Select Products', item.products, 'Select', (productId: string) => {
+    this.utility.showProductSelectionTable('Select Products', this.currency, item.products, 'Select', (productId: string) => {
       console.log('Selected product ID:', productId);
     });
   }

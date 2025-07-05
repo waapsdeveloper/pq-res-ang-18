@@ -89,6 +89,7 @@ export class UtilityService {
   }
   showProductSelectionTable(
     title: string,
+    currencySymbol: string,
     products: Product[],
     confirmButtonText: string,
     onSelect: (productId: string) => void
@@ -118,7 +119,7 @@ export class UtilityService {
       };
     });
 
-    return this.alerts.showProductSelectionTable(title, productsWithParsedVariations, confirmButtonText, onSelect);
+    return this.alerts.showProductSelectionTable(title, currencySymbol, productsWithParsedVariations, confirmButtonText, onSelect);
   }
 
   showWarningMessage(message: string): Promise<void> {

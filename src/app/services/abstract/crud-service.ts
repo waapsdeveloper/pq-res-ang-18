@@ -1,7 +1,4 @@
-
-
 export abstract class BaseCrudService<T> {
-
   protected abstract fetchData(params: any): Promise<any>;
   protected abstract deleteItemById(id: any): Promise<any>;
 
@@ -15,19 +12,18 @@ export abstract class BaseCrudService<T> {
   public loading: boolean = false;
 
   async getList(search: string = '', page: number = 1): Promise<any> {
-
     const obj = {
       search,
       page,
       perpage: this.perpage,
-      filters: this.filters ? JSON.stringify(this.filters) : null,
+      filters: this.filters ? JSON.stringify(this.filters) : null
     };
 
     this.loading = true;
     const res = await this.fetchData(obj);
     this.loading = false;
 
-    if (res.data) {
+    if (res?.data) {
       const d = res.data;
       this.page = d.current_page;
       this.lastPage = d.last_page;
@@ -45,7 +41,7 @@ export abstract class BaseCrudService<T> {
     const item = this.list[index] as any;
 
     if (!item) {
-      utility.presentFailureToast("Item not found in list");
+      utility.presentFailureToast('Item not found in list');
       return;
     }
 
@@ -92,7 +88,7 @@ export abstract class BaseCrudService<T> {
   }
 
   onSelectedAll($event: boolean): void {
-    this.list.forEach((item: any) => item.selected = $event);
+    this.list.forEach((item: any) => (item.selected = $event));
   }
 
   onSelectedOne(index: number, $event: boolean): number {
@@ -115,5 +111,4 @@ export abstract class BaseCrudService<T> {
 
     this.getList(this.search, this.page);
   }
-
 }
