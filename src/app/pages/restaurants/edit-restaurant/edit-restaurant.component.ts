@@ -636,21 +636,9 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
       fieldGroupClassName: 'row',
       fieldGroup: [
         // Enable Tax checkbox
-        {
-          key: 'enableTax',
-          type: 'checkbox',
-          props: { label: 'Enable Tax' },
-          defaultValue: true,
-          className: 'col-md-6 col-12'
-        },
+        
         // Enable Delivery Charges checkbox
-        {
-          key: 'enableDeliveryCharges',
-          type: 'checkbox',
-          props: { label: 'Enable Delivery Charges' },
-          defaultValue: true,
-          className: 'col-md-6 col-12'
-        },
+       
         // Country dropdown
         {
           key: 'country',
@@ -661,7 +649,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
             required: true,
             options: []
           },
-          className: 'formly-select-wrapper-3232 col-md-6 col-12',
+          className: 'formly-select-wrapper-3232 col-md-4 col-12',
           hooks: {
             onInit: (field) => {
               field.formControl.valueChanges.subscribe((val) => {
@@ -697,7 +685,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
             required: true,
             options: []
           },
-          className: 'formly-select-wrapper-3232 col-md-6 col-12',
+          className: 'formly-select-wrapper-3232 col-md-4 col-12',
           hooks: {
             onInit: (field) => {
               field.formControl.valueChanges.subscribe((val) => {
@@ -718,41 +706,67 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
             placeholder: 'Enter dial code (e.g. +1)',
             required: true
           },
-          className: 'col-md-6 col-12'
+          className: 'col-md-4 col-12'
         },
-        // Tax field
+        // Tax field with checkbox
         {
-          key: 'tax',
-          type: 'input',
-          props: {
-            label: 'Tax (%)',
-            placeholder: 'Enter tax percentage',
-            type: 'number',
-            min: 0,
-            max: 100,
-            required: true
-          },
-          className: 'col-md-6 col-12',
-          expressionProperties: {
-            'templateOptions.disabled': '!model.enableTax'
-          }
+          fieldGroupClassName: 'row',
+          fieldGroup: [
+            {
+              key: 'tax',
+              type: 'input',
+              props: {
+                label: 'Tax (%)',
+                placeholder: 'Enter tax percentage',
+                type: 'number',
+                min: 0,
+                max: 100,
+                required: true
+              },
+              className: 'col-md-8 col-12',
+              expressionProperties: {
+                'templateOptions.disabled': '!model.enableTax'
+              }
+            },
+            {
+              key: 'enableTax',
+              type: 'checkbox',
+              props: { label: 'Enable Tax' },
+              defaultValue: true,
+              className: 'col-md-4 col-12 order-fields'
+            }
+          ],
+          className: 'col-12'
         },
-        // Delivery Charges field
+        // Delivery Charges field with checkbox
         {
-          key: 'delivery_charges',
-          type: 'input',
-          props: {
-            label: 'Delivery Charges',
-            placeholder: 'Enter delivery charges',
-            type: 'number',
-            min: 0,
-            required: true
-          },
-          className: 'col-md-6 col-12',
-          expressionProperties: {
-            'templateOptions.disabled': '!model.enableDeliveryCharges'
-          }
-        }
+          fieldGroupClassName: 'row',
+          fieldGroup: [
+            {
+              key: 'delivery_charges',
+              type: 'input',
+              props: {
+                label: 'Delivery Charges',
+                placeholder: 'Enter delivery charges',
+                type: 'number',
+                min: 0,
+                required: true
+              },
+              className: 'col-md-8 col-12',
+              expressionProperties: {
+                'templateOptions.disabled': '!model.enableDeliveryCharges'
+              }
+            },
+            {
+              key: 'enableDeliveryCharges',
+              type: 'checkbox',
+              props: { label: 'Enable Delivery Charges' },
+              defaultValue: true,
+              className: 'col-md-4 col-12 order-fields'
+            }
+          ],
+          className: 'col-12'
+        },
       ]
     }
   ];
