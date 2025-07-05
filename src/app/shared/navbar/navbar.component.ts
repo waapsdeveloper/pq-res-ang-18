@@ -26,6 +26,7 @@ import { GlobalRestaurantService } from 'src/app/services/global-restaurant.serv
 import { UsersService } from 'src/app/services/users.service';
 import { PermissionService } from 'src/app/services/permission.service';
 import { NavService } from 'src/app/services/basic/nav.service';
+import { GlobalDataService } from 'src/app/services/global-data.service';
 
 @Component({
   selector: 'app-navbar',
@@ -72,10 +73,10 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     private configService: ConfigService,
     private cdr: ChangeDetectorRef,
     public notifcationService: NotificationsService,
-    private globalRestaurantService: GlobalRestaurantService,
+    public globalRestaurantService: GlobalDataService,
     private userService: UsersService,
     public permissionService: PermissionService,
-  
+
     private nav: NavService
   ) {
     this.config = this.configService.templateConf;
@@ -87,7 +88,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.globalRestaurantService.getRestaurantName().subscribe((name) => {
       this.restaurantName = name;
-      console.log('Restaurant Name from Service:', this.restaurantName);
     });
   }
 

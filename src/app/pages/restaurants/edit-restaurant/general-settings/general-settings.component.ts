@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { GlobalDataService } from 'src/app/services/global-data.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { UtilityService } from 'src/app/services/utility.service';
 
@@ -15,7 +16,8 @@ export class GeneralSettingsComponent {
 
   constructor(
     private network: NetworkService,
-    private utility: UtilityService
+    private utility: UtilityService,
+    private globalData: GlobalDataService
   ) {}
 
   async submitGeneral() {
@@ -53,6 +55,7 @@ export class GeneralSettingsComponent {
       const res = await this.network.updateRestaurant(this.model, this.restaurantId);
       if (res) {
         this.utility.presentSuccessToast('General info updated!');
+        await this.globalData.getDefaultRestaurant();
       } else {
         this.utility.presentFailureToast('Failed to update general info.');
       }
