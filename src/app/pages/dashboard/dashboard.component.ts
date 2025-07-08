@@ -51,7 +51,8 @@ export class DashboardComponent implements OnInit {
   }
 
   async ngOnInit() {
-    const res = await this.network.getTopDashboardCard();
+    const restaurantId = this.globalData.getRestaurantId(); // Adjust this if your method is named differently
+    const res = await this.network.getTopDashboardCard({ restaurant_id: restaurantId });
     if (res) {
       this.totalOrders = res.total_orders;
       this.totalRevenue = res.total_amount;

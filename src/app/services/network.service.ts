@@ -47,8 +47,9 @@ export class NetworkService {
     return this.httpGetResponse('dashboard/latest-tables', null, false, true);
   }
 
-  getTopDashboardCard() {
-    return this.httpGetResponse('dashboard-top-cards', null, false, true);
+  getTopDashboardCard(params: any = {}) {
+    const query = this.serialize(params);
+    return this.httpGetResponse('dashboard-top-cards' + (query ? `?${query}` : ''), null, false, true);
   }
 
   getTotalSales() {
@@ -209,20 +210,20 @@ export class NetworkService {
   uploadCategoryImage(imageFile: File, categoryId?: string) {
     const formData = new FormData();
     formData.append('image', imageFile);
-    
+
     // If categoryId is provided, use it in the URL, otherwise use a placeholder for new categories
     const url = categoryId ? `category/${categoryId}/upload-image` : 'category/0/upload-image';
-    
+
     return this.httpPostResponse(url, formData, null, true, true, 'multipart/form-data');
   }
 
   uploadProductImage(imageFile: File, productId?: string) {
     const formData = new FormData();
     formData.append('image', imageFile);
-    
+
     // If productId is provided, use it in the URL, otherwise use a placeholder for new products
     const url = productId ? `product/${productId}/upload-image` : 'product/0/upload-image';
-    
+
     return this.httpPostResponse(url, formData, null, true, true, 'multipart/form-data');
   }
 
