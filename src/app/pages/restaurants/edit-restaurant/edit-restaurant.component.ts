@@ -975,9 +975,9 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
 
     let d: any = {};
 
-    // Copy all model properties except schedule
+    // Copy all model properties except schedule and home_page_title (handled in meta)
     Object.keys(this.model).forEach((key) => {
-      if (key !== 'schedule') {
+      if (key !== 'schedule' && key !== 'home_page_title') {
         d[key] = this.model[key];
       }
     });
