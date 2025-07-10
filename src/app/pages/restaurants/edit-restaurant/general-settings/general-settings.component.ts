@@ -22,7 +22,7 @@ export class GeneralSettingsComponent {
 
   async submitGeneral() {
     // Validate general fields
-    const generalFields = ['name', 'address', 'phone', 'email', 'copyright_text', 'website'];
+    const generalFields = ['name', 'address', 'phone', 'email', 'copyright_text'];
     const missingFields = [];
     for (const field of generalFields) {
       const value = this.model[field];

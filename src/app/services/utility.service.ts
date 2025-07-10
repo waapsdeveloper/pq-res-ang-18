@@ -125,4 +125,8 @@ export class UtilityService {
   showWarningMessage(message: string): Promise<void> {
     return this.alerts.showWarningMessage(message);
   }
+
+  formatVariationOptions(variation: ProductVariation): string {
+    return variation.options.map((option) => `...`).join('');
+  }
 }

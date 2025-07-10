@@ -229,27 +229,36 @@ export class AlertsService {
     onSelect: (productId: string) => void
   ): Promise<void> {
     const renderVariations = (variations: ProductVariation[]) => {
-      if (!variations?.length) return 'No variations available';
-
+      // Defensive: variations should be an array of objects with options array
+      if (
+        !Array.isArray(variations) ||
+        !variations.length ||
+        (variations.length === 1 && Array.isArray(variations[0]) && variations[0].length === 0)
+      ) {
+        return 'No variations available';
+      }
       return variations
+        .filter((v) => v && typeof v === 'object' && Array.isArray(v.options))
         .map((variation) => {
-          return variation.options
-            .map(
-              (option) => `
-              <div style="
-                padding: 8px;
-                border-bottom: 1px solid #eee;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                font-size: 12px;
-              ">
-                <span>${option.name}</span>
-                <span style="color: #2d397c; font-weight: 500;">${currencySymbol}${option.price.toFixed(2)}</span>
-              </div>
-            `
-            )
-            .join('');
+          return variation.options && Array.isArray(variation.options)
+            ? variation.options
+                .map(
+                  (option) => `
+                  <div style="
+                    padding: 8px;
+                    border-bottom: 1px solid #eee;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    font-size: 12px;
+                  ">
+                    <span>${option.name}</span>
+                    <span style="color: #2d397c; font-weight: 500;">${currencySymbol}${option.price !== undefined ? Number(option.price).toFixed(2) : '0.00'}</span>
+                  </div>
+                `
+                )
+                .join('')
+            : '';
         })
         .join('');
     };
