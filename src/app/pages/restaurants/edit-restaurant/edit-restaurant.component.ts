@@ -408,21 +408,21 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
       dial_code: '',
       tips: '',
       delivery_charges: '',
-      home_page_title: d.meta?.home_page_title || '',
+      home_page_title: d.home_page_title || '',
       enableTax: true,
       enableTips: true,
       enableDeliveryCharges: true
     };
 
-    // Set home_page_title from meta array if present
-    if (Array.isArray(d.meta)) {
-      const homePageTitleMeta = d.meta.find((m: any) => m.key === 'home_page_title');
-      this.model.home_page_title = homePageTitleMeta ? homePageTitleMeta.value : '';
-    } else if (d.meta?.home_page_title) {
-      // fallback for object structure
-      this.model.home_page_title = d.meta.home_page_title;
-    } else {
-      this.model.home_page_title = '';
+    // Set home_page_title from meta array if present and top-level is missing
+    if (!this.model.home_page_title) {
+      if (Array.isArray(d.meta)) {
+        const homePageTitleMeta = d.meta.find((m: any) => m.key === 'home_page_title');
+        this.model.home_page_title = homePageTitleMeta ? homePageTitleMeta.value : '';
+      } else if (d.meta?.home_page_title) {
+        // fallback for object structure
+        this.model.home_page_title = d.meta.home_page_title;
+      }
     }
 
     // Initialize timingsJson array from schedule
