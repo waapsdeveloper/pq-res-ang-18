@@ -11,9 +11,10 @@ import { KtAppFormPageModule } from 'src/app/components/layouts/kt-app-form-page
 import { GeneralSettingsComponent } from './general-settings/general-settings.component';
 import { TimingSettingsComponent } from './timing-settings/timing-settings.component';
 import { OrderSettingsComponent } from './order-settings/order-settings.component';
+import { AttributesComponent } from './attributes/attributes.component';
 
 @NgModule({
-  declarations: [EditRestaurantComponent, GeneralSettingsComponent, TimingSettingsComponent, OrderSettingsComponent],
+  declarations: [EditRestaurantComponent, GeneralSettingsComponent, TimingSettingsComponent, OrderSettingsComponent, AttributesComponent],
   imports: [
     CommonModule,
     EditRestaurantRoutingModule,

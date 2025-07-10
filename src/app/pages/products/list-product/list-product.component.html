@@ -60,18 +60,6 @@
 
       <td>
         <div class="d-flex">
-          <span class="badge badge-pill badge-primary fw-bold me-auto" [class.badge-danger]="i % 2 !== 0">
-            {{ i % 2 === 0 ? 'True' : 'False' }}
-          </span>
-        </div>
-      </td>
-      <td>
-        <div class="d-flex">
-          <a href="#" class="badge badge-info fw-bold me-auto">349</a>
-        </div>
-      </td>
-      <td>
-        <div class="d-flex">
           <a class="badge badge-success fw-bold me-auto">{{ this.currencyService.currency_symbol }} {{ item.discount }}</a>
         </div>
       </td>
@@ -93,24 +81,9 @@
       <!--begin::Action=-->
       <td class="text-start">
         <div class="d-flex flex-row justify-content-start align-items-center gap-3">
-          <i
-            class="ti ti-eye view-icon"
-            style="font-size: 20px"
-            (click)="openDetails(i)"
-            *ngIf="canView"
-          ></i>
-          <i
-            class="edit-icon ti ti-edit"
-            style="font-size: 20px; cursor: pointer"
-            (click)="EditOpenDetails(i)"
-            *ngIf="canEdit"
-          ></i>
-          <i
-            class="ti ti-trash trash-icon"
-            style="font-size: 20px"
-            (click)="deleteRow(i)"
-            *ngIf="canDelete"
-          ></i>
+          <i class="ti ti-eye view-icon" style="font-size: 20px" (click)="openDetails(i)" *ngIf="canView"></i>
+          <i class="edit-icon ti ti-edit" style="font-size: 20px; cursor: pointer" (click)="EditOpenDetails(i)" *ngIf="canEdit"></i>
+          <i class="ti ti-trash trash-icon" style="font-size: 20px" (click)="deleteRow(i)" *ngIf="canDelete"></i>
         </div>
       </td>
       <!--end::Action=-->

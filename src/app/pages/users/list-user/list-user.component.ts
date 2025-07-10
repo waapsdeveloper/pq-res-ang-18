@@ -62,7 +62,19 @@ export class ListUserComponent extends ListBlade {
     role_id: '',
     status: null
   };
+
+  /**
+   * Clears all filters and reloads the user list.
+   */
   resetFilters() {
+    this.clearListFilters();
+    this.crudService.getList('', 1);
+  }
+
+  /**
+   * Utility function to clear the filter model for getList.
+   */
+  clearListFilters() {
     this.model = {
       name: '',
       email: '',
@@ -70,6 +82,8 @@ export class ListUserComponent extends ListBlade {
       role_id: '',
       status: null
     };
+    this.crudService.resetFilters();
+
   }
 
   onPageSizeChange(event: any): void {

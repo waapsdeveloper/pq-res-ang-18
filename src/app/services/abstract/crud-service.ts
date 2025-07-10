@@ -81,6 +81,13 @@ export abstract class BaseCrudService<T> {
     this.getList('', 1);
   }
 
+  resetFilters(): void {
+    this.search = '';
+    this.filters = null;
+    this.page = 1;
+    this.getList('', 1);
+  }
+
   loadMore(): void {
     if (this.page < this.lastPage) {
       this.getList(this.search, this.page + 1);

@@ -112,6 +112,8 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     delivery_charges: '',
     // Meta data properties
     home_page_title: '',
+    home_page_slider: '',
+    google_map: '',
     enableTax: true,
     enableTips: true,
     enableDeliveryCharges: true
@@ -136,7 +138,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
   data: any;
 
   // Sidebar navigation
-  activeSection: 'general' | 'timing' | 'order' = 'general';
+  activeSection: 'general' | 'timing' | 'order' | 'attributes' = 'general';
 
   // Global timing controls
   globalStartTime: string = '09:00';
@@ -233,6 +235,8 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
       copyright_text: new FormControl(this.model.copyright_text || ''),
       logo: new FormControl(this.model.logo || ''),
       home_page_title: new FormControl(this.model.home_page_title || ''),
+      home_page_slider: new FormControl(this.model.home_page_slider || ''),
+      google_map: new FormControl(this.model.google_map || ''),
       description: new FormControl(this.model.description || ''),
       status: new FormControl(this.model.status || 'active'),
       currency: new FormControl(this.model.currency || ''),
@@ -313,6 +317,9 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
 
     this.model = {
       name: d.name || '',
+      home_page_slider: d.home_page_slider || '',
+      google_map: d.google_map || '',
+
       copyright_text: d.copyright_text || '',
       imageBase64: d.imageBase64 || '',
       faviconBase64: d.faviconBase64 || '',
@@ -474,6 +481,56 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     this.utility.presentSuccessToast('JSON data logged to console. Check browser console for details.');
   }
 
+  attributesField: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: 'row',
+      fieldGroup: [
+        {
+          key: 'home_page_title',
+          type: 'input',
+          props: {
+            label: 'Home Page Title',
+            placeholder: 'Enter home page title for SEO',
+            required: false,
+            maxLength: 60
+          },
+          className: 'col-md-6 col-12'
+        },
+        {
+          key: 'home_page_slider',
+          type: 'input',
+          props: {
+            label: 'Home Page Slider Text',
+            placeholder: 'Enter home page Slider',
+            required: false,
+            maxLength: 60
+          },
+          className: 'col-md-6 col-12'
+        },
+        {
+          key: 'copyright_text',
+          type: 'textarea',
+          props: {
+            label: 'Copyright text',
+            placeholder: 'Enter copyright footer text',
+            required: false
+          },
+          className: 'col-md-6 col-12'
+        },
+        {
+          key: 'google_map',
+          type: 'input',
+          props: {
+            label: 'Google Map Embed Code',
+            placeholder: 'Enter Google Map embed code or URL',
+            required: false
+          },
+          className: 'col-md-12 col-12'
+        }
+      ]
+    }
+  ];
+
   // Split Formly fields for each section
   generalFields: FormlyFieldConfig[] = [
     {
@@ -521,28 +578,9 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
           },
           className: 'col-md-6 col-12'
         },
-        {
-          key: 'copyright_text',
-          type: 'textarea',
-          props: {
-            label: 'Copyright text',
-            placeholder: 'Enter copyright footer text',
-            required: false
-          },
-          className: 'col-md-6 col-12'
-        },
+        
 
-        {
-          key: 'home_page_title',
-          type: 'input',
-          props: {
-            label: 'Home Page Title',
-            placeholder: 'Enter home page title for SEO',
-            required: false,
-            maxLength: 60
-          },
-          className: 'col-md-6 col-12'
-        },
+      
         {
           key: 'logo',
           type: 'input',
@@ -636,9 +674,9 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
       fieldGroupClassName: 'row',
       fieldGroup: [
         // Enable Tax checkbox
-        
+
         // Enable Delivery Charges checkbox
-       
+
         // Country dropdown
         {
           key: 'country',
@@ -766,7 +804,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
             }
           ],
           className: 'col-12'
-        },
+        }
       ]
     }
   ];
@@ -980,7 +1018,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
       if (key !== 'schedule' && key !== 'home_page_title') {
         d[key] = this.model[key];
       }
-    });
+    });3
 
     d['image'] = this.model.imageBase64;
     d['favicon'] = this.model.faviconBase64;
