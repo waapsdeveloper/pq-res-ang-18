@@ -81,6 +81,7 @@ export class ListOrdersComponent extends ListBlade {
       status: '',
       is_paid: ''
     };
+    this.crudService.resetFilters();
   }
 
   fields: FormlyFieldConfig[] = [

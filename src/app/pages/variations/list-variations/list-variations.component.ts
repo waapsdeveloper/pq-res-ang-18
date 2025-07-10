@@ -40,6 +40,7 @@ export class ListVariationsComponent extends ListBlade {
       address: '',
       status: 'active'
     };
+    this.crudService.resetFilters();
   }
 
   fields: FormlyFieldConfig[] = [

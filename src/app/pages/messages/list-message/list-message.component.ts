@@ -36,6 +36,7 @@ export class ListMessageComponent extends ListBlade {
       email: '',
       phone: ''
     };
+    this.crudService.resetFilters();
   }
 
   fields: FormlyFieldConfig[] = [

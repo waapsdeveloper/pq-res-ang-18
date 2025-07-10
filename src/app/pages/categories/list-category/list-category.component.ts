@@ -203,5 +203,6 @@ export class ListCategoryComponent extends ListBlade {
       name: '',
       status: ''
     };
+    this.crudService.resetFilters();
   }
 }

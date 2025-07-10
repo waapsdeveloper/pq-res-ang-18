@@ -301,5 +301,6 @@ export class ListExpenseComponent extends ListBlade {
       status: '',
       category: ''
     };
+    this.crudService.resetFilters();
   }
 }
