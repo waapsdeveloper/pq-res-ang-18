@@ -61,6 +61,14 @@ export class NetworkService {
     return this.httpPostResponse('auth/login-via-email', data, null, false, true);
   }
 
+  forgotPassword(data) {
+    return this.httpPostResponse('auth/forgot-password', data, null, true, false);
+  }
+
+  resetPassword(data) {
+    return this.httpPostResponse('auth/reset-password', data, null, false, true);
+  }
+
   // Standard CRUD calls
 
   index(slug, params) {

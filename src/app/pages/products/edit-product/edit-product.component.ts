@@ -124,7 +124,7 @@ export class EditProductComponent implements OnInit, AfterViewInit {
           props: {
             label: 'Description',
             placeholder: 'Enter description',
-            required: true, // Ensure required is true
+            required: false, // Ensure required is true
             minLength: 3
           },
           className: 'col-12 col-lg-6'

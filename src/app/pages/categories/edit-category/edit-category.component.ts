@@ -78,7 +78,7 @@ export class EditCategoryComponent implements OnInit {
           props: {
             label: 'Description',
             placeholder: 'Enter description',
-            required: true // Ensure required is true
+            required: false // Ensure required is true
           },
           className: 'col-md-6 col-12'
         },

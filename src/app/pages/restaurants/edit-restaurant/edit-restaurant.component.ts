@@ -492,7 +492,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
             label: 'Home Page Title',
             placeholder: 'Enter home page title for SEO',
             required: false,
-            maxLength: 60
+            maxLength: 30
           },
           className: 'col-md-6 col-12'
         },
@@ -503,7 +503,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
             label: 'Home Page Slider Text',
             placeholder: 'Enter home page Slider',
             required: false,
-            maxLength: 60
+            maxLength: 50
           },
           className: 'col-md-6 col-12'
         },

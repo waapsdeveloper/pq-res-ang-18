@@ -52,7 +52,7 @@ export class AddCategoryComponent implements OnInit {
           props: {
             label: 'Description',
             placeholder: 'Enter description',
-            required: true
+            required: false
           },
           className: 'col-md-6 col-12'
         },
