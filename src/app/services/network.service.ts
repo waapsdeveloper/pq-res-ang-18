@@ -94,6 +94,22 @@ export class NetworkService {
   setActiveRestaurant(data: any, id) {
     return this.httpPutResponse(`restaurant/update-active`, data, id, false, true);
   }
+
+  // Restaurant Meta methods
+  storeRestaurantMeta(data: any, restaurantId: any) {
+    return this.httpPostResponse(`restaurant/${restaurantId}/meta`, data, null, false, true);
+  }
+
+  getRestaurantMeta(restaurantId: any, metaKey?: string) {
+    const params = metaKey ? { meta_key: metaKey } : {};
+    const query = this.serialize(params);
+    return this.httpGetResponse(`restaurant/${restaurantId}/meta${query ? `?${query}` : ''}`, null, false, true);
+  }
+
+  deleteRestaurantMeta(restaurantId: any, metaKey: string) {
+    // For DELETE with body, we need to use a different approach
+    return this.httpResponse('delete', `restaurant/${restaurantId}/meta`, { meta_key: metaKey }, null, false, true);
+  }
   getDefaultRestaurantId() {
     return this.httpGetResponse('restaurant/active', null, false, true);
   }
