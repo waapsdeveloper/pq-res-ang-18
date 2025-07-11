@@ -13,6 +13,9 @@ export class LoginComponent implements OnInit {
   showLoader = false;
 
   loginForm: FormGroup;
+  // Add state for forgot password
+  showForgotPassword = false;
+  forgotPasswordForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
@@ -26,6 +29,10 @@ export class LoginComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]],
       rememberMe: [true]
     });
+    // Forgot password form
+    this.forgotPasswordForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]]
+    });
   }
   // superadmin@email.com
   // admin123$
@@ -35,6 +42,23 @@ export class LoginComponent implements OnInit {
   }
 
   initialize() {}
+
+  toggleForgotPassword(event?: Event) {
+    if (event) {
+      event.preventDefault();
+    }
+    this.showForgotPassword = !this.showForgotPassword;
+  }
+
+  async onResetPassword() {
+    if (this.forgotPasswordForm.valid) {
+      // Here you would call your API to send reset link
+      this.utility.presentSuccessToast('Reset password link sent to your email');
+      this.showForgotPassword = false;
+    } else {
+      this.forgotPasswordForm.markAllAsTouched();
+    }
+  }
 
   async onSubmit() {
     if (this.loginForm.valid) {
