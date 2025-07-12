@@ -53,7 +53,7 @@ export class ListProductComponent extends ListBlade {
       discount: null,
       notes: ''
     };
-    this.crudService.resetFilters();
+    this.crudService.resetFilters(this.model);;
   }
 
   fields: FormlyFieldConfig[] = [

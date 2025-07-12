@@ -171,6 +171,6 @@ export class ListRolesComponent extends ListBlade {
     }; // Clear the model (or set to default values if needed)
     this.form.patchValue(this.model);
     this.debouncedSubmitFilters(this.model); // Optionally re-apply the filter logic
-    this.crudService.resetFilters();
+    this.crudService.resetFilters(this.model);;
   }
 }

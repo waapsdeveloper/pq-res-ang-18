@@ -82,7 +82,7 @@ export class ListUserComponent extends ListBlade {
       role_id: '',
       status: null
     };
-    this.crudService.resetFilters();
+    this.crudService.resetFilters(this.model);
 
   }
 

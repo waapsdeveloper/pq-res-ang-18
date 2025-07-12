@@ -228,6 +228,6 @@ export class ListCouponsComponent extends ListBlade {
       expires_at: '',
       is_active: ''
     };
-    this.crudService.resetFilters();
+    this.crudService.resetFilters(this.model);;
   }
 }

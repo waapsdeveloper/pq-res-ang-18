@@ -81,9 +81,10 @@ export abstract class BaseCrudService<T> {
     this.getList('', 1);
   }
 
-  resetFilters(): void {
+  resetFilters(model): void {
     this.search = '';
-    this.page = 1;  
+    this.filters = model;
+    this.page = 1;
     this.getList('', 1);
   }
 

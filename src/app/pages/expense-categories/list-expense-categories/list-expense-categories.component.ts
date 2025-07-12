@@ -36,7 +36,7 @@ export class ListExpenseCategoriesComponent extends ListBlade {
     this.model = {
       expense_name: ''
     };
-    this.crudService.resetFilters();
+    this.crudService.resetFilters(this.model);;
   }
 
   fields: FormlyFieldConfig[] = [

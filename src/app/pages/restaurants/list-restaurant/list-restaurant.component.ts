@@ -44,7 +44,7 @@ export class ListRestaurantComponent extends ListBlade {
       address: '',
       status: 'active'
     };
-    this.crudService.resetFilters();
+    this.crudService.resetFilters(this.model);;
   }
   fields: FormlyFieldConfig[] = [
     {
