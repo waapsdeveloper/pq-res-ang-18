@@ -521,8 +521,8 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
           key: 'google_map',
           type: 'input',
           props: {
-            label: 'Google Map Embed Code',
-            placeholder: 'Enter Google Map embed code or URL',
+            label: 'Google Map Link',
+            placeholder: 'Ent',
             required: false
           },
           className: 'col-md-12 col-12'
