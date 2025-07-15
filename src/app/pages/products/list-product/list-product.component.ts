@@ -53,7 +53,7 @@ export class ListProductComponent extends ListBlade {
       discount: null,
       notes: ''
     };
-    this.crudService.resetFilters(this.model);;
+    this.crudService.resetFilters(this.model);
   }
 
   fields: FormlyFieldConfig[] = [
@@ -72,14 +72,16 @@ export class ListProductComponent extends ListBlade {
           className: 'col-md-2 col-12'
         },
         {
-          key: 'category',
-          type: 'input',
+          key: 'category_id',
+          type: 'select',
           props: {
             label: 'Category',
-            placeholder: 'Enter category',
-            required: true
+            required: true,
+            multiple: false,
+            placeholder: 'Select a category',
+            options: []
           },
-          className: 'col-md-2 col-12'
+          className: 'formly-select-wrapper-3232 col-12 col-lg-2'
         },
         {
           key: 'restaurant_id',
@@ -238,6 +240,42 @@ export class ListProductComponent extends ListBlade {
   }
   ngOnInit(): void {
     this.setRestaurantsInForm();
+    this.setCategoriesInForm();
+  }
+  async setCategoriesInForm() {
+    const res = await this.getCategories();
+    console.log(res);
+
+    for (var i = 0; i < this.fields.length; i++) {
+      for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
+        let fl = this.fields[i].fieldGroup[j];
+        if (fl.key == 'category_id') {
+          fl.props.options = res;
+        }
+      }
+    }
+  }
+  async getCategories(): Promise<any[]> {
+    let obj = {
+      search: '',
+      perpage: 500,
+
+      restaurant_id: localStorage.getItem('restaurant_id') ? localStorage.getItem('restaurant_id') : -1
+    };
+    const res = await this.network.getCategories(obj);
+
+    if (res && res['data']) {
+      let d = res['data'];
+      let dm = d['data'];
+      return dm.map((r) => {
+        return {
+          value: r.id,
+          label: r.name
+        };
+      }) as any[];
+    }
+
+    return [];
   }
 
   async getRestaurants(): Promise<any[]> {
