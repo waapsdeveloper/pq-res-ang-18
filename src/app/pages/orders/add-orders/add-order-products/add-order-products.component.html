@@ -16,10 +16,18 @@
           </p>
         </div>
 
-        <button class="btn btn-primary" (click)="setSelectedToggle(product)" [disabled]="isProductSelected(product.id)">
-          <!-- {{buttonLabel}} -->
-          {{ this.currencySymbol }} {{ product?.price | number: '1.2-2' }}
-        </button>
+        <div class="d-flex align-items-center gap-2 mt-2">
+          <button 
+            class="product-btn d-flex justify-content-center align-items-center"
+            [ngClass]="getProductQuantity(product.id) > 0 ? 'faded-btn' : ''"
+            (click)="addOrIncrementProduct(product)">
+            <span>{{ this.currencySymbol }} {{ product?.price | number: '1.2-2' }}</span>
+            <span *ngIf="getProductQuantity(product.id) > 0" 
+                  class="ms-2 px-2 py-1 rounded-pill quantity-pill">
+              x{{ getProductQuantity(product.id) }}
+            </span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
