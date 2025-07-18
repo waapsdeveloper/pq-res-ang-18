@@ -33,10 +33,10 @@ export class AddOrderService {
   taxAmount: number = 0; // calculated
   paymentMethods: { label: string; value: string }[] = [
     { label: 'Cash on Delivery', value: 'cashondelivery' },
-    { label: 'Apple Pay', value: 'applePay' },
-    { label: 'Google Pay', value: 'googlePay' },
-    { label: 'Credit/Debit Card', value: 'card' },
-    { label: 'PayPal', value: 'paypal' }
+    // { label: 'Apple Pay', value: 'applePay' },
+    // { label: 'Google Pay', value: 'googlePay' },
+    // { label: 'Credit/Debit Card', value: 'card' },
+    // { label: 'PayPal', value: 'paypal' }
   ];
   s;
   totalCost = 0;
