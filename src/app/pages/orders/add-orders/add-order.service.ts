@@ -42,6 +42,7 @@ export class AddOrderService {
   totalCost = 0;
   isCouponApplied: boolean = false;
   subtotal = 0; // sum of products and options
+  lastCouponData: any = null; // Store last fetched coupon data
 
   constructor(
     private network: NetworkService,
@@ -188,7 +189,16 @@ export class AddOrderService {
     }, 0);
 
     this.subtotal = cost;
-    this.recalculateTotals();
+    // If a coupon is present and lastCouponData is valid, recalculate discount locally
+    if (this.couponCode && this.couponCode.trim() !== '' && this.lastCouponData && this.lastCouponData.code === this.couponCode) {
+      this.recalculateDiscountWithCoupon(this.lastCouponData);
+    } else if (this.couponCode && this.couponCode.trim() !== '') {
+      // Coupon code present but no valid data, call API
+      await this.applyCoupon(true);
+    } else {
+      this.discountAmount = 0;
+      this.recalculateTotals();
+    }
   }
   selectSuggestion(suggestion: any) {
     console.log(suggestion);
@@ -392,41 +402,57 @@ export class AddOrderService {
     this.discountAmount = 0;
     this.final_total = 0;
   }
-  async applyCoupon() {
-    this.discountAmount = 0;
-    let obj = { code: this.couponCode };
-    const res = await this.network.getAvailableCoupon(obj);
-    const data = res?.coupon;
-
-    if (!data) {
-      this.utilityService.presentFailureToast('No coupon data available');
+  async applyCoupon(forceApi: boolean = false) {
+    // Only call API if coupon code changed or forceApi is true
+    if (!this.couponCode || this.couponCode.trim() === '') {
+      this.discountAmount = 0;
+      this.lastCouponData = null;
       this.recalculateTotals();
       return false;
     }
+    if (!forceApi && this.lastCouponData && this.lastCouponData.code === this.couponCode) {
+      // Use cached coupon data
+      this.recalculateDiscountWithCoupon(this.lastCouponData);
+      return true;
+    }
+    // Fetch from API
+    let obj = { code: this.couponCode };
+    const res = await this.network.getAvailableCoupon(obj);
+    const data = res?.coupon;
+    if (!data) {
+      this.utilityService.presentFailureToast('No coupon data available');
+      this.discountAmount = 0;
+      this.lastCouponData = null;
+      this.recalculateTotals();
+      return false;
+    }
+    data.code = this.couponCode; // Track which code this data is for
+    this.lastCouponData = data;
+    this.recalculateDiscountWithCoupon(data);
+    return true;
+  }
 
+  recalculateDiscountWithCoupon(data: any) {
     let discountValue = data?.discount_value || 0;
     let calculatedDiscount = 0;
-
     if (data?.discount_type === 'percentage') {
       calculatedDiscount = (this.subtotal * discountValue) / 100;
     } else if (data?.discount_type === 'fixed') {
       calculatedDiscount = discountValue;
     } else {
       this.utilityService.presentFailureToast('Invalid discount type');
+      this.discountAmount = 0;
       this.recalculateTotals();
-      return false;
+      return;
     }
-
     if (calculatedDiscount > this.subtotal * 0.5) {
       this.utilityService.presentFailureToast('Invalid coupon: Discount cannot exceed 50% of the subtotal.');
       this.discountAmount = 0;
       this.recalculateTotals();
-      return false;
+      return;
     }
-
     this.discountAmount = calculatedDiscount;
     this.recalculateTotals();
-    return true;
   }
 
   clearSelectedProducts() {

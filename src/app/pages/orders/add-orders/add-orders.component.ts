@@ -189,6 +189,9 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
 
       // this.orderService.updateProductInSelectedProducts(this.orderService.selected_products);
 
+      // Ensure all totals are recalculated after loading order for edit
+      this.orderService.recalculateTotals();
+
       if (res) {
       }
     }
