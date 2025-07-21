@@ -59,6 +59,20 @@ export class AddOrderPriceListComponent implements OnInit {
     this.orderService.totalOfProductCost();
   }
 
+  incrementQty(item: any) {
+    if (item.quantity < 50) {
+      item.quantity++;
+      this.changeQty(item);
+    }
+  }
+
+  decrementQty(item: any) {
+    if (item.quantity > 1) {
+      item.quantity--;
+      this.changeQty(item);
+    }
+  }
+
   async onSubmit($event) {
     const res = await this.orderService.submitOrder();
     if (res) {

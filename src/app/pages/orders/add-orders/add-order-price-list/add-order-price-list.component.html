@@ -84,6 +84,8 @@
 
             <!-- Actions (Icons in a Row) -->
             <div class="d-flex gap-2 align-items-start">
+              <button class="btn btn-sm btn-light text-primary" (click)="incrementQty(item)" style="min-width: 28px;">+</button>
+              <button class="btn btn-sm btn-light text-primary" (click)="decrementQty(item)" style="min-width: 28px;">-</button>
               <button
                 class="btn btn-sm btn-light text-primary p-1"
                 [ngbPopover]="noteContent"
