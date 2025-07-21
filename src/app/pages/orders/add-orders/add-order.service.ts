@@ -209,17 +209,17 @@ export class AddOrderService {
     this.customer_name = 'Walk-in Customer';
     this.customer_phone = '0000000000';
     this.orderType = 'dine-in';
-    this.paymentMethod = 'card';
+    this.paymentMethod = 'cashondelivery';
   }
 
   resetField() {
-    this.customer_name = '';
-    this.customer_phone = '';
+    this.customer_name = 'Walk-in Customer';
+    this.customer_phone = '0000000000';
     this.order_notes = '';
     this.selected_products = [];
     this.selectedTableId = null;
-    this.orderType = '';
-    this.paymentMethod = '';
+    this.orderType = 'dine-in';
+    this.paymentMethod = 'cashondelivery';
     this.couponCode = '';
     this.discountAmount = 0;
     this.final_total = 0;

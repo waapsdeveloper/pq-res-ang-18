@@ -82,8 +82,8 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     console.log(`Screen Width: ${this.screenWidth}, Screen Height: ${this.screenHeight}`);
   }
 
-  tempCustomerName: any = null;
-  tempCustomerPhone: any = null;
+  tempCustomerName: string | { name: string } = 'Walk-in Customer';
+  tempCustomerPhone: string | { phone: string } = '0000000000';
   tempCustomerAddress: any = null;
   walkInCustomer = {
     id: 0, // Special ID for walk-in customer
@@ -115,6 +115,10 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     // this.orderService.taxPercent = await this.currencyService.getTaxFromLocalStorage();
     this.orderService.showOrderHeader = false;
+    // Set all defaults using the service method
+    this.orderService.makeWalkingCustomer();
+    this.tempCustomerName = this.orderService.customer_name;
+    this.tempCustomerPhone = this.orderService.customer_phone;
     let restaurant = await this.getRestaurants();
     this.restInfo = restaurant;
     console.log(this.restInfo);
@@ -166,8 +170,8 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       this.tempCustomerName = this.filteredSuggestions.find((x) => x.name == dm['customer'])?.name;
       this.tempCustomerPhone = this.filteredSuggestions.find((x) => x.phone == dm['customer_phone'])?.phone;
 
-      this.orderService.customer_name = dm['customer'];
-      this.orderService.customer_phone = dm['customer_phone'];
+      this.orderService.customer_name = this.getName(this.tempCustomerName);
+      this.orderService.customer_phone = this.getPhone(this.tempCustomerPhone);
       this.orderService.customer_address = dm['delivery_address'];
       this.orderService.orderType = dm['order_type'];
       this.orderService.order_notes = dm['notes'];
@@ -299,8 +303,8 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       // 5) Clear the form fields and local storage regardless of print confirmation
       localStorage.removeItem('order_id');
       this.tempCustomerAddress = '';
-      this.tempCustomerName = '';
-      this.tempCustomerPhone = '';
+      this.tempCustomerName = 'Walk-in Customer';
+      this.tempCustomerPhone ='0000000000';
       this.orderService.resetField();
     } catch (error) {
       console.error('Error submitting order:', error);
@@ -455,8 +459,8 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   onCustomerFieldChange() {
     // Assign values to orderService when both fields are filled
     if (this.tempCustomerName && this.tempCustomerPhone) {
-      this.orderService.customer_name = typeof this.tempCustomerName === 'string' ? this.tempCustomerName : this.tempCustomerName.name;
-      this.orderService.customer_phone = typeof this.tempCustomerPhone === 'string' ? this.tempCustomerPhone : this.tempCustomerPhone.phone;
+      this.orderService.customer_name = this.getName(this.tempCustomerName);
+      this.orderService.customer_phone = this.getPhone(this.tempCustomerPhone);
     }
   }
 
@@ -481,8 +485,8 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       this.tempCustomerPhone = event?.phone ? event?.phone : this.tempCustomerPhone;
       this.tempCustomerAddress = event?.address ? event?.address : this.tempCustomerAddress;
 
-      this.orderService.customer_name = this.tempCustomerName;
-      this.orderService.customer_phone = this.tempCustomerPhone;
+      this.orderService.customer_name = this.getName(this.tempCustomerName);
+      this.orderService.customer_phone = this.getPhone(this.tempCustomerPhone);
       this.orderService.customer_address = this.tempCustomerAddress;
     } else {
       // Handle manual input
@@ -497,8 +501,8 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       this.tempCustomerName = event?.name ? event?.name : this.tempCustomerName;
       this.tempCustomerPhone = event.phone;
       this.tempCustomerAddress = event?.address ? event?.address : this.tempCustomerAddress;
-      this.orderService.customer_name = this.tempCustomerName;
-      this.orderService.customer_phone = this.tempCustomerPhone;
+      this.orderService.customer_name = this.getName(this.tempCustomerName);
+      this.orderService.customer_phone = this.getPhone(this.tempCustomerPhone);
       this.orderService.customer_address = this.tempCustomerAddress;
     } else {
       // Handle manual input
@@ -512,8 +516,8 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       // Autofill name if selected from suggestions
       this.tempCustomerName = event?.name ? event?.name : this.tempCustomerName;
       this.tempCustomerPhone = event.phone;
-      this.orderService.customer_name = this.tempCustomerName;
-      this.orderService.customer_phone = this.tempCustomerPhone;
+      this.orderService.customer_name = this.getName(this.tempCustomerName);
+      this.orderService.customer_phone = this.getPhone(this.tempCustomerPhone);
     } else {
       // Handle manual input
       this.tempCustomerPhone = event;
@@ -557,5 +561,14 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     this.orderService.tips = tipsValue;
     this.orderService.recalculateTotals();
     this.utilityService.presentSuccessToast('Tips applied successfully');
+  }
+
+  // Helper to get name as string
+  private getName(val: string | { name: string }): string {
+    return typeof val === 'string' ? val : val.name;
+  }
+  // Helper to get phone as string
+  private getPhone(val: string | { phone: string }): string {
+    return typeof val === 'string' ? val : val.phone;
   }
 }
