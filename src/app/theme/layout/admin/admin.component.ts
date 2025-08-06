@@ -40,14 +40,7 @@ export class AdminComponent {
 
   // public method
   navMobClick() {
-    if (this.navCollapsedMob && !document.querySelector('app-navigation.coded-navbar')?.classList.contains('mob-open')) {
-      this.navCollapsedMob = !this.navCollapsedMob;
-      setTimeout(() => {
-        this.navCollapsedMob = !this.navCollapsedMob;
-      }, 100);
-    } else {
-      this.navCollapsedMob = !this.navCollapsedMob;
-    }
+    this.navCollapsedMob = !this.navCollapsedMob;
     if (document.querySelector('app-navigation.pc-sidebar')?.classList.contains('navbar-collapsed')) {
       document.querySelector('app-navigation.pc-sidebar')?.classList.remove('navbar-collapsed');
     }
