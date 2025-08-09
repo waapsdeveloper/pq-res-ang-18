@@ -24,7 +24,7 @@
   >
     <!-- Show "No results found" when not loading and list is empty -->
     <tr *ngIf="!crudService.loading && crudService.list.length === 0">
-      <td colspan="5" class="text-center">No results found.</td>
+      <td colspan="4" class="text-center">No results found.</td>
     </tr>
     <!-- Hide rows when loading -->
     <tr [hidden]="!(!crudService.loading && crudService.list.length > 0)" *ngFor="let item of crudService.list; let i = index">
@@ -38,7 +38,6 @@
             <a (click)="openDetails(i)" class="text-hover-primary fs-5 fw-bold" data-kt-ecommerce-product-filter="product_name">
               {{ item.identifier }}
             </a>
-            <div class="fs-7 fw-bold">Total Orders:{{ item?.total_orders }}</div>
 
             <!--end::Title-->
           </div>
@@ -57,11 +56,6 @@
           <div class="ms-5">
             <a class="text-hover-primary fs-5 fw-bold mb-1">{{ item.floor }}</a>
           </div>
-        </div>
-      </td>
-      <td>
-        <div class="d-flex">
-          <a href="#" class="badge badge-info fw-bold me-auto">{{ item?.total_orders }}</a>
         </div>
       </td>
       <td>
@@ -150,12 +144,6 @@
         <ngx-skeleton-loader
           appearance="custom-content"
           [theme]="{ width: '90px', height: '20px', 'border-radius': '7px', background: 'rgba(0,0,0,0.2)' }"
-        ></ngx-skeleton-loader>
-      </td>
-      <td>
-        <ngx-skeleton-loader
-          appearance="custom-content"
-          [theme]="{ width: '50px', height: '20px', 'border-radius': '7px', background: 'rgba(0,0,0,0.2)' }"
         ></ngx-skeleton-loader>
       </td>
       <td>

@@ -21,7 +21,7 @@ export class ListRtablesComponent extends ListBlade {
   canDelete;
   canEdit;
   canView;
-  columns: any[] = ['Table No', 'No of seats', 'Floor', 'No of Orders', 'Status'];
+  columns: any[] = ['Table No', 'No of seats', 'Floor', 'Status'];
   title = 'Tables';
   showEdit = false;
   addurl = '/pages/tables/add';
