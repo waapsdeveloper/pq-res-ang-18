@@ -31,3 +31,32 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+// Mobile-specific styles
+@media (max-width: 767.98px) {
+  .sidebar-content, .main-menu-content, .navigation, .menu-title, .dropdown-item, .nav-item, .navbar {
+    font-size: 13px !important;
+  }
+  .navbar-right .btn.btn-primary {
+    padding: 0.375rem 0.5rem;
+    font-size: 1.2rem;
+  }
+  .navbar-right .btn.btn-primary span {
+    display: none;
+  }
+  .navbar-right .btn.btn-primary i {
+    display: inline-block;
+    font-size: 1.5rem;
+  }
+  .navbar-center {
+    flex: 1;
+    text-align: center;
+  }
+  .navbar-restaurant-name {
+    font-size: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+}
