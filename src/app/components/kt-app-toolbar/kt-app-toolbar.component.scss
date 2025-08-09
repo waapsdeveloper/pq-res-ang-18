@@ -1,0 +1,51 @@
+// Responsive styles for title highlight part
+.title-highlight-part {
+  // Mobile-first approach
+  font-size: 0.85rem !important;
+  line-height: 1.3;
+  word-wrap: break-word;
+  word-break: break-word;
+  max-width: 100%;
+  
+  // On small screens and up
+  @media (min-width: 576px) {
+    font-size: 0.9rem !important;
+  }
+  
+  // On medium screens and up
+  @media (min-width: 768px) {
+    font-size: 0.95rem !important;
+  }
+  
+  // On large screens and up
+  @media (min-width: 992px) {
+    font-size: 1rem !important;
+  }
+}
+
+// Ensure the title container is responsive
+.content-header {
+  // Mobile: stack vertically
+  @media (max-width: 575.98px) {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    
+    .title-highlight-part {
+      margin-top: 0.25rem;
+      margin-left: 0 !important;
+    }
+  }
+  
+  // Tablet and up: display inline
+  @media (min-width: 576px) {
+    flex-direction: row !important;
+    align-items: center !important;
+  }
+}
+
+// Ensure proper spacing on mobile
+.page-title {
+  @media (max-width: 575.98px) {
+    margin-right: 0.5rem !important;
+  }
+}

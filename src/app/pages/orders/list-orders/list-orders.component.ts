@@ -330,9 +330,8 @@ export class ListOrdersComponent extends ListBlade {
     return res;
   }
   get orderTitleHighlightPart(): string {
-    // If your API attaches these totals to the list object, adjust as needed
-
-    return `(Tax: ${this.currencySymbol} ${this.taxAmount} | Discount: ${this.currencySymbol} ${this.discountAmount} | Subtotal: ${this.currencySymbol} ${this.subTotal} | Total: ${this.currencySymbol} ${this.totalAmount})`;
+    // More concise version for better mobile display
+    return `(T: ${this.currencySymbol}${this.taxAmount} | D: ${this.currencySymbol}${this.discountAmount} | S: ${this.currencySymbol}${this.subTotal} | Total: ${this.currencySymbol}${this.totalAmount})`;
   }
   editRow(index: number) {}
 

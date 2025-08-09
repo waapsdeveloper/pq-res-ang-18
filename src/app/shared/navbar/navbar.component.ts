@@ -17,8 +17,9 @@ import {
 } from '@angular/core';
 
 import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { UntypedFormControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { LayoutService } from 'src/app/shared/services/layout.service';
 import { ConfigService } from 'src/app/shared/services/config.service';
 import { NotificationsService } from 'src/app/services/notifications.service';
@@ -83,7 +84,9 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.innerWidth = window.innerWidth;
 
     this.layoutSub = layoutService.toggleSidebar$.subscribe((isShow) => {
+      console.log('Navbar received layout service update, isShow:', isShow, 'setting hideSidebar to:', !isShow);
       this.hideSidebar = !isShow;
+      this.cdr.markForCheck();
     });
 
     this.globalRestaurantService.getRestaurantName().subscribe((name) => {
@@ -99,6 +102,18 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.isSmallScreen = false;
     }
+
+    // Listen to router navigation events to reset sidebar state
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      // Reset sidebar state on navigation for mobile devices
+      if (this.innerWidth < 1200) {
+        console.log('Navbar navigation event, resetting hideSidebar to true');
+        this.hideSidebar = true;
+        this.cdr.markForCheck();
+      }
+    });
   }
 
   ngAfterViewInit() {
@@ -237,6 +252,10 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   toggleSidebar() {
+    // Call the layout service to toggle the sidebar
+    // When hideSidebar is true, we want to show the sidebar (isShow = true)
+    // When hideSidebar is false, we want to hide the sidebar (isShow = false)
+    console.log('Navbar toggleSidebar called, current hideSidebar:', this.hideSidebar);
     this.layoutService.toggleSidebarSmallScreen(this.hideSidebar);
   }
 
