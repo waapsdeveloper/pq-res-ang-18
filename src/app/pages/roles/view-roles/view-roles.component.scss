@@ -1,0 +1,51 @@
+/* Profile Card Layout */
+.profile-card {
+  margin-bottom: 1.5rem;
+}
+
+.profile-card-body {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+}
+
+.profile-img img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.profile-info {
+  margin-left: 1.5rem;
+}
+
+.profile-info h4 {
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+}
+
+.profile-info p {
+  margin: 0;
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Responsive: Stack vertically on mobile */
+@media (max-width: 768px) {
+  .profile-card-body {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .profile-info {
+    margin-left: 0;
+    margin-top: 1rem;
+  }
+
+  .profile-img img {
+    width: 120px;
+    height: 120px;
+  }
+}
