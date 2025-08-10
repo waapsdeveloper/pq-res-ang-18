@@ -23,7 +23,7 @@
   <!-- Sidebar Section -->
   <div class="bn-sidebar-right">
     <!-- Tab Switcher -->
-    <div class="d-flex flex-wrap justify-content-start align-items-center gap-2 sticky-top" style="padding: 8px">
+    <div class="tab-switcher-navbar d-flex flex-wrap justify-content-start align-items-center gap-2 sticky-top" style="padding: 8px">
       <div class="tab-item" *ngFor="let tab of tabs" [class.active]="tab.active" (click)="setActiveTab(tab.name)">
         <a class="nav-link d-flex align-items-center justify-content-center gap-2">
           <i [class]="tab.icon"></i>
