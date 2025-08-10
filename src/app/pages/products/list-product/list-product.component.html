@@ -41,7 +41,7 @@
             <a class="text-hover-primary fs-5 fw-bold" data-kt-ecommerce-product-filter="product_name" (click)="openDetails(i)">
               {{ item.name }}
             </a>
-            <div class="fs-7 fw-bold">{{ item.description }}</div>
+            <div class="fs-7 fw-bold category-description">{{ item.description }}</div>
 
             <!--end::Title-->
           </div>
@@ -49,20 +49,20 @@
       </td>
       <td>
         <div class="d-flex">
-          <div class="fs-7 fw-bold">{{ item.category ? item.category : '' }}</div>
-        </div>
-      </td>
-      <td>
-        <div class="d-flex">
           <div class="badge badge-secondary fw-bold me-auto">{{ this.currencySymbol }} {{ item.price }}</div>
         </div>
       </td>
-
       <td>
         <div class="d-flex">
           <a class="badge badge-success fw-bold me-auto">{{ this.currencyService.currency_symbol }} {{ item.discount }}</a>
         </div>
       </td>
+      <td>
+        <div class="d-flex">
+          <div class="fs-7 fw-bold">{{ item.category ? item.category : '' }}</div>
+        </div>
+      </td>
+
       <td>
         <div class="d-flex">
           <div

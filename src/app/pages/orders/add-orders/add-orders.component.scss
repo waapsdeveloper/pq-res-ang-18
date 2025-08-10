@@ -356,3 +356,32 @@
     pointer-events: auto; /* Enable interaction */
   }
 }
+
+@media (max-width: 767.98px) {
+  .mobile-menu {
+    display: none !important;
+  }
+}
+.scrollable-navbar {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 4px;
+
+  /* Hide scrollbar for Chrome, Safari, Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for Firefox */
+  scrollbar-width: none;
+}
+
+/* Ensure category items have a minimum width for scrolling */
+.single-category-item {
+  flex: 0 0 auto;
+  min-width: 120px;
+  margin-right: 8px;
+}
