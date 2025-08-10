@@ -97,30 +97,23 @@
     <div class="content-overlay"></div>
     <div class="content-wrapper">
       <section class="users-view">
-        <!-- Media object starts -->
-        <div class="row">
-          <div class="col-12 col-sm-7">
-            <div class="media d-flex align-items-center">
-              <a href="javascript:;">
-                <img
-                  [src]="item?.image ? item?.image : 'assets/images/user/user_placeholder.png'"
-                  alt="user view avatar"
-                  class="users-avatar-shadow rounded"
-                  height="64"
-                  width="64"
-                />
-              </a>
-              <div class="media-body ml-3">
-                <h4>
-                  <span class="users-view-name">{{ item?.name }}</span>
-                </h4>
-                <span>ID:</span>
-                <span class="users-view-id">{{ itemId }}</span>
-              </div>
-            </div>
+        <div class="card profile-card">
+          <!-- Profile Image -->
+          <div class="profile-image-wrapper">
+            <img
+              [src]="item?.image ? item?.image : 'assets/images/user/user_placeholder.png'"
+              alt="User profile"
+              class="profile-image"
+            />
+          </div>
+
+          <!-- Profile Description -->
+          <div class="profile-info">
+            <h4 class="profile-name">{{ item?.name }}</h4>
+            <p><strong>ID:</strong> {{ itemId }}</p>
+            <p>
           </div>
         </div>
-        <!-- Media object ends -->
 
         <div class="row">
           <div class="col-12">
