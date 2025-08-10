@@ -5,8 +5,8 @@
       <!-- Back Button -->
 
       <!-- Existing Categories Section -->
-      <div class="d-flex flex-wrap justify-content-start align-items-center gap-3">
-        <div class="d-flex align-items-center">
+      <div class="d-flex flex-wrap justify-content-start align-items-center gap-3 "  style="width: 100%; overflow-x: auto; ">
+        <div  class="d-flex align-items-center  mobile-menu "  >
           <button class="btn btn-light d-flex align-items-center gap-2" (click)="goBack()">
             <i class="ti ti-arrow-left"></i>
             <span>Back</span>
@@ -23,7 +23,7 @@
   <!-- Sidebar Section -->
   <div class="bn-sidebar-right">
     <!-- Tab Switcher -->
-    <div class="d-flex flex-wrap justify-content-start align-items-center gap-2 sticky-top" style="padding: 8px">
+    <div class="tab-switcher-navbar d-flex flex-wrap justify-content-start align-items-center gap-2 sticky-top" style="padding: 8px">
       <div class="tab-item" *ngFor="let tab of tabs" [class.active]="tab.active" (click)="setActiveTab(tab.name)">
         <a class="nav-link d-flex align-items-center justify-content-center gap-2">
           <i [class]="tab.icon"></i>
