@@ -1,19 +1,56 @@
 <app-kt-app-form-page [title]="'Edit Branch' + (model.name ? '  ' + model.name : '')">
   <!-- Media object starts -->
-  <div class="row">
+   
+  <div class="row hello">
     <div class="col-12 col-sm-7">
-      <div class="media d-flex align-items-center">
-        <a href="javascript:;">
-          <img [src]="model?.src_img" alt="user view avatar" class="users-avatar-shadow rounded" height="64" />
-        </a>
-      </div>
+      <!-- Mobile: Show image + name -->
+<div class="restaurant-info-card d-flex align-items-center p-3 mb-3 d-flex d-md-none">
+  <div class="restaurant-img me-3">
+    <img [src]="model?.src_img" alt="Branch Image" class="rounded" height="64" width="64" />
+  </div>
+  <div class="restaurant-name flex-grow-1">
+    <h5 class="mb-0 fw-bold">{{ model?.name }}</h5>
+  </div>
+</div>
+
+<!-- Desktop: Show only image -->
+<div class="restaurant-img mb-3 d-none d-md-block">
+  <img [src]="model?.src_img" alt="Branch Image" class="rounded" height="64" width="64" />
+</div>
     </div>
   </div>
   <!-- Media object ends -->
+
+    <div class="restaurant-horizontal-tabs d-flex d-md-none flex-nowrap align-items-center gap-2 mb-3">
+  <div
+    class="tab-item"
+    [class.active]="activeSection === 'general'"
+    (click)="activeSection = 'general'">
+    General
+  </div>
+  <div
+    class="tab-item"
+    [class.active]="activeSection === 'timing'"
+    (click)="activeSection = 'timing'">
+    Timing
+  </div>
+  <div
+    class="tab-item"
+    [class.active]="activeSection === 'order'"
+    (click)="activeSection = 'order'">
+    Order
+  </div>
+  <div
+    class="tab-item"
+    [class.active]="activeSection === 'attributes'"
+    (click)="activeSection = 'attributes'">
+    Attributes
+  </div>
+</div>
   <div class="edit-layout">
     <div class="row flex-nowrap">
       <!-- Sidebar (Left) -->
-      <div class="sidebar-fixed border-end pe-0">
+      <div class="sidebar-fixed border-end pe-0 d-none d-md-block">
         <nav class="sidebar h-100">
           <ul class="nav flex-column ps-2" style="min-width: 150px">
             <li
@@ -98,4 +135,6 @@
       </div>
     </div>
   </div>
+
+
 </app-kt-app-form-page>
