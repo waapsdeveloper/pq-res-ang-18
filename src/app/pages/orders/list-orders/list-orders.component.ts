@@ -11,6 +11,7 @@ import { EventsService } from 'src/app/services/events.service';
 import { CurrencyService } from 'src/app/services/currency.service';
 import { GlobalDataService } from 'src/app/services/global-data.service';
 import { ActivatedRoute } from '@angular/router';
+import html2pdf from 'html2pdf.js';
 import { PermissionService } from 'src/app/services/permission.service';
 
 @Component({
@@ -378,55 +379,27 @@ export class ListOrdersComponent extends ListBlade {
     console.log('Page size changed in ListOrdersComponent:', event);
     this.changePageSize(event); // Call the inherited method from ListBlade
   }
-  printSlip() {
-    const section = document.getElementById('print-section');
-    if (!section) {
-      console.error('Print section not found.');
-      return;
-    }
-
-    // 1. Grab the _rendered_ HTML (with actual names, prices, looped rows)
-    const html = section.innerHTML;
-
-    // 2. Open a new window
-    const printWindow = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
-    if (!printWindow) {
-      console.error('Unable to open print window.');
-      return;
-    }
-
-    // 3. Write a minimal HTML document around that rendered content
-    printWindow.document.open();
-    printWindow.document.write(`
-      <html>
-        <head>
-          <title>Print Receipt</title>
-          <style>
-            /* bring in any print‑only styles here */
-            body { font-family: Arial, sans-serif; font-size: 12px; margin:0; padding: 8px; }
-            .bill-slip { border: 1px dashed #000; padding: 8px; }
-            .bill-header, .customer-info, .order-details, .bill-footer {
-              margin-bottom: 10px;
-            }
-            table { width: 100%; border-collapse: collapse; }
-            th, td { text-align: left; padding: 2px 4px; }
-            th { border-bottom: 1px solid #000; }
-          </style>
-        </head>
-        <body>
-          <div class="bill-slip">
-            ${html}
-          </div>
-        </body>
-      </html>
-    `);
-    printWindow.document.close();
-
-    // 4. Print & close
-    printWindow.focus();
-    printWindow.print();
-    printWindow.close();
-  }
+   printSlip() {
+ 
+     const section = document.getElementById('print-section');
+     if (!section) { console.error('Print section not found.'); return; }
+     const oldDisplay = section.style.display;
+     section.style.display = 'block';
+     const opt = {
+       margin: 0,
+       filename: 'Invoice-' + 'invoice' + '.pdf',
+       image: { type: 'jpeg', quality: 1 },
+       html2canvas: { scale: 2, useCORS: true },
+       jsPDF: { unit: 'mm', format: [60, 800], orientation: 'portrait' }
+     };
+     html2pdf().set(opt).from(section).toPdf().get('pdf').then(function (pdf) {
+       window.open(pdf.output('bloburl'), '_blank');
+       section.style.display = oldDisplay;
+     }).catch(function (err) {
+       console.error('PDF generation error:', err);
+       section.style.display = oldDisplay;
+     });
+   }
   getOrderStatusClass(status: string): string {
     switch (status.toLowerCase()) {
       case 'ready':

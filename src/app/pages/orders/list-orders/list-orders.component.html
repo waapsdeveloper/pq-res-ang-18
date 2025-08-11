@@ -155,63 +155,106 @@
         <div class="d-flex flex-row justify-content-start align-items-center gap-3">
           <i class="ti ti-eye view-icon" style="font-size: 20px; cursor: pointer" *ngIf="canView" (click)="openDetails(i)"></i>
           <i class="ti ti-printer printericon" style="font-size: 20px; cursor: pointer" (click)="printSlip()"></i>
-          <div id="print-section" class="print-section" style="font-family: Arial, sans-serif; font-size: 15px; width: 240px; margin: auto">
-            <div class="bill-slip">
-              <div class="bill-header" style="text-align: center; border-bottom: 1px dashed #000; padding-bottom: 8px">
-                <h2 style="margin: 0; font-size: 16px">{{ item?.restaurant.name }}</h2>
-                <p style="margin: 0">{{ item?.restaurant.address }}</p>
-                <p style="margin: 0">Phone: {{ item?.restaurant?.phone }}</p>
-              </div>
+          <div id="print-section" style="width:60mm; font-family: Arial, sans-serif; font-size: 12px; margin: 0 auto;">
+  <!-- Logo -->
+  <div style="text-align: center; margin-bottom: 10px;">
+    <img *ngIf="item?.restaurant.logo" [src]="item?.restaurant.logo" style="width:50px; height:auto; display:block; margin:0 auto;" alt="Logo">
+    <h2 style="font-size: 14px; margin: 5px 0;">{{ item?.order_number }}</h2>
+    <div style="font-size: 10px;">Order No</div>
+  </div>
 
-              <div class="customer-info" style="padding: 8px 0; border-bottom: 1px dashed #000">
-                <p style="margin: 0">
-                  <strong>Name:</strong>
-                  {{ item?.customer }}
-                </p>
-                <p style="margin: 0">
-                  <strong>Phone:</strong>
-                  {{ item?.customer_phone }}
-                </p>
-                <p style="margin: 0">
-                  <strong>Order Type:</strong>
-                  {{ item?.order_type }}
-                </p>
-              </div>
+  <!-- Company Info -->
+  <div style="text-align: center; font-size: 10px; line-height: 1.4;">
+    <strong>{{ item?.restaurant.name }}</strong><br>
+    {{ item?.restaurant.address }}<br>
+    {{ item?.restaurant.phone }}<br>
+  </div>
 
-              <div class="order-details" style="padding: 8px 0; border-bottom: 1px dashed #000">
-                <p style="margin: 0"><strong>Order Details:</strong></p>
-                <table style="width: 100%; font-size: 15px; border-collapse: collapse">
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Item</th>
-                      <th>Price</th>
-                      <th>Total</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let item of item?.products; let i = index">
-                      <td>{{ i + 1 }}</td>
-                      <td>
-                        {{ item.product_name }} x {{ item.quantity }}
-                        <br />
-                      </td>
-                      <td>{{ item.price | currency }}</td>
-                      <td>{{ item.quantity * item.price | currency }}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+  <hr style="border-top: 1px dashed #000; margin: 8px 0;">
 
-              <div class="bill-footer" style="padding: 8px 0; text-align: center">
-                <p style="margin: 0; font-size: 14px">
-                  <strong>Total:</strong>
-                  {{ item?.total_price | currency }}
-                </p>
-                <p style="margin: 0; font-style: italic">Thank you for your order!</p>
-              </div>
-            </div>
-          </div>
+  <!-- Billing Info (centered) -->
+  <div style="text-align: center; font-size: 10px; line-height: 1.4;">
+    <strong>Bill to:</strong> {{ item?.customer }}<br>
+    {{ item?.customer_phone }} <br>
+    {{ item?.delivery_address }}
+  </div>
+
+  <!-- Table -->
+  <table style="width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 10px;">
+    <thead>
+      <tr style="background: #222; color: #fff;">
+        <th style="padding: 6px; text-align: left; border: 0.5px solid #eee;">Menu</th>
+        <th style="padding: 6px; text-align: right; border: 0.5px solid #eee;">Price</th>
+        <th style="padding: 6px; text-align: center; border: 0.5px solid #eee;">Qty</th>
+        <th style="padding: 6px; text-align: right; border: 0.5px solid #eee;">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let prod of item?.products; let i = index" style="background: #fff;">
+        <td style="padding: 6px; border: 0.5px solid #eee;">
+          {{ prod.product_name }}
+        </td>
+        <td style="padding: 6px; text-align: right; border: 0.5px solid #eee;">
+          {{ prod.price | number:'1.2-2' }}
+        </td>
+        <td style="padding: 6px; text-align: center; border: 0.5px solid #eee;">
+          {{ prod.quantity }}
+        </td>
+        <td style="padding: 6px; text-align: right; border: 0.5px solid #eee;">
+          {{(prod.quantity * prod.price) |number:'1.2-2' }}
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="3" style="padding: 6px; text-align: left; font-weight: bold; border: 0.5px solid #eee;">Subtotal</td>
+        <td style="padding: 6px; text-align: right; font-weight: bold; border: 0.5px solid #eee;">
+          <span style="font-size: 11px;">{{ currencySymbol }}{{ item?.total_price | number:'1.2-2' }}</span>
+          <br>
+        </td>
+      </tr>
+      <tr *ngIf="item?.tax_amount > 0">
+        <td colspan="3" style="padding: 6px; text-align: left; font-weight: bold; border: 0.5px solid #eee;">Tax</td>
+        <td style="padding: 6px; text-align: right; font-weight: bold; border: 0.5px solid #eee;">
+          <span style="font-size: 11px;">{{ currencySymbol }}{{ item?.tax_amount | number:'1.2-2' }}</span>
+          <br>
+        </td>
+      </tr>
+      <tr *ngIf="item?.discount_value > 0">
+        <td colspan="3" style="padding: 6px; text-align: left; font-weight: bold; border: 0.5px solid #eee;">Discount</td>
+        <td style="padding: 6px; text-align: right; font-weight: bold; border: 0.5px solid #eee;">
+          <span style="font-size: 11px;">{{ currencySymbol }}{{ item?.discount_value | number:'1.2-2' }}</span>
+          <br>
+        </td>
+      </tr>
+      <tr *ngIf="item?.tips > 0">
+        <td colspan="3" style="padding: 6px; text-align: left; font-weight: bold; border: 0.5px solid #eee;">Tips</td>
+        <td style="padding: 6px; text-align: right; font-weight: bold; border: 0.5px solid #eee;">
+          <span style="font-size: 11px;">{{ currencySymbol }}{{ item?.tips | number:'1.2-2' }}</span>
+          <br>
+        </td>
+      </tr>
+      <tr style="border-top: 2px solid #222; background: #fff;">
+        <td colspan="3" style="padding: 6px; text-align: left; font-weight: bold; border: 0.5px solid #eee;">Total</td>
+        <td style="padding: 6px; text-align: right; font-weight: bold; border: 0.5px solid #eee;">
+          <span style="font-size: 11px;">{{ currencySymbol }}{{ item?.final_total | number:'1.2-2' }}</span>
+          <br>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <!-- Footer -->
+  <div style="margin-top: 8px; font-size: 9px; text-align: center; line-height: 1.4;">
+    Thank you for dining with us! We appreciate your business and hope you enjoyed your meal.<br>
+    Please visit us again soon. If you have any feedback, let us know!
+  </div>
+
+  <!-- Date -->
+  <div style="margin-top: 8px; font-size: 10px;">
+    Date: {{ item?.created_at | date:'dd MMMM, yyyy' }}
+  </div>
+</div>
 
           <i class="edit-icon ti ti-edit" style="font-size: 24px; cursor: pointer" *ngIf="canEdit" (click)="openEditDetails(i)"></i>
 
