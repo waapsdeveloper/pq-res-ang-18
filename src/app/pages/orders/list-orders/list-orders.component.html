@@ -174,8 +174,8 @@
 
   <!-- Billing Info (centered) -->
   <div style="text-align: center; font-size: 10px; line-height: 1.4;">
-    <strong>Bill to:</strong> {{ item?.customer }}<br>
-    {{ item?.customer_phone }} <br>
+    <strong>Bill to:</strong> {{ item?.customer }}(
+    {{ item?.customer_phone | maskPhone}}) <br>
     {{ item?.delivery_address }}
   </div>
 
@@ -192,7 +192,18 @@
     <tbody>
       <tr *ngFor="let prod of item?.products; let i = index" style="background: #fff;">
         <td style="padding: 6px; border: 0.5px solid #eee;">
-          {{ prod.product_name }}
+          {{ prod?.product_name ? prod?.product_name : prod?.name }}
+          <br>
+          <span>({{item?.category}})</span>
+          <span *ngIf="item.prod.variation?.length">
+            <br />
+            <small *ngFor="let variation of item.variation">
+              <span *ngFor="let option of variation.options" class="bold" [hidden]="!option.selected">
+                {{ option.name }} ({{ currencySymbol }}{{ option.price | number:'1.2-2' }})
+                <br />
+              </span>
+            </small>
+          </span>
         </td>
         <td style="padding: 6px; text-align: right; border: 0.5px solid #eee;">
           {{ prod.price | number:'1.2-2' }}

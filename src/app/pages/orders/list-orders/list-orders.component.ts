@@ -327,7 +327,7 @@ export class ListOrdersComponent extends ListBlade {
       //   this.list = [...this.list, ...d.data];
       // }
     }
-
+    
     return res;
   }
   get orderTitleHighlightPart(): string {
@@ -389,7 +389,7 @@ export class ListOrdersComponent extends ListBlade {
        margin: 0,
        filename: 'Invoice-' + 'invoice' + '.pdf',
        image: { type: 'jpeg', quality: 1 },
-       html2canvas: { scale: 2, useCORS: true },
+       html2canvas: { scale: 2, useCORS: false },
        jsPDF: { unit: 'mm', format: [60, 800], orientation: 'portrait' }
      };
      html2pdf().set(opt).from(section).toPdf().get('pdf').then(function (pdf) {

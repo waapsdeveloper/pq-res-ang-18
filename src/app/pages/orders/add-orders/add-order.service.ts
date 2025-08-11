@@ -239,7 +239,7 @@ updateOrderSummary() {
   resetField() {
     this.updateOrderSummary();
     this.customer_name = 'Walk-in Customer';
-    this.customer_phone = '0000000000';
+    this.customer_phone = '0000010010';
     this.order_notes = '';
     this.printProducts  = this.selected_products;
     this.selected_products = [];

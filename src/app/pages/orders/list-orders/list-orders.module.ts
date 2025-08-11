@@ -11,9 +11,10 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ListOrderItemStatusModule } from './list-order-item-status/list-order-item-status.module';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { ListOrderPaymentStatusModule } from './list-order-payment-status/list-order-payment-status.module';
-
+import { AddOrdersModule } from "../add-orders/add-orders.module";
+import { MaskPhonePipe } from 'src/app/pipes/mask-phone.pipe';
 @NgModule({
-  declarations: [ListOrdersComponent],
+  declarations: [ListOrdersComponent,MaskPhonePipe],
   imports: [
     CommonModule,
     ListOrdersRoutingModule,
@@ -26,7 +27,9 @@ import { ListOrderPaymentStatusModule } from './list-order-payment-status/list-o
     NgxSkeletonLoaderModule,
     ListOrderItemStatusModule,
     NgbDropdownModule,
-    ListOrderPaymentStatusModule
-  ]
+    ListOrderPaymentStatusModule,
+    
+],
+exports:[MaskPhonePipe]
 })
 export class ListOrdersModule {}

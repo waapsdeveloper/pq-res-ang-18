@@ -12,9 +12,10 @@ import { AddOrderProductsModule } from './add-order-products/add-order-products.
 import { AddOrderPriceListModule } from './add-order-price-list/add-order-price-list.module';
 import { AddOrderTableModule } from './add-order-table/add-order-table.module';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { MaskPhonePipe } from 'src/app/pipes/mask-phone.pipe';
 
 @NgModule({
-  declarations: [AddOrdersComponent],
+  declarations: [AddOrdersComponent, MaskPhonePipe],
   imports: [
     CommonModule,
     AddOrdersRoutingModule,
@@ -28,7 +29,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
     AddOrderCategoriesModule,
     AddOrderProductsModule,
     AddOrderPriceListModule,
-    AddOrderTableModule
-  ]
+    AddOrderTableModule,
+
+  ],
+  exports: [MaskPhonePipe]
 })
-export class AddOrdersModule {}
+export class AddOrdersModule { }

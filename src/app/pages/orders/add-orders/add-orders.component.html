@@ -235,7 +235,7 @@
 <div id="print-section" style="width:60mm; font-family: Arial, sans-serif; font-size: 12px; margin: 0 auto;">
   <!-- Logo -->
   <div style="text-align: center; margin-bottom: 10px;">
-    <img [src]="restaurant?.logo" style="width:50px; height:auto; display:block; margin:0 auto;" alt="Logo">
+    <img [src]="restaurant?.logo" style="width:100px; height:auto; display:block; margin:0 auto;" alt="Logo">
     <h2 style="font-size: 14px; margin: 5px 0;">{{order_id}}</h2>
     <div style="font-size: 10px;">Order No</div>
   </div>
@@ -251,8 +251,8 @@
 
   <!-- Billing Info (centered) -->
   <div style="text-align: center; font-size: 10px; line-height: 1.4;">
-    <strong>Bill to:</strong> {{tempCustomerName}}<br>
-    {{tempCustomerPhone}} <br>
+    <strong>Bill to:</strong> {{tempCustomerName}}(
+   {{ tempCustomerPhone | maskPhone }}) <br>
     {{tempCustomerAddress}}
   </div>
 
@@ -270,6 +270,8 @@
       <tr *ngFor="let item of orderService.printProducts; let i = index" style="background: #fff;">
         <td style="padding: 6px; border: 0.5px solid #eee;">
           {{ item?.product_name ? item?.product_name : item?.name }}
+          <br>
+          <span>({{item?.category}})</span>
           <span *ngIf="item.variation?.length">
             <br />
             <small *ngFor="let variation of item.variation">

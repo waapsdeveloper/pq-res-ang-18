@@ -311,8 +311,8 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       // 5) Clear the form fields and local storage regardless of print confirmation
       localStorage.removeItem('order_id');
       this.tempCustomerAddress = '';
-      this.tempCustomerName = 'Walk-in Customer';
-      this.tempCustomerPhone = '0000000000';
+    //  this.tempCustomerName = 'Walk-in Customer';
+      //this.tempCustomerPhone = '0000000000';
       this.orderService.resetField();
     } catch (error) {
       console.error('Error submitting order:', error);
