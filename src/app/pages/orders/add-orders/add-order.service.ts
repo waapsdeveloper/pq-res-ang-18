@@ -25,6 +25,7 @@ export class AddOrderService {
   tipsAmount = 0;
   customer_address: string = '';
   selected_products: any[] = [];
+  printProducts: any[] = [];
   paymentMethod: string = '';
   couponCode;
   discountAmount = 0; // set by coupon, else 0
@@ -43,6 +44,29 @@ export class AddOrderService {
   isCouponApplied: boolean = false;
   subtotal = 0; // sum of products and options
   lastCouponData: any = null; // Store last fetched coupon data
+  orderSummary: {
+  subtotal: number;
+  discount: number;
+  tips: number;
+  tax: number;
+  total: number;
+} = {
+  subtotal: 0,
+  discount: 0,
+  tips: 0,
+  tax: 0,
+  total: 0
+};
+updateOrderSummary() {
+  this.orderSummary = {
+    subtotal: this.subtotal,
+    discount: this.discountAmount,
+    tips: this.tipsAmount,
+    tax: this.taxAmount,
+    total: this.final_total
+  };
+}
+
 
   constructor(
     private network: NetworkService,
@@ -213,9 +237,11 @@ export class AddOrderService {
   }
 
   resetField() {
+    this.updateOrderSummary();
     this.customer_name = 'Walk-in Customer';
     this.customer_phone = '0000000000';
     this.order_notes = '';
+    this.printProducts  = this.selected_products;
     this.selected_products = [];
     this.selectedTableId = null;
     this.orderType = 'dine-in';

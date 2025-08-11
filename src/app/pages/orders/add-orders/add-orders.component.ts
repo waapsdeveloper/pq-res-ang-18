@@ -11,7 +11,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { CurrencyService } from 'src/app/services/currency.service';
 import { GlobalDataService } from 'src/app/services/global-data.service';
-
+import html2pdf from 'html2pdf.js';
 @Component({
   selector: 'app-add-orders',
   templateUrl: './add-orders.component.html',
@@ -34,6 +34,8 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   restaurant;
   currency = 'USD';
   currencySymbol = '$';
+  order_id: any;
+  today = new Date();
 
   showEdit = false;
   private searchSubject = new Subject<string>();
@@ -114,14 +116,19 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     // this.orderService.taxPercent = await this.currencyService.getTaxFromLocalStorage();
+    let restaurant = await this.getRestaurants();
     this.orderService.showOrderHeader = false;
+    this.restInfo = restaurant;
     // Set all defaults using the service method
     this.orderService.makeWalkingCustomer();
     this.tempCustomerName = this.orderService.customer_name;
     this.tempCustomerPhone = this.orderService.customer_phone;
-    let restaurant = await this.getRestaurants();
-    this.restInfo = restaurant;
+    this.tempCustomerAddress = this.orderService.customer_address;
     console.log(this.restInfo);
+
+    // Convert logo to base64 for direct src usage
+
+
     // Setup debounced search
     this.searchSubscription = this.searchSubject.pipe(debounceTime(400), distinctUntilChanged()).subscribe(async (query) => {
       await this.fetchSuggestions(query);
@@ -279,17 +286,18 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
         console.log('Order update response:', res);
       } else {
         res = await this.orderService.submitOrder();
+        console.log('Order creation response:', res);
       }
       if (!res) {
         return;
       }
 
-      let ord_id = localStorage.getItem('order_id');
+      this.order_id = localStorage.getItem('order_id');
       // 4) Second confirmation: print the bill?
       const printConfirmed = await this.utilityService.presentConfirm(
         'Yes, Print',
         'No, Thanks',
-        `${ord_id}!`,
+        `${this.order_id}!`,
         `Order ${isEditMode ? 'Updated' : 'Created'}! Would you like to print the bill now?`
       );
 
@@ -304,7 +312,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       localStorage.removeItem('order_id');
       this.tempCustomerAddress = '';
       this.tempCustomerName = 'Walk-in Customer';
-      this.tempCustomerPhone ='0000000000';
+      this.tempCustomerPhone = '0000000000';
       this.orderService.resetField();
     } catch (error) {
       console.error('Error submitting order:', error);
@@ -331,54 +339,27 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     this.orderService.searchProducts(v);
   }
 
+
   printSlip() {
+
     const section = document.getElementById('print-section');
-    if (!section) {
-      console.error('Print section not found.');
-      return;
-    }
-
-    // 1. Grab the _rendered_ HTML (with actual names, prices, looped rows)
-    const html = section.innerHTML;
-
-    // 2. Open a new window
-    const printWindow = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
-    if (!printWindow) {
-      console.error('Unable to open print window.');
-      return;
-    }
-
-    // 3. Write a minimal HTML document around that rendered content
-    printWindow.document.open();
-    printWindow.document.write(`
-      <html>
-        <head>
-          <title>Print Receipt</title>
-          <style>
-            /* bring in any print-only styles here */
-            body { font-family: Arial, sans-serif; font-size: 12px; margin:0; padding: 8px; }
-            .bill-slip { border: 1px dashed #000; padding: 8px; }
-            .bill-header, .customer-info, .order-details, .bill-footer {
-              margin-bottom: 10px;
-            }
-            table { width: 100%; border-collapse: collapse; }
-            th, td { text-align: left; padding: 2px 4px; }
-            th { border-bottom: 1px solid #000; }
-          </style>
-        </head>
-        <body>
-          <div class="bill-slip">
-            ${html}
-          </div>
-        </body>
-      </html>
-    `);
-    printWindow.document.close();
-
-    // 4. Print & close
-    printWindow.focus();
-    printWindow.print();
-    printWindow.close();
+    if (!section) { console.error('Print section not found.'); return; }
+    const oldDisplay = section.style.display;
+    section.style.display = 'block';
+    const opt = {
+      margin: 0,
+      filename: 'Invoice-' + this.order_id + '.pdf',
+      image: { type: 'jpeg', quality: 1 },
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { unit: 'mm', format: [60, 800], orientation: 'portrait' }
+    };
+    html2pdf().set(opt).from(section).toPdf().get('pdf').then(function (pdf) {
+      window.open(pdf.output('bloburl'), '_blank');
+      section.style.display = oldDisplay;
+    }).catch(function (err) {
+      console.error('PDF generation error:', err);
+      section.style.display = oldDisplay;
+    });
   }
 
   async getRestaurants(): Promise<void> {
@@ -389,7 +370,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     };
 
     const res = await this.network.getRestaurants(obj);
-
+    console.log(res)
     if (res && res['data']) {
       let d = res['data'];
       let dm = d['data'];
@@ -510,7 +491,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     }
     // this.onCustomerFieldChange();
   }
-  onInputChangeAddress(event: any) {}
+  onInputChangeAddress(event: any) { }
   onCustomerAddressSelected(event: any) {
     if (event && typeof event === 'object') {
       // Autofill name if selected from suggestions
@@ -547,17 +528,17 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
 
   applyTips() {
     const tipsValue = Number(this.orderService.tips);
-    
+
     if (tipsValue < 0) {
       this.utilityService.presentFailureToast('Tips amount cannot be negative');
       return;
     }
-    
+
     if (isNaN(tipsValue)) {
       this.utilityService.presentFailureToast('Please enter a valid tips amount');
       return;
     }
-    
+
     this.orderService.tips = tipsValue;
     this.orderService.recalculateTotals();
     this.utilityService.presentSuccessToast('Tips applied successfully');
@@ -570,5 +551,16 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   // Helper to get phone as string
   private getPhone(val: string | { phone: string }): string {
     return typeof val === 'string' ? val : val.phone;
+  }
+
+  async getBase64FromUrl(url: string): Promise<string> {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
   }
 }
