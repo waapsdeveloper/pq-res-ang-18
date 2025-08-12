@@ -235,8 +235,10 @@
 <div id="print-section" style="width:60mm; font-family: Arial, sans-serif; font-size: 12px; margin: 0 auto;">
   <!-- Logo -->
   <div style="text-align: center; margin-bottom: 10px;">
-    <img [src]="restaurant?.logo" style="width:100px; height:auto; display:block; margin:0 auto;" alt="Logo">
-    <h2 style="font-size: 14px; margin: 5px 0;">{{order_id}}</h2>
+   <img *ngIf="orderService.logoBase64"
+     [src]="orderService.logoBase64"
+     style="width:100px; height:auto; display:block; margin:0 auto;"
+     alt="Logo"> <h2 style="font-size: 14px; margin: 5px 0;">{{order_id}}</h2>
     <div style="font-size: 10px;">Order No</div>
   </div>
 

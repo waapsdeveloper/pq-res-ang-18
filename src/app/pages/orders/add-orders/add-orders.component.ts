@@ -311,7 +311,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       // 5) Clear the form fields and local storage regardless of print confirmation
       localStorage.removeItem('order_id');
       this.tempCustomerAddress = '';
-    //  this.tempCustomerName = 'Walk-in Customer';
+      //  this.tempCustomerName = 'Walk-in Customer';
       //this.tempCustomerPhone = '0000000000';
       this.orderService.resetField();
     } catch (error) {
@@ -350,8 +350,8 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       margin: 0,
       filename: 'Invoice-' + this.order_id + '.pdf',
       image: { type: 'jpeg', quality: 1 },
-      html2canvas: { scale: 2, useCORS: true },
-      jsPDF: { unit: 'mm', format: [60, 800], orientation: 'portrait' }
+      html2canvas: { scale: 2, useCORS: true, allowTaint: true },
+      jsPDF: { unit: 'mm', format: [62, 800], orientation: 'portrait' }
     };
     html2pdf().set(opt).from(section).toPdf().get('pdf').then(function (pdf) {
       window.open(pdf.output('bloburl'), '_blank');

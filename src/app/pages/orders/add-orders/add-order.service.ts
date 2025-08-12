@@ -28,6 +28,7 @@ export class AddOrderService {
   printProducts: any[] = [];
   paymentMethod: string = '';
   couponCode;
+  logoBase64;
   discountAmount = 0; // set by coupon, else 0
   final_total = 0; // calculated
   taxPercent: number = 0; // Global value for tax percentage
@@ -271,6 +272,7 @@ updateOrderSummary() {
 
       return {
         product_id: item.id,
+        category:item.category,
         quantity: item.quantity,
         price: item.price,
         notes: item.notes,
@@ -330,6 +332,7 @@ updateOrderSummary() {
     const res = await this.network.addOrder(obj);
     console.log(res.data);
     localStorage.setItem('order_id', res?.data?.order_number);
+    this.logoBase64 = res?.data?.restaurant?.logo_base64 || '';
     const response = await this.network.updateCouponUsage(coupon);
     console.log(response);
     // this.resetFields();
@@ -355,6 +358,7 @@ updateOrderSummary() {
 
       return {
         product_id: item.product_id || item.id,
+        category: item.category,
         quantity: item.quantity,
         price: item.product_price || item.price,
         notes: item.notes,
