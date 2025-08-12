@@ -12,9 +12,9 @@ import { ListOrderItemStatusModule } from './list-order-item-status/list-order-i
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { ListOrderPaymentStatusModule } from './list-order-payment-status/list-order-payment-status.module';
 import { AddOrdersModule } from "../add-orders/add-orders.module";
-import { MaskPhonePipe } from 'src/app/pipes/mask-phone.pipe';
+import { ListOrderPrintslipModule } from "./list-order-printslip/list-order-printslip.module";
 @NgModule({
-  declarations: [ListOrdersComponent,MaskPhonePipe],
+  declarations: [ListOrdersComponent],
   imports: [
     CommonModule,
     ListOrdersRoutingModule,
@@ -28,8 +28,7 @@ import { MaskPhonePipe } from 'src/app/pipes/mask-phone.pipe';
     ListOrderItemStatusModule,
     NgbDropdownModule,
     ListOrderPaymentStatusModule,
-    
+    ListOrderPrintslipModule
 ],
-exports:[MaskPhonePipe]
 })
-export class ListOrdersModule {}
+export class ListOrdersModule { }

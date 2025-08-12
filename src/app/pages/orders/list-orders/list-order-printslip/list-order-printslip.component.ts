@@ -1,0 +1,42 @@
+import { Component, Input } from '@angular/core';
+import { GlobalDataService } from 'src/app/services/global-data.service';
+import html2pdf from 'html2pdf.js';
+
+@Component({
+  selector: 'app-list-order-printslip',
+  templateUrl: './list-order-printslip.component.html',
+  styleUrl: './list-order-printslip.component.scss'
+})
+export class ListOrderPrintslipComponent {
+  @Input() item: any;
+  
+  currencySymbol: string = '';
+  constructor(private globalData: GlobalDataService){
+      this.globalData.getCurrencySymbol().subscribe((symbol) => {
+      this.currencySymbol = symbol;
+      console.log('Currency Symbol updated:', this.currencySymbol);
+    });
+
+  }
+    printSlip(item) {
+    this.item = item;
+     const section = document.getElementById('print-section');
+     if (!section) { console.error('Print section not found.'); return; }
+     const oldDisplay = section.style.display;
+     section.style.display = 'block';
+     const opt = {
+       margin: 0,
+       filename: 'Invoice-' + 'invoice' + '.pdf',
+       image: { type: 'jpeg', quality: 1 },
+       html2canvas: { scale: 2, useCORS: false },
+       jsPDF: { unit: 'mm', format: [60, 800], orientation: 'portrait' }
+     };
+     html2pdf().set(opt).from(section).toPdf().get('pdf').then(function (pdf) {
+       window.open(pdf.output('bloburl'), '_blank');
+       section.style.display = oldDisplay;
+     }).catch(function (err) {
+       console.error('PDF generation error:', err);
+       section.style.display = oldDisplay;
+     });
+   }
+}

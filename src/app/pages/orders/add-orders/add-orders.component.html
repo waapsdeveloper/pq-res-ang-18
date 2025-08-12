@@ -257,75 +257,91 @@
   </div>
 
   <!-- Table -->
-  <table style="width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 10px;">
-    <thead>
-      <tr style="background: #222; color: #fff;">
-        <th style="padding: 6px; text-align: left; border: 0.5px solid #eee;">Menu</th>
-        <th style="padding: 6px; text-align: right; border: 0.5px solid #eee;">Price</th>
-        <th style="padding: 6px; text-align: center; border: 0.5px solid #eee;">Qty</th>
-        <th style="padding: 6px; text-align: right; border: 0.5px solid #eee;">Total</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of orderService.printProducts; let i = index" style="background: #fff;">
-        <td style="padding: 6px; border: 0.5px solid #eee;">
-          {{ item?.product_name ? item?.product_name : item?.name }}
-          <br>
-          <span>({{item?.category}})</span>
-          <span *ngIf="item.variation?.length">
-            <br />
-            <small *ngFor="let variation of item.variation">
-              <span *ngFor="let option of variation.options" class="bold" [hidden]="!option.selected">
-                {{ option.name }} ({{ currencySymbol }}{{ option.price | number:'1.2-2' }})
-                <br />
-              </span>
-            </small>
-          </span>
-        </td>
-        <td style="padding: 6px; text-align: right; border: 0.5px solid #eee;">
-          {{ item?.product_price ? (item?.product_price | number:'1.2-2') : (item?.price | number:'1.2-2') }}
-        </td>
-        <td style="padding: 6px; text-align: center; border: 0.5px solid #eee;">
-          {{ item.quantity }}
-        </td>
-        <td style="padding: 6px; text-align: right; border: 0.5px solid #eee;">
-          {{ (item.quantity * (item?.product_price ? item?.product_price : item?.price)) | number:'1.2-2' }}
-        </td>
-      </tr>
-    </tbody>
-    <tfoot>
-      <tr>
-        <td colspan="3" style="padding: 6px; text-align: left; font-weight: bold; border: 0.5px solid #eee;">Subtotal</td>
-        <td style="padding: 6px; text-align: right; font-weight: bold; border: 0.5px solid #eee;">
-          {{ currencySymbol }}{{ orderService.orderSummary.subtotal | number:'1.2-2' }}
-        </td>
-      </tr>
-      <tr *ngIf="orderService.orderSummary.tax > 0">
-        <td colspan="3" style="padding: 6px; text-align: left; font-weight: bold; border: 0.5px solid #eee;">Tax</td>
-        <td style="padding: 6px; text-align: right; font-weight: bold; border: 0.5px solid #eee;">
-          {{ currencySymbol }}{{ orderService.orderSummary.tax | number:'1.2-2' }}
-        </td>
-      </tr>
-      <tr *ngIf="orderService.orderSummary.discount > 0">
-        <td colspan="3" style="padding: 6px; text-align: left; font-weight: bold; border: 0.5px solid #eee;">Discount</td>
-        <td style="padding: 6px; text-align: right; font-weight: bold; border: 0.5px solid #eee;">
-          -{{ currencySymbol }}{{ orderService.orderSummary.discount | number:'1.2-2' }}
-        </td>
-      </tr>
-      <tr *ngIf="orderService.orderSummary.tips > 0">
-        <td colspan="3" style="padding: 6px; text-align: left; font-weight: bold; border: 0.5px solid #eee;">Tips</td>
-        <td style="padding: 6px; text-align: right; font-weight: bold; border: 0.5px solid #eee;">
-          {{ currencySymbol }}{{ orderService.orderSummary.tips | number:'1.2-2' }}
-        </td>
-      </tr>
-      <tr style="border-top: 2px solid #222; background: #fff;">
-        <td colspan="3" style="padding: 6px; text-align: left; font-weight: bold; border: 0.5px solid #eee;">Total</td>
-        <td style="padding: 6px; text-align: right; font-weight: bold; border: 0.5px solid #eee;">
-          {{ currencySymbol }}{{ orderService.orderSummary.total | number:'1.2-2' }}
-        </td>
-      </tr>
-    </tfoot>
-  </table>
+ <table style="width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 10px; table-layout: fixed;">
+  <colgroup>
+    <col style="width: 50%;"> <!-- Menu -->
+    <col style="width: 18%;"> <!-- Price -->
+    <col style="width: 14%;"> <!-- Qty -->
+    <col style="width: 18%;"> <!-- Total -->
+  </colgroup>
+
+  <thead>
+    <tr style="background: #222; color: #fff;">
+      <th style="padding: 6px; text-align: left; border: 0.5px solid #eee;">Menu</th>
+      <th style="padding: 6px; text-align: right; border: 0.5px solid #eee;">Price</th>
+      <th style="padding: 6px; text-align: center; border: 0.5px solid #eee;">Qty</th>
+      <th style="padding: 6px; text-align: right; border: 0.5px solid #eee;">Total</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let item of orderService.printProducts; let i = index" style="background: #fff;">
+      <td style="padding: 6px; border: 0.5px solid #eee; word-wrap: break-word;">
+        {{ item?.product_name ? item?.product_name : item?.name }}
+        <br>
+        <span>({{item?.category}})</span>
+        <span *ngIf="item.variation?.length">
+          <br />
+          <small *ngFor="let variation of item.variation">
+            <span *ngFor="let option of variation.options" class="bold" [hidden]="!option.selected">
+              {{ option.name }} ({{ currencySymbol }}{{ option.price | number:'1.2-2' }})<br />
+            </span>
+          </small>
+        </span>
+      </td>
+
+      <td style="padding: 6px; text-align: right; border: 0.5px solid #eee;">
+        {{ item?.product_price ? (item?.product_price | number:'1.2-2') : (item?.price | number:'1.2-2') }}
+      </td>
+
+      <td style="padding: 6px; text-align: center; border: 0.5px solid #eee;">
+        {{ item.quantity }}
+      </td>
+
+      <td style="padding: 6px; text-align: right; border: 0.5px solid #eee;">
+        {{ (item.quantity * (item?.product_price ? item?.product_price : item?.price)) | number:'1.2-2' }}
+      </td>
+    </tr>
+  </tbody>
+
+  <tfoot>
+    <tr>
+      <td colspan="3" style="padding: 6px; text-align: left; font-weight: bold; border: 0.5px solid #eee;">Subtotal</td>
+      <td style="padding: 6px; text-align: right; font-weight: bold; border: 0.5px solid #eee;">
+        {{ currencySymbol }}{{ orderService.orderSummary.subtotal | number:'1.2-2' }}
+      </td>
+    </tr>
+
+    <tr *ngIf="orderService.orderSummary.tax > 0">
+      <td colspan="3" style="padding: 6px; text-align: left; font-weight: bold; border: 0.5px solid #eee;">Tax</td>
+      <td style="padding: 6px; text-align: right; font-weight: bold; border: 0.5px solid #eee;">
+        {{ currencySymbol }}{{ orderService.orderSummary.tax | number:'1.2-2' }}
+      </td>
+    </tr>
+
+    <tr *ngIf="orderService.orderSummary.discount > 0">
+      <td colspan="3" style="padding: 6px; text-align: left; font-weight: bold; border: 0.5px solid #eee;">Discount</td>
+      <td style="padding: 6px; text-align: right; font-weight: bold; border: 0.5px solid #eee;">
+        -{{ currencySymbol }}{{ orderService.orderSummary.discount | number:'1.2-2' }}
+      </td>
+    </tr>
+
+    <tr *ngIf="orderService.orderSummary.tips > 0">
+      <td colspan="3" style="padding: 6px; text-align: left; font-weight: bold; border: 0.5px solid #eee;">Tips</td>
+      <td style="padding: 6px; text-align: right; font-weight: bold; border: 0.5px solid #eee;">
+        {{ currencySymbol }}{{ orderService.orderSummary.tips | number:'1.2-2' }}
+      </td>
+    </tr>
+
+    <tr style="border-top: 2px solid #222; background: #fff;">
+      <td colspan="3" style="padding: 6px; text-align: left; font-weight: bold; border: 0.5px solid #eee;">Total</td>
+      <td style="padding: 6px; text-align: right; font-weight: bold; border: 0.5px solid #eee;">
+        {{ currencySymbol }}{{ orderService.orderSummary.total | number:'1.2-2' }}
+      </td>
+    </tr>
+  </tfoot>
+</table>
+
 
   <!-- Footer -->
   <div style="margin-top: 8px; font-size: 9px; text-align: center; line-height: 1.4;">

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Injector } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Injector, Output, ViewChild } from '@angular/core';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { UsersService } from 'src/app/services/users.service';
@@ -11,8 +11,8 @@ import { EventsService } from 'src/app/services/events.service';
 import { CurrencyService } from 'src/app/services/currency.service';
 import { GlobalDataService } from 'src/app/services/global-data.service';
 import { ActivatedRoute } from '@angular/router';
-import html2pdf from 'html2pdf.js';
 import { PermissionService } from 'src/app/services/permission.service';
+import { ListOrderPrintslipComponent } from './list-order-printslip/list-order-printslip.component';
 
 @Component({
   selector: 'app-list-orders',
@@ -20,6 +20,7 @@ import { PermissionService } from 'src/app/services/permission.service';
   styleUrl: './list-orders.component.scss'
 })
 export class ListOrdersComponent extends ListBlade {
+  @Output() onPrint = new EventEmitter<void>();
   showDeleteAllButton = false;
   canDelete;
   paymentStatus;
@@ -237,6 +238,12 @@ export class ListOrdersComponent extends ListBlade {
       ]
     }
   ];
+  @ViewChild(ListOrderPrintslipComponent) printSlipComponent!: ListOrderPrintslipComponent;
+
+triggerPrint(item) {
+  this.printSlipComponent.printSlip(item);
+}
+
   constructor(
     injector: Injector,
     public override crudService: OrderService,
@@ -379,27 +386,7 @@ export class ListOrdersComponent extends ListBlade {
     console.log('Page size changed in ListOrdersComponent:', event);
     this.changePageSize(event); // Call the inherited method from ListBlade
   }
-   printSlip() {
  
-     const section = document.getElementById('print-section');
-     if (!section) { console.error('Print section not found.'); return; }
-     const oldDisplay = section.style.display;
-     section.style.display = 'block';
-     const opt = {
-       margin: 0,
-       filename: 'Invoice-' + 'invoice' + '.pdf',
-       image: { type: 'jpeg', quality: 1 },
-       html2canvas: { scale: 2, useCORS: false },
-       jsPDF: { unit: 'mm', format: [60, 800], orientation: 'portrait' }
-     };
-     html2pdf().set(opt).from(section).toPdf().get('pdf').then(function (pdf) {
-       window.open(pdf.output('bloburl'), '_blank');
-       section.style.display = oldDisplay;
-     }).catch(function (err) {
-       console.error('PDF generation error:', err);
-       section.style.display = oldDisplay;
-     });
-   }
   getOrderStatusClass(status: string): string {
     switch (status.toLowerCase()) {
       case 'ready':

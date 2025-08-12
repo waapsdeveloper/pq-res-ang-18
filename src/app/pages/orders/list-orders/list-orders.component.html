@@ -1,38 +1,30 @@
-<app-kt-list-page
-  [title]="'Orders'"
-  [titleHighlightPart]="orderTitleHighlightPart"
-  [addurl]="'/pages/orders/add'"
-  (onFilter)="toggleFilters()"
-  [showDeleteAll]="showDeleteAllButton"
-  (onDeleteAll)="onDeleteAll($event)"
->
+<app-kt-list-page [title]="'Orders'" [titleHighlightPart]="orderTitleHighlightPart" [addurl]="'/pages/orders/add'"
+  (onFilter)="toggleFilters()" [showDeleteAll]="showDeleteAllButton" (onDeleteAll)="onDeleteAll($event)">
   <form class="mt-3" [formGroup]="form" *ngIf="crudService.filters">
-    <formly-form [form]="form" [fields]="fields" [model]="model" (modelChange)="debouncedSubmitFilters($event)"></formly-form>
-    <button type="button" class="btn btn-secondary mt-2" style="color:white; background-color: red;" (click)="resetFilters()">Reset Filters</button>
+    <formly-form [form]="form" [fields]="fields" [model]="model"
+      (modelChange)="debouncedSubmitFilters($event)"></formly-form>
+    <button type="button" class="btn btn-secondary mt-2" style="color:white; background-color: red;"
+      (click)="resetFilters()">Reset Filters</button>
   </form>
 
   <hr *ngIf="crudService.filters" />
 
-  <app-kt-app-list-page-table
-    [columns]="columns"
-    [currentPage]="crudService.page"
-    [totalPages]="crudService.lastPage"
-    (pageChange)="changePage($event)"
-    (pageSize)="changePageSize($event)"
-    [selectAll]="selectAll"
-    (changeSelectAll)="changeSelectAll($event); showDeleteAllButton = $event"
-  >
+  <app-kt-app-list-page-table [columns]="columns" [currentPage]="crudService.page" [totalPages]="crudService.lastPage"
+    (pageChange)="changePage($event)" (pageSize)="changePageSize($event)" [selectAll]="selectAll"
+    (changeSelectAll)="changeSelectAll($event); showDeleteAllButton = $event">
     <!-- Show "No results found" when not loading and list is empty -->
     <tr *ngIf="!crudService.loading && crudService.list.length === 0">
       <td colspan="5" class="text-center">No results found.</td>
     </tr>
     <!-- Hide rows when loading -->
-    <tr [hidden]="!(!crudService.loading && crudService.list.length > 0)" *ngFor="let item of crudService.list; let i = index">
+    <tr [hidden]="!(!crudService.loading && crudService.list.length > 0)"
+      *ngFor="let item of crudService.list; let i = index">
       <!-- Order Id -->
       <td>
         <div class="d-flex">
           <div class="ms-4">
-            <a (click)="openDetails(i)" class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{ item?.order_number }}</a>
+            <a (click)="openDetails(i)" class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{ item?.order_number
+              }}</a>
           </div>
         </div>
       </td>
@@ -76,10 +68,12 @@
       </td>
       <!-- Tips -->
       <td>
-        <span *ngIf="item?.tips" class="badge badge-ready-for-pickup fw-bold" style="font-size: 15px; white-space: nowrap">
+        <span *ngIf="item?.tips" class="badge badge-ready-for-pickup fw-bold"
+          style="font-size: 15px; white-space: nowrap">
           {{ currencySymbol }}{{ item.tips | number: '1.2-2' }}
         </span>
-        <span *ngIf="!item?.tips" class="badge badge-ready-for-pickup fw-bold" style="font-size: 15px; white-space: nowrap">
+        <span *ngIf="!item?.tips" class="badge badge-ready-for-pickup fw-bold"
+          style="font-size: 15px; white-space: nowrap">
           {{ currencySymbol }}{{ 0.0 | number: '1.2-2' }}
         </span>
       </td>
@@ -93,10 +87,8 @@
       <td>
         <div class="d-flex">
           <div class="ms-4 text-truncate" style="max-width: 200px">
-            <a
-              class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1"
-              style="display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap"
-            >
+            <a class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1"
+              style="display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">
               {{ item?.delivery_address }}
             </a>
           </div>
@@ -106,11 +98,9 @@
       <td>
         <div class="ms-4 text-truncate" style="max-width: 150px">
           <div class="ms-4">
-            <a
-              class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1"
+            <a class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1"
               style="display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap"
-              [attr.title]="item?.notes"
-            >
+              [attr.title]="item?.notes">
               {{ item?.notes }}
             </a>
           </div>
@@ -153,136 +143,27 @@
       <!-- Action -->
       <td class="text-start">
         <div class="d-flex flex-row justify-content-start align-items-center gap-3">
-          <i class="ti ti-eye view-icon" style="font-size: 20px; cursor: pointer" *ngIf="canView" (click)="openDetails(i)"></i>
-          <i class="ti ti-printer printericon" style="font-size: 20px; cursor: pointer" (click)="printSlip()"></i>
-          <div id="print-section" style="width:60mm; font-family: Arial, sans-serif; font-size: 12px; margin: 0 auto;">
-  <!-- Logo -->
-  <div style="text-align: center; margin-bottom: 10px;">
-    <img *ngIf="item?.restaurant.logo" [src]="item?.restaurant.logo" style="width:50px; height:auto; display:block; margin:0 auto;" alt="Logo">
-    <h2 style="font-size: 14px; margin: 5px 0;">{{ item?.order_number }}</h2>
-    <div style="font-size: 10px;">Order No</div>
-  </div>
+          <i class="ti ti-eye view-icon" style="font-size: 20px; cursor: pointer" *ngIf="canView"
+            (click)="openDetails(i)"></i>
+          <i class="ti ti-printer printericon" style="font-size: 20px; cursor: pointer" (click)="triggerPrint(item)"></i>
 
-  <!-- Company Info -->
-  <div style="text-align: center; font-size: 10px; line-height: 1.4;">
-    <strong>{{ item?.restaurant.name }}</strong><br>
-    {{ item?.restaurant.address }}<br>
-    {{ item?.restaurant.phone }}<br>
-  </div>
+          <app-list-order-printslip [item]="item"></app-list-order-printslip>
 
-  <hr style="border-top: 1px dashed #000; margin: 8px 0;">
 
-  <!-- Billing Info (centered) -->
-  <div style="text-align: center; font-size: 10px; line-height: 1.4;">
-    <strong>Bill to:</strong> {{ item?.customer }}(
-    {{ item?.customer_phone | maskPhone}}) <br>
-    {{ item?.delivery_address }}
-  </div>
 
-  <!-- Table -->
-  <table style="width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 10px;">
-    <thead>
-      <tr style="background: #222; color: #fff;">
-        <th style="padding: 6px; text-align: left; border: 0.5px solid #eee;">Menu</th>
-        <th style="padding: 6px; text-align: right; border: 0.5px solid #eee;">Price</th>
-        <th style="padding: 6px; text-align: center; border: 0.5px solid #eee;">Qty</th>
-        <th style="padding: 6px; text-align: right; border: 0.5px solid #eee;">Total</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let prod of item?.products; let i = index" style="background: #fff;">
-        <td style="padding: 6px; border: 0.5px solid #eee;">
-          {{ prod?.product_name ? prod?.product_name : prod?.name }}
-          <br>
-          <span>({{item?.category}})</span>
-          <span *ngIf="item.prod.variation?.length">
-            <br />
-            <small *ngFor="let variation of item.variation">
-              <span *ngFor="let option of variation.options" class="bold" [hidden]="!option.selected">
-                {{ option.name }} ({{ currencySymbol }}{{ option.price | number:'1.2-2' }})
-                <br />
-              </span>
-            </small>
-          </span>
-        </td>
-        <td style="padding: 6px; text-align: right; border: 0.5px solid #eee;">
-          {{ prod.price | number:'1.2-2' }}
-        </td>
-        <td style="padding: 6px; text-align: center; border: 0.5px solid #eee;">
-          {{ prod.quantity }}
-        </td>
-        <td style="padding: 6px; text-align: right; border: 0.5px solid #eee;">
-          {{(prod.quantity * prod.price) |number:'1.2-2' }}
-        </td>
-      </tr>
-    </tbody>
-    <tfoot>
-      <tr>
-        <td colspan="3" style="padding: 6px; text-align: left; font-weight: bold; border: 0.5px solid #eee;">Subtotal</td>
-        <td style="padding: 6px; text-align: right; font-weight: bold; border: 0.5px solid #eee;">
-          <span style="font-size: 11px;">{{ currencySymbol }}{{ item?.total_price | number:'1.2-2' }}</span>
-          <br>
-        </td>
-      </tr>
-      <tr *ngIf="item?.tax_amount > 0">
-        <td colspan="3" style="padding: 6px; text-align: left; font-weight: bold; border: 0.5px solid #eee;">Tax</td>
-        <td style="padding: 6px; text-align: right; font-weight: bold; border: 0.5px solid #eee;">
-          <span style="font-size: 11px;">{{ currencySymbol }}{{ item?.tax_amount | number:'1.2-2' }}</span>
-          <br>
-        </td>
-      </tr>
-      <tr *ngIf="item?.discount_value > 0">
-        <td colspan="3" style="padding: 6px; text-align: left; font-weight: bold; border: 0.5px solid #eee;">Discount</td>
-        <td style="padding: 6px; text-align: right; font-weight: bold; border: 0.5px solid #eee;">
-          <span style="font-size: 11px;">{{ currencySymbol }}{{ item?.discount_value | number:'1.2-2' }}</span>
-          <br>
-        </td>
-      </tr>
-      <tr *ngIf="item?.tips > 0">
-        <td colspan="3" style="padding: 6px; text-align: left; font-weight: bold; border: 0.5px solid #eee;">Tips</td>
-        <td style="padding: 6px; text-align: right; font-weight: bold; border: 0.5px solid #eee;">
-          <span style="font-size: 11px;">{{ currencySymbol }}{{ item?.tips | number:'1.2-2' }}</span>
-          <br>
-        </td>
-      </tr>
-      <tr style="border-top: 2px solid #222; background: #fff;">
-        <td colspan="3" style="padding: 6px; text-align: left; font-weight: bold; border: 0.5px solid #eee;">Total</td>
-        <td style="padding: 6px; text-align: right; font-weight: bold; border: 0.5px solid #eee;">
-          <span style="font-size: 11px;">{{ currencySymbol }}{{ item?.final_total | number:'1.2-2' }}</span>
-          <br>
-        </td>
-      </tr>
-    </tfoot>
-  </table>
+          <i class="edit-icon ti ti-edit" style="font-size: 24px; cursor: pointer" *ngIf="canEdit"
+            (click)="openEditDetails(i)"></i>
 
-  <!-- Footer -->
-  <div style="margin-top: 8px; font-size: 9px; text-align: center; line-height: 1.4;">
-    Thank you for dining with us! We appreciate your business and hope you enjoyed your meal.<br>
-    Please visit us again soon. If you have any feedback, let us know!
-  </div>
-
-  <!-- Date -->
-  <div style="margin-top: 8px; font-size: 10px;">
-    Date: {{ item?.created_at | date:'dd MMMM, yyyy' }}
-  </div>
-</div>
-
-          <i class="edit-icon ti ti-edit" style="font-size: 24px; cursor: pointer" *ngIf="canEdit" (click)="openEditDetails(i)"></i>
-
-          <i *ngIf="canDelete" class="ti ti-trash trash-icon" style="font-size: 20px; cursor: pointer" (click)="deleteRow(i)"></i>
+          <i *ngIf="canDelete" class="ti ti-trash trash-icon" style="font-size: 20px; cursor: pointer"
+            (click)="deleteRow(i)"></i>
           <i class="ti ti-dots-vertical" (click)="ProductModal(item)"></i>
         </div>
       </td>
       <!-- Checkbox -->
       <td>
         <div class="form-check form-check-sm form-check-custom form-check-solid">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            [value]="item.selected"
-            [checked]="item.selected"
-            (change)="checkboxUpdate(i, $event)"
-          />
+          <input class="form-check-input" type="checkbox" [value]="item.selected" [checked]="item.selected"
+            (change)="checkboxUpdate(i, $event)" />
         </div>
       </td>
     </tr>
@@ -292,144 +173,113 @@
       <td>
         <div class="d-flex align-items-center">
           <div class="ms-5">
-            <ngx-skeleton-loader
-              appearance="custom-content"
+            <ngx-skeleton-loader appearance="custom-content"
               [theme]="{ width: '120px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
-              [animation]="true"
-            ></ngx-skeleton-loader>
+              [animation]="true"></ngx-skeleton-loader>
           </div>
         </div>
       </td>
       <!-- Customer -->
       <td>
         <div class="d-flex flex-column">
-          <ngx-skeleton-loader
-            appearance="custom-content"
+          <ngx-skeleton-loader appearance="custom-content"
             [theme]="{ width: '100px', height: '16px', background: 'rgba(0,0,0,0.2)' }"
-            [animation]="true"
-          ></ngx-skeleton-loader>
-          <ngx-skeleton-loader
-            appearance="custom-content"
+            [animation]="true"></ngx-skeleton-loader>
+          <ngx-skeleton-loader appearance="custom-content"
             [theme]="{ width: '80px', height: '14px', background: 'rgba(0,0,0,0.2)' }"
-            [animation]="true"
-          ></ngx-skeleton-loader>
+            [animation]="true"></ngx-skeleton-loader>
         </div>
       </td>
       <!-- Type -->
       <td>
         <div class="d-flex align-items-center">
-          <ngx-skeleton-loader
-            appearance="custom-content"
+          <ngx-skeleton-loader appearance="custom-content"
             [theme]="{ width: '80px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
-            [animation]="true"
-          ></ngx-skeleton-loader>
+            [animation]="true"></ngx-skeleton-loader>
         </div>
       </td>
       <!-- Subtotal -->
       <td>
         <div class="d-flex align-items-center">
-          <ngx-skeleton-loader
-            appearance="custom-content"
+          <ngx-skeleton-loader appearance="custom-content"
             [theme]="{ width: '60px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
-            [animation]="true"
-          ></ngx-skeleton-loader>
+            [animation]="true"></ngx-skeleton-loader>
         </div>
       </td>
       <!-- Discount -->
       <td>
         <div class="d-flex align-items-center">
-          <ngx-skeleton-loader
-            appearance="custom-content"
+          <ngx-skeleton-loader appearance="custom-content"
             [theme]="{ width: '60px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
-            [animation]="true"
-          ></ngx-skeleton-loader>
+            [animation]="true"></ngx-skeleton-loader>
         </div>
       </td>
       <!-- Total -->
       <td>
         <div class="d-flex align-items-center">
-          <ngx-skeleton-loader
-            appearance="custom-content"
+          <ngx-skeleton-loader appearance="custom-content"
             [theme]="{ width: '60px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
-            [animation]="true"
-          ></ngx-skeleton-loader>
+            [animation]="true"></ngx-skeleton-loader>
         </div>
       </td>
       <!-- Address -->
       <td>
         <div class="d-flex align-items-center">
-          <ngx-skeleton-loader
-            appearance="custom-content"
+          <ngx-skeleton-loader appearance="custom-content"
             [theme]="{ width: '150px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
-            [animation]="true"
-          ></ngx-skeleton-loader>
+            [animation]="true"></ngx-skeleton-loader>
         </div>
       </td>
       <!-- Notes -->
       <td>
         <div class="d-flex align-items-center">
-          <ngx-skeleton-loader
-            appearance="custom-content"
+          <ngx-skeleton-loader appearance="custom-content"
             [theme]="{ width: '120px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
-            [animation]="true"
-          ></ngx-skeleton-loader>
+            [animation]="true"></ngx-skeleton-loader>
         </div>
       </td>
       <!-- Table No -->
       <td>
         <div class="d-flex align-items-center">
-          <ngx-skeleton-loader
-            appearance="custom-content"
+          <ngx-skeleton-loader appearance="custom-content"
             [theme]="{ width: '60px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
-            [animation]="true"
-          ></ngx-skeleton-loader>
+            [animation]="true"></ngx-skeleton-loader>
         </div>
       </td>
       <!-- Paid -->
       <td>
         <div class="d-flex align-items-center">
-          <ngx-skeleton-loader
-            appearance="custom-content"
+          <ngx-skeleton-loader appearance="custom-content"
             [theme]="{ width: '60px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
-            [animation]="true"
-          ></ngx-skeleton-loader>
+            [animation]="true"></ngx-skeleton-loader>
         </div>
       </td>
       <!-- Status -->
       <td>
-        <ngx-skeleton-loader
-          appearance="custom-content"
-          [theme]="{ width: '100px', height: '20px', 'border-radius': '12px', background: 'rgba(0,0,0,0.2)' }"
-        ></ngx-skeleton-loader>
+        <ngx-skeleton-loader appearance="custom-content"
+          [theme]="{ width: '100px', height: '20px', 'border-radius': '12px', background: 'rgba(0,0,0,0.2)' }"></ngx-skeleton-loader>
       </td>
       <!-- Created -->
       <td>
         <div class="d-flex align-items-center">
-          <ngx-skeleton-loader
-            appearance="custom-content"
+          <ngx-skeleton-loader appearance="custom-content"
             [theme]="{ width: '80px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
-            [animation]="true"
-          ></ngx-skeleton-loader>
+            [animation]="true"></ngx-skeleton-loader>
         </div>
       </td>
       <!-- Updated -->
       <td>
         <div class="d-flex align-items-center">
-          <ngx-skeleton-loader
-            appearance="custom-content"
+          <ngx-skeleton-loader appearance="custom-content"
             [theme]="{ width: '80px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
-            [animation]="true"
-          ></ngx-skeleton-loader>
+            [animation]="true"></ngx-skeleton-loader>
         </div>
       </td>
       <!-- Action -->
       <td class="text-end">
         <div class="d-flex flex-row justify-content-start align-items-center gap-3">
-          <ngx-skeleton-loader
-            *ngFor="let _ of [1, 2, 3]"
-            appearance="custom-content"
-            [theme]="{ width: '24px', height: '24px', background: 'rgba(0,0,0,0.2)' }"
-          ></ngx-skeleton-loader>
+          <ngx-skeleton-loader *ngFor="let _ of [1, 2, 3]" appearance="custom-content"
+            [theme]="{ width: '24px', height: '24px', background: 'rgba(0,0,0,0.2)' }"></ngx-skeleton-loader>
         </div>
       </td>
       <!-- Checkbox -->
