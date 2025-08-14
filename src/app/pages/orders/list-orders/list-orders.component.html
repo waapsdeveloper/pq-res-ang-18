@@ -44,6 +44,15 @@
           </div>
         </div>
       </td>
+      <!-- Source -->
+      <td>
+        <div class="d-flex">
+          <div class="badge-order-source" [ngClass]="item?.source">
+            {{ item?.source | titlecase }}
+          </div>
+        </div>
+      </td>
+
       <!-- Subtotal -->
       <td>
         <span class="fw-bold" style="font-size: 15px; white-space: nowrap">
@@ -112,6 +121,7 @@
           <div class="fw-bold" *ngIf="item?.table !== 'no booked'">{{ item?.table }}</div>
         </div>
       </td>
+
       <!-- Paid -->
       <td>
         <app-list-order-payment-status [item]="item"></app-list-order-payment-status>
@@ -146,7 +156,8 @@
           <app-list-order-printslip [item]="item"></app-list-order-printslip>
           <i class="ti ti-eye view-icon" style="font-size: 20px; cursor: pointer" *ngIf="canView"
             (click)="openDetails(i)"></i>
-          <i class="ti ti-printer printericon" style="font-size: 20px; cursor: pointer" (click)="triggerPrint(item)"></i>
+          <i class="ti ti-printer printericon" style="font-size: 20px; cursor: pointer"
+            (click)="triggerPrint(item)"></i>
 
 
 
