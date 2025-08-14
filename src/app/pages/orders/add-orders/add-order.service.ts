@@ -35,6 +35,7 @@ export class AddOrderService {
   taxAmount: number = 0; // calculated
   paymentMethods: { label: string; value: string }[] = [
     { label: 'Cash on Delivery', value: 'cashondelivery' },
+    { label:"Cash", value:"cash"},
     // { label: 'Apple Pay', value: 'applePay' },
     // { label: 'Google Pay', value: 'googlePay' },
     // { label: 'Credit/Debit Card', value: 'card' },
@@ -234,7 +235,7 @@ updateOrderSummary() {
     this.customer_name = 'Walk-in Customer';
     this.customer_phone = '0000000000';
     this.orderType = 'dine-in';
-    this.paymentMethod = 'cashondelivery';
+    this.paymentMethod = 'cash';
   }
 
   resetField() {
@@ -246,7 +247,7 @@ updateOrderSummary() {
     this.selected_products = [];
     this.selectedTableId = null;
     this.orderType = 'dine-in';
-    this.paymentMethod = 'cashondelivery';
+    this.paymentMethod = 'cash';
     this.couponCode = '';
     this.discountAmount = 0;
     this.final_total = 0;
