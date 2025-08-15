@@ -348,7 +348,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     section.style.display = 'block';
     const opt = {
       margin: 0,
-      filename: 'Invoice-' + this.order_id + '.pdf',
+      filename: 'Invoice-' + '.pdf',
       image: { type: 'jpeg', quality: 1 },
       html2canvas: { scale: 2, useCORS: true, allowTaint: true },
       jsPDF: { unit: 'mm', format: [80, 600], orientation: 'portrait' }
