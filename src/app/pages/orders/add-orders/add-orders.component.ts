@@ -351,7 +351,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       filename: 'Invoice-' + this.order_id + '.pdf',
       image: { type: 'jpeg', quality: 1 },
       html2canvas: { scale: 2, useCORS: true, allowTaint: true },
-      jsPDF: { unit: 'mm', format: [62, 800], orientation: 'portrait' }
+      jsPDF: { unit: 'mm', format: [80, 600], orientation: 'portrait' }
     };
     html2pdf().set(opt).from(section).toPdf().get('pdf').then(function (pdf) {
       window.open(pdf.output('bloburl'), '_blank');
