@@ -1,4 +1,4 @@
-<div class="card m-0 p-0 border-0 shadow-sm m-0 price-list-card" >
+<div class="card m-0 p-0 border-0 shadow-sm m-0 price-list-card">
   <!-- Header -->
   <div class="card-header py-2 px-3 d-flex flex-wrap justify-content-between align-items-center">
     <h3 class="card-title fw-bold mb-0">Item Summary</h3>
@@ -14,11 +14,9 @@
         <div class=" " *ngFor="let item of orderService.selected_products">
           <div class="border123 d-flex gap-2">
             <!-- Image -->
-            <div
-              class="rounded"
-              style="width: 60px; height: 60px; background-size: cover; background-position: center"
-              [ngStyle]="{ 'background-image': 'url(' + (item.product_image ? item.product_image : item.image) + ')' }"
-            ></div>
+            <div class="rounded" style="width: 60px; height: 60px; background-size: cover; background-position: center"
+              [ngStyle]="{ 'background-image': 'url(' + (item.product_image ? item.product_image : item.image) + ')' }">
+            </div>
 
             <!-- Info -->
             <!-- [popoverTitle]="popTitle" -->
@@ -26,27 +24,16 @@
               <div class="d-flex justify-content-between align-items-start">
                 <h6 class="fw-semibold mb-1">
                   {{ item.product_name ? item.product_name : item.name }}
-                  <span
-                    style="max-width: 150px; display: inline-block; cursor: pointer"
-                    class="text-muted ms-2 text-truncate"
-                    [ngbPopover]="popContent"
-                    triggers="manual"
-                    [autoClose]="'outside'"
-                    placement="bottom"
-                    #quantityPopover="ngbPopover"
-                    (click)="closeAllPopovers(); quantityPopover.open(); registerPopover(quantityPopover)"
-                  >
+                  <span style="max-width: 150px; display: inline-block; cursor: pointer"
+                    class="text-muted ms-2 text-truncate" [ngbPopover]="popContent" triggers="manual"
+                    [autoClose]="'outside'" placement="bottom" #quantityPopover="ngbPopover"
+                    (click)="closeAllPopovers(); quantityPopover.open(); registerPopover(quantityPopover)">
                     ({{ parseTwoDigitNumber(item.quantity) }})
                   </span>
                 </h6>
                 <ng-template #popContent>
-                  <input
-                    style="width: 70px"
-                    type="number"
-                    class="form-control"
-                    [(ngModel)]="item.quantity"
-                    (ngModelChange)="changeQty($event)"
-                  />
+                  <input style="width: 70px" type="number" class="form-control" [(ngModel)]="item.quantity"
+                    (ngModelChange)="changeQty($event)" />
                   <!-- <div class="p-2">
                     <div class="row">
                       <div class="col-6">
@@ -79,43 +66,30 @@
                 </ng-template>
               </div>
 
-              <p class="fw-semibold mb-0">{{ currencySymbol }}{{ item.price }} | ${{ calculateTotalPrice(item) }}</p>
+              <p class="fw-semibold mb-0">{{ currencySymbol }}{{ item.price }} | {{currencySymbol}} {{
+                calculateTotalPrice(item) }}</p>
             </div>
 
             <!-- Actions (Icons in a Row) -->
             <div class="d-flex gap-2 align-items-start">
-              <button class="btn btn-sm btn-light text-primary" (click)="incrementQty(item)" style="min-width: 28px;">+</button>
-              <button class="btn btn-sm btn-light text-primary" (click)="decrementQty(item)" style="min-width: 28px;">-</button>
-              <button
-                class="btn btn-sm btn-light text-primary p-1"
-                [ngbPopover]="noteContent"
-                triggers="manual"
-                [autoClose]="'outside'"
-                placement="left"
-                #notePopover="ngbPopover"
-                (click)="closeAllPopovers(); notePopover.open(); registerPopover(notePopover)"
-              >
+              <button class="btn btn-sm btn-light text-primary" (click)="incrementQty(item)"
+                style="min-width: 28px;">+</button>
+              <button class="btn btn-sm btn-light text-primary" (click)="decrementQty(item)"
+                style="min-width: 28px;">-</button>
+              <button class="btn btn-sm btn-light text-primary p-1" [ngbPopover]="noteContent" triggers="manual"
+                [autoClose]="'outside'" placement="left" #notePopover="ngbPopover"
+                (click)="closeAllPopovers(); notePopover.open(); registerPopover(notePopover)">
                 <i class="ti ti-notes fs-9"></i>
                 <ng-template #noteContent>
                   <div class="p-2">
-                    <textarea
-                      class="form-control form-control-solid"
-                      [(ngModel)]="item.notes"
-                      rows="1"
-                      placeholder="Add a note..."
-                    ></textarea>
+                    <textarea class="form-control form-control-solid" [(ngModel)]="item.notes" rows="1"
+                      placeholder="Add a note..."></textarea>
                   </div>
                 </ng-template>
               </button>
-              <button
-                class="btn btn-sm btn-light text-primary p-1"
-                [ngbPopover]="variation"
-                triggers="manual"
-                [autoClose]="'outside'"
-                placement="left"
-                #variationPopover="ngbPopover"
-                (click)="closeAllPopovers(); variationPopover.open(); registerPopover(variationPopover)"
-              >
+              <button class="btn btn-sm btn-light text-primary p-1" [ngbPopover]="variation" triggers="manual"
+                [autoClose]="'outside'" placement="left" #variationPopover="ngbPopover"
+                (click)="closeAllPopovers(); variationPopover.open(); registerPopover(variationPopover)">
                 <i class="ti ti-versions fs-9"></i>
                 <ng-template #variation>
                   <div class="variation-popover-content">
@@ -124,21 +98,20 @@
                       <div class="variation-type">{{ variation.type }}</div>
                       <div *ngFor="let option of variation.options" class="ms-3">
                         <div class="form-check">
-                          <input
-                            class="form-check-input"
-                            type="checkbox"
-                            [(ngModel)]="option.selected"
-                            [id]="'option-' + variation.type + '-' + option.name"
-                            (ngModelChange)="changeVariationSelection($event)"
+                          <input class="form-check-input" type="radio" name="{{ variation.type }}"                          [(ngModel)]="variation.selectedOption"
+                          [value]="option"
+                          [id]="'option-' + variation.type + '-' + option.name"
+                          (ngModelChange)="changeVariationSelection($event)"
                           />
                           <label class="form-check-label" [for]="'option-' + variation.type + '-' + option.name">
-                            {{ option.name }} (+${{ option.price }})
+                            {{ option.name }} (+{{ currencySymbol }} {{ option.price }})
                           </label>
                         </div>
                       </div>
                     </div>
                   </div>
                 </ng-template>
+
               </button>
               <button class="btn btn-sm btn-light text-danger p-1" title="Delete" (click)="removeItem(item)">
                 <i class="ti ti-trash fs-9"></i>
@@ -150,7 +123,8 @@
 
       <!-- Empty State (inside same box) -->
       <ng-template #noItems>
-        <div class="d-flex justify-content-center align-items-center text-muted fw-semibold text-center h-100">No item selected</div>
+        <div class="d-flex justify-content-center align-items-center text-muted fw-semibold text-center h-100">No item
+          selected</div>
       </ng-template>
     </div>
   </div>

@@ -29,7 +29,7 @@ export class AddOrderPriceListComponent implements OnInit {
       console.log('Currency Symbol updated:', this.currencySymbol);
     });
   }
-  async ngOnInit() {}
+  async ngOnInit() { }
 
   editNote(item: any): void {
     item.isEditingNote = true;
@@ -56,6 +56,7 @@ export class AddOrderPriceListComponent implements OnInit {
   }
 
   changeVariationSelection($event) {
+    console.log($event)
     this.orderService.totalOfProductCost();
   }
 
@@ -92,17 +93,21 @@ export class AddOrderPriceListComponent implements OnInit {
     let totalPrice = parseFloat(item.price); // Start with the base product price
 
     if (item.variation) {
-      // Add the price of selected variations
       item.variation.forEach((variation: any) => {
-        if (variation.options) {
+        if (variation.selectedOption) {
+          // Radio button case → only one selected
+          totalPrice += parseFloat(variation.selectedOption.price);
+        } else if (variation.options) {
+          // Checkbox case → possibly multiple selected
           variation.options.forEach((option: any) => {
             if (option.selected) {
-              totalPrice += parseFloat(option.price); // Add the price of selected options
+              totalPrice += parseFloat(option.price);
             }
           });
         }
       });
     }
+
     // this.orderService.totalOfProductCost();
     return totalPrice; // Return the total calculated price
   }

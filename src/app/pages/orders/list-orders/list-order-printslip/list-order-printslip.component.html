@@ -50,10 +50,19 @@
           </div>
           <div style="font-size: 9px; color: #666;">
             <span *ngFor="let variation of prod.variation">
+              <!-- Radio case -->
+              <span *ngIf="variation.selectedOption">
+                {{ variation.selectedOption.name }}
+                ({{ currencySymbol }}{{ variation.selectedOption.price | number:'1.2-2' }})
+              </span>
+
+              <!-- Checkbox case -->
               <span *ngFor="let option of variation.options" [hidden]="!option.selected">
-                {{ option.name }} ({{ currencySymbol }}{{ option.price | number:'1.2-2' }})
+                {{ option.name }}
+                ({{ currencySymbol }}{{ option.price | number:'1.2-2' }})
               </span>
             </span>
+
           </div>
 
         </td>

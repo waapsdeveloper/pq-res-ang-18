@@ -201,18 +201,17 @@ updateOrderSummary() {
     let cost = this.selected_products.reduce((prev, next) => {
       let productCost = next.quantity * next.price;
       if (next.variation) {
-        next.variation.forEach((variation: any) => {
-          if (variation.options) {
-            variation.options.forEach((option: any) => {
-              if (option.selected) {
-                productCost += option.price;
-              }
-            });
-          }
-        });
-      }
-      return prev + productCost;
-    }, 0);
+      next.variation.forEach((variation: any) => {
+        // If variation has a selectedOption, add its price
+        if (variation.selectedOption) {
+          productCost += variation.selectedOption.price;
+        }
+      });
+    }
+
+    return prev + productCost;
+  }, 0);
+
 
     this.subtotal = cost;
     // If a coupon is present and lastCouponData is valid, recalculate discount locally
