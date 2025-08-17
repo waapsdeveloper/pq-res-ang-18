@@ -6,7 +6,7 @@ export abstract class BaseCrudService<T> {
   public page: number = 1;
   public lastPage: number = -1;
   public total: number = 0;
-  public perpage: number = 10;
+  public perpage: number = 50;
   public filters: any = null;
   public search: string = '';
   public loading: boolean = false;

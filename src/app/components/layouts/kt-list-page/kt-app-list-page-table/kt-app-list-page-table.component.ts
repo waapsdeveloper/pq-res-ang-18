@@ -14,7 +14,7 @@ export class KtAppListPageTableComponent {
 
   pageGroupSize: number = 5;
   visiblePageGroup: number = 0;
-  pageSize: number = 10;
+  pageSize: number = 50;
 
   ngOnInit(): void {
     setTimeout(() => {
