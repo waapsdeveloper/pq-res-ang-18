@@ -36,6 +36,7 @@ export class AddOrderService {
   paymentMethods: { label: string; value: string }[] = [
     { label: 'Cash on Delivery', value: 'cashondelivery' },
     { label: "Cash", value: "cash" },
+    { label: "Credit Card", value: "creditcard" },
     // { label: 'Apple Pay', value: 'applePay' },
     // { label: 'Google Pay', value: 'googlePay' },
     // { label: 'Credit/Debit Card', value: 'card' },
