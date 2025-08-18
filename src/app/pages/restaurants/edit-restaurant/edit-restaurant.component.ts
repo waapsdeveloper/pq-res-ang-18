@@ -116,7 +116,21 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     google_map: '',
     enableTax: true,
     enableTips: true,
-    enableDeliveryCharges: true
+    enableDeliveryCharges: true,
+
+    // Invoice settings
+    invoice_prefix: '',
+    footer_text: '',
+    invoice_base64: '',
+    invoice_logo: '',
+    size: '',
+    left_margin: '',
+    right_margin: '',
+    google_review_barcode: '',
+    google_review_bar_code_base64: '',
+    restaurant_address: '',
+    font_size: '',
+
   };
 
   // Store timings as JSON array for easy manipulation
@@ -138,7 +152,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
   data: any;
 
   // Sidebar navigation
-  activeSection: 'general' | 'timing' | 'order' | 'attributes' = 'general';
+  activeSection: 'general' | 'timing' | 'order' | 'attributes' | 'invoice' = 'general';
 
   // Global timing controls
   globalStartTime: string = '09:00';
@@ -157,7 +171,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     private utility: UtilityService,
     public grService: GlobalRestaurantService,
     private globaldata: GlobalDataService
-  ) {}
+  ) { }
 
   async ngOnInit() {
     // Access the parameter from URL path (keeping for backward compatibility)
@@ -419,6 +433,21 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
       enableTax: true,
       enableTips: true,
       enableDeliveryCharges: true
+
+      // Invoice settings
+      , invoice_prefix: d.invoice_prefix || '',
+      footer_text: d.footer_text || '',
+      invoice_base64: d.invoice_base64 || '',
+      invoice_logo: d.invoice_logo || '',
+      size: d.size || '',
+      left_margin: d.left_margin || '',
+      right_margin: d.right_margin || '',
+      google_review_barcode: d.google_review_barcode || '',
+      google_review_bar_code_base64: d.google_review_bar_code_base64 || '',
+      restaurant_address: d.restaurant_address || '',
+      font_size: d.font_size || ''
+
+
     };
 
     // Set home_page_title from meta array if present and top-level is missing
@@ -530,6 +559,117 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
       ]
     }
   ];
+  invoiceFields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: 'row',
+      fieldGroup: [
+        {
+          key: 'invoice_prefix',
+          type: 'input',
+          props: {
+            label: 'Invoice Prefix',
+            placeholder: 'Enter invoice prefix',
+            required: true,
+          },
+          className: 'col-md-6 col-12',
+        },
+        {
+          key: 'footer_text',
+          type: 'textarea',
+          props: {
+            label: 'Invoice Footer Text',
+            placeholder: 'Enter footer text for invoices',
+            required: false,
+          },
+          className: 'col-md-6 col-12',
+        },
+
+        {
+          key: 'size',
+          type: 'input',
+          props: {
+            type: 'number',
+            label: 'Size (mm)',
+            placeholder: 'Width of printer  in mm',
+            required: false,
+          },
+          className: 'col-md-6 col-12',
+        },
+        {
+          key: 'left_margin',
+          type: 'input',
+          props: {
+            type: 'number',
+            label: 'Left Margin (mm)',
+            placeholder: 'Enter left margin in mm',
+            required: false,
+          },
+          className: 'col-md-6 col-12',
+        },
+        {
+          key: 'right_margin',
+          type: 'input',
+          props: {
+            type: 'number',
+            label: 'Right Margin (mm)',
+            placeholder: 'Enter right margin in mm',
+            required: false,
+          },
+          className: 'col-md-6 col-12',
+        },
+
+        {
+          key: 'restaurant_address',
+          type: 'textarea',
+          props: {
+            label: 'Restaurant Address',
+            placeholder: 'Enter restaurant address',
+            required: true,
+          },
+          className: 'col-md-6 col-12',
+        },
+        {
+          key: 'font_size',
+          type: 'input',
+          props: {
+            type: 'number',
+            label: 'Font Size (pt)',
+            placeholder: 'Enter font size for invoice text',
+            required: false,
+            min: 8,
+            max: 24,
+          },
+          className: 'col-md-6 col-12',
+        },
+        {
+          key: 'invoice_logo',
+          type: 'input',
+          props: {
+            label: 'Invoice Logo',
+            placeholder: 'Enter image URL',
+            type: 'file',
+            accept: 'image/*',
+            change: (field, event) => this.onFileChange(field, event, 'invoice_base64'),
+            required: false
+          },
+          className: 'formly-image-wrapper-3232 col-md-6 col-12'
+        },
+        {
+          key: 'google_review_bar_code',
+          type: 'input',
+          props: {
+            label: 'QR bar',
+            placeholder: 'Enter image URL',
+            type: 'file',
+            accept: 'image/*',
+            change: (field, event) => this.onFileChange(field, event, 'google_review_bar_code_base64'),
+            required: false
+          },
+          className: 'formly-image-wrapper-3232 col-md-6 col-12'
+        },
+      ],
+    },
+  ];
 
   // Split Formly fields for each section
   generalFields: FormlyFieldConfig[] = [
@@ -578,9 +718,9 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
           },
           className: 'col-md-6 col-12'
         },
-        
 
-      
+
+
         {
           key: 'logo',
           type: 'input',
@@ -1018,7 +1158,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
       if (key !== 'schedule' && key !== 'home_page_title') {
         d[key] = this.model[key];
       }
-    });3
+    }); 3
 
     d['image'] = this.model.imageBase64;
     d['favicon'] = this.model.faviconBase64;

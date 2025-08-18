@@ -12,9 +12,10 @@ import { GeneralSettingsComponent } from './general-settings/general-settings.co
 import { TimingSettingsComponent } from './timing-settings/timing-settings.component';
 import { OrderSettingsComponent } from './order-settings/order-settings.component';
 import { AttributesComponent } from './attributes/attributes.component';
+import { InvoiceSettingsComponent } from './invoice-settings/invoice-settings.component';
 
 @NgModule({
-  declarations: [EditRestaurantComponent, GeneralSettingsComponent, TimingSettingsComponent, OrderSettingsComponent, AttributesComponent],
+  declarations: [EditRestaurantComponent, GeneralSettingsComponent, TimingSettingsComponent, OrderSettingsComponent, AttributesComponent, InvoiceSettingsComponent],
   imports: [
     CommonModule,
     EditRestaurantRoutingModule,
