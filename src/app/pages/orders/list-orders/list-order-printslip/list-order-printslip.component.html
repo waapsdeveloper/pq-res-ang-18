@@ -68,14 +68,17 @@
         </td>
 
         <td style="padding: 2px 3px; text-align: right; border: 0.5px solid #eee;">
-          {{ prod.price | number:'1.2-2' }}
+          {{ getProdUnitPrice(prod) | number:'1.2-2' }}
         </td>
+
         <td style="padding: 2px 3px; text-align: center; border: 0.5px solid #eee;">
           {{ prod.quantity }}
         </td>
+
         <td style="padding: 2px 3px; text-align: right; border: 0.5px solid #eee;">
-          {{ (prod.quantity * prod.price) | number:'1.2-2' }}
+          {{ getProdTotalPrice(prod) | number:'1.2-2' }}
         </td>
+
       </tr>
     </tbody>
 

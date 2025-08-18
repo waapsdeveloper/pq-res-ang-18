@@ -60,4 +60,31 @@ export class ListOrderPrintslipComponent {
       section.style.display = oldDisplay;
     });
   }
+  getProdUnitPrice(prod: any): number {
+  let base = parseFloat(prod?.price ?? 0);
+
+  // Add variation prices (radio + checkbox)
+  if (prod.variation && Array.isArray(prod.variation)) {
+    prod.variation.forEach((v: any) => {
+      if (v.selectedOption?.price) {
+        base += parseFloat(v.selectedOption.price);
+      }
+      if (v.options && Array.isArray(v.options)) {
+        v.options.forEach((o: any) => {
+          if (o.selected && o.price) {
+            base += parseFloat(o.price);
+          }
+        });
+      }
+    });
+  }
+
+  return base;
+}
+
+getProdTotalPrice(prod: any): number {
+  const unit = this.getProdUnitPrice(prod);
+  return unit * (prod?.quantity ?? 0);
+}
+
 }

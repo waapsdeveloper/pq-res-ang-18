@@ -169,6 +169,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
         }
       });
 
+      await this.orderService.recalculateTotals();
       let obj = {
         name: dm['customer'],
         phone: dm['customer_phone']
@@ -176,7 +177,6 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       this.filteredSuggestions = [this.walkInCustomer, ...(Array.isArray(obj) ? obj : [obj])];
       this.tempCustomerName = this.filteredSuggestions.find((x) => x.name == dm['customer'])?.name;
       this.tempCustomerPhone = this.filteredSuggestions.find((x) => x.phone == dm['customer_phone'])?.phone;
-
       this.orderService.customer_name = this.getName(this.tempCustomerName);
       this.orderService.customer_phone = this.getPhone(this.tempCustomerPhone);
       this.orderService.customer_address = dm['delivery_address'];
@@ -186,6 +186,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       this.orderService.discountAmount = dm['discount_value'];
       this.orderService.final_total = dm['final_total'];
       this.orderService.totalCost = dm['total_price'];
+      this.orderService.subtotal = dm['total_price'];
       this.orderService.selectedTableId = dm['table_id'];
       let order_number = dm['order_number'];
       localStorage.setItem('order_id', order_number);
@@ -197,11 +198,10 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       this.orderService.tips = dm['tips'];
       this.orderService.tipsAmount = dm['tips_amount'];
       this.orderService.deliveryCharges = dm['delivery_charges'];
-
       // this.orderService.updateProductInSelectedProducts(this.orderService.selected_products);
-
+      await this.orderService.totalOfProductCost();
+      await this.orderService.recalculateTotals();
       // Ensure all totals are recalculated after loading order for edit
-      this.orderService.recalculateTotals();
 
       if (res) {
       }
@@ -234,6 +234,32 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     this.orderService.selected_products = [];
     this.showEdit = false;
     this.orderService.isCouponApplied = false;
+  }
+  getUnitPrice(item: any): number {
+    let base = parseFloat(item?.product_price ?? item?.price ?? 0);
+
+    // Add variation prices (radio + checkbox)
+    if (item.variation && Array.isArray(item.variation)) {
+      item.variation.forEach((v: any) => {
+        if (v.selectedOption?.price) {
+          base += parseFloat(v.selectedOption.price);
+        }
+        if (v.options && Array.isArray(v.options)) {
+          v.options.forEach((o: any) => {
+            if (o.selected && o.price) {
+              base += parseFloat(o.price);
+            }
+          });
+        }
+      });
+    }
+
+    return base;
+  }
+
+  getTotalPrice(item: any): number {
+    const unit = this.getUnitPrice(item);
+    return unit * (item?.quantity ?? 0);
   }
 
   async onSubmit($event: Event) {

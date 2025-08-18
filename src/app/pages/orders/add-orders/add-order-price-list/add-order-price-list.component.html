@@ -66,8 +66,8 @@
                 </ng-template>
               </div>
 
-              <p class="fw-semibold mb-0">{{ currencySymbol }}{{ item.price }} | {{currencySymbol}} {{
-                calculateTotalPrice(item) }}</p>
+              <p class="fw-semibold mb-0">{{ currencySymbol }}{{ item.price  | number:'1.2-2'  }} | {{currencySymbol}} {{
+                calculateTotalPrice(item) | number:'1.2-2' }}</p>
             </div>
 
             <!-- Actions (Icons in a Row) -->

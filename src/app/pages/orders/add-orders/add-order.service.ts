@@ -35,7 +35,7 @@ export class AddOrderService {
   taxAmount: number = 0; // calculated
   paymentMethods: { label: string; value: string }[] = [
     { label: 'Cash on Delivery', value: 'cashondelivery' },
-    { label:"Cash", value:"cash"},
+    { label: "Cash", value: "cash" },
     // { label: 'Apple Pay', value: 'applePay' },
     // { label: 'Google Pay', value: 'googlePay' },
     // { label: 'Credit/Debit Card', value: 'card' },
@@ -47,27 +47,27 @@ export class AddOrderService {
   subtotal = 0; // sum of products and options
   lastCouponData: any = null; // Store last fetched coupon data
   orderSummary: {
-  subtotal: number;
-  discount: number;
-  tips: number;
-  tax: number;
-  total: number;
-} = {
-  subtotal: 0,
-  discount: 0,
-  tips: 0,
-  tax: 0,
-  total: 0
-};
-updateOrderSummary() {
-  this.orderSummary = {
-    subtotal: this.subtotal,
-    discount: this.discountAmount,
-    tips: this.tipsAmount,
-    tax: this.taxAmount,
-    total: this.final_total
-  };
-}
+    subtotal: number;
+    discount: number;
+    tips: number;
+    tax: number;
+    total: number;
+  } = {
+      subtotal: 0,
+      discount: 0,
+      tips: 0,
+      tax: 0,
+      total: 0
+    };
+  updateOrderSummary() {
+    this.orderSummary = {
+      subtotal: this.subtotal,
+      discount: this.discountAmount,
+      tips: this.tipsAmount,
+      tax: this.taxAmount,
+      total: this.final_total
+    };
+  }
 
 
   constructor(
@@ -199,32 +199,41 @@ updateOrderSummary() {
   }
   async totalOfProductCost() {
     let cost = this.selected_products.reduce((prev, next) => {
-      let productCost = next.quantity * next.price;
-      if (next.variation) {
-      next.variation.forEach((variation: any) => {
-        // If variation has a selectedOption, add its price
-        if (variation.selectedOption) {
-          productCost += variation.selectedOption.price;
-        }
-      });
-    }
+      let unitPrice = parseFloat(next.price) || 0;
 
-    return prev + productCost;
-  }, 0);
+      // Add all selected variation prices to unit price
+      if (next.variation && Array.isArray(next.variation)) {
+        next.variation.forEach((variation: any) => {
+          if (variation.selectedOption && variation.selectedOption.price) {
+            unitPrice += parseFloat(variation.selectedOption.price) || 0;
+          }
+        });
+      }
 
+      // Final product cost = quantity × (base price + variation prices)
+      let productCost = (next.quantity || 0) * unitPrice;
+
+      return prev + productCost;
+    }, 0);
 
     this.subtotal = cost;
-    // If a coupon is present and lastCouponData is valid, recalculate discount locally
-    if (this.couponCode && this.couponCode.trim() !== '' && this.lastCouponData && this.lastCouponData.code === this.couponCode) {
+
+    // Coupon / discount logic
+    if (
+      this.couponCode &&
+      this.couponCode.trim() !== '' &&
+      this.lastCouponData &&
+      this.lastCouponData.code === this.couponCode
+    ) {
       this.recalculateDiscountWithCoupon(this.lastCouponData);
     } else if (this.couponCode && this.couponCode.trim() !== '') {
-      // Coupon code present but no valid data, call API
       await this.applyCoupon(true);
     } else {
       this.discountAmount = 0;
       this.recalculateTotals();
     }
   }
+
   selectSuggestion(suggestion: any) {
     console.log(suggestion);
     this.customer_name = suggestion.name;
@@ -242,7 +251,7 @@ updateOrderSummary() {
     this.customer_name = 'Walk-in Customer';
     this.customer_phone = '0000010010';
     this.order_notes = '';
-    this.printProducts  = this.selected_products;
+    this.printProducts = this.selected_products;
     this.selected_products = [];
     this.selectedTableId = null;
     this.orderType = 'dine-in';
@@ -272,7 +281,7 @@ updateOrderSummary() {
 
       return {
         product_id: item.id,
-        category:item.category,
+        category: item.category,
         quantity: item.quantity,
         price: item.price,
         notes: item.notes,
@@ -311,7 +320,7 @@ updateOrderSummary() {
       customer_phone: this.customer_phone,
       delivery_address: this.customer_address,
       products: prodObj,
-      is_from_pos:true,
+      is_from_pos: true,
       notes: this.order_notes,
       status: 'pending',
       final_total: this.final_total,
