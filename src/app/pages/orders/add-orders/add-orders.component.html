@@ -232,11 +232,16 @@
   </div>
 </div>
 
-<div id="print-section"
-  style="width:70mm; font-family: Arial, sans-serif; font-size: 12px; margin: 0; padding-left: 2mm;">
+<div id="print-section" [ngStyle]="{
+    'padding-left': marginleft + 'mm',
+    'padding-right': marginright + 'mm',
+    'width': size + 'mm',
+    'font-size': fontSize + 'px'
+  }" style="font-family: Arial, sans-serif; margin: 0;
+     font-weight: 900; color: #000;">
   <!-- Logo -->
   <div style="text-align: center; margin-bottom: 10px;">
-    <img *ngIf="orderService.logoBase64" [src]="orderService.logoBase64"
+    <img *ngIf="logoBase64" [src]="logoBase64"
       style="width:100px; height:auto; display:block; margin:0 auto;" alt="Logo">
     <h2 style="font-size: 14px; margin: 5px 0;">{{order_id}}</h2>
     <div style="font-size: 10px;">Order No</div>
@@ -252,14 +257,14 @@
   <hr style="border-top: 1px dashed #000; margin: 8px 0;">
 
   <!-- Billing Info (centered) -->
-  <div style="text-align: center; font-size: 10px; line-height: 1.4;">
+  <div style="text-align: center;  line-height: 1.4;">
     <strong>Bill to:</strong> {{tempCustomerName}}(
     {{ tempCustomerPhone | maskPhone }}) <br>
     {{tempCustomerAddress}}
   </div>
 
   <!-- Table -->
-  <table style="width: 100%; border-collapse: collapse; margin-top: 5px; font-size: 10px; table-layout: fixed;">
+  <table style="width: 100%; border-collapse: collapse; margin-top: 5px;  table-layout: fixed;">
     <colgroup>
       <col style="width: 43%;"> <!-- Menu -->
       <col style="width: 20%;"> <!-- Price -->
@@ -359,9 +364,8 @@
 
 
   <!-- Footer -->
-  <div style="margin-top: 8px; font-size: 9px; text-align: center; line-height: 1.4;">
-    Thank you for dining with us! We appreciate your business and hope you enjoyed your meal.<br>
-    Please visit us again soon. If you have any feedback, let us know!
+  <div style="margin-top: 8px;; text-align: center; line-height: 1.4;">
+  {{footertext}}
   </div>
 
   <!-- Date -->

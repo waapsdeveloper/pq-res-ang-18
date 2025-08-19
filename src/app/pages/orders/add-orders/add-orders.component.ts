@@ -12,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CurrencyService } from 'src/app/services/currency.service';
 import { GlobalDataService } from 'src/app/services/global-data.service';
 import html2pdf from 'html2pdf.js';
+import { InvoiceService } from 'src/app/services/invoice.service';
 @Component({
   selector: 'app-add-orders',
   templateUrl: './add-orders.component.html',
@@ -44,6 +45,15 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   private phoneSearchSubscription: Subscription;
 
   showTips = false;
+  
+  logoBase64: any;
+  barcode: any;
+  address: any;
+  footertext: any;
+  marginleft: any;
+  marginright: any;
+  size: any;
+  fontSize: any;
 
   constructor(
     public nav: NavService,
@@ -53,8 +63,34 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     private location: Location,
     private activatedRoute: ActivatedRoute,
     public currencyService: CurrencyService,
-    private globalData: GlobalDataService
+    private globalData: GlobalDataService,
+    public invoiceService: InvoiceService,
   ) {
+    this.invoiceService.getInvoiceBase64().subscribe(base64 => {
+      this.logoBase64 = base64;});
+    this.invoiceService.getGoogleReviewBarcodeBase64().subscribe(base64 => {
+      this.barcode = base64;
+    });
+    this.invoiceService.getRestaurantAddress().subscribe(address => {
+      this.address = address;
+    });
+    this.invoiceService.getFooterText().subscribe(text => {
+      this.footertext = text;
+    });
+
+    this.invoiceService.getLeftMargin().subscribe(left => {
+      this.marginleft = left;
+    });
+
+    this.invoiceService.getRightMargin().subscribe(right => {
+      this.marginright = right;
+    });
+    this.size = this.invoiceService.getSize().subscribe(size => {
+      this.size = size  || 80; // Default to 10 if not set
+    });  
+    this.fontSize = this.invoiceService.getFontSize().subscribe(size => {
+      this.fontSize = size || 10; // Default to 10 if not set
+    }); 
     this.globalData.getCurrency().subscribe((currency) => {
       this.currency = currency;
       console.log('Currency updated:', this.currency);
