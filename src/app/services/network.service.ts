@@ -16,7 +16,7 @@ export class NetworkService {
     public router: Router,
     public utility: UtilityService,
     public restService: GlobalRestaurantService
-  ) {}
+  ) { }
 
   getUserPermissions() {
     return this.httpGetResponse('auth-user/permissions', null, false, true);
@@ -600,4 +600,48 @@ export class NetworkService {
     const query = this.serialize(params, true); // Skip adding restaurant_id from localStorage
     return this.httpGetResponse('restaurant-timing/data' + (query ? `?${query}` : ''), null, true, true);
   }
+  // =================== Invoice Settings ===================
+
+  getAllInvoiceSettings() {
+    return this.httpGetResponse('invoice-settings', null, false, false);
+  }
+
+  getInvoiceSettingById(id: any) {
+    return this.httpGetResponse(
+      `invoice-settings/${id}`,
+      null,
+      false,
+      false
+    );
+  }
+
+  createInvoiceSetting(data: any) {
+    return this.httpPostResponse(
+      'invoice-settings',
+      data,
+      null,
+      false,
+      true
+    );
+  }
+
+  updateInvoiceSetting(id: any, data: any) {
+    return this.httpPutResponse(
+      `invoice-settings/${id}`,
+      data,
+      null,
+      false,
+      true
+    );
+  }
+
+  deleteInvoiceSetting(id: any) {
+    return this.httpDeleteResponse(
+      `invoice-settings/${id}`,
+      null,
+      false,
+      true
+    );
+  }
+
 }

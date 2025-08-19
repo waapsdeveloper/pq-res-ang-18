@@ -21,6 +21,7 @@ export class GeneralSettingsComponent {
   ) {}
 
   async submitGeneral() {
+    console.log("log" , this.model)
     // Validate general fields
     const generalFields = ['name', 'address', 'phone', 'email'];
     const missingFields = [];

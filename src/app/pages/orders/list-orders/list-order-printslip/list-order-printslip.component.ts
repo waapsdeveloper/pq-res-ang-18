@@ -1,23 +1,62 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { GlobalDataService } from 'src/app/services/global-data.service';
 import html2pdf from 'html2pdf.js';
+import { InvoiceService } from 'src/app/services/invoice.service';
+import { left } from '@popperjs/core';
 
 @Component({
   selector: 'app-list-order-printslip',
   templateUrl: './list-order-printslip.component.html',
   styleUrl: './list-order-printslip.component.scss'
 })
-export class ListOrderPrintslipComponent {
+export class ListOrderPrintslipComponent implements OnInit {
   @Input() item: any;
-
+  size;
+  marginleft = 0;
+  marginright = 0;
+  fontSize;
+  address;
+  footertext = '';
+  logoBase64 = '';
+  barcode = '';
   currencySymbol: string = '';
-  constructor(private globalData: GlobalDataService) {
+  constructor(private globalData: GlobalDataService, public invoiceService: InvoiceService) {
     this.globalData.getCurrencySymbol().subscribe((symbol) => {
       this.currencySymbol = symbol;
       console.log('Currency Symbol updated:', this.currencySymbol);
     });
 
   }
+
+  async ngOnInit() {
+    this.invoiceService.getInvoiceBase64().subscribe(base64 => {
+      this.logoBase64 = base64;});
+    this.invoiceService.getGoogleReviewBarcodeBase64().subscribe(base64 => {
+      this.barcode = base64;
+    });
+    this.invoiceService.getRestaurantAddress().subscribe(address => {
+      this.address = address;
+    });
+    this.invoiceService.getFooterText().subscribe(text => {
+      this.footertext = text;
+    });
+
+    this.invoiceService.getLeftMargin().subscribe(left => {
+      this.marginleft = left;
+    });
+
+    this.invoiceService.getRightMargin().subscribe(right => {
+      this.marginright = right;
+    });
+    this.size = this.invoiceService.getSize().subscribe(size => {
+      this.size = size  || 80; // Default to 10 if not set
+    });  
+    this.fontSize = this.invoiceService.getFontSize().subscribe(size => {
+      this.fontSize = size || 10; // Default to 10 if not set
+    });   
+ 
+  }
+
   private preloadImage(url: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       if (!url) {
@@ -50,7 +89,7 @@ export class ListOrderPrintslipComponent {
       filename: 'Invoice-' + 'invoice' + '.pdf',
       image: { type: 'jpeg', quality: 1 },
       html2canvas: { scale: 2, useCORS: false },
-      jsPDF: { unit: 'mm', format: [70, 600], orientation: 'portrait' }
+      jsPDF: { unit: 'mm', format: [this.size, 600], orientation: 'portrait' }
     };
     html2pdf().set(opt).from(section).toPdf().get('pdf').then(function (pdf) {
       window.open(pdf.output('bloburl'), '_blank');
@@ -61,30 +100,30 @@ export class ListOrderPrintslipComponent {
     });
   }
   getProdUnitPrice(prod: any): number {
-  let base = parseFloat(prod?.price ?? 0);
+    let base = parseFloat(prod?.price ?? 0);
 
-  // Add variation prices (radio + checkbox)
-  if (prod.variation && Array.isArray(prod.variation)) {
-    prod.variation.forEach((v: any) => {
-      if (v.selectedOption?.price) {
-        base += parseFloat(v.selectedOption.price);
-      }
-      if (v.options && Array.isArray(v.options)) {
-        v.options.forEach((o: any) => {
-          if (o.selected && o.price) {
-            base += parseFloat(o.price);
-          }
-        });
-      }
-    });
+    // Add variation prices (radio + checkbox)
+    if (prod.variation && Array.isArray(prod.variation)) {
+      prod.variation.forEach((v: any) => {
+        if (v.selectedOption?.price) {
+          base += parseFloat(v.selectedOption.price);
+        }
+        if (v.options && Array.isArray(v.options)) {
+          v.options.forEach((o: any) => {
+            if (o.selected && o.price) {
+              base += parseFloat(o.price);
+            }
+          });
+        }
+      });
+    }
+
+    return base;
   }
 
-  return base;
-}
-
-getProdTotalPrice(prod: any): number {
-  const unit = this.getProdUnitPrice(prod);
-  return unit * (prod?.quantity ?? 0);
-}
+  getProdTotalPrice(prod: any): number {
+    const unit = this.getProdUnitPrice(prod);
+    return unit * (prod?.quantity ?? 0);
+  }
 
 }

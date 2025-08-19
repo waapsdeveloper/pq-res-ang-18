@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { NetworkService } from './network.service';
 import { NgSimpleStateBaseRxjsStore, NgSimpleStateStoreConfig } from 'ng-simple-state';
 import { Observable } from 'rxjs';
+import { InvoiceService } from './invoice.service';
 
 export interface GlobalDataState {
   restaurant_id: number;
@@ -20,7 +21,7 @@ export class GlobalDataService extends NgSimpleStateBaseRxjsStore<GlobalDataStat
   private currency: string | null = null;
   private currencySymbol: string | null = null;
 
-  constructor(private network: NetworkService) {
+  constructor(private network: NetworkService, private invoiceService: InvoiceService) {
     super();
   }
   protected storeConfig(): NgSimpleStateStoreConfig {
@@ -118,7 +119,7 @@ export class GlobalDataService extends NgSimpleStateBaseRxjsStore<GlobalDataStat
 
       if (defaults && defaults.active_restaurant) {
         let R = defaults.active_restaurant;
-
+        this.invoiceService.fetchInvoiceDataObservable(R.id)
         localStorage.setItem('restaurant', JSON.stringify(R));
         localStorage.setItem('restaurant_id', R.id);
         this.setRestaurantId(R.id);

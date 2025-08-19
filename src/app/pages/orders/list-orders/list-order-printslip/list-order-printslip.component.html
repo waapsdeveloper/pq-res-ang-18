@@ -1,129 +1,134 @@
-<div id="print-section" style="width:70mm; font-family: Arial, sans-serif; font-size: 12px; margin: 0;
-    padding-left: 1mm; padding-right: 1mm; font-weight: 900; color: #000;">
+<div id="print-section" [ngStyle]="{
+    'padding-left': marginleft + 'mm',
+    'padding-right': marginright + 'mm',
+    'width': size + 'mm',
+    'font-size': fontSize + 'px'
+  }" style="font-family: Arial, sans-serif; margin: 0;
+     font-weight: 900; color: #000;">
 
   <!-- Logo -->
   <div style="text-align: center; margin-bottom: 10px; font-weight: 900;">
-    <img *ngIf="item?.restaurant.logo_base64" [src]="item.restaurant.logo_base64"
+    <img *ngIf="logoBase64" [src]="logoBase64"
       style="width:100px; height:auto; display:block; margin:0 auto;" alt="Logo">
-    <h2 style="font-size: 14px; margin: 5px 0; font-weight: 900;">{{ item?.order_number }}</h2>
-    <div style="font-size: 10px; font-weight: 900;">Order No</div>
+    <h2 style="font-size: 14px; margin: 5px 0; font-weight: 900;">{{ item?.order_number  }}</h2>
+    <div style="font-size: 10px; font-weight: 900;"> Order no</div>
   </div>
 
   <!-- Company Info -->
   <div style="text-align: center; font-size: 10px; line-height: 1.4; font-weight: 900;">
     <strong>{{ item?.restaurant.name }}</strong><br>
-    {{ item?.restaurant.address }}<br>
+    {{ address }}<br>
     {{ item?.restaurant.phone }}<br>
   </div>
 
   <hr style="border-top: 2px dashed #000; margin: 8px 0;">
 
   <!-- Billing Info -->
-  <div style="text-align: center; font-size: 10px; line-height: 1.4; font-weight: 900;">
+  <div style="text-align: center; line-height: 1.4; font-weight: 900;">
     <strong>Bill to:</strong> {{ item?.customer }} ({{ item?.customer_phone | maskPhone }})<br>
     {{ item?.delivery_address }}
   </div>
 
   <!-- Product Table -->
-<table style="width: 100%; border-collapse: collapse; margin-top: 5px; font-size: 10px; table-layout: fixed; font-weight: 900; color: #000;">
-  <colgroup>
-    <col style="width: 43%;">
-    <col style="width: 20%;">
-    <col style="width: 13%;">
-    <col style="width: 24%;">
-  </colgroup>
+  <table
+    style="width: 100%; border-collapse: collapse; margin-top: 5px; table-layout: fixed; font-weight: 900; color: #000;">
+    <colgroup>
+      <col style="width: 43%;">
+      <col style="width: 20%;">
+      <col style="width: 13%;">
+      <col style="width: 24%;">
+    </colgroup>
 
-  <thead>
-    <tr style="background: #fff; color: #000; font-weight: 900;">
-      <th style="padding: 6px; text-align: left; border: 0.3px solid #aaa; font-weight: 900;">Menu</th>
-      <th style="padding: 6px; text-align: right; border: 0.3px solid #aaa; font-weight: 900;">Price</th>
-      <th style="padding: 6px; text-align: center; border: 0.3px solid #aaa; font-weight: 900;">Qty</th>
-      <th style="padding: 6px; text-align: right; border: 0.3px solid #aaa; font-weight: 900;">Total</th>
-    </tr>
-  </thead>
+    <thead>
+      <tr style="background: #fff; color: #000; font-weight: 900;">
+        <th style="padding: 6px; text-align: left; border: 0.3px solid #aaa; font-weight: 900;">Menu</th>
+        <th style="padding: 6px; text-align: right; border: 0.3px solid #aaa; font-weight: 900;">Price</th>
+        <th style="padding: 6px; text-align: center; border: 0.3px solid #aaa; font-weight: 900;">Qty</th>
+        <th style="padding: 6px; text-align: right; border: 0.3px solid #aaa; font-weight: 900;">Total</th>
+      </tr>
+    </thead>
 
-  <tbody>
-    <tr *ngFor="let prod of item?.products; let i = index" style="background: #fff; font-weight: 900;">
-      <td style="padding: 2px 3px; border: 0.3px solid #aaa; word-wrap: break-word; font-weight: 900;">
-        <div style="display: flex; flex-wrap: nowrap; justify-content: space-between; font-weight: 900;">
-          <span>{{ prod?.product_name }} ({{ prod?.category }})</span>
-        </div>
-        <div style="font-size: 9px; color: #000; font-weight: 900;">
-          <span *ngFor="let variation of prod.variation">
-            <span *ngIf="variation.selectedOption">
-              {{ variation.selectedOption.name }}
-              ({{ currencySymbol }}{{ variation.selectedOption.price | number:'1.2-2' }})
+    <tbody>
+      <tr *ngFor="let prod of item?.products; let i = index" style="background: #fff; font-weight: 900;">
+        <td style="padding: 2px 3px; border: 0.3px solid #aaa; word-wrap: break-word; font-weight: 900;">
+          <div style="display: flex; flex-wrap: nowrap; justify-content: space-between; font-weight: 900;">
+            <span>{{ prod?.product_name }} ({{ prod?.category }})</span>
+          </div>
+          <div style="font-size: 9px; color: #000; font-weight: 900;">
+            <span *ngFor="let variation of prod.variation">
+              <span *ngIf="variation.selectedOption">
+                {{ variation.selectedOption.name }}
+                ({{ currencySymbol }}{{ variation.selectedOption.price | number:'1.2-2' }})
+              </span>
+              <span *ngFor="let option of variation.options" [hidden]="!option.selected">
+                {{ option.name }}
+                ({{ currencySymbol }}{{ option.price | number:'1.2-2' }})
+              </span>
             </span>
-            <span *ngFor="let option of variation.options" [hidden]="!option.selected">
-              {{ option.name }}
-              ({{ currencySymbol }}{{ option.price | number:'1.2-2' }})
-            </span>
-          </span>
-        </div>
-      </td>
+          </div>
+        </td>
 
-      <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa; font-weight: 900;">
-        {{ getProdUnitPrice(prod) | number:'1.2-2' }}
-      </td>
+        <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa; font-weight: 900;">
+          {{ getProdUnitPrice(prod) | number:'1.2-2' }}
+        </td>
 
-      <td style="padding: 2px 3px; text-align: center; border: 0.3px solid #aaa; font-weight: 900;">
-        {{ prod.quantity }}
-      </td>
+        <td style="padding: 2px 3px; text-align: center; border: 0.3px solid #aaa; font-weight: 900;">
+          {{ prod.quantity }}
+        </td>
 
-      <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa; font-weight: 900;">
-        {{ getProdTotalPrice(prod) | number:'1.2-2' }}
-      </td>
-    </tr>
-  </tbody>
+        <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa; font-weight: 900;">
+          {{ getProdTotalPrice(prod) | number:'1.2-2' }}
+        </td>
+      </tr>
+    </tbody>
 
-  <tfoot style="font-weight: 900;">
-    <tr>
-      <td colspan="3" style="padding: 6px; text-align: left; border: 0.3px solid #aaa;">Subtotal</td>
-      <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa; font-size: 9px;">
-        {{ item?.total_price | number:'1.2-2' }}
-      </td>
-    </tr>
+    <tfoot style="font-weight: 900;">
+      <tr>
+        <td colspan="3" style="padding: 6px; text-align: left; border: 0.3px solid #aaa;">Subtotal</td>
+        <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa; font-size: 9px;">
+          {{ item?.total_price | number:'1.2-2' }}
+        </td>
+      </tr>
 
-    <tr *ngIf="item?.tax_amount > 0">
-      <td colspan="3" style="padding: 6px; text-align: left; border: 0.3px solid #aaa;">Tax</td>
-      <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa; font-size: 9px;">
-        {{ item?.tax_amount | number:'1.2-2' }}
-      </td>
-    </tr>
+      <tr *ngIf="item?.tax_amount > 0">
+        <td colspan="3" style="padding: 6px; text-align: left; border: 0.3px solid #aaa;">Tax</td>
+        <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa; font-size: 9px;">
+          {{ item?.tax_amount | number:'1.2-2' }}
+        </td>
+      </tr>
 
-    <tr *ngIf="item?.discount_value > 0">
-      <td colspan="3" style="padding: 6px; text-align: left; border: 0.3px solid #aaa;">Discount</td>
-      <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa; font-size: 9px;">
-        {{ item?.discount_value | number:'1.2-2' }}
-      </td>
-    </tr>
+      <tr *ngIf="item?.discount_value > 0">
+        <td colspan="3" style="padding: 6px; text-align: left; border: 0.3px solid #aaa;">Discount</td>
+        <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa; font-size: 9px;">
+          {{ item?.discount_value | number:'1.2-2' }}
+        </td>
+      </tr>
 
-    <tr *ngIf="item?.tips > 0">
-      <td colspan="3" style="padding: 6px; text-align: left; border: 0.3px solid #aaa;">Tips</td>
-      <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa; font-size: 9px;">
-        {{ item?.tips | number:'1.2-2' }}
-      </td>
-    </tr>
+      <tr *ngIf="item?.tips > 0">
+        <td colspan="3" style="padding: 6px; text-align: left; border: 0.3px solid #aaa;">Tips</td>
+        <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa; font-size: 9px;">
+          {{ item?.tips | number:'1.2-2' }}
+        </td>
+      </tr>
 
-    <tr style="border-top: 1px solid #000; background: #fff;">
-      <td colspan="3" style="padding: 6px; text-align: left; border: 0.3px solid #aaa;">Total</td>
-      <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa; font-size: 9px;">
-        {{ currencySymbol }}{{ item?.final_total | number:'1.2-2' }}
-      </td>
-    </tr>
-  </tfoot>
-</table>
+      <tr style="border-top: 1px solid #000; background: #fff;">
+        <td colspan="3" style="padding: 6px; text-align: left; border: 0.3px solid #aaa;">Total</td>
+        <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa; font-size: 9px;">
+          {{ currencySymbol }}{{ item?.final_total | number:'1.2-2' }}
+        </td>
+      </tr>
+    </tfoot>
+  </table>
 
 
 
   <!-- Footer -->
-  <div style="margin-top: 8px; font-size: 9px; text-align: center; line-height: 1.4; font-weight: 900;">
-    Thank you for dining with us! We appreciate your business and hope you enjoyed your meal.<br>
-    Please visit us again soon. If you have any feedback, let us know!
+  <div style="margin-top: 8px;  text-align: center; line-height: 1.4; font-weight: 900;">
+    {{footertext}}
   </div>
 
   <!-- Date -->
-  <div style=" text-align: center; margin-top: 8px; font-size: 10px; font-weight: 900;">
+  <div style=" text-align: center; margin-top: 8px; font-weight: 900;">
     Date: {{ item?.created_at | date:'dd MMMM, yyyy' }}
   </div>
 </div>

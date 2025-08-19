@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -17,6 +17,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
   id;
   restaurantId: string | null = null;
   form: FormGroup = new FormGroup({});
+  @Output() modelChange = new EventEmitter<typeof this.model>();
   model = {
     name: '',
     copyright_text: '',
@@ -123,7 +124,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     footer_text: '',
     invoice_base64: '',
     invoice_logo: '',
-    size: '',
+    size: 0,
     left_margin: '',
     right_margin: '',
     google_review_barcode: '',
@@ -258,7 +259,19 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
       tax: new FormControl(this.model.tax || ''),
       delivery_charges: new FormControl(this.model.delivery_charges || ''),
       enableTax: new FormControl(this.model.enableTax || true),
-      enableDeliveryCharges: new FormControl(this.model.enableDeliveryCharges || true)
+      enableDeliveryCharges: new FormControl(this.model.enableDeliveryCharges || true),
+
+      invoice_prefix: new FormControl(this.model.invoice_prefix || ''),
+      footer_text: new FormControl(this.model.footer_text || ''),
+      invoice_base64: new FormControl(this.model.invoice_base64 || ''),
+      invoice_logo: new FormControl(this.model.invoice_logo || ''),
+      size: new FormControl(this.model.size || ''),
+      left_margin: new FormControl(this.model.left_margin || ''),
+      right_margin: new FormControl(this.model.right_margin || ''),
+      google_review_barcode: new FormControl(this.model.google_review_barcode || ''),
+      google_review_bar_code_base64: new FormControl(this.model.google_review_bar_code_base64 || ''),
+      restaurant_address: new FormControl(this.model.restaurant_address || ''),
+      font_size: new FormControl(this.model.font_size || ''),
     };
 
     // Add schedule controls directly to the form (not nested)
@@ -324,6 +337,8 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
   async ngAfterViewInit() {
     // Fetch the data from the server;
     const res = await this.network.getRestaurantById(this.id);
+    const resp = await this.network.getInvoiceSettingById(this.id);
+    let dm = Object.assign({}, resp.invoice_setting);
     //   this.model= res.restaurant;
     console.log(res);
 
@@ -435,17 +450,17 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
       enableDeliveryCharges: true
 
       // Invoice settings
-      , invoice_prefix: d.invoice_prefix || '',
-      footer_text: d.footer_text || '',
+      , invoice_prefix: dm.invoice_prefix || '',
+      footer_text: dm.footer_text || '',
       invoice_base64: d.invoice_base64 || '',
-      invoice_logo: d.invoice_logo || '',
-      size: d.size || '',
-      left_margin: d.left_margin || '',
-      right_margin: d.right_margin || '',
-      google_review_barcode: d.google_review_barcode || '',
-      google_review_bar_code_base64: d.google_review_bar_code_base64 || '',
-      restaurant_address: d.restaurant_address || '',
-      font_size: d.font_size || ''
+      invoice_logo: dm.invoice_logo || '',
+      size: dm.size ? Number(dm.size.replace('mm', '')) : 0,
+      left_margin: dm.left_margin || '',
+      right_margin: dm.right_margin || '',
+      google_review_barcode: dm.google_review_barcode || '',
+      google_review_bar_code_base64: dm.google_review_bar_code_base64 || '',
+      restaurant_address: dm.restaurant_address || '',
+      font_size: dm.font_size || ''
 
 
     };
@@ -563,16 +578,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     {
       fieldGroupClassName: 'row',
       fieldGroup: [
-        {
-          key: 'invoice_prefix',
-          type: 'input',
-          props: {
-            label: 'Invoice Prefix',
-            placeholder: 'Enter invoice prefix',
-            required: true,
-          },
-          className: 'col-md-6 col-12',
-        },
+
         {
           key: 'footer_text',
           type: 'textarea',
@@ -646,7 +652,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
           type: 'input',
           props: {
             label: 'Invoice Logo',
-            placeholder: 'Enter image URL',
+            placeholder: 'Enter favicon URL',
             type: 'file',
             accept: 'image/*',
             change: (field, event) => this.onFileChange(field, event, 'invoice_base64'),
@@ -959,7 +965,8 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
         console.log(base64String);
 
         this.model[type] = base64String; // Update the model
-        this.model['src_img'] = base64String; // Update the model
+        console.log("ssss", this.model);
+        this.modelChange.emit(this.model);
 
         // this.fields[0].fieldGroup[6].props['value'] = base64String; // Update the field value
         // this.fields[0].fieldGroup[6].formControl.setValue(base64String); // Update the form control value
