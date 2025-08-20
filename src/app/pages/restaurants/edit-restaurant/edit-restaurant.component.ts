@@ -965,9 +965,23 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
         console.log(base64String);
 
         this.model[type] = base64String; // Update the model
-        console.log("ssss", this.model);
-        this.modelChange.emit(this.model);
+        if (type === 'logoBase64') {
+          // Special case for logo
+          this.model['src_img'] = base64String;
+        }
+        if (type === 'google_review_bar_code_base64') {
+          // Special case for Google review barcode
+          this.model['google_review_barcode'] = base64String;
+        }
+        if (type === 'invoice_base64') {
+          // Special case for invoice
+          this.model['invoice_logo'] = base64String;
+        }
+        
 
+        console.log("ssss", this.model);  
+        this.modelChange.emit(this.model);
+       
         // this.fields[0].fieldGroup[6].props['value'] = base64String; // Update the field value
         // this.fields[0].fieldGroup[6].formControl.setValue(base64String); // Update the form control value
 

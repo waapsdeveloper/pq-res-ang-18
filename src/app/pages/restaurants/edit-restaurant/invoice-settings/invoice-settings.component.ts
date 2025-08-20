@@ -34,7 +34,7 @@ export class InvoiceSettingsComponent  {
       font_size: this.model.font_size.toString(),
     };
     const res =  await this.network.updateInvoiceSetting(this.restaurantId, payload);
-    this.utility.showAlert('Invoice settings updated successfully', 'success');
+   await  this.utility.presentSuccessToast('Invoice settings updated successfully');
     await this.invoice.fetchInvoiceData(this.restaurantId)
     
     console.log('Invoice settings updated:', res);

@@ -1,5 +1,27 @@
 <h3 class="section-heading">Invoice</h3>
 <formly-form [form]="form" [fields]="invoiceFields" [model]="model"></formly-form>
+<!-- Two image previews side by side, starting from left -->
+<div class="row mt-4">
+  <div class="col-6 text-start">
+    <label class="fw-bold d-block mb-2">Invoice Logo</label>
+    <div class="border rounded d-flex align-items-center justify-content-center"
+      style="width: 150px; height: 150px; overflow: hidden;">
+      <img *ngIf="model.invoice_logo" [src]="model.invoice_logo" alt="Invoice Logo"
+        style="max-width: 100%; max-height: 100%; object-fit: cover;" />
+      <span *ngIf="!model.invoice_logo" class="text-muted">No Image</span>
+    </div>
+  </div>
+
+  <div class="col-6 text-start">
+    <label class="fw-bold d-block mb-2">Google Review Barcode</label>
+    <div class="border rounded d-flex align-items-center justify-content-center"
+      style="width: 150px; height: 150px; overflow: hidden;">
+      <img *ngIf="model.google_review_barcode" [src]="model.google_review_barcode" alt="Google Review Barcode"
+        style="max-width: 100%; max-height: 100%; object-fit: cover;" />
+      <span *ngIf="!model.google_review_barcode" class="text-muted">No Image</span>
+    </div>
+  </div>
+</div>
 <div class="d-flex justify-content-end mt-3">
   <button type="button" class="btn btn-warning btn-123" (click)="submitConfig()">Update Invoice Config</button>
 </div>
