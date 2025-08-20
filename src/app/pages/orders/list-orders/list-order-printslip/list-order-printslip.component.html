@@ -85,35 +85,35 @@
     <tfoot style="font-weight: 900;">
       <tr>
         <td colspan="3" style="padding: 6px; text-align: left; border: 0.3px solid #aaa;">Subtotal</td>
-        <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa; font-size: 9px;">
+        <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa; ">
           {{ item?.total_price | number:'1.2-2' }}
         </td>
       </tr>
 
       <tr *ngIf="item?.tax_amount > 0">
         <td colspan="3" style="padding: 6px; text-align: left; border: 0.3px solid #aaa;">Tax</td>
-        <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa; font-size: 9px;">
+        <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa; ">
           {{ item?.tax_amount | number:'1.2-2' }}
         </td>
       </tr>
 
       <tr *ngIf="item?.discount_value > 0">
         <td colspan="3" style="padding: 6px; text-align: left; border: 0.3px solid #aaa;">Discount</td>
-        <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa; font-size: 9px;">
+        <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa; ">
           {{ item?.discount_value | number:'1.2-2' }}
         </td>
       </tr>
 
       <tr *ngIf="item?.tips > 0">
         <td colspan="3" style="padding: 6px; text-align: left; border: 0.3px solid #aaa;">Tips</td>
-        <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa; font-size: 9px;">
+        <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa; ">
           {{ item?.tips | number:'1.2-2' }}
         </td>
       </tr>
 
       <tr style="border-top: 1px solid #000; background: #fff;">
         <td colspan="3" style="padding: 6px; text-align: left; border: 0.3px solid #aaa;">Total</td>
-        <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa; font-size: 9px;">
+        <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa;">
           {{ currencySymbol }}{{ item?.final_total | number:'1.2-2' }}
         </td>
       </tr>
