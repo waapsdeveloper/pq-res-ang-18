@@ -439,4 +439,14 @@ export class ListOrdersComponent extends ListBlade {
       console.log('Selected product ID:', productId);
     });
   }
+  async restoreOrder(index: number) {
+    console.log('Restoring order with index:', index);
+     let item = this.crudService.list[index];
+  
+    
+      await this.crudService.restoreItemById(item.id);
+      this.utility.presentSuccessToast('Order restored successfully!');
+      console.log('Order restored successfully');
+       this.crudService.getDeletedList('', 1);
+     }
 }
