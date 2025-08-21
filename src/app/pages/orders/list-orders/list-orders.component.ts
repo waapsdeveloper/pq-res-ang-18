@@ -360,6 +360,11 @@ export class ListOrdersComponent extends ListBlade {
       alert('You do not have permission to delete.');
       return;
     }
+    if(this.isDeleted){
+      await this.crudService.forceDeleteRow(index, this.utility);
+      this.utility.presentSuccessToast('Deleted Sucessfully!');
+      console.log('Row deleted Permanently successfully');
+    }
     try {
       await this.crudService.deleteRow(index, this.utility);
       this.utility.presentSuccessToast('Deleted Sucessfully!');
