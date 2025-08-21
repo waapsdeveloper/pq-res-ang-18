@@ -24,4 +24,29 @@ export class ProductService extends BaseCrudService<any> {
     this.perpage = pageSize;
     this.getList(); // Call the method to fetch the updated list
   }
+  // 🔹 Deleted orders
+  async fetchDeletedData(params: any): Promise<any> {
+    return this.network.indexDeleted('product', params);
+  }
+
+  // 🔹 Restore single order
+  async restoreItemById(id: number): Promise<any> {
+    return this.network.restore('product', id);
+  }
+
+  // 🔹 Restore multiple orders
+  async restoreMultiple(ids: number[]): Promise<any> {
+    return this.network.restoreMultiple('product', ids);
+  }
+
+  // 🔹 Force delete single order
+  async forceDeleteItemById(id: number): Promise<any> {
+    return this.network.forceDestroy('product', id);
+  }
+
+  // 🔹 Force delete multiple orders
+  async forceDeleteMultiple(ids: number[]): Promise<any> {
+    return this.network.forceDestroyMultiple('product', ids);
+  }
+
 }

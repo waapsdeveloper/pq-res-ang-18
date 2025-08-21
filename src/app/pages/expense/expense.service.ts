@@ -24,4 +24,29 @@ export class ExprenseService extends BaseCrudService<any> {
     this.perpage = pageSize;
     this.getList(); // Call the method to fetch the updated list
   }
+  // 🔹 Deleted orders
+  async fetchDeletedData(params: any): Promise<any> {
+    return this.network.indexDeleted('expense', params);
+  }
+
+  // 🔹 Restore single order
+  async restoreItemById(id: number): Promise<any> {
+    return this.network.restore('expense', id);
+  }
+
+  // 🔹 Restore multiple orders
+  async restoreMultiple(ids: number[]): Promise<any> {
+    return this.network.restoreMultiple('expense', ids);
+  }
+
+  // 🔹 Force delete single order
+  async forceDeleteItemById(id: number): Promise<any> {
+    return this.network.forceDestroy('expense', id);
+  }
+
+  // 🔹 Force delete multiple orders
+  async forceDeleteMultiple(ids: number[]): Promise<any> {
+    return this.network.forceDestroyMultiple('expense', ids);
+  }
+
 }

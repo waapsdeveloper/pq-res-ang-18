@@ -75,6 +75,28 @@ export class NetworkService {
     const query = this.serialize(params);
     return this.httpGetResponse(slug + (query ? `?${query}` : ''), null, false, true);
   }
+  indexDeleted(slug: string, params?: any) {
+    const query = this.serialize(params);
+    return this.httpGetResponse(`${slug}/deleted-orders${query ? `?${query}` : ''}`, null, false, true);
+  }
+  // ✅ Restore a single record
+  restore(slug: string, id: number) {
+    return this.httpPostResponse(`${slug}/${id}/restore`, {}, null, true, true);
+  }
+  // ✅ Restore multiple records
+  restoreMultiple(slug: string, ids: number[]) {
+    return this.httpPostResponse(`${slug}/restore-multiple`, { ids }, null, true, true);
+  }
+
+  forceDestroy(slug: string, id: number) {
+    return this.httpDeleteResponse(`${slug}/force-delete/${id}`, null, true, true);
+  }
+
+  // ✅ Force delete multiple records
+  forceDestroyMultiple(slug: string, ids: number[]) {
+    // ⚠️ If your httpDeleteResponse doesn't support body, change API to POST in backend
+    return this.httpDeleteResponse(`${slug}/force-delete-multiple`, { ids }, true, true);
+  }
 
   destroy(slug, id) {
     return this.httpDeleteResponse(slug, id, false, true);
@@ -372,6 +394,33 @@ export class NetworkService {
   updateOrderPaymentStatus(id, data) {
     return this.httpPutResponse(`order/update-payment-status`, data, id, false, true);
   }
+
+  // 🔹 Deleted orders list
+  getDeletedOrders(params) {
+    const query = this.serialize(params);
+    return this.httpGetResponse('order/deleted' + (query ? `?${query}` : ''), null, false, true);
+  }
+
+  // 🔹 Restore a single order
+  restoreOrder(id: number) {
+    return this.httpPostResponse(`order/${id}/restore`, {}, null, true, true);
+  }
+
+  // 🔹 Restore multiple orders
+  restoreMultipleOrders(ids: number[]) {
+    return this.httpPostResponse('order/restore-multiple', { ids }, null, true, true);
+  }
+
+  // 🔹 Force delete a single order (permanent)
+  forceDeleteOrder(id: number) {
+    return this.httpDeleteResponse(`order/force-delete/${id}`, null, true, true);
+  }
+
+  // 🔹 Force delete multiple orders (permanent)
+  forceDeleteMultipleOrders(ids: number[]) {
+    return this.httpDeleteResponse('order/force-delete-multiple', { ids }, true, true);
+  }
+
 
   tableBookingStatus(id, data) {
     return this.httpPutResponse(`table-booking/update-status`, data, id, false, true);

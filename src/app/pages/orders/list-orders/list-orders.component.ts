@@ -21,6 +21,7 @@ import { ListOrderPrintslipComponent } from './list-order-printslip/list-order-p
 })
 export class ListOrdersComponent extends ListBlade {
   @Output() onPrint = new EventEmitter<void>();
+  isDeleted = false;
   showDeleteAllButton = false;
   canDelete;
   paymentStatus;
@@ -293,6 +294,8 @@ triggerPrint(item) {
   }
 
   async initialize() {
+    this.isDeleted = this.route.snapshot.data['isDeleted'] || false;
+    console.log('Is Deleted:', this.isDeleted);
     this.currency = this.currencyService.currency_symbol;
     let obj = {
       search: ' '
@@ -306,38 +309,42 @@ triggerPrint(item) {
       this.subTotal = res.total_price.toFixed(2);
       this.totalAmount = res.total_final_total.toFixed(2);
     }
+    if(!this.isDeleted) {
     this.crudService.getList('', 1);
-
+    }
+    else if(this.isDeleted) {
+     this.crudService.getDeletedList('',1);
+    }
     const u = this.users.getUser();
     if (u.role_id == 1 || u.role_id == 2) {
       this.showEdit = true;
     }
   }
 
-  async getList(search = '', page = 1): Promise<any> {
-    let obj = {
-      search: search,
-      page: page,
-      perpage: this.perpage
-    };
+  // async getList(search = '', page = 1): Promise<any> {
+  //   let obj = {
+  //     search: search,
+  //     page: page,
+  //     perpage: this.perpage
+  //   };
 
-    const res = await this.network.getOrders(obj);
-    if (res.data) {
-      let d = res.data;
-      this.page = d.current_page;
-      this.lastPage = d.last_page;
-      this.total = d.total;
+  //   const res = await this.network.getOrders(obj);
+  //   if (res.data) {
+  //     let d = res.data;
+  //     this.page = d.current_page;
+  //     this.lastPage = d.last_page;
+  //     this.total = d.total;
 
-      //      if (this.page == 1) {
-      this.list = d.data;
-      console.log(this.list);
-      // } else {
-      //   this.list = [...this.list, ...d.data];
-      // }
-    }
+  //     //      if (this.page == 1) {
+  //     this.list = d.data;
+  //     console.log(this.list);
+  //     // } else {
+  //     //   this.list = [...this.list, ...d.data];
+  //     // }
+  //   }
     
-    return res;
-  }
+  //   return res;
+  // }
   get orderTitleHighlightPart(): string {
     // More concise version for better mobile display
     return `(T: ${this.currencySymbol}${this.taxAmount} | D: ${this.currencySymbol}${this.discountAmount} | S: ${this.currencySymbol}${this.subTotal} | Total: ${this.currencySymbol}${this.totalAmount})`;
@@ -363,7 +370,7 @@ triggerPrint(item) {
 
   loadMore() {
     if (this.page < this.lastPage) {
-      this.getList(this.search, this.page + 1);
+      this.crudService.getList(this.search, this.page + 1);
     }
   }
 
@@ -381,7 +388,7 @@ triggerPrint(item) {
   }
 
   onChangePerPage($event) {
-    this.getList('', 1);
+    this.crudService.getList('', 1);
   }
   onPageSizeChange(event: any): void {
     console.log('Page size changed in ListOrdersComponent:', event);

@@ -162,10 +162,10 @@
 
 
 
-          <i class="edit-icon ti ti-edit" style="font-size: 24px; cursor: pointer" *ngIf="canEdit"
+          <i class="edit-icon ti ti-edit" style="font-size: 24px; cursor: pointer" *ngIf="canEdit && !isDeleted" 
             (click)="openEditDetails(i)"></i>
 
-          <i *ngIf="canDelete" class="ti ti-trash trash-icon" style="font-size: 20px; cursor: pointer"
+          <i *ngIf="canDelete && !isDeleted" class="ti ti-trash trash-icon" style="font-size: 20px; cursor: pointer"
             (click)="deleteRow(i)"></i>
           <i class="ti ti-dots-vertical" (click)="ProductModal(item)"></i>
         </div>

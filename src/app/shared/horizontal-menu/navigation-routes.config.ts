@@ -136,27 +136,30 @@ export const HROUTES: RouteInfo[] = [
     icon: 'ft-shopping-cart',
     class: 'dropdown nav-item',
     isExternalLink: false,
-    path: '/pages/orders/list',
+    path: '',
     permissionSlug: 'order.list',
     submenu: [
-      // {
-      //   path: '/pages/orders/list',
-      //   title: 'All Orders',
-      //   icon: 'ft-list',
-      //   class: 'dropdown-item',
-      //   isExternalLink: false,
-      //   submenu: []
-      // }
-      // {
-      //   path: '/pages/invoices/list',
-      //   title: 'Invoices',
-      //   icon: 'ft-file-text',
-      //   class: 'dropdown-item',
-      //   isExternalLink: false,
-      //   submenu: []
-      // }
+      {
+        path: '/pages/orders/list',
+        title: 'All Orders',
+        icon: 'ft-list',
+        class: 'dropdown-item',
+        isExternalLink: false,
+        submenu: [],
+        permissionSlug: 'order.list'
+      },
+      {
+        path: '/pages/orders/deleted', // placeholder for now
+        title: 'Deleted Orders',
+        icon: 'ft-trash-2', // trash icon makes sense
+        class: 'dropdown-item',
+        isExternalLink: false,
+        submenu: [],
+        permissionSlug: 'order.list' // you can adjust this slug later
+      }
     ]
-  },
+  }
+  ,
   {
     path: '/pages/restaurants/list',
     title: 'Branches',

@@ -1,6 +1,9 @@
 export abstract class BaseCrudService<T> {
   protected abstract fetchData(params: any): Promise<any>;
   protected abstract deleteItemById(id: any): Promise<any>;
+  protected abstract fetchDeletedData(params: any): Promise<any>;
+  protected abstract restoreItemById(id: any): Promise<any>;
+  protected abstract forceDeleteItemById(id: any): Promise<any>;
 
   public list: T[] = [];
   public page: number = 1;
@@ -36,6 +39,29 @@ export abstract class BaseCrudService<T> {
 
     return res;
   }
+  // 🔹 Fetch deleted list
+  async getDeletedList(search: string = '', page: number = 1): Promise<any> {
+    const obj = {
+      search,
+      page,
+      perpage: this.perpage,
+      filters: this.filters ? JSON.stringify(this.filters) : null
+    };
+
+    this.loading = true;
+    const res = await this.fetchDeletedData(obj);
+    this.loading = false;
+
+    if (res?.data) {
+      const d = res.data;
+      this.page = d.current_page;
+      this.lastPage = d.last_page;
+      this.total = d.total;
+      this.list = d.data;
+    }
+
+    return res;
+  }
 
   async deleteRow(index: number, utility: any): Promise<void> {
     const item = this.list[index] as any;
@@ -51,6 +77,35 @@ export abstract class BaseCrudService<T> {
       this.list.splice(index, 1);
     }
   }
+  async restoreRow(index: number, utility: any): Promise<void> {
+    const item = this.list[index] as any;
+
+    if (!item) {
+      utility.presentFailureToast('Item not found in list');
+      return;
+    }
+
+    const flag = await utility.presentConfirm('Restore', 'Cancel', 'Restore Record', 'Are you sure you want to restore?');
+    if (flag) {
+      await this.restoreItemById(item.id);
+      this.list.splice(index, 1);
+    }
+  }
+  async forceDeleteRow(index: number, utility: any): Promise<void> {
+    const item = this.list[index] as any;
+
+    if (!item) {
+      utility.presentFailureToast('Item not found in list');
+      return;
+    }
+
+    const flag = await utility.presentConfirm('Permanent Delete', 'Cancel', 'Delete Record', 'This action cannot be undone. Are you sure?');
+    if (flag) {
+      await this.forceDeleteItemById(item.id);
+      this.list.splice(index, 1);
+    }
+  }
+  
 
   onChangePerPage(perPage: number): void {
     this.perpage = perPage;
