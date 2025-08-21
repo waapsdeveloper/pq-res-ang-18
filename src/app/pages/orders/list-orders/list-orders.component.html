@@ -150,7 +150,16 @@
           </div>
         </div>
       </td>
-      <!-- Action -->
+      <!-- Deleted -->
+      <td *ngIf="isDeleted">
+        <div class="d-flex">
+          <div class="ms-4">
+            <span class="fs-7 fw-bold text-gray-800">
+              {{ item?.deleted_at | date: 'dd/MM/yyyy HH:mm:ss' }}
+            </span>
+          </div>
+        </div>
+        <!-- Action -->
       <td class="text-start">
         <div class="d-flex flex-row justify-content-start align-items-center gap-3">
           <app-list-order-printslip [item]="item"></app-list-order-printslip>
@@ -162,7 +171,7 @@
 
 
 
-          <i class="edit-icon ti ti-edit" style="font-size: 24px; cursor: pointer" *ngIf="canEdit && !isDeleted" 
+          <i class="edit-icon ti ti-edit" style="font-size: 24px; cursor: pointer" *ngIf="canEdit && !isDeleted"
             (click)="openEditDetails(i)"></i>
 
           <i *ngIf="canDelete && !isDeleted" class="ti ti-trash trash-icon" style="font-size: 20px; cursor: pointer"

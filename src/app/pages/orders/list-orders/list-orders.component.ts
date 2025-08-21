@@ -54,6 +54,7 @@ export class ListOrdersComponent extends ListBlade {
     'Created',
     'Updated'
   ];
+
   statuses = ['pending', 'confirmed', 'preparing', 'ready_for_pickup', 'out_for_delivery', 'delivered', 'completed', 'cancelled'];
   selectedStatus = '';
   override model = {
@@ -242,9 +243,9 @@ export class ListOrdersComponent extends ListBlade {
   ];
   @ViewChild(ListOrderPrintslipComponent) printSlipComponent!: ListOrderPrintslipComponent;
 
-triggerPrint(item) {
-  this.printSlipComponent.printSlip(item);
-}
+  triggerPrint(item) {
+    this.printSlipComponent.printSlip(item);
+  }
 
   constructor(
     injector: Injector,
@@ -295,6 +296,9 @@ triggerPrint(item) {
 
   async initialize() {
     this.isDeleted = this.route.snapshot.data['isDeleted'] || false;
+    if (this.isDeleted) {
+      this.columns.push('Deleted At');
+    }
     console.log('Is Deleted:', this.isDeleted);
     this.currency = this.currencyService.currency_symbol;
     let obj = {
@@ -309,11 +313,11 @@ triggerPrint(item) {
       this.subTotal = res.total_price.toFixed(2);
       this.totalAmount = res.total_final_total.toFixed(2);
     }
-    if(!this.isDeleted) {
-    this.crudService.getList('', 1);
+    if (!this.isDeleted) {
+      this.crudService.getList('', 1);
     }
-    else if(this.isDeleted) {
-     this.crudService.getDeletedList('',1);
+    else if (this.isDeleted) {
+      this.crudService.getDeletedList('', 1);
     }
     const u = this.users.getUser();
     if (u.role_id == 1 || u.role_id == 2) {
@@ -342,14 +346,14 @@ triggerPrint(item) {
   //     //   this.list = [...this.list, ...d.data];
   //     // }
   //   }
-    
+
   //   return res;
   // }
   get orderTitleHighlightPart(): string {
     // More concise version for better mobile display
     return `(T: ${this.currencySymbol}${this.taxAmount} | D: ${this.currencySymbol}${this.discountAmount} | S: ${this.currencySymbol}${this.subTotal} | Total: ${this.currencySymbol}${this.totalAmount})`;
   }
-  editRow(index: number) {}
+  editRow(index: number) { }
 
   async deleteRow(index: number) {
     if (!this.canDelete) {
@@ -394,7 +398,7 @@ triggerPrint(item) {
     console.log('Page size changed in ListOrdersComponent:', event);
     this.changePageSize(event); // Call the inherited method from ListBlade
   }
- 
+
   getOrderStatusClass(status: string): string {
     switch (status.toLowerCase()) {
       case 'ready':
