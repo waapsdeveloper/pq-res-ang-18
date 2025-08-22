@@ -12,7 +12,7 @@ export class OrderExcelExportService {
     const worksheet = workbook.addWorksheet('Orders');
 
     // --- Header Row
-    worksheet.addRow(['Order no', 'time', 'type', 'status', 'tax', 'amount', 'total']);
+    worksheet.addRow(['Order no', 'time', 'type', 'status', 'tax','tips', 'amount', 'total']);
 
     // Apply style to header
     worksheet.getRow(1).eachCell((cell) => {
