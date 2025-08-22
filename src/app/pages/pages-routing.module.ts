@@ -32,7 +32,7 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () => import('./login/login.module').then((m) => m.LoginModule),
-    resolve: {  }
+    resolve: {}
     // permissions: permissionsResolver
   },
   {
@@ -57,6 +57,13 @@ const routes: Routes = [
     path: 'coupons',
     loadChildren: () => import('./coupons/coupons.module').then((m) => m.CouponsModule),
     resolve: { permissions: permissionsResolver }
+  },
+  {
+    path: 'reports',
+    loadChildren: () => import('../report-system/report-system.module').then((m) => m.ReportSystemModule),
+    resolve: {
+      permissions: permissionsResolver
+    }
   },
   {
     path: 'messages',
@@ -172,4 +179,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class PagesRoutingModule {}
+export class PagesRoutingModule { }

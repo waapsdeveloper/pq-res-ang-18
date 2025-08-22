@@ -160,6 +160,46 @@ export const HROUTES: RouteInfo[] = [
     ]
   }
   ,
+ {
+  title: 'Reports',
+  icon: 'ft-bar-chart',
+  class: 'dropdown nav-item',
+  permissionSlug: 'order.list',
+  isExternalLink: false,
+  path: '',
+  submenu: [
+    {
+      title: 'Orders',
+      icon: 'ft-shopping-cart',
+      class: 'dropdown-submenu',
+      isExternalLink: false,
+      permissionSlug: 'order.list',
+      path: '',
+      submenu: [
+        {
+          title: 'Daily',
+          icon: 'ft-calendar',
+          class: 'dropdown-item',
+          isExternalLink: false,
+          permissionSlug: 'order.list',
+          path: '/pages/reports/orders/daily',
+          submenu: []
+        },
+        {
+          title: 'Monthly',
+          icon: 'ft-clock',
+          class: 'dropdown-item',
+          isExternalLink: false,
+          permissionSlug: 'order.list',
+          path: '/pages/reports/orders/monthly',
+          submenu: []
+        }
+      ]
+    }
+  ]
+}
+
+  ,
   {
     path: '/pages/restaurants/list',
     title: 'Branches',

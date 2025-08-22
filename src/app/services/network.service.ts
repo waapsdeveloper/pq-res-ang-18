@@ -148,6 +148,19 @@ export class NetworkService {
     return this.httpGetResponse('branch-config/get-config-by-branch-id', id, false, false);
   }
 
+  /***Reporting Systems Endpoints **/
+
+  getOrderReportDaily() {
+    return this.httpGetResponse('reports/orders/daily', null, true, true);
+  }
+  getOrderReportMonthly() {
+    return this.httpGetResponse('reports/orders/monthly', null, true, true);
+  }
+
+
+
+
+
   // removeRestaurant(id) {
   //   return this.httpDeleteResponse('restaurant', id, false, true);
   // }
