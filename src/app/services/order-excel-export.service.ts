@@ -69,6 +69,20 @@ export class OrderExcelExportService {
 
     // --- Save File
     const buffer = await workbook.xlsx.writeBuffer();
-    saveAs(new Blob([buffer]), `orders-${type}-${data.month}-${data.year}.xlsx`);
+const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+// --- Build filename
+let fileName = '';
+if (type === 'monthly') {
+  fileName = `orders-monthly-${data.month}-${data.year}.xlsx`;
+} else if (type === 'daily') {
+  // if your API returns "date": "2025-08-22"
+  const today = data.date ? data.date : new Date().toISOString().split('T')[0];
+  fileName = `orders-daily-${today}.xlsx`;
+}
+
+// --- Save
+saveAs(blob, fileName);
+
   }
 }

@@ -116,4 +116,20 @@ export class InvoiceService extends NgSimpleStateBaseRxjsStore<InvoiceState> {
   fetchInvoiceDataObservable(restaurantId: number): Observable<InvoiceState> {
     return from(this.fetchInvoiceData(restaurantId));
   }
+
+  updateInvoiceService(data) {
+    this.setRestaurantId(data.restaurant_id);
+    this.setFooterText(data.footer_text);
+    this.setSize(Number(data.size.replace('mm', '')));
+    this.setFontSize(Number(data.font_size));
+    this.setLeftMargin(Number(data.left_margin.replace('mm', '')));
+    this.setRightMargin(Number(data.right_margin.replace('mm', '')));
+    this.setInvoiceLogo(data.invoice_logo);
+    this.setGoogleReviewBarcode(data.google_review_barcode);
+    this.setGoogleReviewBarcodeBase64(data.google_review_barcode_base64);
+    this.setRestaurantAddress(data.restaurant_address);
+    this.setInvoiceBase64(data.invoice_logo_base64);
+
+  }
+
 }

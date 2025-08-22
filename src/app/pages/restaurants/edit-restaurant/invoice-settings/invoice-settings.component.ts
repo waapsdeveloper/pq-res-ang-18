@@ -8,11 +8,11 @@ import { UtilityService } from 'src/app/services/utility.service';
   templateUrl: './invoice-settings.component.html',
   styleUrl: './invoice-settings.component.scss'
 })
-export class InvoiceSettingsComponent  {
+export class InvoiceSettingsComponent {
   @Input() form: any;
   @Input() invoiceFields: any;
   @Input() model: any;
-  
+
   @Input() restaurantId: any;
 
   constructor(private network: NetworkService,
@@ -29,14 +29,16 @@ export class InvoiceSettingsComponent  {
       size: `${this.model.size}mm`,
       left_margin: `${this.model.left_margin}`,
       right_margin: `${this.model.right_margin}`,
+
       google_review_bar_code_base64: this.model.google_review_bar_code_base64,
       restaurant_address: this.model.restaurant_address,
       font_size: this.model.font_size.toString(),
     };
-    const res =  await this.network.updateInvoiceSetting(this.restaurantId, payload);
-   await  this.utility.presentSuccessToast('Invoice settings updated successfully');
-    await this.invoice.fetchInvoiceData(this.restaurantId)
-    
-    console.log('Invoice settings updated:', res);
+    const res = await this.network.updateInvoiceSetting(this.restaurantId, payload);
+    await  this.invoice.updateInvoiceService(res.invoice_setting);
+    await this.utility.presentSuccessToast('Invoice settings updated successfully');
+
+
   }
+
 }
