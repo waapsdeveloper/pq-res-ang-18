@@ -169,31 +169,31 @@ export const HROUTES: RouteInfo[] = [
   path: '',
   submenu: [
     {
-      title: 'Orders',
+      title: 'Daily Sales Reports',
       icon: 'ft-shopping-cart',
       class: 'dropdown-submenu',
       isExternalLink: false,
       permissionSlug: 'order.list',
-      path: '',
+      path: '/pages/reports/orders/daily',
       submenu: [
-        {
-          title: 'Daily',
-          icon: 'ft-calendar',
-          class: 'dropdown-item',
-          isExternalLink: false,
-          permissionSlug: 'order.list',
-          path: '/pages/reports/orders/daily',
-          submenu: []
-        },
-        {
-          title: 'Monthly',
-          icon: 'ft-clock',
-          class: 'dropdown-item',
-          isExternalLink: false,
-          permissionSlug: 'order.list',
-          path: '/pages/reports/orders/monthly',
-          submenu: []
-        }
+        // {
+        //   title: 'Daily',
+        //   icon: 'ft-calendar',
+        //   class: 'dropdown-item',
+        //   isExternalLink: false,
+        //   permissionSlug: 'order.list',
+        //   path: '/pages/reports/orders/daily',
+        //   submenu: []
+        // },
+        // {
+        //   title: 'Monthly',
+        //   icon: 'ft-clock',
+        //   class: 'dropdown-item',
+        //   isExternalLink: false,
+        //   permissionSlug: 'order.list',
+        //   path: '/pages/reports/orders/monthly',
+        //   submenu: []
+        // }
       ]
     }
   ]

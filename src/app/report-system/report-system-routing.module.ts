@@ -7,7 +7,8 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: 'orders/daily',
-    pathMatch: 'full'
+    pathMatch: 'full',
+    data: { breadcrumb: 'Sales Report' },
   },
   {
     path: 'orders',

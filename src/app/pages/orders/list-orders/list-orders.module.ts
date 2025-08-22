@@ -30,5 +30,6 @@ import { ListOrderPrintslipModule } from "./list-order-printslip/list-order-prin
     ListOrderPaymentStatusModule,
     ListOrderPrintslipModule
 ],
+  
 })
 export class ListOrdersModule { }

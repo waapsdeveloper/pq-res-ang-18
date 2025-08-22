@@ -129,3 +129,32 @@
   background-color: #ffcdd2;
   color: red;
 }
+.badge-order-source {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: capitalize;
+
+  &.pos {
+    background-color: #d1c4e9; // soft lavender
+    color: #4527a0; // deep purple text
+  }
+
+  &.website {
+    background-color: #bbdefb; // soft sky blue
+    color: #0d47a1; // deep blue text
+  }
+}
+.printericon {
+  color: #007bff; /* Bootstrap primary color */
+  background-color: #f0f8ff; /* Light background color */
+  border: 1px solid #007bff; /* Bootstrap primary color */
+  padding: 4px; /* Add some padding around the icon */
+  border-radius: 4px; /* Optional: Add a border radius for a rounded look */
+}
+.ti-dots-vertical {
+  color: #2d397c; /* Adjust to your desired color */
+  border: 1px solid #09325c; /* Adjust to your desired border color */
+  padding: 5px; /* Adjust for desired spacing */
+} 
