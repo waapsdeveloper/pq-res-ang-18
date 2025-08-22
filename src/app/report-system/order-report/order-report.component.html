@@ -46,6 +46,13 @@
                                             </h4>
                                         </div>
                                         <div>
+                                            <h6 class="text-muted mb-1">Tips</h6>
+                                            <h4 class="fw-bold text-success">
+                                                {{ currencySymbol }} {{ reportData?.totals?.tips | number:
+                                                '1.2-2' }}
+                                            </h4>
+                                        </div>
+                                        <div>
                                             <h6 class="text-muted mb-1">Grand Total</h6>
                                             <h4 class="fw-bold text-success">
                                                 {{ currencySymbol }} {{ reportData?.totals?.grand_total | number:
