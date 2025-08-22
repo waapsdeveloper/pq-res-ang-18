@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GlobalDataService } from 'src/app/services/global-data.service';
 import { NetworkService } from 'src/app/services/network.service';
-
+import { OrderExcelExportService } from 'src/app/services/order-excel-export.service';
+import { UtilityService } from 'src/app/services/utility.service';
 @Component({
   selector: 'app-order-report',
   templateUrl: './order-report.component.html',
@@ -10,13 +11,15 @@ import { NetworkService } from 'src/app/services/network.service';
 })
 export class OrderReportComponent implements OnInit {
   type: string = 'daily';
-  reportData:any;
+  reportData: any;
   data: any;
   currencySymbol: string = '$';
   constructor(
     private route: ActivatedRoute,
     private network: NetworkService,
-    private globalDataService: GlobalDataService
+    private globalDataService: GlobalDataService,
+    private excelService: OrderExcelExportService,
+    private utilityService:UtilityService
   ) {
 
     this.globalDataService.getCurrencySymbol().subscribe((symbol) => {
@@ -34,13 +37,19 @@ export class OrderReportComponent implements OnInit {
     } else if (this.type === 'monthly') {
       res = await this.network.getOrderReportMonthly();
     }
-   setTimeout(() => {
-       console.log(res);
-    this.reportData = res;
-    console.log( "report", this.reportData);
-   }, 3000);
+    setTimeout(() => {
+      console.log(res);
+      this.reportData = res;
+      console.log("report", this.reportData);
+    }, 3000);
   }
-  exportToExcel() {
-   
+  async exportToExcel() {
+    if (this.type === 'daily') {
+      this.excelService.exportOrdersExcel(this.reportData, "daily");
+    }
+    else if (this.type === 'monthly') {
+      this.excelService.exportOrdersExcel(this.reportData, "monthly");
+    }
+    await this.utilityService.presentSuccessToast("Sheet is downloaded , Check your downloads")
   }
 }
