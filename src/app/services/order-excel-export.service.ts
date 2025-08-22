@@ -29,6 +29,7 @@ export class OrderExcelExportService {
         order.type,
         order.status,
         parseFloat(order.tax),
+        parseFloat(order.tips),
         parseFloat(order.amount),
         parseFloat(order.total)
       ]);
@@ -44,6 +45,7 @@ export class OrderExcelExportService {
       '',
       '',
       data.totals.total_tax,
+      data.totals.tips,
       data.totals.total_sale,
       data.totals.grand_total
     ]);
@@ -53,6 +55,7 @@ export class OrderExcelExportService {
     worksheet.addRow([]);
     worksheet.addRow(['', '', '', 'Total Sale', data.totals.total_sale]);
     worksheet.addRow(['', '', '', 'Total Tax', data.totals.total_tax]);
+    worksheet.addRow(['', '', '', 'Total Tips', data.totals.tips]);
     worksheet.addRow(['', '', '', 'Total Discount', data.totals.total_discount]);
     worksheet.addRow(['', '', '', 'Grand Total', data.totals.grand_total]);
 
@@ -63,6 +66,7 @@ export class OrderExcelExportService {
       { key: 'type', width: 20 },
       { key: 'status', width: 15 },
       { key: 'tax', width: 12 },
+      {key: 'tips', width: 12},
       { key: 'amount', width: 15 },
       { key: 'total', width: 15 }
     ];
