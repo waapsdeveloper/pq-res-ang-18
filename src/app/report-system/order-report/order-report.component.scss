@@ -56,3 +56,32 @@
   font-size: 22px;
   opacity: 0.8;
 }
+
+.filter-bar {
+  /* make the group look like a strip */
+  background: #dc3545;      /* red */
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.filter-bar .formly-field,
+.filter-bar .form-group {
+  margin-bottom: 0;          /* remove extra bottom gaps in a row */
+}
+
+.filter-bar label {
+  color: #fff;               /* white labels */
+  margin-bottom: .25rem;
+}
+
+/* style native inputs/selects rendered by formly bootstrap */
+.filter-bar .form-control,
+.filter-bar .form-select {
+  background: #b02a37;       /* darker red for controls */
+  color: #fff;
+  border-color: #842029;
+}
+
+.filter-bar .form-control::placeholder {
+  color: #f8d7da;
+}

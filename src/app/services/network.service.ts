@@ -150,11 +150,26 @@ export class NetworkService {
 
   /***Reporting Systems Endpoints **/
 
-  getOrderReportDaily() {
-    return this.httpGetResponse('reports/orders/daily', null, true, true);
+  getOrderReportDaily(filters: any = null) {
+    const params = filters ? { filters: JSON.stringify(filters) } : {};
+    const query = this.serialize(params);
+    return this.httpGetResponse(
+      `reports/orders/daily${query ? `?${query}` : ''}`,
+      null,
+      true,
+      true
+    );
   }
-  getOrderReportMonthly() {
-    return this.httpGetResponse('reports/orders/monthly', null, true, true);
+
+  getOrderReportMonthly(filters: any = null) {
+    const params = filters ? { filters: JSON.stringify(filters) } : {};
+    const query = this.serialize(params);
+    return this.httpGetResponse(
+      `reports/orders/monthly${query ? `?${query}` : ''}`,
+      null,
+      true,
+      true
+    );
   }
 
 
