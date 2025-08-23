@@ -1,3 +1,10 @@
+export interface OrderAmount {
+  taxAmount: number;
+  discountAmount: number;
+  subTotal: number;
+  totalAmount: number;
+}
+
 export abstract class BaseCrudService<T> {
   protected abstract fetchData(params: any): Promise<any>;
   protected abstract deleteItemById(id: any): Promise<any>;
@@ -13,7 +20,13 @@ export abstract class BaseCrudService<T> {
   public filters: any = null;
   public search: string = '';
   public loading: boolean = false;
-
+ public amount: OrderAmount = {
+    taxAmount: 0,
+    discountAmount: 0,
+    subTotal: 0,
+    totalAmount: 0
+  };
+  public
   async getList(search: string = '', page: number = 1): Promise<any> {
     const obj = {
       search,
@@ -35,6 +48,13 @@ export abstract class BaseCrudService<T> {
       // Replace or append data to the list
       //this.list = page === 1 ? d.data : [...this.list, ...d.data];
       this.list = d.data;
+      this.amount = {
+        taxAmount: res.total_tax.toFixed(2),
+        discountAmount: res.total_discount.toFixed(2),
+        subTotal: res.total_price.toFixed(2),
+        totalAmount: res.total_final_total.toFixed(2),
+
+      }
     }
 
     return res;
@@ -105,7 +125,7 @@ export abstract class BaseCrudService<T> {
       this.list.splice(index, 1);
     }
   }
-  
+
 
   onChangePerPage(perPage: number): void {
     this.perpage = perPage;
