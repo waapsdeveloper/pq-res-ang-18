@@ -26,7 +26,7 @@ export class ListOrdersComponent extends ListBlade {
   canDelete;
   paymentStatus;
   orderStatus;
-  title = 'Orders';
+  title = this.isDeleted ? 'Deleted Orders' : 'Orders';
   addurl = '/pages/orders/add';
   showEdit: boolean = false;
   taxAmount: number = 0;
@@ -348,7 +348,10 @@ export class ListOrdersComponent extends ListBlade {
   // }
   get orderTitleHighlightPart(): string {
     // More concise version for better mobile display
-    return `(T: ${this.currencySymbol}${this.taxAmount} | D: ${this.currencySymbol}${this.discountAmount} | S: ${this.currencySymbol}${this.subTotal} | Total: ${this.currencySymbol}${this.totalAmount})`;
+    if (!this.isDeleted) {
+      return `(T: ${this.currencySymbol}${this.taxAmount} | D: ${this.currencySymbol}${this.discountAmount} | S: ${this.currencySymbol}${this.subTotal} | Total: ${this.currencySymbol}${this.totalAmount})`;
+    }
+    return '';
   }
   editRow(index: number) { }
 
