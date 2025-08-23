@@ -171,7 +171,7 @@ export const HROUTES: RouteInfo[] = [
     {
       title: 'Daily Sales Reports',
       icon: 'ft-shopping-cart',
-      class: '',
+      class: 'dropdown-submenu',
       isExternalLink: false,
       permissionSlug: 'report.daily_sale_report',
       path: '/pages/reports/orders/daily',
