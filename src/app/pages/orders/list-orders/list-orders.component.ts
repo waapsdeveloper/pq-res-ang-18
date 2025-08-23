@@ -39,18 +39,15 @@ export class ListOrdersComponent extends ListBlade {
   columns: any[] = [
     'Order Id',
     'Customer',
+    'Status',
     'Type',
     'Source',
+    'Paid',
     'Subtotal',
     'Tax',
     'Discount',
     'Tips',
     'Total',
-    'Address',
-    'Notes',
-    'Table No',
-    'Paid',
-    'Status',
     'Created',
     'Updated'
   ];
@@ -360,7 +357,7 @@ export class ListOrdersComponent extends ListBlade {
       alert('You do not have permission to delete.');
       return;
     }
-    if(this.isDeleted){
+    if (this.isDeleted) {
       await this.crudService.forceDeleteRow(index, this.utility);
       this.utility.presentSuccessToast('Deleted Sucessfully!');
       console.log('Row deleted Permanently successfully');
@@ -446,12 +443,12 @@ export class ListOrdersComponent extends ListBlade {
   }
   async restoreOrder(index: number) {
     console.log('Restoring order with index:', index);
-     let item = this.crudService.list[index];
-  
-    
-      await this.crudService.restoreItemById(item.id);
-      this.utility.presentSuccessToast('Order restored successfully!');
-      console.log('Order restored successfully');
-       this.crudService.getDeletedList('', 1);
-     }
+    let item = this.crudService.list[index];
+
+
+    await this.crudService.restoreItemById(item.id);
+    this.utility.presentSuccessToast('Order restored successfully!');
+    console.log('Order restored successfully');
+    this.crudService.getDeletedList('', 1);
+  }
 }

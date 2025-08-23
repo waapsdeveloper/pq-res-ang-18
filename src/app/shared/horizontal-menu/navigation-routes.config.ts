@@ -155,7 +155,7 @@ export const HROUTES: RouteInfo[] = [
         class: 'dropdown-item',
         isExternalLink: false,
         submenu: [],
-        permissionSlug: 'order.list' // you can adjust this slug later
+        permissionSlug: 'order.deleted_order' // you can adjust this slug later
       }
     ]
   }
@@ -164,7 +164,7 @@ export const HROUTES: RouteInfo[] = [
   title: 'Reports',
   icon: 'ft-bar-chart',
   class: 'dropdown nav-item',
-  permissionSlug: 'report.daily',
+  permissionSlug: 'report.daily_sale_report',
   isExternalLink: false,
   path: '',
   submenu: [
@@ -173,7 +173,7 @@ export const HROUTES: RouteInfo[] = [
       icon: 'ft-shopping-cart',
       class: 'dropdown-submenu',
       isExternalLink: false,
-      permissionSlug: 'report.daily',
+      permissionSlug: 'report.daily_sale_report',
       path: '/pages/reports/orders/daily',
       submenu: [
         // {

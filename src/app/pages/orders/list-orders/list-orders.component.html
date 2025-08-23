@@ -20,15 +20,18 @@
     <!-- Hide rows when loading -->
     <tr [hidden]="!(!crudService.loading && crudService.list.length > 0)"
       *ngFor="let item of crudService.list; let i = index">
+
       <!-- Order Id -->
       <td>
         <div class="d-flex">
           <div class="ms-4">
-            <a (click)="openDetails(i)" class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">{{ item?.order_number
-              }}</a>
+            <a (click)="openDetails(i)" class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">
+              {{ item?.order_number }}
+            </a>
           </div>
         </div>
       </td>
+
       <!-- Customer -->
       <td>
         <div class="d-flex flex-column">
@@ -36,8 +39,8 @@
           <span class="fs-8 text-muted">{{ item?.customer_phone }}</span>
         </div>
       </td>
+
       <!-- Type -->
-      <!-- Replace the Type column content -->
       <td>
         <div class="d-flex">
           <div class="badge-order-type" [ngClass]="item?.order_type">
@@ -45,6 +48,7 @@
           </div>
         </div>
       </td>
+
       <!-- Source -->
       <td>
         <div class="d-flex">
@@ -60,13 +64,14 @@
           {{ currencySymbol }}{{ item.total_price | number: '1.2-2' }}
         </span>
       </td>
+
       <!-- Tax -->
       <td>
         <span *ngIf="item?.tax_amount" class="fw-bold" style="font-size: 15px; white-space: nowrap">
           {{ currencySymbol }}{{ item.tax_amount | number: '1.2-2' }}
         </span>
         <span *ngIf="!item?.tax_amount" class="fw-bold" style="font-size: 15px; white-space: nowrap">
-          {{ currencySymbol }}{{ '0.00' | number: '1.2-2' }}
+          {{ currencySymbol }}0.00
         </span>
       </td>
 
@@ -76,6 +81,7 @@
           {{ currencySymbol }}{{ item.discount_value | number: '1.2-2' }}
         </span>
       </td>
+
       <!-- Tips -->
       <td>
         <span *ngIf="item?.tips" class="badge badge-ready-for-pickup fw-bold"
@@ -84,53 +90,27 @@
         </span>
         <span *ngIf="!item?.tips" class="badge badge-ready-for-pickup fw-bold"
           style="font-size: 15px; white-space: nowrap">
-          {{ currencySymbol }}{{ 0.0 | number: '1.2-2' }}
+          {{ currencySymbol }}0.00
         </span>
       </td>
+
       <!-- Total -->
       <td>
         <span class="fw-bold" style="font-size: 15px; white-space: nowrap">
           {{ currencySymbol }}{{ item?.final_total | number: '1.2-2' }}
         </span>
       </td>
-      <!-- Address -->
-      <td>
-        <div class="d-flex">
-          <div class="ms-4 text-truncate" style="max-width: 200px">
-            <a class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1"
-              style="display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">
-              {{ item?.delivery_address }}
-            </a>
-          </div>
-        </div>
-      </td>
-      <!-- Notes -->
-      <td>
-        <div class="ms-4 text-truncate" style="max-width: 150px">
-          <div class="ms-4">
-            <a class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1"
-              style="display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap"
-              [attr.title]="item?.notes">
-              {{ item?.notes }}
-            </a>
-          </div>
-        </div>
-      </td>
-      <!-- Table No -->
-      <td>
-        <div class="d-flex">
-          <div class="fw-bold" *ngIf="item?.table !== 'no booked'">{{ item?.table }}</div>
-        </div>
-      </td>
 
       <!-- Paid -->
       <td>
         <app-list-order-payment-status [item]="item"></app-list-order-payment-status>
       </td>
+
       <!-- Status -->
       <td>
         <app-list-order-item-status [item]="item"></app-list-order-item-status>
       </td>
+
       <!-- Created -->
       <td>
         <div class="d-flex">
@@ -141,6 +121,7 @@
           </div>
         </div>
       </td>
+
       <!-- Updated -->
       <td>
         <div class="d-flex">
@@ -151,8 +132,8 @@
           </div>
         </div>
       </td>
-      <!-- Deleted -->
-      <td *ngIf="isDeleted">
+       <!-- Deleted -->
+      <td *ngIf="item?.deleted_at">
         <div class="d-flex">
           <div class="ms-4">
             <span class="fs-7 fw-bold text-gray-800">
@@ -160,7 +141,9 @@
             </span>
           </div>
         </div>
-        <!-- Action -->
+      </td>
+
+      <!-- Actions -->
       <td class="text-start">
         <div class="d-flex flex-row justify-content-start align-items-center gap-3">
           <app-list-order-printslip [item]="item"></app-list-order-printslip>
@@ -168,18 +151,14 @@
             (click)="openDetails(i)"></i>
           <i class="ti ti-printer printericon" style="font-size: 20px; cursor: pointer"
             (click)="triggerPrint(item)"></i>
-
-          <!-- <i class="ti ti-restore restore-icon" *ngIf="isDeleted" (click)="restoreOrder(i)"></i> -->
-
-
-          <i class="edit-icon ti ti-edit" style="font-size: 24px; cursor: pointer" *ngIf="canEdit && !isDeleted"
+          <i class="edit-icon ti ti-edit" style="font-size: 24px; cursor: pointer" *ngIf="canEdit"
             (click)="openEditDetails(i)"></i>
-
-          <i *ngIf="canDelete && !isDeleted" class="ti ti-trash trash-icon" style="font-size: 20px; cursor: pointer"
+          <i *ngIf="canDelete" class="ti ti-trash trash-icon" style="font-size: 20px; cursor: pointer"
             (click)="deleteRow(i)"></i>
           <i class="ti ti-dots-vertical" (click)="ProductModal(item)"></i>
         </div>
       </td>
+
       <!-- Checkbox -->
       <td>
         <div class="form-check form-check-sm form-check-custom form-check-solid">
@@ -187,7 +166,9 @@
             (change)="checkboxUpdate(i, $event)" />
         </div>
       </td>
+
     </tr>
+
     <!-- Skeleton Loader Row -->
     <tr *ngIf="crudService.loading">
       <!-- Order Id -->
@@ -296,6 +277,7 @@
             [animation]="true"></ngx-skeleton-loader>
         </div>
       </td>
+      
       <!-- Action -->
       <td class="text-end">
         <div class="d-flex flex-row justify-content-start align-items-center gap-3">

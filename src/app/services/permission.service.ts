@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 export class PermissionService extends NgSimpleStateBaseRxjsStore<any> {
   genericPermissions: any[] = [
     { entity: 'dashboard', operations: ['view'] },
-    { entity: 'report', operations: ['view', 'daily'] },
+    { entity: 'report', operations: ['view', 'daily_sale_report'] },
     { entity: 'user', operations: ['add', 'edit', 'delete', 'list', 'filter'] },
     { entity: 'product', operations: ['add', 'edit', 'delete', 'list', 'filter'] },
     { entity: 'category', operations: ['add', 'edit', 'delete', 'list', 'filter'] },
@@ -20,7 +20,7 @@ export class PermissionService extends NgSimpleStateBaseRxjsStore<any> {
     { entity: 'expense', operations: ['add', 'edit', 'delete', 'list', 'filter', 'status', 'payment_status_update'] },
     { entity: 'coupon', operations: ['add', 'edit', 'delete', 'list', 'filter'] },
     { entity: 'message', operations: ['add', 'edit', 'delete', 'list', 'filter'] },
-    { entity: 'order', operations: ['add', 'edit', 'delete', 'list', 'filter', 'payment_status', 'order_status', 'menu'] },
+    { entity: 'order', operations: ['add', 'edit', 'delete', 'list', 'filter', 'payment_status', 'order_status', 'menu', 'deleted_order'] },
     { entity: 'branch', operations: ['add', 'edit', 'delete', 'list', 'filter', 'set_default', 'config_button'] }
   ];
 
