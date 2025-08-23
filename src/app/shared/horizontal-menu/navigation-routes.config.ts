@@ -164,7 +164,7 @@ export const HROUTES: RouteInfo[] = [
   title: 'Reports',
   icon: 'ft-bar-chart',
   class: 'dropdown nav-item',
-  permissionSlug: 'order.list',
+  permissionSlug: 'report.daily',
   isExternalLink: false,
   path: '',
   submenu: [
@@ -173,7 +173,7 @@ export const HROUTES: RouteInfo[] = [
       icon: 'ft-shopping-cart',
       class: 'dropdown-submenu',
       isExternalLink: false,
-      permissionSlug: 'order.list',
+      permissionSlug: 'report.daily',
       path: '/pages/reports/orders/daily',
       submenu: [
         // {
