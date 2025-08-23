@@ -288,6 +288,14 @@
             [animation]="true"></ngx-skeleton-loader>
         </div>
       </td>
+       <!-- Deleted at -->
+      <td *ngIf="isDeleted">
+        <div class="d-flex align-items-center">
+          <ngx-skeleton-loader appearance="custom-content"
+            [theme]="{ width: '80px', height: '20px', background: 'rgba(0,0,0,0.2)' }"
+            [animation]="true"></ngx-skeleton-loader>
+        </div>
+      </td>
 
       <!-- Action -->
       <td class="text-end">
