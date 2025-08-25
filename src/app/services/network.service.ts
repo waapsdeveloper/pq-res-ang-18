@@ -473,6 +473,16 @@ export class NetworkService {
   getUnreadNotifications() {
     return this.httpGetResponse('notifications/unread', null, false, true);
   }
+  // network.service.ts
+ getCertificate() {
+  return this.httpGetResponse('cert', null, false, true);
+}
+
+signData(data: string) {
+  return this.httpPostResponse('sign', { data }, false, true);
+}
+
+
   readNotification(id) {
     return this.httpPostResponse(`notifications/mark-as-read/${id}`, null, false, true);
   }

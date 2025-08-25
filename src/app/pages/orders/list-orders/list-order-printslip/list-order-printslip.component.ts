@@ -3,6 +3,7 @@ import { GlobalDataService } from 'src/app/services/global-data.service';
 import html2pdf from 'html2pdf.js';
 import { InvoiceService } from 'src/app/services/invoice.service';
 import { left } from '@popperjs/core';
+import { PrinterService } from 'src/app/services/printer.service';
 
 @Component({
   selector: 'app-list-order-printslip',
@@ -20,7 +21,7 @@ export class ListOrderPrintslipComponent implements OnInit {
   logoBase64 = '';
   barcode = '';
   currencySymbol: string = '';
-  constructor(private globalData: GlobalDataService, public invoiceService: InvoiceService) {
+  constructor(private globalData: GlobalDataService, public invoiceService: InvoiceService, private printerService: PrinterService) {
     this.globalData.getCurrencySymbol().subscribe((symbol) => {
       this.currencySymbol = symbol;
       console.log('Currency Symbol updated:', this.currencySymbol);
@@ -29,8 +30,10 @@ export class ListOrderPrintslipComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.printerService.init();
     this.invoiceService.getInvoiceBase64().subscribe(base64 => {
-      this.logoBase64 = base64;});
+      this.logoBase64 = base64;
+    });
     this.invoiceService.getGoogleReviewBarcodeBase64().subscribe(base64 => {
       this.barcode = base64;
     });
@@ -49,12 +52,12 @@ export class ListOrderPrintslipComponent implements OnInit {
       this.marginright = right;
     });
     this.size = this.invoiceService.getSize().subscribe(size => {
-      this.size = size  || 80; // Default to 10 if not set
-    });  
+      this.size = size || 80; // Default to 10 if not set
+    });
     this.fontSize = this.invoiceService.getFontSize().subscribe(size => {
       this.fontSize = size || 10; // Default to 10 if not set
-    });   
- 
+    });
+
   }
 
   private preloadImage(url: string): Promise<void> {
@@ -77,13 +80,19 @@ export class ListOrderPrintslipComponent implements OnInit {
   async printSlip(item) {
     this.item = item;
     const section = document.getElementById('print-section');
-    const logoUrl = this.item?.restaurant?.logo;
+    // const logoUrl = this.item?.restaurant?.logo;
 
-    // Wait for it to load
-    await this.preloadImage(logoUrl);
-    if (!section) { console.error('Print section not found.'); return; }
+    // Wait for logo to load
+    // await this.preloadImage(logoUrl);
+
+    if (!section) {
+      console.error('Print section not found.');
+      return;
+    }
+
     const oldDisplay = section.style.display;
     section.style.display = 'block';
+
     const opt = {
       margin: 0,
       filename: 'Invoice-' + 'invoice' + '.pdf',
@@ -91,14 +100,19 @@ export class ListOrderPrintslipComponent implements OnInit {
       html2canvas: { scale: 2, useCORS: false },
       jsPDF: { unit: 'mm', format: [this.size, 600], orientation: 'portrait' }
     };
-    html2pdf().set(opt).from(section).toPdf().get('pdf').then(function (pdf) {
-      window.open(pdf.output('bloburl'), '_blank');
+
+    try {
+      const dataUri = await html2pdf().set(opt).from(section).outputPdf('datauristring');
+      // Pass the full dataUri without splitting
+      await this.printerService.printPdf(dataUri);
+
+    } catch (err) {
+      console.error('PDF generation or print error:', err);
+    } finally {
       section.style.display = oldDisplay;
-    }).catch(function (err) {
-      console.error('PDF generation error:', err);
-      section.style.display = oldDisplay;
-    });
+    }
   }
+
   getProdUnitPrice(prod: any): number {
     let base = parseFloat(prod?.price ?? 0);
 
