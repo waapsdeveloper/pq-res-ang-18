@@ -7,7 +7,7 @@ import { UtilityService } from './utility.service'; // for toast/loader, etc
 @Injectable({ providedIn: 'root' })
 export class PrintingService {
   private connected = false;
-
+  printerName = '';
   constructor(private network: NetworkService, private utility: UtilityService) {
     qz.api.setPromiseType((resolver: any) => new Promise(resolver));
     qz.api.setSha256Type((data: string) => sha256(data));
@@ -31,6 +31,9 @@ export class PrintingService {
     if (this.connected && qz.websocket.isActive()) return true;
     try {
       await qz.websocket.connect();
+      this.printerName = await qz.printers.getDefault();
+      console.log('Connected to QZ Tray. Default printer:', this.printerName);
+      
       this.connected = true;
       return true;
     } catch (err) {
@@ -50,12 +53,12 @@ export class PrintingService {
   }
 
   // Print PDF directly from blob or URL
-  async printPdf(pdfUrlOrBlob: string | Blob, printer?: string): Promise<boolean> {
+  async printPdf(pdfUrlOrBlob: string | Blob): Promise<boolean> {
     if (!(await this.ensureConnected())) return false;
 
     try {
-      const cfg = this.getConfig(printer);
-      
+      const cfg = this.getConfig(this.printerName);
+
       const data = [{
         type: 'pdf',
         format: pdfUrlOrBlob instanceof Blob ? 'base64' : 'file',
