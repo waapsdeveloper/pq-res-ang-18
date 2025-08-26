@@ -99,7 +99,7 @@ export class ListOrderPrintslipComponent implements OnInit {
     const pdfBlob: Blob = await html2pdf().set(opt).from(section).toPdf().outputPdf('blob');
 
     // Send directly to printer
-    const ok = await this.printingService.printPdf(pdfBlob ,"Microsoft Print to PDF");
+    const ok = await this.printingService.printPdf(pdfBlob ,"EPSON M267A");
     if (ok) {
       console.log('Printed successfully');
     }

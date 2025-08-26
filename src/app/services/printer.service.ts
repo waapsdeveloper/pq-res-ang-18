@@ -55,7 +55,7 @@ export class PrintingService {
 
     try {
       const cfg = this.getConfig(printer);
-
+      
       const data = [{
         type: 'pdf',
         format: pdfUrlOrBlob instanceof Blob ? 'base64' : 'file',
