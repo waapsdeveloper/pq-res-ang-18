@@ -49,7 +49,14 @@ export class PrintingService {
       this.utility.presentFailureToast('No printer selected');
       throw new Error('No printer selected');
     }
-    return qz.configs.create(name, { copies: 1, jobName: 'Invoice Print' });
+   const printerConfig = qz.configs.create(printerName, {
+  size: { width: 80, height: null }, // force width to 80mm, auto height
+  units: 'mm',                       // make sure units are in millimeters
+  orientation: 'portrait',
+  copies: 1,
+  margins: { top: 0, right: 0, bottom: 0, left: 0 } // no margins for thermal
+});
+    return printerConfig;
   }
 
   // Print PDF directly from blob or URL
