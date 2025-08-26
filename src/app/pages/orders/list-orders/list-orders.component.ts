@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Injector, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Injector, Output, ViewChild } from '@angular/core';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { UsersService } from 'src/app/services/users.service';
@@ -19,14 +19,14 @@ import { ListOrderPrintslipComponent } from './list-order-printslip/list-order-p
   templateUrl: './list-orders.component.html',
   styleUrl: './list-orders.component.scss'
 })
-export class ListOrdersComponent extends ListBlade implements OnInit {
+export class ListOrdersComponent extends ListBlade {
   @Output() onPrint = new EventEmitter<void>();
   isDeleted = false;
   showDeleteAllButton = false;
   canDelete;
   paymentStatus;
   orderStatus;
-  title = 'Orders';
+  title = this.isDeleted ? 'Deleted Orders' : 'Orders';
   addurl = '/pages/orders/add';
   showEdit: boolean = false;
   taxAmount: number = 0;
@@ -259,7 +259,7 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
     private permissionService: PermissionService
   ) {
     super(injector, crudService);
-    // this.initialize();
+    this.initialize();
     this.globalData.getCurrency().subscribe((currency) => {
       this.currency = currency;
       console.log('Currency updated:', this.currency);
@@ -292,39 +292,34 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
   }
 
   async initialize() {
-    this.crudService.list = [];
-
     this.isDeleted = this.route.snapshot.data['isDeleted'] || false;
-    this.title = this.isDeleted ? 'Deleted Orders' : "Orders";
-
     if (this.isDeleted) {
       this.columns.push('Deleted At');
     }
-
+    console.log('Is Deleted:', this.isDeleted);
     this.currency = this.currencyService.currency_symbol;
+    let obj = {
+      search: ' '
+    };
+    const res = await this.network.getOrders(obj);
+    console.log(res);
 
-    // 1. Load the list first (faster UI feedback)
-    if (!this.isDeleted) {
-      await this.crudService.getList('', 1);
-    } else {
-      await this.crudService.getDeletedList('', 1);
+    if (res) {
+      this.taxAmount = res.total_tax.toFixed(2);
+      this.discountAmount = res.total_discount.toFixed(2);
+      this.subTotal = res.total_price.toFixed(2);
+      this.totalAmount = res.total_final_total.toFixed(2);
     }
-    this.taxAmount = this.crudService.amount.taxAmount;
-    this.discountAmount = this.crudService.amount.discountAmount;
-    this.subTotal = this.crudService.amount.subTotal;
-    this.totalAmount = this.crudService.amount.totalAmount;
-
-    // 3. Role-based UI
+    if (!this.isDeleted) {
+      this.crudService.getList('', 1);
+    }
+    else if (this.isDeleted) {
+      this.crudService.getDeletedList('', 1);
+    }
     const u = this.users.getUser();
-    this.showEdit = (u.role_id == 1 || u.role_id == 2);
-  }
-
-  async ngOnInit() {
-    this.route.data.subscribe(data => {
-      this.isDeleted = data['isDeleted'] || false;
-      this.initialize();
-    });
-
+    if (u.role_id == 1 || u.role_id == 2) {
+      this.showEdit = true;
+    }
   }
 
   // async getList(search = '', page = 1): Promise<any> {
