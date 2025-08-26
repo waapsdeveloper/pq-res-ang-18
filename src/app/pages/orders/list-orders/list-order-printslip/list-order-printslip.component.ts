@@ -3,6 +3,7 @@ import { GlobalDataService } from 'src/app/services/global-data.service';
 import html2pdf from 'html2pdf.js';
 import { InvoiceService } from 'src/app/services/invoice.service';
 import { left } from '@popperjs/core';
+import { PrintingService } from 'src/app/services/printer.service';
 
 @Component({
   selector: 'app-list-order-printslip',
@@ -20,7 +21,7 @@ export class ListOrderPrintslipComponent implements OnInit {
   logoBase64 = '';
   barcode = '';
   currencySymbol: string = '';
-  constructor(private globalData: GlobalDataService, public invoiceService: InvoiceService) {
+  constructor(private globalData: GlobalDataService, public invoiceService: InvoiceService, private printingService: PrintingService) {
     this.globalData.getCurrencySymbol().subscribe((symbol) => {
       this.currencySymbol = symbol;
       console.log('Currency Symbol updated:', this.currencySymbol);
@@ -74,31 +75,42 @@ export class ListOrderPrintslipComponent implements OnInit {
     });
   }
 
-  async printSlip(item) {
-    this.item = item;
-    const section = document.getElementById('print-section');
-    const logoUrl = this.item?.restaurant?.logo;
+ async printSlip(item: any) {
+  this.item = item;
 
-    // Wait for it to load
-    await this.preloadImage(logoUrl);
-    if (!section) { console.error('Print section not found.'); return; }
-    const oldDisplay = section.style.display;
-    section.style.display = 'block';
+  const section = document.getElementById('print-section');
+  if (!section) {
+    console.error('Print section not found.');
+    return;
+  }
+
+  const oldDisplay = section.style.display;
+  section.style.display = 'block';
+
+  try {
     const opt = {
       margin: 0,
-      filename: 'Invoice-' + 'invoice' + '.pdf',
+      filename: 'Invoice-slip.pdf',
       image: { type: 'jpeg', quality: 1 },
       html2canvas: { scale: 2, useCORS: false },
-      jsPDF: { unit: 'mm', format: [this.size, 600], orientation: 'portrait' }
+      jsPDF: { unit: 'mm', format: [this.size, 800], orientation: 'portrait' }
     };
-    html2pdf().set(opt).from(section).toPdf().get('pdf').then(function (pdf) {
-      window.open(pdf.output('bloburl'), '_blank');
-      section.style.display = oldDisplay;
-    }).catch(function (err) {
-      console.error('PDF generation error:', err);
-      section.style.display = oldDisplay;
-    });
+
+    const pdfBlob: Blob = await html2pdf().set(opt).from(section).toPdf().outputPdf('blob');
+
+    // Send directly to printer
+    const ok = await this.printingService.printPdf(pdfBlob ,"Microsoft Print to PDF");
+    if (ok) {
+      console.log('Printed successfully');
+    }
+
+  } catch (err) {
+    console.error('PDF generation/print error:', err);
+  } finally {
+    section.style.display = oldDisplay;
   }
+}
+
   getProdUnitPrice(prod: any): number {
     let base = parseFloat(prod?.price ?? 0);
 

@@ -721,4 +721,15 @@ export class NetworkService {
     );
   }
 
+  // Get certificate (GET /qz/certificate)
+getQzCertificate() {
+  return this.httpGetResponse('qz/certificate', null, false, false);
+}
+
+// Sign message (POST /qz/sign)
+signQzMessage(data: any) {
+  return this.httpPostResponse('qz/sign', data, null, false, false);
+}
+
+
 }
