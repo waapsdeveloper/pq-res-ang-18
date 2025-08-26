@@ -1,6 +1,6 @@
-<app-kt-list-page [title]="isDeleted ? 'Deleted Orders' : 'Orders'" [titleHighlightPart]="orderTitleHighlightPart"
-  [addurl]="'/pages/orders/add'" (onFilter)="toggleFilters()" [showDeleteAll]="showDeleteAllButton"
-  (onDeleteAll)="onDeleteAll($event)" [canCreate]=!isDeleted>
+<app-kt-list-page [title]="'Orders'" [titleHighlightPart]="orderTitleHighlightPart" [addurl]="'/pages/orders/add'"
+  (onFilter)="toggleFilters()" [showDeleteAll]="showDeleteAllButton" (onDeleteAll)="onDeleteAll($event)"
+  [canCreate]=!isDeleted>
   <form class="mt-3" [formGroup]="form" *ngIf="crudService.filters">
     <formly-form [form]="form" [fields]="fields" [model]="model"
       (modelChange)="debouncedSubmitFilters($event)"></formly-form>
@@ -288,7 +288,7 @@
             [animation]="true"></ngx-skeleton-loader>
         </div>
       </td>
-      <!-- Deleted at -->
+       <!-- Deleted at -->
       <td *ngIf="isDeleted">
         <div class="d-flex align-items-center">
           <ngx-skeleton-loader appearance="custom-content"
