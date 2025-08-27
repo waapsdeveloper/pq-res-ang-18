@@ -6,6 +6,8 @@ import { NetworkService } from 'src/app/services/network.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { UtilityService } from 'src/app/services/utility.service';
 import { Location } from '@angular/common';
+import html2canvas from 'html2canvas';
+
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
@@ -408,12 +410,13 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     if (!section) { console.error('Print section not found.'); return; }
     const oldDisplay = section.style.display;
     section.style.display = 'block';
+    
     const opt = {
       margin: 0,
       filename: 'Invoice-' + '.pdf',
       image: { type: 'jpeg', quality: 1 },
       html2canvas: { scale: 2, useCORS: true, allowTaint: true },
-      jsPDF: { unit: 'mm', format: [this.size, 600], orientation: 'portrait' }
+      jsPDF: { unit: 'mm', format: [this.size, 800], orientation: 'portrait' }
     };
     html2pdf().set(opt).from(section).toPdf().get('pdf').then(function (pdf) {
       window.open(pdf.output('bloburl'), '_blank');

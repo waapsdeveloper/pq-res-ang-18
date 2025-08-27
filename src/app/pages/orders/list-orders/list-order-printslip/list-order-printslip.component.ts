@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { GlobalDataService } from 'src/app/services/global-data.service';
 import html2pdf from 'html2pdf.js';
+import html2canvas from 'html2canvas';
+
 import { InvoiceService } from 'src/app/services/invoice.service';
 import { left } from '@popperjs/core';
 import { PrintingService } from 'src/app/services/printer.service';
@@ -31,7 +33,8 @@ export class ListOrderPrintslipComponent implements OnInit {
 
   async ngOnInit() {
     this.invoiceService.getInvoiceBase64().subscribe(base64 => {
-      this.logoBase64 = base64;});
+      this.logoBase64 = base64;
+    });
     this.invoiceService.getGoogleReviewBarcodeBase64().subscribe(base64 => {
       this.barcode = base64;
     });
@@ -50,12 +53,12 @@ export class ListOrderPrintslipComponent implements OnInit {
       this.marginright = right;
     });
     this.size = this.invoiceService.getSize().subscribe(size => {
-      this.size = size  || 80; // Default to 10 if not set
-    });  
+      this.size = size || 80; // Default to 10 if not set
+    });
     this.fontSize = this.invoiceService.getFontSize().subscribe(size => {
       this.fontSize = size || 10; // Default to 10 if not set
-    });   
- 
+    });
+
   }
 
   private preloadImage(url: string): Promise<void> {
@@ -75,41 +78,45 @@ export class ListOrderPrintslipComponent implements OnInit {
     });
   }
 
- async printSlip(item: any) {
-  this.item = item;
+  async printSlip(item: any) {
+    this.item = item;
 
-  const section = document.getElementById('print-section');
-  if (!section) {
-    console.error('Print section not found.');
-    return;
-  }
-
-  const oldDisplay = section.style.display;
-  section.style.display = 'block';
-
-  try {
-    const opt = {
-      margin: 0,
-      filename: 'Invoice-slip.pdf',
-      image: { type: 'jpeg', quality: 1 },
-      html2canvas: { scale: 2, useCORS: false },
-      jsPDF: { unit: 'mm', format: [this.size, 800], orientation: 'portrait' }
-    };
-
-    const pdfBlob: Blob = await html2pdf().set(opt).from(section).toPdf().outputPdf('blob');
-
-    // Send directly to printer
-    const ok = await this.printingService.printPdf(pdfBlob);
-    if (ok) {
-      console.log('Printed successfully');
+    const section = document.getElementById('print-section');
+    if (!section) {
+      console.error('Print section not found.');
+      return;
     }
 
-  } catch (err) {
-    console.error('PDF generation/print error:', err);
-  } finally {
-    section.style.display = oldDisplay;
+    const oldDisplay = section.style.display;
+    section.style.display = 'block';
+
+    try {
+      const canvas = await html2canvas(section, { scale: 2, useCORS: false });
+      // convert px -> mm (1px = 25.4 / 96 mm)
+      let contentHeightMm = (canvas.height * 25.4) / 96 / 2; // divided by scale=2
+      contentHeightMm += 115;
+      const opt = {
+        margin: 0,
+        filename: 'Invoice-slip.pdf',
+        image: { type: 'jpeg', quality: 1 },
+        html2canvas: { scale: 2, useCORS: false },
+        jsPDF: { unit: 'mm', format: [this.size, contentHeightMm], orientation: 'portrait' }
+      };
+
+      const pdfBlob: Blob = await html2pdf().set(opt).from(section).toPdf().outputPdf('blob');
+
+      // Send directly to printer
+      const ok = await this.printingService.printPdf(pdfBlob);
+      if (ok) {
+        console.log('Printed successfully');
+      }
+
+    } catch (err) {
+      console.error('PDF generation/print error:', err);
+    } finally {
+      section.style.display = oldDisplay;
+    }
   }
-}
 
   getProdUnitPrice(prod: any): number {
     let base = parseFloat(prod?.price ?? 0);

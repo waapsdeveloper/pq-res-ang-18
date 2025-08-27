@@ -54,6 +54,7 @@ export class PrintingService {
   units: 'mm',                       // make sure units are in millimeters
   orientation: 'portrait',
   copies: 1,
+  scaling: 'none',
   margins: { top: 0, right: 0, bottom: 0, left: 0 } // no margins for thermal
 });
     return printerConfig;
