@@ -9,15 +9,6 @@ const routes: Routes = [
     data: { breadcrumb: 'Branch Config' },
     children: [
       {
-        path: '',
-        pathMatch: 'full',
-        redirectTo: 'active-branch',
-      },
-      {
-        path: 'active-branch',
-        loadChildren: () => import('./edit-branch-config/edit-branch-config.module').then((m) => m.EditBranchConfigModule)
-      },
-      {
         path: 'edit/:id',
         loadChildren: () => import('./edit-branch-config/edit-branch-config.module').then((m) => m.EditBranchConfigModule)
       }
