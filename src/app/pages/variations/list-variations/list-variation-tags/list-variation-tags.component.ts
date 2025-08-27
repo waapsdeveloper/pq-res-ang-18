@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
-import { GlobalDataService } from 'src/app/services/global-data.service';
+
 
 @Component({
   selector: 'app-list-variation-tags',
@@ -8,38 +8,30 @@ import { GlobalDataService } from 'src/app/services/global-data.service';
   styleUrl: './list-variation-tags.component.scss'
 })
 export class ListVariationTagsComponent {
-  currency = 'USD';
-  currencySymbol = '$';
-  constructor(private globalData: GlobalDataService) {
-    this.globalData.getCurrency().subscribe((currency) => {
-      this.currency = currency;
-      console.log('Currency updated:', this.currency);
-    });
 
-    this.globalData.getCurrencySymbol().subscribe((symbol) => {
-      this.currencySymbol = symbol;
-      console.log('Currency Symbol updated:', this.currencySymbol);
-    });
-  }
   list: any[] = [];
   private _metaValues: any;
   @Input()
-  get metaValues(): any {
+  get metaValues(): any{
     return this._metaValues;
   }
 
-  set metaValues(value: any) {
+  set metaValues(value: any){
     this._metaValues = value;
-    this.parseValues(value);
+    this.parseValues(value)
+
   }
 
-  parseValues(v) {
+  parseValues(v){
     console.log(v);
-    if (v) {
+    if(v){
       const json = JSON.parse(v);
       this.list = json as any[];
     }
+
+
   }
+
 
   activePopovers: NgbPopover[] = [];
 
@@ -53,4 +45,5 @@ export class ListVariationTagsComponent {
   registerPopover(popover: NgbPopover) {
     this.activePopovers.push(popover);
   }
+
 }

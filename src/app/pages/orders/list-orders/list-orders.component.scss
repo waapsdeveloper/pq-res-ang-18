@@ -65,8 +65,6 @@
   display: none;
 }
 
-
-
 .print-section {
   display: none; /* Hidden by default */
   width: 100%; /* Full screen width */
@@ -225,56 +223,4 @@
     background-color: #fbe9e7;
     color: #d84315;
   }
-}
-.badge-order-source {
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-weight: 600;
-  font-size: 0.85rem;
-  text-transform: capitalize;
-
-  &.pos {
-    background-color: #d1c4e9; // soft lavender
-    color: #4527a0; // deep purple text
-  }
-
-  &.website {
-    background-color: #bbdefb; // soft sky blue
-    color: #0d47a1; // deep blue text
-  }
-}
-
-
-
-
-// Orders page specific responsive styles
-:host ::ng-deep {
-  .title-highlight-part {
-    // Ensure proper wrapping on mobile
-    @media (max-width: 575.98px) {
-      font-size: 0.8rem !important;
-      line-height: 1.2;
-      max-width: 100%;
-      overflow-wrap: break-word;
-      word-break: break-word;
-    }
-    
-    // Tablet and up
-    @media (min-width: 576px) {
-      font-size: 0.9rem !important;
-    }
-  }
-  
-  // Ensure the title container handles long text properly
-  .content-header {
-    @media (max-width: 575.98px) {
-      flex-direction: column !important;
-      align-items: flex-start !important;
-      gap: 0.25rem;
-    }
-  }
-}
-
-#print-section{
-  display:none
 }

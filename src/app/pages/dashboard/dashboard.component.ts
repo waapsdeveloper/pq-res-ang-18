@@ -1,6 +1,5 @@
 import { CurrencyService } from './../../services/currency.service';
 import { Component, OnInit } from '@angular/core';
-import { GlobalDataService } from 'src/app/services/global-data.service';
 import { NetworkService } from 'src/app/services/network.service';
 
 @Component({
@@ -31,28 +30,14 @@ export class DashboardComponent implements OnInit {
       color: 'text-warning'
     }
   ];
-  currency: any;
-  currencySymbol: any;
 
   constructor(
     private network: NetworkService,
-    public currencyService: CurrencyService,
-    private globalData: GlobalDataService
-  ) {
-    this.globalData.getCurrency().subscribe((currency) => {
-      this.currency = currency;
-      console.log('Currency updated:', this.currency);
-    });
-
-    this.globalData.getCurrencySymbol().subscribe((symbol) => {
-      this.currencySymbol = symbol;
-      console.log('Currency Symbol updated:', this.currencySymbol);
-    });
-  }
+    public currencyService: CurrencyService
+  ) {}
 
   async ngOnInit() {
-    const restaurantId = this.globalData.getRestaurantId(); // Adjust this if your method is named differently
-    const res = await this.network.getTopDashboardCard({ restaurant_id: restaurantId });
+    const res = await this.network.getTopDashboardCard();
     if (res) {
       this.totalOrders = res.total_orders;
       this.totalRevenue = res.total_amount;
@@ -124,7 +109,7 @@ export class DashboardComponent implements OnInit {
       theme: 'dark',
       y: {
         formatter: (val: number) => {
-          return this.currencySymbol + val;
+          return '$' + val;
         }
       }
     },

@@ -19,16 +19,8 @@ export class AddCategoryComponent implements OnInit {
     status: 'active',
     description: '',
     image: '',
-    imageBase64: '',
-    src_img: ''
+    imageBase64: ''
   };
-
-  // File size limit - 1MB
-  readonly MAX_FILE_SIZE = 3 * 1024 * 1024; // 1MB in bytes
-
-  // File validation variables
-  selectedFile: File | null = null;
-  fileError: string = '';
 
   fields: FormlyFieldConfig[] = [
     {
@@ -52,7 +44,7 @@ export class AddCategoryComponent implements OnInit {
           props: {
             label: 'Description',
             placeholder: 'Enter description',
-            required: false
+            required: true
           },
           className: 'col-md-6 col-12'
         },
@@ -62,21 +54,7 @@ export class AddCategoryComponent implements OnInit {
           props: {
             label: 'Category',
             placeholder: 'Select a parent category',
-            options: [{ value: '', label: 'Select a parent category' }]
-          },
-          className: 'formly-select-wrapper-3232 col-md-6 col-12'
-        },
-        
-        {
-          key: 'status',
-          type: 'select',
-          props: {
-            label: 'Status',
-            options: [
-              { value: 'active', label: 'Active' },
-              { value: 'inactive', label: 'Inactive' }
-            ],
-            required: true
+            options: []
           },
           className: 'formly-select-wrapper-3232 col-md-6 col-12'
         },
@@ -93,6 +71,19 @@ export class AddCategoryComponent implements OnInit {
           },
           className: 'formly-image-wrapper-3232 col-md-6 col-12'
         },
+        {
+          key: 'status',
+          type: 'select',
+          props: {
+            label: 'Status',
+            options: [
+              { value: 'active', label: 'Active' },
+              { value: 'inactive', label: 'Inactive' }
+            ],
+            required: true
+          },
+          className: 'formly-select-wrapper-3232 col-md-6 col-12'
+        }
       ]
     }
   ];
@@ -194,69 +185,37 @@ export class AddCategoryComponent implements OnInit {
     console.log(model);
     console.log('Form Submitted', this.form.valid);
     if (this.form.valid) {
-      // Create category first without image
-      let d = Object.assign({}, this.form.value);
-      d['image'] = ''; // Don't include image in initial creation
+      // alert('Restaurant added successfully!');
 
+      let d = Object.assign({}, this.form.value);
+      d['image'] = this.model.imageBase64;
       const res = await this.network.addCategory(d);
       console.log(res);
-
-      if (res && res.Category) {
-        // Category created successfully, now upload image if selected
-        if (this.selectedFile) {
-          await this.uploadImage(this.selectedFile, res.Category.id);
-        }
-
-        this.utility.presentSuccessToast('Category Created Successfully!');
+      if (res) {
+        this.utility.presentSuccessToast('Category Created Succesfully!');
         this.nav.pop();
-      } else {
-        this.utility.presentFailureToast('Failed to create category');
       }
     } else {
       this.utility.presentFailureToast('Please fill out all required fields correctly.');
+      //alert('Please fill out all required fields correctly.');
     }
   }
   onFileChange(field, event: Event, type: string = 'image') {
     const input = event.target as HTMLInputElement;
-    this.fileError = ''; // Clear previous errors
-    this.selectedFile = null; // Reset selected file
-
     if (input.files && input.files[0]) {
       const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64String = reader.result as string;
+        console.log(base64String);
 
-      // Check file size
-      if (file.size > this.MAX_FILE_SIZE) {
-        this.fileError = `File size must be less than ${this.MAX_FILE_SIZE / (1024 * 1024)}MB`;
-        input.value = ''; // Clear the input
-        return;
-      }
+        this.model[type] = base64String; // Update the model
+        // this.fields[0].fieldGroup[6].props['value'] = base64String; // Update the field value
+        // this.fields[0].fieldGroup[6].formControl.setValue(base64String); // Update the form control value
 
-      // Store the file object for later upload
-      this.selectedFile = file;
-      this.model.image = file.name; // Display filename in form
-
-      console.log('File selected:', file.name, 'Size:', file.size, 'Type:', file.type);
-      // Don't upload yet - wait for form submission
-    }
-  }
-
-  async uploadImage(file: File, categoryId: string) {
-    try {
-      // Upload image for the newly created category
-      const res = await this.network.uploadCategoryImage(file, categoryId);
-      console.log(res);
-      if (res) {
-        // Store the uploaded image URL (use relative path, not full URL)
-        this.model.src_img = res.image_url;
-        this.utility.presentSuccessToast('Image uploaded successfully!');
-      } else {
-        this.fileError = 'Failed to upload image';
-        this.utility.presentFailureToast('Failed to upload image');
-      }
-    } catch (error) {
-      this.fileError = 'Error uploading image';
-      this.utility.presentFailureToast('Error uploading image');
-      console.error('Upload error:', error);
+        // field.formControl.setValue(base64String); // Update the form control value
+      };
+      reader.readAsDataURL(file); // Convert file to base64
     }
   }
 }

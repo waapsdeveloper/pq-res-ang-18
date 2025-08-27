@@ -16,11 +16,7 @@ export class NetworkService {
     public router: Router,
     public utility: UtilityService,
     public restService: GlobalRestaurantService
-  ) { }
-
-  getUserPermissions() {
-    return this.httpGetResponse('auth-user/permissions', null, false, true);
-  }
+  ) {}
 
   //Dashboard APi
 
@@ -47,9 +43,8 @@ export class NetworkService {
     return this.httpGetResponse('dashboard/latest-tables', null, false, true);
   }
 
-  getTopDashboardCard(params: any = {}) {
-    const query = this.serialize(params);
-    return this.httpGetResponse('dashboard-top-cards' + (query ? `?${query}` : ''), null, false, true);
+  getTopDashboardCard() {
+    return this.httpGetResponse('dashboard-top-cards', null, false, true);
   }
 
   getTotalSales() {
@@ -61,41 +56,11 @@ export class NetworkService {
     return this.httpPostResponse('auth/login-via-email', data, null, false, true);
   }
 
-  forgotPassword(data) {
-    return this.httpPostResponse('auth/forgot-password', data, null, true, false);
-  }
-
-  resetPassword(data) {
-    return this.httpPostResponse('auth/reset-password', data, null, false, true);
-  }
-
   // Standard CRUD calls
 
   index(slug, params) {
     const query = this.serialize(params);
     return this.httpGetResponse(slug + (query ? `?${query}` : ''), null, false, true);
-  }
-  indexDeleted(slug: string, params?: any) {
-    const query = this.serialize(params);
-    return this.httpGetResponse(`${slug}/deleted-orders${query ? `?${query}` : ''}`, null, false, true);
-  }
-  // ✅ Restore a single record
-  restore(slug: string, id: number) {
-    return this.httpPostResponse(`${slug}/${id}/restore`, {}, null, true, true);
-  }
-  // ✅ Restore multiple records
-  restoreMultiple(slug: string, ids: number[]) {
-    return this.httpPostResponse(`${slug}/restore-multiple`, { ids }, null, true, true);
-  }
-
-  forceDestroy(slug: string, id: number) {
-    return this.httpDeleteResponse(`${slug}/force-delete/${id}`, null, true, true);
-  }
-
-  // ✅ Force delete multiple records
-  forceDestroyMultiple(slug: string, ids: number[]) {
-    // ⚠️ If your httpDeleteResponse doesn't support body, change API to POST in backend
-    return this.httpDeleteResponse(`${slug}/force-delete-multiple`, { ids }, true, true);
   }
 
   destroy(slug, id) {
@@ -124,57 +89,9 @@ export class NetworkService {
   setActiveRestaurant(data: any, id) {
     return this.httpPutResponse(`restaurant/update-active`, data, id, false, true);
   }
-
-  // Restaurant Meta methods
-  storeRestaurantMeta(data: any, restaurantId: any) {
-    return this.httpPostResponse(`restaurant/${restaurantId}/meta`, data, null, false, true);
-  }
-
-  getRestaurantMeta(restaurantId: any, metaKey?: string) {
-    const params = metaKey ? { meta_key: metaKey } : {};
-    const query = this.serialize(params);
-    return this.httpGetResponse(`restaurant/${restaurantId}/meta${query ? `?${query}` : ''}`, null, false, true);
-  }
-
-  deleteRestaurantMeta(restaurantId: any, metaKey: string) {
-    // For DELETE with body, we need to use a different approach
-    return this.httpResponse('delete', `restaurant/${restaurantId}/meta`, { meta_key: metaKey }, null, false, true);
-  }
   getDefaultRestaurantId() {
     return this.httpGetResponse('restaurant/active', null, false, true);
   }
-
-  getRestaurantConfigById(id: any) {
-    return this.httpGetResponse('branch-config/get-config-by-branch-id', id, false, false);
-  }
-
-  /***Reporting Systems Endpoints **/
-
-  getOrderReportDaily(filters: any = null) {
-    const params = filters ? { filters: JSON.stringify(filters) } : {};
-    const query = this.serialize(params);
-    return this.httpGetResponse(
-      `reports/orders/daily${query ? `?${query}` : ''}`,
-      null,
-      true,
-      true
-    );
-  }
-
-  getOrderReportMonthly(filters: any = null) {
-    const params = filters ? { filters: JSON.stringify(filters) } : {};
-    const query = this.serialize(params);
-    return this.httpGetResponse(
-      `reports/orders/monthly${query ? `?${query}` : ''}`,
-      null,
-      true,
-      true
-    );
-  }
-
-
-
-
 
   // removeRestaurant(id) {
   //   return this.httpDeleteResponse('restaurant', id, false, true);
@@ -196,10 +113,10 @@ export class NetworkService {
   }
 
   addUser(data) {
-    return this.httpPostResponse('user', data, null, true, true);
+    return this.httpPostResponse('user', data, null, false, true);
   }
   updateUser(data, id) {
-    return this.httpPutResponse('user', data, id, true, true);
+    return this.httpPutResponse('user', data, id, false, true);
   }
 
   // Branch Config
@@ -208,30 +125,9 @@ export class NetworkService {
   //   return this.httpDeleteResponse('user', id, false, true);
   // }
 
-  getRoles(params = {}) {
+  getRoles(params) {
     const query = this.serialize(params);
     return this.httpGetResponse('role' + (query ? `?${query}` : ''), null, false, true);
-  }
-
-  getRoleById(id: any) {
-    return this.httpGetResponse(`role/${id}`, null, false, true);
-  }
-
-  addRole(data: any) {
-    return this.httpPostResponse('role', data, null, false, true);
-  }
-
-  updateRole(data: any, id: any) {
-    return this.httpPutResponse('role', data, id, false, true);
-  }
-
-  removeRole(id: any) {
-    return this.httpDeleteResponse('role', id, false, true);
-  }
-
-  bulkDeleteRoles(params = {}) {
-    const query = this.serialize(params);
-    return this.httpGetResponse('role/bulk-delete' + (query ? `?${query}` : ''), null, false, true);
   }
 
   getBranchConfigs(params) {
@@ -240,11 +136,9 @@ export class NetworkService {
   }
 
   getBranchConfigById(id) {
-    return this.httpGetResponse(`branch-config/get-config-by-branch-id/${id}`, null, false, true);
-  }
 
-  getBranchConfig(id) {
-    return this.httpGetResponse(`branch-config/${id}`, null, false, true);
+    return this.httpGetResponse(`branch-config/get-config-by-branch-id/${id}`, null, false, true);
+    // return this.httpGetResponse(`branch-config/${id}`, null, false, true);
   }
 
   addBranchConfig(data) {
@@ -278,27 +172,7 @@ export class NetworkService {
     return this.httpDeleteResponse('category', id, false, true);
   }
   updateCategory(data, id) {
-    return this.httpPutResponse('category', data, id, true, true);
-  }
-
-  uploadCategoryImage(imageFile: File, categoryId?: string) {
-    const formData = new FormData();
-    formData.append('image', imageFile);
-
-    // If categoryId is provided, use it in the URL, otherwise use a placeholder for new categories
-    const url = categoryId ? `category/${categoryId}/upload-image` : 'category/0/upload-image';
-
-    return this.httpPostResponse(url, formData, null, true, true, 'multipart/form-data');
-  }
-
-  uploadProductImage(imageFile: File, productId?: string) {
-    const formData = new FormData();
-    formData.append('image', imageFile);
-
-    // If productId is provided, use it in the URL, otherwise use a placeholder for new products
-    const url = productId ? `product/${productId}/upload-image` : 'product/0/upload-image';
-
-    return this.httpPostResponse(url, formData, null, true, true, 'multipart/form-data');
+    return this.httpPutResponse('category', data, id, false, true);
   }
 
   // Products
@@ -423,33 +297,6 @@ export class NetworkService {
     return this.httpPutResponse(`order/update-payment-status`, data, id, false, true);
   }
 
-  // 🔹 Deleted orders list
-  getDeletedOrders(params) {
-    const query = this.serialize(params);
-    return this.httpGetResponse('order/deleted' + (query ? `?${query}` : ''), null, false, true);
-  }
-
-  // 🔹 Restore a single order
-  restoreOrder(id: number) {
-    return this.httpPostResponse(`order/${id}/restore`, {}, null, true, true);
-  }
-
-  // 🔹 Restore multiple orders
-  restoreMultipleOrders(ids: number[]) {
-    return this.httpPostResponse('order/restore-multiple', { ids }, null, true, true);
-  }
-
-  // 🔹 Force delete a single order (permanent)
-  forceDeleteOrder(id: number) {
-    return this.httpDeleteResponse(`order/force-delete/${id}`, null, true, true);
-  }
-
-  // 🔹 Force delete multiple orders (permanent)
-  forceDeleteMultipleOrders(ids: number[]) {
-    return this.httpDeleteResponse('order/force-delete-multiple', { ids }, true, true);
-  }
-
-
   tableBookingStatus(id, data) {
     return this.httpPutResponse(`table-booking/update-status`, data, id, false, true);
   }
@@ -476,11 +323,9 @@ export class NetworkService {
   readNotification(id) {
     return this.httpPostResponse(`notifications/mark-as-read/${id}`, null, false, true);
   }
-  serialize = (obj: any, skipRestaurantId: boolean = false) => {
+  serialize = (obj: any) => {
     console.log(localStorage.getItem('restaurant_id'));
-    if (!skipRestaurantId) {
-      obj['restaurant_id'] = localStorage.getItem('restaurant_id') ? localStorage.getItem('restaurant_id') : -1;
-    }
+    obj['restaurant_id'] = localStorage.getItem('restaurant_id') ? localStorage.getItem('restaurant_id') : -1;
 
     const str: any[] = [];
     for (const p in obj) {
@@ -544,11 +389,11 @@ export class NetworkService {
   }
 
   addExpense(data: any) {
-    return this.httpPostResponse('expense', data, null, true, true);
+    return this.httpPostResponse('expense', data, null, false, true);
   }
 
   updateExpense(id: any, data: any) {
-    return this.httpPutResponse('expense', data, id, true, true);
+    return this.httpPutResponse('expense', data, id, false, true);
   }
 
   removeExpense(id: any) {
@@ -651,85 +496,4 @@ export class NetworkService {
       }
     });
   }
-
-  updateGeneralSettings(data, id) {
-    return this.httpPutResponse('restaurant/general-settings', data, id, true, true);
-  }
-
-  updateOrderSettings(data, id) {
-    return this.httpPutResponse('restaurant/order-settings', data, id, true, true);
-  }
-
-  // Timing Settings
-  addTimingSettings(data, restaurantId?: any) {
-    // Add restaurant_id to the data payload instead of using localStorage
-    if (restaurantId) {
-      data['restaurant_id'] = restaurantId;
-    }
-    // Use httpResponse directly to avoid automatic localStorage restaurant_id addition
-    return this.httpResponse('post', 'restaurant-timing/config', data, null, true, true);
-  }
-  updateTimingSettings(data, id) {
-    return this.httpPutResponse('restaurant-timing/config', data, id, true, true);
-  }
-  getTimingData(restaurantId?: any) {
-    const params = restaurantId ? { restaurant_id: restaurantId } : {};
-    const query = this.serialize(params, true); // Skip adding restaurant_id from localStorage
-    return this.httpGetResponse('restaurant-timing/data' + (query ? `?${query}` : ''), null, true, true);
-  }
-  // =================== Invoice Settings ===================
-
-  getAllInvoiceSettings() {
-    return this.httpGetResponse('invoice-settings', null, false, false);
-  }
-
-  getInvoiceSettingById(id: any) {
-    return this.httpGetResponse(
-      `invoice-settings/${id}`,
-      null,
-      false,
-      false
-    );
-  }
-
-  createInvoiceSetting(data: any) {
-    return this.httpPostResponse(
-      'invoice-settings',
-      data,
-      null,
-      false,
-      true
-    );
-  }
-
-  updateInvoiceSetting(id: any, data: any) {
-    return this.httpPutResponse(
-      `invoice-settings/${id}`,
-      data,
-      null,
-      false,
-      true
-    );
-  }
-
-  deleteInvoiceSetting(id: any) {
-    return this.httpDeleteResponse(
-      `invoice-settings/${id}`,
-      null,
-      false,
-      true
-    );
-  }
-
-  // Get certificate (GET /qz/certificate)
-getQzCertificate() {
-  return this.httpGetResponse('qz/certificate', null, false, false);
-}
-
-// Sign message (POST /qz/sign)
-signQzMessage(data: any) {
-  return this.httpPostResponse('qz/sign', data, null, false, false);
-}
-
-
 }

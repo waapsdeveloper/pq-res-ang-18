@@ -1,6 +1,10 @@
-<div #scrollableNavbar class="scrollable-navbar d-flex flex-nowrap align-items-center gap-2">
+<div class="d-flex flex-wrap justify-content-start align-items-center gap-2">
   <div class="nav-item single-category-item" *ngFor="let item of orderService.categories"
     (click)="setActiveCategory(item)" [class.active]="item.active">
+    <!-- <div class="cat-item d-flex btn btn-sm flex-row justify-content-center align-items-center gap-2 rounded shadow-sm text-center">
+        <img [src]="item.image" class="cat-image" />
+        <span class="cat-name">{{ item.name }}</span>
+      </div> -->
     <a class="nav-link d-flex align-items-center justify-content-center gap-2">
       <i class="ft-layers"></i>
       <span> {{ item.name }} </span>

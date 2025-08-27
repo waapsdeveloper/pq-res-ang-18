@@ -138,7 +138,7 @@ export class EditExpenseCategoriesComponent implements OnInit {
         monthly_estimate: res.expense_category.monthly_estimate || '',
         description: res.expense_category.description || '',
         image: res.expense_category.image || '',
-        imageBase64: res.expense_category.image || '', // You may want to handle this if editing image
+        imageBase64: '', // You may want to handle this if editing image
         status: res.expense_category.status || 'active'
       };
       this.form.patchValue(this.model);

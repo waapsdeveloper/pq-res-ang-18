@@ -14,19 +14,19 @@
       <table class="table table-row-dashed align-middle gs-0 gy-4 my-0">
         <thead>
           <tr class="fs-7 fw-bold text-gray-500 border-bottom-0">
-            <th class="ps-0">Order Id</th>
+            <th class="ps-0">Order Number</th>
             <th>Customer</th>
-            <th>Status</th>
-            <th>Source</th>
             <th>Type</th>
-            <th>Paid</th>
             <th>Subtotal</th>
-            <th>tax</th>
             <th>Discount</th>
-            <th>Tips</th>
-            <th>Totals</th>
+            <th>Total</th>
+            <th>Address</th>
+            <th>Notes</th>
+            <th>Table No</th>
+            <th>Paid</th>
+            <th>Status</th>
             <th>Created</th>
-            <th>Action</th>
+            <th>Updated</th>
           </tr>
         </thead>
         <tbody>
@@ -46,11 +46,89 @@
                 <span class="fs-8 text-muted">{{ item?.customer_phone }}</span>
               </div>
             </td>
+            <!-- Type -->
+            <td>
+              <div class="d-flex">
+                <div class="badge-order-type" [ngClass]="item?.order_type">
+                  {{ item?.order_type | titlecase }}
+                </div>
+              </div>
+            </td>
+            <!-- Subtotal -->
+            <td>
+              <div class="d-flex">
+                <div class="fs-7 fw-bold">{{ this.currencyService.currency_symbol }} {{ item?.total_price | number: '1.2-2' }}</div>
+              </div>
+            </td>
+            <!-- Discount -->
+            <td>
+              <div class="d-flex flex-row gap-2">
+                <div class="fs-7 fw-bold">
+                  <span class="badge badge-preparing fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">
+                    {{ this.currencyService.currency_symbol }} {{ item?.discount_value | number: '1.2-2' }}
+                  </span>
+                </div>
+              </div>
+            </td>
+            <!-- Total -->
+            <td>
+              <div class="d-flex">
+                <div class="fs-7 fw-bold">{{ this.currencyService.currency_symbol }} {{ item?.final_total | number: '1.2-2' }}</div>
+              </div>
+            </td>
+            <!-- Address -->
+            <td>
+              <div class="d-flex">
+                <div class="ms-4 text-truncate" style="max-width: 200px">
+                  <span
+                    class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1"
+                    style="display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap"
+                  >
+                    {{ item?.delivery_address }}
+                  </span>
+                </div>
+              </div>
+            </td>
+            <!-- Notes -->
+            <td>
+              <div class="ms-4 text-truncate" style="max-width: 150px">
+                <span
+                  class="fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1"
+                  style="display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap"
+                  [attr.title]="item?.notes"
+                >
+                  {{ item?.notes }}
+                </span>
+              </div>
+            </td>
+            <!-- Table No -->
+            <td>
+              <div class="d-flex">
+                <div class="fw-bold" *ngIf="item?.table !== 'no booked'">{{ item?.table }}</div>
+              </div>
+            </td>
+            <!-- Paid -->
+            <td>
+              <div class="d-flex">
+                <div
+                  class="badge fw-bold me-auto position-relative d-flex align-items-center gap-2"
+                  style="cursor: pointer"
+                  [ngClass]="{
+                    'badge-active': item.is_paid === true,
+                    'badge-inactive': item.is_paid === false
+                  }"
+                >
+                  {{ item.is_paid === true ? 'Paid' : 'UnPaid' }}
+                </div>
+              </div>
+            </td>
             <!-- Status -->
             <td>
               <div class="d-flex">
-                <div class="badge fw-bold me-auto position-relative d-flex align-items-center gap-2"
-                  style="cursor: pointer" [ngClass]="{
+                <div
+                  class="badge fw-bold me-auto position-relative d-flex align-items-center gap-2"
+                  style="cursor: pointer"
+                  [ngClass]="{
                     'badge-pending': item?.status === 'Pending' || item?.status === 'pending',
                     'badge-confirmed': item?.status === 'Confirmed' || item?.status === 'confirmed',
                     'badge-preparing': item?.status === 'Preparing' || item?.status === 'preparing',
@@ -59,76 +137,12 @@
                     'badge-delivered': item?.status === 'Delivered' || item?.status === 'delivered',
                     'badge-completed': item?.status === 'Completed' || item?.status === 'completed',
                     'badge-cancelled': item?.status === 'Cancelled' || item?.status === 'cancelled'
-                  }">
+                  }"
+                >
                   {{ item?.status }}
                 </div>
               </div>
             </td>
-            <!-- Source -->
-            <td>
-              <div class="d-flex">
-                <div class="badge-order-source" [ngClass]="item?.source">
-                  {{ item?.source | titlecase }}
-                </div>
-              </div>
-              <!-- Type -->
-            <td>
-              <div class="d-flex">
-                <div class="badge-order-type" [ngClass]="item?.order_type">
-                  {{ item?.order_type | titlecase }}
-                </div>  
-              </div>
-            </td>
-            <td>
-              <app-list-order-payment-status [item]="item"></app-list-order-payment-status>
-            </td>
-            <!-- Subtotal -->
-            <td>
-              <div class="d-flex">
-                <div class="fs-7 fw-bold">{{ this.currencySymbol + ' ' }} {{ item?.total_price | number: '1.2-2' }}
-                </div>
-              </div>
-            </td>
-           <!-- Tax -->
-            <td>
-              <div class="d-flex flex-row gap-2">
-                <div class="fs-7 fw-bold">
-                  <span class="badge badge-preparing fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">
-                    {{ this.currencySymbol + ' ' }} {{ item?.tax_amount ? item?.tax_amount: 0  | number: '1.2-2' }}
-                  </span>
-                </div>
-              </div>
-            </td>
-            <!-- Discount -->
-            <td>
-              <div class="d-flex flex-row gap-2">
-                <div class="fs-7 fw-bold">
-                  <span class="badge badge-preparing fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">
-                    {{ this.currencySymbol + ' ' }} {{ item?.discount_value | number: '1.2-2' }}
-                  </span>
-                </div>
-              </div>
-            </td>
-            <!-- Tips -->
-            <td>
-              <div class="d-flex flex-row gap-2">
-                <div class="fs-7 fw-bold">
-                  <span class="badge badge-preparing fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">
-                    {{ this.currencySymbol + ' ' }} {{ item?.tips | number: '1.2-2' }}
-                  </span>
-                </div>
-              </div>
-            </td>
-            <!-- Total -->
-            <td>
-              <div class="d-flex">
-                <div class="fs-7 fw-bold">{{ this.currencySymbol + ' ' }} {{ item?.final_total | number: '1.2-2' }}
-                </div>
-              </div>
-            </td>
-           
-         
-
             <!-- Created -->
             <td>
               <div class="d-flex">
@@ -139,26 +153,16 @@
                 </div>
               </div>
             </td>
-          <!-- Action Button-->
-            <td class="text-start">
-        <div class="d-flex flex-row justify-content-start align-items-center gap-3">
-          <app-list-order-printslip [item]="item"></app-list-order-printslip>
-          <i class="ti ti-eye view-icon" style="font-size: 20px; cursor: pointer" *ngIf="canView"
-            (click)="openDetails(i)"></i>
-          <i class="ti ti-printer printericon" style="font-size: 20px; cursor: pointer"
-            (click)="triggerPrint(item)"></i>
-
-          <!-- <i class="ti ti-restore restore-icon" *ngIf="isDeleted" (click)="restoreOrder(i)"></i> -->
-
-
-          <i class="edit-icon ti ti-edit" style="font-size: 24px; cursor: pointer" *ngIf="canEdit && !isDeleted"
-            (click)="openEditDetails(i)"></i>
-
-          <i *ngIf="canDelete && !isDeleted" class="ti ti-trash trash-icon" style="font-size: 20px; cursor: pointer"
-            (click)="deleteRow(i)"></i>
-          <i class="ti ti-dots-vertical" (click)="ProductModal(item)"></i>
-        </div>
-      </td>
+            <!-- Updated -->
+            <td>
+              <div class="d-flex">
+                <div class="ms-4">
+                  <span class="fs-7 fw-bold text-gray-800">
+                    {{ item?.updated_at | date: 'dd/MM/yyyy HH:mm:ss' }}
+                  </span>
+                </div>
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>

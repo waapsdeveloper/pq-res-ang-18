@@ -24,29 +24,4 @@ export class VariationsService extends BaseCrudService<any> {
     this.perpage = pageSize;
     this.getList(); // Call the method to fetch the updated list
   }
-  // 🔹 Deleted orders
-  async fetchDeletedData(params: any): Promise<any> {
-    return this.network.indexDeleted('order', params);
-  }
-
-  // 🔹 Restore single order
-  async restoreItemById(id: number): Promise<any> {
-    return this.network.restore('order', id);
-  }
-
-  // 🔹 Restore multiple orders
-  async restoreMultiple(ids: number[]): Promise<any> {
-    return this.network.restoreMultiple('order', ids);
-  }
-
-  // 🔹 Force delete single order
-  async forceDeleteItemById(id: number): Promise<any> {
-    return this.network.forceDestroy('order', id);
-  }
-
-  // 🔹 Force delete multiple orders
-  async forceDeleteMultiple(ids: number[]): Promise<any> {
-    return this.network.forceDestroyMultiple('order', ids);
-  }
-
 }

@@ -12,13 +12,11 @@ import { AddOrderProductsModule } from './add-order-products/add-order-products.
 import { AddOrderPriceListModule } from './add-order-price-list/add-order-price-list.module';
 import { AddOrderTableModule } from './add-order-table/add-order-table.module';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @NgModule({
   declarations: [AddOrdersComponent],
   imports: [
     CommonModule,
-
     AddOrdersRoutingModule,
     FormsModule,
     FormlyModule,
@@ -30,8 +28,7 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
     AddOrderCategoriesModule,
     AddOrderProductsModule,
     AddOrderPriceListModule,
-    AddOrderTableModule,
-    PipesModule
-  ],
+    AddOrderTableModule
+  ]
 })
-export class AddOrdersModule { }
+export class AddOrdersModule {}

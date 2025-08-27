@@ -15,13 +15,6 @@ import { UtilityService } from 'src/app/services/utility.service';
 export class EditCategoryComponent implements OnInit {
   id;
 
-  // File size limit - 1MB
-  readonly MAX_FILE_SIZE = 3 * 1024 * 1024; // 1MB in bytes
-
-  // File validation variables
-  selectedFile: File | null = null;
-  fileError: string = '';
-
   constructor(
     private route: ActivatedRoute,
     private network: NetworkService,
@@ -52,8 +45,7 @@ export class EditCategoryComponent implements OnInit {
     status: '',
     description: '',
     image: '',
-    imageBase64: '',
-    src_img: ''
+    imageBase64: ''
   };
 
   fields: FormlyFieldConfig[] = [
@@ -78,7 +70,7 @@ export class EditCategoryComponent implements OnInit {
           props: {
             label: 'Description',
             placeholder: 'Enter description',
-            required: false // Ensure required is true
+            required: true // Ensure required is true
           },
           className: 'col-md-6 col-12'
         },
@@ -92,7 +84,18 @@ export class EditCategoryComponent implements OnInit {
           },
           className: 'formly-select-wrapper-3232 col-md-6 col-12'
         },
-        
+        {
+          key: 'image',
+          type: 'input',
+          props: {
+            label: 'Category Image',
+            placeholder: 'Enter image URL',
+            type: 'file',
+            accept: 'image/*',
+            change: (field, event) => this.onFileChange(field, event, 'imageBase64')
+          },
+          className: 'formly-image-wrapper-3232 col-md-6 col-12'
+        },
         {
           key: 'status',
           type: 'select',
@@ -105,19 +108,7 @@ export class EditCategoryComponent implements OnInit {
             required: true // Ensure required is true
           },
           className: 'formly-select-wrapper-3232 col-md-6 col-12'
-        },
-        {
-          key: 'image',
-          type: 'input',
-          props: {
-            label: 'Category Image',
-            placeholder: 'Enter image URL',
-            type: 'file',
-            accept: 'image/*',
-            change: (field, event) => this.onFileChange(field, event)
-          },
-          className: 'formly-image-wrapper-3232 col-md-6 col-12'
-        },
+        }
       ]
     }
   ];
@@ -180,18 +171,16 @@ export class EditCategoryComponent implements OnInit {
     return [];
   }
   async ngAfterViewInit() {
-    await this.setCategoriesInForm();
     const res = await this.network.getCategoriesById(this.id);
     let d = Object.assign({}, res.category);
     console.log(d);
     this.model = {
       name: d?.name || '',
-      category_id: d?.category?.id || '', // Use parent_id if available
-      status: (d?.status || 'active').toLowerCase(), // Default to 'active'
+      category_id: d?.id || '', // Included as it exists in `model`
+      status: (d?.status || '').toLowerCase(),
       description: d?.description || '',
-      image: '', // Always empty for file input
-      src_img: d?.image || '',
-      imageBase64: ''
+      image: '',
+      imageBase64: d?.imageBase64 || ''
     };
   }
 
@@ -208,51 +197,24 @@ export class EditCategoryComponent implements OnInit {
       }
     }
   }
-  onFileChange(field, event: Event) {
+  onFileChange(field, event: Event, type: string = 'image') {
     const input = event.target as HTMLInputElement;
-    this.fileError = ''; // Clear previous errors
-    this.selectedFile = null; // Reset selected file
-
     if (input.files && input.files[0]) {
       const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64String = reader.result as string;
+        console.log(base64String);
 
-      // Check file size
-      if (file.size > this.MAX_FILE_SIZE) {
-        this.fileError = `File size must be less than ${this.MAX_FILE_SIZE / (1024 * 1024)}MB`;
-        input.value = ''; // Clear the input
-        return;
-      }
+        this.model[type] = base64String; // Update the model
+        // this.fields[0].fieldGroup[6].props['value'] = base64String; // Update the field value
+        // this.fields[0].fieldGroup[6].formControl.setValue(base64String); // Update the form control value
 
-      // Store the file object
-      this.selectedFile = file;
-      this.model.image = file.name; // Display filename in form
-
-      console.log('File selected:', file.name, 'Size:', file.size, 'Type:', file.type);
-
-      // Upload the image immediately
-      this.uploadImage(file);
+        // field.formControl.setValue(base64String); // Update the form control value
+      };
+      reader.readAsDataURL(file); // Convert file to base64
     }
   }
-
-  async uploadImage(file: File) {
-    try {
-      const res = await this.network.uploadCategoryImage(file, this.id);
-      console.log(res);
-      if (res) {
-        // Store the uploaded image URL (use relative path, not full URL)
-        this.model.src_img = res.full_url;
-        this.utility.presentSuccessToast('Image uploaded successfully!');
-      } else {
-        this.fileError = 'Failed to upload image';
-        this.utility.presentFailureToast('Failed to upload image');
-      }
-    } catch (error) {
-      this.fileError = 'Error uploading image';
-      this.utility.presentFailureToast('Error uploading image');
-      console.error('Upload error:', error);
-    }
-  }
-
   async onSubmit(model) {
     if (this.form.invalid) {
       // Mark all fields as touched to trigger validation styles
@@ -268,8 +230,7 @@ export class EditCategoryComponent implements OnInit {
 
       let d = Object.assign({}, this.form.value);
 
-      // Use the uploaded image URL if available, otherwise use existing image
-      d['image'] = this.model.src_img || this.model.imageBase64;
+      d['image'] = this.model.imageBase64;
 
       const res = await this.network.updateCategory(d, this.id);
       console.log(res);

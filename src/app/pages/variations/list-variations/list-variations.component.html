@@ -7,7 +7,7 @@
 >
   <form class="mt-3" [formGroup]="form" *ngIf="crudService.filters">
     <formly-form [form]="form" [fields]="fields" [model]="model" (modelChange)="debouncedSubmitFilters($event)"></formly-form>
-    <button type="button" class="btn btn-secondary mt-2" style="color:white; background-color: red;" (click)="resetFilters()">Reset Filters</button>
+    <button type="button" class="btn btn-secondary mt-2" (click)="resetFilters()">Reset Filters</button>
   </form>
 
   <hr *ngIf="crudService.filters" />
@@ -52,24 +52,9 @@
       <!--begin::Action=-->
       <td class="text-start">
         <div class="d-flex flex-row justify-content-start align-items-center gap-3">
-          <i
-            class="ti ti-eye view-icon"
-            style="font-size: 20px; cursor: pointer"
-            (click)="openDetails(i)"
-            *ngIf="canView"
-          ></i>
-          <i
-            class="edit-icon ti ti-edit"
-            style="font-size: 20px; cursor: pointer"
-            (click)="editOpenDetails(i)"
-            *ngIf="canEdit"
-          ></i>
-          <i
-            class="ti ti-trash trash-icon"
-            style="font-size: 20px; cursor: pointer"
-            (click)="deleteRow(i)"
-            *ngIf="canDelete"
-          ></i>
+          <i class="ti ti-eye view-icon" style="font-size: 20px; cursor: pointer" (click)="openDetails(i)"></i>
+          <i class="edit-icon ti ti-edit" style="font-size: 20px; cursor: pointer" (click)="editOpenDetails(i)"></i>
+          <i class="ti ti-trash trash-icon" style="font-size: 20px; cursor: pointer" (click)="deleteRow(i)"></i>
         </div>
       </td>
       <!--end::Action=-->

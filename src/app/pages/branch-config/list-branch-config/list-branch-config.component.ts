@@ -144,6 +144,5 @@ export class ListBranchConfigComponent extends ListBlade {
     this.form.patchValue(this.model);
     // Optionally, trigger the filter logic if needed
     this.debouncedSubmitFilters(this.model);
-    this.crudService.resetFilters(this.model);;
   }
 }

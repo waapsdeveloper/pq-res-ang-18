@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BranchConfigComponent } from './branch-config.component';
-import { permissionGuard } from '../../guards/permission.guard';
-
+// branch-config-routing.module.ts
 const routes: Routes = [
   {
     path: '',
@@ -16,15 +15,11 @@ const routes: Routes = [
       },
       {
         path: 'active-branch',
-        loadChildren: () => import('./edit-branch-config/edit-branch-config.module').then((m) => m.EditBranchConfigModule),
-        data: { entity: 'branch', action: 'view' },
-        canActivate: [permissionGuard]
+        loadChildren: () => import('./edit-branch-config/edit-branch-config.module').then((m) => m.EditBranchConfigModule)
       },
       {
         path: 'edit/:id',
-        loadChildren: () => import('./edit-branch-config/edit-branch-config.module').then((m) => m.EditBranchConfigModule),
-        data: { entity: 'branch', action: 'edit' },
-        canActivate: [permissionGuard]
+        loadChildren: () => import('./edit-branch-config/edit-branch-config.module').then((m) => m.EditBranchConfigModule)
       }
     ]
   }

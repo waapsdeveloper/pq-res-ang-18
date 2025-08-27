@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ExpenseCategoriesComponent } from './expense-categories.component';
-import { permissionGuard } from '../../guards/permission.guard';
-
 const routes: Routes = [
   {
     path: '',
@@ -16,27 +14,19 @@ const routes: Routes = [
       },
       {
         path: 'list',
-        loadChildren: () => import('./list-expense-categories/list-expense-categories.module').then((m) => m.ListExpenseCategoriesModule),
-        data: { entity: 'expense_category', action: 'list' },
-        canActivate: [permissionGuard]
+        loadChildren: () => import('./list-expense-categories/list-expense-categories.module').then((m) => m.ListExpenseCategoriesModule)
       },
       {
         path: 'add',
-        loadChildren: () => import('./add-expense-categories/add-expense-categories.module').then((m) => m.AddExpenseCategoriesModule),
-        data: { entity: 'expense_category', action: 'add' },
-        canActivate: [permissionGuard]
+        loadChildren: () => import('./add-expense-categories/add-expense-categories.module').then((m) => m.AddExpenseCategoriesModule)
       },
       {
         path: 'view/:id',
-        loadChildren: () => import('./view-expense-categories/view-expense-categories.module').then((m) => m.ViewExpenseCategoriesModule),
-        data: { entity: 'expense_category', action: 'view' },
-        canActivate: [permissionGuard]
+        loadChildren: () => import('./view-expense-categories/view-expense-categories.module').then((m) => m.ViewExpenseCategoriesModule)
       },
       {
         path: 'edit/:id',
-        loadChildren: () => import('./edit-expense-categories/edit-expense-categories.module').then((m) => m.EditExpenseCategoriesModule),
-        data: { entity: 'expense_category', action: 'edit' },
-        canActivate: [permissionGuard]
+        loadChildren: () => import('./edit-expense-categories/edit-expense-categories.module').then((m) => m.EditExpenseCategoriesModule)
       }
     ]
   }

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ProductsComponent } from './products.component';
-import { permissionGuard } from '../../guards/permission.guard';
 
 const routes: Routes = [
   {
@@ -17,27 +16,19 @@ const routes: Routes = [
       },
       {
         path: 'list',
-        loadChildren: () => import('./list-product/list-product.module').then((m) => m.ListProductModule),
-        data: { entity: 'product', action: 'list' },
-        canActivate: [permissionGuard]
+        loadChildren: () => import('./list-product/list-product.module').then((m) => m.ListProductModule)
       },
       {
         path: 'add',
-        loadChildren: () => import('./add-product/add-product.module').then((m) => m.AddProductModule),
-        data: { entity: 'product', action: 'add' },
-        canActivate: [permissionGuard]
+        loadChildren: () => import('./add-product/add-product.module').then((m) => m.AddProductModule)
       },
       {
         path: 'view/:id',
-        loadChildren: () => import('./view-products/view-products.module').then((m) => m.ViewProductsModule),
-        data: { entity: 'product', action: 'view' },
-        canActivate: [permissionGuard]
+        loadChildren: () => import('./view-products/view-products.module').then((m) => m.ViewProductsModule)
       },
       {
         path: 'edit/:id',
-        loadChildren: () => import('./edit-product/edit-product.module').then((m) => m.EditProductModule),
-        data: { entity: 'product', action: 'edit' },
-        canActivate: [permissionGuard]
+        loadChildren: () => import('./edit-product/edit-product.module').then((m) => m.EditProductModule)
       }
     ]
   }

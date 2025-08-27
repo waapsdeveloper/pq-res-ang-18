@@ -23,8 +23,7 @@ export class EditExpenseComponent implements OnInit {
     status: 'unpaid',
     description: '',
     image: '',
-    imageBase64: '',
-    src_img: ''
+    imageBase64: ''
   };
 
   fields: FormlyFieldConfig[] = [
@@ -137,7 +136,7 @@ export class EditExpenseComponent implements OnInit {
     private network: NetworkService,
     private utility: UtilityService,
     private route: ActivatedRoute
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
@@ -178,28 +177,27 @@ export class EditExpenseComponent implements OnInit {
   }
 
   async loadExpenseDetails() {
-    // try {
-    const res = await this.network.getExpenseById(this.id);
-    console.log(res)
+    try {
+      const res = await this.network.getExpenseById(this.id);
 
-    if (res && res.expense) {
-
-      this.model['name'] = res.expense.name || '',
-      this.model['amount'] = res.expense.amount || '',
-      this.model['expense_category_id'] = res.expense.category.id || '',
-      this.model['type'] = res.expense.type || 'one-time',
-      this.model['date'] = res.expense.date || '',
-      this.model['status'] = res.expense.status || 'unpaid',
-      this.model['description'] = res.expense.description || '',
-      this.model['src_img'] = res.expense.image || '',
-      this.model['imageBase64'] = ''
-
-      this.form.patchValue(this.model);
+      if (res && res.expense) {
+        this.model = {
+          name: res.expense.name || '',
+          amount: res.expense.amount || '',
+          expense_category_id: res.expense.category.id || '',
+          type: res.expense.type || 'one-time',
+          date: res.expense.date || '',
+          status: res.expense.status || 'unpaid',
+          description: res.expense.description || '',
+          image: res.expense.image || '',
+          imageBase64: ''
+        };
+        this.form.patchValue(this.model);
+      }
+    } catch (error) {
+      this.utility.presentFailureToast('Failed to load expense details.');
+      console.error(error);
     }
-    // } catch (error) {
-    //   this.utility.presentFailureToast('Failed to load expense details.');
-    //   console.error(error);
-    // }
   }
 
   onFileChange(field, event: Event, type: string = 'image') {
@@ -210,7 +208,6 @@ export class EditExpenseComponent implements OnInit {
       reader.onload = () => {
         const base64String = reader.result as string;
         this.model[type] = base64String;
-        this.model['src_img'] = base64String; // Store
       };
       reader.readAsDataURL(file);
     }
@@ -227,8 +224,6 @@ export class EditExpenseComponent implements OnInit {
       let d = this.form.value;
       d['image'] = this.model['imageBase64'] || this.model['image'];
       const res = await this.network.updateExpense(this.id, d);
-      console.log(res);
-
       if (res) {
         this.utility.presentSuccessToast('Expense updated successfully!');
         this.nav.pop();

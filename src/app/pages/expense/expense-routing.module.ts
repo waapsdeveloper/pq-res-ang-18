@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ExpenseComponent } from './expense.component';
-import { permissionGuard } from '../../guards/permission.guard';
-
 const routes: Routes = [
   {
     path: '',
@@ -16,27 +14,19 @@ const routes: Routes = [
       },
       {
         path: 'list',
-        loadChildren: () => import('./list-expense/list-expense.module').then((m) => m.ListExpenseModule),
-        data: { entity: 'expense', action: 'list' },
-        canActivate: [permissionGuard]
+        loadChildren: () => import('./list-expense/list-expense.module').then((m) => m.ListExpenseModule)
       },
       {
         path: 'add',
-        loadChildren: () => import('./add-expense/add-expense.module').then((m) => m.AddExpenseModule),
-        data: { entity: 'expense', action: 'add' },
-        canActivate: [permissionGuard]
+        loadChildren: () => import('./add-expense/add-expense.module').then((m) => m.AddExpenseModule)
       },
       {
         path: 'view/:id',
-        loadChildren: () => import('./view-expense/view-expense.module').then((m) => m.ViewExpenseModule),
-        data: { entity: 'expense', action: 'view' },
-        canActivate: [permissionGuard]
+        loadChildren: () => import('./view-expense/view-expense.module').then((m) => m.ViewExpenseModule)
       },
       {
         path: 'edit/:id',
-        loadChildren: () => import('./edit-expense/edit-expense.module').then((m) => m.EditExpenseModule),
-        data: { entity: 'expense', action: 'edit' },
-        canActivate: [permissionGuard]
+        loadChildren: () => import('./edit-expense/edit-expense.module').then((m) => m.EditExpenseModule)
       }
     ]
   }
