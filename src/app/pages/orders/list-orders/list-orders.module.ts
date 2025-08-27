@@ -11,7 +11,8 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ListOrderItemStatusModule } from './list-order-item-status/list-order-item-status.module';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { ListOrderPaymentStatusModule } from './list-order-payment-status/list-order-payment-status.module';
-
+import { AddOrdersModule } from "../add-orders/add-orders.module";
+import { ListOrderPrintslipModule } from "./list-order-printslip/list-order-printslip.module";
 @NgModule({
   declarations: [ListOrdersComponent],
   imports: [
@@ -26,7 +27,9 @@ import { ListOrderPaymentStatusModule } from './list-order-payment-status/list-o
     NgxSkeletonLoaderModule,
     ListOrderItemStatusModule,
     NgbDropdownModule,
-    ListOrderPaymentStatusModule
-  ]
+    ListOrderPaymentStatusModule,
+    ListOrderPrintslipModule
+],
+  
 })
-export class ListOrdersModule {}
+export class ListOrdersModule { }

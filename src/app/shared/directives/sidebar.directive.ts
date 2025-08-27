@@ -68,21 +68,10 @@ export class SidebarDirective implements OnInit, AfterViewInit, OnDestroy {
   //close all other menu items other than active one
   public closeOtherLinks(openLink: SidebarLinkDirective): void {
     this.navlinks.forEach((link: SidebarLinkDirective) => {
-      if (link != openLink && (openLink.level.toString() === "1" || link.level === openLink.level)) {
+      // Only close siblings at the same parent and level
+      if (link !== openLink && link.parent === openLink.parent && link.level === openLink.level) {
         link.open = false;
         link.sidebarGroupActive = false;
-      }
-      else if (link === openLink && (openLink.level.toString() === "1") && link.hasSub === true) {
-        link.sidebarGroupActive = true;
-      }
-      else if (link === openLink && (openLink.level.toString() === "1") && link.hasSub === false) {
-        link.sidebarGroupActive = false;
-        link.open = false;
-      }
-      else if (link === openLink && openLink.level.toString() != "1" && link.hasSub === false) {
-        link.open = false;
-        link.sidebarGroupActive = false;
-        return;
       }
     });
   }
@@ -130,6 +119,10 @@ export class SidebarDirective implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  public getNavLinks(): SidebarLinkDirective[] {
+    return this.navlinks;
+  }
+
   // mouse enter event of side menu
   @HostListener("mouseenter", ["$event"])
   onMouseOver(e: any) {
@@ -148,6 +141,15 @@ export class SidebarDirective implements OnInit, AfterViewInit, OnDestroy {
       this.setSidebarGroupActiveCollapsed();
       this.navExpanded = false;
     }
+  }
+
+  @HostListener("mouseleave", ["$event"])
+  onSidebarMouseLeave(e: any) {
+    this.navlinks.forEach((link: SidebarLinkDirective) => {
+      link.open = false;
+      link.sidebarGroupActive = false;
+      link.navCollapsedOpen = false;
+    });
   }
 
 }

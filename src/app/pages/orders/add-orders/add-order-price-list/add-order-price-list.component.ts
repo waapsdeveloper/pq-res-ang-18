@@ -3,6 +3,7 @@ import { AddOrderService } from '../add-order.service';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { NetworkService } from 'src/app/services/network.service';
+import { GlobalDataService } from 'src/app/services/global-data.service';
 
 @Component({
   selector: 'app-add-order-price-list',
@@ -10,12 +11,25 @@ import { NetworkService } from 'src/app/services/network.service';
   styleUrl: './add-order-price-list.component.scss'
 })
 export class AddOrderPriceListComponent implements OnInit {
+  currency = 'USD';
+  currencySymbol = '$';
   constructor(
     public orderService: AddOrderService,
     public nav: NavService,
-    private network: NetworkService
-  ) {}
-  async ngOnInit() {}
+    private network: NetworkService,
+    private globalData: GlobalDataService
+  ) {
+    this.globalData.getCurrency().subscribe((currency) => {
+      this.currency = currency;
+      console.log('Currency updated:', this.currency);
+    });
+
+    this.globalData.getCurrencySymbol().subscribe((symbol) => {
+      this.currencySymbol = symbol;
+      console.log('Currency Symbol updated:', this.currencySymbol);
+    });
+  }
+  async ngOnInit() { }
 
   editNote(item: any): void {
     item.isEditingNote = true;
@@ -41,8 +55,23 @@ export class AddOrderPriceListComponent implements OnInit {
     this.orderService.totalOfProductCost();
   }
 
-  changeVariationSelection($event){
+  changeVariationSelection($event) {
+    console.log($event)
     this.orderService.totalOfProductCost();
+  }
+
+  incrementQty(item: any) {
+    if (item.quantity < 50) {
+      item.quantity++;
+      this.changeQty(item);
+    }
+  }
+
+  decrementQty(item: any) {
+    if (item.quantity > 1) {
+      item.quantity--;
+      this.changeQty(item);
+    }
   }
 
   async onSubmit($event) {
@@ -64,17 +93,21 @@ export class AddOrderPriceListComponent implements OnInit {
     let totalPrice = parseFloat(item.price); // Start with the base product price
 
     if (item.variation) {
-      // Add the price of selected variations
       item.variation.forEach((variation: any) => {
-        if (variation.options) {
+        if (variation.selectedOption) {
+          // Radio button case → only one selected
+          totalPrice += parseFloat(variation.selectedOption.price);
+        } else if (variation.options) {
+          // Checkbox case → possibly multiple selected
           variation.options.forEach((option: any) => {
             if (option.selected) {
-              totalPrice +=  parseFloat(option.price); // Add the price of selected options
+              totalPrice += parseFloat(option.price);
             }
           });
         }
       });
     }
+
     // this.orderService.totalOfProductCost();
     return totalPrice; // Return the total calculated price
   }

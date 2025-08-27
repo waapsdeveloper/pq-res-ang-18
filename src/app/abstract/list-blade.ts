@@ -49,7 +49,7 @@ export abstract class ListBlade {
     this.crudService.deleteAll();
   }
   changePageSize(event: any): void {
-    const pageSize = parseInt(event, 10);
+    const pageSize = parseInt(event, 50);
     console.log('Page size changed:', pageSize);
     if (this.crudService.onPageSizeChange) {
       this.crudService.onPageSizeChange(pageSize); // Call the service method

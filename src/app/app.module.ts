@@ -28,6 +28,8 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 
 import { provideNgSimpleState } from 'ng-simple-state';
 import { NgxPubSubModule } from '@pscoped/ngx-pub-sub';
+import { PermissionService } from './services/permission.service';
+import { MaskPhonePipe } from './pipes/mask-phone.pipe'; // adjust path
 
 @NgModule({
   declarations: [
@@ -39,7 +41,7 @@ import { NgxPubSubModule } from '@pscoped/ngx-pub-sub';
     NavItemComponent,
     NavCollapseComponent,
     ConfigurationComponent,
-    GuestComponent
+    GuestComponent,
   ],
   imports: [
     BrowserModule,
@@ -69,7 +71,9 @@ import { NgxPubSubModule } from '@pscoped/ngx-pub-sub';
       enableDevTool: isDevMode(),
       // enableLocalStorage: true,
       persistentStorage: 'local'
-    })
+    }),
+    PermissionService
+
   ],
   bootstrap: [AppComponent]
 })

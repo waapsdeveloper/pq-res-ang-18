@@ -3,6 +3,7 @@ import { Component, HostListener } from '@angular/core';
 import { NetworkService } from 'src/app/services/network.service';
 import { AddOrderService } from '../add-order.service';
 import { CurrencyService } from 'src/app/services/currency.service';
+import { GlobalDataService } from 'src/app/services/global-data.service';
 
 @Component({
   selector: 'app-add-order-products',
@@ -12,13 +13,24 @@ import { CurrencyService } from 'src/app/services/currency.service';
 export class AddOrderProductsComponent {
   columnClass: string = 'col-4'; // Default column class
   buttonLabel = 'Add Product';
-
+  currency = 'USD';
+  currencySymbol = '$';
   constructor(
     public orderService: AddOrderService,
-    public currencyService: CurrencyService
+    public currencyService: CurrencyService,
+    private globalData: GlobalDataService
   ) {
     this.initialize();
     this.updateColumnClass(window.innerWidth); // Initialize column class based on current screen size
+    this.globalData.getCurrency().subscribe((currency) => {
+      this.currency = currency;
+      console.log('Currency updated:', this.currency);
+    });
+
+    this.globalData.getCurrencySymbol().subscribe((symbol) => {
+      this.currencySymbol = symbol;
+      console.log('Currency Symbol updated:', this.currencySymbol);
+    });
   }
 
   @HostListener('window:resize', ['$event'])
@@ -59,15 +71,34 @@ export class AddOrderProductsComponent {
     }, 2000);
   }
 
-  setSelectedToggle(product) {
-    product.selected = !product.selected;
-    this.orderService.updateProductInSelectedProducts(product);
+  addOrIncrementProduct(product: any) {
+    const existing = this.orderService.selected_products.find((p) => p.id === product.id);
+    if (existing) {
+      existing.quantity += 1;
+      this.orderService.totalOfProductCost();
+    } else {
+      product.selected = true;
+      this.orderService.updateProductInSelectedProducts(product);
+    }
   }
 
-  isProductSelected(productId: any): boolean {
-    // Check if a product with the given ID exists in the selected_products array
-    return this.orderService.selected_products.some((product) => product.id === productId);
-    console.log(productId);
+  decrementOrRemoveProduct(product: any) {
+    const existing = this.orderService.selected_products.find((p) => p.id === product.id);
+    if (existing) {
+      if (existing.quantity > 1) {
+        existing.quantity -= 1;
+        this.orderService.totalOfProductCost();
+      } else {
+        // Remove from selected_products
+        product.selected = false;
+        this.orderService.updateProductInSelectedProducts(product);
+      }
+    }
+  }
+
+  getProductQuantity(productId: any): number {
+    const found = this.orderService.selected_products.find((p) => p.id === productId);
+    return found ? found.quantity : 0;
   }
   editNote(product: any, event: Event): void {
     event.stopPropagation(); // Prevent card click event

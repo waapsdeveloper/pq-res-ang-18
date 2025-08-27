@@ -21,7 +21,7 @@
           <div class="d-flex align-items-center">
             <div class="d-flex justify-content-start flex-column">
               <a class="text-white fw-bold text-hover-primary mb-1 fs-6">{{ item.name }}</a>
-              <span class="text-white fw-semibold d-block fs-7">${{ item.price }}</span>
+              <span class="text-white fw-semibold d-block fs-7">{{ item.price }}</span>
               <input type="hidden" [(ngModel)]="item.price" />
             </div>
           </div>
@@ -46,7 +46,7 @@
                       (ngModelChange)="changeVariationSelection($event)"
                     />
                     <label class="form-check-label" [for]="'option-' + variation.type + '-' + option.name">
-                      {{ option.name }} - ${{ option.price }}
+                      {{ option.name }} - {{currencySymbol}}{{ option.price }}
                     </label>
                   </div>
                 </div>
@@ -137,21 +137,25 @@
           <ng-template #popTitle>
             <div class="fw-bold fs-3">Select Quantity</div>
           </ng-template>
-          <button
-            class="badge py-3 px-4 fs-7 badge-light-primary"
-            [ngbPopover]="popContent"
-            [popoverTitle]="popTitle"
-            triggers="manual"
-            [autoClose]="'outside'"
-            placement="top"
-            #quantityPopover="ngbPopover"
-            (click)="closeAllPopovers(); quantityPopover.open(); registerPopover(quantityPopover)"
-          >
-            Qty x {{ parseTwoDigitNumber(item.quantity) }}
-          </button>
+          <div class="d-flex align-items-center justify-content-end gap-1">
+            <button class="badge py-2 px-3 fs-7 badge-light-primary" (click)="decrementQty(item)">-</button>
+            <button
+              class="badge py-3 px-4 fs-7 badge-light-primary"
+              [ngbPopover]="popContent"
+              [popoverTitle]="popTitle"
+              triggers="manual"
+              [autoClose]="'outside'"
+              placement="top"
+              #quantityPopover="ngbPopover"
+              (click)="closeAllPopovers(); quantityPopover.open(); registerPopover(quantityPopover)"
+            >
+              Qty x {{ parseTwoDigitNumber(item.quantity) }}
+            </button>
+            <button class="badge py-2 px-3 fs-7 badge-light-primary" (click)="incrementQty(item)">+</button>
+          </div>
         </td>
         <td class="text-end">
-          <div class="text-white fw-bold py-3 px-4 fs-2">${{ calculateTotalPrice(item) }}</div>
+          <div class="text-white fw-bold py-3 px-4 fs-2">{{currencySymbol}}{{ calculateTotalPrice(item) }}</div>
         </td>
         <td class="text-end">
           <button class="btn btn-icon" (click)="removeItem(i)">

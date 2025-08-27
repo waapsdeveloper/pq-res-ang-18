@@ -337,3 +337,89 @@
     pointer-events: auto; /* Enable interaction */
   }
 }
+
+// Apply Tips Container
+.apply-tips-container {
+  position: relative;
+
+  .apply-tips-btn {
+    transition: opacity 0.3s ease;
+  }
+
+  &.tips-applied .apply-tips-btn {
+    opacity: 0; /* Hide the button when the tips is applied */
+    pointer-events: none; /* Disable interaction */
+  }
+
+  &.tips-applied:hover .apply-tips-btn {
+    opacity: 1; /* Show the button on hover */
+    pointer-events: auto; /* Enable interaction */
+  }
+}
+
+@media (max-width: 767.98px) {
+  .mobile-menu {
+    display: none !important;
+  }
+}
+.scrollable-navbar {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 4px;
+
+  /* Hide scrollbar for Chrome, Safari, Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for Firefox */
+  scrollbar-width: none;
+}
+
+/* Ensure category items have a minimum width for scrolling */
+.single-category-item {
+  flex: 0 0 auto;
+  min-width: 120px;
+  margin-right: 8px;
+}
+@media (max-width: 767.98px) {
+  .tab-switcher-navbar {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    white-space: nowrap;
+    gap: 6px;
+    min-height: 45px;
+    padding-bottom: 4px;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    scrollbar-width: none;
+  }
+  .tab-switcher-navbar .tab-item {
+  min-width: 110px;
+  padding: 8px 12px;
+  background: #f5f5f5;
+  border-radius: 0.35rem;
+  text-align: center;
+  color: #333;
+  font-weight: 500;
+}
+  .tab-switcher-navbar .tab-item.active {
+  background: var(--red); // Use your red variable or #e53935
+  color: #fff;
+}
+
+.tab-switcher-navbar .tab-item.active .nav-link,
+.tab-switcher-navbar .tab-item.active .nav-link i,
+.tab-switcher-navbar .tab-item.active .nav-link span {
+  color: #fff !important;
+}
+}
+#print-section{
+  display: none;
+}

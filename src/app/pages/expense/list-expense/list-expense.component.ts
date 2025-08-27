@@ -9,6 +9,9 @@ import { UsersService } from 'src/app/services/users.service';
 import { UtilityService } from 'src/app/services/utility.service';
 import { ExpenseCategoriesService } from '../../expense-categories/expense-categories.service';
 import { ExprenseService } from '../expense.service';
+import { GlobalDataService } from 'src/app/services/global-data.service';
+import { ActivatedRoute } from '@angular/router';
+import { PermissionService } from 'src/app/services/permission.service';
 
 @Component({
   selector: 'app-list-expense',
@@ -18,8 +21,15 @@ import { ExprenseService } from '../expense.service';
 })
 export class ListExpenseComponent extends ListBlade {
   showDeleteAllButton = false;
+  canDelete;
+  canEdit;
+  canView;
+  canChangeStatus;
+  canPaymentStatus;
   title = 'Expense';
   addurl = '/pages/expense/add';
+  currency = 'USD';
+  currencySymbol = '$';
   showEdit: boolean = false;
   columns: any[] = ['Name', 'Description', 'Category', 'Amount', 'Type', 'Status', 'Created ', ' Updated', 'Image'];
   override model = {
@@ -109,7 +119,6 @@ export class ListExpenseComponent extends ListBlade {
       ]
     }
   ];
-  currency: string;
   totalAmount: any;
   constructor(
     injector: Injector,
@@ -120,12 +129,29 @@ export class ListExpenseComponent extends ListBlade {
     private network: NetworkService,
     private cdr: ChangeDetectorRef,
     public events: EventsService,
-    public currencyService: CurrencyService
+    public currencyService: CurrencyService,
+    private globalData: GlobalDataService,
+    private route: ActivatedRoute,
+    private permissionService: PermissionService
   ) {
     super(injector, crudService);
     this.initialize();
+    this.canDelete = this.permissionService.hasPermission('expense' + '.delete');
+    this.canView = this.permissionService.hasPermission('expense' + '.view');
+    this.canEdit = this.permissionService.hasPermission('expense' + '.edit');
+    this.canChangeStatus = this.permissionService.hasPermission('expense' + '.status');
+    this.canPaymentStatus = this.permissionService.hasPermission('expense' + '.payment_status_update');
+
     this.setCategoryInForm();
-    this.currency = this.currencyService.currency_symbol;
+    this.globalData.getCurrency().subscribe((currency) => {
+      this.currency = currency;
+      console.log('Currency updated:', this.currency);
+    });
+
+    this.globalData.getCurrencySymbol().subscribe((symbol) => {
+      this.currencySymbol = symbol;
+      console.log('Currency Symbol updated:', this.currencySymbol);
+    });
   }
 
   get expenseTitle(): string {
@@ -219,12 +245,14 @@ export class ListExpenseComponent extends ListBlade {
   }
 
   editRow(index: number) {}
-
   async deleteRow(index: number) {
+    if (!this.canDelete) {
+      alert('You do not have permission to delete.');
+      return;
+    }
     try {
       await this.crudService.deleteRow(index, this.utility);
       this.utility.presentSuccessToast('Deleted Sucessfully!');
-
       console.log('Row deleted successfully');
     } catch (error) {
       console.error('Error deleting row:', error);
@@ -260,7 +288,7 @@ export class ListExpenseComponent extends ListBlade {
   }
 
   ProductModal(item) {
-    this.utility.showProductSelectionTable('Select Products', item.products, 'Select', (productId: string) => {
+    this.utility.showProductSelectionTable('Select Products', this.currency, item.products, 'Select', (productId: string) => {
       console.log('Selected product ID:', productId);
     });
   }
@@ -273,5 +301,6 @@ export class ListExpenseComponent extends ListBlade {
       status: '',
       category: ''
     };
+    this.crudService.resetFilters(this.model);;
   }
 }

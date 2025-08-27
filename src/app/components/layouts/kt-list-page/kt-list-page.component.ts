@@ -1,5 +1,7 @@
 import { Title } from '@angular/platform-browser';
 import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import { PermissionService } from 'src/app/services/permission.service'; // adjust path as needed
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-kt-list-page',
@@ -17,6 +19,22 @@ export class KtListPageComponent {
   @Output('onSearch') onSearch = new EventEmitter<any>();
   @Output('onFilter') onFilter = new EventEmitter<any>();
   @Output('onDeleteAll') onDeleteAll = new EventEmitter<any>();
+
+  @Input('entity') entity: string = '';
+  @Input('action') action: string = '';
+  @Input('canCreate') canCreate = false;
+  @Input('canFilter') canFilter = false;
+  @Input('canDelete') canDelete = false;
+
+  constructor(
+    public permissionService: PermissionService,
+    private route: ActivatedRoute
+  ) {
+    this.entity = this.route.snapshot.data['entity'] || ''; // <-- Get entity from route data
+    this.canCreate = this.permissionService.hasPermission(this.entity + '.add');
+    this.canFilter = this.permissionService.hasPermission(this.entity + '.filter');
+    this.canDelete = this.permissionService.hasPermission(this.entity + '.delete');
+  }
 
   search($event) {
     let v = $event.target.value;

@@ -17,12 +17,17 @@ import {
 } from '@angular/core';
 
 import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { UntypedFormControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { LayoutService } from 'src/app/shared/services/layout.service';
 import { ConfigService } from 'src/app/shared/services/config.service';
 import { NotificationsService } from 'src/app/services/notifications.service';
 import { GlobalRestaurantService } from 'src/app/services/global-restaurant.service';
+import { UsersService } from 'src/app/services/users.service';
+import { PermissionService } from 'src/app/services/permission.service';
+import { NavService } from 'src/app/services/basic/nav.service';
+import { GlobalDataService } from 'src/app/services/global-data.service';
 
 @Component({
   selector: 'app-navbar',
@@ -69,22 +74,27 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     private configService: ConfigService,
     private cdr: ChangeDetectorRef,
     public notifcationService: NotificationsService,
-    private globalRestaurantService: GlobalRestaurantService
+    public globalRestaurantService: GlobalDataService,
+    private userService: UsersService,
+    public permissionService: PermissionService,
+
+    private nav: NavService
   ) {
     this.config = this.configService.templateConf;
     this.innerWidth = window.innerWidth;
 
     this.layoutSub = layoutService.toggleSidebar$.subscribe((isShow) => {
+      console.log('Navbar received layout service update, isShow:', isShow, 'setting hideSidebar to:', !isShow);
       this.hideSidebar = !isShow;
+      this.cdr.markForCheck();
+    });
+
+    this.globalRestaurantService.getRestaurantName().subscribe((name) => {
+      this.restaurantName = name;
     });
   }
 
   async ngOnInit() {
-    const name = await this.globalRestaurantService.getRestaurantNamePromise()
-    this.restaurantName = name;
-
-    console.log('Restaurant Name:', this.restaurantName);
-
     this.listItems = [];
 
     if (this.innerWidth < 1200) {
@@ -92,6 +102,18 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.isSmallScreen = false;
     }
+
+    // Listen to router navigation events to reset sidebar state
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      // Reset sidebar state on navigation for mobile devices
+      if (this.innerWidth < 1200) {
+        console.log('Navbar navigation event, resetting hideSidebar to true');
+        this.hideSidebar = true;
+        this.cdr.markForCheck();
+      }
+    });
   }
 
   ngAfterViewInit() {
@@ -102,6 +124,12 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       this.loadLayout();
       this.cdr.markForCheck();
     });
+
+    const user = this.userService.getUser();
+    if (user) {
+      this.user = user;
+      console.log('User from Service:', this.user);
+    }
   }
 
   ngOnDestroy() {
@@ -224,6 +252,10 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   toggleSidebar() {
+    // Call the layout service to toggle the sidebar
+    // When hideSidebar is true, we want to show the sidebar (isShow = true)
+    // When hideSidebar is false, we want to hide the sidebar (isShow = false)
+    console.log('Navbar toggleSidebar called, current hideSidebar:', this.hideSidebar);
     this.layoutService.toggleSidebarSmallScreen(this.hideSidebar);
   }
 
@@ -261,5 +293,20 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       return '1 day ago'; // Or more specific date/time format
     }
+  }
+
+  logout() {
+    localStorage.clear();
+    sessionStorage.clear();
+    this.permissionService.resetPermissions();
+    this.notifcationService.notifications = [];
+    this.user = null;
+    this.config = {};
+
+    // Use Angular Router
+    // this.router.navigate(['/']);
+
+    // Or, for a full reload:
+    window.location.href = '/';
   }
 }

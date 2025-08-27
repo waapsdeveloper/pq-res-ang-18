@@ -8,6 +8,9 @@ import { UtilityService } from 'src/app/services/utility.service';
 import { FormGroup } from '@angular/forms';
 import { CouponsService } from '../coupons.service';
 import { EventsService } from 'src/app/services/events.service';
+import { GlobalDataService } from 'src/app/services/global-data.service';
+import { ActivatedRoute } from '@angular/router';
+import { PermissionService } from 'src/app/services/permission.service';
 
 @Component({
   selector: 'app-list-coupons',
@@ -20,6 +23,11 @@ export class ListCouponsComponent extends ListBlade {
   showEdit = false;
   addurl = '/pages/coupons/add';
   showDeleteAllButton = false;
+  currency = 'USD';
+  currencySymbol = '$';
+  canDelete;
+  canView;
+  canEdit;
 
   override form = new FormGroup({});
   override model = {
@@ -142,10 +150,25 @@ export class ListCouponsComponent extends ListBlade {
     private users: UsersService,
     private network: NetworkService,
     private cdr: ChangeDetectorRef,
-    public events: EventsService
+    public events: EventsService,
+    private globalData: GlobalDataService,
+    private route: ActivatedRoute,
+    private permissionService: PermissionService
   ) {
     super(injector, crudService);
     this.initialize();
+    this.globalData.getCurrency().subscribe((currency) => {
+      this.currency = currency;
+      console.log('Currency updated:', this.currency);
+    });
+
+    this.globalData.getCurrencySymbol().subscribe((symbol) => {
+      this.currencySymbol = symbol;
+      console.log('Currency Symbol updated:', this.currencySymbol);
+    });
+    this.canDelete = this.permissionService.hasPermission('coupon' + '.delete');
+    this.canView = this.permissionService.hasPermission('coupon' + '.view');
+    this.canEdit = this.permissionService.hasPermission('coupon' + '.edit');
   }
 
   initialize() {
@@ -174,6 +197,10 @@ export class ListCouponsComponent extends ListBlade {
   editRow(index: number) {}
 
   async deleteRow(index: number) {
+    if (!this.canDelete) {
+      alert('You do not have permission to delete.');
+      return;
+    }
     try {
       await this.crudService.deleteRow(index, this.utility);
       this.utility.presentSuccessToast('Deleted Sucessfully!');
@@ -201,5 +228,6 @@ export class ListCouponsComponent extends ListBlade {
       expires_at: '',
       is_active: ''
     };
+    this.crudService.resetFilters(this.model);;
   }
 }

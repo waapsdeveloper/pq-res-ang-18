@@ -56,7 +56,8 @@ export class EditUserComponent implements OnInit {
     country: '',
     image: '',
     imageBase64: '',
-    status: ''
+    status: '',
+    src_img: ''
   };
 
   fields: FormlyFieldConfig[] = [
@@ -270,16 +271,14 @@ export class EditUserComponent implements OnInit {
           key: 'image',
           type: 'input',
           props: {
-            label: 'Profile Picture',
-            placeholder: 'Upload an image',
+            label: 'Profile Image',
+            placeholder: 'Enter image URL',
             type: 'file',
             accept: 'image/*',
-            required: false,
-            validation: {
-              show: (field) => field.formControl && field.formControl.invalid && field.formControl.focused
-            }
+            change: (field, event) => this.onFileChange(field, event, 'imageBase64'),
+            required: false // Ensure required is true
           },
-          className: 'formly-image-wrapper-3232 col-md-6 col-12'
+          className: 'formly-image-wrapper-3232 col-md-3 col-12'
         }
       ]
     }
@@ -353,22 +352,24 @@ export class EditUserComponent implements OnInit {
     const res = await this.network.getUsersById(this.id);
     let d = Object.assign({}, res.user);
     console.log(d.status, 'these are the result of the console ');
+    await this.setCountryCodesInForm();
     // Dynamic model assignment
     this.model = {
       name: d.name || '', // Matches `model`
       email: d.email || '', // Matches `model`
       // password: d.password || '',       // Matches `model`
       phone: {
-        countryCode: d.dial_code || '', // Matches `model`
-        number: d.phone || '' // Matches `model`
+        countryCode: d?.dial_code, // Matches `model`
+        number: d?.phone || '' // Matches `model`
       },
+      src_img: d.image,
       address: d.address || '', // Matches `model`
       role_id: d.role_id || '', // Matches `model`
       status: (d.status || '').toLowerCase(),
       city: d.city || '', // Matches `model`
       state: d.state || '', // Matches `model`
       country: d.country || '', // Matches `model`
-      image: '', // Ensures `image` is an empty string
+      image: d.image, // Ensures `image` is an empty string
       imageBase64: d.imageBase64 || '' // Matches `model`
     };
   }
@@ -417,7 +418,8 @@ export class EditUserComponent implements OnInit {
         const base64String = reader.result as string;
         console.log(base64String);
 
-        this.model[type] = base64String; // Update the model
+        this.model[type] = base64String;
+        this.model['src_img'] = base64String; // Update the model
         // this.fields[0].fieldGroup[6].props['value'] = base64String; // Update the field value
         // this.fields[0].fieldGroup[6].formControl.setValue(base64String); // Update the form control value
 

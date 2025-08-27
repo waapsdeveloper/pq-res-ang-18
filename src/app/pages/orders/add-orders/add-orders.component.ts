@@ -10,7 +10,9 @@ import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { CurrencyService } from 'src/app/services/currency.service';
-
+import { GlobalDataService } from 'src/app/services/global-data.service';
+import html2pdf from 'html2pdf.js';
+import { InvoiceService } from 'src/app/services/invoice.service';
 @Component({
   selector: 'app-add-orders',
   templateUrl: './add-orders.component.html',
@@ -31,11 +33,27 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   itemId;
   restInfo;
   restaurant;
+  currency = 'USD';
+  currencySymbol = '$';
+  order_id: any;
+  today = new Date();
+
   showEdit = false;
   private searchSubject = new Subject<string>();
   private phoneSearchSubject = new Subject<string>();
   private searchSubscription: Subscription;
   private phoneSearchSubscription: Subscription;
+
+  showTips = false;
+  
+  logoBase64: any;
+  barcode: any;
+  address: any;
+  footertext: any;
+  marginleft: any;
+  marginright: any;
+  size: any;
+  fontSize: any;
 
   constructor(
     public nav: NavService,
@@ -44,8 +62,50 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     private utilityService: UtilityService,
     private location: Location,
     private activatedRoute: ActivatedRoute,
-    public currencyService: CurrencyService
+    public currencyService: CurrencyService,
+    private globalData: GlobalDataService,
+    public invoiceService: InvoiceService,
   ) {
+    this.invoiceService.getInvoiceBase64().subscribe(base64 => {
+      this.logoBase64 = base64;});
+    this.invoiceService.getGoogleReviewBarcodeBase64().subscribe(base64 => {
+      this.barcode = base64;
+    });
+    this.invoiceService.getRestaurantAddress().subscribe(address => {
+      this.address = address;
+    });
+    this.invoiceService.getFooterText().subscribe(text => {
+      this.footertext = text;
+    });
+
+    this.invoiceService.getLeftMargin().subscribe(left => {
+      this.marginleft = left;
+    });
+
+    this.invoiceService.getRightMargin().subscribe(right => {
+      this.marginright = right;
+    });
+    this.size = this.invoiceService.getSize().subscribe(size => {
+      this.size = size  || 80; // Default to 10 if not set
+    });  
+    this.fontSize = this.invoiceService.getFontSize().subscribe(size => {
+      this.fontSize = size || 10; // Default to 10 if not set
+    }); 
+    this.globalData.getCurrency().subscribe((currency) => {
+      this.currency = currency;
+      console.log('Currency updated:', this.currency);
+    });
+
+    this.globalData.getCurrencySymbol().subscribe((symbol) => {
+      this.currencySymbol = symbol;
+      console.log('Currency Symbol updated:', this.currencySymbol);
+    });
+    this.globalData.getTips().subscribe((tips) => {
+      this.orderService.tips = tips;
+    });
+    this.globalData.getDeliveryCharges().subscribe((symbol) => {
+      this.orderService.deliveryCharges = symbol;
+    });
     this.updateScreenSize(); // Initialize screen size on component load
   }
 
@@ -60,8 +120,8 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     console.log(`Screen Width: ${this.screenWidth}, Screen Height: ${this.screenHeight}`);
   }
 
-  tempCustomerName: any = null;
-  tempCustomerPhone: any = null;
+  tempCustomerName: string | { name: string } = 'Walk-in Customer';
+  tempCustomerPhone: string | { phone: string } = '0000000000';
   tempCustomerAddress: any = null;
   walkInCustomer = {
     id: 0, // Special ID for walk-in customer
@@ -91,11 +151,20 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    this.orderService.taxPercent = await this.currencyService.getTaxFromLocalStorage();
-    this.orderService.showOrderHeader = false;
+    // this.orderService.taxPercent = await this.currencyService.getTaxFromLocalStorage();
     let restaurant = await this.getRestaurants();
+    this.orderService.showOrderHeader = false;
     this.restInfo = restaurant;
+    // Set all defaults using the service method
+    this.orderService.makeWalkingCustomer();
+    this.tempCustomerName = this.orderService.customer_name;
+    this.tempCustomerPhone = this.orderService.customer_phone;
+    this.tempCustomerAddress = this.orderService.customer_address;
     console.log(this.restInfo);
+
+    // Convert logo to base64 for direct src usage
+
+
     // Setup debounced search
     this.searchSubscription = this.searchSubject.pipe(debounceTime(400), distinctUntilChanged()).subscribe(async (query) => {
       await this.fetchSuggestions(query);
@@ -136,6 +205,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
         }
       });
 
+      await this.orderService.recalculateTotals();
       let obj = {
         name: dm['customer'],
         phone: dm['customer_phone']
@@ -143,9 +213,8 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       this.filteredSuggestions = [this.walkInCustomer, ...(Array.isArray(obj) ? obj : [obj])];
       this.tempCustomerName = this.filteredSuggestions.find((x) => x.name == dm['customer'])?.name;
       this.tempCustomerPhone = this.filteredSuggestions.find((x) => x.phone == dm['customer_phone'])?.phone;
-
-      this.orderService.customer_name = dm['customer'];
-      this.orderService.customer_phone = dm['customer_phone'];
+      this.orderService.customer_name = this.getName(this.tempCustomerName);
+      this.orderService.customer_phone = this.getPhone(this.tempCustomerPhone);
       this.orderService.customer_address = dm['delivery_address'];
       this.orderService.orderType = dm['order_type'];
       this.orderService.order_notes = dm['notes'];
@@ -153,6 +222,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       this.orderService.discountAmount = dm['discount_value'];
       this.orderService.final_total = dm['final_total'];
       this.orderService.totalCost = dm['total_price'];
+      this.orderService.subtotal = dm['total_price'];
       this.orderService.selectedTableId = dm['table_id'];
       let order_number = dm['order_number'];
       localStorage.setItem('order_id', order_number);
@@ -161,7 +231,13 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       this.tempCustomerName = dm['customer'];
       this.tempCustomerPhone = dm['customer_phone'];
       this.orderService.taxAmount = dm['tax_amount'];
+      this.orderService.tips = dm['tips'];
+      this.orderService.tipsAmount = dm['tips_amount'];
+      this.orderService.deliveryCharges = dm['delivery_charges'];
       // this.orderService.updateProductInSelectedProducts(this.orderService.selected_products);
+      await this.orderService.totalOfProductCost();
+      await this.orderService.recalculateTotals();
+      // Ensure all totals are recalculated after loading order for edit
 
       if (res) {
       }
@@ -195,6 +271,32 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     this.showEdit = false;
     this.orderService.isCouponApplied = false;
   }
+  getUnitPrice(item: any): number {
+    let base = parseFloat(item?.product_price ?? item?.price ?? 0);
+
+    // Add variation prices (radio + checkbox)
+    if (item.variation && Array.isArray(item.variation)) {
+      item.variation.forEach((v: any) => {
+        if (v.selectedOption?.price) {
+          base += parseFloat(v.selectedOption.price);
+        }
+        if (v.options && Array.isArray(v.options)) {
+          v.options.forEach((o: any) => {
+            if (o.selected && o.price) {
+              base += parseFloat(o.price);
+            }
+          });
+        }
+      });
+    }
+
+    return base;
+  }
+
+  getTotalPrice(item: any): number {
+    const unit = this.getUnitPrice(item);
+    return unit * (item?.quantity ?? 0);
+  }
 
   async onSubmit($event: Event) {
     $event.preventDefault();
@@ -208,7 +310,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       confirmMessage, // title
       'Not Yet, Thanks', // cancel button
       'Everything Looks Good?', // short question
-      `Hit “${confirmButton}” to confirm and we’ll get started!` // detailed prompt
+      `Hit "${confirmButton}" to confirm and we'll get started!` // detailed prompt
     );
 
     if (!createConfirmed) {
@@ -246,17 +348,18 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
         console.log('Order update response:', res);
       } else {
         res = await this.orderService.submitOrder();
+        console.log('Order creation response:', res);
       }
       if (!res) {
         return;
       }
 
-      let ord_id = localStorage.getItem('order_id');
+      this.order_id = localStorage.getItem('order_id');
       // 4) Second confirmation: print the bill?
       const printConfirmed = await this.utilityService.presentConfirm(
         'Yes, Print',
         'No, Thanks',
-        `${ord_id}!`,
+        `${this.order_id}!`,
         `Order ${isEditMode ? 'Updated' : 'Created'}! Would you like to print the bill now?`
       );
 
@@ -270,8 +373,8 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       // 5) Clear the form fields and local storage regardless of print confirmation
       localStorage.removeItem('order_id');
       this.tempCustomerAddress = '';
-      this.tempCustomerName = '';
-      this.tempCustomerPhone = '';
+      //  this.tempCustomerName = 'Walk-in Customer';
+      //this.tempCustomerPhone = '0000000000';
       this.orderService.resetField();
     } catch (error) {
       console.error('Error submitting order:', error);
@@ -281,6 +384,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
 
   onTypeChange(event: any): void {
     console.log('Selected Type:', this.selectedType);
+    this.orderService.recalculateTotals();
     // Perform additional logic here (like sending it to the backend)
   }
 
@@ -297,54 +401,27 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     this.orderService.searchProducts(v);
   }
 
+
   printSlip() {
+
     const section = document.getElementById('print-section');
-    if (!section) {
-      console.error('Print section not found.');
-      return;
-    }
-
-    // 1. Grab the _rendered_ HTML (with actual names, prices, looped rows)
-    const html = section.innerHTML;
-
-    // 2. Open a new window
-    const printWindow = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
-    if (!printWindow) {
-      console.error('Unable to open print window.');
-      return;
-    }
-
-    // 3. Write a minimal HTML document around that rendered content
-    printWindow.document.open();
-    printWindow.document.write(`
-      <html>
-        <head>
-          <title>Print Receipt</title>
-          <style>
-            /* bring in any print‑only styles here */
-            body { font-family: Arial, sans-serif; font-size: 12px; margin:0; padding: 8px; }
-            .bill-slip { border: 1px dashed #000; padding: 8px; }
-            .bill-header, .customer-info, .order-details, .bill-footer {
-              margin-bottom: 10px;
-            }
-            table { width: 100%; border-collapse: collapse; }
-            th, td { text-align: left; padding: 2px 4px; }
-            th { border-bottom: 1px solid #000; }
-          </style>
-        </head>
-        <body>
-          <div class="bill-slip">
-            ${html}
-          </div>
-        </body>
-      </html>
-    `);
-    printWindow.document.close();
-
-    // 4. Print & close
-    printWindow.focus();
-    printWindow.print();
-    printWindow.close();
+    if (!section) { console.error('Print section not found.'); return; }
+    const oldDisplay = section.style.display;
+    section.style.display = 'block';
+    const opt = {
+      margin: 0,
+      filename: 'Invoice-' + '.pdf',
+      image: { type: 'jpeg', quality: 1 },
+      html2canvas: { scale: 2, useCORS: true, allowTaint: true },
+      jsPDF: { unit: 'mm', format: [this.size, 600], orientation: 'portrait' }
+    };
+    html2pdf().set(opt).from(section).toPdf().get('pdf').then(function (pdf) {
+      window.open(pdf.output('bloburl'), '_blank');
+      section.style.display = oldDisplay;
+    }).catch(function (err) {
+      console.error('PDF generation error:', err);
+      section.style.display = oldDisplay;
+    });
   }
 
   async getRestaurants(): Promise<void> {
@@ -355,7 +432,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     };
 
     const res = await this.network.getRestaurants(obj);
-
+    console.log(res)
     if (res && res['data']) {
       let d = res['data'];
       let dm = d['data'];
@@ -425,8 +502,8 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   onCustomerFieldChange() {
     // Assign values to orderService when both fields are filled
     if (this.tempCustomerName && this.tempCustomerPhone) {
-      this.orderService.customer_name = typeof this.tempCustomerName === 'string' ? this.tempCustomerName : this.tempCustomerName.name;
-      this.orderService.customer_phone = typeof this.tempCustomerPhone === 'string' ? this.tempCustomerPhone : this.tempCustomerPhone.phone;
+      this.orderService.customer_name = this.getName(this.tempCustomerName);
+      this.orderService.customer_phone = this.getPhone(this.tempCustomerPhone);
     }
   }
 
@@ -451,8 +528,8 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       this.tempCustomerPhone = event?.phone ? event?.phone : this.tempCustomerPhone;
       this.tempCustomerAddress = event?.address ? event?.address : this.tempCustomerAddress;
 
-      this.orderService.customer_name = this.tempCustomerName;
-      this.orderService.customer_phone = this.tempCustomerPhone;
+      this.orderService.customer_name = this.getName(this.tempCustomerName);
+      this.orderService.customer_phone = this.getPhone(this.tempCustomerPhone);
       this.orderService.customer_address = this.tempCustomerAddress;
     } else {
       // Handle manual input
@@ -467,8 +544,8 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       this.tempCustomerName = event?.name ? event?.name : this.tempCustomerName;
       this.tempCustomerPhone = event.phone;
       this.tempCustomerAddress = event?.address ? event?.address : this.tempCustomerAddress;
-      this.orderService.customer_name = this.tempCustomerName;
-      this.orderService.customer_phone = this.tempCustomerPhone;
+      this.orderService.customer_name = this.getName(this.tempCustomerName);
+      this.orderService.customer_phone = this.getPhone(this.tempCustomerPhone);
       this.orderService.customer_address = this.tempCustomerAddress;
     } else {
       // Handle manual input
@@ -476,14 +553,14 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     }
     // this.onCustomerFieldChange();
   }
-  onInputChangeAddress(event: any) {}
+  onInputChangeAddress(event: any) { }
   onCustomerAddressSelected(event: any) {
     if (event && typeof event === 'object') {
       // Autofill name if selected from suggestions
       this.tempCustomerName = event?.name ? event?.name : this.tempCustomerName;
       this.tempCustomerPhone = event.phone;
-      this.orderService.customer_name = this.tempCustomerName;
-      this.orderService.customer_phone = this.tempCustomerPhone;
+      this.orderService.customer_name = this.getName(this.tempCustomerName);
+      this.orderService.customer_phone = this.getPhone(this.tempCustomerPhone);
     } else {
       // Handle manual input
       this.tempCustomerPhone = event;
@@ -509,5 +586,43 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       }
     });
     console.log('Coupon applied:', res);
+  }
+
+  applyTips() {
+    const tipsValue = Number(this.orderService.tips);
+
+    if (tipsValue < 0) {
+      this.utilityService.presentFailureToast('Tips amount cannot be negative');
+      return;
+    }
+
+    if (isNaN(tipsValue)) {
+      this.utilityService.presentFailureToast('Please enter a valid tips amount');
+      return;
+    }
+
+    this.orderService.tips = tipsValue;
+    this.orderService.recalculateTotals();
+    this.utilityService.presentSuccessToast('Tips applied successfully');
+  }
+
+  // Helper to get name as string
+  private getName(val: string | { name: string }): string {
+    return typeof val === 'string' ? val : val.name;
+  }
+  // Helper to get phone as string
+  private getPhone(val: string | { phone: string }): string {
+    return typeof val === 'string' ? val : val.phone;
+  }
+
+  async getBase64FromUrl(url: string): Promise<string> {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
   }
 }

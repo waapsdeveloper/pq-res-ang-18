@@ -5,8 +5,9 @@
       <!-- Back Button -->
 
       <!-- Existing Categories Section -->
-      <div class="d-flex flex-wrap justify-content-start align-items-center gap-3">
-        <div class="d-flex align-items-center">
+      <div class="d-flex flex-wrap justify-content-start align-items-center gap-3 "
+        style="width: 100%; overflow-x: auto; ">
+        <div class="d-flex align-items-center  mobile-menu ">
           <button class="btn btn-light d-flex align-items-center gap-2" (click)="goBack()">
             <i class="ti ti-arrow-left"></i>
             <span>Back</span>
@@ -23,7 +24,8 @@
   <!-- Sidebar Section -->
   <div class="bn-sidebar-right">
     <!-- Tab Switcher -->
-    <div class="d-flex flex-wrap justify-content-start align-items-center gap-2 sticky-top" style="padding: 8px">
+    <div class="tab-switcher-navbar d-flex flex-wrap justify-content-start align-items-center gap-2 sticky-top"
+      style="padding: 8px">
       <div class="tab-item" *ngFor="let tab of tabs" [class.active]="tab.active" (click)="setActiveTab(tab.name)">
         <a class="nav-link d-flex align-items-center justify-content-center gap-2">
           <i [class]="tab.icon"></i>
@@ -51,18 +53,9 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <label for="customer_name" class="col-form-label">Customer Name</label>
-                    <ng-select
-                      [items]="filteredSuggestions"
-                      bindLabel="name"
-                      placeholder="Customer Name"
-                      [(ngModel)]="tempCustomerName"
-                      name="customerName"
-                      [searchable]="true"
-                      [clearable]="true"
-                      [addTag]="true"
-                      (search)="onInputChange($event.term)"
-                      (change)="onCustomerNameSelected($event)"
-                    >
+                    <ng-select [items]="filteredSuggestions" bindLabel="name" placeholder="Customer Name"
+                      [(ngModel)]="tempCustomerName" name="customerName" [searchable]="true" [clearable]="true"
+                      [addTag]="true" (search)="onInputChange($event.term)" (change)="onCustomerNameSelected($event)">
                       <ng-template ng-label-tmp let-item="item">{{ item.name }}</ng-template>
                       <ng-template ng-option-tmp let-item="item">{{ item.name }} - {{ item.phone }}</ng-template>
                     </ng-select>
@@ -72,18 +65,10 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <label for="customer_phone" class="col-form-label">Customer Phone</label>
-                    <ng-select
-                      [items]="filteredSuggestions"
-                      bindLabel="phone"
-                      placeholder="Customer Phone"
-                      [(ngModel)]="tempCustomerPhone"
-                      name="customerPhone"
-                      [searchable]="true"
-                      [clearable]="true"
-                      [addTag]="true"
-                      (search)="onInputChangePhone($event.term)"
-                      (change)="onCustomerPhoneSelected($event)"
-                    >
+                    <ng-select [items]="filteredSuggestions" bindLabel="phone" placeholder="Customer Phone"
+                      [(ngModel)]="tempCustomerPhone" name="customerPhone" [searchable]="true" [clearable]="true"
+                      [addTag]="true" (search)="onInputChangePhone($event.term)"
+                      (change)="onCustomerPhoneSelected($event)">
                       <ng-template ng-label-tmp let-item="item">{{ item.phone }}</ng-template>
                       <ng-template ng-option-tmp let-item="item">{{ item.phone }} - {{ item.name }}</ng-template>
                     </ng-select>
@@ -93,14 +78,8 @@
                 <div class="col-md-12" *ngIf="orderService.orderType == 'delivery'">
                   <div class="form-group">
                     <label for="customer_address" class="col-form-label">Customer Address</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="customer_address"
-                      name="customer_address"
-                      [(ngModel)]="orderService.customer_address"
-                      placeholder="Enter customer address"
-                    />
+                    <input type="text" class="form-control" id="customer_address" name="customer_address"
+                      [(ngModel)]="orderService.customer_address" placeholder="Enter customer address" />
                   </div>
                 </div>
               </div>
@@ -109,7 +88,8 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label class="col-form-label">Order Type</label>
-                    <select class="form-control" [(ngModel)]="orderService.orderType" name="orderType" (change)="onTypeChange($event)">
+                    <select class="form-control" [(ngModel)]="orderService.orderType" name="orderType"
+                      (change)="onTypeChange($event)">
                       <option value="" disabled selected>Order Type</option>
                       <option value="drive-thru">Drive-Thru</option>
                       <option value="dine-in">Dine-In</option>
@@ -151,27 +131,19 @@
           <div class="card-body">
             <div class="form-group">
               <label for="notes" class="col-form-label">Order Notes</label>
-              <textarea
-                [(ngModel)]="orderService.order_notes"
-                name="orderNotes"
-                class="form-control sqaure form-control-sm"
-                rows="3"
-                placeholder="Add a note..."
-              ></textarea>
+              <textarea [(ngModel)]="orderService.order_notes" name="orderNotes"
+                class="form-control sqaure form-control-sm" rows="3" placeholder="Add a note..."></textarea>
             </div>
           </div>
         </div>
       </div>
-      <div class="card sticky-order-summary bg-white mt-2" style="position: sticky; bottom: 0; z-index: 10; box-shadow: unset">
+      <div class="card sticky-order-summary bg-white mt-2"
+        style="position: sticky; bottom: 0; z-index: 10; box-shadow: unset">
         <div class="card-body">
           <!-- Coupon Toggle Link -->
           <div class="mb-2">
-            <a
-              href="#"
-              (click)="showCoupon = !showCoupon; $event.preventDefault()"
-              class="text-primary text-decoration-underline small"
-              style="cursor: pointer"
-            >
+            <a href="#" (click)="showCoupon = !showCoupon; $event.preventDefault()"
+              class="text-primary text-decoration-underline small" style="cursor: pointer">
               {{ showCoupon ? 'Hide Coupon' : 'Have a coupon?' }}
             </a>
           </div>
@@ -181,21 +153,36 @@
             <div class="form-group mb-2">
               <label for="code" class="col-form-label small">Coupon Code</label>
               <div class="input-group input-group-sm">
-                <input
-                  type="text"
-                  [(ngModel)]="orderService.couponCode"
-                  name="couponCode"
-                  class="form-control"
-                  placeholder="Enter Coupon"
-                  [disabled]="orderService.isCouponApplied"
-                />
+                <input type="text" [(ngModel)]="orderService.couponCode" name="couponCode" class="form-control"
+                  placeholder="Enter Coupon" [disabled]="orderService.isCouponApplied" />
                 <div class="input-group-append apply-coupon-container">
-                  <button
-                    type="button"
-                    class="btn btn-sm apply-coupon-btn"
-                    (click)="applyCoupon()"
-                    style="background-color: #e0301e; color: white"
-                  >
+                  <button type="button" class="btn btn-sm apply-coupon-btn" (click)="applyCoupon()"
+                    style="background-color: #e0301e; color: white">
+                    Apply
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <!-- Tips Toggle Link -->
+          <div class="mb-2">
+            <a href="#" (click)="showTips = !showTips; $event.preventDefault()"
+              class="text-primary text-decoration-underline small" style="cursor: pointer">
+              {{ showTips ? 'Hide Tips' : 'Want to add a tip?' }}
+            </a>
+          </div>
+
+          <!-- Tips Input Form -->
+          <form *ngIf="showTips">
+            <div class="form-group mb-2">
+              <label for="tips" class="col-form-label small">Tips Amount</label>
+              <div class="input-group input-group-sm">
+                <input type="number" [(ngModel)]="orderService.tips" name="tips" class="form-control"
+                  placeholder="Enter Tips Amount" min="0" step="0.01" />
+                <div class="input-group-append apply-tips-container">
+                  <button type="button" class="btn btn-sm apply-tips-btn" (click)="applyTips()"
+                    style="background-color: #e0301e; color: white">
                     Apply
                   </button>
                 </div>
@@ -206,32 +193,34 @@
           <!-- Totals -->
           <div class="d-flex justify-content-between mb-2">
             <span class="text-muted">Subtotal:</span>
-            <span class="fw-semibold">
-              {{ this.currencyService.currency_symbol }} {{ orderService.totalCost - orderService.taxAmount | number: '1.2-2' }}
-            </span>
-          </div>
-          <div class="d-flex justify-content-between mb-2">
-            <span class="text-muted">Tax:</span>
-            <span class="fw-semibold">{{ orderService.taxPercent | number: '1.2-2' }}%</span>
-          </div>
-          <div class="d-flex justify-content-between mb-2">
-            <span class="text-muted">Tax Amount:</span>
-            <span class="fw-semibold">{{ this.currencyService.currency_symbol }} {{ orderService.taxAmount | number: '1.2-2' }}</span>
+            <span class="fw-semibold">{{ this.currencySymbol }} {{ orderService.subtotal | number: '1.2-2' }}</span>
           </div>
           <div class="d-flex justify-content-between mb-2">
             <span class="text-muted">Discount:</span>
-            <span class="fw-semibold">{{ this.currencyService.currency_symbol }} {{ orderService.discountAmount | number: '1.2-2' }}</span>
+            <span class="fw-semibold">{{ this.currencySymbol }} {{ orderService.discountAmount | number: '1.2-2'
+              }}</span>
           </div>
-
+          <div class="d-flex justify-content-between mb-2">
+            <span class="text-muted">Tax ({{ orderService.taxPercent | number: '1.2-2' }}%):</span>
+            <span class="fw-semibold">{{ this.currencySymbol }} {{ orderService.taxAmount | number: '1.2-2' }}</span>
+          </div>
+          <div *ngIf="orderService.orderType === 'delivery'" class="d-flex justify-content-between mb-2">
+            <span class="text-muted">Delivery Charges:</span>
+            <span class="fw-semibold">{{ this.currencySymbol }} {{ orderService.deliveryCharges | number: '1.2-2'
+              }}</span>
+          </div>
+          <div class="d-flex justify-content-between mb-2">
+            <span class="text-muted">Tips:</span>
+            <span class="fw-semibold">{{ this.currencySymbol }} {{ orderService.tipsAmount | number: '1.2-2' }}</span>
+          </div>
           <div class="d-flex justify-content-between mb-3">
             <strong>Total:</strong>
-            <strong>
-              {{ this.currencyService.currency_symbol }} {{ orderService.totalCost - orderService.discountAmount | number: '1.2-2' }}
-            </strong>
+            <strong>{{ this.currencySymbol }} {{ orderService.final_total | number: '1.2-2' }}</strong>
           </div>
           <!-- Submit Button -->
           <div class="d-flex justify-content-end w-100">
-            <button *ngIf="orderService.selected_products?.length > 0" class="w-100 btn btn-primary" (click)="onSubmit($event)">
+            <button *ngIf="orderService.selected_products?.length > 0" class="w-100 btn btn-primary"
+              (click)="onSubmit($event)">
               Place Order
             </button>
           </div>
@@ -243,66 +232,136 @@
   </div>
 </div>
 
-<div id="print-section" class="print-section" style="font-family: Arial, sans-serif; font-size: 12px; width: 240px; margin: auto">
-  <div class="bill-slip">
-    <div class="bill-header" style="text-align: center; border-bottom: 1px dashed #000; padding-bottom: 8px">
-      <h2 style="margin: 0; font-size: 16px">{{ restaurant?.name }}</h2>
-      <p style="margin: 0">{{ restaurant?.address }}</p>
-      <p style="margin: 0">{{ restaurant?.phone }}</p>
-    </div>
+<div id="print-section" [ngStyle]="{
+    'padding-left': marginleft + 'mm',
+    'padding-right': marginright + 'mm',
+    'width': size + 'mm',
+    'font-size': fontSize + 'px'
+  }" style="font-family: Arial, sans-serif; margin: 0; font-weight: 900; color: #000;">
 
-    <div class="customer-info" style="padding: 8px 0; border-bottom: 1px dashed #000">
-      <p style="margin: 0">
-        <strong>Name:</strong>
-        {{ orderService?.customer_name }}
-      </p>
-      <p style="margin: 0">
-        <strong>Phone:</strong>
-        {{ orderService?.customer_phone }}
-      </p>
-      <p style="margin: 0">
-        <strong>Order Type:</strong>
-        {{ orderService?.orderType }}
-      </p>
-    </div>
+  <!-- Logo -->
+  <div style="text-align: center; margin-bottom: 10px; font-weight: 900;">
+    <img *ngIf="logoBase64" [src]="logoBase64" style="width:100px; height:auto; display:block; margin:0 auto;"
+      alt="Logo">
+    <h2 style="font-size: 14px; margin: 5px 0; font-weight: 900;">{{order_id}}</h2>
+    <div style="font-size: 10px; font-weight: 900;">Order No</div>
+  </div>
 
-    <div class="order-details" style="padding: 8px 0; border-bottom: 1px dashed #000">
-      <p style="margin: 0"><strong>Order Details:</strong></p>
-      <table style="width: 100%; font-size: 12px; border-collapse: collapse">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Item</th>
-            <th>Price</th>
-            <th>Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of orderService.selected_products; let i = index">
-            <td>{{ i + 1 }}</td>
-            <td>
-              {{ item?.product_name ? item?.product_name : item?.name }} x {{ item.quantity }}
-              <br />
-              <small *ngFor="let variation of item.variation">
-                <span *ngFor="let option of variation.options" [hidden]="!(option.selected == true)">
-                  {{ option.selected }} {{ option.name }} ({{ option.price | currency }})
-                  <br />
-                </span>
-              </small>
-            </td>
-            <td>{{ item?.product_price ? item?.product_price : (item?.price | currency) }}</td>
-            <td>{{ item.quantity * item.price | currency }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <!-- Company Info -->
+  <div style="text-align: center; font-size: 10px; line-height: 1.4; font-weight: 900;">
+    <strong>{{restaurant?.name}}</strong><br>
+     {{address}}<br>
+    {{restaurant?.phone}}<br>
+  </div>
 
-    <div class="bill-footer" style="padding: 8px 0; text-align: center">
-      <p style="margin: 0; font-size: 14px">
-        <strong>Total:</strong>
-        {{ this.currencyService.currency_symbol }} {{ orderService.totalCost | currency }}
-      </p>
-      <p style="margin: 0; font-style: italic">Thank you for your order!</p>
-    </div>
+  <hr style="border-top: 2px dashed #000; margin: 8px 0;">
+
+  <!-- Billing Info -->
+  <div style="text-align: center; line-height: 1.4; font-weight: 900;">
+    <strong>Bill to:</strong> {{tempCustomerName}} ({{ tempCustomerPhone | maskPhone }})<br>
+    {{tempCustomerAddress}}
+  </div>
+
+  <!-- Product Table -->
+  <table
+    style="width: 100%; border-collapse: collapse; margin-top: 5px; table-layout: fixed; font-weight: 900; color: #000;">
+    <colgroup>
+      <col style="width: 43%;">
+      <col style="width: 20%;">
+      <col style="width: 13%;">
+      <col style="width: 24%;">
+    </colgroup>
+
+    <thead>
+      <tr style="background: #fff; color: #000; font-weight: 900;">
+        <th style="padding: 6px; text-align: left; border: 0.3px solid #aaa; font-weight: 900;">Menu</th>
+        <th style="padding: 6px; text-align: right; border: 0.3px solid #aaa; font-weight: 900;">Price</th>
+        <th style="padding: 6px; text-align: center; border: 0.3px solid #aaa; font-weight: 900;">Qty</th>
+        <th style="padding: 6px; text-align: right; border: 0.3px solid #aaa; font-weight: 900;">Total</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let item of orderService.printProducts; let i = index" style="background: #fff; font-weight: 900;">
+        <td style="padding: 2px 3px; border: 0.3px solid #aaa; word-wrap: break-word; font-weight: 900;">
+          {{ item?.product_name ? item?.product_name : item?.name }}
+          <br>
+          <span>({{item?.category}})</span>
+          <span *ngIf="item.variation?.length">
+            <br />
+            <small *ngFor="let variation of item.variation">
+              <span *ngIf="variation.selectedOption" class="bold">
+                {{ variation.selectedOption.name }}
+                ({{ currencySymbol }}{{ variation.selectedOption.price | number:'1.2-2' }})<br />
+              </span>
+
+              <span *ngFor="let option of variation.options" class="bold" [hidden]="!option.selected">
+                {{ option.name }}
+                ({{ currencySymbol }}{{ option.price | number:'1.2-2' }})<br />
+              </span>
+            </small>
+          </span>
+        </td>
+
+        <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa; font-weight: 900;">
+          {{ getUnitPrice(item) | number:'1.2-2' }}
+        </td>
+
+        <td style="padding: 2px 3px; text-align: center; border: 0.3px solid #aaa; font-weight: 900;">
+          {{ item.quantity }}
+        </td>
+
+        <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa; font-weight: 900;">
+          {{ getTotalPrice(item) | number:'1.2-2' }}
+        </td>
+      </tr>
+    </tbody>
+
+    <tfoot style="font-weight: 900;">
+      <tr>
+        <td colspan="3" style="padding: 6px; text-align: left; border: 0.3px solid #aaa;">Subtotal</td>
+        <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa;">
+          {{ orderService.orderSummary.subtotal | number:'1.2-2' }}
+        </td>
+      </tr>
+
+      <tr *ngIf="orderService.orderSummary.tax > 0">
+        <td colspan="3" style="padding: 6px; text-align: left; border: 0.3px solid #aaa;">Tax</td>
+        <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa;">
+          {{ orderService.orderSummary.tax | number:'1.2-2' }}
+        </td>
+      </tr>
+
+      <tr *ngIf="orderService.orderSummary.discount > 0">
+        <td colspan="3" style="padding: 6px; text-align: left; border: 0.3px solid #aaa;">Discount</td>
+        <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa;">
+          {{ orderService.orderSummary.discount | number:'1.2-2' }}
+        </td>
+      </tr>
+
+      <tr *ngIf="orderService.orderSummary.tips > 0">
+        <td colspan="3" style="padding: 6px; text-align: left; border: 0.3px solid #aaa;">Tips</td>
+        <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa;">
+          {{ orderService.orderSummary.tips | number:'1.2-2' }}
+        </td>
+      </tr>
+
+      <tr style="border-top: 1px solid #000; background: #fff;">
+        <td colspan="3" style="padding: 6px; text-align: left; border: 0.3px solid #aaa;">Total</td>
+        <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa;">
+          {{ currencySymbol }}{{ orderService.orderSummary.total | number:'1.2-2' }}
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <!-- Footer -->
+  <div style="margin-top: 8px; text-align: center; line-height: 1.4; font-weight: 900;">
+    {{footertext}}
+  </div>
+
+  <!-- Date -->
+  <div style="margin-top: 8px; text-align: center; font-weight: 900;">
+    Date: {{ today | date:'dd MMMM, yyyy' }}
   </div>
 </div>

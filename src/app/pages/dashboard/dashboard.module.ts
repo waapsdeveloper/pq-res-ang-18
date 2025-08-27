@@ -22,22 +22,19 @@ import { ApexCustomerChartModule } from './component/apex-customer-chart/apex-cu
 import { FavouriteTableModule } from './component/favourite-table/favourite-table.module';
 import { SalesChartModule } from './component/sales-chart/sales-chart.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { ListOrderPaymentStatusModule } from "src/app/pages/orders/list-orders/list-order-payment-status/list-order-payment-status.module";
+import { ListOrderPrintslipModule } from '../orders/list-orders/list-order-printslip/list-order-printslip.module';
 @NgModule({
-  declarations: [DashboardComponent, RecentOrderComponent, ],
+  declarations: [DashboardComponent, RecentOrderComponent],
   imports: [
     CommonModule,
     DashboardRoutingModule,
     SharedModule,
-
-
-
-
     // APEX CHART
     ApexSalesChartModule,
     ApexTopSalesChartModule,
     ApexCustomerChartModule,
     // APEX CHART
-
     BajajChartComponent,
     BarChartComponent,
     ChartDataMonthComponent,
@@ -49,8 +46,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     FavouriteTableModule,
     SalesChartModule,
     NgApexchartsModule,
-
-
-  ]
+    ListOrderPaymentStatusModule,
+    ListOrderPrintslipModule
+]
 })
 export class DashboardModule {}

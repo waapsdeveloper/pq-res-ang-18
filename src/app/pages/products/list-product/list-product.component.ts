@@ -10,6 +10,8 @@ import { UtilityService } from 'src/app/services/utility.service';
 import { ActivatedRoute } from '@angular/router';
 import { EventsService } from 'src/app/services/events.service';
 import { CurrencyService } from 'src/app/services/currency.service';
+import { GlobalDataService } from 'src/app/services/global-data.service';
+import { PermissionService } from 'src/app/services/permission.service';
 
 @Component({
   selector: 'app-list-product',
@@ -22,6 +24,12 @@ export class ListProductComponent extends ListBlade {
   title = 'Products';
   showEdit = false;
   addurl = '/pages/products/add';
+  canDelete;
+  canView;
+  canEdit;
+  currency = 'USD';
+  currencySymbol = '$';
+
   override model = {
     name: '',
     category: '',
@@ -45,6 +53,7 @@ export class ListProductComponent extends ListBlade {
       discount: null,
       notes: ''
     };
+    this.crudService.resetFilters(this.model);
   }
 
   fields: FormlyFieldConfig[] = [
@@ -63,14 +72,16 @@ export class ListProductComponent extends ListBlade {
           className: 'col-md-2 col-12'
         },
         {
-          key: 'category',
-          type: 'input',
+          key: 'category_id',
+          type: 'select',
           props: {
             label: 'Category',
-            placeholder: 'Enter category',
-            required: true
+            required: true,
+            multiple: false,
+            placeholder: 'Select a category',
+            options: []
           },
-          className: 'col-md-2 col-12'
+          className: 'formly-select-wrapper-3232 col-12 col-lg-2'
         },
         {
           key: 'restaurant_id',
@@ -158,7 +169,7 @@ export class ListProductComponent extends ListBlade {
     }
   ];
 
-  columns: any[] = ['Name', 'Category', 'Price', 'Type', 'Orders', 'Discount', 'Status'];
+  columns: any[] = ['Name',  'Price', 'Discount','Category', 'Status'];
 
   category_id;
 
@@ -172,11 +183,25 @@ export class ListProductComponent extends ListBlade {
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
     public events: EventsService,
-    public currencyService: CurrencyService
+    public currencyService: CurrencyService,
+    private globalData: GlobalDataService,
+    private permissionService: PermissionService
   ) {
     super(injector, crudService);
 
     this.initialize();
+    this.canDelete = this.permissionService.hasPermission('product' + '.delete');
+    this.canView = this.permissionService.hasPermission('product.view');
+    this.canEdit = this.permissionService.hasPermission('product.edit');
+    this.globalData.getCurrency().subscribe((currency) => {
+      this.currency = currency;
+      console.log('Currency updated:', this.currency);
+    });
+
+    this.globalData.getCurrencySymbol().subscribe((symbol) => {
+      this.currencySymbol = symbol;
+      console.log('Currency Symbol updated:', this.currencySymbol);
+    });
   }
 
   onPageSizeChange(event: any): void {
@@ -215,6 +240,42 @@ export class ListProductComponent extends ListBlade {
   }
   ngOnInit(): void {
     this.setRestaurantsInForm();
+    this.setCategoriesInForm();
+  }
+  async setCategoriesInForm() {
+    const res = await this.getCategories();
+    console.log(res);
+
+    for (var i = 0; i < this.fields.length; i++) {
+      for (var j = 0; j < this.fields[i].fieldGroup.length; j++) {
+        let fl = this.fields[i].fieldGroup[j];
+        if (fl.key == 'category_id') {
+          fl.props.options = res;
+        }
+      }
+    }
+  }
+  async getCategories(): Promise<any[]> {
+    let obj = {
+      search: '',
+      perpage: 500,
+
+      restaurant_id: localStorage.getItem('restaurant_id') ? localStorage.getItem('restaurant_id') : -1
+    };
+    const res = await this.network.getCategories(obj);
+
+    if (res && res['data']) {
+      let d = res['data'];
+      let dm = d['data'];
+      return dm.map((r) => {
+        return {
+          value: r.id,
+          label: r.name
+        };
+      }) as any[];
+    }
+
+    return [];
   }
 
   async getRestaurants(): Promise<any[]> {
@@ -254,10 +315,13 @@ export class ListProductComponent extends ListBlade {
   editRow(index: number) {}
 
   async deleteRow(index: number) {
+    if (!this.canDelete) {
+      alert('You do not have permission to delete.');
+      return;
+    }
     try {
       await this.crudService.deleteRow(index, this.utility);
       this.utility.presentSuccessToast('Deleted Sucessfully!');
-
       console.log('Row deleted successfully');
     } catch (error) {
       console.error('Error deleting row:', error);

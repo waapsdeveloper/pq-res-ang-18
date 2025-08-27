@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Injector } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Injector, OnInit, Output, ViewChild } from '@angular/core';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { UsersService } from 'src/app/services/users.service';
@@ -9,14 +9,23 @@ import { UtilityService } from 'src/app/services/utility.service';
 import { OrderService } from '../orders.service';
 import { EventsService } from 'src/app/services/events.service';
 import { CurrencyService } from 'src/app/services/currency.service';
+import { GlobalDataService } from 'src/app/services/global-data.service';
+import { ActivatedRoute } from '@angular/router';
+import { PermissionService } from 'src/app/services/permission.service';
+import { ListOrderPrintslipComponent } from './list-order-printslip/list-order-printslip.component';
 
 @Component({
   selector: 'app-list-orders',
   templateUrl: './list-orders.component.html',
   styleUrl: './list-orders.component.scss'
 })
-export class ListOrdersComponent extends ListBlade {
+export class ListOrdersComponent extends ListBlade implements OnInit {
+  @Output() onPrint = new EventEmitter<void>();
+  isDeleted = false;
   showDeleteAllButton = false;
+  canDelete;
+  paymentStatus;
+  orderStatus;
   title = 'Orders';
   addurl = '/pages/orders/add';
   showEdit: boolean = false;
@@ -24,23 +33,25 @@ export class ListOrdersComponent extends ListBlade {
   discountAmount: number = 0;
   subTotal: number = 0;
   totalAmount: number = 0;
+  currency = 'USD';
+  currencySymbol = '$';
 
   columns: any[] = [
     'Order Id',
     'Customer',
+    'Status',
     'Type',
+    'Source',
+    'Paid',
     'Subtotal',
     'Tax',
     'Discount',
+    'Tips',
     'Total',
-    'Address',
-    'Notes',
-    'Table No',
-    'Paid',
-    'Status',
     'Created',
     'Updated'
   ];
+
   statuses = ['pending', 'confirmed', 'preparing', 'ready_for_pickup', 'out_for_delivery', 'delivered', 'completed', 'cancelled'];
   selectedStatus = '';
   override model = {
@@ -56,6 +67,8 @@ export class ListOrdersComponent extends ListBlade {
     status: '',
     is_paid: ''
   };
+  canView: boolean;
+  canEdit: boolean;
   resetFilters() {
     this.model = {
       order_id: '',
@@ -70,6 +83,7 @@ export class ListOrdersComponent extends ListBlade {
       status: '',
       is_paid: ''
     };
+    this.crudService.resetFilters(this.model);;
   }
 
   fields: FormlyFieldConfig[] = [
@@ -224,7 +238,12 @@ export class ListOrdersComponent extends ListBlade {
       ]
     }
   ];
-  currency: string;
+  @ViewChild(ListOrderPrintslipComponent) printSlipComponent!: ListOrderPrintslipComponent;
+
+  triggerPrint(item) {
+    this.printSlipComponent.printSlip(item);
+  }
+
   constructor(
     injector: Injector,
     public override crudService: OrderService,
@@ -234,10 +253,27 @@ export class ListOrdersComponent extends ListBlade {
     private network: NetworkService,
     private cdr: ChangeDetectorRef,
     public events: EventsService,
-    public currencyService: CurrencyService
+    public currencyService: CurrencyService,
+    private globalData: GlobalDataService,
+    private route: ActivatedRoute,
+    private permissionService: PermissionService
   ) {
     super(injector, crudService);
-    this.initialize();
+    // this.initialize();
+    this.globalData.getCurrency().subscribe((currency) => {
+      this.currency = currency;
+      console.log('Currency updated:', this.currency);
+    });
+
+    this.globalData.getCurrencySymbol().subscribe((symbol) => {
+      this.currencySymbol = symbol;
+      console.log('Currency Symbol updated:', this.currencySymbol);
+    });
+    this.canDelete = this.permissionService.hasPermission('order' + '.delete');
+    this.canView = this.permissionService.hasPermission('order' + '.view');
+    this.canEdit = this.permissionService.hasPermission('order' + '.edit');
+    this.paymentStatus = this.permissionService.hasPermission('order' + '.payment_status');
+    this.orderStatus = this.permissionService.hasPermission('order' + '.order_status');
   }
 
   async onDeleteAll($event: any) {
@@ -256,63 +292,87 @@ export class ListOrdersComponent extends ListBlade {
   }
 
   async initialize() {
+    this.crudService.list = [];
+
+    this.isDeleted = this.route.snapshot.data['isDeleted'] || false;
+    this.title = this.isDeleted ? 'Deleted Orders' : "Orders";
+
+    if (this.isDeleted) {
+      this.columns.push('Deleted At');
+    }
+
     this.currency = this.currencyService.currency_symbol;
-    let obj = {
-      search: ' '
-    };
-    const res = await this.network.getOrders(obj);
-    console.log(res);
 
-    if (res) {
-      this.taxAmount = res.total_tax.toFixed(2);
-      this.discountAmount = res.total_discount.toFixed(2);
-      this.subTotal = res.total_price.toFixed(2);
-      this.totalAmount = res.total_final_total.toFixed(2);
+    // 1. Load the list first (faster UI feedback)
+    if (!this.isDeleted) {
+      await this.crudService.getList('', 1);
+    } else {
+      await this.crudService.getDeletedList('', 1);
     }
-    this.crudService.getList('', 1);
+    this.taxAmount = this.crudService.amount.taxAmount;
+    this.discountAmount = this.crudService.amount.discountAmount;
+    this.subTotal = this.crudService.amount.subTotal;
+    this.totalAmount = this.crudService.amount.totalAmount;
 
+    // 3. Role-based UI
     const u = this.users.getUser();
-    if (u.role_id == 1 || u.role_id == 2) {
-      this.showEdit = true;
-    }
+    this.showEdit = (u.role_id == 1 || u.role_id == 2);
   }
 
-  async getList(search = '', page = 1): Promise<any> {
-    let obj = {
-      search: search,
-      page: page,
-      perpage: this.perpage
-    };
+  async ngOnInit() {
+    this.route.data.subscribe(data => {
+      this.isDeleted = data['isDeleted'] || false;
+      this.initialize();
+    });
 
-    const res = await this.network.getOrders(obj);
-    if (res.data) {
-      let d = res.data;
-      this.page = d.current_page;
-      this.lastPage = d.last_page;
-      this.total = d.total;
-
-      //      if (this.page == 1) {
-      this.list = d.data;
-      console.log(this.list);
-      // } else {
-      //   this.list = [...this.list, ...d.data];
-      // }
-    }
-
-    return res;
   }
+
+  // async getList(search = '', page = 1): Promise<any> {
+  //   let obj = {
+  //     search: search,
+  //     page: page,
+  //     perpage: this.perpage
+  //   };
+
+  //   const res = await this.network.getOrders(obj);
+  //   if (res.data) {
+  //     let d = res.data;
+  //     this.page = d.current_page;
+  //     this.lastPage = d.last_page;
+  //     this.total = d.total;
+
+  //     //      if (this.page == 1) {
+  //     this.list = d.data;
+  //     console.log(this.list);
+  //     // } else {
+  //     //   this.list = [...this.list, ...d.data];
+  //     // }
+  //   }
+
+  //   return res;
+  // }
   get orderTitleHighlightPart(): string {
-    // If your API attaches these totals to the list object, adjust as needed
-
-    return `(Tax: ${this.currency} ${this.taxAmount} | Discount: ${this.currency} ${this.discountAmount} | Subtotal: ${this.currency} ${this.subTotal} | Total: ${this.currency} ${this.totalAmount})`;
+    // More concise version for better mobile display
+    if (!this.isDeleted) {
+      return `(T: ${this.currencySymbol}${this.taxAmount} | D: ${this.currencySymbol}${this.discountAmount} | S: ${this.currencySymbol}${this.subTotal} | Total: ${this.currencySymbol}${this.totalAmount})`;
+    }
+    return '';
   }
-  editRow(index: number) {}
+  editRow(index: number) { }
 
   async deleteRow(index: number) {
+    if (!this.canDelete) {
+      alert('You do not have permission to delete.');
+      return;
+    }
+    if (this.isDeleted) {
+      await this.crudService.forceDeleteRow(index, this.utility);
+      this.utility.presentSuccessToast('Deleted Sucessfully!');
+      console.log('Row deleted Permanently successfully');
+    }
     try {
       await this.crudService.deleteRow(index, this.utility);
       this.utility.presentSuccessToast('Deleted Sucessfully!');
-
       console.log('Row deleted successfully');
     } catch (error) {
       console.error('Error deleting row:', error);
@@ -324,7 +384,7 @@ export class ListOrdersComponent extends ListBlade {
 
   loadMore() {
     if (this.page < this.lastPage) {
-      this.getList(this.search, this.page + 1);
+      this.crudService.getList(this.search, this.page + 1);
     }
   }
 
@@ -342,61 +402,13 @@ export class ListOrdersComponent extends ListBlade {
   }
 
   onChangePerPage($event) {
-    this.getList('', 1);
+    this.crudService.getList('', 1);
   }
   onPageSizeChange(event: any): void {
     console.log('Page size changed in ListOrdersComponent:', event);
     this.changePageSize(event); // Call the inherited method from ListBlade
   }
-  printSlip() {
-    const section = document.getElementById('print-section');
-    if (!section) {
-      console.error('Print section not found.');
-      return;
-    }
 
-    // 1. Grab the _rendered_ HTML (with actual names, prices, looped rows)
-    const html = section.innerHTML;
-
-    // 2. Open a new window
-    const printWindow = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
-    if (!printWindow) {
-      console.error('Unable to open print window.');
-      return;
-    }
-
-    // 3. Write a minimal HTML document around that rendered content
-    printWindow.document.open();
-    printWindow.document.write(`
-      <html>
-        <head>
-          <title>Print Receipt</title>
-          <style>
-            /* bring in any print‑only styles here */
-            body { font-family: Arial, sans-serif; font-size: 12px; margin:0; padding: 8px; }
-            .bill-slip { border: 1px dashed #000; padding: 8px; }
-            .bill-header, .customer-info, .order-details, .bill-footer {
-              margin-bottom: 10px;
-            }
-            table { width: 100%; border-collapse: collapse; }
-            th, td { text-align: left; padding: 2px 4px; }
-            th { border-bottom: 1px solid #000; }
-          </style>
-        </head>
-        <body>
-          <div class="bill-slip">
-            ${html}
-          </div>
-        </body>
-      </html>
-    `);
-    printWindow.document.close();
-
-    // 4. Print & close
-    printWindow.focus();
-    printWindow.print();
-    printWindow.close();
-  }
   getOrderStatusClass(status: string): string {
     switch (status.toLowerCase()) {
       case 'ready':
@@ -418,6 +430,10 @@ export class ListOrdersComponent extends ListBlade {
     console.log('Paying bill for:', order);
   }
   async updateStatus(item) {
+    if (!this.orderStatus) {
+      alert('You do not have permission to update order status.');
+      return;
+    }
     let obj = {
       status: this.selectedStatus
     };
@@ -428,9 +444,19 @@ export class ListOrdersComponent extends ListBlade {
     this.utility.presentSuccessToast(`Order Status Updated to ${obj.status}`);
   }
   ProductModal(item) {
-    console.log(this.crudService.list);
-    this.utility.showProductSelectionTable('Select Products', item.products, 'Select', (productId: string) => {
+    console.log('Selected item:', item.products);
+    this.utility.showProductSelectionTable('Select Products', this.currency, item.products, 'Select', (productId: string) => {
       console.log('Selected product ID:', productId);
     });
+  }
+  async restoreOrder(index: number) {
+    console.log('Restoring order with index:', index);
+    let item = this.crudService.list[index];
+
+
+    await this.crudService.restoreItemById(item.id);
+    this.utility.presentSuccessToast('Order restored successfully!');
+    console.log('Order restored successfully');
+    this.crudService.getDeletedList('', 1);
   }
 }

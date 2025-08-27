@@ -223,7 +223,7 @@ export class AddExpenseCategoriesComponent {
       const res = await this.network.addExpenseCategory(d);
       console.log(res);
       if (res) {
-        this.utility.presentSuccessToast('Table added Succesfully!');
+        this.utility.presentSuccessToast('Expense Category added Succesfully!');
 
         this.nav.pop();
       }

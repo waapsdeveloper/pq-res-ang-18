@@ -4,6 +4,7 @@ import { KtAppListPageTableModule } from 'src/app/components/layouts/kt-list-pag
 import { KtListPageModule } from 'src/app/components/layouts/kt-list-page/kt-list-page.module';
 
 import { RecentOrderRoutingModule } from './recent-order-routing.module';
+import { ListOrderPaymentStatusModule } from 'src/app/pages/orders/list-orders/list-order-payment-status/list-order-payment-status.module';
 
 
 @NgModule({
@@ -13,6 +14,7 @@ import { RecentOrderRoutingModule } from './recent-order-routing.module';
     RecentOrderRoutingModule,
     KtListPageModule,
     KtAppListPageTableModule,
+    ListOrderPaymentStatusModule
 
   ]
 })

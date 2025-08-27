@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, Injector, Input } from '@angular/core';
 import { NavService } from 'src/app/services/basic/nav.service';
 import { EventsService } from 'src/app/services/events.service';
 import { NetworkService } from 'src/app/services/network.service';
+import { PermissionService } from 'src/app/services/permission.service';
 import { UsersService } from 'src/app/services/users.service';
 import { UtilityService } from 'src/app/services/utility.service';
 
@@ -12,6 +13,7 @@ import { UtilityService } from 'src/app/services/utility.service';
 })
 export class ListExpenseStatusComponent {
   @Input() item: any;
+  canChangeStatus: any;
   constructor(
     injector: Injector,
     private nav: NavService,
@@ -19,10 +21,17 @@ export class ListExpenseStatusComponent {
     private users: UsersService,
     private network: NetworkService,
     private cdr: ChangeDetectorRef,
-    public events: EventsService
-  ) {}
+    public events: EventsService,
+    public permissionService: PermissionService
+  ) {
+    this.canChangeStatus = this.permissionService.hasPermission('expense' + '.payment_status_update');
+  }
 
   async onStatusClick(item) {
+    if (!this.canChangeStatus) {
+      await this.utility.showWarningMessage('You do not have permission to change the status of this expense.');
+      return;
+    }
     // Check if item exists and is already paid
     if (this.item && this.item.status === 'paid') {
       await this.utility.showWarningMessage('Cannot update payment status as it is already paid.');

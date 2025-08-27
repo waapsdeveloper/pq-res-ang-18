@@ -8,6 +8,8 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { ListBlade } from 'src/app/abstract/list-blade';
 import { UtilityService } from 'src/app/services/utility.service';
 import { EventsService } from 'src/app/services/events.service';
+import { ActivatedRoute } from '@angular/router';
+import { PermissionService } from 'src/app/services/permission.service';
 
 @Component({
   selector: 'app-list-rtables',
@@ -16,7 +18,10 @@ import { EventsService } from 'src/app/services/events.service';
 })
 export class ListRtablesComponent extends ListBlade {
   showDeleteAllButton = false;
-  columns: any[] = ['Table No', 'No of seats', 'Floor', 'No of Orders', 'Status'];
+  canDelete;
+  canEdit;
+  canView;
+  columns: any[] = ['Table No', 'No of seats', 'Floor', 'Status'];
   title = 'Tables';
   showEdit = false;
   addurl = '/pages/tables/add';
@@ -98,10 +103,15 @@ export class ListRtablesComponent extends ListBlade {
     private users: UsersService,
     private network: NetworkService,
     private cdr: ChangeDetectorRef,
-    public events: EventsService
+    public events: EventsService,
+    private route: ActivatedRoute,
+    private permissionService: PermissionService
   ) {
     super(injector, crudService);
     this.initialize();
+    this.canDelete = this.permissionService.hasPermission('table' + '.delete');
+    this.canEdit = this.permissionService.hasPermission('table' + '.edit');
+    this.canView = this.permissionService.hasPermission('table' + '.view');
   }
 
   async onDeleteAll($event: any) {
@@ -165,6 +175,10 @@ export class ListRtablesComponent extends ListBlade {
   editRow(index: number) {}
 
   async deleteRow(index: number) {
+    if (!this.canDelete) {
+      alert('You do not have permission to delete.');
+      return;
+    }
     try {
       await this.crudService.deleteRow(index, this.utility);
       this.utility.presentSuccessToast('Deleted Sucessfully!');
@@ -192,5 +206,6 @@ export class ListRtablesComponent extends ListBlade {
     }; // Clear the model (or set to default values if needed)
     this.form.patchValue(this.model);
     this.debouncedSubmitFilters(this.model); // Optionally re-apply the filter logic
+    this.crudService.resetFilters(this.model);;
   }
 }

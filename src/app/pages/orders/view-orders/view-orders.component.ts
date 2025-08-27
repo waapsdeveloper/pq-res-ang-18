@@ -5,6 +5,7 @@ import { NetworkService } from 'src/app/services/network.service';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { UtilityService } from 'src/app/services/utility.service';
 import { CurrencyService } from 'src/app/services/currency.service';
+import { GlobalDataService } from 'src/app/services/global-data.service';
 
 @Component({
   selector: 'app-view-orders',
@@ -13,6 +14,8 @@ import { CurrencyService } from 'src/app/services/currency.service';
 })
 export class ViewOrdersComponent implements OnInit {
   itemId;
+  currency = 'USD';
+  currencySymbol = '$';
   item;
   variations;
   selectedStatus = '';
@@ -20,12 +23,22 @@ export class ViewOrdersComponent implements OnInit {
 
   constructor(
     private nav: NavService,
+    private globalData: GlobalDataService,
     private network: NetworkService,
     public activatedRoute: ActivatedRoute,
     public utility: UtilityService,
     public currencyService: CurrencyService
   ) {
     this.initialize();
+    this.globalData.getCurrency().subscribe((currency) => {
+      this.currency = currency;
+      console.log('Currency updated:', this.currency);
+    });
+
+    this.globalData.getCurrencySymbol().subscribe((symbol) => {
+      this.currencySymbol = symbol;
+      console.log('Currency Symbol updated:', this.currencySymbol);
+    });
   }
 
   ngOnInit(): void {

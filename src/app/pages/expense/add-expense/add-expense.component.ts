@@ -15,7 +15,7 @@ export class AddExpenseComponent {
   form = new FormGroup({});
   model = {
     name: '',
-    amount: ' ',
+    amount: '',
     expense_category_id: '',
     type: 'one-time',
     date: '',

@@ -62,7 +62,7 @@
                               <tr *ngFor="let variation of item?.meta_value">
                                 <ng-container *ngFor="let opt of variation.options">
                                   <td>{{ opt.name }}</td>
-                                  <td>{{ opt.price }}</td>
+                                  <td>{{ currencySymbol }} {{ opt.price }}</td>
                                 </ng-container>
                               </tr>
                             </tbody>

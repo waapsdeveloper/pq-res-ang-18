@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CurrencyService } from 'src/app/services/currency.service';
+import { GlobalDataService } from 'src/app/services/global-data.service';
 import { NetworkService } from 'src/app/services/network.service';
 
 @Component({
@@ -10,10 +11,23 @@ import { NetworkService } from 'src/app/services/network.service';
 })
 export class FavouriteTableComponent implements OnInit {
   tables: any[] = [];
+  currency = 'USD';
+  currencySymbol = '$';
   constructor(
     private network: NetworkService,
-    public currencyService: CurrencyService
-  ) {}
+    public currencyService: CurrencyService,
+    private globalData: GlobalDataService
+  ) {
+    this.globalData.getCurrency().subscribe((currency) => {
+      this.currency = currency;
+      console.log('Currency updated:', this.currency);
+    });
+
+    this.globalData.getCurrencySymbol().subscribe((symbol) => {
+      this.currencySymbol = symbol;
+      console.log('Currency Symbol updated:', this.currencySymbol);
+    });
+  }
   async ngOnInit() {
     const data = await this.network.getLatestTable();
 

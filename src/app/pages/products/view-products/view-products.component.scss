@@ -95,3 +95,39 @@
   background-color: #a72121; /* Gray for inactive status */
   color: white;
 }
+
+// Mobile responsive styles
+@media (max-width: 767.98px) {
+  .main-panel, .main-content, .content-wrapper, .users-view {
+    padding: 0 !important;
+  }
+  .users-view .media {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .users-view .media-body {
+    margin-left: 0 !important;
+    margin-top: 0.5rem;
+  }
+  .users-view .users-avatar-shadow {
+    width: 48px !important;
+    height: 48px !important;
+  }
+  .users-view-name {
+    font-size: 1.1rem;
+  }
+  .users-view .row > [class^='col-'] {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  .card-body {
+    padding: 1rem !important;
+  }
+  .fw-bold, .fw-semibold {
+    font-size: 1rem !important;
+  }
+  .badge {
+    font-size: 0.9rem;
+    padding: 0.3em 0.7em;
+  }
+}

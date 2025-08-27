@@ -1,8 +1,9 @@
-import { AfterViewInit, Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { AfterViewInit, Component, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NavService } from 'src/app/services/basic/nav.service';
+import { GlobalDataService } from 'src/app/services/global-data.service';
 import { GlobalRestaurantService } from 'src/app/services/global-restaurant.service';
 import { NetworkService } from 'src/app/services/network.service';
 import { UtilityService } from 'src/app/services/utility.service';
@@ -14,13 +15,16 @@ import { UtilityService } from 'src/app/services/utility.service';
 })
 export class EditRestaurantComponent implements OnInit, AfterViewInit {
   id;
-  form = new FormGroup({});
+  restaurantId: string | null = null;
+  form: FormGroup = new FormGroup({});
+  @Output() modelChange = new EventEmitter<typeof this.model>();
   model = {
     name: '',
     copyright_text: '',
     imageBase64: '',
     faviconBase64: '',
     logo: '',
+    src_img: '',
     logoBase64: '',
     address: '',
     phone: '8957985674',
@@ -28,44 +32,138 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     website: '',
     schedule: {
       monday_day: 'Monday',
+      monday_day_type: 'week_days',
       monday_start_time: '09:00',
       monday_end_time: '17:00',
       monday_status: 'active',
+      monday_24h: false,
+      monday_open: true,
+      monday_off_day: false,
+      monday_break_times: [],
 
       tuesday_day: 'Tuesday',
+      tuesday_day_type: 'week_days',
       tuesday_start_time: '09:00',
       tuesday_end_time: '17:00',
       tuesday_status: 'active',
+      tuesday_24h: false,
+      tuesday_open: true,
+      tuesday_off_day: false,
+      tuesday_break_times: [],
 
       wednesday_day: 'Wednesday',
+      wednesday_day_type: 'week_days',
       wednesday_start_time: '09:00',
       wednesday_end_time: '17:00',
       wednesday_status: 'active',
+      wednesday_24h: false,
+      wednesday_open: true,
+      wednesday_off_day: false,
+      wednesday_break_times: [],
 
       thursday_day: 'Thursday',
+      thursday_day_type: 'week_days',
       thursday_start_time: '09:00',
       thursday_end_time: '17:00',
       thursday_status: 'active',
+      thursday_24h: false,
+      thursday_open: true,
+      thursday_off_day: false,
+      thursday_break_times: [],
 
       friday_day: 'Friday',
+      friday_day_type: 'week_days',
       friday_start_time: '10:00',
       friday_end_time: '20:00',
       friday_status: 'active',
+      friday_24h: false,
+      friday_open: true,
+      friday_off_day: false,
+      friday_break_times: [],
 
       saturday_day: 'Saturday',
+      saturday_day_type: 'Weekends',
       saturday_start_time: '10:00',
       saturday_end_time: '18:00',
       saturday_status: 'inactive',
+      saturday_24h: false,
+      saturday_open: false,
+      saturday_off_day: true,
+      saturday_break_times: [],
 
       sunday_day: 'Sunday',
+      sunday_day_type: 'Weekends',
       sunday_start_time: '10:00',
       sunday_end_time: '16:00',
-      sunday_status: 'inactive'
+      sunday_status: 'inactive',
+      sunday_24h: false,
+      sunday_open: false,
+      sunday_off_day: true,
+      sunday_break_times: []
     },
     description: '',
     rating: Math.floor(Math.random() * 6),
-    status: 'active'
+    status: 'active',
+    // Branch config properties
+    branch_id: '',
+    tax: '',
+    currency: '',
+    dial_code: '',
+    tips: '',
+    delivery_charges: '',
+    // Meta data properties
+    home_page_title: '',
+    home_page_slider: '',
+    google_map: '',
+    enableTax: true,
+    enableTips: true,
+    enableDeliveryCharges: true,
+
+    // Invoice settings
+    invoice_prefix: '',
+    footer_text: '',
+    invoice_base64: '',
+    invoice_logo: '',
+    size: 0,
+    left_margin: '',
+    right_margin: '',
+    google_review_barcode: '',
+    google_review_bar_code_base64: '',
+    restaurant_address: '',
+    font_size: '',
+
   };
+
+  // Store timings as JSON array for easy manipulation
+  timingsJson: Array<{
+    day: string;
+    day_type: string;
+    start_time: string;
+    end_time: string;
+    status: string;
+    is_24h: boolean;
+    is_open: boolean;
+    is_off_day: boolean;
+    break_times: Array<{ start: string; end: string }>;
+  }> = [];
+
+  // Branch config properties for orders tab
+  allCurrencies: any;
+  allCountries: any[] = [];
+  data: any;
+
+  // Sidebar navigation
+  activeSection: 'general' | 'timing' | 'order' | 'attributes' | 'invoice' = 'general';
+
+  // Global timing controls
+  globalStartTime: string = '09:00';
+  globalEndTime: string = '17:00';
+  globalDayType: string = 'week_days';
+  globalBreakStart: string = '12:00';
+  globalBreakEnd: string = '13:00';
+  globalBreakTimes: Array<{ start: string; end: string }> = [];
+  global24h: boolean = false;
+  globalOffDay: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -73,115 +171,516 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     private nav: NavService,
     private utility: UtilityService,
     public grService: GlobalRestaurantService,
-  ) {}
+    private globaldata: GlobalDataService
+  ) { }
 
-  ngOnInit() {
-    // Access the parameter
+  async ngOnInit() {
+    // Access the parameter from URL path (keeping for backward compatibility)
     this.id = this.route.snapshot.paramMap.get('id');
-    console.log('ID from URL:', this.id);
+    console.log('ID from URL path:', this.id);
+
+    // Initialize form with all required controls
+    this.initializeForm();
+
     this.initialize();
+
+    // Initialize branch config functionality for orders tab
+    await this.setCurrenciesInForm();
+    await this.loadBranchConfig();
+    await this.loadCountries();
+
+    // Populate timing fields from JSON data
+    this.populateTimingFieldsFromJson();
+
+    // Handle currency change for dial code
+    // this.form.valueChanges.subscribe((value: any) => {
+    //   if (value && value['currency']) {
+    //     const selectedCurrency = this.allCurrencies?.find((c: any) => c.value === value['currency']);
+    //     if (selectedCurrency) {
+    //       const dialCodeControl = this.form.get('dial_code');
+    //       if (dialCodeControl) {
+    //         (dialCodeControl as import('@angular/forms').FormControl).setValue(selectedCurrency.dial_code, { emitEvent: false });
+    //       }
+    //     }
+    //   }
+
+    //   // Sync schedule changes to timingsJson
+    //   if (value && value['schedule']) {
+    //     this.syncScheduleToTimingsJson();
+    //   }
+    // });
+  }
+
+  async loadCountries() {
+    const res = await this.network.getCurrencies();
+    // Sample country data - you can replace this with API call
+    if (res && res['data']) {
+      this.allCountries = res['data'];
+      const countryOptions = res['data'].map((c) => ({
+        value: c.country,
+        label: `${c.flag} ${c.country}`,
+        dial_code: c.dial_code
+      }));
+
+      // Update the country dropdown options in orderFields
+      for (let i = 0; i < this.orderFields.length; i++) {
+        for (let j = 0; j < this.orderFields[i].fieldGroup.length; j++) {
+          let fl = this.orderFields[i].fieldGroup[j];
+          if (fl.key === 'country') {
+            fl.props.options = countryOptions;
+          }
+        }
+      }
+    } else {
+      this.allCountries = [];
+    }
+  }
+
+  // Initialize form with all required controls
+  initializeForm() {
+    const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+
+    // Create the form with all controls (flat structure)
+    const formControls = {
+      name: new FormControl(this.model.name || ''),
+      address: new FormControl(this.model.address || ''),
+      phone: new FormControl(this.model.phone || ''),
+      email: new FormControl(this.model.email || ''),
+      website: new FormControl(this.model.website || ''),
+      copyright_text: new FormControl(this.model.copyright_text || ''),
+      logo: new FormControl(this.model.logo || ''),
+      home_page_title: new FormControl(this.model.home_page_title || ''),
+      home_page_slider: new FormControl(this.model.home_page_slider || ''),
+      google_map: new FormControl(this.model.google_map || ''),
+      description: new FormControl(this.model.description || ''),
+      status: new FormControl(this.model.status || 'active'),
+      currency: new FormControl(this.model.currency || ''),
+      dial_code: new FormControl(this.model.dial_code || ''),
+      tax: new FormControl(this.model.tax || ''),
+      delivery_charges: new FormControl(this.model.delivery_charges || ''),
+      enableTax: new FormControl(this.model.enableTax || true),
+      enableDeliveryCharges: new FormControl(this.model.enableDeliveryCharges || true),
+
+      invoice_prefix: new FormControl(this.model.invoice_prefix || ''),
+      footer_text: new FormControl(this.model.footer_text || ''),
+      invoice_base64: new FormControl(this.model.invoice_base64 || ''),
+      invoice_logo: new FormControl(this.model.invoice_logo || ''),
+      size: new FormControl(this.model.size || ''),
+      left_margin: new FormControl(this.model.left_margin || ''),
+      right_margin: new FormControl(this.model.right_margin || ''),
+      google_review_barcode: new FormControl(this.model.google_review_barcode || ''),
+      google_review_bar_code_base64: new FormControl(this.model.google_review_bar_code_base64 || ''),
+      restaurant_address: new FormControl(this.model.restaurant_address || ''),
+      font_size: new FormControl(this.model.font_size || ''),
+    };
+
+    // Add schedule controls directly to the form (not nested)
+    days.forEach((day) => {
+      formControls[`${day}_day`] = new FormControl(this.model.schedule[`${day}_day`] || day.charAt(0).toUpperCase() + day.slice(1));
+      formControls[`${day}_start_time`] = new FormControl(this.model.schedule[`${day}_start_time`] || '09:00');
+      formControls[`${day}_end_time`] = new FormControl(this.model.schedule[`${day}_end_time`] || '17:00');
+      formControls[`${day}_status`] = new FormControl(this.model.schedule[`${day}_status`] || 'active');
+    });
+
+    this.form = new FormGroup(formControls);
   }
 
   async initialize() {
-    // this.model.copyright_text = d.copyright_text || '';
-    // this.model.image = d.image || '';
-    // this.model.favicon = d.favicon || '';
-    // this.model.logo = d.logo || '';
-    // this.model.address = d.address || '';
-    // this.model.phone = d.phone || '';
-    // this.model.email = d.email || '';
-    // this.model.website = d.website || '';
-    // this.model.description = d.description || '';
-    // this.model.rating = d.rating !== undefined ? d.rating : Math.floor(Math.random() * 6);
-    // this.model.status = d.status || 'active';
-    // // Map default timings if provided
-    // if (d.timings && Array.isArray(d.timings) && d.timings.length > 0) {
-    //   d.timings.forEach((timing) => {
-    //     const day = timing.day.toLowerCase();
-    //     this.model.schedule[`${day}_day`] = timing.day || '';
-    //     this.model.schedule[`${day}_start_time`] = timing.start_time || '09:00';
-    //     this.model.schedule[`${day}_end_time`] = timing.end_time || '17:00';
-    //     this.model.schedule[`${day}_status`] = timing.status || 'inactive';
-    //   });
-    // }
-    // .get('restaurant/'+this.id).subscribe((response: any) => {
-    //   console.log('Response:', response);
-    //   this.model = response.data;
-    // });
+    // Load restaurant data from API
+    try {
+      const response = await this.network.getRestaurantById(this.id);
+      if (response && response.data) {
+        const restaurantData = response.data;
+
+        // Update model with API data
+        this.model.name = restaurantData.name || '';
+        this.model.address = restaurantData.address || '';
+        this.model.phone = restaurantData.phone || '';
+        this.model.email = restaurantData.email || '';
+        this.model.website = restaurantData.website || '';
+        this.model.description = restaurantData.description || '';
+        this.model.status = restaurantData.status || 'active';
+        this.model.src_img = restaurantData.image || '';
+        this.model.logo = restaurantData.logo || '';
+        this.model.copyright_text = restaurantData.copyright_text || '';
+        this.model.home_page_title = restaurantData.home_page_title || '';
+
+        // --- Load timings from meta if present ---
+        let timingsLoaded = false;
+        if (restaurantData.meta) {
+          let timingsMeta = null;
+          if (Array.isArray(restaurantData.meta)) {
+            timingsMeta = restaurantData.meta.find((m: any) => m.key === 'branch_timings');
+          } else if (restaurantData.meta.branch_timings) {
+            timingsMeta = { value: restaurantData.meta.branch_timings };
+          }
+          if (timingsMeta && timingsMeta.value) {
+            try {
+              const timings = JSON.parse(timingsMeta.value);
+              this.updateScheduleFromApi(timings);
+              timingsLoaded = true;
+            } catch (e) {
+              console.error('Failed to parse timings from meta:', e);
+            }
+          }
+        }
+        // --- Fallback: Load schedule data if available and not loaded from meta ---
+        if (!timingsLoaded && restaurantData.schedule && Array.isArray(restaurantData.schedule)) {
+          this.updateScheduleFromApi(restaurantData.schedule);
+        }
+      }
+    } catch (error) {
+      console.error('Error loading restaurant data:', error);
+    }
   }
 
   async ngAfterViewInit() {
     // Fetch the data from the server;
     const res = await this.network.getRestaurantById(this.id);
+    const resp = await this.network.getInvoiceSettingById(this.id);
+    let dm = Object.assign({}, resp.invoice_setting);
     //   this.model= res.restaurant;
     console.log(res);
 
     let d = Object.assign({}, res.restaurant);
 
-    console.log(d);
-
     this.model = {
       name: d.name || '',
+      home_page_slider: d.home_page_slider || '',
+      google_map: d.google_map || '',
+
       copyright_text: d.copyright_text || '',
       imageBase64: d.imageBase64 || '',
       faviconBase64: d.faviconBase64 || '',
       description: d.description || '',
       logo: '',
+      src_img: d.logo || '', //
       logoBase64: d.logoBase64 || '',
       address: d.address || '',
       phone: d.phone || '',
       email: d.email || '',
       website: d.website || '',
+
       schedule: {
         monday_day: 'Monday',
-        monday_start_time: d.timings && d.timings.length > 0 && d.timings[0].start_time ? d.timings[0].start_time : '09:00',
-        monday_end_time: d.timings && d.timings.length > 0 && d.timings[0].end_time ? d.timings[0].end_time : '17:00',
-        monday_status: d.timings && d.timings.length > 0 && d.timings[0].status ? d.timings[0].status : 'inactive',
+        monday_day_type: 'week_days',
+        monday_start_time: d.schedule && d.schedule.length > 0 && d.schedule[0].start_time ? d.schedule[0].start_time : '09:00',
+        monday_end_time: d.schedule && d.schedule.length > 0 && d.schedule[0].end_time ? d.schedule[0].end_time : '17:00',
+        monday_status: d.schedule && d.schedule.length > 0 && d.schedule[0].status ? d.schedule[0].status.toLowerCase() : 'inactive',
+        monday_24h: false,
+        monday_open: true,
+        monday_off_day: false,
+        monday_break_times: [],
 
         tuesday_day: 'Tuesday',
-        tuesday_start_time: d.timings && d.timings.length > 1 && d.timings[1].start_time ? d.timings[1].start_time : '09:00',
-        tuesday_end_time: d.timings && d.timings.length > 1 && d.timings[1].end_time ? d.timings[1].end_time : '17:00',
-        tuesday_status: d.timings && d.timings.length > 1 && d.timings[1].status ? d.timings[1].status : 'inactive',
+        tuesday_day_type: 'week_days',
+        tuesday_start_time: d.schedule && d.schedule.length > 1 && d.schedule[1].start_time ? d.schedule[1].start_time : '09:00',
+        tuesday_end_time: d.schedule && d.schedule.length > 1 && d.schedule[1].end_time ? d.schedule[1].end_time : '17:00',
+        tuesday_status: d.schedule && d.schedule.length > 1 && d.schedule[1].status ? d.schedule[1].status.toLowerCase() : 'inactive',
+        tuesday_24h: false,
+        tuesday_open: true,
+        tuesday_off_day: false,
+        tuesday_break_times: [],
 
         wednesday_day: 'Wednesday',
-        wednesday_start_time: d.timings && d.timings.length > 2 && d.timings[2].start_time ? d.timings[2].start_time : '09:00',
-        wednesday_end_time: d.timings && d.timings.length > 2 && d.timings[2].end_time ? d.timings[2].end_time : '17:00',
-        wednesday_status: d.timings && d.timings.length > 2 && d.timings[2].status ? d.timings[2].status : 'inactive',
+        wednesday_day_type: 'week_days',
+        wednesday_start_time: d.schedule && d.schedule.length > 2 && d.schedule[2].start_time ? d.schedule[2].start_time : '09:00',
+        wednesday_end_time: d.schedule && d.schedule.length > 2 && d.schedule[2].end_time ? d.schedule[2].end_time : '17:00',
+        wednesday_status: d.schedule && d.schedule.length > 2 && d.schedule[2].status ? d.schedule[2].status.toLowerCase() : 'inactive',
+        wednesday_24h: false,
+        wednesday_open: true,
+        wednesday_off_day: false,
+        wednesday_break_times: [],
 
         thursday_day: 'Thursday',
-        thursday_start_time: d.timings && d.timings.length > 3 && d.timings[3].start_time ? d.timings[3].start_time : '09:00',
-        thursday_end_time: d.timings && d.timings.length > 3 && d.timings[3].end_time ? d.timings[3].end_time : '17:00',
-        thursday_status: d.timings && d.timings.length > 3 && d.timings[3].status ? d.timings[3].status : 'inactive',
+        thursday_day_type: 'week_days',
+        thursday_start_time: d.schedule && d.schedule.length > 3 && d.schedule[3].start_time ? d.schedule[3].start_time : '09:00',
+        thursday_end_time: d.schedule && d.schedule.length > 3 && d.schedule[3].end_time ? d.schedule[3].end_time : '17:00',
+        thursday_status: d.schedule && d.schedule.length > 3 && d.schedule[3].status ? d.schedule[3].status.toLowerCase() : 'inactive',
+        thursday_24h: false,
+        thursday_open: true,
+        thursday_off_day: false,
+        thursday_break_times: [],
 
         friday_day: 'Friday',
-        friday_start_time: d.timings && d.timings.length > 4 && d.timings[4].start_time ? d.timings[4].start_time : '09:00',
-        friday_end_time: d.timings && d.timings.length > 4 && d.timings[4].end_time ? d.timings[4].end_time : '20:00',
-        friday_status: d.timings && d.timings.length > 4 && d.timings[4].status ? d.timings[4].status : 'inactive',
+        friday_day_type: 'week_days',
+        friday_start_time: d.schedule && d.schedule.length > 4 && d.schedule[4].start_time ? d.schedule[4].start_time : '09:00',
+        friday_end_time: d.schedule && d.schedule.length > 4 && d.schedule[4].end_time ? d.schedule[4].end_time : '20:00',
+        friday_status: d.schedule && d.schedule.length > 4 && d.schedule[4].status ? d.schedule[4].status.toLowerCase() : 'inactive',
+        friday_24h: false,
+        friday_open: true,
+        friday_off_day: false,
+        friday_break_times: [],
 
         saturday_day: 'Saturday',
-        saturday_start_time: d.timings && d.timings.length > 5 && d.timings[5].start_time ? d.timings[5].start_time : '09:00',
-        saturday_end_time: d.timings && d.timings.length > 5 && d.timings[5].end_time ? d.timings[5].end_time : '18:00',
-        saturday_status: d.timings && d.timings.length > 5 && d.timings[5].status ? d.timings[5].status : 'inactive',
+        saturday_day_type: 'weekend',
+        saturday_start_time: d.schedule && d.schedule.length > 5 && d.schedule[5].start_time ? d.schedule[5].start_time : '09:00',
+        saturday_end_time: d.schedule && d.schedule.length > 5 && d.schedule[5].end_time ? d.schedule[5].end_time : '18:00',
+        saturday_status: d.schedule && d.schedule.length > 5 && d.schedule[5].status ? d.schedule[5].status.toLowerCase() : 'inactive',
+        saturday_24h: false,
+        saturday_open: false,
+        saturday_off_day: true,
+        saturday_break_times: [],
 
         sunday_day: 'Sunday',
-        sunday_start_time: d.timings && d.timings.length > 6 && d.timings[6].start_time ? d.timings[6].start_time : '09:00',
-        sunday_end_time: d.timings && d.timings.length > 6 && d.timings[6].end_time ? d.timings[6].end_time : '16:00',
-        sunday_status: d.timings && d.timings.length > 6 && d.timings[6].status ? d.timings[6].status : 'inactive'
+        sunday_day_type: 'weekend',
+        sunday_start_time: d.schedule && d.schedule.length > 6 && d.schedule[6].start_time ? d.schedule[6].start_time : '09:00',
+        sunday_end_time: d.schedule && d.schedule.length > 6 && d.schedule[6].end_time ? d.schedule[6].end_time : '16:00',
+        sunday_status: d.schedule && d.schedule.length > 6 && d.schedule[6].status ? d.schedule[6].status.toLowerCase() : 'inactive',
+        sunday_24h: false,
+        sunday_open: false,
+        sunday_off_day: true,
+        sunday_break_times: []
       },
 
       // Now, posting this `schedule` to your model.
       // If `d.timings` is empty, this code will not iterate over it, and the default times/statuses will be applied.
 
       rating: d.rating || Math.floor(Math.random() * 6),
-      status: d.status || ''
+      status: (d?.status || '').toLowerCase(),
+      branch_id: '',
+      tax: '',
+      currency: '',
+      dial_code: '',
+      tips: '',
+      delivery_charges: '',
+      home_page_title: d.home_page_title || '',
+      enableTax: true,
+      enableTips: true,
+      enableDeliveryCharges: true
+
+      // Invoice settings
+      , invoice_prefix: dm.invoice_prefix || '',
+      footer_text: dm.footer_text || '',
+      invoice_base64: d.invoice_base64 || '',
+      invoice_logo: dm.invoice_logo || '',
+      size: dm.size ? Number(dm.size.replace('mm', '')) : 0,
+      left_margin: dm.left_margin || '',
+      right_margin: dm.right_margin || '',
+      google_review_barcode: dm.google_review_barcode || '',
+      google_review_bar_code_base64: dm.google_review_bar_code_base64 || '',
+      restaurant_address: dm.restaurant_address || '',
+      font_size: dm.font_size || ''
+
+
     };
 
-    console.log(d.timings[0].start_time);
+    // Set home_page_title from meta array if present and top-level is missing
+    if (!this.model.home_page_title) {
+      if (Array.isArray(d.meta)) {
+        const homePageTitleMeta = d.meta.find((m: any) => m.key === 'home_page_title');
+        this.model.home_page_title = homePageTitleMeta ? homePageTitleMeta.value : '';
+      } else if (d.meta?.home_page_title) {
+        // fallback for object structure
+        this.model.home_page_title = d.meta.home_page_title;
+      }
+    }
+
+    // Initialize timingsJson array from schedule
+    this.syncScheduleToTimingsJson();
   }
 
-  fields: FormlyFieldConfig[] = [
+  // Sync schedule object to timingsJson array
+  syncScheduleToTimingsJson() {
+    const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+    this.timingsJson = days.map((day) => ({
+      day: this.model.schedule[`${day}_day`],
+      day_type: this.model.schedule[`${day}_day_type`],
+      start_time: this.model.schedule[`${day}_start_time`],
+      end_time: this.model.schedule[`${day}_end_time`],
+      status: this.model.schedule[`${day}_status`],
+      is_24h: this.model.schedule[`${day}_24h`],
+      is_open: this.model.schedule[`${day}_open`],
+      is_off_day: this.model.schedule[`${day}_off_day`],
+      break_times: this.model.schedule[`${day}_break_times`] || []
+    }));
+  }
+
+  // Sync timingsJson array back to schedule object
+  syncTimingsJsonToSchedule() {
+    this.timingsJson.forEach((timing) => {
+      const day = timing.day.toLowerCase();
+      this.model.schedule[`${day}_day`] = timing.day;
+      this.model.schedule[`${day}_day_type`] = timing.day_type;
+      this.model.schedule[`${day}_start_time`] = timing.start_time;
+      this.model.schedule[`${day}_end_time`] = timing.end_time;
+      this.model.schedule[`${day}_status`] = timing.status;
+      this.model.schedule[`${day}_24h`] = timing.is_24h;
+      this.model.schedule[`${day}_open`] = timing.is_open;
+      this.model.schedule[`${day}_off_day`] = timing.is_off_day;
+      this.model.schedule[`${day}_break_times`] = timing.break_times;
+    });
+  }
+
+  // Get timings as JSON string
+  getTimingsAsJson(): string {
+    return JSON.stringify(this.timingsJson, null, 2);
+  }
+
+  // View JSON data for debugging
+  viewJsonData() {
+    const jsonData = this.getTimingsAsJson();
+    console.log('Timings JSON Data:', jsonData);
+    console.log('Timings Array:', this.timingsJson);
+    this.utility.presentSuccessToast('JSON data logged to console. Check browser console for details.');
+  }
+
+  attributesField: FormlyFieldConfig[] = [
     {
-      fieldGroupClassName: 'row', // Bootstrap row
+      fieldGroupClassName: 'row',
+      fieldGroup: [
+        {
+          key: 'home_page_title',
+          type: 'input',
+          props: {
+            label: 'Home Page Title',
+            placeholder: 'Enter home page title for SEO',
+            required: false,
+            maxLength: 30
+          },
+          className: 'col-md-6 col-12'
+        },
+        {
+          key: 'home_page_slider',
+          type: 'input',
+          props: {
+            label: 'Home Page Slider Text',
+            placeholder: 'Enter home page Slider',
+            required: false,
+            maxLength: 50
+          },
+          className: 'col-md-6 col-12'
+        },
+        {
+          key: 'copyright_text',
+          type: 'textarea',
+          props: {
+            label: 'Copyright text',
+            placeholder: 'Enter copyright footer text',
+            required: false
+          },
+          className: 'col-md-6 col-12'
+        },
+        {
+          key: 'google_map',
+          type: 'input',
+          props: {
+            label: 'Google Map Link',
+            placeholder: 'Ent',
+            required: false
+          },
+          className: 'col-md-12 col-12'
+        }
+      ]
+    }
+  ];
+  invoiceFields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: 'row',
+      fieldGroup: [
+
+        {
+          key: 'footer_text',
+          type: 'textarea',
+          props: {
+            label: 'Invoice Footer Text',
+            placeholder: 'Enter footer text for invoices',
+            required: false,
+          },
+          className: 'col-md-6 col-12',
+        },
+
+        {
+          key: 'size',
+          type: 'input',
+          props: {
+            type: 'number',
+            label: 'Size (mm)',
+            placeholder: 'Width of printer  in mm',
+            required: false,
+          },
+          className: 'col-md-6 col-12',
+        },
+        {
+          key: 'left_margin',
+          type: 'input',
+          props: {
+            type: 'number',
+            label: 'Left Margin (mm)',
+            placeholder: 'Enter left margin in mm',
+            required: false,
+          },
+          className: 'col-md-6 col-12',
+        },
+        {
+          key: 'right_margin',
+          type: 'input',
+          props: {
+            type: 'number',
+            label: 'Right Margin (mm)',
+            placeholder: 'Enter right margin in mm',
+            required: false,
+          },
+          className: 'col-md-6 col-12',
+        },
+
+        {
+          key: 'restaurant_address',
+          type: 'textarea',
+          props: {
+            label: 'Restaurant Address',
+            placeholder: 'Enter restaurant address',
+            required: true,
+          },
+          className: 'col-md-6 col-12',
+        },
+        {
+          key: 'font_size',
+          type: 'input',
+          props: {
+            type: 'number',
+            label: 'Font Size (pt)',
+            placeholder: 'Enter font size for invoice text',
+            required: false,
+            min: 8,
+            max: 24,
+          },
+          className: 'col-md-6 col-12',
+        },
+        {
+          key: 'invoice_logo',
+          type: 'input',
+          props: {
+            label: 'Invoice Logo',
+            placeholder: 'Enter favicon URL',
+            type: 'file',
+            accept: 'image/*',
+            change: (field, event) => this.onFileChange(field, event, 'invoice_base64'),
+            required: false
+          },
+          className: 'formly-image-wrapper-3232 col-md-6 col-12'
+        },
+        {
+          key: 'google_review_bar_code',
+          type: 'input',
+          props: {
+            label: 'QR bar',
+            placeholder: 'Enter image URL',
+            type: 'file',
+            accept: 'image/*',
+            change: (field, event) => this.onFileChange(field, event, 'google_review_bar_code_base64'),
+            required: false
+          },
+          className: 'formly-image-wrapper-3232 col-md-6 col-12'
+        },
+      ],
+    },
+  ];
+
+  // Split Formly fields for each section
+  generalFields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: 'row',
       fieldGroup: [
         {
           key: 'name',
@@ -191,16 +690,6 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
             placeholder: 'Enter restaurant name',
             required: true,
             minLength: 3
-          },
-          className: 'col-md-6 col-12' // 3 columns on md+, full width on small screens
-        },
-        {
-          key: 'address',
-          type: 'input',
-          props: {
-            label: 'Address',
-            placeholder: 'Enter address',
-            required: true
           },
           className: 'col-md-6 col-12'
         },
@@ -226,36 +715,18 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
           className: 'col-md-6 col-12'
         },
         {
-          key: 'website',
+          key: 'address',
           type: 'input',
           props: {
-            label: 'Website',
-            placeholder: 'Enter website URL',
-            pattern: /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/,
+            label: 'Address',
+            placeholder: 'Enter address',
             required: true
           },
           className: 'col-md-6 col-12'
         },
-        {
-          key: 'copyright_text',
-          type: 'textarea',
-          props: {
-            label: 'Copyright text',
-            placeholder: 'Enter copy right text',
-            required: true
-          },
-          className: 'col-md-6 col-12'
-        },
-        {
-          key: 'description',
-          type: 'textarea',
-          props: {
-            label: 'Description',
-            placeholder: 'Enter description',
-            required: true
-          },
-          className: 'col-md-6 col-12'
-        },
+
+
+
         {
           key: 'logo',
           type: 'input',
@@ -265,44 +736,46 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
             type: 'file',
             accept: 'image/*',
             change: (field, event) => this.onFileChange(field, event, 'logoBase64'),
-            required: true
+            required: false
           },
           className: 'formly-image-wrapper-3232 col-md-6 col-12'
         },
         {
-          key: 'status',
-          type: 'select',
+          key: 'favicon',
+          type: 'input',
           props: {
-            label: 'Status',
-            options: [
-              { value: 'active', label: 'Active' },
-              { value: 'inactive', label: 'Inactive' }
-            ],
-            required: true
+            label: 'Favicon',
+            placeholder: 'Enter favicon URL',
+            type: 'file',
+            accept: 'image/*',
+            change: (field, event) => this.onFileChange(field, event, 'faviconBase64'),
+            required: false
           },
-          className: 'formly-select-wrapper-3232 col-md-6 col-12'
+          className: 'formly-image-wrapper-3232 col-md-6 col-12'
         }
       ]
-    },
+    }
+  ];
+
+  timingFields: FormlyFieldConfig[] = [
     {
       key: 'schedule',
-      fieldGroupClassName: 'row', // Bootstrap row
+      fieldGroupClassName: 'row',
       fieldGroup: [
         ...['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day) => ({
           fieldGroupClassName: 'row col-12',
           fieldGroup: [
             {
-              key: `${day.toLowerCase()}_day`, // Unique key for each day
+              key: `${day.toLowerCase()}_day`,
               type: 'input',
               props: {
                 label: 'Day',
                 value: `${day}`,
-                readonly: true, // Static day name
+                readonly: true,
                 required: true
               },
-              className: 'col-md-3 col-12'
+              className: 'col-md-2 col-12'
             },
-
             {
               key: `${day.toLowerCase()}_start_time`,
               type: 'input',
@@ -311,7 +784,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
                 type: 'time',
                 required: true
               },
-              className: 'col-md-3 col-12'
+              className: 'col-md-2 col-12'
             },
             {
               key: `${day.toLowerCase()}_end_time`,
@@ -321,7 +794,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
                 type: 'time',
                 required: true
               },
-              className: 'col-md-3 col-12'
+              className: 'col-md-2 col-12'
             },
             {
               key: `${day.toLowerCase()}_status`,
@@ -334,10 +807,150 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
                 ],
                 required: true
               },
-              className: 'formly-select-wrapper-3232 col-md-3 col-12'
+              className: 'formly-select-wrapper-3232 col-md-2 col-12'
             }
           ]
         }))
+      ]
+    }
+  ];
+
+  orderFields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: 'row',
+      fieldGroup: [
+        // Enable Tax checkbox
+
+        // Enable Delivery Charges checkbox
+
+        // Country dropdown
+        {
+          key: 'country',
+          type: 'select',
+          props: {
+            label: 'Country',
+            placeholder: 'Select country',
+            required: true,
+            options: []
+          },
+          className: 'formly-select-wrapper-3232 col-md-4 col-12',
+          hooks: {
+            onInit: (field) => {
+              field.formControl.valueChanges.subscribe((val) => {
+                if (val && this.allCountries) {
+                  const selected = this.allCountries.find((c) => c.country === val);
+                  if (selected) {
+                    // Update both dial_code and currency when country changes
+                    this.model.dial_code = selected.dial_code;
+                    this.model.currency = selected.currency_code;
+
+                    const dialCodeControl = field.form.get('dial_code');
+                    const currencyControl = field.form.get('currency');
+
+                    if (dialCodeControl) {
+                      dialCodeControl.setValue(selected.dial_code, { emitEvent: false });
+                    }
+                    if (currencyControl) {
+                      currencyControl.setValue(selected.currency_code, { emitEvent: false });
+                    }
+                  }
+                }
+              });
+            }
+          }
+        },
+        // Currency dropdown
+        {
+          key: 'currency',
+          type: 'select',
+          props: {
+            label: 'Currency',
+            placeholder: 'Select currency',
+            required: true,
+            options: []
+          },
+          className: 'formly-select-wrapper-3232 col-md-4 col-12',
+          hooks: {
+            onInit: (field) => {
+              field.formControl.valueChanges.subscribe((val) => {
+                if (val) {
+                  // Only update currency, don't change dial_code
+                  this.model.currency = val;
+                }
+              });
+            }
+          }
+        },
+        // Dial code field
+        {
+          key: 'dial_code',
+          type: 'input',
+          props: {
+            label: 'Dial Code',
+            placeholder: 'Enter dial code (e.g. +1)',
+            required: true
+          },
+          className: 'col-md-4 col-12'
+        },
+        // Tax field with checkbox
+        {
+          fieldGroupClassName: 'row',
+          fieldGroup: [
+            {
+              key: 'tax',
+              type: 'input',
+              props: {
+                label: 'Tax (%)',
+                placeholder: 'Enter tax percentage',
+                type: 'number',
+                min: 0,
+                max: 100,
+                required: true
+              },
+              className: 'col-md-8 col-12',
+              expressionProperties: {
+                'templateOptions.disabled': '!model.enableTax'
+              }
+            },
+            {
+              key: 'enableTax',
+              type: 'checkbox',
+              props: { label: 'Enable Tax' },
+              defaultValue: true,
+              className: 'col-md-4 col-12 order-fields'
+            }
+          ],
+          className: 'col-12'
+        },
+        // Delivery Charges field with checkbox
+        {
+          fieldGroupClassName: 'row',
+          fieldGroup: [
+            {
+              key: 'delivery_charges',
+              type: 'input',
+              props: {
+                label: 'Delivery Charges',
+                placeholder: 'Enter delivery charges',
+                type: 'number',
+                min: 0,
+                required: true
+              },
+              className: 'col-md-8 col-12',
+              expressionProperties: {
+                'templateOptions.disabled': '!model.enableDeliveryCharges'
+              }
+            },
+            {
+              key: 'enableDeliveryCharges',
+              type: 'checkbox',
+              props: { label: 'Enable Delivery Charges' },
+              defaultValue: true,
+              className: 'col-md-4 col-12 order-fields'
+            }
+          ],
+          className: 'col-12'
+        }
       ]
     }
   ];
@@ -352,6 +965,23 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
         console.log(base64String);
 
         this.model[type] = base64String; // Update the model
+        if (type === 'logoBase64') {
+          // Special case for logo
+          this.model['src_img'] = base64String;
+        }
+        if (type === 'google_review_bar_code_base64') {
+          // Special case for Google review barcode
+          this.model['google_review_barcode'] = base64String;
+        }
+        if (type === 'invoice_base64') {
+          // Special case for invoice
+          this.model['invoice_logo'] = base64String;
+        }
+        
+
+        console.log("ssss", this.model);  
+        this.modelChange.emit(this.model);
+       
         // this.fields[0].fieldGroup[6].props['value'] = base64String; // Update the field value
         // this.fields[0].fieldGroup[6].formControl.setValue(base64String); // Update the form control value
 
@@ -361,99 +991,548 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     }
   }
   updateScheduleFromApi(apiData) {
-    // Update the schedule field directly in the model
-    apiData.timings.forEach((timing) => {
-      const dayKey = timing.day.toLowerCase(); // "monday", "tuesday", etc.
-      this.model.schedule[`${dayKey}_start_time`] = timing.start_time;
-      this.model.schedule[`${dayKey}_end_time`] = timing.end_time;
-      this.model.schedule[`${dayKey}_status`] = timing.status;
-    });
+    // Handle both old format (timings array) and new format (schedule array)
+    if (Array.isArray(apiData)) {
+      // New format: direct array of schedule objects
+      apiData.forEach((timing) => {
+        const dayKey = timing.day.toLowerCase();
+
+        // Update model schedule
+        this.model.schedule[`${dayKey}_day`] = timing.day;
+        this.model.schedule[`${dayKey}_start_time`] = timing.start_time || '09:00';
+        this.model.schedule[`${dayKey}_end_time`] = timing.end_time || '17:00';
+        this.model.schedule[`${dayKey}_day_type`] = timing.day_type || 'week_days';
+        this.model.schedule[`${dayKey}_status`] = timing.status || 'active';
+        this.model.schedule[`${dayKey}_24h`] = timing.is_24h || false;
+        this.model.schedule[`${dayKey}_open`] = timing.is_open !== undefined ? timing.is_open : true;
+        this.model.schedule[`${dayKey}_break_times`] = timing.break_times || [];
+
+        // Update form controls
+        const startControl = this.form.get(`${dayKey}_start_time`);
+        const endControl = this.form.get(`${dayKey}_end_time`);
+        const statusControl = this.form.get(`${dayKey}_status`);
+
+        if (startControl) startControl.setValue(timing.start_time || '09:00');
+        if (endControl) endControl.setValue(timing.end_time || '17:00');
+        if (statusControl) statusControl.setValue(timing.status || 'active');
+      });
+
+      // Update global controls based on first day
+      if (apiData.length > 0) {
+        const firstDay = apiData[0];
+        this.globalStartTime = firstDay.start_time || '09:00';
+        this.globalEndTime = firstDay.end_time || '17:00';
+        this.globalDayType = firstDay.day_type || 'week_days';
+        this.globalBreakTimes = [...(firstDay.break_times || [])];
+      }
+    } else if (apiData.timings && Array.isArray(apiData.timings)) {
+      // Old format: timings array inside object
+      apiData.timings.forEach((timing) => {
+        const dayKey = timing.day.toLowerCase();
+        this.model.schedule[`${dayKey}_start_time`] = timing.start_time;
+        this.model.schedule[`${dayKey}_end_time`] = timing.end_time;
+        this.model.schedule[`${dayKey}_status`] = timing.status;
+      });
+    }
+
+    // Sync to timingsJson
+    this.syncScheduleToTimingsJson();
   }
 
-  async onSubmit(model) {
-    if (this.form.invalid) {
-      // Mark all fields as touched to trigger validation styles
-      this.form.markAllAsTouched();
-      this.utility.presentFailureToast('Please fill out all required fields correctly.');
+  async submitGeneral() {
+    // Validate general fields
+    const generalFields = ['name', 'address', 'phone', 'email', 'copyright_text', 'website'];
+    const missingFields = [];
+
+    for (const field of generalFields) {
+      const value = this.model[field];
+      if (!value || value.trim() === '') {
+        missingFields.push(field.replace('_', ' ').replace(/\b\w/g, (l) => l.toUpperCase()));
+      }
+    }
+
+    if (missingFields.length > 0) {
+      this.utility.presentFailureToast(`Please fill in the following required fields: ${missingFields.join(', ')}`);
       return;
     }
 
-    console.log(model);
-    console.log('Form Submitted', this.form.value);
-    if (this.form.valid) {
-      // alert('Restaurant added successfully!');
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(this.model.email)) {
+      this.utility.presentFailureToast('Please enter a valid email address');
+      return;
+    }
 
-      let d = Object.assign({}, this.form.value);
+    // Validate website format
+    const websiteRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/;
+    if (this.model.website && !websiteRegex.test(this.model.website)) {
+      this.utility.presentFailureToast('Please enter a valid website URL');
+      return;
+    }
 
-      d['image'] = this.model.imageBase64;
-      d['favicon'] = this.model.faviconBase64;
-      d['logo'] = this.model.logoBase64;
-      d['schedule'] = [
-        {
-          day: 'Monday',
-          start_time: this.model.schedule.monday_start_time || '0:00',
-          end_time: this.model.schedule.monday_end_time || '10:00',
-          status: this.model.schedule.monday_status || 'inactive'
-        },
-        {
-          day: 'Tuesday',
-          start_time: this.model.schedule.tuesday_start_time || '0:00',
-          end_time: this.model.schedule.tuesday_end_time || '10:00',
-          status: this.model.schedule.tuesday_status || 'inactive'
-        },
-        {
-          day: 'Wednesday',
-          start_time: this.model.schedule.wednesday_start_time || '0:00',
-          end_time: this.model.schedule.wednesday_end_time || '10:00',
-          status: this.model.schedule.wednesday_status || 'inactive'
-        },
-        {
-          day: 'Thursday',
-          start_time: this.model.schedule.thursday_start_time || '0:00',
-          end_time: this.model.schedule.thursday_end_time || '10:00',
-          status: this.model.schedule.thursday_status || 'inactive'
-        },
-        {
-          day: 'Friday',
-          start_time: this.model.schedule.friday_start_time || '10:00',
-          end_time: this.model.schedule.friday_end_time || '10:00',
-          status: this.model.schedule.friday_status || 'inactive'
-        },
-        {
-          day: 'Saturday',
-          start_time: this.model.schedule.saturday_start_time || '0:00',
-          end_time: this.model.schedule.saturday_end_time || '10:00',
-          status: this.model.schedule.saturday_status || 'inactive'
-        },
-        {
-          day: 'Sunday',
-          start_time: this.model.schedule.sunday_start_time || '0:00',
-          end_time: this.model.schedule.sunday_end_time || '10:00',
-          status: this.model.schedule.sunday_status || 'inactive'
+    // Submit general info
+    await this.submitRestaurantData();
+  }
+
+  async submitTiming() {
+    // Sync form values to model before validation
+    this.syncScheduleToTimingsJson();
+
+    // Validate timing fields
+    const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+    const missingFields = [];
+
+    for (const day of days) {
+      const startTime = this.model.schedule[`${day}_start_time`];
+      const endTime = this.model.schedule[`${day}_end_time`];
+      const status = this.model.schedule[`${day}_status`];
+
+      if (!startTime || !endTime || !status) {
+        missingFields.push(day.charAt(0).toUpperCase() + day.slice(1));
+      }
+    }
+
+    if (missingFields.length > 0) {
+      this.utility.presentFailureToast(`Please fill in timing for the following days: ${missingFields.join(', ')}`);
+      return;
+    }
+
+    // Validate time format and logic
+    for (const day of days) {
+      const startTime = this.model.schedule[`${day}_start_time`];
+      const endTime = this.model.schedule[`${day}_end_time`];
+
+      if (startTime >= endTime) {
+        this.utility.presentFailureToast(`${day.charAt(0).toUpperCase() + day.slice(1)}: End time must be after start time`);
+        return;
+      }
+    }
+
+    // Log the timings JSON for debugging
+    console.log('Timings JSON:', this.timingsJson);
+
+    // Submit timing data
+    await this.submitRestaurantData();
+  }
+
+  async submitOrder() {
+    // Validate order fields
+    const orderFields = ['currency', 'dial_code', 'tax'];
+    const missingFields = [];
+
+    for (const field of orderFields) {
+      const value = this.model[field];
+      if (!value || value.toString().trim() === '') {
+        missingFields.push(field.replace('_', ' ').replace(/\b\w/g, (l) => l.toUpperCase()));
+      }
+    }
+
+    if (missingFields.length > 0) {
+      this.utility.presentFailureToast(`Please fill in the following required fields: ${missingFields.join(', ')}`);
+      return;
+    }
+
+    // Validate tax percentage
+    const tax = parseFloat(this.model.tax);
+    if (isNaN(tax) || tax < 0 || tax > 100) {
+      this.utility.presentFailureToast('Tax percentage must be between 0 and 100');
+      return;
+    }
+
+    // Submit order/branch config data
+    try {
+      let d = {
+        currency: this.model.currency,
+        dial_code: this.model.dial_code,
+        tax: this.model.tax,
+        branch_id: this.data.id,
+        delivery_charges: this.model.delivery_charges
+      };
+
+      const res = await this.network.updateBranchConfig(d, this.id);
+      console.log('Response from updateBranchConfig:', res);
+
+      if (res && res.data) {
+        this.utility.presentSuccessToast('Branch configuration updated successfully.');
+        this.nav.pop();
+      } else {
+        this.utility.presentFailureToast('Failed to update branch configuration.');
+      }
+    } catch (error) {
+      console.error('Error updating branch config:', error);
+      this.utility.presentFailureToast('An error occurred while updating branch configuration.');
+    }
+
+    setTimeout(() => {
+      this.globaldata.getDefaultRestaurant();
+    }, 700);
+  }
+
+  async submitRestaurantData() {
+    console.log('Submitting restaurant data:', this.model);
+    console.log('Timings JSON:', this.timingsJson);
+
+    let d: any = {};
+
+    // Copy all model properties except schedule and home_page_title (handled in meta)
+    Object.keys(this.model).forEach((key) => {
+      if (key !== 'schedule' && key !== 'home_page_title') {
+        d[key] = this.model[key];
+      }
+    }); 3
+
+    d['image'] = this.model.imageBase64;
+    d['favicon'] = this.model.faviconBase64;
+    d['logo'] = this.model.logoBase64;
+
+    // Use timingsJson array instead of schedule object
+    d['schedule'] = this.timingsJson;
+
+    // Add meta data to the request
+    d['meta'] = [];
+    if (this.model.home_page_title) {
+      d['meta'].push({
+        key: 'home_page_title',
+        value: this.model.home_page_title
+      });
+    }
+    // --- Always save timingsJson as JSON string in meta ---
+    d['meta'].push({
+      key: 'branch_timings',
+      value: JSON.stringify(this.timingsJson)
+    });
+
+    console.log('Final data to submit:', d);
+
+    const res = await this.network.updateRestaurant(d, this.id);
+    console.log(res);
+
+    if (res) {
+      this.utility.presentSuccessToast('Restaurant information updated successfully!');
+      let item = res;
+      this.grService.setRestaurant(item.id, item.name);
+
+      // Call API to set default restaurant
+      const data = {
+        is_active: 1
+      };
+
+      await this.network.setActiveRestaurant(data, item.id);
+      this.nav.pop();
+    }
+  }
+
+  async getCurrencies(): Promise<any[]> {
+    const res = await this.network.getCurrencies();
+    console.log(res, 'Currencies');
+    if (res && res['data']) {
+      return res['data'].map((c) => ({
+        value: c.currency_code,
+        label: `${c.flag} ${c.currency_code} - ${c.currency_name}`,
+        dial_code: c.dial_code
+      }));
+    }
+    return [];
+  }
+
+  async setCurrenciesInForm() {
+    const options = await this.getCurrencies();
+    this.allCurrencies = options; // Store for dial code lookup
+    for (let i = 0; i < this.orderFields.length; i++) {
+      for (let j = 0; j < this.orderFields[i].fieldGroup.length; j++) {
+        let fl = this.orderFields[i].fieldGroup[j];
+        if (fl.key === 'currency') {
+          fl.props.options = options;
         }
-      ];
+      }
+    }
+  }
 
-      console.log(d);
+  async loadBranchConfig() {
+    try {
+      const res = await this.network.getBranchConfig(this.id);
+      this.data = JSON.parse(localStorage.getItem('restaurant'));
 
-      const res = await this.network.updateRestaurant(d, this.id);
-      console.log(res);
-
-      if (res) {
-        this.utility.presentSuccessToast('Restaurant information Updated!');
-        let item = res;
-        this.grService.setRestaurant(item.id, item.name);
-
-        // Call API to set default restaurant
-        const data = {
-          is_active: 1
+      if (res && res.data && res.data.branch_config) {
+        // Patch only the editable fields from branch_config
+        const branchConfigModel = {
+          tax: res.data.branch_config.tax,
+          tips: res.data.branch_config.tips,
+          delivery_charges: res.data.branch_config.delivery_charges,
+          currency: res.data.branch_config.currency,
+          enableTax: res.data.branch_config.enableTax,
+          enableDeliveryCharges: res.data.branch_config.enableDeliveryCharges,
+          country: res.data.branch_config.country,
+          dial_code: res?.data.restaurant.dial_code // Set this if you have it in the response, otherwise leave blank or fetch by currency
         };
 
-        await this.network.setActiveRestaurant(data, item.id);
-        this.nav.pop();
+        // Update the model with branch config data
+        this.model['tax'] = branchConfigModel.tax;
+        this.model['currency'] = branchConfigModel.currency;
+        this.model['dial_code'] = branchConfigModel.dial_code;
+        this.model['tips'] = branchConfigModel.tips;
+        this.model['delivery_charges'] = branchConfigModel.delivery_charges;
+        this.model['enableTax'] = branchConfigModel.enableTax;
+        this.model['enableDeliveryCharges'] = branchConfigModel.enableDeliveryCharges;
+        this.model['country'] = branchConfigModel.country;
       }
-    } else {
-      this.utility.presentFailureToast('Please fill out all required fields correctly.');
-      //alert('Please fill out all required fields correctly.');
+    } catch (error) {
+      console.error('Error loading branch config:', error);
     }
+  }
+
+  // Global timing control methods
+  set24Hours() {
+    this.globalStartTime = '00:00';
+    this.globalEndTime = '23:59';
+
+    // Automatically apply 24h settings to all days
+    const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+
+    days.forEach((day) => {
+      this.model.schedule[`${day}_start_time`] = '00:00';
+      this.model.schedule[`${day}_end_time`] = '23:59';
+      this.model.schedule[`${day}_24h`] = true;
+      this.model.schedule[`${day}_open`] = true;
+    });
+
+    // Update form controls
+    days.forEach((day) => {
+      const startControl = this.form.get(`${day}_start_time`);
+      const endControl = this.form.get(`${day}_end_time`);
+
+      if (startControl) startControl.setValue('00:00');
+      if (endControl) endControl.setValue('23:59');
+    });
+
+    // Sync to timingsJson
+    this.syncScheduleToTimingsJson();
+
+    this.utility.presentSuccessToast('24h settings applied to all days!');
+  }
+
+  // Force refresh break times display
+  refreshBreakTimesDisplay() {
+    // Force change detection by creating new array references
+    const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+    days.forEach((day) => {
+      if (this.model.schedule[`${day}_break_times`]) {
+        this.model.schedule[`${day}_break_times`] = [...this.model.schedule[`${day}_break_times`]];
+      }
+    });
+  }
+
+  applyToAllDays() {
+    // Determine which days to apply settings to based on global day type
+    let targetDays: string[] = [];
+
+    if (this.globalDayType === 'week_days') {
+      targetDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
+    } else if (this.globalDayType === 'weekends') {
+      targetDays = ['saturday', 'sunday'];
+    }
+
+    console.log('Applying to days:', targetDays);
+    console.log('Global break times:', this.globalBreakTimes);
+
+    targetDays.forEach((day) => {
+      // Apply basic timing settings
+      this.model.schedule[`${day}_start_time`] = this.globalStartTime;
+      this.model.schedule[`${day}_end_time`] = this.globalEndTime;
+      this.model.schedule[`${day}_day_type`] = this.globalDayType;
+
+      // Apply break times from global settings - create a deep copy to avoid reference issues
+      this.model.schedule[`${day}_break_times`] = this.globalBreakTimes.map((breakTime) => ({
+        start: breakTime.start,
+        end: breakTime.end
+      }));
+
+      console.log(`Applied break times to ${day}:`, this.model.schedule[`${day}_break_times`]);
+
+      // Apply 24h and open settings based on global controls
+      // If global time is 24h, set 24h to true for all days
+      if (this.global24h) {
+        this.model.schedule[`${day}_24h`] = true;
+        this.model.schedule[`${day}_open`] = true;
+        this.model.schedule[`${day}_off_day`] = false;
+      } else if (this.globalOffDay) {
+        this.model.schedule[`${day}_24h`] = false;
+        this.model.schedule[`${day}_open`] = false;
+        this.model.schedule[`${day}_off_day`] = true;
+      } else {
+        this.model.schedule[`${day}_24h`] = false;
+        this.model.schedule[`${day}_open`] = true;
+        this.model.schedule[`${day}_off_day`] = false;
+      }
+    });
+
+    // Update form controls with actual values
+    targetDays.forEach((day) => {
+      const startControl = this.form.get(`${day}_start_time`);
+      const endControl = this.form.get(`${day}_end_time`);
+      const dayTypeControl = this.form.get(`${day}_day_type`);
+      const statusControl = this.form.get(`${day}_status`);
+
+      if (startControl) startControl.setValue(this.globalStartTime);
+      if (endControl) endControl.setValue(this.globalEndTime);
+      if (dayTypeControl) dayTypeControl.setValue(this.globalDayType);
+      if (statusControl) statusControl.setValue('active'); // Set all to active by default
+    });
+    console.log('Global settings applied to:', this.model.schedule);
+
+    // Sync to timingsJson
+    this.syncScheduleToTimingsJson();
+
+    // Force refresh break times display
+    this.refreshBreakTimesDisplay();
+
+    const dayTypeText = this.globalDayType === 'week_days' ? 'Week Days (Monday-Friday)' : 'Weekends (Saturday-Sunday)';
+    this.utility.presentSuccessToast(`Settings applied to ${dayTypeText} successfully!`);
+  }
+
+  // Break time management methods
+  addGlobalBreak() {
+    if (this.globalBreakStart && this.globalBreakEnd) {
+      this.globalBreakTimes.push({
+        start: this.globalBreakStart,
+        end: this.globalBreakEnd
+      });
+
+      // Reset the input fields
+      this.globalBreakStart = '12:00';
+      this.globalBreakEnd = '13:00';
+
+      // Force change detection to update the UI
+      this.syncScheduleToTimingsJson();
+    }
+  }
+
+  removeGlobalBreak(index: number) {
+    this.globalBreakTimes.splice(index, 1);
+    // Force change detection to update the UI
+    this.syncScheduleToTimingsJson();
+  }
+
+  toggle24h(day: string) {
+    this.model.schedule[`${day}_24h`] = !this.model.schedule[`${day}_24h`];
+    if (this.model.schedule[`${day}_24h`]) {
+      this.model.schedule[`${day}_start_time`] = '00:00';
+      this.model.schedule[`${day}_end_time`] = '23:59';
+    }
+
+    // Sync to timingsJson
+    this.syncScheduleToTimingsJson();
+  }
+
+  toggleOpen(day: string) {
+    this.model.schedule[`${day}_open`] = !this.model.schedule[`${day}_open`];
+
+    // Sync to timingsJson
+    this.syncScheduleToTimingsJson();
+  }
+
+  toggleOffDay(day: string) {
+    this.model.schedule[`${day}_off_day`] = !this.model.schedule[`${day}_off_day`];
+
+    // If off day is enabled, disable open and 24h
+    if (this.model.schedule[`${day}_off_day`]) {
+      this.model.schedule[`${day}_open`] = false;
+      this.model.schedule[`${day}_24h`] = false;
+    }
+
+    // Sync to timingsJson
+    this.syncScheduleToTimingsJson();
+  }
+
+  toggleGlobal24h() {
+    this.global24h = !this.global24h;
+
+    if (this.global24h) {
+      this.globalStartTime = '00:00';
+      this.globalEndTime = '23:59';
+    }
+  }
+
+  toggleGlobalOffDay() {
+    this.globalOffDay = !this.globalOffDay;
+  }
+
+  getBreakTimes(day: string): Array<{ start: string; end: string }> {
+    return this.model.schedule[`${day}_break_times`] || [];
+  }
+
+  addBreakTime(day: string) {
+    if (!this.model.schedule[`${day}_break_times`]) {
+      this.model.schedule[`${day}_break_times`] = [];
+    }
+    this.model.schedule[`${day}_break_times`].push({
+      start: '12:00',
+      end: '13:00'
+    });
+
+    // Sync to timingsJson
+    this.syncScheduleToTimingsJson();
+  }
+
+  removeBreakTime(day: string, index: number) {
+    this.model.schedule[`${day}_break_times`].splice(index, 1);
+
+    // Sync to timingsJson
+    this.syncScheduleToTimingsJson();
+  }
+
+  updateBreakTime(day: string, index: number, breakTime: { start: string; end: string }) {
+    this.model.schedule[`${day}_break_times`][index] = breakTime;
+
+    // Sync to timingsJson
+    this.syncScheduleToTimingsJson();
+  }
+
+  // New method to populate timing fields from JSON data
+  populateTimingFieldsFromJson() {
+    const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+
+    days.forEach((day) => {
+      // Set start time
+      const startTime = this.model.schedule[`${day}_start_time`] || '09:00';
+      const startControl = this.form.get(`${day}_start_time`);
+      if (startControl) {
+        startControl.setValue(startTime);
+      }
+
+      // Set end time
+      const endTime = this.model.schedule[`${day}_end_time`] || '17:00';
+      const endControl = this.form.get(`${day}_end_time`);
+      if (endControl) {
+        endControl.setValue(endTime);
+      }
+
+      // Set 24h toggle
+      const is24h = this.model.schedule[`${day}_24h`] || false;
+      this.model.schedule[`${day}_24h`] = is24h;
+
+      // Set open toggle
+      const isOpen = this.model.schedule[`${day}_open`] || true;
+      this.model.schedule[`${day}_open`] = isOpen;
+
+      // Set off day toggle
+      const isOffDay = this.model.schedule[`${day}_off_day`] || false;
+      this.model.schedule[`${day}_off_day`] = isOffDay;
+
+      // Set break times
+      const breakTimes = this.model.schedule[`${day}_break_times`] || [];
+      this.model.schedule[`${day}_break_times`] = [...breakTimes];
+    });
+
+    // Set global controls based on first day (monday) or default values
+    this.globalStartTime = this.model.schedule.monday_start_time || '09:00';
+    this.globalEndTime = this.model.schedule.monday_end_time || '17:00';
+    this.globalDayType = this.model.schedule.monday_day_type || 'week_days';
+    this.globalBreakTimes = [...(this.model.schedule.monday_break_times || [])];
+    this.global24h = this.model.schedule.monday_24h || false;
+    this.globalOffDay = this.model.schedule.monday_off_day || false;
+
+    // Sync to timingsJson
+    this.syncScheduleToTimingsJson();
   }
 }

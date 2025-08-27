@@ -7,7 +7,7 @@
 >
   <form class="mt-3" [formGroup]="form" *ngIf="crudService.filters">
     <formly-form [form]="form" [fields]="fields" [model]="model" (modelChange)="debouncedSubmitFilters($event)"></formly-form>
-    <button type="button" class="btn btn-secondary mt-2" (click)="resetFilters()">Reset Filters</button>
+    <button type="button" class="btn btn-secondary mt-2" style="color:white; background-color: red;" (click)="resetFilters()">Reset Filters</button>
   </form>
 
   <hr *ngIf="crudService.filters" />
@@ -41,7 +41,7 @@
             <a class="text-hover-primary fs-5 fw-bold" data-kt-ecommerce-product-filter="product_name" (click)="openDetails(i)">
               {{ item.name }}
             </a>
-            <div class="fs-7 fw-bold">{{ item.description }}</div>
+            <div class="fs-7 fw-bold category-description">{{ item.description }}</div>
 
             <!--end::Title-->
           </div>
@@ -49,25 +49,7 @@
       </td>
       <td>
         <div class="d-flex">
-          <div class="fs-7 fw-bold">{{ item.category ? item.category : '' }}</div>
-        </div>
-      </td>
-      <td>
-        <div class="d-flex">
-          <div class="badge badge-secondary fw-bold me-auto">{{ this.currencyService.currency_symbol }} {{ item.price }}</div>
-        </div>
-      </td>
-
-      <td>
-        <div class="d-flex">
-          <span class="badge badge-pill badge-primary fw-bold me-auto" [class.badge-danger]="i % 2 !== 0">
-            {{ i % 2 === 0 ? 'True' : 'False' }}
-          </span>
-        </div>
-      </td>
-      <td>
-        <div class="d-flex">
-          <a href="#" class="badge badge-info fw-bold me-auto">349</a>
+          <div class="badge badge-secondary fw-bold me-auto">{{ this.currencySymbol }} {{ item.price }}</div>
         </div>
       </td>
       <td>
@@ -75,6 +57,12 @@
           <a class="badge badge-success fw-bold me-auto">{{ this.currencyService.currency_symbol }} {{ item.discount }}</a>
         </div>
       </td>
+      <td>
+        <div class="d-flex">
+          <div class="fs-7 fw-bold">{{ item.category ? item.category : '' }}</div>
+        </div>
+      </td>
+
       <td>
         <div class="d-flex">
           <div
@@ -93,9 +81,9 @@
       <!--begin::Action=-->
       <td class="text-start">
         <div class="d-flex flex-row justify-content-start align-items-center gap-3">
-          <i class="ti ti-eye view-icon" style="font-size: 20px" (click)="openDetails(i)"></i>
-          <i *ngIf="showEdit" class="edit-icon ti ti-edit" style="font-size: 20px; cursor: pointer" (click)="EditOpenDetails(i)"></i>
-          <i *ngIf="showEdit" class="ti ti-trash trash-icon" style="font-size: 20px" (click)="deleteRow(i)"></i>
+          <i class="ti ti-eye view-icon" style="font-size: 20px" (click)="openDetails(i)" *ngIf="canView"></i>
+          <i class="edit-icon ti ti-edit" style="font-size: 20px; cursor: pointer" (click)="EditOpenDetails(i)" *ngIf="canEdit"></i>
+          <i class="ti ti-trash trash-icon" style="font-size: 20px" (click)="deleteRow(i)" *ngIf="canDelete"></i>
         </div>
       </td>
       <!--end::Action=-->

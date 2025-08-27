@@ -56,7 +56,7 @@
               <div class="card-body py-0">
                 <div class="media pb-1">
                   <div class="media-body white text-left">
-                    <h3 class="font-large-1 white mb-0">{{ this.currencyService.currency_symbol }} {{ totalRevenue }}</h3>
+                    <h3 class="font-large-1 white mb-0">{{ this.currencySymbol + ' ' }} {{ totalRevenue }}</h3>
                     <span>Total Amount</span>
                   </div>
                   <div class="media-right white text-right">
@@ -114,12 +114,12 @@
         </div>
       </div>
       <div class="row my-2">
-        <div class="col-xl-8 col-md-12 mb-12">
+        <div class="col-xl-12 col-md-12 mb-12">
           <app-recent-order />
         </div>
-        <div class="col-xl-4 col-md-12">
+        <!-- <div class="col-xl-4 col-md-12">
           <app-favourite-table />
-        </div>
+        </div> -->
         <!-- <div class="col-xl-8 col-md-12 mb-12">
           <app-project-stat />
         </div> -->

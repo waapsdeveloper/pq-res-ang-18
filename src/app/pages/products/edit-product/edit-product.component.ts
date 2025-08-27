@@ -23,6 +23,13 @@ export class EditProductComponent implements OnInit, AfterViewInit {
   variations: any[] = [];
   addAttributeInput = '';
 
+  // File size limit - 1MB
+  readonly MAX_FILE_SIZE = 3 * 1024 * 1024; // 1MB in bytes
+
+  // File validation variables
+  selectedFile: File | null = null;
+  fileError: string = '';
+
   constructor(
     private route: ActivatedRoute,
     private network: NetworkService,
@@ -69,11 +76,12 @@ export class EditProductComponent implements OnInit, AfterViewInit {
     price: null,
     image: '',
     imageBase64: '',
-    discount: null,
+    discount: 0,
     notes: '',
     sizes: '',
     spicy: '',
-    type: ''
+    type: '',
+    src_img: ''
   };
 
   fields: FormlyFieldConfig[] = [
@@ -86,8 +94,14 @@ export class EditProductComponent implements OnInit, AfterViewInit {
           props: {
             label: 'Product Name',
             placeholder: 'Enter product name',
-            required: true, // Ensure required is true
-            minLength: 3
+            required: true,
+            minLength: 3,
+            validation: {
+              messages: {
+                required: 'Product name is required',
+                minlength: 'Product name must be at least 3 characters long'
+              }
+            }
           },
           className: 'col-12 col-lg-6'
         },
@@ -96,19 +110,21 @@ export class EditProductComponent implements OnInit, AfterViewInit {
           type: 'select',
           props: {
             label: 'Category',
+            required: true,
+            multiple: false,
             placeholder: 'Select a category',
-            options: [],
-            required: true // Ensure required is true
+            options: []
           },
           className: 'formly-select-wrapper-3232 col-12 col-lg-6'
         },
+
         {
           key: 'description',
           type: 'input',
           props: {
             label: 'Description',
             placeholder: 'Enter description',
-            required: true, // Ensure required is true
+            required: false, // Ensure required is true
             minLength: 3
           },
           className: 'col-12 col-lg-6'
@@ -118,11 +134,11 @@ export class EditProductComponent implements OnInit, AfterViewInit {
           type: 'select',
           props: {
             label: 'Status',
+            required: true,
             options: [
               { value: 'active', label: 'Active' },
               { value: 'inactive', label: 'Inactive' }
-            ],
-            required: true // Ensure required is true
+            ]
           },
           className: 'formly-select-wrapper-3232 col-12 col-lg-6'
         },
@@ -131,9 +147,9 @@ export class EditProductComponent implements OnInit, AfterViewInit {
           type: 'input',
           props: {
             label: 'Price',
+            required: true,
             placeholder: 'Set a regular price',
-            type: 'number',
-            required: true // Ensure required is true
+            type: 'number'
           },
           className: 'col-12 col-lg-6'
         },
@@ -145,6 +161,7 @@ export class EditProductComponent implements OnInit, AfterViewInit {
             placeholder: 'Enter image URL',
             type: 'file',
             accept: 'image/*',
+            required: false, // Ensure required is true
             change: (field, event) => this.onFileChange(field, event, 'imageBase64')
           },
           className: 'formly-image-wrapper-3232 col-12 col-lg-6'
@@ -154,9 +171,9 @@ export class EditProductComponent implements OnInit, AfterViewInit {
           type: 'input',
           props: {
             label: 'Discount',
+            required: false,
             placeholder: 'Set a discount',
-            type: 'number',
-            required: true // Ensure required is true
+            type: 'number'
           },
           className: 'col-12 col-lg-6'
         }
@@ -227,14 +244,18 @@ export class EditProductComponent implements OnInit, AfterViewInit {
       description: d.description || '',
       status: (d.status || '').toLowerCase(),
       price: d.price || null,
-      image: '',
+      image: d.image,
       imageBase64: d.imageBase64 || '',
-      discount: d.discount || null,
+      discount: d.discount !== undefined && d.discount !== null && d.discount !== '' ? Number(d.discount) : null,
       notes: d.notes || '',
       sizes: d.sizes || '',
       spicy: d.spicy || '',
-      type: d.type || ''
+      type: d.type || '',
+      src_img: d.image || ''
     };
+
+    // Force Formly form to update with new model values
+    this.form.patchValue(this.model);
   }
 
   async getRestaurants(): Promise<any[]> {
@@ -310,12 +331,21 @@ export class EditProductComponent implements OnInit, AfterViewInit {
   async onSubmit(model) {
     console.log(model);
     console.log('Form Submitted', this.form.valid);
+    if (this.form.invalid) {
+      // Mark all fields as touched to trigger validation styles
+      this.form.markAllAsTouched();
+      this.utility.presentFailureToast('Please fill out all required fields correctly.');
+      return;
+    }
+
     if (this.form.valid) {
       // alert('Restaurant added successfully!');
 
       let d = Object.assign({}, this.form.value);
+      d['discount'] = d['discount'] !== undefined && d['discount'] !== null && d['discount'] !== '' ? Number(d['discount']) : 0;
 
-      d['image'] = this.model.imageBase64;
+      // Use the uploaded image URL if available, otherwise use existing image
+      d['image'] = this.model.src_img || this.model.imageBase64;
 
       // d['sizes'] = JSON.stringify(d['sizes']);
       // d['spicy'] = JSON.stringify(d['spicy']);
@@ -335,22 +365,49 @@ export class EditProductComponent implements OnInit, AfterViewInit {
   }
   onFileChange(field, event: Event, type: string = 'image') {
     const input = event.target as HTMLInputElement;
+    this.fileError = ''; // Clear previous errors
+    this.selectedFile = null; // Reset selected file
+
     if (input.files && input.files[0]) {
       const file = input.files[0];
-      const reader = new FileReader();
-      reader.onload = () => {
-        const base64String = reader.result as string;
-        console.log(base64String);
 
-        this.model[type] = base64String; // Update the model
-        // this.fields[0].fieldGroup[6].props['value'] = base64String; // Update the field value
-        // this.fields[0].fieldGroup[6].formControl.setValue(base64String); // Update the form control value
+      // Check file size
+      if (file.size > this.MAX_FILE_SIZE) {
+        this.fileError = `File size must be less than ${this.MAX_FILE_SIZE / (1024 * 1024)}MB`;
+        input.value = ''; // Clear the input
+        return;
+      }
 
-        // field.formControl.setValue(base64String); // Update the form control value
-      };
-      reader.readAsDataURL(file); // Convert file to base64
+      // Store the file object
+      this.selectedFile = file;
+      this.model.image = file.name; // Display filename in form
+
+      console.log('File selected:', file.name, 'Size:', file.size, 'Type:', file.type);
+
+      // Upload the image immediately for existing products
+      this.uploadImage(file);
     }
   }
+
+  async uploadImage(file: File) {
+    try {
+      const res = await this.network.uploadProductImage(file, this.id);
+      console.log(res);
+      if (res) {
+        // Store the uploaded image URL (use relative path, not full URL)
+        this.model.src_img = res.full_url;
+        this.utility.presentSuccessToast('Image uploaded successfully!');
+      } else {
+        this.fileError = 'Failed to upload image';
+        this.utility.presentFailureToast('Failed to upload image');
+      }
+    } catch (error) {
+      this.fileError = 'Error uploading image';
+      this.utility.presentFailureToast('Error uploading image');
+      console.error('Upload error:', error);
+    }
+  }
+
   addAttributes() {
     let v = this.addAttributeInput.trim();
 

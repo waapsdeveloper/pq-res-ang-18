@@ -12,11 +12,11 @@
                     height="230">
                 </div>
                 <div class="col-lg-6 col-12 px-4 py-3">
-                  <h4 class="mb-2 card-title">Login</h4>
-                  <p>Welcome back, please login to your account.</p>
+                  <h4 class="mb-2 card-title" *ngIf="!showForgotPassword && !showResetPassword">Login</h4>
+                  <p *ngIf="!showForgotPassword && !showResetPassword">Welcome back, please login to your account.</p>
 
                   <!-- Angular Form -->
-                  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                  <form *ngIf="!showForgotPassword && !showResetPassword" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
                     <!-- Username/Email Field -->
                     <div class="mb-3">
                       <input type="text" class="form-control" formControlName="email" placeholder="Username / Email">
@@ -35,6 +35,10 @@
                       </div>
                     </div>
 
+                    <div class="text-end mt-2 mb-3" style="padding-bottom: 8px;">
+                      <a href="#" (click)="toggleForgotPassword($event)" class="text-primary" style="cursor:pointer;">Forgot Password?</a>
+                    </div>
+
                     <hr>
 
                     <!-- Submit Button -->
@@ -42,8 +46,69 @@
                       <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid || showLoader">Login</button>
                     </div>
                   </form>
-                </div>
 
+                  <!-- Forgot Password Container -->
+                  <div *ngIf="showForgotPassword && !showResetPassword" class="mt-4">
+                    <h4 class="mb-2 card-title">Reset Password</h4>
+                    <p>Enter your email to receive a reset link.</p>
+                    <form [formGroup]="forgotPasswordForm" (ngSubmit)="onResetPassword()">
+                      <div class="mb-3">
+                        <input type="text" class="form-control" formControlName="email" placeholder="Email">
+                        <div *ngIf="forgotPasswordForm.get('email')?.touched && forgotPasswordForm.get('email')?.invalid" class="text-danger">
+                          <small *ngIf="forgotPasswordForm.get('email')?.errors?.['required']">Email is required.</small>
+                          <small *ngIf="forgotPasswordForm.get('email')?.errors?.['email']">Enter a valid email.</small>
+                        </div>
+                      </div>
+                      <div class="mb-3 text-end">
+                        <a href="#" (click)="toggleForgotPassword($event)" class="btn btn-link p-0">Back to Login</a>
+                      </div>
+                      <div class="d-flex justify-content-between flex-sm-row flex-column">
+                        <button type="submit" class="btn btn-primary" [disabled]="forgotPasswordForm.invalid">Reset Password Link</button>
+                      </div>
+                    </form>
+                  </div>
+
+                  <!-- Reset Password Container -->
+                  <div *ngIf="showResetPassword" class="mt-4">
+                    <h4 class="mb-2 card-title">Set New Password</h4>
+                    <p>Enter the token sent to your email and set your new password.</p>
+                    <form [formGroup]="resetPasswordForm" (ngSubmit)="onChangePassword()">
+                      <div class="mb-3">
+                        <input type="text" class="form-control" formControlName="email" placeholder="Email">
+                        <div *ngIf="resetPasswordForm.get('email')?.touched && resetPasswordForm.get('email')?.invalid" class="text-danger">
+                          <small *ngIf="resetPasswordForm.get('email')?.errors?.['required']">Email is required.</small>
+                          <small *ngIf="resetPasswordForm.get('email')?.errors?.['email']">Enter a valid email.</small>
+                        </div>
+                      </div>
+                      <div class="mb-3">
+                        <input type="text" class="form-control" formControlName="token" placeholder="Token">
+                        <div *ngIf="resetPasswordForm.get('token')?.touched && resetPasswordForm.get('token')?.invalid" class="text-danger">
+                          <small *ngIf="resetPasswordForm.get('token')?.errors?.['required']">Token is required.</small>
+                        </div>
+                      </div>
+                      <div class="mb-3">
+                        <input type="password" class="form-control" formControlName="password" placeholder="New Password">
+                        <div *ngIf="resetPasswordForm.get('password')?.touched && resetPasswordForm.get('password')?.invalid" class="text-danger">
+                          <small *ngIf="resetPasswordForm.get('password')?.errors?.['required']">Password is required.</small>
+                          <small *ngIf="resetPasswordForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters.</small>
+                        </div>
+                      </div>
+                      <div class="mb-3">
+                        <input type="password" class="form-control" formControlName="password_confirmation" placeholder="Confirm New Password">
+                        <div *ngIf="resetPasswordForm.get('password_confirmation')?.touched && resetPasswordForm.get('password_confirmation')?.invalid" class="text-danger">
+                          <small *ngIf="resetPasswordForm.get('password_confirmation')?.errors?.['required']">Confirmation is required.</small>
+                          <small *ngIf="resetPasswordForm.get('password_confirmation')?.errors?.['minlength']">Password must be at least 6 characters.</small>
+                        </div>
+                      </div>
+                      <div class="mb-3 text-end">
+                        <a href="#" (click)="showResetPassword = false" class="btn btn-link p-0">Back to Login</a>
+                      </div>
+                      <div class="d-flex justify-content-between flex-sm-row flex-column">
+                        <button type="submit" class="btn btn-primary" [disabled]="resetPasswordForm.invalid">Change Password</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

@@ -4,9 +4,9 @@
     <!--begin::Page title-->
     <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
       <!--begin::Title-->
-      <h1 class="content-header d-flex align-items-center my-0">
-        {{ title }}
-        <span style="color: red">{{ titleHighlightPart }}</span>
+      <h1 class="content-header d-flex flex-column flex-sm-row align-items-start align-items-sm-center my-0">
+        <span class="me-0 me-sm-2">{{ title }}</span>
+        <span class="title-highlight-part" style="color: red; font-size: 0.9rem; word-wrap: break-word; max-width: 100%;">{{ titleHighlightPart }}</span>
       </h1>
       <!--end::Title-->
       <app-kt-app-toolbar-breadcrumb></app-kt-app-toolbar-breadcrumb>

@@ -9,6 +9,9 @@ import { UtilityService } from 'src/app/services/utility.service';
 import { RestaurantService } from '../restaurant.service';
 import { EventsService } from 'src/app/services/events.service';
 import { CurrencyService } from 'src/app/services/currency.service';
+import { ActivatedRoute } from '@angular/router';
+import { PermissionService } from 'src/app/services/permission.service';
+import { GlobalDataService } from 'src/app/services/global-data.service';
 
 @Component({
   selector: 'app-list-restaurant',
@@ -18,6 +21,11 @@ import { CurrencyService } from 'src/app/services/currency.service';
 })
 export class ListRestaurantComponent extends ListBlade {
   showDeleteAllButton = false;
+  setDefaultButton;
+  configButton;
+  canEdit;
+  canDelete;
+  canView;
   title = 'Branches';
   addurl = '/pages/restaurants/add';
   override selectAll: boolean = false;
@@ -36,6 +44,7 @@ export class ListRestaurantComponent extends ListBlade {
       address: '',
       status: 'active'
     };
+    this.crudService.resetFilters(this.model);;
   }
   fields: FormlyFieldConfig[] = [
     {
@@ -86,10 +95,18 @@ export class ListRestaurantComponent extends ListBlade {
     private network: NetworkService,
     private cdr: ChangeDetectorRef,
     public currencyService: CurrencyService,
-    public events: EventsService
+    public events: EventsService,
+    public globaldata: GlobalDataService,
+    private route: ActivatedRoute,
+    private permissionService: PermissionService
   ) {
     super(injector, crudService);
     this.initialize();
+    this.canDelete = this.permissionService.hasPermission('branch' + '.delete');
+    this.configButton = this.permissionService.hasPermission('branch' + '.set_default');
+    this.setDefaultButton = this.permissionService.hasPermission('branch' + '.config_button');
+    this.canEdit = this.permissionService.hasPermission('branch' + '.edit');
+    this.canView = this.permissionService.hasPermission('branch' + '.view');
   }
   async onDeleteAll($event: any) {
     const flag = await this.utility.presentConfirm('Delete', 'Cancel', 'Delete All Record', 'Are you sure you want to delete all?');
@@ -113,23 +130,44 @@ export class ListRestaurantComponent extends ListBlade {
   editRow(index: number) {}
 
   async deleteRow(index: number) {
+    if (!this.canDelete) {
+      alert('You do not have permission to delete.');
+      return;
+    }
+
+    let item = this.crudService.list[index];
+    let a = parseInt(item.is_active, 10);
+    console.log('Deleting item:', item, a);
+    if (a === 1) {
+      this.utility.presentFailureToast('You cannot delete an active restaurant.');
+      return;
+    }
+
     try {
-      const item = this.crudService.list[index];
-
-      // Check if the item id is null
-      if (item.id === 1 || item.id === undefined) {
-        console.log('Item cannot be deleted because id is null or undefined.');
-        return; // Exit the function without attempting to delete
-      }
-
-      // Proceed with deletion if id is not null
       await this.crudService.deleteRow(index, this.utility);
       this.utility.presentSuccessToast('Deleted Sucessfully!');
-
       console.log('Row deleted successfully');
     } catch (error) {
       console.error('Error deleting row:', error);
     }
+  }
+
+  async configRow(i) {
+    const item = this.crudService.list[i];
+    console.log('Configuring item:', item);
+
+    // call network to get branch config
+    const res = await this.network.getBranchConfigById(item.id);
+    console.log('Branch Config Response:', res);
+    if (!res || !res.data) {
+      this.utility.presentFailureToast('Branch configuration not found for this restaurant.');
+      return; // Exit if branch config is not found
+    }
+
+    let config = res.data;
+
+    // Proceed with configuration if id is not null
+    this.nav.push('/pages/branch-config/edit/' + config.id);
   }
 
   openDetails(i) {
@@ -164,11 +202,7 @@ export class ListRestaurantComponent extends ListBlade {
 
     const res = await this.network.setActiveRestaurant(data, item.id);
     console.log(res);
-    const R = res.restaurant;
-    localStorage.setItem('restaurant', JSON.stringify(R));
-    localStorage.setItem('restaurant_id', R.id);
-    this.currencyService.setCurrency(R.currency);
-    this.currencyService.setTax(R.tax);
+    this.globaldata.getDefaultRestaurant();
     this.utility.presentSuccessToast('Default Restaurant Set Successfully!');
     this.crudService.getList('', 1);
   }

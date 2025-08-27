@@ -107,3 +107,23 @@
   margin: 4px 0;
   padding-bottom: 8px;
 }
+
+.price-list-card {
+  height: calc(100vh - 400px);
+  min-height: 220px;
+}
+
+@media (max-width: 767.98px) {
+  .price-list-card {
+    height: 220px !important; // Reduced height for mobile
+    min-height: 160px;
+  }
+  .card-body-scroll {
+    max-height: 140px;
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    scrollbar-width: 2px;
+  }
+}
