@@ -94,7 +94,8 @@ export class ListOrderPrintslipComponent implements OnInit {
       const canvas = await html2canvas(section, { scale: 2, useCORS: false });
       // convert px -> mm (1px = 25.4 / 96 mm)
       let contentHeightMm = (canvas.height * 25.4) / 96 / 2; // divided by scale=2
-      contentHeightMm += 115;
+      contentHeightMm += 110;
+      this.size+=6;
       const opt = {
         margin: 0,
         filename: 'Invoice-slip.pdf',
