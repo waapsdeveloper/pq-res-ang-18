@@ -15,7 +15,7 @@ import { UtilityService } from 'src/app/services/utility.service';
 export class AddRestaurantComponent {
   form = new FormGroup({});
   model = {
-    name: '',
+    name: 'Restaurant one',
     copyright_text: '',
     // image: '',
     imageBase64: '',
@@ -24,8 +24,8 @@ export class AddRestaurantComponent {
     logo: '',
     logoBase64: '',
     address: '',
-    phone: '',
-    email: '',
+    phone: '8957985674',
+    email: 'restaurant1@mail.com',
     website: '',
     schedule: {
       monday_day: 'Monday',
@@ -103,7 +103,48 @@ export class AddRestaurantComponent {
           },
           className: 'col-md-6 col-12'
         },
-
+        {
+          key: 'email',
+          type: 'input',
+          props: {
+            label: 'Email Address',
+            placeholder: 'Enter email',
+            type: 'email',
+            required: true // Ensure required is true
+          },
+          className: 'col-md-6 col-12'
+        },
+        {
+          key: 'website',
+          type: 'input',
+          props: {
+            label: 'Website',
+            placeholder: 'Enter website URL',
+            pattern: /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/,
+            required: true // Ensure required is true
+          },
+          className: 'col-md-6 col-12'
+        },
+        {
+          key: 'copyright_text',
+          type: 'textarea',
+          props: {
+            label: 'Copyright text',
+            placeholder: 'Enter copy right text',
+            required: true // Ensure required is true
+          },
+          className: 'col-md-6 col-12'
+        },
+        {
+          key: 'description',
+          type: 'textarea',
+          props: {
+            label: 'Description',
+            placeholder: 'Enter description',
+            required: true // Ensure required is true
+          },
+          className: 'col-md-6 col-12'
+        },
         // {
         //   key: 'image',
         //   type: 'input',
@@ -157,62 +198,62 @@ export class AddRestaurantComponent {
           className: 'formly-select-wrapper-3232 col-md-6 col-12'
         }
       ]
+    },
+    {
+      key: 'schedule',
+      fieldGroupClassName: 'row', // Bootstrap row
+      fieldGroup: [
+        ...['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day) => ({
+          fieldGroupClassName: 'row col-12',
+          fieldGroup: [
+            {
+              key: `${day.toLowerCase()}_day`,
+              type: 'input',
+              props: {
+                label: 'Day',
+                value: `${day}`,
+                readonly: true,
+                required: true // Ensure required is true
+              },
+              className: 'col-md-3 col-12'
+            },
+            {
+              key: `${day.toLowerCase()}_start_time`,
+              type: 'input',
+              props: {
+                label: 'Start Time',
+                type: 'time',
+                required: true // Ensure required is true
+              },
+              className: 'col-md-3 col-12'
+            },
+            {
+              key: `${day.toLowerCase()}_end_time`,
+              type: 'input',
+              props: {
+                label: 'End Time',
+                type: 'time',
+                required: true // Ensure required is true
+              },
+              className: 'col-md-3 col-12'
+            },
+            {
+              key: `${day.toLowerCase()}_status`,
+              type: 'select',
+              props: {
+                label: 'Status',
+                options: [
+                  { value: 'active', label: 'Active' },
+                  { value: 'inactive', label: 'Inactive' }
+                ],
+                required: true // Ensure required is true
+              },
+              className: 'formly-select-wrapper-3232 col-md-3 col-12'
+            }
+          ]
+        }))
+      ]
     }
-    // {
-    //   key: 'schedule',
-    //   fieldGroupClassName: 'row', // Bootstrap row
-    //   fieldGroup: [
-    //     ...['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day) => ({
-    //       fieldGroupClassName: 'row col-12',
-    //       fieldGroup: [
-    //         {
-    //           key: `${day.toLowerCase()}_day`,
-    //           type: 'input',
-    //           props: {
-    //             label: 'Day',
-    //             value: `${day}`,
-    //             readonly: true,
-    //             required: true // Ensure required is true
-    //           },
-    //           className: 'col-md-3 col-12'
-    //         },
-    //         {
-    //           key: `${day.toLowerCase()}_start_time`,
-    //           type: 'input',
-    //           props: {
-    //             label: 'Start Time',
-    //             type: 'time',
-    //             required: true // Ensure required is true
-    //           },
-    //           className: 'col-md-3 col-12'
-    //         },
-    //         {
-    //           key: `${day.toLowerCase()}_end_time`,
-    //           type: 'input',
-    //           props: {
-    //             label: 'End Time',
-    //             type: 'time',
-    //             required: true // Ensure required is true
-    //           },
-    //           className: 'col-md-3 col-12'
-    //         },
-    //         {
-    //           key: `${day.toLowerCase()}_status`,
-    //           type: 'select',
-    //           props: {
-    //             label: 'Status',
-    //             options: [
-    //               { value: 'active', label: 'Active' },
-    //               { value: 'inactive', label: 'Inactive' }
-    //             ],
-    //             required: true // Ensure required is true
-    //           },
-    //           className: 'formly-select-wrapper-3232 col-md-3 col-12'
-    //         }
-    //       ]
-    //     }))
-    //   ]
-    // }
   ];
 
   constructor(
@@ -220,7 +261,7 @@ export class AddRestaurantComponent {
     private network: NetworkService,
     private nav: NavService,
     private utility: UtilityService,
-    public grService: GlobalRestaurantService
+    public grService: GlobalRestaurantService,
   ) {}
 
   onFileChange(field, event: Event, type: string = 'image') {
@@ -301,9 +342,10 @@ export class AddRestaurantComponent {
 
       const res = await this.network.addRestaurant(d);
       console.log(res);
-      if (res && res.restaurant) {
+      if (res) {
+
         this.utility.presentSuccessToast('Restaurant added Successfully!');
-        let item = res.restaurant;
+        let item = res;
         this.grService.setRestaurant(item.id, item.name);
 
         // Call API to set default restaurant
@@ -312,6 +354,7 @@ export class AddRestaurantComponent {
         };
 
         await this.network.setActiveRestaurant(data, item.id);
+
 
         this.nav.pop();
       }

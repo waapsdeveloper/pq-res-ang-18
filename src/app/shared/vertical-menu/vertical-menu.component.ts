@@ -88,7 +88,7 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }
     else if (this.config.layout.menuPosition === "Side") { // Vertical Menu{
-      this.menuItems = HROUTES;
+      this.menuItems = ROUTES;
     }
 
 

@@ -28,7 +28,6 @@ export class AddUserComponent implements OnInit {
     country: '',
     image: '',
     imageBase64: '',
-    src_img: '',
     status: 'active' // Set default value to "active"
   };
 
@@ -267,14 +266,16 @@ export class AddUserComponent implements OnInit {
           key: 'image',
           type: 'input',
           props: {
-            label: 'Profile Image',
-            placeholder: 'Enter image URL',
+            label: 'Profile Picture',
+            placeholder: 'Upload an image',
             type: 'file',
             accept: 'image/*',
-            change: (field, event) => this.onFileChange(field, event, 'imageBase64'),
-            required: false // Ensure required is true
+            required: false,
+            validation: {
+              show: (field) => field.formControl && field.formControl.invalid && field.formControl.focused
+            }
           },
-          className: 'formly-image-wrapper-3232 col-md-3 col-12'
+          className: 'formly-image-wrapper-3232 col-md-6 col-12'
         }
       ]
     }
@@ -403,7 +404,6 @@ export class AddUserComponent implements OnInit {
         console.log(base64String);
 
         this.model[type] = base64String; // Update the model
-        this.model['src_img'] = base64String; // Update the
         // this.fields[0].fieldGroup[6].props['value'] = base64String; // Update the field value
         // this.fields[0].fieldGroup[6].formControl.setValue(base64String); // Update the form control value
 

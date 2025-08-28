@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, ViewChild ,ViewEncapsulation} from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -12,6 +12,7 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
   templateUrl: './add-product.component.html',
   styleUrl: './add-product.component.scss',
   encapsulation: ViewEncapsulation.None
+
 })
 export class AddProductComponent {
   form = new FormGroup({});
@@ -19,13 +20,6 @@ export class AddProductComponent {
   private searchSubject = new Subject<string>();
   variations: any[] = [];
   addAttributeInput = '';
-
-  // File size limit - 1MB
-  readonly MAX_FILE_SIZE = 3 * 1024 * 1024; // 1MB in bytes
-
-  // File validation variables
-  selectedFile: File | null = null;
-  fileError: string = '';
 
   model = {
     name: '',
@@ -35,7 +29,6 @@ export class AddProductComponent {
     price: null,
     image: '',
     imageBase64: '',
-    src_img: '',
     discount: null,
     notes: ''
   };
@@ -55,9 +48,9 @@ export class AddProductComponent {
             validation: {
               messages: {
                 required: 'Product name is required',
-                minlength: 'Product name must be at least 3 characters long'
-              }
-            }
+                minlength: 'Product name must be at least 3 characters long',
+              },
+            },
           },
           className: 'col-12 col-lg-6'
         },
@@ -69,7 +62,7 @@ export class AddProductComponent {
             required: true,
             multiple: false,
             placeholder: 'Select a category',
-            options: []
+            options: [],
           },
           className: 'formly-select-wrapper-3232 col-12 col-lg-6'
         },
@@ -80,7 +73,7 @@ export class AddProductComponent {
           props: {
             label: 'Description',
             placeholder: 'Enter description',
-            required: false, // Ensure required is true
+            required: true, // Ensure required is true
             minLength: 3
           },
           className: 'col-12 col-lg-6'
@@ -94,7 +87,7 @@ export class AddProductComponent {
             options: [
               { value: 'active', label: 'Active' },
               { value: 'inactive', label: 'Inactive' }
-            ]
+            ],
           },
           className: 'formly-select-wrapper-3232 col-12 col-lg-6'
         },
@@ -105,7 +98,7 @@ export class AddProductComponent {
             label: 'Price',
             required: true,
             placeholder: 'Set a regular price',
-            type: 'number'
+            type: 'number',
           },
           className: 'col-12 col-lg-6'
         },
@@ -127,9 +120,9 @@ export class AddProductComponent {
           type: 'input',
           props: {
             label: 'Discount',
-            required: false,
+            required: true,
             placeholder: 'Set a discount',
-            type: 'number'
+            type: 'number',
           },
           className: 'col-12 col-lg-6'
         }
@@ -250,69 +243,35 @@ export class AddProductComponent {
     }
 
     if (this.form.valid) {
-      // Create product first without image
       let d = Object.assign({}, this.form.value);
-      d['image'] = ''; // Don't include image in initial creation
+      d['image'] = this.model.imageBase64;
       d['variation'] = this.variations;
 
       const res = await this.network.addProduct(d);
       console.log(res);
-
-      if (res && res.item) {
-        // Product created successfully, now upload image if selected
-        if (this.selectedFile) {
-          await this.uploadImage(this.selectedFile, res.item.id);
-        }
-
-        this.utility.presentSuccessToast('Product Created Successfully!');
+      if (res) {
+        this.utility.presentSuccessToast('Products Created Successfully!');
         this.nav.pop();
-      } else {
-        this.utility.presentFailureToast('Failed to create product');
       }
     }
   }
 
   onFileChange(field, event: Event, type: string = 'image') {
     const input = event.target as HTMLInputElement;
-    this.fileError = ''; // Clear previous errors
-    this.selectedFile = null; // Reset selected file
-
     if (input.files && input.files[0]) {
       const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64String = reader.result as string;
+        console.log(base64String);
 
-      // Check file size
-      if (file.size > this.MAX_FILE_SIZE) {
-        this.fileError = `File size must be less than ${this.MAX_FILE_SIZE / (1024 * 1024)}MB`;
-        input.value = ''; // Clear the input
-        return;
-      }
+        this.model[type] = base64String; // Update the model
+        // this.fields[0].fieldGroup[6].props['value'] = base64String; // Update the field value
+        // this.fields[0].fieldGroup[6].formControl.setValue(base64String); // Update the form control value
 
-      // Store the file object for later upload
-      this.selectedFile = file;
-      this.model.image = file.name; // Display filename in form
-
-      console.log('File selected:', file.name, 'Size:', file.size, 'Type:', file.type);
-      // Don't upload yet - wait for form submission
-    }
-  }
-
-  async uploadImage(file: File, productId: string) {
-    try {
-      // Upload image for the newly created product
-      const res = await this.network.uploadProductImage(file, productId);
-      console.log(res);
-      if (res) {
-        // Store the uploaded image URL (use relative path, not full URL)
-        this.model.src_img = res.full_url;
-        this.utility.presentSuccessToast('Image uploaded successfully!');
-      } else {
-        this.fileError = 'Failed to upload image';
-        this.utility.presentFailureToast('Failed to upload image');
-      }
-    } catch (error) {
-      this.fileError = 'Error uploading image';
-      this.utility.presentFailureToast('Error uploading image');
-      console.error('Upload error:', error);
+        // field.formControl.setValue(base64String); // Update the form control value
+      };
+      reader.readAsDataURL(file); // Convert file to base64
     }
   }
 

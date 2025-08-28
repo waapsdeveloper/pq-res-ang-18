@@ -1,33 +1,9 @@
 <app-kt-app-form-page [title]="'Edit Products'">
-  <!-- Media object starts -->
-  <div class="row">
-    <div class="col-12 col-sm-7">
-      <div class="media d-flex align-items-center">
-        <a href="javascript:;">
-          <img [src]="model?.src_img" alt="user view avatar" class="users-avatar-shadow rounded" height="64" width="64" />
-        </a>
-        <div class="media-body ml-3">
-          <h4>
-            <span class="users-view-name">{{ model.name }}</span>
-          </h4>
-          <span>ID:</span>
-          <span class="users-view-id">{{ id }}</span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Media object ends -->
-
   <div class="card">
     <div class="card-content">
       <div class="card-body">
         <form [formGroup]="form">
           <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
-          
-          <!-- File error display -->
-          <div *ngIf="fileError" class="alert alert-danger mt-2">
-            {{ fileError }}
-          </div>
         </form>
         <hr />
         <div class="row">

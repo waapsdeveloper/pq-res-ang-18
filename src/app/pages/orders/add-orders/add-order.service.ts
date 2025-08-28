@@ -1,7 +1,6 @@
 import { UtilityService } from './../../../services/utility.service';
 import { Injectable, OnInit } from '@angular/core';
 import { CurrencyService } from 'src/app/services/currency.service';
-import { GlobalDataService } from 'src/app/services/global-data.service';
 import { NetworkService } from 'src/app/services/network.service';
 
 @Injectable({
@@ -11,7 +10,6 @@ export class AddOrderService {
   showOrderHeader = true;
 
   categories: any[] = [];
-
   products: any[] = [];
   customer_name: string = '';
   customer_phone: string = '';
@@ -20,68 +18,31 @@ export class AddOrderService {
   selectedCategory = null;
   selectedTableId = null;
   orderType = '';
-  deliveryCharges;
-  tips = 0;
-  tipsAmount = 0;
   customer_address: string = '';
   selected_products: any[] = [];
-  printProducts: any[] = [];
   paymentMethod: string = '';
   couponCode;
-  logoBase64;
-  discountAmount = 0; // set by coupon, else 0
-  final_total = 0; // calculated
+  discountAmount = 0;
+  final_total = 0;
   taxPercent: number = 0; // Global value for tax percentage
-  taxAmount: number = 0; // calculated
+  taxAmount: number = 0;
   paymentMethods: { label: string; value: string }[] = [
     { label: 'Cash on Delivery', value: 'cashondelivery' },
-    { label: "Cash", value: "cash" },
-    { label: "Credit Card", value: "creditcard" },
-    // { label: 'Apple Pay', value: 'applePay' },
-    // { label: 'Google Pay', value: 'googlePay' },
-    // { label: 'Credit/Debit Card', value: 'card' },
-    // { label: 'PayPal', value: 'paypal' }
+    { label: 'Apple Pay', value: 'applePay' },
+    { label: 'Google Pay', value: 'googlePay' },
+    { label: 'Credit/Debit Card', value: 'card' },
+    { label: 'PayPal', value: 'paypal' }
   ];
   s;
   totalCost = 0;
   isCouponApplied: boolean = false;
-  subtotal = 0; // sum of products and options
-  lastCouponData: any = null; // Store last fetched coupon data
-  orderSummary: {
-    subtotal: number;
-    discount: number;
-    tips: number;
-    tax: number;
-    total: number;
-  } = {
-      subtotal: 0,
-      discount: 0,
-      tips: 0,
-      tax: 0,
-      total: 0
-    };
-  updateOrderSummary() {
-    this.orderSummary = {
-      subtotal: this.subtotal,
-      discount: this.discountAmount,
-      tips: this.tipsAmount,
-      tax: this.taxAmount,
-      total: this.final_total
-    };
-  }
-
 
   constructor(
     private network: NetworkService,
     private utilityService: UtilityService,
-    private currencyService: CurrencyService,
-    private globalData: GlobalDataService
+    private currencyService: CurrencyService
   ) {
     this.initialize();
-    this.globalData.getTaxPercentage().subscribe((taxPercentage) => {
-      this.taxPercent = taxPercentage;
-      console.log('Tax Percentage updated:', this.taxPercent);
-    });
   }
 
   async searchProducts(search) {
@@ -200,41 +161,29 @@ export class AddOrderService {
   }
   async totalOfProductCost() {
     let cost = this.selected_products.reduce((prev, next) => {
-      let unitPrice = parseFloat(next.price) || 0;
+      // Calculate base product cost
+      let productCost = next.quantity * next.price;
 
-      // Add all selected variation prices to unit price
-      if (next.variation && Array.isArray(next.variation)) {
+      // Check if variations exist and calculate the cost of selected variations
+      if (next.variation) {
         next.variation.forEach((variation: any) => {
-          if (variation.selectedOption && variation.selectedOption.price) {
-            unitPrice += parseFloat(variation.selectedOption.price) || 0;
+          if (variation.options) {
+            variation.options.forEach((option: any) => {
+              if (option.selected) {
+                // Add variation option price to the product cost
+                productCost += option.price;
+              }
+            });
           }
         });
       }
 
-      // Final product cost = quantity × (base price + variation prices)
-      let productCost = (next.quantity || 0) * unitPrice;
-
-      return prev + productCost;
+      return prev + productCost; // Add product cost to the total
     }, 0);
 
-    this.subtotal = cost;
-
-    // Coupon / discount logic
-    if (
-      this.couponCode &&
-      this.couponCode.trim() !== '' &&
-      this.lastCouponData &&
-      this.lastCouponData.code === this.couponCode
-    ) {
-      this.recalculateDiscountWithCoupon(this.lastCouponData);
-    } else if (this.couponCode && this.couponCode.trim() !== '') {
-      await this.applyCoupon(true);
-    } else {
-      this.discountAmount = 0;
-      this.recalculateTotals();
-    }
+    this.taxAmount = (cost * this.taxPercent) / 100;
+    this.totalCost = cost + this.taxAmount; // Update // Update the total cost
   }
-
   selectSuggestion(suggestion: any) {
     console.log(suggestion);
     this.customer_name = suggestion.name;
@@ -244,19 +193,17 @@ export class AddOrderService {
     this.customer_name = 'Walk-in Customer';
     this.customer_phone = '0000000000';
     this.orderType = 'dine-in';
-    this.paymentMethod = 'cash';
+    this.paymentMethod = 'card';
   }
 
   resetField() {
-    this.updateOrderSummary();
-    this.customer_name = 'Walk-in Customer';
-    this.customer_phone = '0000010010';
+    this.customer_name = '';
+    this.customer_phone = '';
     this.order_notes = '';
-    this.printProducts = this.selected_products;
     this.selected_products = [];
     this.selectedTableId = null;
-    this.orderType = 'dine-in';
-    this.paymentMethod = 'cash';
+    this.orderType = '';
+    this.paymentMethod = '';
     this.couponCode = '';
     this.discountAmount = 0;
     this.final_total = 0;
@@ -282,7 +229,6 @@ export class AddOrderService {
 
       return {
         product_id: item.id,
-        category: item.category,
         quantity: item.quantity,
         price: item.price,
         notes: item.notes,
@@ -321,7 +267,6 @@ export class AddOrderService {
       customer_phone: this.customer_phone,
       delivery_address: this.customer_address,
       products: prodObj,
-      is_from_pos: true,
       notes: this.order_notes,
       status: 'pending',
       final_total: this.final_total,
@@ -332,10 +277,7 @@ export class AddOrderService {
       table_id: this.selectedTableId,
       total_price: this.totalCost,
       tax_percentage: this.taxPercent,
-      tax_amount: this.taxAmount,
-      tips: this.tips,
-      tips_amount: this.tipsAmount,
-      delivery_charges: this.deliveryCharges
+      tax_amount: this.taxAmount
     };
     let coupon = {
       code: this.couponCode
@@ -343,7 +285,6 @@ export class AddOrderService {
     const res = await this.network.addOrder(obj);
     console.log(res.data);
     localStorage.setItem('order_id', res?.data?.order_number);
-    this.logoBase64 = res?.data?.restaurant?.logo_base64 || '';
     const response = await this.network.updateCouponUsage(coupon);
     console.log(response);
     // this.resetFields();
@@ -369,7 +310,6 @@ export class AddOrderService {
 
       return {
         product_id: item.product_id || item.id,
-        category: item.category,
         quantity: item.quantity,
         price: item.product_price || item.price,
         notes: item.notes,
@@ -410,7 +350,6 @@ export class AddOrderService {
       products: prodObj,
       notes: this.order_notes,
       status: 'pending',
-      is_from_pos: true,
       final_total: this.final_total,
       discount_value: this.discountAmount,
       coupon_code: this.couponCode,
@@ -419,10 +358,7 @@ export class AddOrderService {
       table_id: this.selectedTableId,
       total_price: this.totalCost,
       tax_percentage: this.taxPercent,
-      tax_amount: this.taxAmount,
-      tips: this.tips,
-      tips_amount: this.tipsAmount,
-      delivery_charges: this.deliveryCharges
+      tax_amount: this.taxAmount
     };
     try {
       const res = await this.network.updateOrder(obj, orderId);
@@ -444,57 +380,50 @@ export class AddOrderService {
     this.discountAmount = 0;
     this.final_total = 0;
   }
-  async applyCoupon(forceApi: boolean = false) {
-    // Only call API if coupon code changed or forceApi is true
-    if (!this.couponCode || this.couponCode.trim() === '') {
-      this.discountAmount = 0;
-      this.lastCouponData = null;
-      this.recalculateTotals();
-      return false;
-    }
-    if (!forceApi && this.lastCouponData && this.lastCouponData.code === this.couponCode) {
-      // Use cached coupon data
-      this.recalculateDiscountWithCoupon(this.lastCouponData);
-      return true;
-    }
-    // Fetch from API
-    let obj = { code: this.couponCode };
-    const res = await this.network.getAvailableCoupon(obj);
-    const data = res?.coupon;
-    if (!data) {
-      this.utilityService.presentFailureToast('No coupon data available');
-      this.discountAmount = 0;
-      this.lastCouponData = null;
-      this.recalculateTotals();
-      return false;
-    }
-    data.code = this.couponCode; // Track which code this data is for
-    this.lastCouponData = data;
-    this.recalculateDiscountWithCoupon(data);
-    return true;
-  }
+  async applyCoupon() {
+    this.resetFields();
+    let obj = {
+      code: this.couponCode
+    };
 
-  recalculateDiscountWithCoupon(data: any) {
+    const res = await this.network.getAvailableCoupon(obj);
+    console.log(res?.coupon);
+
+    const data = res?.coupon;
+    console.log(data);
+
+    if (!data) {
+      console.warn('No coupon data available');
+      return false;
+    }
+
     let discountValue = data?.discount_value || 0;
-    let calculatedDiscount = 0;
+    let calculatedDiscount = 0; // To store the calculated discount before applying it
+
     if (data?.discount_type === 'percentage') {
-      calculatedDiscount = (this.subtotal * discountValue) / 100;
+      // Calculate discount as a percentage
+      calculatedDiscount = (this.totalCost * discountValue) / 100;
     } else if (data?.discount_type === 'fixed') {
+      // Directly assign the fixed discount amount
       calculatedDiscount = discountValue;
     } else {
-      this.utilityService.presentFailureToast('Invalid discount type');
-      this.discountAmount = 0;
-      this.recalculateTotals();
-      return;
+      console.warn('Invalid discount type');
+      return false;
     }
-    if (calculatedDiscount > this.subtotal * 0.5) {
-      this.utilityService.presentFailureToast('Invalid coupon: Discount cannot exceed 50% of the subtotal.');
-      this.discountAmount = 0;
-      this.recalculateTotals();
-      return;
+
+    // Check if the discount exceeds 50% of the total cost
+    if (calculatedDiscount > this.totalCost * 0.5) {
+      console.error('Invalid coupon: Discount exceeds 50% of the total cost.');
+      this.utilityService.presentFailureToast('Invalid coupon: Discount cannot exceed 50% of the total cost.'); // Display error message
+      return false;
     }
+
+    // Apply the validated discount
     this.discountAmount = calculatedDiscount;
-    this.recalculateTotals();
+    this.final_total = Math.max(this.totalCost - this.discountAmount, 0);
+
+    console.log('Final total after discount:', this.final_total);
+    return true;
   }
 
   clearSelectedProducts() {
@@ -510,30 +439,5 @@ export class AddOrderService {
     this.final_total = 0;
     this.taxAmount = 0;
     this.isCouponApplied = false;
-    this.tips = 0;
-    this.tipsAmount = 0;
-  }
-
-  recalculateTotals() {
-    // Subtotal is already set
-    const discount = this.discountAmount || 0;
-    const discountedSubtotal = Math.max(this.subtotal - discount, 0);
-    this.taxAmount = (discountedSubtotal * this.taxPercent) / 100;
-    let total = discountedSubtotal + this.taxAmount;
-
-    // Calculate tips as a fixed amount if orderType is dine-in
-    this.tipsAmount = 0;
-    if (this.tips) {
-      // Treat tips as a fixed amount
-      this.tipsAmount = Number(this.tips) || 0;
-      total += this.tipsAmount;
-    }
-
-    // Add delivery charges if orderType is delivery
-    if (this.orderType === 'delivery' && this.deliveryCharges) {
-      total += Number(this.deliveryCharges) || 0;
-    }
-
-    this.final_total = total;
   }
 }

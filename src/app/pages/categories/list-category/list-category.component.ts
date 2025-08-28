@@ -8,8 +8,6 @@ import { ListBlade } from 'src/app/abstract/list-blade';
 import { UtilityService } from 'src/app/services/utility.service';
 import { CategoryService } from '../category.service';
 import { EventsService } from 'src/app/services/events.service';
-import { ActivatedRoute } from '@angular/router';
-import { PermissionService } from 'src/app/services/permission.service';
 
 @Component({
   selector: 'app-list-category',
@@ -17,9 +15,6 @@ import { PermissionService } from 'src/app/services/permission.service';
   styleUrl: './list-category.component.scss'
 })
 export class ListCategoryComponent extends ListBlade {
-  canDelete;
-  canView;
-  canEdit;
   ngOnInit(): void {
     this.setRestaurantsInForm();
   }
@@ -99,15 +94,10 @@ export class ListCategoryComponent extends ListBlade {
     private users: UsersService,
     private network: NetworkService,
     private cdr: ChangeDetectorRef,
-    public events: EventsService,
-    private permissionService: PermissionService,
-    private route: ActivatedRoute
+    public events: EventsService
   ) {
     super(injector, crudService);
     this.initialize();
-    this.canDelete = this.permissionService.hasPermission('category' + '.delete');
-    this.canView = this.permissionService.hasPermission('category.view');
-    this.canEdit = this.permissionService.hasPermission('category.edit');
   }
 
   onPageSizeChange(event: any): void {
@@ -173,12 +163,10 @@ export class ListCategoryComponent extends ListBlade {
   }
 
   async deleteRow(index: number) {
-    if (!this.canDelete) {
-      alert('You do not have permission to delete.');
-      return;
-    }
     try {
-      await this.crudService.deleteRow(index, this.utility);      
+      await this.crudService.deleteRow(index, this.utility);
+      this.utility.presentSuccessToast('Deleted Sucessfully!');
+
       console.log('Row deleted successfully');
     } catch (error) {
       console.error('Error deleting row:', error);
@@ -203,6 +191,5 @@ export class ListCategoryComponent extends ListBlade {
       name: '',
       status: ''
     };
-    this.crudService.resetFilters(this.model);;
   }
 }

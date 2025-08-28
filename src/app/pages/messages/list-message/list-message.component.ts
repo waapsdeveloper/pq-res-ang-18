@@ -8,8 +8,6 @@ import { UtilityService } from 'src/app/services/utility.service';
 import { RtableService } from '../../rtables/rtable.service';
 import { MessageService } from '../messages.service';
 import { EventsService } from 'src/app/services/events.service';
-import { ActivatedRoute } from '@angular/router';
-import { PermissionService } from 'src/app/services/permission.service';
 
 @Component({
   selector: 'app-list-message',
@@ -18,9 +16,6 @@ import { PermissionService } from 'src/app/services/permission.service';
 })
 export class ListMessageComponent extends ListBlade {
   showDeleteAllButton = false;
-  canDelete;
-  canView;
-  canEdit;
   columns: any[] = ['Name', 'Email', 'Phone', 'Message'];
   title = 'Tables';
   showEdit = false;
@@ -36,7 +31,6 @@ export class ListMessageComponent extends ListBlade {
       email: '',
       phone: ''
     };
-    this.crudService.resetFilters(this.model);;
   }
 
   fields: FormlyFieldConfig[] = [
@@ -88,15 +82,10 @@ export class ListMessageComponent extends ListBlade {
     private users: UsersService,
     private network: NetworkService,
     private cdr: ChangeDetectorRef,
-    public events: EventsService,
-    private route: ActivatedRoute,
-    private permissionService: PermissionService
+    public events: EventsService
   ) {
     super(injector, crudService);
     this.initialize();
-    this.canDelete = this.permissionService.hasPermission('message' + '.delete');
-    this.canView = this.permissionService.hasPermission('message' + '.view');
-    this.canEdit = this.permissionService.hasPermission('message' + '.edit');
   }
 
   async onDeleteAll($event: any) {
@@ -160,10 +149,6 @@ export class ListMessageComponent extends ListBlade {
   editRow(index: number) {}
 
   async deleteRow(index: number) {
-    if (!this.canDelete) {
-      alert('You do not have permission to delete.');
-      return;
-    }
     try {
       await this.crudService.deleteRow(index, this.utility);
       this.utility.presentSuccessToast('Deleted Sucessfully!');

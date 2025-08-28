@@ -11,12 +11,13 @@
               <div class="media d-flex align-items-center">
                 <a href="javascript:;">
                   <div *ngIf="item?.image; else userPlaceholder">
-                    <img [src]="item.image" alt="user avatar" class="users-avatar-shadow rounded" height="4rem"
-                      width="4rem" />
+                    <img [src]="item.image" alt="user avatar" class="users-avatar-shadow rounded" height="4rem" width="4rem" />
                   </div>
                   <ng-template #userPlaceholder>
-                    <div class="users-avatar-shadow rounded d-flex align-items-center justify-content-center"
-                      style="width: 4rem; height: 4rem; background-color: #f5f7fb">
+                    <div
+                      class="users-avatar-shadow rounded d-flex align-items-center justify-content-center"
+                      style="width: 4rem; height: 4rem; background-color: #f5f7fb"
+                    >
                       <i class="ti ti-user" style="font-size: 2rem; color: #5e6e82"></i>
                     </div>
                   </ng-template>
@@ -66,7 +67,9 @@
                             <tr>
                               <td>Status:</td>
                               <td>
-                                <span class="badge fw-bold" [ngClass]="{
+                                <span
+                                  class="badge fw-bold"
+                                  [ngClass]="{
                                     'badge-pending': item?.status === 'Pending',
                                     'badge-confirmed': item?.status === 'Confirmed',
                                     'badge-preparing': item?.status === 'Preparing',
@@ -75,7 +78,8 @@
                                     'badge-delivered': item?.status === 'Delivered',
                                     'badge-completed': item?.status === 'Completed',
                                     'badge-cancelled': item?.status === 'Cancelled'
-                                  }">
+                                  }"
+                                >
                                   {{ item?.status }}
                                 </span>
                               </td>
@@ -86,7 +90,7 @@
                             </tr>
                             <tr>
                               <td>Tax Amount :</td>
-                              <td>{{ this.currencySymbol }} {{ item?.tax_amount }}</td>
+                              <td>{{ this.currencyService.currency_symbol }} {{ item?.tax_amount }}</td>
                             </tr>
                             <tr>
                               <td>Coupon Code:</td>
@@ -119,120 +123,89 @@
                             <tbody>
                               <tr *ngFor="let product of item?.products">
                                 <td>{{ product?.product_name }}</td>
-
                                 <td>
                                   <ng-template #variation>
                                     <div class="row">
                                       <div class="col-12" *ngFor="let vari of product?.variation">
-                                        <div class="fw-bold fs-5">{{ vari.type }}</div>
-
-                                        <ng-container *ngIf="vari.selectedOption">
-                                          <div class="ms-4">
-                                            <span class="fw-semibold">{{ vari.selectedOption.name }}</span>
-                                            <br />
-                                            <span class="text-muted" *ngIf="vari.selectedOption.description">
-                                              - {{ vari.selectedOption.description }}
-                                            </span>
-                                            <span class="text-success">
-                                              {{ currencySymbol }} {{ vari.selectedOption.price | number:'1.2-2' }}
-                                            </span>
+                                        <div *ngFor="let variation of vari">
+                                          <div class="fw-bold fs-5">{{ variation.type }}</div>
+                                          <div *ngFor="let option of variation.options" class="ms-4">
+                                            <div *ngIf="option.selected">
+                                              <span class="fw-semibold">{{ option.name }}</span>
+                                              <br />
+                                              <span class="text-muted">- {{ option.description }}</span>
+                                              <span class="text-success">
+                                                ({{ this.currencyService.currency_symbol }} {{ option.price | number: '1.2-2' }})
+                                              </span>
+                                            </div>
                                           </div>
-                                        </ng-container>
+                                        </div>
                                       </div>
                                     </div>
                                   </ng-template>
-
                                   <ng-template #variationTitle>
                                     <div class="fw-bold fs-3">Variation Details</div>
                                   </ng-template>
-
-                                  <button class="btn btn-sm" [ngbPopover]="variation" [popoverTitle]="variationTitle"
-                                    triggers="manual" [autoClose]="'outside'" placement="top"
+                                  <button
+                                    class="btn btn-sm"
+                                    [ngbPopover]="variation"
+                                    [popoverTitle]="variationTitle"
+                                    triggers="manual"
+                                    [autoClose]="'outside'"
+                                    placement="top"
                                     #variationPopover="ngbPopover"
-                                    (click)="closeAllPopovers(); variationPopover.open(); registerPopover(variationPopover)">
+                                    (click)="closeAllPopovers(); variationPopover.open(); registerPopover(variationPopover)"
+                                  >
                                     <i class="ti ti-versions" style="color: #000; font-size: 22px"></i>
                                   </button>
                                 </td>
-
                                 <td>{{ product?.quantity }}</td>
-                                <td>{{ currencySymbol }} {{ product?.price }}</td>
-                                <td>{{ currencySymbol }} {{ product?.quantity * product?.price }}</td>
+                                <td>{{ this.currencyService.currency_symbol }} {{ product?.price }}</td>
+                                <td>{{ this.currencyService.currency_symbol }} {{ product?.quantity * product?.price }}</td>
                               </tr>
-
-
                             </tbody>
                             <tfoot>
                               <!-- Subtotal Row -->
                               <tr>
                                 <td colspan="2" class="text-end fw-bold">Subtotal:</td>
-                                <td colspan="3">
-                                  <div class="d-flex justify-content-end">
-                                    <span class="fw-normal">{{ this.currencySymbol }} {{ item?.total_price | number:
-                                      '1.2-2' }}</span>
-                                  </div>
+                                <td colspan="3" class="text-end">
+                                  <span class="fw-normal">
+                                    {{ this.currencyService.currency_symbol }} {{ item?.total_price | number: '1.2-2' }}
+                                  </span>
                                 </td>
                               </tr>
 
                               <!-- Discount Row -->
                               <tr>
                                 <td colspan="2" class="text-end fw-bold">Discount:</td>
-                                <td colspan="3">
-                                  <div class="d-flex justify-content-end">
-                                    <span class="fw-normal text-danger">
-                                      {{ this.currencySymbol }} {{ item?.discount_value | number: '1.2-2' }}
-                                    </span>
-                                  </div>
+                                <td colspan="3" class="text-end">
+                                  <span class="fw-normal text-danger">
+                                    {{ this.currencyService.currency_symbol }} {{ item?.discount_value | number: '1.2-2' }}
+                                  </span>
                                 </td>
                               </tr>
 
                               <!-- Tax Row -->
                               <tr>
                                 <td colspan="2" class="text-end fw-bold">Tax:</td>
-                                <td colspan="3">
-                                  <div class="d-flex justify-content-end">
-                                    <span class="fw-normal">{{ this.currencySymbol }} {{ item?.tax || '0.00' | number:
-                                      '1.2-2' }}</span>
-                                  </div>
-                                </td>
-                              </tr>
-                              <!-- Tax Row -->
-                              <tr *ngIf="item?.order_type === 'dine-in'">
-                                <td colspan="2" class="text-end fw-bold">Tips ( {{ item?.tips || '0.00' | number:
-                                  '1.2-2' }})%</td>
-                                <td colspan="3">
-                                  <div class="d-flex justify-content-end">
-                                    <span class="fw-normal">
-                                      {{ this.currencySymbol }} {{ item?.tips_amount || '0.00' | number: '1.2-2' }}
-                                    </span>
-                                  </div>
-                                </td>
-                              </tr>
-                              <!-- Delivery_charges  Row -->
-                              <tr *ngIf="item?.order_type === 'delivery'">
-                                <td colspan="2" class="text-end fw-bold">Delivery_charges:</td>
-                                <td colspan="3">
-                                  <div class="d-flex justify-content-end">
-                                    <span class="fw-normal">
-                                      {{ this.currencySymbol }} {{ item?.delivery_charges || '0.00' | number: '1.2-2' }}
-                                    </span>
-                                  </div>
+                                <td colspan="3" class="text-end">
+                                  <span class="fw-normal">
+                                    {{ this.currencyService.currency_symbol }} {{ item?.tax || '0.00' | number: '1.2-2' }}
+                                  </span>
                                 </td>
                               </tr>
 
                               <!-- Total Row -->
                               <tr class="border-top border-dark">
                                 <td colspan="2" class="text-end fw-bold">Total:</td>
-                                <td colspan="3">
-                                  <div class="d-flex justify-content-end">
-                                    <span class="fw-bold text-success">
-                                      {{ this.currencySymbol }}
-                                      {{
-                                      (item?.discount_value && item?.discount_value > 0 ? item?.final_total :
-                                      item?.total_price)
-                                      | number: '1.2-2'
-                                      }}
-                                    </span>
-                                  </div>
+                                <td colspan="3" class="text-end">
+                                  <span class="fw-bold text-success">
+                                    {{ this.currencyService.currency_symbol }}
+                                    {{
+                                      (item?.discount_value && item?.discount_value > 0 ? item?.final_total : item?.total_price)
+                                        | number: '1.2-2'
+                                    }}
+                                  </span>
                                 </td>
                               </tr>
                             </tfoot>

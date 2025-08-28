@@ -7,7 +7,7 @@
 >
   <form class="mt-3" [formGroup]="form" *ngIf="crudService.filters">
     <formly-form [form]="form" [fields]="fields" [model]="model" (modelChange)="debouncedSubmitFilters($event)"></formly-form>
-    <button type="button" class="btn btn-secondary mt-2" style="color:white; background-color: red;" (click)="resetFilters()">Reset Filters</button>
+    <button type="button" class="btn btn-secondary mt-2" (click)="resetFilters()">Reset Filters</button>
   </form>
 
   <hr *ngIf="crudService.filters" />
@@ -24,7 +24,7 @@
   >
     <!-- Show "No results found" when not loading and list is empty -->
     <tr *ngIf="!crudService.loading && crudService.list.length === 0">
-      <td colspan="4" class="text-center">No results found.</td>
+      <td colspan="5" class="text-center">No results found.</td>
     </tr>
     <!-- Hide rows when loading -->
     <tr [hidden]="!(!crudService.loading && crudService.list.length > 0)" *ngFor="let item of crudService.list; let i = index">
@@ -38,6 +38,7 @@
             <a (click)="openDetails(i)" class="text-hover-primary fs-5 fw-bold" data-kt-ecommerce-product-filter="product_name">
               {{ item.identifier }}
             </a>
+            <div class="fs-7 fw-bold">Total Orders:{{ item?.total_orders }}</div>
 
             <!--end::Title-->
           </div>
@@ -60,6 +61,11 @@
       </td>
       <td>
         <div class="d-flex">
+          <a href="#" class="badge badge-info fw-bold me-auto">{{ item?.total_orders }}</a>
+        </div>
+      </td>
+      <td>
+        <div class="d-flex">
           <div
             class="badge fw-bold me-auto"
             [ngClass]="{
@@ -76,9 +82,9 @@
       <!--begin::Action=-->
       <td class="text-start">
         <div class="d-flex flex-row justify-content-start align-items-center gap-3">
-          <i class="ti ti-eye view-icon" style="font-size: 20px; cursor: pointer" (click)="openDetails(i)" *ngIf="canView"></i>
-          <i class="edit-icon ti ti-edit" style="font-size: 20px; cursor: pointer" (click)="openEditDetails(i)" *ngIf="canEdit"></i>
-          <i *ngIf="canDelete" class="ti ti-trash trash-icon" style="font-size: 20px; cursor: pointer" (click)="deleteRow(i)"></i>
+          <i class="ti ti-eye view-icon" style="font-size: 20px; cursor: pointer" (click)="openDetails(i)"></i>
+          <i class="edit-icon ti ti-edit" style="font-size: 20px; cursor: pointer" (click)="openEditDetails(i)"></i>
+          <i *ngIf="showEdit" class="ti ti-trash trash-icon" style="font-size: 20px; cursor: pointer" (click)="deleteRow(i)"></i>
         </div>
       </td>
       <!--end::Action=-->
@@ -144,6 +150,12 @@
         <ngx-skeleton-loader
           appearance="custom-content"
           [theme]="{ width: '90px', height: '20px', 'border-radius': '7px', background: 'rgba(0,0,0,0.2)' }"
+        ></ngx-skeleton-loader>
+      </td>
+      <td>
+        <ngx-skeleton-loader
+          appearance="custom-content"
+          [theme]="{ width: '50px', height: '20px', 'border-radius': '7px', background: 'rgba(0,0,0,0.2)' }"
         ></ngx-skeleton-loader>
       </td>
       <td>

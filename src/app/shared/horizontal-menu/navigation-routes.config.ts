@@ -7,36 +7,15 @@ export const HROUTES: RouteInfo[] = [
     icon: 'ft-home',
     class: 'dropdown nav-item',
     isExternalLink: false,
-    submenu: [],
-    permissionSlug: 'dashboard.view'
+    submenu: []
   },
   {
     title: 'Users',
     icon: 'ft-users',
     class: 'dropdown nav-item',
     isExternalLink: false,
-    path: '',
-    permissionSlug: 'user.list',
-    submenu: [
-      {
-        path: '/pages/users/list',
-        title: 'Users',
-        icon: 'ft-user',
-        class: 'dropdown-item',
-        isExternalLink: false,
-        submenu: [],
-        permissionSlug: 'user.list'
-      },
-      {
-        path: '/pages/roles/list',
-        title: 'Roles',
-        icon: 'ft-shield', // Changed to a more suitable icon for roles
-        class: 'dropdown-item',
-        isExternalLink: false,
-        submenu: [],
-        permissionSlug: 'role.list'
-      }
-    ]
+    path: '/pages/users/list',
+    submenu: []
   },
   {
     title: 'Food',
@@ -44,7 +23,6 @@ export const HROUTES: RouteInfo[] = [
     class: 'dropdown nav-item',
     isExternalLink: false,
     path: '',
-    permissionSlug: 'product.list',
     submenu: [
       {
         path: '/pages/products/list',
@@ -52,8 +30,7 @@ export const HROUTES: RouteInfo[] = [
         icon: 'ft-grid',
         class: 'dropdown-item',
         isExternalLink: false,
-        submenu: [],
-        permissionSlug: 'product.list'
+        submenu: []
       },
       {
         path: '/pages/categories/list',
@@ -61,8 +38,7 @@ export const HROUTES: RouteInfo[] = [
         icon: 'ft-layers',
         class: 'dropdown-item',
         isExternalLink: false,
-        submenu: [],
-        permissionSlug: 'category.list'
+        submenu: []
       },
       {
         path: '/pages/variations/list',
@@ -70,8 +46,7 @@ export const HROUTES: RouteInfo[] = [
         icon: 'ft-repeat',
         class: 'dropdown-item',
         isExternalLink: false,
-        submenu: [],
-        permissionSlug: 'variation.list' // Uncomment if variations are implemented
+        submenu: []
       }
     ]
   },
@@ -81,7 +56,6 @@ export const HROUTES: RouteInfo[] = [
     class: 'dropdown nav-item',
     isExternalLink: false,
     path: '',
-    permissionSlug: 'table.list',
     submenu: [
       {
         path: '/pages/tables/list',
@@ -89,8 +63,7 @@ export const HROUTES: RouteInfo[] = [
         icon: 'ft-list',
         class: 'dropdown-item',
         isExternalLink: false,
-        submenu: [],
-        permissionSlug: 'table.list'
+        submenu: []
       },
       {
         path: '/pages/table-booking/list',
@@ -98,8 +71,7 @@ export const HROUTES: RouteInfo[] = [
         icon: 'ft-calendar',
         class: 'dropdown-item',
         isExternalLink: false,
-        submenu: [],
-        permissionSlug: 'table_booking.list'
+        submenu: []
       }
     ]
   },
@@ -109,7 +81,6 @@ export const HROUTES: RouteInfo[] = [
     class: 'dropdown nav-item',
     isExternalLink: false,
     path: '',
-    permissionSlug: 'expense.list',
     submenu: [
       {
         path: '/pages/expense/list',
@@ -117,8 +88,7 @@ export const HROUTES: RouteInfo[] = [
         icon: 'ti ti-device-mobile-dollar',
         class: 'dropdown-item',
         isExternalLink: false,
-        submenu: [],
-        permissionSlug: 'expense.list'
+        submenu: []
       },
       {
         path: '/pages/expense-categories/list',
@@ -126,8 +96,7 @@ export const HROUTES: RouteInfo[] = [
         icon: 'ti ti-device-mobile-dollar',
         class: 'dropdown-item',
         isExternalLink: false,
-        submenu: [],
-        permissionSlug: 'expense_category.list'
+        submenu: []
       }
     ]
   },
@@ -136,78 +105,33 @@ export const HROUTES: RouteInfo[] = [
     icon: 'ft-shopping-cart',
     class: 'dropdown nav-item',
     isExternalLink: false,
-    path: '',
-    permissionSlug: 'order.list',
+    path: '/pages/orders/list',
     submenu: [
-      {
-        path: '/pages/orders/list',
-        title: 'All Orders',
-        icon: 'ft-list',
-        class: 'dropdown-item',
-        isExternalLink: false,
-        submenu: [],
-        permissionSlug: 'order.list'
-      },
-      {
-        path: '/pages/orders/deleted', // placeholder for now
-        title: 'Deleted Orders',
-        icon: 'ft-trash-2', // trash icon makes sense
-        class: 'dropdown-item',
-        isExternalLink: false,
-        submenu: [],
-        permissionSlug: 'order.deleted_order' // you can adjust this slug later
-      }
+      // {
+      //   path: '/pages/orders/list',
+      //   title: 'All Orders',
+      //   icon: 'ft-list',
+      //   class: 'dropdown-item',
+      //   isExternalLink: false,
+      //   submenu: []
+      // }
+      // {
+      //   path: '/pages/invoices/list',
+      //   title: 'Invoices',
+      //   icon: 'ft-file-text',
+      //   class: 'dropdown-item',
+      //   isExternalLink: false,
+      //   submenu: []
+      // }
     ]
-  }
-  ,
- {
-  title: 'Reports',
-  icon: 'ft-bar-chart',
-  class: 'dropdown nav-item',
-  permissionSlug: 'report.daily_sale_report',
-  isExternalLink: false,
-  path: '',
-  submenu: [
-    {
-      title: 'Daily Sales Reports',
-      icon: 'ft-shopping-cart',
-      class: 'dropdown-item',
-      isExternalLink: false,
-      permissionSlug: 'report.daily_sale_report',
-      path: '/pages/reports/orders/daily',
-      submenu: [
-        // {
-        //   title: 'Daily',
-        //   icon: 'ft-calendar',
-        //   class: 'dropdown-item',
-        //   isExternalLink: false,
-        //   permissionSlug: 'order.list',
-        //   path: '/pages/reports/orders/daily',
-        //   submenu: []
-        // },
-        // {
-        //   title: 'Monthly',
-        //   icon: 'ft-clock',
-        //   class: 'dropdown-item',
-        //   isExternalLink: false,
-        //   permissionSlug: 'order.list',
-        //   path: '/pages/reports/orders/monthly',
-        //   submenu: []
-        // }
-      ]
-    }
-  ]
-}
-
-  ,
+  },
   {
     path: '/pages/restaurants/list',
     title: 'Branches',
     icon: 'ft-map-pin',
     class: 'dropdown nav-item',
     isExternalLink: false,
-    submenu: [],
-    permissionSlug: 'branch.list'
+    submenu: []
   },
   {
     title: 'Settings',
@@ -215,7 +139,6 @@ export const HROUTES: RouteInfo[] = [
     class: 'dropdown nav-item',
     isExternalLink: false,
     path: '',
-    permissionSlug: 'setting.list',
     submenu: [
       {
         path: '/pages/messages/list',
@@ -223,8 +146,7 @@ export const HROUTES: RouteInfo[] = [
         icon: 'ft-message-circle',
         class: 'dropdown-item',
         isExternalLink: false,
-        submenu: [],
-        permissionSlug: 'message.list'
+        submenu: []
       },
       {
         path: '/pages/coupons/list',
@@ -232,17 +154,16 @@ export const HROUTES: RouteInfo[] = [
         icon: 'ft-tag',
         class: 'dropdown-item',
         isExternalLink: false,
-        submenu: [],
-        permissionSlug: 'coupon.list'
+        submenu: []
+      },
+      {
+        path: '',
+        title: 'Branch Config',
+        icon: 'ft-settings',
+        class: 'dropdown-item',
+        isExternalLink: false,
+        submenu: []
       }
-      // {
-      //   path: '',
-      //   title: 'Branch Config',
-      //   icon: 'ft-settings',
-      //   class: 'dropdown-item',
-      //   isExternalLink: false,
-      //   submenu: []
-      // }
     ]
   }
 ];

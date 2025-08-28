@@ -1,11 +1,9 @@
 import { Component, OnInit, ChangeDetectorRef, AfterViewInit, OnDestroy } from '@angular/core';
-
+import { HROUTES } from './navigation-routes.config';
 import { LayoutService } from '../services/layout.service';
 import { ConfigService } from '../services/config.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { PermissionService } from 'src/app/services/permission.service';
-import { PmenuService } from 'src/app/services/pmenu.service';
 
 @Component({
   selector: 'app-horizontal-menu',
@@ -22,39 +20,29 @@ export class HorizontalMenuComponent implements OnInit, AfterViewInit, OnDestroy
   layoutSub: Subscription;
   restaurantId: string;
 
-  
-
   constructor(
     private layoutService: LayoutService,
     private configService: ConfigService,
     private cdr: ChangeDetectorRef,
-    private router: Router,
-    private pmenuService: PmenuService,
+    private router: Router
   ) {
     this.config = this.configService.templateConf;
   }
 
-  async ngOnInit() {
+  ngOnInit() {
     this.restaurantId = localStorage.getItem('restaurant_id');
-    
-
-    
-    
+    this.menuItems = HROUTES;
   }
 
   ngAfterViewInit() {
-    this.layoutSub = this.configService.templateConf$.subscribe(async (templateConf) => {
+    this.layoutSub = this.configService.templateConf$.subscribe((templateConf) => {
       if (templateConf) {
         this.config = templateConf;
       }
-      this.menuItems = await this.pmenuService.getMenu();
       this.loadLayout();
       this.cdr.markForCheck();
     });
-
-    
   }
-
 
   loadLayout() {
     if (this.config.layout.menuPosition && this.config.layout.menuPosition.toString().trim() != '') {
