@@ -404,28 +404,53 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   }
 
 
-  printSlip() {
+   async printSlip() {
+  const section = document.getElementById('print-section');
+  if (!section) {
+    console.error('Print section not found.');
+    return;
+  }
 
-    const section = document.getElementById('print-section');
-    if (!section) { console.error('Print section not found.'); return; }
-    const oldDisplay = section.style.display;
-    section.style.display = 'block';
-    
+  const oldDisplay = section.style.display;
+  section.style.display = 'block';
+
+  try {
     const opt = {
       margin: 0,
-      filename: 'Invoice-' + '.pdf',
+      filename: 'Invoice.pdf',
       image: { type: 'jpeg', quality: 1 },
       html2canvas: { scale: 2, useCORS: true, allowTaint: true },
       jsPDF: { unit: 'mm', format: [this.size, 800], orientation: 'portrait' }
     };
-    html2pdf().set(opt).from(section).toPdf().get('pdf').then(function (pdf) {
-      window.open(pdf.output('bloburl'), '_blank');
-      section.style.display = oldDisplay;
-    }).catch(function (err) {
-      console.error('PDF generation error:', err);
-      section.style.display = oldDisplay;
+
+    // Generate PDF blob
+    const pdfBlob: Blob = await html2pdf()
+      .set(opt)
+      .from(section)
+      .toPdf()
+      .outputPdf('blob');
+
+    // Send blob → local daemon
+    const formData = new FormData();
+    formData.append('file', pdfBlob, 'invoice.pdf');
+
+    const res = await fetch('http://localhost:9000/print', {
+      method: 'POST',
+      body: formData,
     });
+
+    if (res.ok) {
+      console.log('✅ Printed successfully');
+    } else {
+      console.error('❌ Print failed');
+    }
+  } catch (err) {
+    console.error('PDF generation/print error:', err);
+  } finally {
+    section.style.display = oldDisplay;
   }
+}
+
 
   async getRestaurants(): Promise<void> {
     let obj = {

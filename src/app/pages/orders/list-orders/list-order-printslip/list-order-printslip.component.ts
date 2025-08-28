@@ -90,28 +90,36 @@ export class ListOrderPrintslipComponent implements OnInit {
     const oldDisplay = section.style.display;
     section.style.display = 'block';
 
-    try {
-      const canvas = await html2canvas(section, { scale: 2, useCORS: false });
-      // convert px -> mm (1px = 25.4 / 96 mm)
-      let contentHeightMm = (canvas.height * 25.4) / 96 / 2; // divided by scale=2
-      contentHeightMm += 110;
-      this.size+=3;
+   try {
       const opt = {
         margin: 0,
-        filename: 'Invoice-slip.pdf',
+        filename: 'Invoice.pdf',
         image: { type: 'jpeg', quality: 1 },
-        html2canvas: { scale: 2, useCORS: false },
-        jsPDF: { unit: 'mm', format: [this.size, contentHeightMm], orientation: 'portrait' }
+        html2canvas: { scale: 2, useCORS: true, allowTaint: true },
+        jsPDF: { unit: 'mm', format: [this.size, 800], orientation: 'portrait' }
       };
-
-      const pdfBlob: Blob = await html2pdf().set(opt).from(section).toPdf().outputPdf('blob');
-
-      // Send directly to printer
-      const ok = await this.printingService.printPdf(pdfBlob);
-      if (ok) {
-        console.log('Printed successfully');
+  
+      // Generate PDF blob
+      const pdfBlob: Blob = await html2pdf()
+        .set(opt)
+        .from(section)
+        .toPdf()
+        .outputPdf('blob');
+  
+      // Send blob → local daemon
+      const formData = new FormData();
+      formData.append('file', pdfBlob, 'invoice.pdf');
+  
+      const res = await fetch('http://localhost:9000/print', {
+        method: 'POST',
+        body: formData,
+      });
+  
+      if (res.ok) {
+        console.log('✅ Printed successfully');
+      } else {
+        console.error('❌ Print failed');
       }
-
     } catch (err) {
       console.error('PDF generation/print error:', err);
     } finally {
