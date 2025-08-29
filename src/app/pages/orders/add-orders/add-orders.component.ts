@@ -47,7 +47,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   private phoneSearchSubscription: Subscription;
 
   showTips = false;
-  
+
   logoBase64: any;
   barcode: any;
   address: any;
@@ -69,7 +69,8 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     public invoiceService: InvoiceService,
   ) {
     this.invoiceService.getInvoiceBase64().subscribe(base64 => {
-      this.logoBase64 = base64;});
+      this.logoBase64 = base64;
+    });
     this.invoiceService.getGoogleReviewBarcodeBase64().subscribe(base64 => {
       this.barcode = base64;
     });
@@ -88,11 +89,11 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
       this.marginright = right;
     });
     this.size = this.invoiceService.getSize().subscribe(size => {
-      this.size = size  || 80; // Default to 10 if not set
-    });  
+      this.size = size || 80; // Default to 10 if not set
+    });
     this.fontSize = this.invoiceService.getFontSize().subscribe(size => {
       this.fontSize = size || 10; // Default to 10 if not set
-    }); 
+    });
     this.globalData.getCurrency().subscribe((currency) => {
       this.currency = currency;
       console.log('Currency updated:', this.currency);
@@ -358,16 +359,21 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
 
       this.order_id = localStorage.getItem('order_id');
       // 4) Second confirmation: print the bill?
-      const printConfirmed = await this.utilityService.presentConfirm(
-        'Yes, Print',
-        'No, Thanks',
+      const printConfirmed = await this.utilityService.presentTripleConfirm(
+        'Print',
+        'Manual Print',
+        'Cancel',
         `${this.order_id}!`,
         `Order ${isEditMode ? 'Updated' : 'Created'}! Would you like to print the bill now?`
       );
 
-      if (printConfirmed) {
+      if (printConfirmed === 'print') {
         this.printSlip();
         this.utilityService.presentSuccessToast(`Order ${isEditMode ? 'updated' : 'created'} and bill printed successfully!`);
+      }
+      else if (printConfirmed === 'manual') {
+        this.manualPrint();
+        this.utilityService.presentSuccessToast(`Order ${isEditMode ? 'updated' : 'created'} successfully! Please use the Print button to print the bill.`);
       } else {
         this.utilityService.presentSuccessToast(`Order ${isEditMode ? 'updated' : 'created'} successfully!`);
       }
@@ -404,52 +410,72 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   }
 
 
-   async printSlip() {
-  const section = document.getElementById('print-section');
-  if (!section) {
-    console.error('Print section not found.');
-    return;
+  async printSlip() {
+    const section = document.getElementById('print-section');
+    if (!section) {
+      console.error('Print section not found.');
+      return;
+    }
+
+    const oldDisplay = section.style.display;
+    section.style.display = 'block';
+
+    try {
+      const opt = {
+        margin: 0,
+        filename: 'Invoice.pdf',
+        image: { type: 'jpeg', quality: 1 },
+        html2canvas: { scale: 2, useCORS: true, allowTaint: true },
+        jsPDF: { unit: 'mm', format: [this.size, 800], orientation: 'portrait' }
+      };
+
+      // Generate PDF blob
+      const pdfBlob: Blob = await html2pdf()
+        .set(opt)
+        .from(section)
+        .toPdf()
+        .outputPdf('blob');
+
+      // Send blob → local daemon
+      const formData = new FormData();
+      formData.append('file', pdfBlob, 'invoice.pdf');
+
+      const res = await fetch('http://localhost:9000/print', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (res.ok) {
+        console.log('✅ Printed successfully');
+      } else {
+        console.error('❌ Print failed');
+      }
+    } catch (err) {
+      console.error('PDF generation/print error:', err);
+    } finally {
+      section.style.display = oldDisplay;
+    }
   }
-
-  const oldDisplay = section.style.display;
-  section.style.display = 'block';
-
-  try {
+  manualPrint() {
+    const section = document.getElementById('print-section');
+    if (!section) { console.error('Print section not found.'); return; }
+    const oldDisplay = section.style.display;
+    section.style.display = 'block';
     const opt = {
       margin: 0,
-      filename: 'Invoice.pdf',
+      filename: 'Invoice-' + '.pdf',
       image: { type: 'jpeg', quality: 1 },
       html2canvas: { scale: 2, useCORS: true, allowTaint: true },
-      jsPDF: { unit: 'mm', format: [this.size, 800], orientation: 'portrait' }
+      jsPDF: { unit: 'mm', format: [this.size, 600], orientation: 'portrait' }
     };
-
-    // Generate PDF blob
-    const pdfBlob: Blob = await html2pdf()
-      .set(opt)
-      .from(section)
-      .toPdf()
-      .outputPdf('blob');
-
-    // Send blob → local daemon
-    const formData = new FormData();
-    formData.append('file', pdfBlob, 'invoice.pdf');
-
-    const res = await fetch('http://localhost:9000/print', {
-      method: 'POST',
-      body: formData,
+    html2pdf().set(opt).from(section).toPdf().get('pdf').then(function (pdf) {
+      window.open(pdf.output('bloburl'), '_blank');
+      section.style.display = oldDisplay;
+    }).catch(function (err) {
+      console.error('PDF generation error:', err);
+      section.style.display = oldDisplay;
     });
-
-    if (res.ok) {
-      console.log('✅ Printed successfully');
-    } else {
-      console.error('❌ Print failed');
-    }
-  } catch (err) {
-    console.error('PDF generation/print error:', err);
-  } finally {
-    section.style.display = oldDisplay;
   }
-}
 
 
   async getRestaurants(): Promise<void> {

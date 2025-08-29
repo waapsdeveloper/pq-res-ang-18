@@ -34,7 +34,7 @@ interface Product {
   providedIn: 'root'
 })
 export class AlertsService {
-  constructor(public strings: StringsService) {}
+  constructor(public strings: StringsService) { }
 
   showAlert(msg: any, title = 'Alert'): Promise<any> {
     return new Promise(async (resolve) => {
@@ -98,6 +98,43 @@ export class AlertsService {
     // });
     // toast.present();
   }
+  async presentTripleConfirm(
+    printText = 'Print',
+    manualText = 'Manual Print',
+    cancelText = 'Cancel',
+    title = 'Are You Sure?',
+    message = '',
+    printClass = '',
+    manualClass = '',
+    cancelClass = ''
+  ): Promise<'print' | 'manual' | 'cancel'> {
+    return new Promise(async (resolve) => {
+      const result = await Swal.fire({
+        title: title,
+        html: message,
+        icon: 'question',
+        showCancelButton: true, // needed for cancel button
+        showDenyButton: true,   // adds the 2nd extra button
+        confirmButtonText: printText,
+        denyButtonText: manualText,
+        cancelButtonText: cancelText,
+        customClass: {
+          confirmButton: printClass,
+          denyButton: manualClass,
+          cancelButton: cancelClass
+        }
+      });
+
+      if (result.isConfirmed) {
+        resolve('print');   // User clicked Print
+      } else if (result.isDenied) {
+        resolve('manual');  // User clicked Manual Print
+      } else {
+        resolve('cancel');  // User clicked Cancel or closed
+      }
+    });
+  }
+
 
   async presentConfirm(
     okText = 'OK',
@@ -180,8 +217,8 @@ export class AlertsService {
             font-size: 1rem;
           ">
             ${options
-              .map((opt) => `<option value="${opt.value}" ${opt.value === selectedValue ? 'selected' : ''}>${opt.label}</option>`)
-              .join('')}
+          .map((opt) => `<option value="${opt.value}" ${opt.value === selectedValue ? 'selected' : ''}>${opt.label}</option>`)
+          .join('')}
           </select>
           <button id="swal-confirm-btn" class="swal2-confirm swal2-styled" style="
             margin: 0;
@@ -242,8 +279,8 @@ export class AlertsService {
         .map((variation) => {
           return variation.options && Array.isArray(variation.options)
             ? variation.options
-                .map(
-                  (option) => `
+              .map(
+                (option) => `
                   <div style="
                     padding: 8px;
                     border-bottom: 1px solid #eee;
@@ -256,8 +293,8 @@ export class AlertsService {
                     <span style="color: #2d397c; font-weight: 500;">${currencySymbol}${option.price !== undefined ? Number(option.price).toFixed(2) : '0.00'}</span>
                   </div>
                 `
-                )
-                .join('')
+              )
+              .join('')
             : '';
         })
         .join('');
@@ -276,8 +313,8 @@ export class AlertsService {
           </thead>
           <tbody>
             ${products
-              .map(
-                (p, index) => `
+        .map(
+          (p, index) => `
               <tr style="border-bottom: 1px solid #eee;">
                 <td style="padding: 8px; vertical-align: middle;">
                   <img src="${p.product_image}" alt="${p.product_name}" 
@@ -294,9 +331,8 @@ export class AlertsService {
                   </div>
                 </td>
                 <td style="padding: 8px; text-align: center; vertical-align: middle; position: relative;">
-                  ${
-                    p.parsedVariations?.length
-                      ? `
+                  ${p.parsedVariations?.length
+              ? `
                     <button class="variation-btn" 
                       data-index="${index}"
                       style="background: none; border: none; cursor: pointer; padding: 4px;">
@@ -316,13 +352,13 @@ export class AlertsService {
                       </div>
                     </div>
                   `
-                      : '<span style="color: #999;">-</span>'
-                  }
+              : '<span style="color: #999;">-</span>'
+            }
                 </td>
               </tr>
             `
-              )
-              .join('')}
+        )
+        .join('')}
           </tbody>
         </table>
       </div>
@@ -389,7 +425,7 @@ export class AlertsService {
       },
       willClose: () => {
         // Clean up event listeners
-        document.removeEventListener('click', () => {});
+        document.removeEventListener('click', () => { });
       }
     });
   }

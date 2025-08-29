@@ -30,7 +30,7 @@ export class UtilityService {
   constructor(
     public loading: LoadingService,
     public alerts: AlertsService
-  ) {}
+  ) { }
 
   showLoader(msg = '') {
     return this.loading.showLoader(msg);
@@ -73,6 +73,28 @@ export class UtilityService {
       (cancelClass = cancelClass)
     );
   }
+  presentTripleConfirm(
+    printText = 'Print',
+    manualText = 'Manual Print',
+    cancelText = 'Cancel',
+    title = 'Are You Sure?',
+    message = '',
+    printClass = '',
+    manualClass = '',
+    cancelClass = ''
+  ): Promise<'print' | 'manual' | 'cancel'> {
+    return this.alerts.presentTripleConfirm(
+      (printText = printText),
+      (manualText = manualText),
+      (cancelText = cancelText),
+      (title = title),
+      (message = message),
+      (printClass = printClass),
+      (manualClass = manualClass),
+      (cancelClass = cancelClass)
+    );
+  }
+
   showImagePopup(title: string, imageUrl: string): Promise<void> {
     return this.alerts.showImagePopup(title, imageUrl);
   }
