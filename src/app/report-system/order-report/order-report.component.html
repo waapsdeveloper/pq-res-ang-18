@@ -75,7 +75,7 @@
                     <!-- Buttons Row -->
                     <div class="row mb-2">
                         <div class="col-12 d-flex justify-content-end">
-                            <button class="btn btn-outline-secondary me-2" (click)="toggleFilters()">
+                            <button class="btn btn-outline-secondary me-4" (click)="toggleFilters()">
                                 <i class="ti ti-filter me-1"></i> Filters
                             </button>
                             <button class="btn btn-success" (click)="exportToExcel()">
@@ -127,7 +127,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr *ngFor="let order of reportData?.orders">
+                                            <tr *ngFor="let order of reportData?.orders" [ngClass]="{'deleted-row': order?.isDeleted}">
                                                 <td>{{ order.order_no }}</td>
                                                 <td>{{ order.time | date: 'short' }}</td>
                                                 <td>{{ order.type || 'N/A' }}</td>

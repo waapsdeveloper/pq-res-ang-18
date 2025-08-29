@@ -25,7 +25,7 @@ export class OrderReportComponent implements OnInit {
         {
           key: 'orderid',
           type: 'input',
-          className: 'col-12 col-sm-4 formly-select-wrapper-3232', // 3 per row on >= sm
+          className: 'col-12 col-sm-2 formly-select-wrapper-3232', // 3 per row on >= sm
           templateOptions: {
             label: 'Order ID',
             placeholder: 'e.g. ORD-2025...',
@@ -34,7 +34,7 @@ export class OrderReportComponent implements OnInit {
         {
           key: 'type',
           type: 'select',
-          className: 'col-12 col-sm-4 formly-select-wrapper-3232',
+          className: 'col-12 col-sm-2 formly-select-wrapper-3232',
           templateOptions: {
             label: 'Order Type',
             options: [
@@ -49,9 +49,33 @@ export class OrderReportComponent implements OnInit {
           },
         },
         {
+          key: 'report-date',
+          type: 'input',
+          className: 'col-12 col-sm-2 formly-select-wrapper-3232',
+          templateOptions: {
+            type: 'date',
+            label: 'Date of Birth',
+            required: false,
+          },
+        },
+        {
+          key: 'orderScope',
+          type: 'select',
+          className: 'col-12 col-sm-2 formly-select-wrapper-3232',
+          templateOptions: {
+            label: 'orderScope',
+            options: [
+              { label: ' All Orders', value: 'all-orders' },
+              { label: 'Deleted Orders', value: 'deleted' },
+              { label: 'Order', value: 'order' },],
+          },
+        },
+
+
+        {
           key: 'status',
           type: 'select',
-          className: 'col-12 col-sm-4 formly-select-wrapper-3232',
+          className: 'col-12 col-sm-2 formly-select-wrapper-3232',
           templateOptions: {
             label: 'Status',
             options: [

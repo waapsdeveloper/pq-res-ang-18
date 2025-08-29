@@ -85,3 +85,24 @@
 .filter-bar .form-control::placeholder {
   color: #f8d7da;
 }
+
+// ...existing code...
+/* Visual treatment for soft-deleted orders */
+.deleted-row {
+  background-color: #f5f6f7; /* light/dull background */
+  color: #6c757d;            /* muted text color */
+}
+
+.deleted-row td {
+  color: #6c757d;
+  opacity: 0.95;
+}
+
+/* Make status badge subdued when row is deleted */
+.deleted-row .badge {
+  background: transparent !important;
+  color: #6c757d !important;
+  border-color: rgba(108,117,125,0.12) !important;
+  box-shadow: none !important;
+}
+// ...existing code...
