@@ -149,6 +149,7 @@
           <app-list-order-printslip [item]="item"></app-list-order-printslip>
           <i class="ti ti-eye view-icon" style="font-size: 20px; cursor: pointer" *ngIf="canView"
             (click)="openDetails(i)"></i>
+          <i class="ti ti-printer-off manual-print"  style="font-size: 20px; cursor: pointer" (click)="triggerManualPrint(item)"></i>
           <i class="ti ti-printer printericon" style="font-size: 20px; cursor: pointer"
             (click)="triggerPrint(item)"></i>
           <i class="edit-icon ti ti-edit" style="font-size: 24px; cursor: pointer" *ngIf="canEdit && !isDeleted"

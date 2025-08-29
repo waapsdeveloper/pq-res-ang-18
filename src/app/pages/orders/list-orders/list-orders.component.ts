@@ -243,6 +243,9 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
   triggerPrint(item) {
     this.printSlipComponent.printSlip(item);
   }
+  triggerManualPrint(item) {
+    this.printSlipComponent.manualPrint(item);
+  }
 
   constructor(
     injector: Injector,

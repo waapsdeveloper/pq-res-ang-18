@@ -90,7 +90,7 @@ export class ListOrderPrintslipComponent implements OnInit {
     const oldDisplay = section.style.display;
     section.style.display = 'block';
 
-   try {
+    try {
       const opt = {
         margin: 0,
         filename: 'Invoice.pdf',
@@ -98,23 +98,23 @@ export class ListOrderPrintslipComponent implements OnInit {
         html2canvas: { scale: 2, useCORS: true, allowTaint: true },
         jsPDF: { unit: 'mm', format: [this.size, 800], orientation: 'portrait' }
       };
-  
+
       // Generate PDF blob
       const pdfBlob: Blob = await html2pdf()
         .set(opt)
         .from(section)
         .toPdf()
         .outputPdf('blob');
-  
+
       // Send blob → local daemon
       const formData = new FormData();
       formData.append('file', pdfBlob, 'invoice.pdf');
-  
+
       const res = await fetch('http://localhost:9000/print', {
         method: 'POST',
         body: formData,
       });
-  
+
       if (res.ok) {
         console.log('✅ Printed successfully');
       } else {
@@ -125,6 +125,10 @@ export class ListOrderPrintslipComponent implements OnInit {
     } finally {
       section.style.display = oldDisplay;
     }
+  }
+  manualPrint(item) {
+    this.item = item;
+    const section = document.getElementById('print-section'); if (!section) { console.error('Print section not found.'); return; } const oldDisplay = section.style.display; section.style.display = 'block'; const opt = { margin: 0, filename: 'Invoice-' + '.pdf', image: { type: 'jpeg', quality: 1 }, html2canvas: { scale: 2, useCORS: true, allowTaint: true }, jsPDF: { unit: 'mm', format: [this.size, 800], orientation: 'portrait' } }; html2pdf().set(opt).from(section).toPdf().get('pdf').then(function (pdf) { window.open(pdf.output('bloburl'), '_blank'); section.style.display = oldDisplay; }).catch(function (err) { console.error('PDF generation error:', err); section.style.display = oldDisplay; });
   }
 
   getProdUnitPrice(prod: any): number {
