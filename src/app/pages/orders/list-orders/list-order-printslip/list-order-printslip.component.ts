@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { GlobalDataService } from 'src/app/services/global-data.service';
 import html2pdf from 'html2pdf.js';
 import html2canvas from 'html2canvas';
@@ -23,6 +23,7 @@ export class ListOrderPrintslipComponent implements OnInit {
   logoBase64 = '';
   barcode = '';
   currencySymbol: string = '';
+  @ViewChild('printSection', { static: false }) printSection!: ElementRef;
   constructor(private globalData: GlobalDataService, public invoiceService: InvoiceService, private printingService: PrintingService) {
     this.globalData.getCurrencySymbol().subscribe((symbol) => {
       this.currencySymbol = symbol;
@@ -128,7 +129,10 @@ export class ListOrderPrintslipComponent implements OnInit {
   }
   manualPrint(item) {
     this.item = item;
-    const section = document.getElementById('print-section'); if (!section) { console.error('Print section not found.'); return; } const oldDisplay = section.style.display; section.style.display = 'block'; const opt = { margin: 0, filename: 'Invoice-' + '.pdf', image: { type: 'jpeg', quality: 1 }, html2canvas: { scale: 2, useCORS: true, allowTaint: true }, jsPDF: { unit: 'mm', format: [this.size, 800], orientation: 'portrait' } }; html2pdf().set(opt).from(section).toPdf().get('pdf').then(function (pdf) { window.open(pdf.output('bloburl'), '_blank'); section.style.display = oldDisplay; }).catch(function (err) { console.error('PDF generation error:', err); section.style.display = oldDisplay; });
+    if (!this.printSection) return;
+
+    const section = this.printSection.nativeElement;
+    const opt = { margin: 0, filename: 'Invoice-' + '.pdf', image: { type: 'jpeg', quality: 1 }, html2canvas: { scale: 2, useCORS: true, allowTaint: true }, jsPDF: { unit: 'mm', format: [this.size, 800], orientation: 'portrait' } }; html2pdf().set(opt).from(section).toPdf().get('pdf').then(function (pdf) { window.open(pdf.output('bloburl'), '_blank'); });
   }
 
   getProdUnitPrice(prod: any): number {

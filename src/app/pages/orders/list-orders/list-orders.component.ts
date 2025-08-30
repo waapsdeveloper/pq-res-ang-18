@@ -25,6 +25,7 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
   showDeleteAllButton = false;
   canDelete;
   paymentStatus;
+  selectedItem: any;
   orderStatus;
   title = 'Orders';
   addurl = '/pages/orders/add';
@@ -244,7 +245,8 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
     this.printSlipComponent.printSlip(item);
   }
   triggerManualPrint(item) {
-    this.printSlipComponent.manualPrint(item);
+    this.selectedItem = item;
+    this.printSlipComponent.manualPrint(this.selectedItem);
   }
 
   constructor(
