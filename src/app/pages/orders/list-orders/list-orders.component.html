@@ -17,8 +17,9 @@
     <tr *ngIf="!crudService.loading && crudService.list.length === 0">
       <td colspan="5" class="text-center">No results found.</td>
     </tr>
-    <div  style="display: none"> <app-list-order-printslip [item]="selectedItem"  #printSlipComponent></app-list-order-printslip></div>
-    
+    <div style="display: none"> <app-list-order-printslip [item]="selectedItem"
+        #printSlipComponent></app-list-order-printslip></div>
+
     <!-- Hide rows when loading -->
     <tr [hidden]="!(!crudService.loading && crudService.list.length > 0)"
       *ngFor="let item of crudService.list; let i = index">
@@ -41,6 +42,11 @@
           <span class="fs-8 text-muted">{{ item?.customer_phone }}</span>
         </div>
       </td>
+      
+      <!-- Status -->
+      <td>
+        <app-list-order-item-status [item]="item"></app-list-order-item-status>
+      </td> 
 
       <!-- Type -->
       <td>
@@ -59,7 +65,10 @@
           </div>
         </div>
       </td>
-
+      <!-- Paid -->
+      <td>
+        <app-list-order-payment-status [item]="item"></app-list-order-payment-status>
+      </td>
       <!-- Subtotal -->
       <td>
         <span class="fw-bold" style="font-size: 15px; white-space: nowrap">
@@ -103,15 +112,8 @@
         </span>
       </td>
 
-      <!-- Paid -->
-      <td>
-        <app-list-order-payment-status [item]="item"></app-list-order-payment-status>
-      </td>
 
-      <!-- Status -->
-      <td>
-        <app-list-order-item-status [item]="item"></app-list-order-item-status>
-      </td>
+
 
       <!-- Created -->
       <td>
@@ -148,10 +150,11 @@
       <!-- Actions -->
       <td class="text-start">
         <div class="d-flex flex-row justify-content-start align-items-center gap-3">
-         
+
           <i class="ti ti-eye view-icon" style="font-size: 20px; cursor: pointer" *ngIf="canView"
             (click)="openDetails(i)"></i>
-          <i class="ti ti-printer-off manual-print"  style="font-size: 20px; cursor: pointer" (click)="triggerManualPrint(item)"></i>
+          <i class="ti ti-printer-off manual-print" style="font-size: 20px; cursor: pointer"
+            (click)="triggerManualPrint(item)"></i>
           <i class="ti ti-printer printericon" style="font-size: 20px; cursor: pointer"
             (click)="triggerPrint(item)"></i>
           <i class="edit-icon ti ti-edit" style="font-size: 24px; cursor: pointer" *ngIf="canEdit && !isDeleted"
