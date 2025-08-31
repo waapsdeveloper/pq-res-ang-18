@@ -9,10 +9,13 @@
   <!--begin::Body-->
   <div class="card-body pt-2">
     <!--begin::Table container-->
+    <div style="display: none"> <app-list-order-printslip [item]="selectedItem"
+        #printSlipComponent></app-list-order-printslip></div>
     <div class="table-responsive">
       <!--begin::Table-->
       <table class="table table-row-dashed align-middle gs-0 gy-4 my-0">
         <thead>
+          
           <tr class="fs-7 fw-bold text-gray-500 border-bottom-0">
             <th class="ps-0">Order Id</th>
             <th>Customer</th>
@@ -142,9 +145,10 @@
           <!-- Action Button-->
             <td class="text-start">
         <div class="d-flex flex-row justify-content-start align-items-center gap-3">
-          <app-list-order-printslip [item]="item"></app-list-order-printslip>
           <i class="ti ti-eye view-icon" style="font-size: 20px; cursor: pointer" *ngIf="canView"
             (click)="openDetails(i)"></i>
+            <i class="ti ti-printer-off manual-print" style="font-size: 20px; cursor: pointer"
+            (click)="triggerManualPrint(item)"></i>
           <i class="ti ti-printer printericon" style="font-size: 20px; cursor: pointer"
             (click)="triggerPrint(item)"></i>
 

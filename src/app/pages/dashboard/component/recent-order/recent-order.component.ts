@@ -14,7 +14,7 @@ import { PermissionService } from 'src/app/services/permission.service';
 })
 export class RecentOrderComponent {
   @ViewChild(ListOrderPrintslipComponent) printSlipComponent!: ListOrderPrintslipComponent;
-
+  selectedItem: any;
   title = 'Orders';
   addurl = '/pages/orders/add';
   search = '';
@@ -161,7 +161,13 @@ export class RecentOrderComponent {
     return res;
   }
   triggerPrint(item) {
-    this.printSlipComponent.printSlip(item);
+    this.selectedItem = item;
+    this.printSlipComponent.printSlip(this.selectedItem);
+
+  }
+    triggerManualPrint(item) {
+    this.selectedItem = item;
+    this.printSlipComponent.manualPrint(this.selectedItem);
   }
   ProductModal(item) {
     console.log('Selected item:', item.products);

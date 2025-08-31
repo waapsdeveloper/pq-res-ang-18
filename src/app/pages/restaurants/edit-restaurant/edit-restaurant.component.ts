@@ -109,6 +109,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     tax: '',
     currency: '',
     dial_code: '',
+    digits: 0,
     tips: '',
     delivery_charges: '',
     // Meta data properties
@@ -244,6 +245,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     const formControls = {
       name: new FormControl(this.model.name || ''),
       address: new FormControl(this.model.address || ''),
+      digits: new FormControl(this.model.digits || 0),
       phone: new FormControl(this.model.phone || ''),
       email: new FormControl(this.model.email || ''),
       website: new FormControl(this.model.website || ''),
@@ -302,6 +304,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
         this.model.status = restaurantData.status || 'active';
         this.model.src_img = restaurantData.image || '';
         this.model.logo = restaurantData.logo || '';
+        this.model.digits = restaurantData.digits || 0;
         this.model.copyright_text = restaurantData.copyright_text || '';
         this.model.home_page_title = restaurantData.home_page_title || '';
 
@@ -445,6 +448,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
       tips: '',
       delivery_charges: '',
       home_page_title: d.home_page_title || '',
+      digits: d.digits || 0,
       enableTax: true,
       enableTips: true,
       enableDeliveryCharges: true
@@ -561,6 +565,20 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
           },
           className: 'col-md-6 col-12'
         },
+        {
+          key: 'digits',
+          type: 'number',
+          props: {
+            label: 'Decimal Digits',
+            placeholder: 'Enter Digits after decimal',
+            required: false,
+            min: 0,
+            max: 5, // 🔒 enforce max 5 digits
+            description: 'Allowed range: 0 to 5'
+          },
+          className: 'col-md-6 col-12'
+        }
+,
         {
           key: 'google_map',
           type: 'input',
@@ -977,11 +995,11 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
           // Special case for invoice
           this.model['invoice_logo'] = base64String;
         }
-        
 
-        console.log("ssss", this.model);  
+
+        console.log("ssss", this.model);
         this.modelChange.emit(this.model);
-       
+
         // this.fields[0].fieldGroup[6].props['value'] = base64String; // Update the field value
         // this.fields[0].fieldGroup[6].formControl.setValue(base64String); // Update the form control value
 

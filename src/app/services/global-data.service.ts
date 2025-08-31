@@ -7,6 +7,7 @@ import { InvoiceService } from './invoice.service';
 export interface GlobalDataState {
   restaurant_id: number;
   currency: string;
+  digits: number;
   currency_symbol: string;
   tax_percentage: number;
   restaurant_name?: string; // Optional field for restaurant name
@@ -33,6 +34,7 @@ export class GlobalDataService extends NgSimpleStateBaseRxjsStore<GlobalDataStat
     return {
       restaurant_id: 0,
       currency: 'USD',
+      digits: 2,
       currency_symbol: '$',
       tax_percentage: 0,
       restaurant_name: '' // Initialize with an empty string or a default value
@@ -54,6 +56,12 @@ export class GlobalDataService extends NgSimpleStateBaseRxjsStore<GlobalDataStat
 
   getRestaurantName(): Observable<any> {
     return this.selectState((state) => state.restaurant_name);
+  }
+  getDigits(): Observable<any> {
+    return this.selectState((state) => state.digits);
+  }
+  setDigits(digits: number): void {
+    this.setState((state) => ({ digits }));
   }
 
   setCurrency(currency: string): void {
@@ -124,6 +132,9 @@ export class GlobalDataService extends NgSimpleStateBaseRxjsStore<GlobalDataStat
         localStorage.setItem('restaurant_id', R.id);
         this.setRestaurantId(R.id);
         this.setRestaurantName(R.name);
+        if(defaults.restaurant_meta && defaults.restaurant_meta.restaurant_attributes){
+          this.setDigits(parseInt(defaults.restaurant_meta.restaurant_attributes.digits) || 2);
+        }
 
         const config = await this.network.getRestaurantConfigById(R.id);
         console.log('branch_config', config);

@@ -13,14 +13,14 @@ export class AttributesComponent implements OnInit {
   @Input() attributesField: any;
   @Input() model: any;
   @Input() restaurantId: any;
-  
+
   loading: boolean = false;
 
   constructor(
     private network: NetworkService,
     private utility: UtilityService,
     private globalData: GlobalDataService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.loadMetaData();
@@ -33,18 +33,18 @@ export class AttributesComponent implements OnInit {
 
     try {
       this.loading = true;
-      
+
       // Get meta data for restaurant_attributes key
       const response = await this.network.getRestaurantMeta(this.restaurantId, 'restaurant_attributes');
-      
+
       if (response && response.meta && response.meta.meta_value) {
         try {
           // Parse the JSON string back to object
           const metaData = JSON.parse(response.meta.meta_value);
-          
+
           // Define the allowed keys
-          const allowedKeys = ['home_page_title', 'home_page_slider', 'copyright_text', 'google_map'];
-          
+          const allowedKeys = ['home_page_title', 'home_page_slider', 'copyright_text', 'google_map', 'digits'];
+
           // Update the model with the loaded meta data for allowed keys only
           if (this.model) {
             allowedKeys.forEach(key => {
@@ -53,7 +53,7 @@ export class AttributesComponent implements OnInit {
               }
             });
           }
-          
+
           // Update form values to reflect the model changes
           if (this.form) {
             allowedKeys.forEach(key => {
@@ -65,14 +65,14 @@ export class AttributesComponent implements OnInit {
               }
             });
           }
-          
+
           console.log('Loaded meta data:', metaData);
           console.log('Updated model:', this.model);
         } catch (parseError) {
           console.error('Error parsing meta data JSON:', parseError);
         }
       }
-      
+
     } catch (error) {
       console.error('Error loading meta data:', error);
       // Don't show error toast for loading, as it might be normal for new restaurants
@@ -82,8 +82,8 @@ export class AttributesComponent implements OnInit {
   }
 
   async saveMetaData() {
-    const allowedKeys = ['home_page_title', 'home_page_slider', 'copyright_text', 'google_map'];
-    
+    const allowedKeys = ['home_page_title', 'home_page_slider', 'copyright_text', 'google_map', 'digits'];
+
     if (!this.restaurantId) {
       this.utility.presentFailureToast('Restaurant ID is required');
       return;
@@ -96,33 +96,45 @@ export class AttributesComponent implements OnInit {
 
     try {
       this.loading = true;
-      
-      // Extract only the allowed keys from the model and create a single object
+
       const metaObject: any = {};
-      
+
       allowedKeys.forEach(key => {
         const value = this.model[key];
         if (value !== null && value !== undefined && value !== '') {
-          metaObject[key] = value;
+          // ✅ Special validation for digits
+          if (key === 'digits') {
+            const digits = Number(value);
+            if (isNaN(digits) || digits < 0 || digits > 5) {
+              this.utility.presentFailureToast('Decimal digits must be between 0 and 5');
+              throw new Error('Invalid digits'); // stop saving process
+            }
+            metaObject[key] = digits; // save validated value
+          } else {
+            metaObject[key] = value;
+          }
         }
       });
-      
+
       console.log(metaObject);
-      // Send as single meta entry with JSON string value
+
       if (Object.keys(metaObject).length > 0) {
         await this.network.storeRestaurantMeta({
           meta_key: 'restaurant_attributes',
           meta_value: JSON.stringify(metaObject)
         }, this.restaurantId);
       }
-      
+
       this.utility.presentSuccessToast('Attributes saved successfully');
-      
+
     } catch (error) {
       console.error('Error saving meta data:', error);
-      this.utility.presentFailureToast('Failed to save attributes');
+      if (error.message !== 'Invalid digits') {
+        this.utility.presentFailureToast('Failed to save attributes');
+      }
     } finally {
       this.loading = false;
     }
   }
+
 }
