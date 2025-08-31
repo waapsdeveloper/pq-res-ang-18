@@ -34,7 +34,6 @@ export class AddOrderService {
   taxPercent: number = 0; // Global value for tax percentage
   taxAmount: number = 0; // calculated
   paymentMethods: { label: string; value: string }[] = [
-    { label: 'Cash on Delivery', value: 'cashondelivery' },
     { label: "Cash", value: "cash" },
     { label: "Credit Card", value: "creditcard" },
     // { label: 'Apple Pay', value: 'applePay' },

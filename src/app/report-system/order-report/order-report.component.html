@@ -20,7 +20,7 @@
                     <!-- Report Totals -->
                     <div class="row mb-3 g-3">
                         <!-- Total Sales -->
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="report-card bg-primary text-white">
                                 <div class="report-body">
                                     <h6 class="mb-1">Total Sales</h6>
@@ -33,7 +33,7 @@
                         </div>
 
                         <!-- Total Tax -->
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="report-card bg-warning text-dark">
                                 <div class="report-body">
                                     <h6 class="mb-1">Total Tax</h6>
@@ -46,7 +46,7 @@
                         </div>
 
                         <!-- Total Discount -->
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="report-card bg-danger text-white">
                                 <div class="report-body">
                                     <h6 class="mb-1">Total Discount</h6>
@@ -58,8 +58,36 @@
                             </div>
                         </div>
 
+                        <!-- Card Payments (amount + count) -->
+                        <div class="col-md-2">
+                            <div class="report-card bg-info text-white">
+                                <div class="report-body">
+                                    <h6 class="mb-1">Card Payments</h6>
+                                    <h4 class="fw-bold">
+                                        {{ currencySymbol }} {{ reportData?.totals?.total_card_amount | appNumber | async }}
+                                    </h4>
+                                    <small class="text-white-50">{{ reportData?.totals?.total_card_count || 0 }} orders</small>
+                                </div>
+                                <div class="report-footer">↗</div>
+                            </div>
+                        </div>
+
+                        <!-- Cash Payments (amount + count) -->
+                        <div class="col-md-2">
+                            <div class="report-card bg-secondary text-white">
+                                <div class="report-body">
+                                    <h6 class="mb-1">Cash Payments</h6>
+                                    <h4 class="fw-bold">
+                                        {{ currencySymbol }} {{ reportData?.totals?.total_cash_amount | appNumber | async }}
+                                    </h4>
+                                    <small class="text-white-50">{{ reportData?.totals?.total_cash_count || 0 }} orders</small>
+                                </div>
+                                <div class="report-footer">↗</div>
+                            </div>
+                        </div>
+
                         <!-- Grand Total -->
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="report-card bg-success text-white mb-2">
                                 <div class="report-body">
                                     <h6 class="mb-1">Grand Total</h6>
@@ -105,34 +133,60 @@
 
 
 
-            <!-- Orders Table -->
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-content">
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered mb-0">
-                                        <thead>
-                                            <tr>
-                                                <th class="fw-bold">Order #</th>
-                                                <th class="fw-bold">Time</th>
-                                                <th class="fw-bold">Type</th>
-                                                <th class="fw-bold">Status</th>
-                                                <th class="fw-bold text-end">Amount</th>
-                                                <th class="fw-bold text-end">Tax</th>
-                                                <th class="fw-bold text-end">Discount</th>
-                                                <th class="fw-bold text-end">Tips</th>
-                                                <th class="fw-bold text-end">Total</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let order of reportData?.orders" [ngClass]="{'deleted-row': order?.isDeleted}">
-                                                <td>{{ order.order_no }}</td>
-                                                <td>{{ order.time | date: 'short' }}</td>
-                                                <td>{{ order.type || 'N/A' }}</td>
-                                                <td>
-                                                    <span class="badge fw-bold" [ngClass]="{
+                    <!-- Orders Table -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="fw-bold">Order #</th>
+                                                        <th class="fw-bold">Time</th>
+                                                        <th class="fw-bold">Type</th>
+                                                        <th class="fw-bold">Source</th> <!-- added -->
+                                                        <th class="fw-bold">Payment</th> <!-- added -->
+                                                        <th class="fw-bold">Status</th>
+                                                        <th class="fw-bold text-end">Amount</th>
+                                                        <th class="fw-bold text-end">Tax</th>
+                                                        <th class="fw-bold text-end">Discount</th>
+                                                        <th class="fw-bold text-end">Tips</th>
+                                                        <th class="fw-bold text-end">Total</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let order of reportData?.orders"
+                                                        [ngClass]="{'deleted-row': order?.isDeleted}">
+                                                        <td>{{ order.order_no }}</td>
+                                                        <td>{{ order.time | date: 'short' }}</td>
+                                                        <td>{{ order.type || 'N/A' }}</td>
+
+                                                        <!-- Source badge (pos / website) -->
+                                                        <td>
+                                                            <span class="badge source-badge"
+                                                                  [ngClass]="{
+                                                                    'badge-pos': (order?.source || '')?.toLowerCase() === 'pos',
+                                                                    'badge-website': (order?.source || '')?.toLowerCase() === 'website'
+                                                                  }">
+                                                                {{ (order?.source || 'unknown') | titlecase }}
+                                                            </span>
+                                                        </td>
+
+                                                        <!-- Payment badge (card / cash / other) -->
+                                                        <td>
+                                                            <span class="badge payment-badge"
+                                                                  [ngClass]="{
+                                                                    'badge-card': (order?.payment || '')?.toLowerCase() === 'creditcard',
+                                                                    'badge-cash': (order?.payment || '')?.toLowerCase() === 'cash'
+                                                                  }">
+                                                                {{ (order?.payment || 'unknown') | titlecase }}
+                                                            </span>
+                                                        </td>
+
+                                                        <td>
+                                                            <span class="badge fw-bold" [ngClass]="{
                                 'badge-pending': order?.status === 'Pending',
                                 'badge-confirmed': order?.status === 'Confirmed',
                                 'badge-preparing': order?.status === 'Preparing',
@@ -142,35 +196,35 @@
                                 'badge-completed': order?.status === 'Completed',
                                 'badge-cancelled': order?.status === 'Cancelled'
                               }">
-                                                        {{ order.status }}
-                                                    </span>
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ currencySymbol }} {{ order.amount | appNumber | async }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ currencySymbol }} {{ order.tax | appNumber | async }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ currencySymbol }} {{ order.discount | appNumber | async }}
-                                                </td>
-                                                <td class="text-end">
-                                                    {{ currencySymbol }} {{ order.tips | appNumber | async }}
-                                                </td>
-                                                <td class="text-end fw-bold">
-                                                    {{ currencySymbol }} {{ order.total | appNumber | async }}
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                                                {{ order.status }}
+                                                            </span>
+                                                        </td>
+                                                        <td class="text-end">
+                                                            {{ currencySymbol }} {{ order.amount | appNumber | async }}
+                                                        </td>
+                                                        <td class="text-end">
+                                                            {{ currencySymbol }} {{ order.tax | appNumber | async }}
+                                                        </td>
+                                                        <td class="text-end">
+                                                            {{ currencySymbol }} {{ order.discount | appNumber | async }}
+                                                        </td>
+                                                        <td class="text-end">
+                                                            {{ currencySymbol }} {{ order.tips | appNumber | async }}
+                                                        </td>
+                                                        <td class="text-end fw-bold">
+                                                            {{ currencySymbol }} {{ order.total | appNumber | async }}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </section>
             </div>
-            </section>
         </div>
     </div>
-</div>
 </div>

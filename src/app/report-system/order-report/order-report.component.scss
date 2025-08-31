@@ -105,4 +105,42 @@
   border-color: rgba(108,117,125,0.12) !important;
   box-shadow: none !important;
 }
-// ...existing code...
+/* General badge styling */
+.badge {
+  display: inline-block;
+  margin-right: 0.5rem; /* space between badges */
+  padding: 0.4rem 0.75rem; /* bigger padding */
+  font-size: 0.85rem; /* slightly larger font */
+  border-radius: 0.5rem; /* smoother corners */
+  color: #fff;
+  font-weight: 600;
+  vertical-align: middle;
+}
+
+/* Source badges */
+.source-badge {
+  background: #6c757d; /* fallback gray */
+}
+.badge-pos {
+  background: #0d6efd; /* blue */
+}
+.badge-website {
+  background: #6f42c1; /* purple */
+}
+.order-cell {
+  display: flex;
+  justify-content: space-between; /* order number left, badges right */
+  align-items: center;
+  gap: 20px; /* gap between order no. and badges */
+}
+
+/* Payment badges */
+.payment-badge {
+  background: #6c757d; /* fallback gray */
+}
+.badge-card {
+  background: #17a2b8; /* teal */
+}
+.badge-cash {
+  background: #28a745; /* green */
+}
