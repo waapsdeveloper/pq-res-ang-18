@@ -126,6 +126,7 @@ export class AttributesComponent implements OnInit {
       }
 
       this.utility.presentSuccessToast('Attributes saved successfully');
+      this.globalData.getDefaultRestaurant(); // Refresh global data
 
     } catch (error) {
       console.error('Error saving meta data:', error);
