@@ -6,6 +6,7 @@ import { InvoiceService } from 'src/app/services/invoice.service';
 import { left } from '@popperjs/core';
 import { PrintingService } from 'src/app/services/printer.service';
 import { DecimalPipe } from '@angular/common';
+import { UtilityService } from 'src/app/services/utility.service';
 
 @Component({
   selector: 'app-list-order-printslip',
@@ -26,7 +27,7 @@ export class ListOrderPrintslipComponent implements OnInit {
   barcode = '';
   currencySymbol: string = '';
   @ViewChild('printSection', { static: false }) printSection!: ElementRef;
-  constructor(private globalData: GlobalDataService, public invoiceService: InvoiceService, private printingService: PrintingService, private decimalPipe: DecimalPipe) {
+  constructor(private globalData: GlobalDataService, public invoiceService: InvoiceService, private printingService: PrintingService, private decimalPipe: DecimalPipe, private utilityService: UtilityService) {
     this.globalData.getCurrencySymbol().subscribe((symbol) => {
       this.currencySymbol = symbol;
       console.log('Currency Symbol updated:', this.currencySymbol);
@@ -122,12 +123,13 @@ export class ListOrderPrintslipComponent implements OnInit {
         body: formData,
       });
 
-      if (res.ok) {
+      if (res) {
+        this.utilityService.presentSuccessToast('Printed successfully');
         console.log('✅ Printed successfully');
-      } else {
-        console.error('❌ Print failed');
-      }
+
+      } 
     } catch (err) {
+      this.utilityService.presentFailureToast(err);
       console.error('PDF generation/print error:', err);
     } finally {
       section.style.display = oldDisplay;
@@ -139,6 +141,7 @@ export class ListOrderPrintslipComponent implements OnInit {
 
     const section = this.printSection.nativeElement;
     const opt = { margin: 0, filename: 'Invoice-' + '.pdf', image: { type: 'jpeg', quality: 1 }, html2canvas: { scale: 2, useCORS: true, allowTaint: true }, jsPDF: { unit: 'mm', format: [this.size, 800], orientation: 'portrait' } }; html2pdf().set(opt).from(section).toPdf().get('pdf').then(function (pdf) { window.open(pdf.output('bloburl'), '_blank'); });
+    this.utilityService.presentSuccessToast('PDF Generated');
   }
 
   getProdUnitPrice(prod: any): number {
@@ -168,7 +171,7 @@ export class ListOrderPrintslipComponent implements OnInit {
     return unit * (prod?.quantity ?? 0);
   }
   formatSpecial(value: number, digits: number): string {
-  const format = `1.${digits}-${digits}`;
-  return this.decimalPipe.transform(value, format, 'en-US') ?? '';
-}
+    const format = `1.${digits}-${digits}`;
+    return this.decimalPipe.transform(value, format, 'en-US') ?? '';
+  }
 }

@@ -13,15 +13,18 @@ import { GlobalDataService } from 'src/app/services/global-data.service';
 import { ActivatedRoute } from '@angular/router';
 import { PermissionService } from 'src/app/services/permission.service';
 import { ListOrderPrintslipComponent } from './list-order-printslip/list-order-printslip.component';
-
+import { DecimalPipe } from '@angular/common';
 @Component({
   selector: 'app-list-orders',
   templateUrl: './list-orders.component.html',
-  styleUrl: './list-orders.component.scss'
+  styleUrl: './list-orders.component.scss',
+  providers: [DecimalPipe]
+  
 })
 export class ListOrdersComponent extends ListBlade implements OnInit {
   @Output() onPrint = new EventEmitter<void>();
   isDeleted = false;
+  digits;
   showDeleteAllButton = false;
   canDelete;
   paymentStatus;
@@ -42,6 +45,7 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
     'Customer',
     'Status',
     'Type',
+    'Payment Method',
     'Source',
     'Paid',
     'Subtotal',
@@ -253,6 +257,7 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
     injector: Injector,
     public override crudService: OrderService,
     private nav: NavService,
+    private decimalPipe: DecimalPipe,
     private utility: UtilityService,
     private users: UsersService,
     private network: NetworkService,
@@ -269,7 +274,10 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
       this.currency = currency;
       console.log('Currency updated:', this.currency);
     });
-
+   this.globalData.getDigits().subscribe((digits) => {
+      this.digits = digits;
+      console.log('Digits updated:', this.digits);
+    });
     this.globalData.getCurrencySymbol().subscribe((symbol) => {
       this.currencySymbol = symbol;
       console.log('Currency Symbol updated:', this.currencySymbol);
@@ -356,10 +364,14 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
 
   //   return res;
   // }
+    formatSpecial(value: number, digits: number): string {
+  const format = `1.${digits}-${digits}`;
+  return this.decimalPipe.transform(value, format, 'en-US') ?? '';
+}
   get orderTitleHighlightPart(): string {
     // More concise version for better mobile display
     if (!this.isDeleted) {
-      return `(T: ${this.currencySymbol}${this.taxAmount} | D: ${this.currencySymbol}${this.discountAmount} | S: ${this.currencySymbol}${this.subTotal} | Total: ${this.currencySymbol}${this.totalAmount})`;
+      return `(T: ${this.currencySymbol}${this.formatSpecial(this.taxAmount,this.digits)} | D: ${this.currencySymbol}${this.formatSpecial(this.discountAmount,this.digits)} | S: ${this.currencySymbol}${this.formatSpecial(this.subTotal,this.digits)} | Total: ${this.currencySymbol}${this.formatSpecial(this.totalAmount,this.digits)})`;
     }
     return '';
   }

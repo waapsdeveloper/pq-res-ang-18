@@ -56,6 +56,14 @@
           </div>
         </div>
       </td>
+      <!-- Payment Methods -->
+      <td>
+        <div class="d-flex">
+          <div class="badge" [ngClass]="item?.payment_method">
+            {{ item?.payment_method | titlecase }}
+          </div>
+        </div>
+      </td>
 
       <!-- Source -->
       <td>

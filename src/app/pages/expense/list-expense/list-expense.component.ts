@@ -12,17 +12,20 @@ import { ExprenseService } from '../expense.service';
 import { GlobalDataService } from 'src/app/services/global-data.service';
 import { ActivatedRoute } from '@angular/router';
 import { PermissionService } from 'src/app/services/permission.service';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-list-expense',
   templateUrl: './list-expense.component.html',
   styleUrl: './list-expense.component.scss',
+  providers: [DecimalPipe],
   encapsulation: ViewEncapsulation.None
 })
 export class ListExpenseComponent extends ListBlade {
   showDeleteAllButton = false;
   canDelete;
   canEdit;
+  digits;
   canView;
   canChangeStatus;
   canPaymentStatus;
@@ -122,6 +125,7 @@ export class ListExpenseComponent extends ListBlade {
   totalAmount: any;
   constructor(
     injector: Injector,
+    private decimalPipe: DecimalPipe,
     public override crudService: ExprenseService,
     private nav: NavService,
     private utility: UtilityService,
@@ -136,6 +140,9 @@ export class ListExpenseComponent extends ListBlade {
   ) {
     super(injector, crudService);
     this.initialize();
+    this.globalData.getDigits().subscribe((digits) => {
+      this.digits = digits;
+    });
     this.canDelete = this.permissionService.hasPermission('expense' + '.delete');
     this.canView = this.permissionService.hasPermission('expense' + '.view');
     this.canEdit = this.permissionService.hasPermission('expense' + '.edit');
@@ -175,6 +182,10 @@ export class ListExpenseComponent extends ListBlade {
     });
     this.cdr.detectChanges();
   }
+     formatSpecial(value: number, digits: number): string {
+  const format = `1.${digits}-${digits}`;
+  return this.decimalPipe.transform(value, format, 'en-US') ?? '';
+}
 
   initialize() {
     this.crudService.getList('', 1);

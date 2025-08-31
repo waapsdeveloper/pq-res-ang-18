@@ -15,11 +15,12 @@
       <!--begin::Table-->
       <table class="table table-row-dashed align-middle gs-0 gy-4 my-0">
         <thead>
-          
+
           <tr class="fs-7 fw-bold text-gray-500 border-bottom-0">
             <th class="ps-0">Order Id</th>
             <th>Customer</th>
             <th>Status</th>
+            <th>Payment Method</th>
             <th>Source</th>
             <th>Type</th>
             <th>Paid</th>
@@ -67,6 +68,14 @@
                 </div>
               </div>
             </td>
+            <!-- Payment Methods -->
+            <td>
+              <div class="d-flex">
+                <div class="badge" [ngClass]="item?.payment_method">
+                  {{ item?.payment_method | titlecase }}
+                </div>
+              </div>
+            </td>
             <!-- Source -->
             <td>
               <div class="d-flex">
@@ -79,7 +88,7 @@
               <div class="d-flex">
                 <div class="badge-order-type" [ngClass]="item?.order_type">
                   {{ item?.order_type | titlecase }}
-                </div>  
+                </div>
               </div>
             </td>
             <td>
@@ -92,7 +101,7 @@
                 </div>
               </div>
             </td>
-           <!-- Tax -->
+            <!-- Tax -->
             <td>
               <div class="d-flex flex-row gap-2">
                 <div class="fs-7 fw-bold">
@@ -129,8 +138,8 @@
                 </div>
               </div>
             </td>
-           
-         
+
+
 
             <!-- Created -->
             <td>
@@ -142,27 +151,27 @@
                 </div>
               </div>
             </td>
-          <!-- Action Button-->
+            <!-- Action Button-->
             <td class="text-start">
-        <div class="d-flex flex-row justify-content-start align-items-center gap-3">
-          <i class="ti ti-eye view-icon" style="font-size: 20px; cursor: pointer" *ngIf="canView"
-            (click)="openDetails(i)"></i>
-            <i class="ti ti-printer-off manual-print" style="font-size: 20px; cursor: pointer"
-            (click)="triggerManualPrint(item)"></i>
-          <i class="ti ti-printer printericon" style="font-size: 20px; cursor: pointer"
-            (click)="triggerPrint(item)"></i>
+              <div class="d-flex flex-row justify-content-start align-items-center gap-3">
+                <i class="ti ti-eye view-icon" style="font-size: 20px; cursor: pointer" *ngIf="canView"
+                  (click)="openDetails(i)"></i>
+                <i class="ti ti-printer-off manual-print" style="font-size: 20px; cursor: pointer"
+                  (click)="triggerManualPrint(item)"></i>
+                <i class="ti ti-printer printericon" style="font-size: 20px; cursor: pointer"
+                  (click)="triggerPrint(item)"></i>
 
-          <!-- <i class="ti ti-restore restore-icon" *ngIf="isDeleted" (click)="restoreOrder(i)"></i> -->
+                <!-- <i class="ti ti-restore restore-icon" *ngIf="isDeleted" (click)="restoreOrder(i)"></i> -->
 
 
-          <i class="edit-icon ti ti-edit" style="font-size: 24px; cursor: pointer" *ngIf="canEdit && !isDeleted"
-            (click)="openEditDetails(i)"></i>
+                <i class="edit-icon ti ti-edit" style="font-size: 24px; cursor: pointer" *ngIf="canEdit && !isDeleted"
+                  (click)="openEditDetails(i)"></i>
 
-          <i *ngIf="canDelete && !isDeleted" class="ti ti-trash trash-icon" style="font-size: 20px; cursor: pointer"
-            (click)="deleteRow(i)"></i>
-          <i class="ti ti-dots-vertical" (click)="ProductModal(item)"></i>
-        </div>
-      </td>
+                <i *ngIf="canDelete && !isDeleted" class="ti ti-trash trash-icon"
+                  style="font-size: 20px; cursor: pointer" (click)="deleteRow(i)"></i>
+                <i class="ti ti-dots-vertical" (click)="ProductModal(item)"></i>
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>

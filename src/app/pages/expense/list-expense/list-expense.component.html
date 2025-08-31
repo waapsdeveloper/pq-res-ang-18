@@ -1,6 +1,6 @@
 <app-kt-list-page
   [title]="expenseTitle"
-  [titleHighlightPart]="'(' + currencySymbol + ' ' + totalAmount + ')'"
+  [titleHighlightPart]="'(' + currencySymbol + ' ' + formatSpecial(totalAmount,digits) + ')'"
   [addurl]="'/pages/expense/add'"
   (onFilter)="toggleFilters()"
   [showDeleteAll]="showDeleteAllButton"
