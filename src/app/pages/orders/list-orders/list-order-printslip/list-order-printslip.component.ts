@@ -1,7 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { GlobalDataService } from 'src/app/services/global-data.service';
 import html2pdf from 'html2pdf.js';
-import html2canvas from 'html2canvas';
 
 import { InvoiceService } from 'src/app/services/invoice.service';
 import { left } from '@popperjs/core';
