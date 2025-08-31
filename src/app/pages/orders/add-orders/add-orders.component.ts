@@ -15,10 +15,13 @@ import { CurrencyService } from 'src/app/services/currency.service';
 import { GlobalDataService } from 'src/app/services/global-data.service';
 import html2pdf from 'html2pdf.js';
 import { InvoiceService } from 'src/app/services/invoice.service';
+import { DecimalPipe } from '@angular/common';
+
 @Component({
   selector: 'app-add-orders',
   templateUrl: './add-orders.component.html',
   styleUrl: './add-orders.component.scss',
+   providers: [DecimalPipe],
   animations: [
     trigger('slideToggle', [
       state('closed', style({ height: '0', overflow: 'hidden', opacity: 0 })),
@@ -32,6 +35,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   screenWidth: number;
   screenHeight: number;
   showCoupon;
+  digits;
   itemId;
   restInfo;
   restaurant;
@@ -59,6 +63,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
 
   constructor(
     public nav: NavService,
+    private decimalPipe: DecimalPipe,
     public orderService: AddOrderService,
     private network: NetworkService,
     private utilityService: UtilityService,
@@ -83,6 +88,9 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
 
     this.invoiceService.getLeftMargin().subscribe(left => {
       this.marginleft = left;
+    });
+    this.globalData.getDigits().subscribe((digits) => {
+      this.digits = digits;
     });
 
     this.invoiceService.getRightMargin().subscribe(right => {
@@ -152,6 +160,11 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   toggleForm() {
     this.showForm = !this.showForm;
   }
+
+  formatSpecial(value: number, digits: number): string {
+  const format = `1.${digits}-${digits}`;
+  return this.decimalPipe.transform(value, format, 'en-US') ?? '';
+}
 
   async ngOnInit() {
     // this.orderService.taxPercent = await this.currencyService.getTaxFromLocalStorage();

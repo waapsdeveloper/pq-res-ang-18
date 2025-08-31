@@ -58,18 +58,18 @@
             <span *ngFor="let variation of prod.variation">
               <span *ngIf="variation.selectedOption">
                 {{ variation.selectedOption.name }}
-                ({{ currencySymbol }}{{ variation.selectedOption.price | appNumber | async }})
+                ({{ currencySymbol }}{{ formatSpecial(variation.selectedOption.price, digits)  }})
               </span>
               <span *ngFor="let option of variation.options" [hidden]="!option.selected">
                 {{ option.name }}
-                ({{ currencySymbol }}{{ option.price | appNumber | async }})
+                ({{ currencySymbol }}{{ formatSpecial(option.price, digits)  }})
               </span>
             </span>
           </div>
         </td>
 
         <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa; font-weight: 900;">
-          {{ getProdUnitPrice(prod) | appNumber | async }}
+          {{ formatSpecial(getProdUnitPrice(prod), digits)  }}
         </td>
 
         <td style="padding: 2px 3px; text-align: center; border: 0.3px solid #aaa; font-weight: 900;">
@@ -77,7 +77,7 @@
         </td>
 
         <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa; font-weight: 900;">
-          {{ getProdTotalPrice(prod) | appNumber | async }}
+          {{ formatSpecial(getProdTotalPrice(prod), digits)  }}
         </td>
       </tr>
     </tbody>
@@ -86,35 +86,35 @@
       <tr>
         <td colspan="3" style="padding: 6px; text-align: left; border: 0.3px solid #aaa;">Subtotal</td>
         <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa; ">
-          {{ item?.total_price | appNumber | async }}
+          {{ formatSpecial(item?.total, digits)  }}
         </td>
       </tr>
 
       <tr *ngIf="item?.tax_amount > 0">
         <td colspan="3" style="padding: 6px; text-align: left; border: 0.3px solid #aaa;">Tax</td>
         <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa; ">
-          {{ item?.tax_amount | appNumber | async }}
+          {{ formatSpecial(item?.tax_amount, digits)  }}
         </td>
       </tr>
 
       <tr *ngIf="item?.discount_value > 0">
         <td colspan="3" style="padding: 6px; text-align: left; border: 0.3px solid #aaa;">Discount</td>
         <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa; ">
-          {{ item?.discount_value | appNumber | async }}
+          {{ formatSpecial(item?.discount_value, digits)  }}
         </td>
       </tr>
 
       <tr *ngIf="item?.tips > 0">
         <td colspan="3" style="padding: 6px; text-align: left; border: 0.3px solid #aaa;">Tips</td>
         <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa; ">
-          {{ item?.tips | appNumber | async }}
+          {{ formatSpecial(item?.tips, digits)  }}
         </td>
       </tr>
 
       <tr style="border-top: 1px solid #000; background: #fff;">
         <td colspan="3" style="padding: 6px; text-align: left; border: 0.3px solid #aaa;">Total</td>
         <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa;">
-          {{ currencySymbol }}{{ item?.final_total | appNumber | async }}
+          {{ currencySymbol }}{{  formatSpecial(item?.final_total,digits) }}
         </td>
       </tr>
     </tfoot>

@@ -104,7 +104,7 @@
                           (ngModelChange)="changeVariationSelection($event)"
                           />
                           <label class="form-check-label" [for]="'option-' + variation.type + '-' + option.name">
-                            {{ option.name }} (+{{ currencySymbol }} {{ option.price }})
+                            {{ option.name }} (+{{ currencySymbol }} {{ option.price | number: '1.2-2' }})
                           </label>
                         </div>
                       </div>

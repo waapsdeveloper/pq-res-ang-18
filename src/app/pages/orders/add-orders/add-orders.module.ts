@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 
 import { AddOrdersRoutingModule } from './add-orders-routing.module';
 import { AddOrdersComponent } from './add-orders.component';
@@ -21,6 +21,7 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
 
     AddOrdersRoutingModule,
     FormsModule,
+    DecimalPipe,
     FormlyModule,
     ReactiveFormsModule,
     FormlyBootstrapModule,

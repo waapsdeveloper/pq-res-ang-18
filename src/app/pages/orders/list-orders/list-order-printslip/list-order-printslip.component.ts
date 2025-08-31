@@ -6,15 +6,18 @@ import html2canvas from 'html2canvas';
 import { InvoiceService } from 'src/app/services/invoice.service';
 import { left } from '@popperjs/core';
 import { PrintingService } from 'src/app/services/printer.service';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-list-order-printslip',
   templateUrl: './list-order-printslip.component.html',
-  styleUrl: './list-order-printslip.component.scss'
+  styleUrl: './list-order-printslip.component.scss',
+  providers: [DecimalPipe]
 })
 export class ListOrderPrintslipComponent implements OnInit {
   @Input() item: any;
   size;
+  digits;
   marginleft = 0;
   marginright = 0;
   fontSize;
@@ -24,10 +27,14 @@ export class ListOrderPrintslipComponent implements OnInit {
   barcode = '';
   currencySymbol: string = '';
   @ViewChild('printSection', { static: false }) printSection!: ElementRef;
-  constructor(private globalData: GlobalDataService, public invoiceService: InvoiceService, private printingService: PrintingService) {
+  constructor(private globalData: GlobalDataService, public invoiceService: InvoiceService, private printingService: PrintingService, private decimalPipe: DecimalPipe) {
     this.globalData.getCurrencySymbol().subscribe((symbol) => {
       this.currencySymbol = symbol;
       console.log('Currency Symbol updated:', this.currencySymbol);
+    });
+    this.globalData.getDigits().subscribe((digits) => {
+      this.digits = digits;
+      console.log('Digits updated:', this.digits);
     });
 
   }
@@ -161,5 +168,8 @@ export class ListOrderPrintslipComponent implements OnInit {
     const unit = this.getProdUnitPrice(prod);
     return unit * (prod?.quantity ?? 0);
   }
-
+  formatSpecial(value: number, digits: number): string {
+  const format = `1.${digits}-${digits}`;
+  return this.decimalPipe.transform(value, format, 'en-US') ?? '';
+}
 }

@@ -193,29 +193,29 @@
           <!-- Totals -->
           <div class="d-flex justify-content-between mb-2">
             <span class="text-muted">Subtotal:</span>
-            <span class="fw-semibold">{{ this.currencySymbol }} {{ orderService.subtotal | number: '1.2-2' }}</span>
+            <span class="fw-semibold">{{ this.currencySymbol }} {{ orderService.subtotal | appNumber | async }}</span>
           </div>
           <div class="d-flex justify-content-between mb-2">
             <span class="text-muted">Discount:</span>
-            <span class="fw-semibold">{{ this.currencySymbol }} {{ orderService.discountAmount | number: '1.2-2'
+            <span class="fw-semibold">{{ this.currencySymbol }} {{ orderService.discountAmount | appNumber | async
               }}</span>
           </div>
           <div class="d-flex justify-content-between mb-2">
-            <span class="text-muted">Tax ({{ orderService.taxPercent | number: '1.2-2' }}%):</span>
-            <span class="fw-semibold">{{ this.currencySymbol }} {{ orderService.taxAmount | number: '1.2-2' }}</span>
+            <span class="text-muted">Tax ({{ orderService.taxPercent | appNumber | async }}%):</span>
+            <span class="fw-semibold">{{ this.currencySymbol }} {{ orderService.taxAmount | appNumber | async }}</span>
           </div>
           <div *ngIf="orderService.orderType === 'delivery'" class="d-flex justify-content-between mb-2">
             <span class="text-muted">Delivery Charges:</span>
-            <span class="fw-semibold">{{ this.currencySymbol }} {{ orderService.deliveryCharges | number: '1.2-2'
+            <span class="fw-semibold">{{ this.currencySymbol }} {{ orderService.deliveryCharges | appNumber | async
               }}</span>
           </div>
           <div class="d-flex justify-content-between mb-2">
             <span class="text-muted">Tips:</span>
-            <span class="fw-semibold">{{ this.currencySymbol }} {{ orderService.tipsAmount | number: '1.2-2' }}</span>
+            <span class="fw-semibold">{{ this.currencySymbol }} {{ orderService.tipsAmount | appNumber | async }}</span>
           </div>
           <div class="d-flex justify-content-between mb-3">
             <strong>Total:</strong>
-            <strong>{{ this.currencySymbol }} {{ orderService.final_total | number: '1.2-2' }}</strong>
+            <strong>{{ this.currencySymbol }} {{ orderService.final_total | appNumber | async }}</strong>
           </div>
           <!-- Submit Button -->
           <div class="d-flex justify-content-end w-100">
@@ -292,7 +292,7 @@
             <small *ngFor="let variation of item.variation">
               <span *ngIf="variation.selectedOption" class="bold">
                 {{ variation.selectedOption.name }}
-                ({{ currencySymbol }}{{ variation.selectedOption.price | appNumber | async }})<br />
+                ({{ currencySymbol }}{{  formatSpecial(variation.selectedOption.price,digits)  }})<br />
               </span>
 
               <span *ngFor="let option of variation.options" class="bold" [hidden]="!option.selected">
@@ -304,7 +304,7 @@
         </td>
 
         <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa; font-weight: 900;">
-          {{ getUnitPrice(item) | appNumber | async }}
+          {{  formatSpecial(getUnitPrice(item), digits) }}
         </td>
 
         <td style="padding: 2px 3px; text-align: center; border: 0.3px solid #aaa; font-weight: 900;">
@@ -312,7 +312,7 @@
         </td>
 
         <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa; font-weight: 900;">
-          {{ getTotalPrice(item) | appNumber | async }}
+          {{ formatSpecial(getTotalPrice(item), digits)  }}
         </td>
       </tr>
     </tbody>
@@ -321,35 +321,35 @@
       <tr>
         <td colspan="3" style="padding: 6px; text-align: left; border: 0.3px solid #aaa;">Subtotal</td>
         <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa;">
-          {{ orderService.orderSummary.subtotal | appNumber | async }}
+          {{  formatSpecial(orderService.orderSummary.subtotal, digits)  }}
         </td>
       </tr>
 
       <tr *ngIf="orderService.orderSummary.tax > 0">
         <td colspan="3" style="padding: 6px; text-align: left; border: 0.3px solid #aaa;">Tax</td>
         <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa;">
-          {{ orderService.orderSummary.tax | appNumber | async }}
+          {{ formatSpecial(orderService.orderSummary.tax, digits)  }}
         </td>
       </tr>
 
       <tr *ngIf="orderService.orderSummary.discount > 0">
         <td colspan="3" style="padding: 6px; text-align: left; border: 0.3px solid #aaa;">Discount</td>
         <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa;">
-          {{ orderService.orderSummary.discount | appNumber | async }}
+          {{ formatSpecial(orderService.orderSummary.discount, digits)  }}
         </td>
       </tr>
 
       <tr *ngIf="orderService.orderSummary.tips > 0">
         <td colspan="3" style="padding: 6px; text-align: left; border: 0.3px solid #aaa;">Tips</td>
         <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa;">
-          {{ orderService.orderSummary.tips | appNumber | async }}
+          {{  formatSpecial(orderService.orderSummary.tips, digits)  }}
         </td>
       </tr>
 
       <tr style="border-top: 1px solid #000; background: #fff;">
         <td colspan="3" style="padding: 6px; text-align: left; border: 0.3px solid #aaa;">Total</td>
         <td style="padding: 2px 3px; text-align: right; border: 0.3px solid #aaa;">
-          {{ currencySymbol }}{{ orderService.orderSummary.total | appNumber | async }}
+          {{ currencySymbol }}{{ formatSpecial(orderService.orderSummary.total, digits)  }}
         </td>
       </tr>
     </tfoot>
