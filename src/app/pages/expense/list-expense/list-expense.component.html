@@ -42,7 +42,7 @@
       </td>
       <!-- Amount -->
       <td>
-        <div>{{ this.currencySymbol + ' ' }}{{ item?.amount | number: '1.2-2' }}</div>
+        <div>{{ this.currencySymbol + ' ' }}{{ item?.amount | appNumber | async }}</div>
       </td>
       <!-- Type -->
       <td>

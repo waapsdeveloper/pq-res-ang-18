@@ -21,7 +21,7 @@
             class="product-btn d-flex justify-content-center align-items-center"
             [ngClass]="getProductQuantity(product.id) > 0 ? 'faded-btn' : ''"
             (click)="addOrIncrementProduct(product)">
-            <span>{{ this.currencySymbol }} {{ product?.price | number: '1.2-2' }}</span>
+            <span>{{ this.currencySymbol }} {{ product?.price | appNumber | async }}</span>
             <span *ngIf="getProductQuantity(product.id) > 0" 
                   class="ms-2 px-2 py-1 rounded-pill quantity-pill">
               x{{ getProductQuantity(product.id) }}

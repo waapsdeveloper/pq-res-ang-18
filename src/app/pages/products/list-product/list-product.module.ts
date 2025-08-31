@@ -8,7 +8,7 @@ import { ListProductComponent } from './list-product.component';
 import { KtAppListPageTableModule } from 'src/app/components/layouts/kt-list-page/kt-app-list-page-table/kt-app-list-page-table.module';
 import { KtListPageModule } from 'src/app/components/layouts/kt-list-page/kt-list-page.module';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
-
+import { PipesModule } from "../../../pipes/pipes.module";
 
 @NgModule({
   declarations: [
@@ -23,7 +23,8 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     FormlyModule,
     ReactiveFormsModule,
     FormlyBootstrapModule,
-    NgxSkeletonLoaderModule
+    NgxSkeletonLoaderModule,
+    PipesModule
   ]
 })
 export class ListProductModule { }

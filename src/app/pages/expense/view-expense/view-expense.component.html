@@ -59,7 +59,7 @@
                           <tr>
                             <td style="padding: 0.5rem 0 !important">Amount:</td>
                             <td style="padding: 0.5rem 0 !important">
-                              {{ item?.category.restaurant?.currency }} {{ item?.amount | number: '1.2-2' }}
+                              {{ item?.category.restaurant?.currency }} {{ item?.amount | appNumber | async}}
                             </td>
                           </tr>
                           <tr>

@@ -11,6 +11,7 @@ import { KtAppListPageTableModule } from 'src/app/components/layouts/kt-list-pag
 import { KtListPageModule } from 'src/app/components/layouts/kt-list-page/kt-list-page.module';
 import { ListVariationTagsComponent } from './list-variation-tags/list-variation-tags.component';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @NgModule({
   declarations: [ListVariationsComponent, ListVariationTagsComponent],
@@ -24,7 +25,8 @@ import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
     ReactiveFormsModule,
     FormlyBootstrapModule,
     NgxSkeletonLoaderModule,
-    NgbPopoverModule
+    NgbPopoverModule,
+    PipesModule
   ],
   exports: [ListVariationTagsComponent]
 })

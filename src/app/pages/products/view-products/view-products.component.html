@@ -117,11 +117,11 @@
                           </tr>
                           <tr>
                             <td style="padding: 0.5rem 0 !important">Price:</td>
-                            <td style="padding: 0.5rem 0 !important">{{ item?.price }}</td>
+                            <td style="padding: 0.5rem 0 !important">{{ item?.price | appNumber | async }}</td>
                           </tr>
                           <tr>
                             <td style="padding: 0.5rem 0 !important">Discount:</td>
-                            <td style="padding: 0.5rem 0 !important">{{ item?.discount }}</td>
+                            <td style="padding: 0.5rem 0 !important">{{ item?.discount  | appNumber | async}}</td>
                           </tr>
                           <tr>
                             <td style="padding: 0.5rem 0 !important">Restaurant <br> Name:</td>

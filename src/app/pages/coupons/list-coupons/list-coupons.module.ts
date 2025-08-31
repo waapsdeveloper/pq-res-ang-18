@@ -9,6 +9,7 @@ import { FormlyModule } from '@ngx-formly/core';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { KtAppListPageTableModule } from 'src/app/components/layouts/kt-list-page/kt-app-list-page-table/kt-app-list-page-table.module';
 import { KtListPageModule } from 'src/app/components/layouts/kt-list-page/kt-list-page.module';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @NgModule({
   declarations: [ListCouponsComponent],
@@ -21,7 +22,8 @@ import { KtListPageModule } from 'src/app/components/layouts/kt-list-page/kt-lis
     FormlyBootstrapModule,
     NgxSkeletonLoaderModule,
     KtListPageModule,
-    KtAppListPageTableModule
+    KtAppListPageTableModule,
+    PipesModule
   ]
 })
 export class ListCouponsModule {}

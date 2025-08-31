@@ -72,14 +72,14 @@
       <!-- Subtotal -->
       <td>
         <span class="fw-bold" style="font-size: 15px; white-space: nowrap">
-          {{ currencySymbol }}{{ item.total_price | number: '1.2-2' }}
+          {{ currencySymbol }}{{ item.total_price | appNumber | async }}
         </span>
       </td>
 
       <!-- Tax -->
       <td>
         <span *ngIf="item?.tax_amount" class="fw-bold" style="font-size: 15px; white-space: nowrap">
-          {{ currencySymbol }}{{ item.tax_amount | number: '1.2-2' }}
+          {{ currencySymbol }}{{ item.tax_amount | appNumber | async }}
         </span>
         <span *ngIf="!item?.tax_amount" class="fw-bold" style="font-size: 15px; white-space: nowrap">
           {{ currencySymbol }}0.00
@@ -89,7 +89,7 @@
       <!-- Discount -->
       <td>
         <span class="badge badge-preparing fw-bold" style="font-size: 15px; white-space: nowrap">
-          {{ currencySymbol }}{{ item.discount_value | number: '1.2-2' }}
+          {{ currencySymbol }}{{ item.discount_value | appNumber | async }}
         </span>
       </td>
 
@@ -97,7 +97,7 @@
       <td>
         <span *ngIf="item?.tips" class="badge badge-ready-for-pickup fw-bold"
           style="font-size: 15px; white-space: nowrap">
-          {{ currencySymbol }}{{ item.tips | number: '1.2-2' }}
+          {{ currencySymbol }}{{ item.tips | appNumber | async }}
         </span>
         <span *ngIf="!item?.tips" class="badge badge-ready-for-pickup fw-bold"
           style="font-size: 15px; white-space: nowrap">
@@ -108,7 +108,7 @@
       <!-- Total -->
       <td>
         <span class="fw-bold" style="font-size: 15px; white-space: nowrap">
-          {{ currencySymbol }}{{ item?.final_total | number: '1.2-2' }}
+          {{ currencySymbol }}{{ item?.final_total | appNumber | async }}
         </span>
       </td>
 

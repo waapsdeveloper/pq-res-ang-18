@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ViewProductsRoutingModule } from './view-products-routing.module';
 import { ViewProductsComponent } from './view-products.component';
 import { KtListDetailPageModule } from 'src/app/components/layouts/kt-list-detail-page/kt-list-detail-page.module';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { KtListDetailPageModule } from 'src/app/components/layouts/kt-list-detai
   imports: [
     CommonModule,
     ViewProductsRoutingModule,
-    KtListDetailPageModule
+    KtListDetailPageModule,
+    PipesModule
 
   ]
 })

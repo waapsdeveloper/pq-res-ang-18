@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ViewVariationsRoutingModule } from './view-variations-routing.module';
 import { ViewVariationsComponent } from './view-variations.component';
 import { KtListDetailPageModule } from 'src/app/components/layouts/kt-list-detail-page/kt-list-detail-page.module';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { KtListDetailPageModule } from 'src/app/components/layouts/kt-list-detai
   imports: [
     CommonModule,
     ViewVariationsRoutingModule,
-    KtListDetailPageModule
+    KtListDetailPageModule,
+    PipesModule
   ]
 })
 export class ViewVariationsModule { }

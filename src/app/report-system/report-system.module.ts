@@ -9,6 +9,7 @@ import { SharedModule } from '../shared/shared.module';
 import { ReportSystemComponent } from './report-system.component';
 import { FormlyModule } from "@ngx-formly/core";
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
+import { PipesModule } from '../pipes/pipes.module';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
     FormlyModule,
     ReactiveFormsModule,
     FormlyBootstrapModule,
+    PipesModule
 ]
 })
 export class ReportSystemModule { }

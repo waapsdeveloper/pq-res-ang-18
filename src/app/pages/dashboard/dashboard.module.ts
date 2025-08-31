@@ -24,12 +24,14 @@ import { SalesChartModule } from './component/sales-chart/sales-chart.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ListOrderPaymentStatusModule } from "src/app/pages/orders/list-orders/list-order-payment-status/list-order-payment-status.module";
 import { ListOrderPrintslipModule } from '../orders/list-orders/list-order-printslip/list-order-printslip.module';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 @NgModule({
   declarations: [DashboardComponent, RecentOrderComponent],
   imports: [
     CommonModule,
     DashboardRoutingModule,
     SharedModule,
+    PipesModule,
     // APEX CHART
     ApexSalesChartModule,
     ApexTopSalesChartModule,

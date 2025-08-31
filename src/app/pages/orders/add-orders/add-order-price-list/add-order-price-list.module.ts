@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AddOrderPriceListComponent } from './add-order-price-list.component';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 
 
@@ -13,7 +14,8 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     FormsModule,
-    NgbPopoverModule
+    NgbPopoverModule,
+    PipesModule
   ],
   exports: [
     AddOrderPriceListComponent

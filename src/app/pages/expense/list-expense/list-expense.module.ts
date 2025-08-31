@@ -12,6 +12,7 @@ import { KtAppListPageTableModule } from 'src/app/components/layouts/kt-list-pag
 import { KtListPageModule } from 'src/app/components/layouts/kt-list-page/kt-list-page.module';
 import { ListExpenseStatusComponent } from './list-expense-status/list-expense-status.component';
 import { ListExpenseImageComponent } from './list-expense-image/list-expense-image.component';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @NgModule({
   declarations: [ListExpenseComponent, ListExpenseStatusComponent, ListExpenseImageComponent],
@@ -25,7 +26,8 @@ import { ListExpenseImageComponent } from './list-expense-image/list-expense-ima
     ReactiveFormsModule,
     FormlyBootstrapModule,
     NgxSkeletonLoaderModule,
-    NgbDropdownModule
+    NgbDropdownModule,
+    PipesModule
   ]
 })
 export class ListExpenseModule {}

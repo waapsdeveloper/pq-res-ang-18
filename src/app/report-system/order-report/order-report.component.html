@@ -25,7 +25,7 @@
                                 <div class="report-body">
                                     <h6 class="mb-1">Total Sales</h6>
                                     <h4 class="fw-bold">
-                                        {{ currencySymbol }} {{ reportData?.totals?.total_sale | number: '1.2-2' }}
+                                        {{ currencySymbol }} {{ reportData?.totals?.total_sale | appNumber | async }}
                                     </h4>
                                 </div>
                                 <div class="report-footer">↗</div>
@@ -38,7 +38,7 @@
                                 <div class="report-body">
                                     <h6 class="mb-1">Total Tax</h6>
                                     <h4 class="fw-bold">
-                                        {{ currencySymbol }} {{ reportData?.totals?.total_tax | number: '1.2-2' }}
+                                        {{ currencySymbol }} {{ reportData?.totals?.total_tax | appNumber | async }}
                                     </h4>
                                 </div>
                                 <div class="report-footer">↗</div>
@@ -51,7 +51,7 @@
                                 <div class="report-body">
                                     <h6 class="mb-1">Total Discount</h6>
                                     <h4 class="fw-bold">
-                                        {{ currencySymbol }} {{ reportData?.totals?.total_discount | number: '1.2-2' }}
+                                        {{ currencySymbol }} {{ reportData?.totals?.total_discount | appNumber | async }}
                                     </h4>
                                 </div>
                                 <div class="report-footer">↗</div>
@@ -64,7 +64,7 @@
                                 <div class="report-body">
                                     <h6 class="mb-1">Grand Total</h6>
                                     <h4 class="fw-bold">
-                                        {{ currencySymbol }} {{ reportData?.totals?.grand_total | number: '1.2-2' }}
+                                        {{ currencySymbol }} {{ reportData?.totals?.grand_total | appNumber | async }}
                                     </h4>
                                 </div>
                                 <div class="report-footer">↗</div>
@@ -146,19 +146,19 @@
                                                     </span>
                                                 </td>
                                                 <td class="text-end">
-                                                    {{ currencySymbol }} {{ order.amount | number: '1.2-2' }}
+                                                    {{ currencySymbol }} {{ order.amount | appNumber | async }}
                                                 </td>
                                                 <td class="text-end">
-                                                    {{ currencySymbol }} {{ order.tax | number: '1.2-2' }}
+                                                    {{ currencySymbol }} {{ order.tax | appNumber | async }}
                                                 </td>
                                                 <td class="text-end">
-                                                    {{ currencySymbol }} {{ order.discount | number: '1.2-2' }}
+                                                    {{ currencySymbol }} {{ order.discount | appNumber | async }}
                                                 </td>
                                                 <td class="text-end">
-                                                    {{ currencySymbol }} {{ order.tips | number: '1.2-2' }}
+                                                    {{ currencySymbol }} {{ order.tips | appNumber | async }}
                                                 </td>
                                                 <td class="text-end fw-bold">
-                                                    {{ currencySymbol }} {{ order.total | number: '1.2-2' }}
+                                                    {{ currencySymbol }} {{ order.total | appNumber | async }}
                                                 </td>
                                             </tr>
                                         </tbody>

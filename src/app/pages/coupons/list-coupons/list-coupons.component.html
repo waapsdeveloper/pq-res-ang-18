@@ -49,7 +49,7 @@
         <div class="d-flex">
           <div class="ms-5">
             <a class="text-hover-primary fs-5 fw-bold mb-1">
-              {{ item?.discount_type === 'fixed' ? currencySymbol : '' }} {{ item?.discount_value }}
+              {{ item?.discount_type === 'fixed' ? currencySymbol : '' }} {{ item?.discount_value | appNumber | async }}
               {{ item?.discount_type === 'percentage' ? '%' : '' }}
             </a>
           </div>

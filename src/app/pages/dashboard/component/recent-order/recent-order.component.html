@@ -88,7 +88,7 @@
             <!-- Subtotal -->
             <td>
               <div class="d-flex">
-                <div class="fs-7 fw-bold">{{ this.currencySymbol + ' ' }} {{ item?.total_price | number: '1.2-2' }}
+                <div class="fs-7 fw-bold">{{ this.currencySymbol + ' ' }} {{ item?.total_price | appNumber | async }}
                 </div>
               </div>
             </td>
@@ -97,7 +97,7 @@
               <div class="d-flex flex-row gap-2">
                 <div class="fs-7 fw-bold">
                   <span class="badge badge-preparing fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">
-                    {{ this.currencySymbol + ' ' }} {{ item?.tax_amount ? item?.tax_amount: 0  | number: '1.2-2' }}
+                    {{ this.currencySymbol + ' ' }} {{ item?.tax_amount | appNumber | async }}
                   </span>
                 </div>
               </div>
@@ -107,7 +107,7 @@
               <div class="d-flex flex-row gap-2">
                 <div class="fs-7 fw-bold">
                   <span class="badge badge-preparing fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">
-                    {{ this.currencySymbol + ' ' }} {{ item?.discount_value | number: '1.2-2' }}
+                    {{ this.currencySymbol + ' ' }} {{ item?.discount_value | appNumber | async }}
                   </span>
                 </div>
               </div>
@@ -117,7 +117,7 @@
               <div class="d-flex flex-row gap-2">
                 <div class="fs-7 fw-bold">
                   <span class="badge badge-preparing fs-7 fw-bold text-hover-primary fs-5 fw-bold mb-1">
-                    {{ this.currencySymbol + ' ' }} {{ item?.tips | number: '1.2-2' }}
+                    {{ this.currencySymbol + ' ' }} {{ item?.tips | appNumber | async }}
                   </span>
                 </div>
               </div>
@@ -125,7 +125,7 @@
             <!-- Total -->
             <td>
               <div class="d-flex">
-                <div class="fs-7 fw-bold">{{ this.currencySymbol + ' ' }} {{ item?.final_total | number: '1.2-2' }}
+                <div class="fs-7 fw-bold">{{ this.currencySymbol + ' ' }} {{ item?.final_total | appNumber | async }}
                 </div>
               </div>
             </td>

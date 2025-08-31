@@ -49,12 +49,12 @@
       </td>
       <td>
         <div class="d-flex">
-          <div class="badge badge-secondary fw-bold me-auto">{{ this.currencySymbol }} {{ item.price }}</div>
+          <div class="badge badge-secondary fw-bold me-auto">{{ this.currencySymbol }} {{ item.price  | appNumber | async}}</div>
         </div>
       </td>
       <td>
         <div class="d-flex">
-          <a class="badge badge-success fw-bold me-auto">{{ this.currencyService.currency_symbol }} {{ item.discount }}</a>
+          <a class="badge badge-success fw-bold me-auto">{{ this.currencyService.currency_symbol }} {{ item.discount | appNumber | async }}</a>
         </div>
       </td>
       <td>

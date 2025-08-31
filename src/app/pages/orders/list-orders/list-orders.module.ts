@@ -13,6 +13,7 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { ListOrderPaymentStatusModule } from './list-order-payment-status/list-order-payment-status.module';
 import { AddOrdersModule } from "../add-orders/add-orders.module";
 import { ListOrderPrintslipModule } from "./list-order-printslip/list-order-printslip.module";
+import { PipesModule } from 'src/app/pipes/pipes.module';
 @NgModule({
   declarations: [ListOrdersComponent],
   imports: [
@@ -28,7 +29,8 @@ import { ListOrderPrintslipModule } from "./list-order-printslip/list-order-prin
     ListOrderItemStatusModule,
     NgbDropdownModule,
     ListOrderPaymentStatusModule,
-    ListOrderPrintslipModule
+    ListOrderPrintslipModule,
+    PipesModule
 ],
   
 })

@@ -12,7 +12,7 @@
           <span class="fw-semibold">{{ opt.name }}</span>
           <br />
           <span class="text-muted">- {{ opt.description }}</span>
-          <span class="text-success">({{ currencySymbol }}{{ opt.price }})</span>
+          <span class="text-success">({{ currencySymbol }}{{ opt.price | appNumber | async }})</span>
         </div>
       </div>
     </div>

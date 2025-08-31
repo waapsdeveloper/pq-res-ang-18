@@ -1,11 +1,13 @@
 // src/app/pipes/pipes.module.ts
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { MaskPhonePipe } from './mask-phone.pipe';
+import { AppNumberPipe } from './app-number.pipe';
 
 @NgModule({
-  declarations: [MaskPhonePipe],
+  declarations: [MaskPhonePipe,AppNumberPipe],
   imports: [CommonModule],
-  exports: [MaskPhonePipe] // <-- Important so other modules can use it
+  providers: [DecimalPipe],
+  exports: [MaskPhonePipe,AppNumberPipe] // <-- Important so other modules can use it
 })
 export class PipesModule {}
