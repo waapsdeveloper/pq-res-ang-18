@@ -151,4 +151,25 @@ export class UtilityService {
   formatVariationOptions(variation: ProductVariation): string {
     return variation.options.map((option) => `...`).join('');
   }
+
+  presentConfirmWithDropdowns(
+    okText: string,
+    cancelText: string,
+    title: string,
+    message: string,
+    dropdowns: { label: string; options: string[]; variable: string }[],
+    okClass = '',
+    cancelClass = ''
+  ) {
+    return this.alerts.presentConfirmWithDropdowns(
+      okText,
+      cancelText,
+      title,
+      message,
+      dropdowns,
+      okClass,
+      cancelClass
+    );
+  }
+
 }

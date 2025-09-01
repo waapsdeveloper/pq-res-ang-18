@@ -314,6 +314,50 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     return unit * (item?.quantity ?? 0);
   }
 
+async confirmOrder(): Promise<boolean> {
+  const { confirmed, values } = await this.utilityService.presentConfirmWithDropdowns(
+    'Confirm Order',
+    'Cancel',
+    'Confirm Your Order',
+    'Please select the details below before confirming:',
+    [
+      {
+        label: 'Order Type',
+        options: [
+          'drive-thru',
+          'dine-in',
+          'take-away',
+          // 'Delivery',
+          // 'Curbside Pickup',
+          // 'Catering',
+          // 'Reservation'
+        ],
+        variable: 'orderType',
+      },
+      {
+        label: 'Payment Method',
+        options: this.orderService.paymentMethods.map(m => m.label),
+        variable: 'paymentMethod',
+      }
+    ],
+    'btn btn-success',
+    'btn btn-danger'
+  );
+
+  if (!confirmed) {
+    console.log('❌ Order cancelled');
+    return false; // exit early
+  }
+
+  // If confirmed → update service
+  this.orderService.orderType = values['orderType'];
+  this.orderService.paymentMethod = values['paymentMethod'];
+
+  console.log('✅ Order confirmed:', this.orderService.orderType, this.orderService.paymentMethod);
+  return true; // success
+}
+
+
   async onSubmit($event: Event) {
     $event.preventDefault();
 
@@ -322,12 +366,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     // 1) First confirmation: create or update the order
     const confirmMessage = isEditMode ? 'Ready to Update Your Order?' : 'Ready to Place Your Order?';
     const confirmButton = isEditMode ? 'Update Order' : 'Place Order';
-    const createConfirmed = await this.utilityService.presentConfirm(
-      confirmMessage, // title
-      'Not Yet, Thanks', // cancel button
-      'Everything Looks Good?', // short question
-      `Hit "${confirmButton}" to confirm and we'll get started!` // detailed prompt
-    );
+    const createConfirmed = await this.confirmOrder();
 
     if (!createConfirmed) {
       return; // user cancelled

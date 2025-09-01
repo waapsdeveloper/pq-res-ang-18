@@ -465,4 +465,126 @@ export class AlertsService {
       padding: '1.5rem'
     });
   }
+
+
+  async presentConfirmWithDropdowns(
+    okText = 'OK',
+    cancelText = 'Cancel',
+    title = 'Are You Sure?',
+    message = '',
+    dropdowns: { label: string; options: string[]; variable: string; defaultValue?: string }[] = [],
+    okClass = '',
+    cancelClass = ''
+  ): Promise<{ confirmed: boolean; values: Record<string, string> }> {
+    return new Promise(async (resolve) => {
+      // build dropdown grid
+      const dropdownHtml = `
+      <style>
+        .swal2-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 20px;
+          margin-top: 10px;
+          box-sizing: border-box;
+        }
+        @media (max-width: 500px) {
+          .swal2-grid {
+            grid-template-columns: 1fr; /* stack on small screens */
+          }
+        }
+        .swal2-grid label {
+          display: block;
+          margin-bottom: 6px;
+          font-weight: 600;
+          font-size: 14px;
+          color: #333;
+        }
+        .swal2-grid select {
+          width: 100%;
+          padding: 10px;
+          border-radius: 8px;
+          border: 1px solid #ccc;
+          font-size: 14px;
+          background: #f9f9f9;
+          box-sizing: border-box;
+        }
+      </style>
+      <div class="swal2-grid">
+        ${dropdowns
+          .map(
+            (d, idx) => `
+              <div>
+                <label for="dropdown-${idx}">${d.label}</label>
+                <select id="dropdown-${idx}">
+                  ${d.options
+                .map(
+                  (opt) =>
+                    `<option value="${opt}" ${opt === (d.defaultValue ?? '') ? 'selected' : ''
+                    }>${opt}</option>`
+                )
+                .join('')}
+                </select>
+              </div>
+            `
+          )
+          .join('')}
+      </div>
+    `;
+
+      const result = await Swal.fire({
+        title: `<h3 style="font-size:22px; font-weight:700; color:#222; margin-bottom:10px;">
+    ${title}
+  </h3>`,
+        html: `
+    <div style="font-size:15px; margin-bottom:15px; color:#555;">
+      ${message}
+    </div>
+    <div style="
+      background:#fff;
+      padding:15px;
+      border-radius:10px;
+      box-shadow:0 2px 6px rgba(0,0,0,0.08);
+      box-sizing: border-box;
+    ">
+      ${dropdownHtml}
+    </div>
+  `,
+        width: 'min(600px, 90%)', // ✅ responsive without invalid maxWidth
+        padding: '20px',
+        icon: 'question',
+        background: '#fafafa',
+        showCancelButton: true,
+        confirmButtonText: okText,
+        cancelButtonText: cancelText,
+        customClass: {
+          popup: 'swal2-rounded-lg swal2-shadow',
+          confirmButton: okClass,
+          cancelButton: cancelClass,
+        },
+        heightAuto: true,
+        scrollbarPadding: false,
+        focusConfirm: false,
+        preConfirm: () => {
+          const values: Record<string, string> = {};
+          dropdowns.forEach((d, idx) => {
+            const el = (
+              document.getElementById(`dropdown-${idx}`) as HTMLSelectElement
+            )?.value;
+            values[d.variable] = el ?? '';
+          });
+          return values;
+        },
+      });
+
+
+      if (result.isConfirmed) {
+        resolve({ confirmed: true, values: result.value });
+      } else {
+        resolve({ confirmed: false, values: {} });
+      }
+    });
+  }
+
+
+
 }
