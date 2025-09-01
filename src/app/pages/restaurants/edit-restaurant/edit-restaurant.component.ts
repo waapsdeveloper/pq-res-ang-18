@@ -112,6 +112,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     digits: 0,
     tips: '',
     delivery_charges: '',
+    country: '',
     // Meta data properties
     home_page_title: '',
     home_page_slider: '',
@@ -341,6 +342,9 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     // Fetch the data from the server;
     const res = await this.network.getRestaurantById(this.id);
     const resp = await this.network.getInvoiceSettingById(this.id);
+    const r = await this.network.getBranchConfig(this.id);
+    let re = Object.assign({}, r.data.branch_config);
+    console.log(re, 'branch config');
     let dm = Object.assign({}, resp.invoice_setting);
     //   this.model= res.restaurant;
     console.log(res);
@@ -441,12 +445,13 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
 
       rating: d.rating || Math.floor(Math.random() * 6),
       status: (d?.status || '').toLowerCase(),
-      branch_id: '',
-      tax: '',
-      currency: '',
-      dial_code: '',
-      tips: '',
-      delivery_charges: '',
+      branch_id: re.branch_id || '',
+      tax: re.tax,
+      currency: re.currency || '',
+      dial_code: re.dial_code || '',
+      tips: re.tips || '',
+      country: re.country || '',
+      delivery_charges: re.delivery_charges || '',
       home_page_title: d.home_page_title || '',
       digits: d.digits || 0,
       enableTax: true,
