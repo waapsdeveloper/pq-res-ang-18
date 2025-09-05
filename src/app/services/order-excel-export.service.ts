@@ -101,10 +101,10 @@ export class OrderExcelExportService {
       'Quantity',
       'Time',
       'Unit Price',
-      'Total Price',
       'Tax',
       'Discount',
-    
+      'Total Price',
+
     ];
     worksheet.addRow(header);
 
@@ -124,10 +124,10 @@ export class OrderExcelExportService {
           row.quantity,
           row.order_time,
           row.unit_price,
-          row.total_price,
           row.tax,
           row.discount,
-          
+          row.total_price,
+
         ]);
       });
     });
@@ -140,9 +140,10 @@ export class OrderExcelExportService {
       '',
       data.totals.total_quantity,
       '',
-      data.totals.total_sales,
+      '',
       data.totals.total_tax,
       data.totals.total_discount,
+      data.totals.total_sales,
       '',
       ''
     ]);
@@ -153,6 +154,10 @@ export class OrderExcelExportService {
     totalsRow.getCell(7).font = { bold: true };
     totalsRow.getCell(8).font = { bold: true };
 
+    worksheet.addRow([]);
+    worksheet.addRow(['Total Tax', '', '', '', '', '', '','', data.totals.total_tax]);
+    worksheet.addRow(['Total Discount', '', '', '', '', '', '','', data.totals.total_discount]);
+    worksheet.addRow(['Total Sale', '', '', '', '', '', '', '',data.totals.total_sales]);
     // --- Column Widths ---
     worksheet.columns = [
       { key: 'category', width: 20 },
@@ -161,10 +166,10 @@ export class OrderExcelExportService {
       { key: 'quantity', width: 12 },
       { key: 'order_time', width: 25 },
       { key: 'unit_price', width: 15 },
-      { key: 'total_price', width: 15 },  
       { key: 'tax', width: 12 },
       { key: 'discount', width: 12 },
-     
+      { key: 'total_price', width: 15 },
+
     ];
 
     // --- Save File ---

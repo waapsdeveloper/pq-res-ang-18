@@ -17,19 +17,6 @@
 
                     <!-- Report Totals -->
                     <div class="row mb-3 g-3">
-                        <!-- Total Sales -->
-                        <div class="col-md-3">
-                            <div class="report-card bg-primary text-white">
-                                <div class="report-body">
-                                    <h6 class="mb-1">Total Sales</h6>
-                                    <h4 class="fw-bold">
-                                        {{ currencySymbol }} {{ reportData?.totals?.total_sales | appNumber | async }}
-                                    </h4>
-                                </div>
-                                <div class="report-footer">↗</div>
-                            </div>
-                        </div>
-
                         <!-- Total Quantity -->
                         <div class="col-md-3">
                             <div class="report-card bg-success text-white">
@@ -62,12 +49,28 @@
                                 <div class="report-body">
                                     <h6 class="mb-1">Total Discount</h6>
                                     <h4 class="fw-bold">
-                                        {{ currencySymbol }} {{ reportData?.totals?.total_discount | appNumber | async }}
+                                        {{ currencySymbol }} {{ reportData?.totals?.total_discount | appNumber | async
+                                        }}
                                     </h4>
                                 </div>
                                 <div class="report-footer">↗</div>
                             </div>
                         </div>
+                        <!-- Total Sales -->
+                        <div class="col-md-3">
+                            <div class="report-card bg-primary text-white">
+                                <div class="report-body">
+                                    <h6 class="mb-1">Total Sales</h6>
+                                    <h4 class="fw-bold">
+                                        {{ currencySymbol }} {{ reportData?.totals?.total_sales | appNumber | async }}
+                                    </h4>
+                                </div>
+                                <div class="report-footer">↗</div>
+                            </div>
+                        </div>
+
+
+
                     </div>
 
                     <!-- Buttons Row -->
@@ -108,26 +111,32 @@
                                                 <thead>
                                                     <tr>
                                                         <th></th> <!-- expand icon -->
-                                                        <th class="fw-bold">Product</th>
                                                         <th class="fw-bold">Category</th>
+                                                        <th class="fw-bold">Product</th>
                                                         <th class="fw-bold text-end">Total Qty</th>
-                                                        <th class="fw-bold text-end">Total Sales</th>
                                                         <th class="fw-bold text-end">Total Tax</th>
                                                         <th class="fw-bold text-end">Total Discount</th>
+                                                        <th class="fw-bold text-end">Total Sales</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <ng-container *ngFor="let product of reportData?.products">
-                                                        <tr (click)="product.expanded = !product.expanded" style="cursor: pointer;">
+                                                        <tr (click)="product.expanded = !product.expanded"
+                                                            style="cursor: pointer;">
                                                             <td>
-                                                                <i class="ti" [ngClass]="product.expanded ? 'ti-chevron-down' : 'ti-chevron-right'"></i>
+                                                                <i class="ti"
+                                                                    [ngClass]="product.expanded ? 'ti-chevron-down' : 'ti-chevron-right'"></i>
                                                             </td>
-                                                            <td>{{ product.product_name }}</td>
                                                             <td>{{ product.category }}</td>
+                                                            <td>{{ product.product_name }}</td>
                                                             <td class="text-end">{{ product.total_quantity }}</td>
-                                                            <td class="text-end">{{ currencySymbol }} {{ product.total_sales | appNumber | async }}</td>
-                                                            <td class="text-end">{{ currencySymbol }} {{ product.total_tax | appNumber | async }}</td>
-                                                            <td class="text-end">{{ currencySymbol }} {{ product.total_discount | appNumber | async }}</td>
+
+                                                            <td class="text-end">{{ currencySymbol }} {{
+                                                                product.total_tax | appNumber | async }}</td>
+                                                            <td class="text-end">{{ currencySymbol }} {{
+                                                                product.total_discount | appNumber | async }}</td>
+                                                            <td class="text-end">{{ currencySymbol }} {{
+                                                                product.total_sales | appNumber | async }}</td>
                                                         </tr>
                                                         <!-- Expanded Detail View -->
                                                         <tr *ngIf="product.expanded">
@@ -148,11 +157,17 @@
                                                                         <tbody>
                                                                             <tr *ngFor="let row of product.rows">
                                                                                 <td>{{ row.order_number }}</td>
-                                                                                <td>{{ row.order_time | date: 'shortTime' }}</td>
+                                                                                <td>{{ row.order_time | date:
+                                                                                    'shortTime' }}</td>
                                                                                 <td>{{ row.variation || 'N/A' }}</td>
-                                                                                <td class="text-end">{{ row.quantity }}</td>
-                                                                                <td class="text-end">{{ currencySymbol }} {{ row.unit_price | appNumber | async }}</td>
-                                                                                <td class="text-end">{{ currencySymbol }} {{ row.total_price | appNumber | async }}</td>
+                                                                                <td class="text-end">{{ row.quantity }}
+                                                                                </td>
+                                                                                <td class="text-end">{{ currencySymbol
+                                                                                    }} {{ row.unit_price | appNumber |
+                                                                                    async }}</td>
+                                                                                <td class="text-end">{{ currencySymbol
+                                                                                    }} {{ row.total_price | appNumber |
+                                                                                    async }}</td>
                                                                             </tr>
                                                                         </tbody>
                                                                     </table>
@@ -161,7 +176,8 @@
                                                         </tr>
                                                     </ng-container>
                                                     <tr *ngIf="!reportData?.products?.length">
-                                                        <td colspan="7" class="text-center">No product sales found for this date.</td>
+                                                        <td colspan="7" class="text-center">No product sales found for
+                                                            this date.</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
