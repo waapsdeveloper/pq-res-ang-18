@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { OrderReportComponent } from './order-report/order-report.component';
 import { ReportSystemComponent } from './report-system.component';
 import { permissionGuard } from '../guards/permission.guard';
+import { ProductReportComponent } from './product-report/product-report.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,12 @@ const routes: Routes = [
       {
         path: 'daily',
         component: OrderReportComponent,
+        data: { entity: 'report', action: 'daily_sale_report', type: 'daily', breadcrumb: 'Daily' },
+        canActivate: [permissionGuard],
+      },
+       {
+        path: 'product-daily',
+        component: ProductReportComponent,
         data: { entity: 'report', action: 'daily_sale_report', type: 'daily', breadcrumb: 'Daily' },
         canActivate: [permissionGuard],
       },

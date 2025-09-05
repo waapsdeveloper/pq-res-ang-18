@@ -1,0 +1,146 @@
+.badge-pending {
+  background-color: #ffc107;
+  color: #000;
+}
+.badge-confirmed {
+  background-color: #17a2b8;
+}
+.badge-preparing {
+  background-color: #007bff;
+}
+.badge-ready-for-pickup {
+  background-color: #6f42c1;
+}
+.badge-out-for-delivery {
+  background-color: #6610f2;
+}
+.badge-delivered {
+  background-color: #28a745;
+}
+.badge-completed {
+  background-color: #20c997;
+}
+.badge-cancelled {
+  background-color: #dc3545;
+}
+.report-card {
+  border-radius: 12px;
+  padding: 20px;
+  color:#fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 110px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.report-card:hover {
+  transform: translateY(-4px);
+}
+
+.report-body h6 {
+  font-size: 20px;
+  color: white;
+  font-weight: 700;
+  opacity: 0.9;
+}
+
+.report-body h4 {
+  font-size: 24px;
+  color: white;
+  margin: 0;
+}
+
+.report-footer {
+  font-size: 22px;
+  opacity: 0.8;
+}
+
+.filter-bar {
+  /* make the group look like a strip */
+  background: #dc3545;      /* red */
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.filter-bar .formly-field,
+.filter-bar .form-group {
+  margin-bottom: 0;          /* remove extra bottom gaps in a row */
+}
+
+.filter-bar label {
+  color: #fff;               /* white labels */
+  margin-bottom: .25rem;
+}
+
+/* style native inputs/selects rendered by formly bootstrap */
+.filter-bar .form-control,
+.filter-bar .form-select {
+  background: #b02a37;       /* darker red for controls */
+  color: #fff;
+  border-color: #842029;
+}
+
+.filter-bar .form-control::placeholder {
+  color: #f8d7da;
+}
+
+// ...existing code...
+/* Visual treatment for soft-deleted orders */
+.deleted-row {
+  background-color: #f5f6f7; /* light/dull background */
+  color: #6c757d;            /* muted text color */
+}
+
+.deleted-row td {
+  color: #6c757d;
+  opacity: 0.95;
+}
+
+/* Make status badge subdued when row is deleted */
+.deleted-row .badge {
+  background: transparent !important;
+  color: #6c757d !important;
+  border-color: rgba(108,117,125,0.12) !important;
+  box-shadow: none !important;
+}
+/* General badge styling */
+.badge {
+  display: inline-block;
+  margin-right: 0.5rem; /* space between badges */
+  padding: 0.4rem 0.75rem; /* bigger padding */
+  font-size: 0.85rem; /* slightly larger font */
+  border-radius: 0.5rem; /* smoother corners */
+  color: #fff;
+  font-weight: 600;
+  vertical-align: middle;
+}
+
+/* Source badges */
+.source-badge {
+  background: #6c757d; /* fallback gray */
+}
+.badge-pos {
+  background: #0d6efd; /* blue */
+}
+.badge-website {
+  background: #6f42c1; /* purple */
+}
+.order-cell {
+  display: flex;
+  justify-content: space-between; /* order number left, badges right */
+  align-items: center;
+  gap: 20px; /* gap between order no. and badges */
+}
+
+/* Payment badges */
+.payment-badge {
+  background: #6c757d; /* fallback gray */
+}
+.badge-card {
+  background: #17a2b8; /* teal */
+}
+.badge-cash {
+  background: #28a745; /* green */
+}

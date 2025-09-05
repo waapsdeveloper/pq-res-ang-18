@@ -1,0 +1,178 @@
+<div class="wrapper">
+    <div class="main-panel">
+        <!-- BEGIN : Main Content-->
+        <div class="main-content">
+            <div class="content-overlay"></div>
+            <div class="content-wrapper">
+                <section class="users-view">
+                    <div class="row align-items-center mb-3">
+                        <!-- Report Info -->
+                        <div class="col-12 col-sm-8">
+                            <h3 class="fw-bold">Product Sales Report</h3>
+                            <p class="text-muted mb-0">
+                                Date: {{ reportData?.date | date: 'longDate' }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Report Totals -->
+                    <div class="row mb-3 g-3">
+                        <!-- Total Sales -->
+                        <div class="col-md-3">
+                            <div class="report-card bg-primary text-white">
+                                <div class="report-body">
+                                    <h6 class="mb-1">Total Sales</h6>
+                                    <h4 class="fw-bold">
+                                        {{ currencySymbol }} {{ reportData?.totals?.total_sales | appNumber | async }}
+                                    </h4>
+                                </div>
+                                <div class="report-footer">↗</div>
+                            </div>
+                        </div>
+
+                        <!-- Total Quantity -->
+                        <div class="col-md-3">
+                            <div class="report-card bg-success text-white">
+                                <div class="report-body">
+                                    <h6 class="mb-1">Total Quantity Sold</h6>
+                                    <h4 class="fw-bold">
+                                        {{ reportData?.totals?.total_quantity }}
+                                    </h4>
+                                </div>
+                                <div class="report-footer">↗</div>
+                            </div>
+                        </div>
+
+                        <!-- Total Tax -->
+                        <div class="col-md-3">
+                            <div class="report-card bg-warning text-dark">
+                                <div class="report-body">
+                                    <h6 class="mb-1">Total Tax</h6>
+                                    <h4 class="fw-bold">
+                                        {{ currencySymbol }} {{ reportData?.totals?.total_tax | appNumber | async }}
+                                    </h4>
+                                </div>
+                                <div class="report-footer">↗</div>
+                            </div>
+                        </div>
+
+                        <!-- Total Discount -->
+                        <div class="col-md-3">
+                            <div class="report-card bg-danger text-white">
+                                <div class="report-body">
+                                    <h6 class="mb-1">Total Discount</h6>
+                                    <h4 class="fw-bold">
+                                        {{ currencySymbol }} {{ reportData?.totals?.total_discount | appNumber | async }}
+                                    </h4>
+                                </div>
+                                <div class="report-footer">↗</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Buttons Row -->
+                    <div class="row mb-2">
+                        <div class="col-12 d-flex justify-content-end">
+                            <button class="btn btn-outline-secondary me-4" (click)="toggleFilters()">
+                                <i class="ti ti-filter me-1"></i> Filters
+                            </button>
+                            <button class="btn btn-success" (click)="exportToExcel()">
+                                <i class="ti ti-download me-1"></i> Export as Excel
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Full width row for filters -->
+                    <div class="row mt-2" *ngIf="showFilters">
+                        <div class="col-12">
+                            <form [formGroup]="form">
+                                <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
+                            </form>
+                            <!-- Reset Filters button -->
+                            <div class="mt-2 text-end">
+                                <button class="btn btn-danger text-white" (click)="resetFilters()">
+                                    <i class="ti ti-refresh me-1"></i> Reset Filters
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Products Table -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-hover mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th></th> <!-- expand icon -->
+                                                        <th class="fw-bold">Product</th>
+                                                        <th class="fw-bold">Category</th>
+                                                        <th class="fw-bold text-end">Total Qty</th>
+                                                        <th class="fw-bold text-end">Total Sales</th>
+                                                        <th class="fw-bold text-end">Total Tax</th>
+                                                        <th class="fw-bold text-end">Total Discount</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <ng-container *ngFor="let product of reportData?.products">
+                                                        <tr (click)="product.expanded = !product.expanded" style="cursor: pointer;">
+                                                            <td>
+                                                                <i class="ti" [ngClass]="product.expanded ? 'ti-chevron-down' : 'ti-chevron-right'"></i>
+                                                            </td>
+                                                            <td>{{ product.product_name }}</td>
+                                                            <td>{{ product.category }}</td>
+                                                            <td class="text-end">{{ product.total_quantity }}</td>
+                                                            <td class="text-end">{{ currencySymbol }} {{ product.total_sales | appNumber | async }}</td>
+                                                            <td class="text-end">{{ currencySymbol }} {{ product.total_tax | appNumber | async }}</td>
+                                                            <td class="text-end">{{ currencySymbol }} {{ product.total_discount | appNumber | async }}</td>
+                                                        </tr>
+                                                        <!-- Expanded Detail View -->
+                                                        <tr *ngIf="product.expanded">
+                                                            <td colspan="7" class="p-0">
+                                                                <div class="expanded-details p-3">
+                                                                    <h6 class="fw-bold mb-2">Individual Sales</h6>
+                                                                    <table class="table table-sm table-striped">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Order #</th>
+                                                                                <th>Time</th>
+                                                                                <th>Variation</th>
+                                                                                <th class="text-end">Qty</th>
+                                                                                <th class="text-end">Unit Price</th>
+                                                                                <th class="text-end">Total</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr *ngFor="let row of product.rows">
+                                                                                <td>{{ row.order_number }}</td>
+                                                                                <td>{{ row.order_time | date: 'shortTime' }}</td>
+                                                                                <td>{{ row.variation || 'N/A' }}</td>
+                                                                                <td class="text-end">{{ row.quantity }}</td>
+                                                                                <td class="text-end">{{ currencySymbol }} {{ row.unit_price | appNumber | async }}</td>
+                                                                                <td class="text-end">{{ currencySymbol }} {{ row.total_price | appNumber | async }}</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </ng-container>
+                                                    <tr *ngIf="!reportData?.products?.length">
+                                                        <td colspan="7" class="text-center">No product sales found for this date.</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>

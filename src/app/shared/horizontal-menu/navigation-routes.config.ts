@@ -195,6 +195,34 @@ export const HROUTES: RouteInfo[] = [
         //   submenu: []
         // }
       ]
+    },
+     {
+      title: 'Daily Products Reports',
+      icon: 'ft-shopping-cart',
+      class: 'dropdown-item',
+      isExternalLink: false,
+      permissionSlug: 'report.daily_sale_report',
+      path: '/pages/reports/orders/product-daily',
+      submenu: [
+        // {
+        //   title: 'Daily',
+        //   icon: 'ft-calendar',
+        //   class: 'dropdown-item',
+        //   isExternalLink: false,
+        //   permissionSlug: 'order.list',
+        //   path: '/pages/reports/orders/daily',
+        //   submenu: []
+        // },
+        // {
+        //   title: 'Monthly',
+        //   icon: 'ft-clock',
+        //   class: 'dropdown-item',
+        //   isExternalLink: false,
+        //   permissionSlug: 'order.list',
+        //   path: '/pages/reports/orders/monthly',
+        //   submenu: []
+        // }
+      ]
     }
   ]
 }

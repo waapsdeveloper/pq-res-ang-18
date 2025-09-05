@@ -10,11 +10,12 @@ import { ReportSystemComponent } from './report-system.component';
 import { FormlyModule } from "@ngx-formly/core";
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { PipesModule } from '../pipes/pipes.module';
+import { ProductReportComponent } from './product-report/product-report.component';
 
 
 @NgModule({
   declarations: [
-    OrderReportComponent,ReportSystemComponent
+    OrderReportComponent,ReportSystemComponent, ProductReportComponent
   ],
   imports: [
     CommonModule,

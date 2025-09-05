@@ -171,6 +171,16 @@ export class NetworkService {
       true
     );
   }
+  getProductReportDaily(filters: any = null) {
+    const params = filters ? { filters: JSON.stringify(filters) } : {};
+    const query = this.serialize(params);
+    return this.httpGetResponse(
+      `reports/orders/product-daily${query ? `?${query}` : ''}`,
+      null,
+      true,
+      true
+    );
+  }
 
 
 
