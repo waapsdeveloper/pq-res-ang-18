@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 export class PermissionService extends NgSimpleStateBaseRxjsStore<any> {
   genericPermissions: any[] = [
     { entity: 'dashboard', operations: ['view'] },
-    { entity: 'report', operations: ['view', 'daily_sale_report' ] },
+    { entity: 'report', operations: ['view', 'daily_sale_report','daily_product_report' ] },
     { entity: 'user', operations: ['add', 'edit', 'delete', 'list', 'filter'] },
     { entity: 'product', operations: ['add', 'edit', 'delete', 'list', 'filter'] },
     { entity: 'category', operations: ['add', 'edit', 'delete', 'list', 'filter'] },

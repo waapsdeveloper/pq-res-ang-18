@@ -409,6 +409,11 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
     let item = this.crudService.list[i];
     this.nav.push('/pages/orders/view/' + item.id);
   }
+
+  goToHistory(i) {
+    let item = this.crudService.list[i];
+    this.nav.push('/pages/orders/history/' + item.id);
+  }
   async openEditDetails(i) {
     let item = this.crudService.list[i];
     if (item && item.status === 'Pending') {

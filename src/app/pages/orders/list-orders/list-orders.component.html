@@ -161,6 +161,7 @@
 
           <i class="ti ti-eye view-icon" style="font-size: 20px; cursor: pointer" *ngIf="canView"
             (click)="openDetails(i)"></i>
+            <i class="ti ti-history-toggle history-icon" style="font-size: 20px; cursor: pointer" *ngIf="canView" (click)="goToHistory(i)"></i>
           <i class="ti ti-printer-off manual-print" style="font-size: 20px; cursor: pointer"
             (click)="triggerManualPrint(item)"></i>
           <i class="ti ti-printer printericon" style="font-size: 20px; cursor: pointer"

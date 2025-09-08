@@ -28,7 +28,7 @@ const routes: Routes = [
        {
         path: 'product-daily',
         component: ProductReportComponent,
-        data: { entity: 'report', action: 'daily_sale_report', type: 'daily', breadcrumb: 'Daily' },
+        data: { entity: 'report', action: 'daily_product_report', type: 'daily', breadcrumb: 'Daily' },
         canActivate: [permissionGuard],
       },
       {
