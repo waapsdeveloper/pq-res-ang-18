@@ -39,6 +39,12 @@ const routes: Routes = [
         canActivate: [permissionGuard]
       },
       {
+        path: 'history/:id',
+        loadChildren: () => import('./order-history/order-history.module').then((m) => m.OrderHistoryModule),
+        data: { entity: 'order', action: 'history' },
+        canActivate: [permissionGuard]
+      },
+      {
         path: 'edit/:id',
         loadChildren: () => import('./edit-order/edit-order.module').then((m) => m.EditOrderModule),
         data: { entity: 'order', action: 'edit' },
