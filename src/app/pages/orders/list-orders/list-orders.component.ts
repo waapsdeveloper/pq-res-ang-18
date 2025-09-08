@@ -19,7 +19,7 @@ import { DecimalPipe } from '@angular/common';
   templateUrl: './list-orders.component.html',
   styleUrl: './list-orders.component.scss',
   providers: [DecimalPipe]
-  
+
 })
 export class ListOrdersComponent extends ListBlade implements OnInit {
   @Output() onPrint = new EventEmitter<void>();
@@ -27,6 +27,7 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
   digits;
   showDeleteAllButton = false;
   canDelete;
+  isHistorySidebarOpen = false;
   paymentStatus;
   selectedItem: any;
   orderStatus;
@@ -38,6 +39,7 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
   subTotal: number = 0;
   totalAmount: number = 0;
   currency = 'USD';
+  historyItem: any;
   currencySymbol = '$';
 
   columns: any[] = [
@@ -274,7 +276,7 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
       this.currency = currency;
       console.log('Currency updated:', this.currency);
     });
-   this.globalData.getDigits().subscribe((digits) => {
+    this.globalData.getDigits().subscribe((digits) => {
       this.digits = digits;
       console.log('Digits updated:', this.digits);
     });
@@ -364,14 +366,14 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
 
   //   return res;
   // }
-    formatSpecial(value: number, digits: number): string {
-  const format = `1.${digits}-${digits}`;
-  return this.decimalPipe.transform(value, format, 'en-US') ?? '';
-}
+  formatSpecial(value: number, digits: number): string {
+    const format = `1.${digits}-${digits}`;
+    return this.decimalPipe.transform(value, format, 'en-US') ?? '';
+  }
   get orderTitleHighlightPart(): string {
     // More concise version for better mobile display
     if (!this.isDeleted) {
-      return `(T: ${this.currencySymbol}${this.formatSpecial(this.taxAmount,this.digits)} | D: ${this.currencySymbol}${this.formatSpecial(this.discountAmount,this.digits)} | S: ${this.currencySymbol}${this.formatSpecial(this.subTotal,this.digits)} | Total: ${this.currencySymbol}${this.formatSpecial(this.totalAmount,this.digits)})`;
+      return `(T: ${this.currencySymbol}${this.formatSpecial(this.taxAmount, this.digits)} | D: ${this.currencySymbol}${this.formatSpecial(this.discountAmount, this.digits)} | S: ${this.currencySymbol}${this.formatSpecial(this.subTotal, this.digits)} | Total: ${this.currencySymbol}${this.formatSpecial(this.totalAmount, this.digits)})`;
     }
     return '';
   }
@@ -410,9 +412,18 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
     this.nav.push('/pages/orders/view/' + item.id);
   }
 
-  goToHistory(i) {
+  async goToHistory(i) {
     let item = this.crudService.list[i];
-    this.nav.push('/pages/orders/history/' + item.id);
+    this.historyItem = await this.network.getOrderHistory(item.id);
+    const section = document.getElementById('historySidebar');
+    section.style.display = 'block';
+    this.isHistorySidebarOpen = true;
+  }
+  closeHistorySidebar() {
+    this.isHistorySidebarOpen = false;
+    const section = document.getElementById('historySidebar');
+    section.style.display = 'none';
+    this.historyItem = null;
   }
   async openEditDetails(i) {
     let item = this.crudService.list[i];

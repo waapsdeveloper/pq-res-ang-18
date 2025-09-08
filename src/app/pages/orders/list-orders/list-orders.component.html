@@ -42,11 +42,11 @@
           <span class="fs-8 text-muted">{{ item?.customer_phone }}</span>
         </div>
       </td>
-      
+
       <!-- Status -->
       <td>
         <app-list-order-item-status [item]="item"></app-list-order-item-status>
-      </td> 
+      </td>
 
       <!-- Type -->
       <td>
@@ -161,7 +161,8 @@
 
           <i class="ti ti-eye view-icon" style="font-size: 20px; cursor: pointer" *ngIf="canView"
             (click)="openDetails(i)"></i>
-            <i class="ti ti-history-toggle history-icon" style="font-size: 20px; cursor: pointer" *ngIf="canView" (click)="goToHistory(i)"></i>
+          <i class="ti ti-history-toggle history-icon" style="font-size: 20px; cursor: pointer" *ngIf="canView"
+            (click)="goToHistory(i)"></i>
           <i class="ti ti-printer-off manual-print" style="font-size: 20px; cursor: pointer"
             (click)="triggerManualPrint(item)"></i>
           <i class="ti ti-printer printericon" style="font-size: 20px; cursor: pointer"
@@ -330,3 +331,9 @@
 
   </app-kt-app-list-page-table>
 </app-kt-list-page>
+
+<div>
+  <!-- Add the history sidebar component at the end of the file -->
+  <app-order-history id="historySidebar" [isOpen]="isHistorySidebarOpen" [item]="historyItem" (onClose)="closeHistorySidebar()">
+  </app-order-history>
+</div>

@@ -12,6 +12,9 @@ import { OrderHistoryComponent } from './order-history.component';
   imports: [
     CommonModule,
     OrderHistoryRoutingModule
+  ],
+  exports: [
+    OrderHistoryComponent
   ]
 })
 export class OrderHistoryModule { }

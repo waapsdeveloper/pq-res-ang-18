@@ -14,6 +14,7 @@ import { ListOrderPaymentStatusModule } from './list-order-payment-status/list-o
 import { AddOrdersModule } from "../add-orders/add-orders.module";
 import { ListOrderPrintslipModule } from "./list-order-printslip/list-order-printslip.module";
 import { PipesModule } from 'src/app/pipes/pipes.module';
+import { OrderHistoryModule } from '../order-history/order-history.module';
 @NgModule({
   declarations: [ListOrdersComponent],
   imports: [
@@ -30,7 +31,8 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
     NgbDropdownModule,
     ListOrderPaymentStatusModule,
     ListOrderPrintslipModule,
-    PipesModule
+    PipesModule,
+    OrderHistoryModule
 ],
   
 })
