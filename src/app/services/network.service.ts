@@ -458,6 +458,9 @@ export class NetworkService {
   forceDeleteMultipleOrders(ids: number[]) {
     return this.httpDeleteResponse('order/force-delete-multiple', { ids }, true, true);
   }
+   getOrderHistory(id) {
+    return this.httpGetResponse(`order/${id}/events`, null, false, true);
+  }
 
 
   tableBookingStatus(id, data) {
