@@ -7,7 +7,7 @@ import { AddOrderService } from '../add-order.service';
   styleUrl: './add-order-categories.component.scss'
 })
 export class AddOrderCategoriesComponent {
-  constructor(public orderService: AddOrderService) {}
+  constructor(public orderService: AddOrderService) { }
 
   setActiveCategory(item) {
 
@@ -15,7 +15,13 @@ export class AddOrderCategoriesComponent {
       this.orderService.categories[i]['active'] = this.orderService.categories[i]['name'] == item['name'];
     }
 
-    this.orderService.updateProductsBySelectedCategory(item);
+    // Fetch products
+    this.orderService.updateProductsBySelectedCategory(item).then(() => {
+      // ✅ Filter products to show only active ones
+      this.orderService.products = this.orderService.products.filter(
+        (p: any) => p.status === 'Active'
+      );
+    });
 
   }
 }

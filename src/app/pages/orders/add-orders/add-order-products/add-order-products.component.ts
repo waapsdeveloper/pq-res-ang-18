@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, OnInit } from '@angular/core';
 import { Component, HostListener } from '@angular/core';
 import { NetworkService } from 'src/app/services/network.service';
 import { AddOrderService } from '../add-order.service';
@@ -10,7 +10,7 @@ import { GlobalDataService } from 'src/app/services/global-data.service';
   templateUrl: './add-order-products.component.html',
   styleUrl: './add-order-products.component.scss'
 })
-export class AddOrderProductsComponent {
+export class AddOrderProductsComponent implements OnInit {
   columnClass: string = 'col-4'; // Default column class
   buttonLabel = 'Add Product';
   currency = 'USD';
@@ -32,6 +32,11 @@ export class AddOrderProductsComponent {
       console.log('Currency Symbol updated:', this.currencySymbol);
     });
   }
+  async ngOnInit() {
+    await this.orderService.products.filter(
+      (p: any) => p.status === 'Active'
+    )
+  };
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {

@@ -105,38 +105,64 @@ export class AddOrderService {
     let obj = {
       perpage: 500,
       page: 1,
-
-      restaurant_id: localStorage.getItem('restaurant_id') ? localStorage.getItem('restaurant_id') : -1
+      restaurant_id: localStorage.getItem('restaurant_id')
+        ? localStorage.getItem('restaurant_id')
+        : -1
     };
 
     const res = await this.network.getCategories(obj);
-    // console.log(res)
 
     if (res.data) {
       let d = res.data.data;
-      console.log(d);
-      let totalProducts = d.reduce((acc, category) => {
-        return acc + (category.product_count || 0); // Use 0 if product_count is undefined
-      }, 0);
-      // add a first item as all categories
+
+      // Filter only Active categories
+      d = d.filter((category: any) => category.status === 'Active');
+
+      // Fetch products for each category to calculate only Active products
+      for (let category of d) {
+        const productRes = await this.network.getProducts({
+          filters: JSON.stringify({ category_id: category.id , status: 'Active' }),
+          perpage: 500,
+          restaurant_id: obj.restaurant_id
+        });
+
+        if (productRes && productRes.data) {
+          // Count only active products
+          category.product_count = productRes.data.data.filter(
+            (p: any) => p.status === 'Active'
+          ).length;
+        } else {
+          category.product_count = 0;
+        }
+      }
+
+      // Calculate total products for "All"
+      let totalProducts = d.reduce((acc, category) => acc + (category.product_count || 0), 0);
+
+      // Add "All" option
       d.unshift({
         id: -1,
         name: 'All',
         product_count: totalProducts,
         active: true
       });
+
       this.selectedCategory = d[0];
       this.categories = d;
     }
   }
 
-  async updateProductsBySelectedCategory(category) {
+
+
+  async updateProductsBySelectedCategory(category: any) {
     let obj = {
       filters: JSON.stringify({
         category_id: category.id === -1 ? null : category.id // Don't send category_id if -1
       }),
       perpage: 500,
-      restaurant_id: localStorage.getItem('restaurant_id') ? localStorage.getItem('restaurant_id') : -1
+      restaurant_id: localStorage.getItem('restaurant_id')
+        ? localStorage.getItem('restaurant_id')
+        : -1
     };
 
     try {
@@ -148,7 +174,8 @@ export class AddOrderService {
       }
 
       if (res.data) {
-        this.products = res.data.data;
+        // ✅ Filter only products with status 'Active'
+        this.products = res.data.data.filter((p: any) => p.status === 'Active');
       }
 
       return true;
@@ -158,6 +185,7 @@ export class AddOrderService {
       return false;
     }
   }
+
 
   async updateProductInSelectedProducts(product: any) {
     if (product.selected) {
