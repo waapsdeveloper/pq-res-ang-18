@@ -64,17 +64,7 @@
       </td>
 
       <td>
-        <div class="d-flex">
-          <div
-            class="badge fw-bold me-auto"
-            [ngClass]="{
-              'badge-active': item.status === 'Active',
-              'badge-inactive': item.status === 'Inactive'
-            }"
-          >
-            {{ item.status }}
-          </div>
-        </div>
+       <app-list-product-status [item]="item"></app-list-product-status>
       </td>
 
       <!-- <ng-content></ng-content> -->

@@ -50,7 +50,7 @@
           </div>
         </div>
       </td>
-
+    
       <td>
         <div class="d-flex">
           <div class="fs-7 fw-bold">{{ item.category ? item.category.name : '' }}</div>
@@ -62,17 +62,7 @@
         </div>
       </td>
       <td>
-        <div class="d-flex">
-          <div
-            class="badge fw-bold me-auto"
-            [ngClass]="{
-              'badge-active': item.status === 'Active',
-              'badge-inactive': item.status === 'Inactive'
-            }"
-          >
-            {{ item.status }}
-          </div>
-        </div>
+        <app-list-category-status [item]="item"></app-list-category-status>
       </td>
 
       <!-- <ng-content></ng-content> -->

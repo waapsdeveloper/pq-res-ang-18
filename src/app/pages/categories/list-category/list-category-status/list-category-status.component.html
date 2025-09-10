@@ -1,0 +1,11 @@
+  <div class="d-flex" (click)="openStatusDropdown(item)" > 
+          <div
+            class="badge fw-bold me-auto"
+            [ngClass]="{
+              'badge-active': item.status === 'Active',
+              'badge-inactive': item.status === 'Inactive'
+            }"
+          >
+            {{ item.status }}
+          </div>
+        </div>

@@ -9,11 +9,13 @@ import { KtAppListPageTableModule } from 'src/app/components/layouts/kt-list-pag
 import { KtListPageModule } from 'src/app/components/layouts/kt-list-page/kt-list-page.module';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { PipesModule } from 'src/app/pipes/pipes.module';
+import { ListCategoryStatusComponent } from './list-category-status/list-category-status.component';
 
 
 @NgModule({
   declarations: [
-    ListCategoryComponent
+    ListCategoryComponent,
+    ListCategoryStatusComponent
   ],
   imports: [
     CommonModule,

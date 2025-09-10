@@ -9,10 +9,12 @@ import { KtAppListPageTableModule } from 'src/app/components/layouts/kt-list-pag
 import { KtListPageModule } from 'src/app/components/layouts/kt-list-page/kt-list-page.module';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { PipesModule } from "../../../pipes/pipes.module";
+import { ListProductStatusComponent } from './list-product-status/list-product-status.component';
 
 @NgModule({
   declarations: [
-    ListProductComponent
+    ListProductComponent,
+    ListProductStatusComponent
   ],
   imports: [
     CommonModule,
