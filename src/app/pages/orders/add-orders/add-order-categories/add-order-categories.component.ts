@@ -16,12 +16,7 @@ export class AddOrderCategoriesComponent {
     }
 
     // Fetch products
-    this.orderService.updateProductsBySelectedCategory(item).then(() => {
-      // ✅ Filter products to show only active ones
-      this.orderService.products = this.orderService.products.filter(
-        (p: any) => p.status === 'Active'
-      );
-    });
+    this.orderService.updateProductsBySelectedCategory(item)
 
   }
 }

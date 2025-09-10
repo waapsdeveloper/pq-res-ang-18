@@ -9,8 +9,8 @@ import { Location } from '@angular/common';
 import html2canvas from 'html2canvas';
 
 import { Subject, Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { ActivatedRoute } from '@angular/router';
+import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { CurrencyService } from 'src/app/services/currency.service';
 import { GlobalDataService } from 'src/app/services/global-data.service';
 import html2pdf from 'html2pdf.js';
@@ -21,7 +21,7 @@ import { DecimalPipe } from '@angular/common';
   selector: 'app-add-orders',
   templateUrl: './add-orders.component.html',
   styleUrl: './add-orders.component.scss',
-   providers: [DecimalPipe],
+  providers: [DecimalPipe],
   animations: [
     trigger('slideToggle', [
       state('closed', style({ height: '0', overflow: 'hidden', opacity: 0 })),
@@ -33,6 +33,7 @@ import { DecimalPipe } from '@angular/common';
 })
 export class AddOrdersComponent implements OnInit, OnDestroy {
   screenWidth: number;
+  private routerSub: Subscription;
   screenHeight: number;
   showCoupon;
   digits;
@@ -63,6 +64,7 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
 
   constructor(
     public nav: NavService,
+    private router: Router,
     private decimalPipe: DecimalPipe,
     public orderService: AddOrderService,
     private network: NetworkService,
@@ -162,11 +164,12 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   }
 
   formatSpecial(value: number, digits: number): string {
-  const format = `1.${digits}-${digits}`;
-  return this.decimalPipe.transform(value, format, 'en-US') ?? '';
-}
+    const format = `1.${digits}-${digits}`;
+    return this.decimalPipe.transform(value, format, 'en-US') ?? '';
+  }
 
   async ngOnInit() {
+    this.orderService.initialize();
     // this.orderService.taxPercent = await this.currencyService.getTaxFromLocalStorage();
     let restaurant = await this.getRestaurants();
     this.orderService.showOrderHeader = false;
@@ -177,6 +180,13 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     this.tempCustomerPhone = this.orderService.customer_phone;
     this.tempCustomerAddress = this.orderService.customer_address;
     console.log(this.restInfo);
+    this.routerSub = this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        if (event.urlAfterRedirects.includes('/pages/orders/add')) {
+          this.orderService.initialize();
+        }
+      });
 
     // Convert logo to base64 for direct src usage
 
@@ -261,6 +271,9 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if (this.routerSub) {
+      this.routerSub.unsubscribe();
+    }
     this.orderService.showOrderHeader = true;
     if (this.searchSubscription) {
       this.searchSubscription.unsubscribe();
@@ -314,48 +327,48 @@ export class AddOrdersComponent implements OnInit, OnDestroy {
     return unit * (item?.quantity ?? 0);
   }
 
-async confirmOrder(): Promise<boolean> {
-  const { confirmed, values } = await this.utilityService.presentConfirmWithDropdowns(
-    'Confirm Order',
-    'Cancel',
-    'Confirm Your Order',
-    'Please select the details below before confirming:',
-    [
-      {
-        label: 'Order Type',
-        options: [
-          'drive-thru',
-          'dine-in',
-          'take-away',
-          // 'Delivery',
-          // 'Curbside Pickup',
-          // 'Catering',
-          // 'Reservation'
-        ],
-        variable: 'orderType',
-      },
-      {
-        label: 'Payment Method',
-        options: this.orderService.paymentMethods.map(m => m.label),
-        variable: 'paymentMethod',
-      }
-    ],
-    'btn btn-success',
-    'btn btn-danger'
-  );
+  async confirmOrder(): Promise<boolean> {
+    const { confirmed, values } = await this.utilityService.presentConfirmWithDropdowns(
+      'Confirm Order',
+      'Cancel',
+      'Confirm Your Order',
+      'Please select the details below before confirming:',
+      [
+        {
+          label: 'Order Type',
+          options: [
+            'drive-thru',
+            'dine-in',
+            'take-away',
+            // 'Delivery',
+            // 'Curbside Pickup',
+            // 'Catering',
+            // 'Reservation'
+          ],
+          variable: 'orderType',
+        },
+        {
+          label: 'Payment Method',
+          options: this.orderService.paymentMethods.map(m => m.label),
+          variable: 'paymentMethod',
+        }
+      ],
+      'btn btn-success',
+      'btn btn-danger'
+    );
 
-  if (!confirmed) {
-    console.log('❌ Order cancelled');
-    return false; // exit early
+    if (!confirmed) {
+      console.log('❌ Order cancelled');
+      return false; // exit early
+    }
+
+    // If confirmed → update service
+    this.orderService.orderType = values['orderType'];
+    this.orderService.paymentMethod = values['paymentMethod'];
+
+    console.log('✅ Order confirmed:', this.orderService.orderType, this.orderService.paymentMethod);
+    return true; // success
   }
-
-  // If confirmed → update service
-  this.orderService.orderType = values['orderType'];
-  this.orderService.paymentMethod = values['paymentMethod'];
-
-  console.log('✅ Order confirmed:', this.orderService.orderType, this.orderService.paymentMethod);
-  return true; // success
-}
 
 
   async onSubmit($event: Event) {

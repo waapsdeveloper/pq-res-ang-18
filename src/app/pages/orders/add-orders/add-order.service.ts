@@ -102,89 +102,109 @@ export class AddOrderService {
   }
 
   async initialize() {
-    let obj = {
+    this.products = [];
+    this.categories = [];
+    const restaurant_id = localStorage.getItem("restaurant_id") ?? -1;
+
+    // Fetch active categories in one go
+    const res = await this.network.getCategories({ perpage: 500, page: 1, restaurant_id });
+    if (!res?.data) {
+      this.categories = [];
+      this.products = [];
+      return;
+    }
+
+    let categories = (res.data.data || []).filter(
+      (c: any) => (c.status || "").toLowerCase() === "active"
+    );
+
+    // ✅ Fetch ALL active products once (instead of looping categories)
+    const productRes = await this.network.getProducts({
+      filters: JSON.stringify({ status: "Active" }),
       perpage: 500,
-      page: 1,
-      restaurant_id: localStorage.getItem('restaurant_id')
-        ? localStorage.getItem('restaurant_id')
-        : -1
-    };
+      restaurant_id,
+    });
 
-    const res = await this.network.getCategories(obj);
+    const allProducts = (productRes?.data?.data || []).filter(
+      (p: any) => (p.status || "").toLowerCase() === "active"
+    );
 
-    if (res.data) {
-      let d = res.data.data;
+    // ✅ Count products per active category (in memory, no API spam)
+    const productMap: Record<number, number> = {};
+    for (const p of allProducts) {
+      if (p.category_id != null) {
+        productMap[p.category_id] = (productMap[p.category_id] || 0) + 1;
+      }
+    }
 
-      // Filter only Active categories
-      d = d.filter((category: any) => category.status === 'Active');
+    for (const category of categories) {
+      category.product_count = productMap[category.id] || 0;
+    }
 
-      // Fetch products for each category to calculate only Active products
-      for (let category of d) {
-        const productRes = await this.network.getProducts({
-          filters: JSON.stringify({ category_id: category.id , status: 'Active' }),
-          perpage: 500,
-          restaurant_id: obj.restaurant_id
-        });
+    // ✅ Add "All" with correct total
+    categories.unshift({
+      id: -1,
+      name: "All",
+      product_count: allProducts.filter((p: any) =>
+        categories.some((c: any) => c.id === p.category_id)
+      ).length,
+      active: true,
+    });
 
-        if (productRes && productRes.data) {
-          // Count only active products
-          category.product_count = productRes.data.data.filter(
-            (p: any) => p.status === 'Active'
-          ).length;
-        } else {
-          category.product_count = 0;
-        }
+    this.categories = categories;
+    this.selectedCategory = categories[0];
+
+    // Load "All" products immediately
+    await this.updateProductsBySelectedCategory(this.selectedCategory, allProducts);
+  }
+
+  async updateProductsBySelectedCategory(category: any, cachedProducts?: any[]) {
+    const restaurant_id = localStorage.getItem("restaurant_id") ?? -1;
+
+    let serverItems: any[] = [];
+
+    if (cachedProducts) {
+      // ✅ Use cached products from initialize if provided
+      serverItems = cachedProducts;
+    } else {
+      // Otherwise fetch fresh
+      const filters: any = { status: "Active" };
+      if (category.id !== -1 && category.id !== null && category.id !== undefined) {
+        filters.category_id = category.id;
       }
 
-      // Calculate total products for "All"
-      let totalProducts = d.reduce((acc, category) => acc + (category.product_count || 0), 0);
-
-      // Add "All" option
-      d.unshift({
-        id: -1,
-        name: 'All',
-        product_count: totalProducts,
-        active: true
+      const res = await this.network.getProducts({
+        filters: JSON.stringify(filters),
+        perpage: 500,
+        restaurant_id,
       });
 
-      this.selectedCategory = d[0];
-      this.categories = d;
+      serverItems = (res?.data?.data || []).filter(
+        (p: any) => (p.status || "").toLowerCase() === "active"
+      );
     }
+
+    if (category.id === -1) {
+      // ✅ All tab: only active products from active categories
+      const activeCategoryIds = this.categories
+        .filter((c: any) => c.id !== -1)
+        .map((c: any) => c.id);
+
+      this.products = serverItems.filter((p: any) =>
+        activeCategoryIds.includes(p.category_id)
+      );
+    } else {
+      // ✅ Specific category: already active
+      this.products = serverItems.filter(
+        (p: any) => String(p.category_id) === String(category.id)
+      );
+    }
+
+    return true;
   }
 
 
 
-  async updateProductsBySelectedCategory(category: any) {
-    let obj = {
-      filters: JSON.stringify({
-        category_id: category.id === -1 ? null : category.id // Don't send category_id if -1
-      }),
-      perpage: 500,
-      restaurant_id: localStorage.getItem('restaurant_id')
-        ? localStorage.getItem('restaurant_id')
-        : -1
-    };
-
-    try {
-      const res = await this.network.getProducts(obj);
-
-      if (!res || res.status === 400) {
-        this.products = [];
-        return false;
-      }
-
-      if (res.data) {
-        // ✅ Filter only products with status 'Active'
-        this.products = res.data.data.filter((p: any) => p.status === 'Active');
-      }
-
-      return true;
-    } catch (error) {
-      console.error('Error fetching products:', error);
-      this.products = [];
-      return false;
-    }
-  }
 
 
   async updateProductInSelectedProducts(product: any) {
