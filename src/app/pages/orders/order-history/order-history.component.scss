@@ -90,7 +90,7 @@
  .sidebar-wrapper {
   position: fixed;
   top: 0;
-  right: 0; /* The active class will handle sliding it in */
+  right: 0;
   width: 100%;
   max-width: 500px;
   height: 100%;
@@ -99,12 +99,16 @@
   box-shadow: -4px 0 15px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  transform: translateX(100%); /* Start off-screen */
-  transition: transform 0.3s ease-in-out;
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  backface-visibility: hidden;
+  overflow: hidden;
  }
 
  .sidebar-wrapper.active {
-   transform: translateX(0); /* Slide in */
+   transform: translateX(0);
+   animation: slideInRight 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+   /* No transition here */
  }
 
  .sidebar-header {
@@ -136,9 +140,15 @@
   color: #495057; /* A standard dark gray, much more readable than 'muted' */
  }
 
- .timeline-container {
-  position: relative;
-  padding-left: 45px;
+ @keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0.7;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 /* ... All other timeline styles remain the same ... */
