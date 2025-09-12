@@ -60,19 +60,24 @@
               <p class="mb-1 mt-1" *ngIf="!event.event_type.startsWith('product')">
                 <ng-container [ngSwitch]="event.event_type">
                   <span *ngSwitchCase="'order_created'">
-                    Order was placed with status: <strong class="text-primary">{{ event.new_value | titlecase }}</strong>
+                    Order was placed with status: <strong class="text-primary">{{ event.new_value | titlecase
+                      }}</strong>
                   </span>
                   <span *ngSwitchCase="'status_change'">
-                    Status changed from <strong class="text-danger">{{ event.old_value | titlecase }}</strong> to <strong class="text-success">{{ event.new_value | titlecase }}</strong>.
+                    Status changed from <strong class="text-danger">{{ event.old_value | titlecase }}</strong> to
+                    <strong class="text-success">{{ event.new_value | titlecase }}</strong>.
                   </span>
                   <span *ngSwitchCase="'payment_status'">
-                    Payment changed from <strong class="text-danger">{{ event.old_value }}</strong> to <strong class="text-success">{{ event.new_value }}</strong>.
+                    Payment changed from <strong class="text-danger">{{ event.old_value }}</strong> to <strong
+                      class="text-success">{{ event.new_value }}</strong>.
                   </span>
                   <span *ngSwitchCase="'order_type'">
-                    Order type changed from <strong>{{ event.old_value }}</strong> to <strong>{{ event.new_value }}</strong>.
+                    Order type changed from <strong>{{ event.old_value }}</strong> to <strong>{{ event.new_value
+                      }}</strong>.
                   </span>
                   <span *ngSwitchCase="'payment_method'">
-                    Payment method changed from <strong>{{ event.old_value }}</strong> to <strong>{{ event.new_value }}</strong>.
+                    Payment method changed from <strong>{{ event.old_value }}</strong> to <strong>{{ event.new_value
+                      }}</strong>.
                   </span>
                 </ng-container>
               </p>
@@ -81,12 +86,14 @@
               <div *ngIf="event.event_type.startsWith('product')">
                 <p class="mb-1">
                   <ng-container *ngIf="event.event_type === 'product_added'">
-                    New product added: <strong>{{ event.newValueParsed?.name || event.newValueParsed?.product_id }}</strong>
+                    New product added: <strong>{{ event.newValueParsed?.name || event.newValueParsed?.product_id
+                      }}</strong>
                     (Qty: {{ event.newValueParsed?.quantity }}, Price: {{ event.newValueParsed?.price }})
                   </ng-container>
 
                   <ng-container *ngIf="event.event_type === 'product_removed'">
-                    Product updated: <strong>{{ event.newValueParsed?.name || event.newValueParsed?.product_id }}</strong>
+                    Product updated: <strong>{{ event.newValueParsed?.name || event.newValueParsed?.product_id
+                      }}</strong>
                     (Qty: {{ event.newValueParsed?.quantity }}, Price: {{ event.newValueParsed?.price }})
                   </ng-container>
 
@@ -101,8 +108,10 @@
                     <div class="product-detail">
                       <div class="d-flex justify-content-between align-items-start mb-2">
                         <div>
-                          <h6 class="mb-1 product-title">{{ event.newValueParsed?.name || ('#' + (event.newValueParsed?.product_id)) }}</h6>
-                          <div class="small text-muted">Qty: <strong>{{ event.newValueParsed?.quantity }}</strong> · Price: <strong>{{ event.newValueParsed?.price }}</strong></div>
+                          <h6 class="mb-1 product-title">{{ event.newValueParsed?.name || ('#' +
+                            (event.newValueParsed?.product_id)) }}</h6>
+                          <div class="small text-muted">Qty: <strong>{{ event.newValueParsed?.quantity }}</strong> ·
+                            Price: <strong>{{ event.newValueParsed?.price }}</strong></div>
                           <div *ngIf="event.newValueParsed?.notes" class="mt-2 note">
                             <span class="badge bg-info me-2">Notes</span>{{ event.newValueParsed?.notes }}
                           </div>
@@ -126,7 +135,8 @@
                                   <div class="opt-name">{{ opt.name }}</div>
                                   <div class="opt-desc small text-muted">{{ opt.description }}</div>
                                 </div>
-                                <div class="opt-price small text-muted">{{ opt.price ? (opt.price | currency) : '' }}</div>
+                                <div class="opt-price small text-muted">{{ opt.price ? (opt.price | currency) : '' }}
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -140,8 +150,10 @@
                     <div class="product-detail">
                       <div class="d-flex justify-content-between align-items-start mb-2">
                         <div>
-                          <h6 class="mb-1 text-danger product-title">{{ event.oldValueParsed?.name || ('#' + (event.oldValueParsed?.product_id)) }}</h6>
-                          <div class="small text-muted">Qty: <strong>{{ event.oldValueParsed?.quantity }}</strong> · Price: <strong>{{ event.oldValueParsed?.price }}</strong></div>
+                          <h6 class="mb-1 text-danger product-title">{{ event.oldValueParsed?.name || ('#' +
+                            (event.oldValueParsed?.product_id)) }}</h6>
+                          <div class="small text-muted">Qty: <strong>{{ event.oldValueParsed?.quantity }}</strong> ·
+                            Price: <strong>{{ event.oldValueParsed?.price }}</strong></div>
                         </div>
                         <div class="text-end">
                           <span class="badge bg-danger">Removed</span>
@@ -162,7 +174,8 @@
                                   <div class="opt-name">{{ opt.name }}</div>
                                   <div class="opt-desc small text-muted">{{ opt.description }}</div>
                                 </div>
-                                <div class="opt-price small text-muted">{{ opt.price ? (opt.price | currency) : '' }}</div>
+                                <div class="opt-price small text-muted">{{ opt.price ? (opt.price | currency) : '' }}
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -172,39 +185,41 @@
                   </ng-container>
 
                   <!-- PRODUCT UPDATED -->
+
                   <ng-container *ngIf="event.event_type === 'product_updated'">
                     <div class="row">
                       <div class="col-12 col-md-6">
                         <div class="product-detail old-detail">
                           <div class="d-flex justify-content-between align-items-start mb-2">
                             <div>
-                              <h6 class="mb-1 product-title">{{ event.oldValueParsed?.name || ('#' + (event.oldValueParsed?.product_id)) }}</h6>
-                              <div class="small text-muted">Qty: <strong>{{ event.oldValueParsed?.quantity }}</strong> · Price: <strong>{{ event.oldValueParsed?.price }}</strong></div>
+                              <h6 class="mb-1 product-title">{{ event.oldValueParsed?.name || ('#' +
+                                (event.oldValueParsed?.product_id)) }}</h6>
                             </div>
                             <div class="text-end">
                               <span class="badge bg-warning text-dark">Old</span>
                             </div>
                           </div>
 
-                          <div *ngIf="event.oldValueParsed?.variation?.length" class="mt-2">
-                            <p class="mb-2 fw-semibold variation-heading">Variation</p>
-                            <div class="variation-list">
-                              <div *ngFor="let v of event.oldValueParsed?.variation" class="variation-item">
-                                <div class="d-flex justify-content-between align-items-center mb-1">
-                                  <div class="variation-type">{{ v.type || 'Option' }}</div>
-                                  <div *ngIf="v.selected" class="badge bg-primary">Selected</div>
-                                </div>
-                                <div *ngIf="v.options?.length" class="options">
-                                  <div *ngFor="let opt of v.options" class="option-row">
-                                    <div class="opt-info">
-                                      <div class="opt-name">{{ opt.name }}</div>
-                                      <div class="opt-desc small text-muted">{{ opt.description }}</div>
+                          <div *ngIf="event.oldValueParsed?.selected_variations?.length" class="mt-2">
+                            <p class="mb-2 fw-semibold variation-heading">Selected</p>
+                            <ul class="list-unstyled mb-0">
+                              <li *ngFor="let v of event.oldValueParsed?.selected_variations" class="mb-2">
+                                <div class="variation-type fw-semibold">{{ v.type || 'Option' }}</div>
+                                <ng-container *ngIf="v.selected">
+                                  <ng-container *ngIf="v.selected.length !== undefined; else singleOld">
+                                    <div *ngFor="let opt of v.selected" class="small text-muted">
+                                      {{ opt.name }}<span *ngIf="opt.description"> — {{ opt.description }}</span>
                                     </div>
-                                    <div class="opt-price small text-muted">{{ opt.price ? (opt.price | currency) : '' }}</div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
+                                  </ng-container>
+                                  <ng-template #singleOld>
+                                    <div class="small text-muted">
+                                      {{ v.selected.name }}<span *ngIf="v.selected.description"> — {{
+                                        v.selected.description }}</span>
+                                    </div>
+                                  </ng-template>
+                                </ng-container>
+                              </li>
+                            </ul>
                           </div>
                         </div>
                       </div>
@@ -213,38 +228,40 @@
                         <div class="product-detail new-detail">
                           <div class="d-flex justify-content-between align-items-start mb-2">
                             <div>
-                              <h6 class="mb-1 product-title">{{ event.newValueParsed?.name || ('#' + (event.newValueParsed?.product_id)) }}</h6>
-                              <div class="small text-muted">Qty: <strong>{{ event.newValueParsed?.quantity }}</strong> · Price: <strong>{{ event.newValueParsed?.price }}</strong></div>
+                              <h6 class="mb-1 product-title">{{ event.newValueParsed?.name || ('#' +
+                                (event.newValueParsed?.product_id)) }}</h6>
                             </div>
                             <div class="text-end">
                               <span class="badge bg-success">New</span>
                             </div>
                           </div>
 
-                          <div *ngIf="event.newValueParsed?.variation?.length" class="mt-2">
-                            <p class="mb-2 fw-semibold variation-heading">Variation</p>
-                            <div class="variation-list">
-                              <div *ngFor="let v of event.newValueParsed?.variation" class="variation-item">
-                                <div class="d-flex justify-content-between align-items-center mb-1">
-                                  <div class="variation-type">{{ v.type || 'Option' }}</div>
-                                  <div *ngIf="v.selected" class="badge bg-primary">Selected</div>
-                                </div>
-                                <div *ngIf="v.options?.length" class="options">
-                                  <div *ngFor="let opt of v.options" class="option-row">
-                                    <div class="opt-info">
-                                      <div class="opt-name">{{ opt.name }}</div>
-                                      <div class="opt-desc small text-muted">{{ opt.description }}</div>
+                          <div *ngIf="event.newValueParsed?.selected_variations?.length" class="mt-2">
+                            <p class="mb-2 fw-semibold variation-heading">Selected</p>
+                            <ul class="list-unstyled mb-0">
+                              <li *ngFor="let v of event.newValueParsed?.selected_variations" class="mb-2">
+                                <div class="variation-type fw-semibold">{{ v.type || 'Option' }}</div>
+                                <ng-container *ngIf="v.selected">
+                                  <ng-container *ngIf="v.selected.length !== undefined; else singleNew">
+                                    <div *ngFor="let opt of v.selected" class="small text-muted">
+                                      {{ opt.name }}<span *ngIf="opt.description"> — {{ opt.description }}</span>
                                     </div>
-                                    <div class="opt-price small text-muted">{{ opt.price ? (opt.price | currency) : '' }}</div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
+                                  </ng-container>
+                                  <ng-template #singleNew>
+                                    <div class="small text-muted">
+                                      {{ v.selected.name }}<span *ngIf="v.selected.description"> — {{
+                                        v.selected.description }}</span>
+                                    </div>
+                                  </ng-template>
+                                </ng-container>
+                              </li>
+                            </ul>
                           </div>
                         </div>
                       </div>
                     </div>
                   </ng-container>
+                 
                 </div>
               </div>
 
