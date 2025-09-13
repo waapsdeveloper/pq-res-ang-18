@@ -56,31 +56,76 @@
                 <small class="text-muted">{{ event.timestamp | date:'medium' }}</small>
               </div>
 
-              <!-- Non-product events (keeps existing wording) -->
-              <p class="mb-1 mt-1" *ngIf="!event.event_type.startsWith('product')">
-                <ng-container [ngSwitch]="event.event_type">
-                  <span *ngSwitchCase="'order_created'">
-                    Order was placed with status: <strong class="text-primary">{{ event.new_value | titlecase
-                      }}</strong>
-                  </span>
-                  <span *ngSwitchCase="'status_change'">
-                    Status changed from <strong class="text-danger">{{ event.old_value | titlecase }}</strong> to
-                    <strong class="text-success">{{ event.new_value | titlecase }}</strong>.
-                  </span>
-                  <span *ngSwitchCase="'payment_status'">
-                    Payment changed from <strong class="text-danger">{{ event.old_value }}</strong> to <strong
-                      class="text-success">{{ event.new_value }}</strong>.
-                  </span>
-                  <span *ngSwitchCase="'order_type'">
-                    Order type changed from <strong>{{ event.old_value }}</strong> to <strong>{{ event.new_value
-                      }}</strong>.
-                  </span>
-                  <span *ngSwitchCase="'payment_method'">
-                    Payment method changed from <strong>{{ event.old_value }}</strong> to <strong>{{ event.new_value
-                      }}</strong>.
-                  </span>
-                </ng-container>
-              </p>
+              <!-- Non-product events (keep existing wording) -->
+              <ng-container *ngIf="!event.event_type.startsWith('product') && event.event_type !== 'order_created'">
+                <p class="mb-1 mt-1">
+                  <ng-container [ngSwitch]="event.event_type">
+                    <span *ngSwitchCase="'status_change'">
+                      Status changed from <strong class="text-danger">{{ event.old_value | titlecase }}</strong> to
+                      <strong class="text-success">{{ event.new_value | titlecase }}</strong>.
+                    </span>
+                    <span *ngSwitchCase="'payment_status'">
+                      Payment changed from <strong class="text-danger">{{ event.old_value }}</strong> to
+                      <strong class="text-success">{{ event.new_value }}</strong>.
+                    </span>
+                    <span *ngSwitchCase="'order_type'">
+                      Order type changed from <strong>{{ event.old_value }}</strong> to
+                      <strong>{{ event.new_value }}</strong>.
+                    </span>
+                    <span *ngSwitchCase="'payment_method'">
+                      Payment method changed from <strong>{{ event.old_value }}</strong> to
+                      <strong>{{ event.new_value }}</strong>.
+                    </span>
+                    <span *ngSwitchDefault>{{ event.event_type | titlecase }}</span>
+                  </ng-container>
+                </p>
+              </ng-container>
+
+              <!-- ORDER CREATED: show collapsible product list (name, qty, selected variations only) -->
+              <ng-container *ngIf="event.event_type === 'order_created'">
+                <p class="mb-1">
+                  Order was placed.
+                  <button type="button" class="btn btn-link btn-sm" (click)="toggleDetails(event)">
+                    {{ event._open ? 'Hide items' : 'Show items' }}
+                  </button>
+                </p>
+
+                <div class="card card-body mt-2" *ngIf="event._open">
+                  <div *ngFor="let p of (event.newValueParsed || [])" class="product-detail mb-3">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                      <div>
+                        <h6 class="mb-1 product-title">{{ p?.name || ('#' + (p?.product_id)) }}</h6>
+                        <div class="small text-muted">Qty: <strong>{{ p?.quantity }}</strong></div>
+                        <div *ngIf="p?.notes" class="mt-1 small text-muted">Notes: {{ p.notes }}</div>
+                      </div>
+                      <div class="text-end">
+                        <span class="badge bg-primary">Item</span>
+                      </div>
+                    </div>
+
+                    <div *ngIf="p?.selected_variations?.length" class="mt-2">
+                      <p class="mb-2 fw-semibold variation-heading">Selected</p>
+                      <ul class="list-unstyled mb-0">
+                        <li *ngFor="let v of p.selected_variations" class="mb-2">
+                          <div class="variation-type fw-semibold">{{ v.type || 'Option' }}</div>
+                          <ng-container *ngIf="v.selected">
+                            <ng-container *ngIf="v.selected.length !== undefined; else singleOrderCreated">
+                              <div *ngFor="let opt of v.selected" class="small text-muted">
+                                {{ opt.name }}<span *ngIf="opt.description"> — {{ opt.description }}</span>
+                              </div>
+                            </ng-container>
+                            <ng-template #singleOrderCreated>
+                              <div class="small text-muted">
+                                {{ v.selected.name }}<span *ngIf="v.selected.description"> — {{ v.selected.description }}</span>
+                              </div>
+                            </ng-template>
+                          </ng-container>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
 
               <!-- Product events: summary + collapsible details -->
               <div *ngIf="event.event_type.startsWith('product')">
@@ -185,42 +230,47 @@
                   </ng-container>
 
                   <!-- PRODUCT UPDATED -->
-
                   <ng-container *ngIf="event.event_type === 'product_updated'">
                     <div class="row">
                       <div class="col-12 col-md-6">
                         <div class="product-detail old-detail">
                           <div class="d-flex justify-content-between align-items-start mb-2">
                             <div>
-                              <h6 class="mb-1 product-title">{{ event.oldValueParsed?.name || ('#' +
-                                (event.oldValueParsed?.product_id)) }}</h6>
+                              <h6 class="mb-1 product-title">
+                                {{ event.oldValueParsed?.name || ('#' + (event.oldValueParsed?.product_id)) }}
+                              </h6>
+                              <div class="small text-muted">Qty: <strong>{{ event.oldValueParsed?.quantity }}</strong></div>
                             </div>
                             <div class="text-end">
                               <span class="badge bg-warning text-dark">Old</span>
                             </div>
                           </div>
 
-                          <div *ngIf="event.oldValueParsed?.selected_variations?.length" class="mt-2">
+                          <div *ngIf="event.oldValueParsed?.selected_variations?.length; else noOldSel" class="mt-2">
                             <p class="mb-2 fw-semibold variation-heading">Selected</p>
                             <ul class="list-unstyled mb-0">
                               <li *ngFor="let v of event.oldValueParsed?.selected_variations" class="mb-2">
                                 <div class="variation-type fw-semibold">{{ v.type || 'Option' }}</div>
+
                                 <ng-container *ngIf="v.selected">
-                                  <ng-container *ngIf="v.selected.length !== undefined; else singleOld">
+                                  <ng-container *ngIf="v.selected.length !== undefined; else singleOldSel">
                                     <div *ngFor="let opt of v.selected" class="small text-muted">
                                       {{ opt.name }}<span *ngIf="opt.description"> — {{ opt.description }}</span>
                                     </div>
                                   </ng-container>
-                                  <ng-template #singleOld>
+
+                                  <ng-template #singleOldSel>
                                     <div class="small text-muted">
-                                      {{ v.selected.name }}<span *ngIf="v.selected.description"> — {{
-                                        v.selected.description }}</span>
+                                      {{ v.selected.name }}<span *ngIf="v.selected.description"> — {{ v.selected.description }}</span>
                                     </div>
                                   </ng-template>
                                 </ng-container>
                               </li>
                             </ul>
                           </div>
+                          <ng-template #noOldSel>
+                            <div class="small text-muted mt-2">No selected variations</div>
+                          </ng-template>
                         </div>
                       </div>
 
@@ -228,35 +278,41 @@
                         <div class="product-detail new-detail">
                           <div class="d-flex justify-content-between align-items-start mb-2">
                             <div>
-                              <h6 class="mb-1 product-title">{{ event.newValueParsed?.name || ('#' +
-                                (event.newValueParsed?.product_id)) }}</h6>
+                              <h6 class="mb-1 product-title">
+                                {{ event.newValueParsed?.name || ('#' + (event.newValueParsed?.product_id)) }}
+                              </h6>
+                              <div class="small text-muted">Qty: <strong>{{ event.newValueParsed?.quantity }}</strong></div>
                             </div>
                             <div class="text-end">
                               <span class="badge bg-success">New</span>
                             </div>
                           </div>
 
-                          <div *ngIf="event.newValueParsed?.selected_variations?.length" class="mt-2">
+                          <div *ngIf="event.newValueParsed?.selected_variations?.length; else noNewSel" class="mt-2">
                             <p class="mb-2 fw-semibold variation-heading">Selected</p>
                             <ul class="list-unstyled mb-0">
                               <li *ngFor="let v of event.newValueParsed?.selected_variations" class="mb-2">
                                 <div class="variation-type fw-semibold">{{ v.type || 'Option' }}</div>
+
                                 <ng-container *ngIf="v.selected">
-                                  <ng-container *ngIf="v.selected.length !== undefined; else singleNew">
+                                  <ng-container *ngIf="v.selected.length !== undefined; else singleNewSel">
                                     <div *ngFor="let opt of v.selected" class="small text-muted">
                                       {{ opt.name }}<span *ngIf="opt.description"> — {{ opt.description }}</span>
                                     </div>
                                   </ng-container>
-                                  <ng-template #singleNew>
+
+                                  <ng-template #singleNewSel>
                                     <div class="small text-muted">
-                                      {{ v.selected.name }}<span *ngIf="v.selected.description"> — {{
-                                        v.selected.description }}</span>
+                                      {{ v.selected.name }}<span *ngIf="v.selected.description"> — {{ v.selected.description }}</span>
                                     </div>
                                   </ng-template>
                                 </ng-container>
                               </li>
                             </ul>
                           </div>
+                          <ng-template #noNewSel>
+                            <div class="small text-muted mt-2">No selected variations</div>
+                          </ng-template>
                         </div>
                       </div>
                     </div>
