@@ -69,6 +69,53 @@ File: style.css
   position: unset !important;
 }
 
+.formly-select-wrapper-3333 {
+  formly-wrapper-form-field > div {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+  }
+
+  select {
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #212529;
+    appearance: none;
+    cursor: pointer;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+    &:focus {
+      color: #212529;
+      background-color: #fff;
+      border-color: #86b7fe;
+      outline: 0;
+      box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+
+    &:disabled {
+      background-color: #e9ecef;
+      opacity: 1;
+    }
+  }
+
+  /* Multiple select behaves like single, just allows multi selection */
+  select[multiple] {
+    height: auto;
+    min-height: 38px;
+  }
+
+  label {
+    font-weight: 500;
+    color: #212529;
+    margin-bottom: 0.25rem;
+  }
+}
+
+
 .formly-select-wrapper-3232 {
   formly-wrapper-form-field>div {
     display: flex;

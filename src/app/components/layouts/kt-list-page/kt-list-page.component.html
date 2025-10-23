@@ -1,10 +1,10 @@
-<div class="d-flex flex-column flex-column-fluid">
+<div class="d-flex flex-column flex-column-fluid mt-3">
   <div class="row">
-    <div class="col-12 d-flex justify-content-between align-items-center">
-      <app-kt-app-toolbar [title]="title" [titleHighlightPart]="titleHighlightPart"></app-kt-app-toolbar>
-      <div class="card-toolbar d-flex justify-content-end gap-2 gap-lg-3 flex-wrap flex-sm-nowrap">
+    <div class="col-12 d-flex justify-content-end align-items-center">
+      <!-- <app-kt-app-toolbar [title]="title" [titleHighlightPart]="titleHighlightPart"></app-kt-app-toolbar> -->
+      <!-- <div class="card-toolbar d-flex justify-content-end gap-2 gap-lg-3 flex-wrap flex-sm-nowrap">
         <div class="m-0">
-          <!--begin::Menu toggle-->
+          
           <a
             *ngIf="canFilter"
             (click)="filter($event)"
@@ -12,7 +12,7 @@
             data-kt-menu-trigger="click"
             data-kt-menu-placement="bottom-end"
           >
-            <!--begin::Svg Icon | path: icons/duotune/general/gen031.svg-->
+           
             <span class="svg-icon svg-icon-6 svg-icon-muted me-1">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -21,12 +21,13 @@
                 ></path>
               </svg>
             </span>
-            <!--end::Svg Icon-->
             Filter
           </a>
-          <!--end::Menu toggle-->
         </div>
-        <!--begin::Add customer-->
+        <button *ngIf="canFilter" type="button" class="btn btn-sm btn-light" aria-label="Reset filters" (click)="resetFilter?.emit()">
+          <i class="ti ti-refresh"></i>
+          Reset Filters
+        </button>
         <a
           *ngIf="canCreate"
           [routerLink]="addurl"
@@ -35,7 +36,6 @@
           <i class="ti ti-plus"></i>
           Create
         </a>
-        <!--end::Add customer-->
         <button
           *ngIf="showDeleteAll && canDelete"
           type="button"
@@ -45,7 +45,7 @@
           <i class="ti ti-trash"></i>
           Delete Selected
         </button>
-      </div>
+      </div> -->
     </div>
   </div>
 

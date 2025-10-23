@@ -18,6 +18,7 @@ export class KtListPageComponent {
   @Input('showDeleteAll') showDeleteAll = false;
   @Output('onSearch') onSearch = new EventEmitter<any>();
   @Output('onFilter') onFilter = new EventEmitter<any>();
+  @Output('resetFilter') resetFilter = new EventEmitter<void>();
   @Output('onDeleteAll') onDeleteAll = new EventEmitter<any>();
 
   @Input('entity') entity: string = '';

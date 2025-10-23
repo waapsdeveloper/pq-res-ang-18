@@ -15,6 +15,7 @@ import { AddOrdersModule } from "../add-orders/add-orders.module";
 import { ListOrderPrintslipModule } from "./list-order-printslip/list-order-printslip.module";
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { OrderHistoryModule } from '../order-history/order-history.module';
+import { KtAppToolbarModule } from 'src/app/components/kt-app-toolbar/kt-app-toolbar.module';
 @NgModule({
   declarations: [ListOrdersComponent],
   imports: [
@@ -32,7 +33,8 @@ import { OrderHistoryModule } from '../order-history/order-history.module';
     ListOrderPaymentStatusModule,
     ListOrderPrintslipModule,
     PipesModule,
-    OrderHistoryModule
+    OrderHistoryModule,
+    KtAppToolbarModule
 ],
   
 })

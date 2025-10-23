@@ -31,7 +31,7 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
   paymentStatus;
   selectedItem: any;
   orderStatus;
-  title = 'Orders';
+  title = 'Order listing & filters';
   addurl = '/pages/orders/add';
   showEdit: boolean = false;
   taxAmount: number = 0;
@@ -72,11 +72,13 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
     table: '',
     type: '',
     status: '',
-    is_paid: ''
+    is_paid: '',
+    payment_method: ''
   };
   canView: boolean;
   canEdit: boolean;
   resetFilters() {
+    console.log('Resetting filters to default values');
     this.model = {
       order_id: '',
       created_at: '',
@@ -88,7 +90,8 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
       table: '',
       type: '',
       status: '',
-      is_paid: ''
+      is_paid: '',
+      payment_method: ''
     };
     this.crudService.resetFilters(this.model);;
   }
@@ -109,39 +112,39 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
           },
           className: 'col-md-2 col-12'
         },
-        {
-          key: 'created_at',
-          type: 'input',
-          props: {
-            label: 'Created At',
-            placeholder: 'Enter created at date',
-            required: false,
-            type: 'date' // Use type="date" for basic date input
-          },
-          className: 'col-md-2 col-12'
-        },
-        {
-          key: 'started_from',
-          type: 'input',
-          props: {
-            label: 'Started From',
-            placeholder: 'Enter started from date',
-            required: false,
-            type: 'date' // Use type="date" for basic date input
-          },
-          className: 'col-md-2 col-12'
-        },
-        {
-          key: 'ended_at',
-          type: 'input',
-          props: {
-            label: 'Ended At',
-            placeholder: 'Enter ended at date',
-            required: false,
-            type: 'date' // Use type="date" for basic date input
-          },
-          className: 'col-md-2 col-12'
-        },
+        // {
+        //   key: 'created_at',
+        //   type: 'input',
+        //   props: {
+        //     label: 'Created At',
+        //     placeholder: 'Enter created at date',
+        //     required: false,
+        //     type: 'date' // Use type="date" for basic date input
+        //   },
+        //   className: 'col-md-2 col-12'
+        // },
+        // {
+        //   key: 'started_from',
+        //   type: 'input',
+        //   props: {
+        //     label: 'Started From',
+        //     placeholder: 'Enter started from date',
+        //     required: false,
+        //     type: 'date' // Use type="date" for basic date input
+        //   },
+        //   className: 'col-md-2 col-12'
+        // },
+        // {
+        //   key: 'ended_at',
+        //   type: 'input',
+        //   props: {
+        //     label: 'Ended At',
+        //     placeholder: 'Enter ended at date',
+        //     required: false,
+        //     type: 'date' // Use type="date" for basic date input
+        //   },
+        //   className: 'col-md-2 col-12'
+        // },
 
         {
           key: 'customer_name',
@@ -154,19 +157,19 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
           },
           className: 'col-md-2 col-12'
         },
-        // {
-        //   key: 'phone',
-        //   type: 'input',
-        //   props: {
-        //     label: 'Phone',
-        //     placeholder: 'Enter phone number',
-        //     required: false,
-        //     type: 'tel',
-        //     pattern: '\\d{11}',
-        //     title: 'Enter a valid 10-digit phone number'
-        //   },
-        //   className: 'col-md-2 col-12'
-        // },
+        {
+          key: 'phone',
+          type: 'input',
+          props: {
+            label: 'Phone',
+            placeholder: 'Enter phone number',
+            required: false,
+            type: 'tel',
+            pattern: '\\d{11}',
+            title: 'Enter a valid 10-digit phone number'
+          },
+          className: 'col-md-2 col-12'
+        },
         // {
         //   key: 'total_price',
         //   type: 'input',
@@ -180,16 +183,16 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
         //   },
         //   className: 'col-md-2 col-12'
         // },
-        {
-          key: 'table',
-          type: 'input',
-          props: {
-            label: 'Table Number',
-            placeholder: 'Enter table number',
-            required: false
-          },
-          className: 'col-md-2 col-12'
-        },
+        // {
+        //   key: 'table',
+        //   type: 'input',
+        //   props: {
+        //     label: 'Table Number',
+        //     placeholder: 'Enter table number',
+        //     required: false
+        //   },
+        //   className: 'col-md-2 col-12'
+        // },
         {
           key: 'type',
           type: 'select',
@@ -205,9 +208,10 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
               { label: 'Reservation', value: 'reservation' }
             ],
             required: false,
+            multiple: true,
             placeholder: 'Select Order Type'
           },
-          className: 'formly-select-wrapper-3232 col-md-2 col-12'
+          className: 'formly-select-wrapper-3333 col-md-2 col-12'
         },
         {
           key: 'status',
@@ -224,24 +228,40 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
               { label: 'Completed', value: 'completed' },
               { label: 'Cancelled', value: 'cancelled' }
             ],
-            required: false
+            required: false,
+            multiple: true
           },
           className: 'formly-select-wrapper-3232 col-md-2 col-12'
         },
         {
-          key: 'is_paid',
+          key: 'payment_method',
           type: 'select',
           props: {
-            label: 'Payment Status',
+            label: 'Payment Method',
             options: [
-              { label: 'Paid', value: true },
-              { label: 'UnPaid', value: false }
+              { label: 'Cash', value: 'cash' },
+              { label: 'Card', value: 'card' }
             ],
             required: false,
-            placeholder: 'Select Payment Status'
+            multiple: true,
+            placeholder: 'Select Payment Method'
           },
           className: 'formly-select-wrapper-3232 col-md-2 col-12'
-        }
+        },
+        // {
+        //   key: 'is_paid',
+        //   type: 'select',
+        //   props: {
+        //     label: 'Payment Status',
+        //     options: [
+        //       { label: 'Paid', value: true },
+        //       { label: 'UnPaid', value: false }
+        //     ],
+        //     required: false,
+        //     placeholder: 'Select Payment Status'
+        //   },
+        //   className: 'formly-select-wrapper-3232 col-md-2 col-12'
+        // }
       ]
     }
   ];
@@ -310,7 +330,7 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
     this.crudService.list = [];
 
     this.isDeleted = this.route.snapshot.data['isDeleted'] || false;
-    this.title = this.isDeleted ? 'Deleted Orders' : "Orders";
+    this.title = this.isDeleted ? 'Deleted Order Listing & Filters' : "Order Listing & Filters  ";
 
     if (this.isDeleted) {
       this.columns.push('Deleted At');
