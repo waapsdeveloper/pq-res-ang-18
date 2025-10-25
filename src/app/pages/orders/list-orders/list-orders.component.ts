@@ -19,7 +19,6 @@ import { DecimalPipe } from '@angular/common';
   templateUrl: './list-orders.component.html',
   styleUrl: './list-orders.component.scss',
   providers: [DecimalPipe]
-
 })
 export class ListOrdersComponent extends ListBlade implements OnInit {
   @Output() onPrint = new EventEmitter<void>();
@@ -93,7 +92,7 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
       is_paid: '',
       payment_method: ''
     };
-    this.crudService.resetFilters(this.model);;
+    this.crudService.resetFilters(this.model);
   }
 
   fields: FormlyFieldConfig[] = [
@@ -194,6 +193,16 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
         //   className: 'col-md-2 col-12'
         // },
         {
+          key: 'date_range',
+          type: 'date-range',
+          props: {
+            label: 'Date Range',
+            placeholder: 'Select date range',
+            required: false
+          },
+          className: 'col-md-3 col-12'
+        },
+        {
           key: 'type',
           type: 'select',
           props: {
@@ -247,7 +256,7 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
             placeholder: 'Select Payment Method'
           },
           className: 'formly-select-wrapper-3232 col-md-2 col-12'
-        },
+        }
         // {
         //   key: 'is_paid',
         //   type: 'select',
@@ -330,7 +339,7 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
     this.crudService.list = [];
 
     this.isDeleted = this.route.snapshot.data['isDeleted'] || false;
-    this.title = this.isDeleted ? 'Deleted Order Listing & Filters' : "Order Listing & Filters  ";
+    this.title = this.isDeleted ? 'Deleted Order Listing & Filters' : 'Order Listing & Filters  ';
 
     if (this.isDeleted) {
       this.columns.push('Deleted At');
@@ -351,15 +360,14 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
 
     // 3. Role-based UI
     const u = this.users.getUser();
-    this.showEdit = (u.role_id == 1 || u.role_id == 2);
+    this.showEdit = u.role_id == 1 || u.role_id == 2;
   }
 
   async ngOnInit() {
-    this.route.data.subscribe(data => {
+    this.route.data.subscribe((data) => {
       this.isDeleted = data['isDeleted'] || false;
       this.initialize();
     });
-
   }
 
   // async getList(search = '', page = 1): Promise<any> {
@@ -397,7 +405,7 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
     }
     return '';
   }
-  editRow(index: number) { }
+  editRow(index: number) {}
 
   async deleteRow(index: number) {
     if (!this.canDelete) {
@@ -505,7 +513,6 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
   async restoreOrder(index: number) {
     console.log('Restoring order with index:', index);
     let item = this.crudService.list[index];
-
 
     await this.crudService.restoreItemById(item.id);
     this.utility.presentSuccessToast('Order restored successfully!');

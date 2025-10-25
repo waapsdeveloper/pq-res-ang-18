@@ -16,6 +16,7 @@ import { ListOrderPrintslipModule } from "./list-order-printslip/list-order-prin
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { OrderHistoryModule } from '../order-history/order-history.module';
 import { KtAppToolbarModule } from 'src/app/components/kt-app-toolbar/kt-app-toolbar.module';
+import { FormlyTypesModule } from 'src/app/shared/formly-types/formly-types.module';
 @NgModule({
   declarations: [ListOrdersComponent],
   imports: [
@@ -34,7 +35,8 @@ import { KtAppToolbarModule } from 'src/app/components/kt-app-toolbar/kt-app-too
     ListOrderPrintslipModule,
     PipesModule,
     OrderHistoryModule,
-    KtAppToolbarModule
+    KtAppToolbarModule,
+    FormlyTypesModule
 ],
   
 })
