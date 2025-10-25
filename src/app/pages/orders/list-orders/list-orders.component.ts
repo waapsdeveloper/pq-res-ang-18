@@ -204,9 +204,11 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
         },
         {
           key: 'type',
-          type: 'select',
+          type: 'multi-select',
           props: {
             label: 'Order Type',
+            placeholder: 'Select Order Type',
+            multiple: true,
             options: [
               { label: 'Drive-Thru', value: 'drive-thru' },
               { label: 'Dine-In', value: 'dine-in' },
@@ -215,16 +217,13 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
               { label: 'Curbside Pickup', value: 'curbside-pickup' },
               { label: 'Catering', value: 'catering' },
               { label: 'Reservation', value: 'reservation' }
-            ],
-            required: false,
-            multiple: true,
-            placeholder: 'Select Order Type'
+            ]
           },
-          className: 'formly-select-wrapper-3333 col-md-2 col-12'
+          className: 'col-md-3 col-12'
         },
         {
           key: 'status',
-          type: 'select',
+          type: 'multi-select',
           props: {
             label: 'Order Status',
             options: [
@@ -237,26 +236,26 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
               { label: 'Completed', value: 'completed' },
               { label: 'Cancelled', value: 'cancelled' }
             ],
-            required: false,
-            multiple: true
+            multiple: true,
+            placeholder: 'Select Order Status'
           },
-          className: 'formly-select-wrapper-3232 col-md-2 col-12'
+          className: 'f col-md-2 col-12'
         },
         {
           key: 'payment_method',
-          type: 'select',
+          type: 'multi-select',
           props: {
             label: 'Payment Method',
             options: [
               { label: 'Cash', value: 'cash' },
               { label: 'Card', value: 'card' }
             ],
-            required: false,
             multiple: true,
             placeholder: 'Select Payment Method'
           },
-          className: 'formly-select-wrapper-3232 col-md-2 col-12'
+          className: ' col-md-2 col-12'
         }
+
         // {
         //   key: 'is_paid',
         //   type: 'select',

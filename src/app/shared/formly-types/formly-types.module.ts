@@ -5,11 +5,14 @@ import { FormlyModule } from '@ngx-formly/core';
 import { PhoneInputComponent } from './phone-input/phone-input.type';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { DateRangePickerTypeComponent } from './date-range-type.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { MultiSelectTypeComponent } from './multi-select.type';
 
 @NgModule({
-  declarations: [PhoneInputComponent,DateRangePickerTypeComponent],
+  declarations: [PhoneInputComponent, DateRangePickerTypeComponent, MultiSelectTypeComponent],
   imports: [
     CommonModule,
+    NgSelectModule,
     ReactiveFormsModule,
     FormlyModule.forRoot({
       types: [
@@ -24,11 +27,12 @@ import { DateRangePickerTypeComponent } from './date-range-type.component';
             }
           }
         },
-         { name: 'date-range', component: DateRangePickerTypeComponent },
+        { name: 'date-range', component: DateRangePickerTypeComponent },
+        { name: 'multi-select', component: MultiSelectTypeComponent }
       ]
     }),
     NgxDaterangepickerMd.forRoot()
   ],
-  exports: [PhoneInputComponent,DateRangePickerTypeComponent]
+  exports: [PhoneInputComponent, DateRangePickerTypeComponent, MultiSelectTypeComponent]
 })
 export class FormlyTypesModule {}
