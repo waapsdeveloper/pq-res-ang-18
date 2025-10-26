@@ -398,12 +398,12 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
     return this.decimalPipe.transform(value, format, 'en-US') ?? '';
   }
   get orderTitleHighlightPart(): string {
-    // More concise version for better mobile display
     if (!this.isDeleted) {
-      return `(T: ${this.currencySymbol}${this.formatSpecial(this.taxAmount, this.digits)} | D: ${this.currencySymbol}${this.formatSpecial(this.discountAmount, this.digits)} | S: ${this.currencySymbol}${this.formatSpecial(this.subTotal, this.digits)} | Total: ${this.currencySymbol}${this.formatSpecial(this.totalAmount, this.digits)})`;
+      return `(Total Sales: ${this.currencySymbol}${this.formatSpecial(this.totalAmount, this.digits)})`;
     }
     return '';
   }
+
   editRow(index: number) {}
 
   async deleteRow(index: number) {

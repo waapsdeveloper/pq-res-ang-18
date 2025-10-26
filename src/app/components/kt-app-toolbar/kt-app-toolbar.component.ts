@@ -1,18 +1,35 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ActivatedRoute, UrlTree } from '@angular/router';
 import { PermissionService } from 'src/app/services/permission.service';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({
   selector: 'app-kt-app-toolbar',
   templateUrl: './kt-app-toolbar.component.html',
-  styleUrl: './kt-app-toolbar.component.scss'
+  styleUrl: './kt-app-toolbar.component.scss',
+  animations: [
+    trigger('filterAnimation', [
+      state('void', style({
+        transform: 'translateY(-20px)',
+        opacity: 0,
+        height: '0',
+      })),
+      state('*', style({
+        transform: 'translateY(0)',
+        opacity: 1,
+        height: '*',
+      })),
+      transition('void <=> *', animate('300ms ease-in-out'))
+    ])
+  ]
 })
 export class KtAppToolbarComponent {
   @Input('showCreate') showCreate = true;
   @Input('title') title = '';
   @Input('addurl') addurl = '';
   @Input('titleHighlightPart') titleHighlightPart: string = '';
-
+  @Input('showFilters') showFilters = false;
+  
   @Input('showDeleteAll') showDeleteAll = false;
   @Output('onSearch') onSearch = new EventEmitter<any>();
   @Output('onFilter') onFilter = new EventEmitter<any>();

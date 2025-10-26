@@ -18,10 +18,8 @@
       (onDeleteAll)="onDeleteAll($event)"
       (resetFilter)="resetFilters()"
       [canCreate]="!isDeleted"
-    ></app-kt-app-toolbar>
-    <!-- <div  *ngIf="crudService.filters" style="border-bottom: 1px dotted #5e5656; margin: 10px 0;"></div> -->
-    <hr style="border-bottom: 1px dotted #5e5656;" class="my-2" *ngIf="crudService.filters" />
-    <div *ngIf="crudService.filters" class="px-2">
+      [showFilters]="crudService.filters"
+    >
       <formly-form
         [form]="form"
         [fields]="fields"
@@ -29,7 +27,7 @@
         (modelChange)="debouncedSubmitFilters($event)"
         *ngIf="crudService.filters"
       ></formly-form>
-    </div>
+    </app-kt-app-toolbar>
   </form>
 
   <app-kt-app-list-page-table

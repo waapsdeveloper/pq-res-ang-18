@@ -54,6 +54,14 @@
         </div>
       </h1>
       <!--end::Title-->
+
+      <!-- Filter Section with Animation -->
+      <div class="w-100" [@filterAnimation]="showFilters ? '*' : 'void'">
+        <hr style="border-bottom: 1px dotted #5e5656;" class="my-3" *ngIf="showFilters" />
+        <div class="px-2">
+          <ng-content></ng-content>
+        </div>
+      </div>
     </div>
   </div>
   <!--end::Toolbar container-->
