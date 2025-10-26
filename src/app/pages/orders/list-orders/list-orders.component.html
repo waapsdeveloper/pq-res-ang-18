@@ -8,7 +8,7 @@
   (resetFilter)="resetFilters()"
   [canCreate]="!isDeleted"
 >
-  <form class="mt-3" [formGroup]="form">
+  <form class="mt-1" [formGroup]="form">
     <app-kt-app-toolbar
       [title]="isDeleted ? 'Deleted Order listing & filters' : ' Order listing & filters'"
       [titleHighlightPart]="orderTitleHighlightPart"
@@ -19,6 +19,8 @@
       (resetFilter)="resetFilters()"
       [canCreate]="!isDeleted"
     ></app-kt-app-toolbar>
+    <!-- <div  *ngIf="crudService.filters" style="border-bottom: 1px dotted #5e5656; margin: 10px 0;"></div> -->
+    <hr *ngIf="crudService.filters" />
     <formly-form
       [form]="form"
       [fields]="fields"
@@ -27,8 +29,6 @@
       *ngIf="crudService.filters"
     ></formly-form>
   </form>
-
-  <hr *ngIf="crudService.filters" />
 
   <app-kt-app-list-page-table
     [columns]="columns"
@@ -144,7 +144,7 @@
         <div class="d-flex">
           <div class="ms-4">
             <span class="fs-7 fw-bold text-gray-800">
-              {{ item?.created_at | date: 'dd/MM/yyyy HH:mm:ss' }}
+              {{ item?.created_at | date: 'dd/MM/yyyy hh:mm:ss a' }}
             </span>
           </div>
         </div>
@@ -155,7 +155,7 @@
         <div class="d-flex">
           <div class="ms-4">
             <span class="fs-7 fw-bold text-gray-800">
-              {{ item?.updated_at | date: 'dd/MM/yyyy HH:mm:ss' }}
+              {{ item?.updated_at | date: 'dd/MM/yyyy hh:mm:ss a' }}
             </span>
           </div>
         </div>
@@ -165,7 +165,7 @@
         <div class="d-flex">
           <div class="ms-4">
             <span class="fs-7 fw-bold text-gray-800">
-              {{ item?.deleted_at | date: 'dd/MM/yyyy HH:mm:ss' }}
+              {{ item?.deleted_at | date: 'dd/MM/yyyy hh:mm:ss a' }}
             </span>
           </div>
         </div>

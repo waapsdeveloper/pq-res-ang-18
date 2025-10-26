@@ -46,7 +46,7 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
     'Customer',
     'Status',
     'Type',
-    'Payment Method',
+    'Payment',
     'Source',
     'Paid',
     'Subtotal',
@@ -167,7 +167,7 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
             pattern: '\\d{11}',
             title: 'Enter a valid 10-digit phone number'
           },
-          className: 'col-md-2 col-12'
+          className: 'col-md-1 col-12'
         },
         // {
         //   key: 'total_price',
@@ -200,7 +200,7 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
             placeholder: 'Select date range',
             required: false
           },
-          className: 'col-md-3 col-12'
+          className: 'col-md-1 col-12'
         },
         {
           key: 'type',
@@ -219,7 +219,7 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
               { label: 'Reservation', value: 'reservation' }
             ]
           },
-          className: 'col-md-3 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'status',
