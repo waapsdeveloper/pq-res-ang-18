@@ -144,10 +144,10 @@ export abstract class BaseCrudService<T> {
   onFilter(toggleFilters: boolean): void {
     this.filters = toggleFilters ? {} : null;
 
-    if (!this.filters) {
-      this.search = '';
-      this.getList('', 1);
-    }
+    // if (!this.filters) {
+    //   this.search = '';
+    //   this.getList('', 1);
+    // }
   }
 
   onSubmit(model: any): void {

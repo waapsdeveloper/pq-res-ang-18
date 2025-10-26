@@ -20,14 +20,16 @@
       [canCreate]="!isDeleted"
     ></app-kt-app-toolbar>
     <!-- <div  *ngIf="crudService.filters" style="border-bottom: 1px dotted #5e5656; margin: 10px 0;"></div> -->
-    <hr *ngIf="crudService.filters" />
-    <formly-form
-      [form]="form"
-      [fields]="fields"
-      [model]="model"
-      (modelChange)="debouncedSubmitFilters($event)"
-      *ngIf="crudService.filters"
-    ></formly-form>
+    <hr style="border-bottom: 1px dotted #5e5656;" class="my-2" *ngIf="crudService.filters" />
+    <div *ngIf="crudService.filters" class="px-2">
+      <formly-form
+        [form]="form"
+        [fields]="fields"
+        [model]="model"
+        (modelChange)="debouncedSubmitFilters($event)"
+        *ngIf="crudService.filters"
+      ></formly-form>
+    </div>
   </form>
 
   <app-kt-app-list-page-table
@@ -164,7 +166,7 @@
       </td>
 
       <!-- Deleted -->
-      <td>
+      <td *ngIf="item?.deleted_at">
         <div class="d-flex flex-column">
           <span class="fs-7 fw-bold text-gray-800">
             {{ item?.deleted_at | date: 'dd/MM/yyyy' }}
