@@ -103,8 +103,8 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
           key: 'order_id',
           type: 'input',
           props: {
-            label: 'Order ID',
-            placeholder: 'Enter order ID',
+            label: 'Order Number',
+            placeholder: 'Enter order Number',
             required: false,
             pattern: '^[a-zA-Z0-9-_]+$', // Alphanumeric with optional hyphen/underscore
             title: 'Order ID can only contain letters, numbers, hyphens, and underscores'
@@ -167,7 +167,7 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
             pattern: '\\d{11}',
             title: 'Enter a valid 10-digit phone number'
           },
-          className: 'col-md-1 col-12'
+          className: 'col-md-2 col-12'
         },
         // {
         //   key: 'total_price',
@@ -200,7 +200,7 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
             placeholder: 'Select date range',
             required: false
           },
-          className: 'col-md-1 col-12'
+          className: 'col-md-2 col-12'
         },
         {
           key: 'type',
