@@ -54,14 +54,14 @@
   th {
     position: sticky;
     top: 0px;
-    padding: 0.5rem 0.5rem !important;
+    padding: 0.875rem 0.875rem !important;
     font-weight: 800 !important;
     font-size: 1rem !important;
     text-align: center !important;
-    vertical-align: middle !important;
+    vertical-align: middle !important;  
     border-bottom: 2px solid #dee2e6 !important;
     background: white;
-    
+
     // Add shadow for better visibility
     &:after {
       content: '';

@@ -42,7 +42,7 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
   currencySymbol = '$';
 
   columns: any[] = [
-    'Order Id',
+    'Order Number',
     'Customer',
     'Status',
     'Type',
@@ -107,7 +107,7 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
             placeholder: 'Enter order Number',
             required: false,
             pattern: '^[a-zA-Z0-9-_]+$', // Alphanumeric with optional hyphen/underscore
-            title: 'Order ID can only contain letters, numbers, hyphens, and underscores'
+            title: 'Order Number can only contain letters, numbers, hyphens, and underscores'
           },
           className: 'col-md-2 col-12'
         },

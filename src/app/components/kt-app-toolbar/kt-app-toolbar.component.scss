@@ -1,51 +1,100 @@
 // Responsive styles for title highlight part
 .title-highlight-part {
-  // Mobile-first approach
   font-size: 0.85rem !important;
   line-height: 1.3;
   word-wrap: break-word;
   word-break: break-word;
   max-width: 100%;
-  
-  // On small screens and up
+  white-space: normal;
+
   @media (min-width: 576px) {
     font-size: 0.9rem !important;
   }
-  
-  // On medium screens and up
+
   @media (min-width: 768px) {
     font-size: 0.95rem !important;
   }
-  
-  // On large screens and up
+
   @media (min-width: 992px) {
     font-size: 1rem !important;
   }
 }
 
-// Ensure the title container is responsive
+// Responsive behavior for header layout
 .content-header {
-  // Mobile: stack vertically
-  @media (max-width: 575.98px) {
+  // Default mobile layout: stack vertically
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  text-align: left;
+
+  @media (min-width: 576px) {
     flex-direction: column !important;
     align-items: flex-start !important;
-    
-    .title-highlight-part {
-      margin-top: 0.25rem;
-      margin-left: 0 !important;
-    }
   }
-  
-  // Tablet and up: display inline
-  @media (min-width: 576px) {
+
+  @media (min-width: 768px) {
     flex-direction: row !important;
     align-items: center !important;
+    justify-content: space-between !important;
+  }
+
+  .title-highlight-part {
+    margin-top: 0.25rem;
+    margin-left: 0 !important;
+
+    @media (min-width: 768px) {
+      margin-top: 0;
+      margin-left: 0.5rem !important;
+    }
   }
 }
 
-// Ensure proper spacing on mobile
+// Ensure toolbar buttons behave responsively
+.card-toolbar {
+  flex-wrap: wrap;
+  gap: 0.5rem;
+
+  @media (max-width: 575.98px) {
+    width: 100%;
+    justify-content: flex-start;
+    margin-top: 0.75rem;
+  }
+
+  @media (min-width: 768px) {
+    justify-content: flex-end;
+    width: auto;
+  }
+
+  .btn {
+    flex-shrink: 0;
+  }
+}
+
+// Adjust spacing for page title on small devices
 .page-title {
   @media (max-width: 575.98px) {
     margin-right: 0.5rem !important;
   }
 }
+// Give the header and button areas some breathing room
+.content-header {
+  padding-left: 0.2rem;
+  padding-right: 0.2rem;
+
+  @media (min-width: 576px) {
+    padding-left: 0.4rem;
+    padding-right: 0.4rem;
+  }
+
+  @media (min-width: 992px) {
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
+  }
+}
+
+// Buttons should have consistent horizontal padding
+.card-toolbar .btn {
+  padding-left: 0.4rem !important;
+  padding-right: 0.4rem !important;
+}
+
