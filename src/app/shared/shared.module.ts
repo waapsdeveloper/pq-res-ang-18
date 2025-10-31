@@ -23,6 +23,7 @@ import { TopMenuDropdownDirective } from './directives/topmenu-dropdown.directiv
 import { TopMenuAnchorToggleDirective } from './directives/topmenu-anchor-toggle.directive';
 import { FooterComponent } from './footer/footer.component';
 import { FullLayoutComponent } from '../layouts/full/full-layout.component';
+import { AutoStickyOffsetDirective } from '../directives/auto-sticky-offset.directive';
 
 
 @NgModule({
@@ -48,6 +49,7 @@ import { FullLayoutComponent } from '../layouts/full/full-layout.component';
     ],
     declarations: [
         NavbarComponent,
+        AutoStickyOffsetDirective,
         VerticalMenuComponent,
         HorizontalMenuComponent,
         ToggleFullscreenDirective,

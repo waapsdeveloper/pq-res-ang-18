@@ -23,6 +23,7 @@ export class KtAppListPageTableComponent {
   }
 
   @Input('columns') columns: any[] = [];
+  @Input('showFilters') showFilters: boolean=false
   @Input('totalPages') totalPages: number = 0;
   @Input('currentPage') currentPage: number = 0;
   @Input('bulkSelect') bulkSelect: number = 0;

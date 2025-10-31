@@ -298,3 +298,10 @@
   padding: 4px;            /* Balanced padding */
   border-radius: 4px;          /* Circular icon badge */
 }
+.sticky-topbar4321 {
+  position: sticky !important;
+  top: 52px; /* or your desired offset, e.g. 53px */
+  z-index: 1055 !important;
+  background: #fff;
+
+}

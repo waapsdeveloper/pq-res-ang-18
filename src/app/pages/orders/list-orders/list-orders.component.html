@@ -8,7 +8,7 @@
   (resetFilter)="resetFilters()"
   [canCreate]="!isDeleted"
 >
-  <form class="mt-1" [formGroup]="form">
+  <form class="mt-1 sticky-topbar4321 "   [formGroup]="form">
     <app-kt-app-toolbar
       [title]="isDeleted ? 'Deleted Order listing & filters' : ' Order listing & filters'"
       [titleHighlightPart]="orderTitleHighlightPart"
@@ -31,6 +31,7 @@
   </form>
 
   <app-kt-app-list-page-table
+   [showFilters]="crudService.filters"
     [columns]="columns"
     [currentPage]="crudService.page"
     [totalPages]="crudService.lastPage"

@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { KtAppToolbarModule } from '../../../kt-app-toolbar/kt-app-toolbar.module';
 import { FormsModule } from '@angular/forms';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 
@@ -14,6 +15,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
   ],
   imports: [
     CommonModule,
+    SharedModule,
     RouterModule,
     KtAppToolbarModule,
     FormsModule,

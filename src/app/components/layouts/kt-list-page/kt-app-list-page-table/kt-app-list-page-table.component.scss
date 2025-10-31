@@ -1,6 +1,9 @@
 
 :root {
-  --toolbar-height: 51px;
+  --toolbar-height: 84px;
+}
+.table-container.filters-open {
+  --toolbar-height: 279px; /* when filters are visible */
 }
 /* ✅ Table container should NOT scroll vertically */
 .table-container {
@@ -10,6 +13,9 @@
   background: white;
 }
 
+.table-container{
+  overflow-x: auto!important;
+}
 /* ✅ Horizontal scrolling allowed */
 .table-responsive {
   overflow-x: auto !important; /* only horizontal scroll */
@@ -55,4 +61,63 @@
   width: 100%;
   margin-bottom: 0;
   table-layout: auto;
+}
+
+@media (max-width: 575.98px) {
+  :root {
+    --toolbar-height: 150px;
+  }
+  .table-container.filters-open {
+    --toolbar-height: 768px;
+  }
+}
+
+/* 📱 Small (landscape phones, ≥576px and <768px) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  :root {
+    --toolbar-height: 152px;
+  }
+  .table-container.filters-open {
+    --toolbar-height: 485px;
+  }
+}
+
+/* 💻 Medium (tablets, ≥768px and <992px) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  :root {
+    --toolbar-height: 130px;
+  }
+  .table-container.filters-open {
+    --toolbar-height: 400px;
+  }
+}
+
+/* 🖥️ Large (small laptops, ≥992px and <1200px) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  :root {
+    --toolbar-height: 84px;
+  }
+  .table-container.filters-open {
+    --toolbar-height: 278px;
+  }
+}
+
+/* 🖥️ Extra Large (desktops ≥1200px) */
+@media (min-width: 1200px) {
+  :root {
+    --toolbar-height: 88px;
+  }
+  .table-container.filters-open {
+    --toolbar-height: 279px;
+  }
+}
+
+/* 🧠 Optional: Ultra-wide screens (4K & up) */
+@media (min-width: 1600px) {
+  :root {
+    --toolbar-height: 92px;
+  }
+  .table-container.filters-open {
+    --toolbar-height: 280px;
+  }
 }
