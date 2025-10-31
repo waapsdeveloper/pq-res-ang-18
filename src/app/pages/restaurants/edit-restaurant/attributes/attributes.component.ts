@@ -43,7 +43,7 @@ export class AttributesComponent implements OnInit {
           const metaData = JSON.parse(response.meta.meta_value);
 
           // Define the allowed keys
-          const allowedKeys = ['home_page_title', 'home_page_slider', 'copyright_text', 'google_map', 'digits'];
+          const allowedKeys = ['home_page_title', 'home_page_slider', 'copyright_text', 'google_map', 'digits','kiosk_mode','kiosk_theme'];
 
           // Update the model with the loaded meta data for allowed keys only
           if (this.model) {
@@ -82,7 +82,7 @@ export class AttributesComponent implements OnInit {
   }
 
   async saveMetaData() {
-    const allowedKeys = ['home_page_title', 'home_page_slider', 'copyright_text', 'google_map', 'digits'];
+    const allowedKeys = ['home_page_title', 'home_page_slider', 'copyright_text', 'google_map', 'digits', 'kiosk_mode','kiosk_theme'];
 
     if (!this.restaurantId) {
       this.utility.presentFailureToast('Restaurant ID is required');

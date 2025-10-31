@@ -133,6 +133,8 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
     google_review_bar_code_base64: '',
     restaurant_address: '',
     font_size: '',
+    kiosk_mode:'left-side-bar',
+    kiosk_theme:'#648813'
 
   };
 
@@ -453,6 +455,8 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
       country: re.country || '',
       delivery_charges: re.delivery_charges || '',
       home_page_title: d.home_page_title || '',
+      kiosk_mode: d.kiosk_mode || 'left-side-bar',
+      kiosk_theme: d.kiosk_theme || '#648813',
       digits: d.digits || 0,
       enableTax: true,
       enableTips: true,
@@ -470,7 +474,7 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
       google_review_bar_code_base64: dm.google_review_bar_code_base64 || '',
       restaurant_address: dm.restaurant_address || '',
       font_size: dm.font_size || ''
-
+       
 
     };
 
@@ -593,6 +597,33 @@ export class EditRestaurantComponent implements OnInit, AfterViewInit {
             required: false
           },
           className: 'col-md-12 col-12'
+        },
+        {
+          key: 'kiosk_mode',
+          type: 'select',
+          props:{
+            label: 'Kiosk Mode',
+            options: [ 
+              {label: 'Top-bar', value: 'top-bar'},
+              {label: 'Full-screen', value: 'full-screen'},
+              {label: 'Left Side bar', value: 'left-side-bar'}
+            ],
+          },
+          className: 'col-md-6 col-12 formly-select-wrapper-3232'
+        },
+        {
+          key: 'kiosk_theme',
+          type: 'select',
+          props:{
+            label: 'Kiosk Theme',
+            options: [
+              {label: 'Green', value: '#648813'},
+              {label: 'Red', value: '#A90409'},
+              {label: 'Brown', value: '#6A3D25'},
+            ],
+
+          },
+          className: 'col-md-6 col-12 formly-select-wrapper-3232'
         }
       ]
     }

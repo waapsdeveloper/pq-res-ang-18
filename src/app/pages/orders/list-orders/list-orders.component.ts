@@ -109,7 +109,7 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
             pattern: '^[a-zA-Z0-9-_]+$', // Alphanumeric with optional hyphen/underscore
             title: 'Order Number can only contain letters, numbers, hyphens, and underscores'
           },
-          className: 'col-md-2 col-12'
+          className: 'col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2'
         },
         // {
         //   key: 'created_at',
@@ -120,7 +120,7 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
         //     required: false,
         //     type: 'date' // Use type="date" for basic date input
         //   },
-        //   className: 'col-md-2 col-12'
+        //   className: 'col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2'
         // },
         // {
         //   key: 'started_from',
@@ -131,7 +131,7 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
         //     required: false,
         //     type: 'date' // Use type="date" for basic date input
         //   },
-        //   className: 'col-md-2 col-12'
+        //   className: 'col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2'
         // },
         // {
         //   key: 'ended_at',
@@ -142,7 +142,7 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
         //     required: false,
         //     type: 'date' // Use type="date" for basic date input
         //   },
-        //   className: 'col-md-2 col-12'
+        //   className: 'col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2'
         // },
 
         {
@@ -154,7 +154,7 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
             required: false,
             minLength: 3
           },
-          className: 'col-md-2 col-12'
+          className: 'col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2'
         },
         {
           key: 'phone',
@@ -167,7 +167,7 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
             pattern: '\\d{11}',
             title: 'Enter a valid 10-digit phone number'
           },
-          className: 'col-md-2 col-12'
+          className: 'col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2'
         },
         // {
         //   key: 'total_price',
@@ -180,7 +180,7 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
         //     min: 0,
         //     step: 0.01 // For decimal prices
         //   },
-        //   className: 'col-md-2 col-12'
+        //   className: 'col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2'
         // },
         // {
         //   key: 'table',
@@ -190,7 +190,7 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
         //     placeholder: 'Enter table number',
         //     required: false
         //   },
-        //   className: 'col-md-2 col-12'
+        //   className: 'col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2'
         // },
         {
           key: 'date_range',
@@ -200,7 +200,7 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
             placeholder: 'Select date range',
             required: false
           },
-          className: 'col-md-2 col-12'
+          className: 'col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2'
         },
         {
           key: 'type',
@@ -219,7 +219,7 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
               { label: 'Reservation', value: 'reservation' }
             ]
           },
-          className: 'col-md-2 col-12'
+          className: 'py-2 py-sm-0 col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2'
         },
         {
           key: 'status',
@@ -239,7 +239,7 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
             multiple: true,
             placeholder: 'Select Order Status'
           },
-          className: 'f col-md-2 col-12'
+          className: ' py-2 py-sm-0 col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2'
         },
         {
           key: 'payment_method',
@@ -253,7 +253,7 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
             multiple: true,
             placeholder: 'Select Payment Method'
           },
-          className: ' col-md-2 col-12'
+          className: 'py-2 py-sm-0 col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2'
         }
 
         // {
@@ -268,7 +268,7 @@ export class ListOrdersComponent extends ListBlade implements OnInit {
         //     required: false,
         //     placeholder: 'Select Payment Status'
         //   },
-        //   className: 'formly-select-wrapper-3232 col-md-2 col-12'
+        //   className: 'formly-select-wrapper-3232 col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2'
         // }
       ]
     }

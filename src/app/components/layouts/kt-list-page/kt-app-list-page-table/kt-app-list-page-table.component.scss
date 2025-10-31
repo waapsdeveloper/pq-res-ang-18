@@ -1,102 +1,58 @@
-// @import '../../../../../assets/css/style.bundle.css';
 
-.table-wrapper-form-field-select-253 {
-  display: block;
-  width: 100%;
-  height: calc(1.5em + 0.75rem + 3px);
-  padding: 0.375rem 0.75rem;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #75787d;
-  background-color: transparent;
-  background-clip: padding-box;
-  border: 1px solid #e0e0e0;
-  border-radius: 0.35rem;
-  transition:
-    border-color 0.15s ease-in-out,
-    box-shadow 0.15s ease-in-out;
+:root {
+  --toolbar-height: 51px;
 }
-
-/* Make the table container scrollable with sticky header */
+/* ✅ Table container should NOT scroll vertically */
 .table-container {
   position: relative;
-  max-height: calc(100vh - 200px); /* Adjust based on your layout */
-  overflow-y: auto;
+  overflow: visible !important;
   border: 1px solid #e0e0e0;
-  
-  // Hide scrollbar for Chrome, Safari and Opera
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-  
-  &::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
-  
-  &::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 3px;
-  }
-}
-
-/* Sticky header styles */
-.sticky-header {
-  position: sticky;
-  top: 0px;
-  z-index: 4;
   background: white;
-
-  tr {
-    line-height: 1.2;
-  }
-
-  th {
-    position: sticky;
-    top: 0px;
-    padding: 0.875rem 0.875rem !important;
-    font-weight: 800 !important;
-    font-size: 1rem !important;
-    text-align: center !important;
-    vertical-align: middle !important;  
-    border-bottom: 2px solid #dee2e6 !important;
-    background: white;
-
-    // Add shadow for better visibility
-    &:after {
-      content: '';
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 2px;
-      background: #dee2e6;
-    }
-  }
 }
 
-/* Ensure the checkbox column is also centered */
-.thead-dark th .form-check {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0;
+/* ✅ Horizontal scrolling allowed */
+.table-responsive {
+  overflow-x: auto !important; /* only horizontal scroll */
+  overflow-y: visible !important; /* allow sticky header to escape */
+  -webkit-overflow-scrolling: touch;
 }
 
-/* Optional: Adjust table body rows for consistency */
-.table tbody td {
-  padding: 0.375rem 0.5rem;
-  font-size: 0.875rem;
+/* ✅ Sticky header fix */
+.sticky-header th {
+  position: sticky;
+  top: var(--toolbar-height);
+  z-index: 20;
+  background: #fff;
+  border-bottom: 2px solid #dee2e6; 
+  text-align: center;
   vertical-align: middle;
+  padding: 0.875rem 0.875rem !important;
+  font-weight: 800 !important;
+  font-size: 1rem !important;
 }
 
-/* Specific styling for the checkbox column in header */
-.thead-dark th:last-child {
-  width: 30px; /* Fixed width for checkbox column */
+/* ✅ Keep row structure tidy */
+.sticky-header tr {
+  line-height: 1.2;
 }
 
-/* Style for the Actions column */
-.thead-dark th.text-end {
-  text-align: center !important; /* Override text-end to center */
+.table-responsive{
+  overflow: visible!important;
 }
 
+.wrapper{
+  overflow: visible!important;
+}
+.card .table-responsive {
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.card .table {
+  width: 100%;
+  margin-bottom: 0;
+  table-layout: auto;
+}
